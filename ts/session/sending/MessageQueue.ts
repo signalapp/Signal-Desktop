@@ -29,6 +29,7 @@ import {
   SnodeNamespacesGroup,
   SnodeNamespacesUser,
 } from '../apis/snode_api/namespaces';
+import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -208,6 +209,7 @@ export class MessageQueue {
     if (
       !(message instanceof ConfigurationMessage) &&
       !(message instanceof UnsendMessage) &&
+      !(message instanceof SharedConfigMessage) &&
       !(message as any)?.syncTarget
     ) {
       throw new Error('Invalid message given to sendSyncMessage');
@@ -328,6 +330,7 @@ export class MessageQueue {
         message instanceof ConfigurationMessage ||
         message instanceof ClosedGroupNewMessage ||
         message instanceof UnsendMessage ||
+        message instanceof SharedConfigMessage ||
         (message as any).syncTarget?.length > 0
       ) {
         window?.log?.warn('Processing sync message');

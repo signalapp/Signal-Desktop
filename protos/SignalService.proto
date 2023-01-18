@@ -22,25 +22,36 @@ message TypingMessage {
         STARTED = 0;
         STOPPED = 1;
     }
-    // @required
     required uint64 timestamp = 1;
-    // @required
     required Action action    = 2;
 }
 
 
 message Unsend {
-  // @required
   required uint64 timestamp = 1;
-  // @required
   required string author    = 2;
 }
 
 message MessageRequestResponse {
-  // @required
   required bool                      isApproved                = 1;
   optional bytes                     profileKey                = 2;
   optional DataMessage.LokiProfile   profile                   = 3;
+}
+
+message SharedConfigMessage {
+  enum Kind {
+    USER_PROFILE            = 1;
+    CONTACTS                = 2;
+    CONVERSATION_INFO       = 3;
+    LEGACY_CLOSED_GROUPS    = 4;
+    CLOSED_GROUP_INFO       = 5;
+    CLOSED_GROUP_MEMBERS    = 6;
+    ENCRYPTION_KEYS         = 7;
+  }
+
+  required Kind              kind             = 1;
+  required int64             seqno            = 2;
+  required bytes             data             = 3;
 }
 
 message Content {
@@ -52,6 +63,7 @@ message Content {
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
   optional MessageRequestResponse     messageRequestResponse     = 10;
+  optional SharedConfigMessage        sharedConfigMessage        = 11;
 }
 
 message KeyPair {

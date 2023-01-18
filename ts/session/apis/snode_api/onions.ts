@@ -282,7 +282,7 @@ async function process421Error(
  *
  * If destinationEd25519 is set, we will increment the failure count of the specified snode
  */
-async function processOnionRequestErrorAtDestination({
+export async function processOnionRequestErrorAtDestination({
   statusCode,
   body,
   destinationSnodeEd25519,
@@ -299,10 +299,9 @@ async function processOnionRequestErrorAtDestination({
   window?.log?.info(
     `processOnionRequestErrorAtDestination. statusCode nok: ${statusCode}: "${body}"`
   );
-
   process406Or425Error(statusCode);
-  await process421Error(statusCode, body, associatedWith, destinationSnodeEd25519);
   processOxenServerError(statusCode, body);
+  await process421Error(statusCode, body, associatedWith, destinationSnodeEd25519);
   if (destinationSnodeEd25519) {
     await processAnyOtherErrorAtDestination(
       statusCode,

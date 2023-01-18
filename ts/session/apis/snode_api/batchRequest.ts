@@ -1,6 +1,6 @@
 import { isArray } from 'lodash';
 import { Snode } from '../../../data/data';
-import { SnodeResponse } from './onions';
+import { processOnionRequestErrorAtDestination, SnodeResponse } from './onions';
 import { snodeRpc } from './sessionRpc';
 import { NotEmptyArrayOfBatchResults, SnodeApiSubRequests } from './SnodeRequestTypes';
 
@@ -35,6 +35,18 @@ export async function doSnodeBatchRequest(
     );
   }
   const decoded = decodeBatchRequest(result);
+
+  if (decoded?.length) {
+    for (let index = 0; index < decoded.length; index++) {
+      const resultRow = decoded[index];
+      await processOnionRequestErrorAtDestination({
+        statusCode: resultRow.code,
+        body: JSON.stringify(resultRow.body),
+        associatedWith,
+        destinationSnodeEd25519: targetNode.pubkey_ed25519,
+      });
+    }
+  }
 
   return decoded;
 }

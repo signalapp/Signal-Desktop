@@ -26,7 +26,9 @@ import { AbortController } from 'abort-controller';
 import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
 import { StoreOnNodeParams } from '../apis/snode_api/SnodeRequestTypes';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { SnodeSignature, SnodeSignatureResult } from '../apis/snode_api/snodeSignatures';
+import { UserUtils } from '../utils';
 
 // ================ SNODE STORE ================
 
@@ -122,14 +124,26 @@ export async function send(
           ? SnodeNamespaces.ClosedGroupMessage
           : SnodeNamespaces.UserMessages;
       }
+      let timestamp = networkTimestamp;
+      // the user config namespacesm requires a signature to be added
+      let signOpts: SnodeSignatureResult | undefined;
+      if (SnodeNamespace.isUserConfigNamespace(namespace)) {
+        signOpts = await SnodeSignature.getSnodeSignatureParams({
+          method: 'store' as 'store',
+          namespace,
+          ourPubkey: UserUtils.getOurPubKeyStrFromCache(),
+          pubkey: recipient.key,
+        });
+      }
       await MessageSender.sendMessageToSnode({
         pubKey: recipient.key,
         data,
         ttl,
-        timestamp: networkTimestamp,
+        timestamp,
         isSyncMessage,
         messageId: message.identifier,
         namespace,
+        ...signOpts,
       });
       return { wrappedEnvelope: data, effectiveTimestamp: networkTimestamp };
     },
@@ -141,6 +155,13 @@ export async function send(
   );
 }
 
+export type SendMessageSignatureOpts = {
+  signature?: string; // needed for some namespaces
+  namespace: SnodeNamespaces;
+  pubkey_ed25519?: string;
+  timestamp: number;
+};
+
 // tslint:disable-next-line: function-name
 export async function sendMessageToSnode({
   data,
@@ -149,16 +170,17 @@ export async function sendMessageToSnode({
   timestamp,
   ttl,
   isSyncMessage,
+  signature,
   messageId,
+  pubkey_ed25519,
 }: {
   pubKey: string;
   data: Uint8Array;
   ttl: number;
-  timestamp: number;
   namespace: SnodeNamespaces;
   isSyncMessage?: boolean;
   messageId?: string;
-}): Promise<void> {
+} & SendMessageSignatureOpts): Promise<void> {
   const data64 = ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
@@ -174,6 +196,11 @@ export async function sendMessageToSnode({
     namespace,
   };
 
+  if (signature && pubkey_ed25519) {
+    params.signature = signature;
+    params.pubkey_ed25519 = pubkey_ed25519;
+  }
+
   const usedNodes = _.slice(swarm, 0, 1);
   if (!usedNodes || usedNodes.length === 0) {
     throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
@@ -182,8 +209,9 @@ export async function sendMessageToSnode({
   let successfulSendHash: string | undefined;
 
   let snode: Snode | undefined;
+  const snodeTried = usedNodes[0];
+
   try {
-    const snodeTried = usedNodes[0];
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
     // the only case we could care about a retry would be when the usedNode is not correct,
     // but considering we trigger this request with a few snode in //, this should be fine.
@@ -196,9 +224,9 @@ export async function sendMessageToSnode({
       snode = snodeTried;
     }
   } catch (e) {
-    const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
+    const snodeStr = snodeTried ? `${snodeTried.ip}:${snodeTried.port}` : 'null';
     window?.log?.warn(
-      `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via snode:${snodeStr}`
+      `loki_message:::sendMessage - "${e.code}:${e.message}" to ${pubKey} via snode:${snodeStr}`
     );
     throw e;
   }

@@ -30,7 +30,7 @@ async function storeOnNode(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      window?.log?.warn('Status is not 200 for storeOnNode but: ', firstResult.code);
+      window?.log?.warn('first result status is not 200 for storeOnNode but: ', firstResult.code);
       throw new Error('storeOnNode: Invalid status code');
     }
 

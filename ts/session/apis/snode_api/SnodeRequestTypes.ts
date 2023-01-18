@@ -111,6 +111,8 @@ export type StoreOnNodeParams = {
   timestamp: string;
   data: string;
   namespace: number;
+  signature?: string;
+  pubkey_ed25519?: string;
 };
 
 export type StoreOnNodeSubRequest = { method: 'store'; params: StoreOnNodeParams };

@@ -27,6 +27,7 @@ import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage
 import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 import { PubKey } from '../types';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -321,7 +322,8 @@ export type SyncMessageType =
   | ExpirationTimerUpdateMessage
   | ConfigurationMessage
   | MessageRequestResponse
-  | UnsendMessage;
+  | UnsendMessage
+  | SharedConfigMessage;
 
 export const buildSyncMessage = (
   identifier: string,

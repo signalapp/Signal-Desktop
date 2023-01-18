@@ -1,8 +1,5 @@
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
-import { getSodiumRenderer } from '../../crypto';
-import { StringUtils, UserUtils } from '../../utils';
-import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { SnodeNamespaces } from './namespaces';
@@ -11,52 +8,8 @@ import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
 } from './SnodeRequestTypes';
+import { SnodeSignature } from './snodeSignatures';
 import { RetrieveMessagesResultsBatched, RetrieveMessagesResultsContent } from './types';
-
-async function getRetrieveSignatureParams(params: {
-  pubkey: string;
-  namespace: number;
-  ourPubkey: string;
-}): Promise<{
-  timestamp: number;
-  signature: string;
-  pubkey_ed25519: string;
-  namespace: number;
-}> {
-  const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
-
-  if (!ourEd25519Key) {
-    window.log.warn('getRetrieveSignatureParams: User has no getUserED25519KeyPair()');
-    throw new Error('getRetrieveSignatureParams: User has no getUserED25519KeyPair()');
-  }
-  const namespace = params.namespace || 0;
-  const edKeyPrivBytes = fromHexToArray(ourEd25519Key?.privKey);
-
-  const signatureTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-
-  const verificationData =
-    namespace === 0
-      ? StringUtils.encode(`retrieve${signatureTimestamp}`, 'utf8')
-      : StringUtils.encode(`retrieve${namespace}${signatureTimestamp}`, 'utf8');
-
-  const message = new Uint8Array(verificationData);
-
-  const sodium = await getSodiumRenderer();
-  try {
-    const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
-    const signatureBase64 = fromUInt8ArrayToBase64(signature);
-
-    return {
-      timestamp: signatureTimestamp,
-      signature: signatureBase64,
-      pubkey_ed25519: ourEd25519Key.pubKey,
-      namespace,
-    };
-  } catch (e) {
-    window.log.warn('getSignatureParams failed with: ', e.message);
-    throw e;
-  }
-}
 
 async function buildRetrieveRequest(
   lastHashes: Array<string>,
@@ -103,8 +56,8 @@ async function buildRetrieveRequest(
       if (pubkey !== ourPubkey) {
         throw new Error('not a legacy closed group. pubkey can only be ours');
       }
-      const signatureArgs = { ...retrieveParam, ourPubkey };
-      const signatureBuilt = await getRetrieveSignatureParams(signatureArgs);
+      const signatureArgs = { ...retrieveParam, method: 'retrieve' as 'retrieve', ourPubkey };
+      const signatureBuilt = await SnodeSignature.getSnodeSignatureParams(signatureArgs);
       const retrieve: RetrieveSubRequestType = {
         method: 'retrieve',
         params: { ...retrieveParam, ...signatureBuilt },
