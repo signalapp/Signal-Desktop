@@ -53,7 +53,9 @@ export function SmartConversationView(): JSX.Element {
       renderConversationHeader={() => (
         <SmartConversationHeader id={conversationId} />
       )}
-      renderTimeline={() => <SmartTimeline id={conversationId} />}
+      renderTimeline={() => (
+        <SmartTimeline key={conversationId} id={conversationId} />
+      )}
       renderPanel={() => {
         if (!topPanel) {
           return;
