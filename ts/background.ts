@@ -1054,7 +1054,7 @@ export async function startApp(): Promise<void> {
       );
     } finally {
       initializeRedux({ mainWindowStats, menuOptions });
-      void start();
+      drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
       );
@@ -1070,7 +1070,7 @@ export async function startApp(): Promise<void> {
         window.getSfuUrl()
       );
       window.reduxActions.expiration.hydrateExpirationStatus(
-        window.Signal.Util.hasExpired()
+        window.getBuildExpiration()
       );
     }
   });
@@ -1958,9 +1958,6 @@ export async function startApp(): Promise<void> {
               remoteBuildExpirationTimestamp
             )
           );
-          window.reduxActions.expiration.hydrateExpirationStatus(
-            window.Signal.Util.hasExpired()
-          );
         }
       }
     );
@@ -2142,9 +2139,6 @@ export async function startApp(): Promise<void> {
               await window.storage.put(
                 'remoteBuildExpiration',
                 remoteBuildExpirationTimestamp
-              );
-              window.reduxActions.expiration.hydrateExpirationStatus(
-                window.Signal.Util.hasExpired()
               );
             }
           }

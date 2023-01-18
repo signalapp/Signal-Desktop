@@ -168,6 +168,8 @@
 
   &__message,
   &__tooltip {
+    max-width: 250px;
+
     h3 {
       @include font-body-1-bold;
       padding: 0px;
@@ -187,6 +189,10 @@
   &--error {
     background-color: $error-background-color;
     color: $error-text-color;
+
+    a {
+      color: $error-text-color;
+    }
   }
 
   &--warning {
@@ -253,6 +259,10 @@
     &--error {
       --tooltip-text-color: #{$error-text-color};
       --tooltip-background-color: #{$error-background-color};
+
+      a {
+        color: #{$error-text-color};
+      }
     }
 
     &--warning {

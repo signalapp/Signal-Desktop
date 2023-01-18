@@ -11,20 +11,14 @@ import { LeftPaneDialog } from './LeftPaneDialog';
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
-  isRegistrationDone: boolean;
   relinkDevice: () => void;
 };
 
 export function DialogRelink({
   containerWidthBreakpoint,
   i18n,
-  isRegistrationDone,
   relinkDevice,
 }: PropsType): JSX.Element | null {
-  if (isRegistrationDone) {
-    return null;
-  }
-
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

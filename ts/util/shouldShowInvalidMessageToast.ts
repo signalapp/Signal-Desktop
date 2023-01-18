@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types';
+import { hasExpired } from '../state/selectors/expiration';
+import { isOSUnsupported } from '../state/selectors/updates';
 
 import { ToastType } from '../types/Toast';
 import {
@@ -16,7 +18,11 @@ export function shouldShowInvalidMessageToast(
   conversationAttributes: ConversationAttributesType,
   messageText?: string
 ): ToastType | undefined {
-  if (window.reduxStore.getState().expiration.hasExpired) {
+  const state = window.reduxStore.getState();
+  if (hasExpired(state)) {
+    if (isOSUnsupported(state)) {
+      return ToastType.UnsupportedOS;
+    }
     return ToastType.Expired;
   }
 

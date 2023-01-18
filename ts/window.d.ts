@@ -150,8 +150,8 @@ declare global {
     getAppInstance: () => string | undefined;
     getConversations: () => ConversationModelCollectionType;
     getBuildCreation: () => number;
+    getBuildExpiration: () => number;
     getEnvironment: typeof getEnvironment;
-    getExpiration: () => number;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getLocale: () => string;

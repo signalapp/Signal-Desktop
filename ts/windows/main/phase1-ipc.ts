@@ -43,22 +43,7 @@ window.getEnvironment = getEnvironment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
-window.getExpiration = () => {
-  const sixtyDays = 60 * 86400 * 1000;
-  const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
-  const { buildExpiration } = config;
-
-  const localBuildExpiration = window.Events.getAutoDownloadUpdate()
-    ? buildExpiration
-    : buildExpiration - sixtyDays;
-
-  if (remoteBuildExpiration) {
-    return remoteBuildExpiration < localBuildExpiration
-      ? remoteBuildExpiration
-      : localBuildExpiration;
-  }
-  return localBuildExpiration;
-};
+window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;

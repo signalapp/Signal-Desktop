@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean, select } from '@storybook/addon-knobs';
+import { select } from '@storybook/addon-knobs';
 
 import { DialogExpiredBuild } from './DialogExpiredBuild';
 import { setupI18n } from '../util/setupI18n';
@@ -22,13 +22,11 @@ export const _DialogExpiredBuild = (): JSX.Element => {
     WidthBreakpoint,
     WidthBreakpoint.Wide
   );
-  const hasExpired = boolean('hasExpired', true);
 
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
       <DialogExpiredBuild
         containerWidthBreakpoint={containerWidthBreakpoint}
-        hasExpired={hasExpired}
         i18n={i18n}
       />
     </FakeLeftPaneContainer>

@@ -108,3 +108,8 @@ export const getMenuOptions = createSelector(
   getUser,
   (state: UserStateType): MenuOptionsType => state.menuOptions
 );
+
+export const getIsMacOS = createSelector(
+  getPlatform,
+  (platform: string): boolean => platform === 'darwin'
+);

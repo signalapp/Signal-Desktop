@@ -7,7 +7,9 @@ import type { BrowserWindow } from 'electron';
 import type { Updater } from './common';
 import { MacOSUpdater } from './macos';
 import { WindowsUpdater } from './windows';
+import { isLinuxVersionSupported } from './linux';
 import type { LoggerType } from '../types/Logging';
+import { DialogType } from '../types/Dialogs';
 import type { SettingsChannel } from '../main/settingsChannel';
 
 let initialized = false;
@@ -30,6 +32,15 @@ export async function start(
     throw new Error('updater/start: Must provide logger!');
   }
 
+  if (platform === 'linux') {
+    if (!isLinuxVersionSupported(logger)) {
+      getMainWindow()?.webContents.send(
+        'show-update-dialog',
+        DialogType.UnsupportedOS
+      );
+    }
+  }
+
   if (autoUpdateDisabled()) {
     logger.info(
       'updater/start: Updates disabled - not starting new version checks'
@@ -46,7 +57,7 @@ export async function start(
     throw new Error('updater/start: Unsupported platform');
   }
 
-  await updater.start();
+  await updater?.start();
 }
 
 export async function force(): Promise<void> {

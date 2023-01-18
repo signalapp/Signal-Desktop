@@ -14,13 +14,10 @@ import type { WidthBreakpoint } from './_util';
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
   dialogType: DialogType;
-  didSnooze: boolean;
   dismissDialog: () => void;
   downloadSize?: number;
   downloadedSize?: number;
-  hasNetworkDialog: boolean;
   i18n: LocalizerType;
-  showEventsCount: number;
   snoozeUpdate: () => void;
   startUpdate: () => void;
   version?: string;
@@ -33,29 +30,15 @@ const BETA_DOWNLOAD_URL = 'https://support.signal.org/beta';
 export function DialogUpdate({
   containerWidthBreakpoint,
   dialogType,
-  didSnooze,
   dismissDialog,
   downloadSize,
   downloadedSize,
-  hasNetworkDialog,
   i18n,
   snoozeUpdate,
   startUpdate,
   version,
   currentVersion,
 }: PropsType): JSX.Element | null {
-  if (hasNetworkDialog) {
-    return null;
-  }
-
-  if (dialogType === DialogType.None) {
-    return null;
-  }
-
-  if (didSnooze) {
-    return null;
-  }
-
   if (dialogType === DialogType.Cannot_Update) {
     const url = isBeta(currentVersion)
       ? BETA_DOWNLOAD_URL
@@ -172,6 +155,11 @@ export function DialogUpdate({
         </span>
       </LeftPaneDialog>
     );
+  }
+
+  if (dialogType === DialogType.UnsupportedOS) {
+    // Displayed as UnsupportedOSDialog in LeftPane
+    return null;
   }
 
   let title = i18n('autoUpdateNewVersionTitle');

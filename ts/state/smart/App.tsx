@@ -7,6 +7,7 @@ import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuActionType } from '../../types/menu';
 import { App } from '../../components/App';
+import { getName as getOSName } from '../../OS';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
@@ -58,6 +59,7 @@ const mapStateToProps = (state: StateType) => {
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
     hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
+    OS: getOSName(),
     osClassName,
     hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => (

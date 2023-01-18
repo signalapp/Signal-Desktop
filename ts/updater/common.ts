@@ -8,13 +8,13 @@ import { readdir, stat, writeFile, mkdir } from 'fs/promises';
 import { promisify } from 'util';
 import { execFile } from 'child_process';
 import { join, normalize, extname } from 'path';
-import { tmpdir } from 'os';
+import { tmpdir, release as osRelease } from 'os';
 import { throttle } from 'lodash';
 
 import type { ParserConfiguration } from 'dashdash';
 import { createParser } from 'dashdash';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
-import { gt } from 'semver';
+import { gt, lt } from 'semver';
 import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
@@ -65,7 +65,10 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
-  requireManualUpdate?: boolean;
+  vendor?: {
+    requireManualUpdate?: boolean;
+    minOSVersion?: string;
+  };
 };
 
 export type UpdateInformationType = {
@@ -365,13 +368,28 @@ export abstract class Updater {
     const yaml = await getUpdateYaml();
     const parsedYaml = parseYaml(yaml);
 
-    if (parsedYaml.requireManualUpdate) {
-      this.logger.warn('checkForUpdates: manual update required');
-      this.markCannotUpdate(
-        new Error('yaml file has requireManualUpdate flag'),
-        DialogType.Cannot_Update_Require_Manual
-      );
-      return;
+    const { vendor } = parsedYaml;
+    if (vendor) {
+      if (vendor.requireManualUpdate) {
+        this.logger.warn('checkForUpdates: manual update required');
+        this.markCannotUpdate(
+          new Error('yaml file has requireManualUpdate flag'),
+          DialogType.Cannot_Update_Require_Manual
+        );
+        return;
+      }
+
+      if (vendor.minOSVersion && lt(osRelease(), vendor.minOSVersion)) {
+        this.logger.warn(
+          `checkForUpdates: OS version ${osRelease()} is less than the ` +
+            `minimum supported version ${vendor.minOSVersion}`
+        );
+        this.markCannotUpdate(
+          new Error('yaml file has unsatisfied minOSVersion value'),
+          DialogType.UnsupportedOS
+        );
+        return;
+      }
     }
 
     const version = getVersion(parsedYaml);

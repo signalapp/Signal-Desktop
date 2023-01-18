@@ -13,16 +13,14 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 
 const FIVE_SECONDS = 5 * 1000;
 
-export type PropsType = NetworkStateType & {
+export type PropsType = Pick<NetworkStateType, 'isOnline' | 'socketStatus'> & {
   containerWidthBreakpoint: WidthBreakpoint;
-  hasNetworkDialog: boolean;
   i18n: LocalizerType;
   manualReconnect: () => void;
 };
 
 export function DialogNetworkStatus({
   containerWidthBreakpoint,
-  hasNetworkDialog,
   i18n,
   isOnline,
   socketStatus,
@@ -32,10 +30,6 @@ export function DialogNetworkStatus({
     socketStatus === SocketStatus.CONNECTING
   );
   useEffect(() => {
-    if (!hasNetworkDialog) {
-      return () => null;
-    }
-
     let timeout: NodeJS.Timeout;
 
     if (isConnecting) {
@@ -47,16 +41,12 @@ export function DialogNetworkStatus({
     return () => {
       clearTimeoutIfNecessary(timeout);
     };
-  }, [hasNetworkDialog, isConnecting, setIsConnecting]);
+  }, [isConnecting, setIsConnecting]);
 
   const reconnect = () => {
     setIsConnecting(true);
     manualReconnect();
   };
-
-  if (!hasNetworkDialog) {
-    return null;
-  }
 
   if (isConnecting) {
     const spinner = (

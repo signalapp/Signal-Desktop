@@ -25,6 +25,9 @@ export default {
     toast: {
       defaultValue: undefined,
     },
+    OS: {
+      defaultValue: 'macOS',
+    },
   },
 } as Meta;
 
@@ -324,6 +327,13 @@ export const UnsupportedMultiAttachment = Template.bind({});
 UnsupportedMultiAttachment.args = {
   toast: {
     toastType: ToastType.UnsupportedMultiAttachment,
+  },
+};
+
+export const UnsupportedOS = Template.bind({});
+UnsupportedOS.args = {
+  toast: {
+    toastType: ToastType.UnsupportedOS,
   },
 };
 

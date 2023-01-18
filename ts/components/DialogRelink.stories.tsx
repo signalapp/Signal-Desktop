@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { DialogRelink } from './DialogRelink';
@@ -16,7 +15,6 @@ const i18n = setupI18n('en', enMessages);
 const defaultProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   i18n,
-  isRegistrationDone: true,
   relinkDevice: action('relink-device'),
 };
 
@@ -25,14 +23,12 @@ const permutations = [
     title: 'Unlinked (wide container)',
     props: {
       containerWidthBreakpoint: WidthBreakpoint.Wide,
-      isRegistrationDone: false,
     },
   },
   {
     title: 'Unlinked (narrow container)',
     props: {
       containerWidthBreakpoint: WidthBreakpoint.Narrow,
-      isRegistrationDone: false,
     },
   },
 ];
@@ -40,14 +36,6 @@ const permutations = [
 export default {
   title: 'Components/DialogRelink',
 };
-
-export function KnobsPlayground(): JSX.Element {
-  const isRegistrationDone = boolean('isRegistrationDone', false);
-
-  return (
-    <DialogRelink {...defaultProps} isRegistrationDone={isRegistrationDone} />
-  );
-}
 
 export function Iterations(): JSX.Element {
   return (

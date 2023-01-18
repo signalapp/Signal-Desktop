@@ -14,7 +14,6 @@ import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUuidsForE164s } from './getUuidsForE164s';
 import { getUserAgent } from './getUserAgent';
-import { hasExpired } from './hasExpired';
 import {
   initializeMessageCounter,
   incrementMessageCounter,
@@ -58,7 +57,6 @@ export {
   getStringForProfileChange,
   getTextWithMentions,
   getUserAgent,
-  hasExpired,
   incrementMessageCounter,
   initializeMessageCounter,
   isFileDangerous,

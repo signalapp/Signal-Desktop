@@ -12,6 +12,7 @@ export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
+  OS: string;
   onUndoArchive: (conversaetionId: string) => unknown;
   toast?: {
     toastType: ToastType;
@@ -26,6 +27,7 @@ export function ToastManager({
   i18n,
   openFileInFolder,
   onUndoArchive,
+  OS,
   toast,
 }: PropsType): JSX.Element | null {
   if (toast === undefined) {
@@ -316,6 +318,14 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('cannotSelectMultipleFileAttachments')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.UnsupportedOS) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:UnsupportedOSErrorToast', { OS })}
       </Toast>
     );
   }

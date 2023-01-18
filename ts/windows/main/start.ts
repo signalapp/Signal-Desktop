@@ -94,9 +94,12 @@ if (isTestElectron) {
   );
   contextBridge.exposeInMainWorld('getAppInstance', window.getAppInstance);
   contextBridge.exposeInMainWorld('getBuildCreation', window.getBuildCreation);
+  contextBridge.exposeInMainWorld(
+    'getBuildExpiration',
+    window.getBuildExpiration
+  );
   contextBridge.exposeInMainWorld('getConversations', window.getConversations);
   contextBridge.exposeInMainWorld('getEnvironment', window.getEnvironment);
-  contextBridge.exposeInMainWorld('getExpiration', window.getExpiration);
   contextBridge.exposeInMainWorld('getHostName', window.getHostName);
   contextBridge.exposeInMainWorld(
     'getInteractionMode',

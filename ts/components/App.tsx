@@ -43,6 +43,7 @@ type PropsType = {
   onUndoArchive: (conversationId: string) => unknown;
   openFileInFolder: (target: string) => unknown;
   hasCustomTitleBar: boolean;
+  OS: string;
   osClassName: string;
   hideMenuBar: boolean;
 
@@ -76,6 +77,7 @@ export function App({
   onUndoArchive,
   openFileInFolder,
   openInbox,
+  OS,
   osClassName,
   registerSingleDevice,
   renderCallManager,
@@ -173,6 +175,7 @@ export function App({
         })}
       >
         <ToastManager
+          OS={OS}
           hideToast={hideToast}
           i18n={i18n}
           onUndoArchive={onUndoArchive}

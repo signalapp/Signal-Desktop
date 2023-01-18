@@ -6,17 +6,19 @@ import { mapDispatchToProps } from '../actions';
 import { DialogUpdate } from '../../components/DialogUpdate';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
-import { hasNetworkDialog } from '../selectors/network';
+import { getExpirationTimestamp } from '../selectors/expiration';
 import type { WidthBreakpoint } from '../../components/_util';
+import { getName as getOSName } from '../../OS';
 
 type PropsType = Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>;
 
 const mapStateToProps = (state: StateType, ownProps: PropsType) => {
   return {
     ...state.updates,
-    hasNetworkDialog: hasNetworkDialog(state),
     i18n: getIntl(state),
     currentVersion: window.getVersion(),
+    expirationTimestamp: getExpirationTimestamp(state),
+    OS: getOSName(),
     ...ownProps,
   };
 };

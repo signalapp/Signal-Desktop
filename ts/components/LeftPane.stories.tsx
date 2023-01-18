@@ -4,18 +4,27 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { select } from '@storybook/addon-knobs';
+import { boolean, select } from '@storybook/addon-knobs';
 
 import type { PropsType } from './LeftPane';
 import { LeftPane, LeftPaneMode } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
 import { CrashReportDialog } from './CrashReportDialog';
+import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus';
+import { DialogExpiredBuild } from './DialogExpiredBuild';
+import { DialogNetworkStatus } from './DialogNetworkStatus';
+import { DialogRelink } from './DialogRelink';
+import type { PropsType as DialogUpdatePropsType } from './DialogUpdate';
+import { DialogUpdate } from './DialogUpdate';
+import { UnsupportedOSDialog } from './UnsupportedOSDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
-import { DurationInSeconds } from '../util/durations';
+import { DurationInSeconds, DAY } from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
+import { DialogType } from '../types/Dialogs';
+import { SocketStatus } from '../types/SocketStatus';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import {
@@ -24,6 +33,11 @@ import {
 } from '../test-both/helpers/fakeLookupConversationWithoutUuid';
 
 const i18n = setupI18n('en', enMessages);
+
+type OverridePropsType = Partial<PropsType> & {
+  dialogNetworkStatus?: Partial<DialogNetworkStatusPropsType>;
+  dialogUpdate?: Partial<DialogUpdatePropsType>;
+};
 
 export default {
   title: 'Components/LeftPane',
@@ -95,7 +109,7 @@ const defaultModeSpecificProps = {
 
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
-const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
+const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   let modeSpecificProps =
     overrideProps.modeSpecificProps ?? defaultModeSpecificProps;
 
@@ -112,6 +126,8 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     };
   }
 
+  const isUpdateDownloaded = boolean('isUpdateDownloaded', false);
+
   return {
     clearConversationSearch: action('clearConversationSearch'),
     clearGroupCreationError: action('clearGroupCreationError'),
@@ -124,6 +140,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     createGroup: action('createGroup'),
     getPreferredBadge: () => undefined,
     i18n,
+    isMacOS: boolean('isMacOS', false),
     preferredWidthFromStorage: 320,
     regionCode: 'US',
     challengeStatus: select(
@@ -132,12 +149,23 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
       'idle'
     ),
     crashReportCount: select('challengeReportCount', [0, 1], 0),
+
+    hasNetworkDialog: boolean('hasNetworkDialog', false),
+    hasExpiredDialog: boolean('hasExpiredDialog', false),
+    hasRelinkDialog: boolean('hasRelinkDialog', false),
+    hasUpdateDialog: boolean('hasUpdateDialog', false),
+    unsupportedOSDialogType: select(
+      'unsupportedOSDialogType',
+      ['error', 'warning', undefined],
+      undefined
+    ),
+    isUpdateDownloaded,
+
     setChallengeStatus: action('setChallengeStatus'),
     lookupConversationWithoutUuid: makeFakeLookupConversationWithoutUuid(),
     showUserNotFoundModal: action('showUserNotFoundModal'),
     setIsFetchingUUID,
     showConversation: action('showConversation'),
-    renderExpiredBuildDialog: () => <div />,
     renderMainHeader: () => <div />,
     renderMessageSearchResult: (id: string) => (
       <MessageSearchResult
@@ -155,9 +183,39 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
         to={defaultConversations[1]}
       />
     ),
-    renderNetworkStatus: () => <div />,
-    renderRelinkDialog: () => <div />,
-    renderUpdateDialog: () => <div />,
+
+    renderNetworkStatus: props => (
+      <DialogNetworkStatus
+        i18n={i18n}
+        socketStatus={SocketStatus.CLOSED}
+        isOnline={false}
+        manualReconnect={action('manualReconnect')}
+        {...overrideProps.dialogNetworkStatus}
+        {...props}
+      />
+    ),
+    renderRelinkDialog: props => (
+      <DialogRelink
+        i18n={i18n}
+        relinkDevice={action('relinkDevice')}
+        {...props}
+      />
+    ),
+    renderUpdateDialog: props => (
+      <DialogUpdate
+        i18n={i18n}
+        dialogType={
+          isUpdateDownloaded ? DialogType.Update : DialogType.DownloadReady
+        }
+        dismissDialog={action('dismissUpdate')}
+        snoozeUpdate={action('snoozeUpdate')}
+        startUpdate={action('startUpdate')}
+        currentVersion="1.0.0"
+        {...overrideProps.dialogUpdate}
+        {...props}
+      />
+    ),
+
     renderCaptchaDialog: () => (
       <CaptchaDialog
         i18n={i18n}
@@ -172,6 +230,15 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
         isPending={false}
         uploadCrashReports={action('uploadCrashReports')}
         eraseCrashReports={action('eraseCrashReports')}
+      />
+    ),
+    renderExpiredBuildDialog: props => <DialogExpiredBuild {...props} />,
+    renderUnsupportedOSDialog: props => (
+      <UnsupportedOSDialog
+        i18n={i18n}
+        OS="macOS"
+        expirationTimestamp={Date.now() + 5 * DAY}
+        {...props}
       />
     ),
     selectedConversationId: undefined,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean, select } from '@storybook/addon-knobs';
+import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
@@ -20,9 +20,7 @@ const defaultProps = {
   dismissDialog: action('dismiss-dialog'),
   downloadSize: 116504357,
   downloadedSize: 61003110,
-  hasNetworkDialog: false,
   i18n,
-  didSnooze: false,
   showEventsCount: 0,
   snoozeUpdate: action('snooze-update'),
   startUpdate: action('start-update'),
@@ -40,8 +38,6 @@ export function KnobsPlayground(): JSX.Element {
     WidthBreakpoint.Wide
   );
   const dialogType = select('dialogType', DialogType, DialogType.Update);
-  const hasNetworkDialog = boolean('hasNetworkDialog', false);
-  const didSnooze = boolean('didSnooze', false);
 
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
@@ -49,8 +45,6 @@ export function KnobsPlayground(): JSX.Element {
         {...defaultProps}
         containerWidthBreakpoint={containerWidthBreakpoint}
         dialogType={dialogType}
-        didSnooze={didSnooze}
-        hasNetworkDialog={hasNetworkDialog}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
@@ -231,6 +225,23 @@ MacOSReadOnlyWide.story = {
   name: 'MacOS_Read_Only (Wide)',
 };
 
+export function UnsupportedOSWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        currentVersion="5.24.0"
+        dialogType={DialogType.UnsupportedOS}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
+UnsupportedOSWide.story = {
+  name: 'UnsupportedOS (Wide)',
+};
+
 export function UpdateNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -384,4 +395,21 @@ export function MacOSReadOnlyNarrow(): JSX.Element {
 
 MacOSReadOnlyNarrow.story = {
   name: 'MacOS_Read_Only (Narrow)',
+};
+
+export function UnsupportedOSNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        currentVersion="5.24.0"
+        dialogType={DialogType.UnsupportedOS}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
+UnsupportedOSNarrow.story = {
+  name: 'UnsupportedOS (Narrow)',
 };

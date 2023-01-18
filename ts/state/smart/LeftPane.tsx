@@ -7,9 +7,12 @@ import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
 import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
+import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
+import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import { isDone as isRegistrationDone } from '../../util/registration';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
@@ -20,8 +23,20 @@ import {
   getStartSearchCounter,
   isSearching,
 } from '../selectors/search';
-import { getIntl, getRegionCode, getTheme } from '../selectors/user';
+import {
+  getIntl,
+  getRegionCode,
+  getTheme,
+  getIsMacOS,
+} from '../selectors/user';
+import { hasExpired } from '../selectors/expiration';
+import {
+  isUpdateDialogVisible,
+  isUpdateDownloaded,
+  isOSUnsupported,
+} from '../selectors/updates';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
@@ -54,20 +69,16 @@ import {
   getGroupSizeHardLimit,
 } from '../../groups/limits';
 
-import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
 import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
+import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
+import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
 import { SmartCrashReportDialog } from './CrashReportDialog';
 
-function renderExpiredBuildDialog(
-  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
-  return <SmartExpiredBuildDialog {...props} />;
-}
 function renderMainHeader(): JSX.Element {
   return <SmartMainHeader />;
 }
@@ -94,6 +105,16 @@ function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
 }
 function renderCrashReportDialog(): JSX.Element {
   return <SmartCrashReportDialog />;
+}
+function renderExpiredBuildDialog(
+  props: DialogExpiredBuildPropsType
+): JSX.Element {
+  return <DialogExpiredBuild {...props} />;
+}
+function renderUnsupportedOSDialog(
+  props: Readonly<SmartUnsupportedOSDialogPropsType>
+): JSX.Element {
+  return <SmartUnsupportedOSDialog {...props} />;
 }
 
 const getModeSpecificProps = (
@@ -183,7 +204,29 @@ const getModeSpecificProps = (
 };
 
 const mapStateToProps = (state: StateType) => {
+  const hasUpdateDialog = isUpdateDialogVisible(state);
+  const hasUnsupportedOS = isOSUnsupported(state);
+
+  let hasExpiredDialog = false;
+  let unsupportedOSDialogType: 'error' | 'warning' | undefined;
+  if (hasExpired(state)) {
+    if (hasUnsupportedOS) {
+      unsupportedOSDialogType = 'error';
+    } else {
+      hasExpiredDialog = true;
+    }
+  } else if (hasUnsupportedOS) {
+    unsupportedOSDialogType = 'warning';
+  }
+
   return {
+    hasNetworkDialog: hasNetworkDialog(state),
+    hasExpiredDialog,
+    hasRelinkDialog: !isRegistrationDone(),
+    hasUpdateDialog,
+    isUpdateDownloaded: isUpdateDownloaded(state),
+    unsupportedOSDialogType,
+
     modeSpecificProps: getModeSpecificProps(state),
     preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
@@ -191,10 +234,10 @@ const mapStateToProps = (state: StateType) => {
     showArchived: getShowArchived(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
+    isMacOS: getIsMacOS(state),
     regionCode: getRegionCode(state),
     challengeStatus: state.network.challengeStatus,
     crashReportCount: state.crashReports.count,
-    renderExpiredBuildDialog,
     renderMainHeader,
     renderMessageSearchResult,
     renderNetworkStatus,
@@ -202,6 +245,8 @@ const mapStateToProps = (state: StateType) => {
     renderUpdateDialog,
     renderCaptchaDialog,
     renderCrashReportDialog,
+    renderExpiredBuildDialog,
+    renderUnsupportedOSDialog,
     lookupConversationWithoutUuid,
     theme: getTheme(state),
   };

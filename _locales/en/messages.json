@@ -2161,7 +2161,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Press Restart Signal to apply the updates."
+    "message": "Press Restart Signal to apply the updates.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Restart Signal"
@@ -6255,6 +6256,18 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "These digits help keep your username private so you can avoid unwanted messages. Share your username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop will no longer support your computer’s version of {OS} soon. To keep using Signal, update your computer’s operating system by {expirationDate}. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop no longer works on this computer. To use Signal desktop again, update your computer’s version of {OS}. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop no longer works on this computer. To use Signal desktop again, update your computer’s version of {OS}.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "WhatsNew__modal-title": {
     "message": "What's New",

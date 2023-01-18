@@ -336,6 +336,11 @@
         }
       ],
       "mergeASARs": true,
+      "releaseInfo": {
+        "vendor": {
+          "minOSVersion": "17.0.0"
+        }
+      },
       "singleArchFiles": "node_modules/@signalapp/{libsignal-client/prebuilds/**,ringrtc/build/**}",
       "target": [
         {
@@ -371,6 +376,11 @@
           "url": "https://updates.signal.org/desktop"
         }
       ],
+      "releaseInfo": {
+        "vendor": {
+          "minOSVersion": "6.1.0"
+        }
+      },
       "target": [
         "nsis"
       ]

@@ -11,6 +11,21 @@ index ffcc8bd..bafab0e 100644
              }
          }
          const desktopMeta = {
+diff --git a/node_modules/app-builder-lib/scheme.json b/node_modules/app-builder-lib/scheme.json
+index 4ce62d9..e9729c1 100644
+--- a/node_modules/app-builder-lib/scheme.json
++++ b/node_modules/app-builder-lib/scheme.json
+@@ -4749,6 +4749,10 @@
+             "null",
+             "string"
+           ]
++        },
++        "vendor": {
++          "description": "Vendor-specific informaton",
++          "type": "object"
+         }
+       },
+       "type": "object"
 diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
 index 1536059..555f8f5 100644
 --- a/node_modules/app-builder-lib/templates/linux/after-install.tpl
@@ -25,7 +40,7 @@ index 1536059..555f8f5 100644
  update-mime-database /usr/share/mime || true
  update-desktop-database /usr/share/applications || true
 diff --git a/node_modules/app-builder-lib/templates/nsis/messages.yml b/node_modules/app-builder-lib/templates/nsis/messages.yml
-index 6527c99..695444c 100644
+index 87fa6b5..ad560bd 100644
 --- a/node_modules/app-builder-lib/templates/nsis/messages.yml
 +++ b/node_modules/app-builder-lib/templates/nsis/messages.yml
 @@ -45,7 +45,7 @@ x64WinRequired:

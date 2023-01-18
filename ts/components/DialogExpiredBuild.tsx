@@ -9,21 +9,15 @@ import type { WidthBreakpoint } from './_util';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
-type PropsType = {
+export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
-  hasExpired: boolean;
   i18n: LocalizerType;
 };
 
 export function DialogExpiredBuild({
   containerWidthBreakpoint,
-  hasExpired,
   i18n,
 }: PropsType): JSX.Element | null {
-  if (!hasExpired) {
-    return null;
-  }
-
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

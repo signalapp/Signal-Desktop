@@ -189,3 +189,15 @@ export const getHasStoryViewReceiptSetting = createSelector(
       state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
     )
 );
+
+export const getRemoteBuildExpiration = createSelector(
+  getItems,
+  (state: ItemsStateType): number | undefined =>
+    Number(state.remoteBuildExpiration)
+);
+
+export const getAutoDownloadUpdate = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state['auto-download-update'] ?? true)
+);
