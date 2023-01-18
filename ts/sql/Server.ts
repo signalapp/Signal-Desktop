@@ -2735,35 +2735,44 @@ function getLastConversationPreview({
   conversationId: string;
   includeStoryReplies: boolean;
 }): MessageType | undefined {
+  type Row = Readonly<{
+    json: string;
+    received_at: number;
+    sent_at: number;
+  }>;
+
   const db = getInstance();
-  const row = prepare(
-    db,
-    `
-      SELECT json FROM messages
+
+  const queryTemplate = (extraClause: string): string => {
+    return `
+      SELECT json, received_at, sent_at FROM messages
       INDEXED BY messages_preview
       WHERE
         conversationId IS $conversationId AND
         shouldAffectPreview IS 1 AND
         isGroupLeaveEventFromOther IS 0 AND
         ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
-        (
-          expiresAt IS NULL
-          OR
-          expiresAt > $now
-        )
+        ${extraClause}
+      ORDER BY received_at DESC, sent_at DESC
+      LIMIT 1
+    `;
+  };
+
+  const row: Row | undefined = prepare(
+    db,
+    `
+      SELECT * FROM (${queryTemplate('expiresAt IS NULL')})
+      UNION ALL
+      SELECT * FROM (${queryTemplate('expiresAt > $now')})
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
-      `
+    `
   ).get({
     conversationId,
     now: Date.now(),
   });
 
-  if (!row) {
-    return undefined;
-  }
-
-  return jsonToObject(row.json);
+  return row ? jsonToObject(row.json) : undefined;
 }
 
 async function getConversationMessageStats({
