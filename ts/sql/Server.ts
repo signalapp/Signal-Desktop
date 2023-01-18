@@ -500,6 +500,10 @@ let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
+SQL.setLogHandler((code, value) => {
+  logger.warn(`Database log code=${code}: ${value}`);
+});
+
 async function initialize({
   configDir,
   key,
@@ -4156,7 +4160,7 @@ async function getInstalledStickerPacks(): Promise<Array<StickerPackType>> {
       SELECT *
       FROM sticker_packs
       WHERE
-        status IS "installed" OR
+        status IS 'installed' OR
         storageID IS NOT NULL
       ORDER BY id ASC
       `
