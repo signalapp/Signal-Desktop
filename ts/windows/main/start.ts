@@ -18,6 +18,7 @@ import type { StorageAccessType } from '../../types/Storage.d';
 import { start as startConversationController } from '../../ConversationController';
 import { MessageController } from '../../util/MessageController';
 import { Environment, getEnvironment } from '../../environment';
+import { isProduction } from '../../util/version';
 
 window.addEventListener('contextmenu', e => {
   const node = e.target as Element | null;
@@ -42,7 +43,7 @@ window.Whisper.events = clone(window.Backbone.Events);
 MessageController.install();
 startConversationController();
 
-if (getEnvironment() !== Environment.Production) {
+if (!isProduction(window.SignalContext.getVersion())) {
   const SignalDebug = {
     Data: window.Signal.Data,
     getConversation: (id: string) => window.ConversationController.get(id),
