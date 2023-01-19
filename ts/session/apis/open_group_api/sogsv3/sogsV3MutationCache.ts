@@ -6,6 +6,7 @@
 import { filter, findIndex, remove } from 'lodash';
 import { Reactions } from '../../../../util/reactions';
 import { OpenGroupReactionMessageV4 } from '../opengroupV2/OpenGroupServerPoller';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 
 export enum ChangeType {
   REACTIONS = 0,
@@ -143,6 +144,10 @@ export async function processMessagesUsingCache(
   }
 
   message.reactions = updatedReactions;
-  await Reactions.handleOpenGroupMessageReactions(message.reactions, message.id);
+  await Reactions.handleOpenGroupMessageReactions(
+    getOpenGroupV2ConversationId(server, room),
+    message.id,
+    message.reactions
+  );
   return message;
 }
