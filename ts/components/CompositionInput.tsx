@@ -7,7 +7,7 @@ import Delta from 'quill-delta';
 import ReactQuill from 'react-quill';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
-import type { KeyboardStatic, RangeStatic } from 'quill';
+import type { DeltaStatic, KeyboardStatic, RangeStatic } from 'quill';
 import Quill from 'quill';
 
 import { MentionCompletion } from '../quill/mentions/completion';
@@ -60,7 +60,11 @@ type HistoryStatic = {
 export type InputApi = {
   focus: () => void;
   insertEmoji: (e: EmojiPickDataType) => void;
-  setText: (text: string, cursorToEnd?: boolean) => void;
+  setContents: (
+    text: string,
+    draftBodyRanges?: DraftBodyRangesType,
+    cursorToEnd?: boolean
+  ) => void;
   reset: () => void;
   submit: () => void;
 };
@@ -234,15 +238,25 @@ export function CompositionInput(props: Props): React.ReactElement {
     historyModule.clear();
   };
 
-  const setText = (text: string, cursorToEnd?: boolean) => {
+  const setContents = (
+    text: string,
+    bodyRanges?: DraftBodyRangesType,
+    cursorToEnd?: boolean
+  ) => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
       return;
     }
 
+    const delta = generateDelta(text || '', bodyRanges || []);
+
     canSendRef.current = true;
-    quill.setText(text);
+    // We need to cast here because we use @types/quill@1.3.10 which has types
+    // for quill-delta even though quill-delta is written in TS and has its own
+    // types. @types/quill@2.0.0 fixes the issue but react-quill has a peer-dep
+    // on the older quill types.
+    quill.setContents(delta as unknown as DeltaStatic);
     if (cursorToEnd) {
       quill.setSelection(quill.getLength(), 0);
     }
@@ -276,7 +290,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     inputApi.current = {
       focus,
       insertEmoji,
-      setText,
+      setContents,
       reset,
       submit,
     };
