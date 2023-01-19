@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getConversationController } from '../../session/conversations';
-import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
+import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
 import {
   Data,

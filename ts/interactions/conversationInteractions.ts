@@ -29,7 +29,7 @@ import { quoteMessage, resetConversationExternal } from '../state/ducks/conversa
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { fromHexToArray, toHex } from '../session/utils/String';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
 import { SessionButtonColor } from '../components/basic/SessionButton';
 import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
 import { perfEnd, perfStart } from '../session/utils/Performance';

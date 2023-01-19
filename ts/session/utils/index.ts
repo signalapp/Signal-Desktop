@@ -4,7 +4,7 @@ import * as StringUtils from './String';
 import * as PromiseUtils from './Promise';
 import * as ToastUtils from './Toast';
 import * as UserUtils from './User';
-import * as SyncUtils from './syncUtils';
+import * as SyncUtils from './sync/syncUtils';
 import * as AttachmentsV2Utils from './AttachmentsV2';
 import * as AttachmentDownloads from './AttachmentsDownload';
 import * as CallManager from './calling/CallManager';

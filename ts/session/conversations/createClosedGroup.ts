@@ -19,7 +19,7 @@ import {
 } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';
-import { forceSyncConfigurationNowIfNeeded } from '../utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../utils/sync/syncUtils';
 import { getConversationController } from './ConversationController';
 
 export async function createClosedGroup(groupName: string, members: Array<string>, isV3: boolean) {

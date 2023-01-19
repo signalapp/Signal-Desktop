@@ -1,33 +1,33 @@
-import { Data } from '../../../ts/data/data';
-import { getMessageQueue } from '..';
-import { getConversationController } from '../conversations';
+import { Data } from '../../../data/data';
+import { getMessageQueue } from '../..';
+import { getConversationController } from '../../conversations';
 import { v4 as uuidv4 } from 'uuid';
-import { UserUtils } from '.';
-import { ECKeyPair } from '../../receiver/keypairs';
+import { UserUtils } from '..';
+import { ECKeyPair } from '../../../receiver/keypairs';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
-} from '../messages/outgoing/controlMessage/ConfigurationMessage';
-import { ConversationModel } from '../../models/conversation';
-import { fromBase64ToArray, fromHexToArray } from './String';
-import { SignalService } from '../../protobuf';
+} from '../../messages/outgoing/controlMessage/ConfigurationMessage';
+import { ConversationModel } from '../../../models/conversation';
+import { fromBase64ToArray, fromHexToArray } from '../String';
+import { SignalService } from '../../../protobuf';
 import _ from 'lodash';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
-} from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { OpenGroupData } from '../../data/opengroups';
-import { getCompleteUrlFromRoom } from '../apis/open_group_api/utils/OpenGroupUtils';
-import { DURATION } from '../constants';
-import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
-import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
-import { PubKey } from '../types';
-import { SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
+} from '../../messages/outgoing/visibleMessage/VisibleMessage';
+import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { OpenGroupData } from '../../../data/opengroups';
+import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
+import { DURATION } from '../../constants';
+import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
+import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
+import { PubKey } from '../../types';
+import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
+import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 

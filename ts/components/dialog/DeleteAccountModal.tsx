@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ed25519Str } from '../../session/onions/onionPath';
 import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
-import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';

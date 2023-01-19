@@ -48,7 +48,7 @@ import {
   VisibleMessage,
   VisibleMessageParams,
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { buildSyncMessage } from '../session/utils/syncUtils';
+import { buildSyncMessage } from '../session/utils/sync/syncUtils';
 import {
   uploadAttachmentsV3,
   uploadLinkPreviewsV3,

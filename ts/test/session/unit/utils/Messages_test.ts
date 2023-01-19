@@ -17,7 +17,7 @@ import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgo
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import Sinon from 'sinon';
-import { getCurrentConfigurationMessage } from '../../../../session/utils/syncUtils';
+import { getCurrentConfigurationMessage } from '../../../../session/utils/sync/syncUtils';
 import { getConversationController } from '../../../../session/conversations';
 import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
 import { ConversationCollection } from '../../../../models/conversation';

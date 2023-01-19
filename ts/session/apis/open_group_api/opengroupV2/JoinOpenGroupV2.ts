@@ -4,7 +4,7 @@ import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
 
-import { forceSyncConfigurationNowIfNeeded } from '../../../utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../../../utils/sync/syncUtils';
 import {
   getOpenGroupV2ConversationId,
   openGroupV2CompleteURLRegex,

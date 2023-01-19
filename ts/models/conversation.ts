@@ -54,7 +54,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
 import { createLastMessageUpdate } from '../types/Conversation';
 import {
   ReplyingToMessageProps,

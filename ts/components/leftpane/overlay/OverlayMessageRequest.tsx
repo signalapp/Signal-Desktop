@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
-import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
 import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
 import {
