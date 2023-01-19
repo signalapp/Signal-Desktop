@@ -2445,6 +2445,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/emoji/EmojiButton.tsx",
+    "line": "  const popperRef = React.useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-01-18T22:32:43.901Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/installScreen/InstallScreenChoosingDeviceNameStep.tsx",
     "line": "  const hasFocusedRef = useRef<boolean>(false);",
     "reasonCategory": "usageTrusted",
