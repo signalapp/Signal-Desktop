@@ -369,7 +369,7 @@ export function CompositionArea({
   const previousConversationId = usePrevious(conversationId, conversationId);
   useEffect(() => {
     if (!draftText) {
-      inputApiRef.current?.setText('');
+      inputApiRef.current?.setContents('');
       return;
     }
 
@@ -377,8 +377,8 @@ export function CompositionArea({
       return;
     }
 
-    inputApiRef.current?.setText(draftText, true);
-  }, [conversationId, draftText, previousConversationId]);
+    inputApiRef.current?.setContents(draftText, draftBodyRanges, true);
+  }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
 
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
