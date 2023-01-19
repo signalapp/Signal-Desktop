@@ -88,10 +88,10 @@ async function main() {
     await Promise.all([app.watch(), bundle.watch()]);
   } else {
     await Promise.all([app.rebuild(), bundle.rebuild()]);
-  }
 
-  await app.dispose();
-  await bundle.dispose();
+    await app.dispose();
+    await bundle.dispose();
+  }
 }
 
 main().catch(error => {
