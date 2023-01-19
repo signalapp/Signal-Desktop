@@ -8,8 +8,6 @@ import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functi
 
 let userConfig: UserConfigWrapper;
 
-/* eslint-disable strict */
-
 // async function getSodiumWorker() {
 //   await sodiumWrappers.ready;
 
@@ -50,8 +48,8 @@ function initUserConfigWrapper(options: Array<any>) {
   userConfig = new UserConfigWrapper(edSecretKey, dump);
 }
 
-// tslint:disable: function-name
-//tslint-disable no-console
+// tslint:disable: function-name no-console
+
 onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any] }) => {
   const [jobId, config, action, ...args] = e.data;
 

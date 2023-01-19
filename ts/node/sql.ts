@@ -46,7 +46,12 @@ import {
   toSqliteBoolean,
 } from './database_utility';
 
-import { UpdateLastHashType } from '../types/sqlSharedTypes';
+import {
+  ConfigDumpDataNode,
+  ConfigDumpRow,
+  SharedConfigSupportedVariant,
+  UpdateLastHashType,
+} from '../types/sqlSharedTypes';
 import { OpenGroupV2Room } from '../data/opengroups';
 
 import {
@@ -55,6 +60,13 @@ import {
   updateSchema,
 } from './migration/signalMigrations';
 import { SettingsKey } from '../data/settings-key';
+import {
+  assertGlobalInstance,
+  assertGlobalInstanceOrInstance,
+  closeDbInstance,
+  initDbInstanceWith,
+  isInstanceInitialized,
+} from './sqlInstance';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -74,14 +86,14 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
 }
 
 function setSQLPassword(password: string) {
-  if (!globalInstance) {
+  if (!assertGlobalInstance()) {
     throw new Error('setSQLPassword: db is not initialized');
   }
 
   // If the password isn't hex then we need to derive a key from it
   const deriveKey = HEX_KEY.test(password);
   const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
-  globalInstance.pragma(`rekey = ${value}`);
+  assertGlobalInstance().pragma(`rekey = ${value}`);
 }
 
 function vacuumDatabase(db: BetterSqlite3.Database) {
@@ -92,26 +104,6 @@ function vacuumDatabase(db: BetterSqlite3.Database) {
   console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
   console.info(`Vacuuming DB Finished in ${Date.now() - start}ms.`);
-}
-
-let globalInstance: BetterSqlite3.Database | null = null;
-
-function assertGlobalInstance(): BetterSqlite3.Database {
-  if (!globalInstance) {
-    throw new Error('globalInstance is not initialized.');
-  }
-  return globalInstance;
-}
-
-function assertGlobalInstanceOrInstance(
-  instance?: BetterSqlite3.Database | null
-): BetterSqlite3.Database {
-  // if none of them are initialized, throw
-  if (!globalInstance && !instance) {
-    throw new Error('neither globalInstance nor initialized is initialized.');
-  }
-  // otherwise, return which ever is true, priority to the global one
-  return globalInstance || (instance as BetterSqlite3.Database);
 }
 
 let databaseFilePath: string | undefined;
@@ -143,7 +135,7 @@ async function initializeSql({
   passwordAttempt: boolean;
 }) {
   console.info('initializeSql sqlnode');
-  if (globalInstance) {
+  if (isInstanceInitialized()) {
     throw new Error('Cannot initialize more than once!');
   }
 
@@ -184,7 +176,7 @@ async function initializeSql({
     }
 
     // At this point we can allow general access to the database
-    globalInstance = db;
+    initDbInstanceWith(db);
 
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
@@ -215,7 +207,7 @@ async function initializeSql({
     if (button.response === 0) {
       clipboard.writeText(`Database startup error:\n\n${redactAll(error.stack)}`);
     } else {
-      close();
+      closeDbInstance();
       showFailedToStart();
     }
 
@@ -226,20 +218,8 @@ async function initializeSql({
   return true;
 }
 
-function close() {
-  if (!globalInstance) {
-    return;
-  }
-  const dbRef = globalInstance;
-  globalInstance = null;
-  // SQLLite documentation suggests that we run `PRAGMA optimize` right before
-  // closing the database connection.
-  dbRef.pragma('optimize');
-  dbRef.close();
-}
-
 function removeDB(configDir = null) {
-  if (globalInstance) {
+  if (isInstanceInitialized()) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
 
@@ -1232,7 +1212,7 @@ function getMessagesByConversation(conversationId: string, { messageId = null } 
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
-  const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId, globalInstance);
+  const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId);
   const floorLoadAllMessagesInConvo = 70;
 
   if (messageId || firstUnread) {
@@ -2046,6 +2026,70 @@ function removeV2OpenGroupRoom(conversationId: string) {
     });
 }
 
+/**
+ * Config dumps sql calls
+ */
+
+const configDumpData: ConfigDumpDataNode = {
+  getConfigDumpByVariantAndPubkey: (variant: SharedConfigSupportedVariant, pubkey: string) => {
+    const rows = assertGlobalInstance()
+      .prepare(`SELECT * from configDump WHERE variant = $variant AND pubkey = $pubkey;`)
+      .get({
+        pubkey,
+        variant,
+      });
+
+    if (!rows) {
+      return [];
+    }
+    throw new Error(`getConfigDumpByVariantAndPubkey: rows: ${JSON.stringify(rows)} `);
+
+    return rows;
+  },
+
+  getConfigDumpsByPubkey: (pubkey: string) => {
+    const rows = assertGlobalInstance()
+      .prepare(`SELECT * from configDump WHERE pubkey = $pubkey;`)
+      .get({
+        pubkey,
+      });
+
+    if (!rows) {
+      return [];
+    }
+    throw new Error(`getConfigDumpsByPubkey: rows: ${JSON.stringify(rows)} `);
+
+    return rows;
+  },
+
+  saveConfigDump: ({ data, pubkey, variant, combinedMessageHashes }: ConfigDumpRow) => {
+    assertGlobalInstance()
+      .prepare(
+        `INSERT OR REPLACE INTO configDump (
+          pubkey,
+          variant,
+          combinedMessageHashes,
+          data
+      ) values (
+        $pubkey,
+        $variant,
+        $combinedMessageHashes,
+        $data,
+      );`
+      )
+      .run({
+        pubkey,
+        variant,
+        combinedMessageHashes,
+        data,
+      });
+  },
+};
+
+/**
+ * Others
+ */
+
 function getEntriesCountInTable(tbl: string) {
   try {
     const row = assertGlobalInstance()
@@ -2424,6 +2468,10 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
 
 export type SqlNodeType = typeof sqlNode;
 
+export function close() {
+  closeDbInstance();
+}
+
 export const sqlNode = {
   initializeSql,
   close,
@@ -2528,4 +2576,7 @@ export const sqlNode = {
   saveV2OpenGroupRoom,
   getAllV2OpenGroupRooms,
   removeV2OpenGroupRoom,
+
+  // config dumps
+  ...configDumpData,
 };

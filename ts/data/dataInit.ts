@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import _ from 'lodash';
 import { channels } from './channels';
+import { ConfigDumpData } from './configDump/configDump';
 
 const channelsToMakeForOpengroupV2 = [
   'getAllV2OpenGroupRooms',
@@ -9,6 +10,8 @@ const channelsToMakeForOpengroupV2 = [
   'removeV2OpenGroupRoom',
   'getAllOpenGroupV2Conversations',
 ];
+
+const channelsToMakeForConfigDumps = [...Object.keys(ConfigDumpData)];
 
 const channelsToMake = new Set([
   'shutdown',
@@ -89,6 +92,7 @@ const channelsToMake = new Set([
   'removeAllClosedGroupEncryptionKeyPairs',
   'fillWithTestData',
   ...channelsToMakeForOpengroupV2,
+  ...channelsToMakeForConfigDumps,
 ]);
 
 const SQL_CHANNEL_KEY = 'sql-channel';

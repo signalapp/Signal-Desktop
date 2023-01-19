@@ -90,7 +90,6 @@ async function retrieveNextMessages(
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
 
-  console.warn(`fetching messages associatedWith:${associatedWith} namespaces:${namespaces}`);
   const results = await doSnodeBatchRequest(retrieveRequestsParams, targetNode, 4000);
 
   if (!results || !results.length) {

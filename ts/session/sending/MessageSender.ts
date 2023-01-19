@@ -125,7 +125,7 @@ export async function send(
           : SnodeNamespaces.UserMessages;
       }
       let timestamp = networkTimestamp;
-      // the user config namespacesm requires a signature to be added
+      // the user config namespaces requires a signature to be added
       let signOpts: SnodeSignatureResult | undefined;
       if (SnodeNamespace.isUserConfigNamespace(namespace)) {
         signOpts = await SnodeSignature.getSnodeSignatureParams({

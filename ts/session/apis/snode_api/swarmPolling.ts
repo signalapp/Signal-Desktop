@@ -236,8 +236,8 @@ export class SwarmPolling {
       );
     }
 
-    console.warn(`received userConfigMessagesMerged: ${userConfigMessagesMerged.length}`);
-    console.warn(
+    console.info(`received userConfigMessagesMerged: ${userConfigMessagesMerged.length}`);
+    console.info(
       `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
     );
 

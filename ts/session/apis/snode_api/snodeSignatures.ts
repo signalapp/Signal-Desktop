@@ -1,4 +1,3 @@
-import { to_string } from 'libsodium-wrappers-sumo';
 import { getSodiumRenderer } from '../../crypto';
 import { UserUtils, StringUtils } from '../../utils';
 import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
@@ -40,9 +39,6 @@ async function getSnodeSignatureParams(params: {
   try {
     const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
     const signatureBase64 = fromUInt8ArrayToBase64(signature);
-    console.warn(
-      `signing: "${to_string(new Uint8Array(verificationData))}" signature:"${signatureBase64}"`
-    );
 
     return {
       timestamp: signatureTimestamp,

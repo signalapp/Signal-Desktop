@@ -80,6 +80,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion28,
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
+  updateToSessionSchemaVersion31,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1223,9 +1224,33 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-// function printTableColumns(table: string, db: BetterSqlite3.Database) {
-//   console.info(db.pragma(`table_info('${table}');`));
-// }
+function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 31;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  /**
+   * Create a table to store our sharedConfigMessage dumps
+   **/
+  db.transaction(() => {
+    db.exec(`CREATE TABLE configDump(
+      variant TEXT NOT NULL,
+      publicKey TEXT NOT NULL,
+      data BLOB,
+      combinedMessageHashes TEXT);
+      `);
+    throw null;
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+export function printTableColumns(table: string, db: BetterSqlite3.Database) {
+  console.info(db.pragma(`table_info('${table}');`));
+}
 
 function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
   db.prepare(
