@@ -54,7 +54,7 @@ import type {
 } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
-import { maybeParseUrl } from '../util/url';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -1780,7 +1780,7 @@ export function initialize({
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: `/${senderUuid}/${serverGuid}`,
+        urlParameters: urlPathFromComponents([senderUuid, serverGuid]),
         responseType: 'bytes',
       });
     }

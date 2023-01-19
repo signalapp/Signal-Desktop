@@ -33,3 +33,9 @@ function cloneUrl(url: Readonly<URL>): URL {
 function stringifySearchParamValue(value: unknown): string {
   return value == null ? '' : String(value);
 }
+
+export function urlPathFromComponents(
+  components: ReadonlyArray<string>
+): string {
+  return `/${components.filter(Boolean).map(encodeURIComponent).join('/')}`;
+}
