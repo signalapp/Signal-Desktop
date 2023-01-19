@@ -5529,7 +5529,7 @@ export class ConversationModel extends window.Backbone
     const delta = now - startedAt;
 
     log.info(`conversation ${this.idForLogging()} open took ${delta}ms`);
-    window.Signal.CI?.handleEvent('conversation:open', { delta });
+    window.SignalCI?.handleEvent('conversation:open', { delta });
   }
 
   async flushDebouncedUpdates(): Promise<void> {

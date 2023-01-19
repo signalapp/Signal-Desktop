@@ -164,9 +164,9 @@ export function SmartInstallScreen(): ReactElement {
       }
       onQrCodeScanned();
 
-      if (window.Signal.CI) {
+      if (window.SignalCI) {
         chooseDeviceNamePromiseWrapperRef.current.resolve(
-          window.Signal.CI.deviceName
+          window.SignalCI.deviceName
         );
       }
 

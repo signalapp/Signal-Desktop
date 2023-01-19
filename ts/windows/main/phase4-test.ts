@@ -14,5 +14,5 @@ if (config.environment === 'test') {
 if (config.enableCI) {
   console.log('Importing CI infrastructure...');
   const { getCI } = require('../../CI');
-  window.Signal.CI = getCI(window.getTitle());
+  window.SignalCI = getCI(window.getTitle());
 }

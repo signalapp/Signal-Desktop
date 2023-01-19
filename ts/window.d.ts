@@ -93,6 +93,15 @@ export type IPCType = {
   updateTrayIcon: (count: number) => void;
 };
 
+export type FeatureFlagType = {
+  GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
+  GV2_ENABLE_CHANGE_PROCESSING: boolean;
+  GV2_ENABLE_STATE_PROCESSING: boolean;
+  GV2_ENABLE_PRE_JOIN_FETCH: boolean;
+  GV2_MIGRATION_DISABLE_ADD: boolean;
+  GV2_MIGRATION_DISABLE_INVITE: boolean;
+};
+
 export type SignalCoreType = {
   Crypto: typeof Crypto;
   Curve: typeof Curve;
@@ -128,9 +137,6 @@ export type SignalCoreType = {
   };
   conversationControllerStart: () => void;
   challengeHandler?: ChallengeHandler;
-
-  // Test only
-  CI?: CIType;
 };
 
 declare global {
@@ -214,14 +220,7 @@ declare global {
     reduxStore: Store<StateType>;
 
     // Feature Flags
-    Flags: {
-      GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
-      GV2_ENABLE_CHANGE_PROCESSING: boolean;
-      GV2_ENABLE_STATE_PROCESSING: boolean;
-      GV2_ENABLE_PRE_JOIN_FETCH: boolean;
-      GV2_MIGRATION_DISABLE_ADD: boolean;
-      GV2_MIGRATION_DISABLE_INVITE: boolean;
-    };
+    Flags: FeatureFlagType;
 
     // Paths
     BasePaths: {
@@ -230,6 +229,9 @@ declare global {
       stickers: string;
       temp: string;
     };
+
+    // Test only
+    SignalCI?: CIType;
 
     // TODO DESKTOP-4801
     SignalContext: SignalContextType;

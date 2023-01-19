@@ -89,7 +89,7 @@ export class App {
     const window = await this.getWindow();
 
     await window.evaluate(
-      `window.Signal.CI.solveChallenge(${JSON.stringify(response)})`
+      `window.SignalCI.solveChallenge(${JSON.stringify(response)})`
     );
   }
 
@@ -105,7 +105,7 @@ export class App {
     const window = await this.getWindow();
 
     const result = await window.evaluate(
-      `window.Signal.CI.waitForEvent(${JSON.stringify(event)})`
+      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`
     );
 
     return result as T;

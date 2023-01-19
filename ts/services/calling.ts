@@ -276,7 +276,7 @@ export class CallingClass {
 
   private reduxInterface?: CallingReduxInterface;
 
-  private sfuUrl?: string;
+  public _sfuUrl?: string;
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
 
@@ -307,7 +307,7 @@ export class CallingClass {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
     }
 
-    this.sfuUrl = sfuUrl;
+    this._sfuUrl = sfuUrl;
 
     this.previousAudioDeviceModule = parseAudioDeviceModule(
       window.storage.get('previousAudioDeviceModule')
@@ -610,7 +610,7 @@ export class CallingClass {
       return statefulPeekInfo;
     }
 
-    if (!this.sfuUrl) {
+    if (!this._sfuUrl) {
       throw new Error('Missing SFU URL; not peeking group call');
     }
 
@@ -633,7 +633,7 @@ export class CallingClass {
     const membershipProof = Bytes.fromString(proof);
 
     return RingRTC.peekGroupCall(
-      this.sfuUrl,
+      this._sfuUrl,
       Buffer.from(membershipProof),
       this.getGroupCallMembers(conversationId)
     );
@@ -669,7 +669,7 @@ export class CallingClass {
       return existing;
     }
 
-    if (!this.sfuUrl) {
+    if (!this._sfuUrl) {
       throw new Error('Missing SFU URL; not connecting group call');
     }
 
@@ -680,7 +680,7 @@ export class CallingClass {
 
     const outerGroupCall = RingRTC.getGroupCall(
       groupIdBuffer,
-      this.sfuUrl,
+      this._sfuUrl,
       Buffer.alloc(0),
       AUDIO_LEVEL_INTERVAL_MS,
       {

@@ -1733,8 +1733,8 @@ async function sync(
     // We now know that we've successfully completed a storage service fetch
     await window.storage.put('storageFetchComplete', true);
 
-    if (window.Signal.CI) {
-      window.Signal.CI.handleEvent('storageServiceComplete', {
+    if (window.SignalCI) {
+      window.SignalCI.handleEvent('storageServiceComplete', {
         manifestVersion: version,
       });
     }

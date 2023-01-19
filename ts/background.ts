@@ -246,8 +246,8 @@ export async function startApp(): Promise<void> {
       },
 
       requestChallenge(request) {
-        if (window.Signal.CI) {
-          window.Signal.CI.handleEvent('challenge', request);
+        if (window.SignalCI) {
+          window.SignalCI.handleEvent('challenge', request);
           return;
         }
         window.sendChallengeRequest(request);

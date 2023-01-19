@@ -520,7 +520,7 @@ export class Message extends React.PureComponent<Props, State> {
         status === 'viewed')
     ) {
       const delta = Date.now() - timestamp;
-      window.Signal.CI?.handleEvent('message:send-complete', {
+      window.SignalCI?.handleEvent('message:send-complete', {
         timestamp,
         delta,
       });

@@ -9,6 +9,8 @@ import { sync } from 'fast-glob';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { assert } from 'chai';
 
+import { getSignalProtocolStore } from '../../SignalProtocolStore';
+
 window.assert = assert;
 
 // This is a hack to let us run TypeScript tests in the renderer process. See the
@@ -26,3 +28,5 @@ window.testUtilities = {
     }).forEach(require);
   },
 };
+
+window.getSignalProtocolStore = getSignalProtocolStore;
