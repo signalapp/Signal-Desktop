@@ -63,6 +63,7 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { usePrevious } from '../hooks/usePrevious';
 import { PanelType } from '../types/Panels';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -516,6 +517,14 @@ export function CompositionArea({
       document.removeEventListener('keydown', handler);
     };
   }, [setLarge]);
+
+  const clearQuote = useCallback(() => {
+    if (quotedMessageId) {
+      setQuoteByMessageId(conversationId, undefined);
+    }
+  }, [conversationId, quotedMessageId, setQuoteByMessageId]);
+
+  useEscapeHandling(clearQuote);
 
   if (isSignalConversation) {
     // TODO DESKTOP-4547
