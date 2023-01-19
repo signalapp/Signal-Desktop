@@ -6,7 +6,6 @@ import type { MutableRefObject } from 'react';
 import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
-import { createPortal } from 'react-dom';
 import { Emoji } from './Emoji';
 import type { Props as EmojiPickerProps } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
@@ -55,17 +54,17 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   variant = EmojiButtonVariant.Normal,
 }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(null);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+  const popperRef = React.useRef<HTMLDivElement | null>(null);
   const refMerger = useRefMerger();
 
   const handleClickButton = React.useCallback(() => {
-    if (popperRoot) {
+    if (open) {
       setOpen(false);
     } else {
       setOpen(true);
     }
-  }, [popperRoot, setOpen]);
+  }, [open, setOpen]);
 
   const handleClose = React.useCallback(() => {
     setOpen(false);
@@ -87,22 +86,6 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
     emojiButtonApi.current = api;
   }
 
-  // Create popper root and handle outside clicks
-  React.useEffect(() => {
-    if (open) {
-      const root = document.createElement('div');
-      setPopperRoot(root);
-      document.body.appendChild(root);
-
-      return () => {
-        document.body.removeChild(root);
-        setPopperRoot(null);
-      };
-    }
-
-    return noop;
-  }, [open, setOpen, setPopperRoot, handleClose]);
-
   React.useEffect(() => {
     if (!open) {
       return noop;
@@ -113,9 +96,12 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
         handleClose();
         return true;
       },
-      { containerElements: [popperRoot, buttonRef], name: 'EmojiButton' }
+      {
+        containerElements: [popperRef, buttonRef],
+        name: 'EmojiButton',
+      }
     );
-  }, [open, handleClose, popperRoot]);
+  }, [open, handleClose]);
 
   // Install keyboard shortcut to open emoji picker
   React.useEffect(() => {
@@ -167,31 +153,30 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
           </button>
         )}
       </Reference>
-      {open && popperRoot
-        ? createPortal(
-            <Popper placement="top-start" strategy="fixed">
-              {({ ref, style }) => (
-                <EmojiPicker
-                  ref={ref}
-                  i18n={i18n}
-                  style={style}
-                  onPickEmoji={ev => {
-                    onPickEmoji(ev);
-                    if (closeOnPick) {
-                      handleClose();
-                    }
-                  }}
-                  doSend={doSend}
-                  onClose={handleClose}
-                  skinTone={skinTone}
-                  onSetSkinTone={onSetSkinTone}
-                  recentEmojis={recentEmojis}
-                />
-              )}
-            </Popper>,
-            popperRoot
-          )
-        : null}
+      {open ? (
+        <div ref={popperRef}>
+          <Popper placement="top-start" strategy="fixed">
+            {({ ref, style }) => (
+              <EmojiPicker
+                ref={ref}
+                i18n={i18n}
+                style={style}
+                onPickEmoji={ev => {
+                  onPickEmoji(ev);
+                  if (closeOnPick) {
+                    handleClose();
+                  }
+                }}
+                doSend={doSend}
+                onClose={handleClose}
+                skinTone={skinTone}
+                onSetSkinTone={onSetSkinTone}
+                recentEmojis={recentEmojis}
+              />
+            )}
+          </Popper>
+        </div>
+      ) : null}
     </Manager>
   );
 });
