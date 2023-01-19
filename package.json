@@ -202,6 +202,7 @@
     "concurrently": "^7.4.0",
     "cross-env": "^6.0.3",
     "crypto-browserify": "^3.12.0",
+    "dmg-builder": "23.6.0",
     "electron": "^17.2.0",
     "electron-builder": "22.8.0",
     "electron-notarize": "^0.2.0",
