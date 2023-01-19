@@ -89,7 +89,7 @@
     "@indutny/sneequals": "3.2.0",
     "@popperjs/core": "2.11.6",
     "@react-spring/web": "9.5.5",
-    "@signalapp/better-sqlite3": "8.1.0",
+    "@signalapp/better-sqlite3": "8.1.1",
     "@signalapp/libsignal-client": "0.21.1",
     "@signalapp/ringrtc": "2.23.0",
     "@types/fabric": "4.5.3",

@@ -324,7 +324,7 @@ function updateToSchemaVersion7(
         number
       ) WHERE number IS NOT NULL;
       INSERT INTO sessions(id, number, json)
-        SELECT "+" || id, number, json FROM sessions_old;
+        SELECT '+' || id, number, json FROM sessions_old;
       DROP TABLE sessions_old;
     `);
 
@@ -899,7 +899,7 @@ function updateToSchemaVersion20(
     // Drop triggers
     const triggers = db
       .prepare<EmptyQuery>(
-        'SELECT * FROM sqlite_master WHERE type = "trigger" AND tbl_name = "messages"'
+        "SELECT * FROM sqlite_master WHERE type = 'trigger' AND tbl_name = 'messages'"
       )
       .all();
 

@@ -719,7 +719,7 @@ describe('SQL migrations test', () => {
       updateToVersion(43);
 
       const { members, json: convoJSON } = db
-        .prepare('SELECT members, json FROM conversations WHERE id = "c"')
+        .prepare("SELECT members, json FROM conversations WHERE id = 'c'")
         .get();
 
       assert.strictEqual(members, `${UUID_A} ${UUID_B}`);
@@ -742,7 +742,7 @@ describe('SQL migrations test', () => {
       });
 
       const { json: messageMJSON } = db
-        .prepare('SELECT  json FROM messages WHERE id = "m"')
+        .prepare("SELECT  json FROM messages WHERE id = 'm'")
         .get();
 
       assert.deepStrictEqual(JSON.parse(messageMJSON), {
@@ -770,7 +770,7 @@ describe('SQL migrations test', () => {
       });
 
       const { json: messageNJSON } = db
-        .prepare('SELECT  json FROM messages WHERE id = "n"')
+        .prepare("SELECT  json FROM messages WHERE id = 'n'")
         .get();
 
       assert.deepStrictEqual(JSON.parse(messageNJSON), {
@@ -800,7 +800,7 @@ describe('SQL migrations test', () => {
       updateToVersion(43);
 
       const { json: messageMJSON } = db
-        .prepare('SELECT json FROM messages WHERE id = "m"')
+        .prepare("SELECT json FROM messages WHERE id = 'm'")
         .get();
 
       assert.deepStrictEqual(JSON.parse(messageMJSON), {
@@ -2368,9 +2368,9 @@ describe('SQL migrations test', () => {
         INSERT INTO sticker_packs
           (id, key, lastUsed)
           VALUES
-          ("a", "key-1", 1),
-          ("b", "key-2", 2),
-          ("c", "key-3", 3);
+          ('a', 'key-1', 1),
+          ('b', 'key-2', 2),
+          ('c', 'key-3', 3);
         `
       );
 
@@ -2401,8 +2401,8 @@ describe('SQL migrations test', () => {
         .prepare(
           `
           SELECT COUNT(*) FROM sqlite_schema
-          WHERE type = "table"
-          AND name = "groupCallRings"
+          WHERE type = 'table'
+          AND name = 'groupCallRings'
           `
         )
         .pluck();

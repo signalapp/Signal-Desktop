@@ -2154,10 +2154,10 @@
     "@react-spring/shared" "~9.5.5"
     "@react-spring/types" "~9.5.5"
 
-"@signalapp/better-sqlite3@8.1.0":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.1.0.tgz#6ddbb759e4bbd572b343dc0e740836bb5c8edf0d"
-  integrity sha512-3KRDCfrlvoLYuCQ0MzcCtnzVaaivvejz6/XjCzV3tbECzH8SIc1PBASEMHSy4nAeqjY8MpETIwScW1613kFJiA==
+"@signalapp/better-sqlite3@8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.1.1.tgz#b39b9138bc79992d5e9707b246a67a1b88a18c49"
+  integrity sha512-k4njS/Vsr12Eow7G7TNBjJKSPU971DZQWGY4dfISdOBobAAiewstOwlqF3ZhpJznL6M3sri14MUM0iV1aZR15g==
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"

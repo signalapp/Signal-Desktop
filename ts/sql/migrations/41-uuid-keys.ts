@@ -138,7 +138,7 @@ export default function updateToSchemaVersion41(
 
     db.exec(
       `
-      DELETE FROM items WHERE id = "identityKey" OR id = "registrationId";
+      DELETE FROM items WHERE id = 'identityKey' OR id = 'registrationId';
       `
     );
   };
