@@ -32,9 +32,6 @@ import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog'
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog';
 import { SmartTypingBubble } from './TypingBubble';
 import { SmartHeroRow } from './HeroRow';
-import { renderAudioAttachment } from './renderAudioAttachment';
-import { renderEmojiPicker } from './renderEmojiPicker';
-import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
 import { assertDev } from '../../util/assert';
@@ -82,9 +79,6 @@ function renderItem({
       messageId={messageId}
       previousMessageId={previousMessageId}
       nextMessageId={nextMessageId}
-      renderEmojiPicker={renderEmojiPicker}
-      renderReactionPicker={renderReactionPicker}
-      renderAudioAttachment={renderAudioAttachment}
       unreadIndicatorPlacement={unreadIndicatorPlacement}
     />
   );

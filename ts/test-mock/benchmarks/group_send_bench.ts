@@ -123,7 +123,10 @@ void (async () => {
       const leftPane = window.locator('.left-pane-wrapper');
 
       const item = leftPane
-        .locator('.module-conversation-list__item--contact-or-conversation')
+        .locator(
+          '.module-conversation-list__item--contact-or-conversation' +
+            `>> text=${LAST_MESSAGE}`
+        )
         .first();
       await item.click();
     }

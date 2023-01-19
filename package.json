@@ -86,7 +86,7 @@
   "dependencies": {
     "@formatjs/fast-memoize": "1.2.6",
     "@indutny/frameless-titlebar": "2.3.5",
-    "@indutny/sneequals": "3.2.0",
+    "@indutny/sneequals": "4.0.0",
     "@popperjs/core": "2.11.6",
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.1.1",

@@ -55,6 +55,8 @@ import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import MessageSender from '../../textsecure/SendMessage';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
@@ -1565,6 +1567,10 @@ export const actions = {
   toggleSettings,
   toggleSpeakerView,
 };
+
+export const useCallingActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 export type ActionsType = ReadonlyDeep<typeof actions>;
 

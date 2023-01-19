@@ -75,7 +75,7 @@ void (async () => {
     {
       const leftPane = window.locator('.left-pane-wrapper');
       const item = leftPane.locator(
-        `[data-testid="${first.toContact().uuid}"]`
+        `[data-testid="${first.toContact().uuid}"] >> text=${LAST_MESSAGE}`
       );
       await item.click();
     }

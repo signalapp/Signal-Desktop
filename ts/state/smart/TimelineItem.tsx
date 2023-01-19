@@ -3,18 +3,21 @@
 
 import type { RefObject } from 'react';
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { mapDispatchToProps } from '../actions';
-import type { StateType } from '../reducer';
+import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
+import type { WidthBreakpoint } from '../../components/_util';
+import { useProxySelector } from '../../hooks/useProxySelector';
+import { useConversationsActions } from '../ducks/conversations';
+import { useComposerActions } from '../ducks/composer';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useAccountsActions } from '../ducks/accounts';
+import { useLightboxActions } from '../ducks/lightbox';
+import { useStoriesActions } from '../ducks/stories';
+import { useCallingActions } from '../ducks/calling';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
-import {
-  getConversationSelector,
-  getSelectedMessage,
-} from '../selectors/conversations';
+import { getSelectedMessage } from '../selectors/conversations';
 import { getTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
@@ -25,9 +28,13 @@ import {
 import { SmartContactName } from './ContactName';
 import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
 import { isSameDay } from '../../util/timestamp';
+import { renderAudioAttachment } from './renderAudioAttachment';
+import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 type ExternalProps = {
   containerElementRef: RefObject<HTMLElement>;
+  containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
   isOldestTimelineItem: boolean;
   messageId: string;
@@ -44,9 +51,10 @@ function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
 
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
+export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const {
     containerElementRef,
+    containerWidthBreakpoint,
     conversationId,
     isOldestTimelineItem,
     messageId,
@@ -55,20 +63,18 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     unreadIndicatorPlacement,
   } = props;
 
-  const item = getTimelineItem(state, messageId);
-  const previousItem = previousMessageId
-    ? getTimelineItem(state, previousMessageId)
-    : undefined;
-  const nextItem = nextMessageId
-    ? getTimelineItem(state, nextMessageId)
-    : undefined;
+  const i18n = useSelector(getIntl);
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const interactionMode = useSelector(getInteractionMode);
+  const theme = useSelector(getTheme);
+  const item = useProxySelector(getTimelineItem, messageId);
+  const previousItem = useProxySelector(getTimelineItem, previousMessageId);
+  const nextItem = useProxySelector(getTimelineItem, nextMessageId);
 
-  const selectedMessage = getSelectedMessage(state);
+  const selectedMessage = useSelector(getSelectedMessage);
   const isSelected = Boolean(
     selectedMessage && messageId === selectedMessage.id
   );
-
-  const conversation = getConversationSelector(state)(conversationId);
 
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
 
@@ -97,28 +103,96 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
         !isSameDay(previousItem.timestamp, item.timestamp)
     );
 
-  return {
-    item,
-    id: messageId,
-    containerElementRef,
-    conversationId,
-    conversationColor: conversation.conversationColor,
-    customColor: conversation.customColor,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    isNextItemCallingNotification,
-    isSelected,
-    renderContact,
-    renderUniversalTimerNotification,
-    shouldCollapseAbove,
-    shouldCollapseBelow,
-    shouldHideMetadata,
-    shouldRenderDateHeader,
-    i18n: getIntl(state),
-    interactionMode: getInteractionMode(state),
-    theme: getTheme(state),
-  };
-};
+  const {
+    blockGroupLinkRequests,
+    clearSelectedMessage,
+    deleteMessage,
+    deleteMessageForEveryone,
+    doubleCheckMissingQuoteReference,
+    kickOffAttachmentDownload,
+    markAttachmentAsCorrupted,
+    messageExpanded,
+    openGiftBadge,
+    pushPanelForConversation,
+    retryDeleteForEveryone,
+    retryMessageSend,
+    saveAttachment,
+    selectMessage,
+    showConversation,
+    showExpiredIncomingTapToViewToast,
+    showExpiredOutgoingTapToViewToast,
+    startConversation,
+  } = useConversationsActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
+  const { reactToMessage, scrollToQuotedMessage, setQuoteByMessageId } =
+    useComposerActions();
 
-export const SmartTimelineItem = smart(TimelineItem);
+  const {
+    showContactModal,
+    toggleForwardMessageModal,
+    toggleSafetyNumberModal,
+  } = useGlobalModalActions();
+
+  const { checkForAccount } = useAccountsActions();
+
+  const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
+
+  const { viewStory } = useStoriesActions();
+
+  const { returnToActiveCall, startCallingLobby } = useCallingActions();
+
+  return (
+    <TimelineItem
+      item={item}
+      id={messageId}
+      containerElementRef={containerElementRef}
+      containerWidthBreakpoint={containerWidthBreakpoint}
+      conversationId={conversationId}
+      getPreferredBadge={getPreferredBadge}
+      isNextItemCallingNotification={isNextItemCallingNotification}
+      isSelected={isSelected}
+      renderAudioAttachment={renderAudioAttachment}
+      renderContact={renderContact}
+      renderEmojiPicker={renderEmojiPicker}
+      renderReactionPicker={renderReactionPicker}
+      renderUniversalTimerNotification={renderUniversalTimerNotification}
+      shouldCollapseAbove={shouldCollapseAbove}
+      shouldCollapseBelow={shouldCollapseBelow}
+      shouldHideMetadata={shouldHideMetadata}
+      shouldRenderDateHeader={shouldRenderDateHeader}
+      i18n={i18n}
+      interactionMode={interactionMode}
+      theme={theme}
+      blockGroupLinkRequests={blockGroupLinkRequests}
+      checkForAccount={checkForAccount}
+      clearSelectedMessage={clearSelectedMessage}
+      deleteMessage={deleteMessage}
+      deleteMessageForEveryone={deleteMessageForEveryone}
+      doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+      kickOffAttachmentDownload={kickOffAttachmentDownload}
+      markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+      messageExpanded={messageExpanded}
+      openGiftBadge={openGiftBadge}
+      pushPanelForConversation={pushPanelForConversation}
+      reactToMessage={reactToMessage}
+      retryDeleteForEveryone={retryDeleteForEveryone}
+      retryMessageSend={retryMessageSend}
+      returnToActiveCall={returnToActiveCall}
+      saveAttachment={saveAttachment}
+      scrollToQuotedMessage={scrollToQuotedMessage}
+      selectMessage={selectMessage}
+      setQuoteByMessageId={setQuoteByMessageId}
+      showContactModal={showContactModal}
+      showConversation={showConversation}
+      showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
+      showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
+      showLightbox={showLightbox}
+      showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+      startCallingLobby={startCallingLobby}
+      startConversation={startConversation}
+      toggleForwardMessageModal={toggleForwardMessageModal}
+      toggleSafetyNumberModal={toggleSafetyNumberModal}
+      viewStory={viewStory}
+    />
+  );
+}
