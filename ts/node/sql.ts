@@ -1040,10 +1040,14 @@ function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentA
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getMessageByServerId(serverId: number) {
+// serverIds are not unique so we need the conversationId
+function getMessageByServerId(conversationId: string, serverId: number) {
   const row = assertGlobalInstance()
-    .prepare(`SELECT * FROM ${MESSAGES_TABLE} WHERE serverId = $serverId;`)
+    .prepare(
+      `SELECT * FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND serverId = $serverId;`
+    )
     .get({
+      conversationId,
       serverId,
     });
 
