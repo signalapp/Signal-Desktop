@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { stringToUint8Array } from '../../../../session/utils/String';
 import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { concatUInt8Array } from '../../../../session/crypto';
-import * as SessionUtilWrapper from 'session_util_wrapper';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
 
@@ -19,6 +18,7 @@ describe('libsession_wrapper', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
+    const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
     const conf = new SessionUtilWrapper.UserConfigWrapper(edSecretKey, null);

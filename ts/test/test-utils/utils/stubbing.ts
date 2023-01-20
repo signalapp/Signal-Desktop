@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { Data } from '../../../../ts/data/data';
 import { OpenGroupData } from '../../../data/opengroups';
+import { ConfigDumpData } from '../../../data/configDump/configDump';
 
 import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
@@ -12,6 +13,7 @@ const globalAny: any = global;
 // tslint:disable: no-require-imports no-var-requires
 type DataFunction = typeof Data;
 type OpenGroupDataFunction = typeof OpenGroupData;
+type ConfigDumpDataFunction = typeof ConfigDumpData;
 
 /**
  * Stub a function inside Data.
@@ -25,6 +27,10 @@ export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
 
 export function stubOpenGroupData<K extends keyof OpenGroupDataFunction>(fn: K): sinon.SinonStub {
   return Sinon.stub(OpenGroupData, fn);
+}
+
+export function stubConfigDumpData<K extends keyof ConfigDumpDataFunction>(fn: K): sinon.SinonStub {
+  return Sinon.stub(ConfigDumpData, fn);
 }
 
 export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonStub {

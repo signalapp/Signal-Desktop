@@ -2033,7 +2033,7 @@ function removeV2OpenGroupRoom(conversationId: string) {
 const configDumpData: ConfigDumpDataNode = {
   getConfigDumpByVariantAndPubkey: (variant: SharedConfigSupportedVariant, pubkey: string) => {
     const rows = assertGlobalInstance()
-      .prepare(`SELECT * from configDump WHERE variant = $variant AND pubkey = $pubkey;`)
+      .prepare('SELECT * from configDump WHERE variant = $variant AND pubkey = $pubkey;')
       .get({
         pubkey,
         variant,
@@ -2049,7 +2049,7 @@ const configDumpData: ConfigDumpDataNode = {
 
   getConfigDumpsByPubkey: (pubkey: string) => {
     const rows = assertGlobalInstance()
-      .prepare(`SELECT * from configDump WHERE pubkey = $pubkey;`)
+      .prepare('SELECT * from configDump WHERE pubkey = $pubkey;')
       .get({
         pubkey,
       });

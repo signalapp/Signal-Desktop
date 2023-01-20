@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { from_hex, from_string } from 'libsodium-wrappers-sumo';
-import * as SessionUtilWrapper from 'session_util_wrapper';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
 
@@ -17,6 +16,7 @@ describe('libsession_wrapper_contacts  ', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
+    const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
     const contacts = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, null);
@@ -121,8 +121,8 @@ describe('libsession_wrapper_contacts  ', () => {
 
     // Iterate through and make sure we got everything we expected
     const allContacts = contacts.getAll();
-    const session_ids = allContacts.map(m => m.id);
-    const nicknames = allContacts.map(m => m.nickname || '(N/A)');
+    const session_ids = allContacts.map((m: any) => m.id);
+    const nicknames = allContacts.map((m: any) => m.nickname || '(N/A)');
 
     expect(session_ids.length).to.be.eq(2);
     expect(session_ids).to.be.deep.eq([real_id, another_id]);
@@ -173,8 +173,8 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(contacts2.needsPush()).to.be.false;
 
     const allContacts2 = contacts.getAll();
-    const session_ids2 = allContacts2.map(m => m.id);
-    const nicknames2 = allContacts2.map(m => m.nickname || '(N/A)');
+    const session_ids2 = allContacts2.map((m: any) => m.id);
+    const nicknames2 = allContacts2.map((m: any) => m.nickname || '(N/A)');
 
     expect(session_ids2.length).to.be.eq(2);
     expect(nicknames2.length).to.be.eq(2);
@@ -186,6 +186,7 @@ describe('libsession_wrapper_contacts  ', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
+    const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
     const contacts = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, null);
@@ -262,8 +263,8 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(accepted).to.be.equal(1);
 
     const allContacts2 = contacts.getAll();
-    const session_ids2 = allContacts2.map(m => m.id);
-    const nicknames2 = allContacts2.map(m => m.nickname || '(N/A)');
+    const session_ids2 = allContacts2.map((m: any) => m.id);
+    const nicknames2 = allContacts2.map((m: any) => m.nickname || '(N/A)');
 
     expect(session_ids2.length).to.be.eq(2);
     expect(nicknames2.length).to.be.eq(2);
@@ -276,7 +277,7 @@ describe('libsession_wrapper_contacts  ', () => {
     const allContacts3 = contacts.getAll();
     let deletions = 0;
     let non_deletions = 0;
-    allContacts3.forEach(c => {
+    allContacts3.forEach((c: any) => {
       if (c.id !== real_id) {
         contacts.erase(c.id);
         deletions++;

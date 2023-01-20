@@ -139,11 +139,7 @@ export class SwarmPolling {
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
     const directPromise = Promise.all([
-      this.pollOnceForKey(ourPubkey, false, [
-        SnodeNamespaces.UserMessages,
-        SnodeNamespaces.UserProfile,
-        SnodeNamespaces.UserContacts,
-      ]),
+      this.pollOnceForKey(ourPubkey, false, this.getUserNamespacesPolled()),
     ]).then(() => undefined);
 
     const now = Date.now();
@@ -408,6 +404,12 @@ export class SwarmPolling {
       await Data.saveSeenMessageHashes(newHashes);
     }
     return newMessages;
+  }
+
+  private getUserNamespacesPolled() {
+    return window.sessionFeatureFlags.useSharedUtilForUserConfig
+      ? [SnodeNamespaces.UserMessages, SnodeNamespaces.UserProfile, SnodeNamespaces.UserContacts]
+      : [SnodeNamespaces.UserMessages];
   }
 
   private async updateLastHash({
