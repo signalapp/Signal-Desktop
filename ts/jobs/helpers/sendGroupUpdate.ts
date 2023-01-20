@@ -35,23 +35,44 @@ export async function sendGroupUpdate(
   }: ConversationQueueJobBundle,
   data: GroupUpdateJobData
 ): Promise<void> {
+  const logId = `sendGroupUpdate/${conversation.idForLogging()}`;
+
   if (!shouldContinue) {
-    log.info('Ran out of time. Giving up on sending group update');
+    log.info(`${logId}: Ran out of time. Giving up on sending group update`);
     return;
   }
 
   if (!isGroupV2(conversation.attributes)) {
     log.error(
-      `Conversation ${conversation.idForLogging()} is not GroupV2, cannot send group update!`
+      `${logId}: Conversation is not GroupV2, cannot send group update!`
     );
     return;
   }
 
-  log.info(
-    `Starting group update for ${conversation.idForLogging()} with timestamp ${timestamp}`
-  );
+  log.info(`${logId}: starting with timestamp ${timestamp}`);
 
-  const { groupChangeBase64, recipients, revision } = data;
+  const { groupChangeBase64, recipients: jobRecipients, revision } = data;
+
+  const recipients = jobRecipients.filter(id => {
+    const recipient = window.ConversationController.get(id);
+    if (!recipient) {
+      return false;
+    }
+    if (recipient.isUnregistered()) {
+      log.warn(
+        `${logId}: dropping unregistered recipient ${recipient.idForLogging()}`
+      );
+      return false;
+    }
+    if (recipient.isBlocked()) {
+      log.warn(
+        `${logId}: dropping blocked recipient ${recipient.idForLogging()}`
+      );
+      return false;
+    }
+
+    return true;
+  });
 
   const untrustedUuids = getUntrustedConversationUuids(recipients);
   if (untrustedUuids.length) {
@@ -69,7 +90,6 @@ export async function sendGroupUpdate(
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const contentHint = ContentHint.RESENDABLE;
   const sendType = 'groupChange';
-  const logId = `sendGroupUpdate/${conversation.idForLogging()}`;
 
   const groupChange = groupChangeBase64
     ? Bytes.fromBase64(groupChangeBase64)

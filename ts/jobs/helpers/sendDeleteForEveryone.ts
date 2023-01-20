@@ -277,6 +277,12 @@ function getRecipients(
       if (!recipient) {
         return null;
       }
+      if (recipient.isUnregistered()) {
+        return null;
+      }
+      if (recipient.isBlocked()) {
+        return null;
+      }
       return recipient.get('uuid');
     })
     .filter(isNotNil);
