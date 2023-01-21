@@ -34,6 +34,7 @@ import type {
 } from '../textsecure/SendMessage';
 import {
   ConnectTimeoutError,
+  IncorrectSenderKeyAuthError,
   OutgoingIdentityKeyError,
   SendMessageProtoError,
   UnknownRecipientError,
@@ -65,6 +66,7 @@ import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
 
 const UNKNOWN_RECIPIENT = 404;
+const INCORRECT_AUTH_KEY = 401;
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
 
@@ -569,6 +571,9 @@ export async function sendToGroupViaSenderKey(options: {
     if (error.code === UNKNOWN_RECIPIENT) {
       throw new UnknownRecipientError();
     }
+    if (error.code === INCORRECT_AUTH_KEY) {
+      throw new IncorrectSenderKeyAuthError();
+    }
 
     if (error.code === ERROR_EXPIRED_OR_MISSING_DEVICES) {
       await handle409Response(logId, error);
@@ -764,8 +769,11 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     log.error(`_shouldFailSend/${logId}: ${message}`);
   };
 
-  // We need to fail over to a normal send if multi_recipient/ endpoint returns 404
+  // We need to fail over to a normal send if multi_recipient/ endpoint returns 404 or 401
   if (error instanceof UnknownRecipientError) {
+    return false;
+  }
+  if (error instanceof IncorrectSenderKeyAuthError) {
     return false;
   }
 
