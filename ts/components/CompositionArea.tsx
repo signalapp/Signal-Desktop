@@ -9,8 +9,8 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../types/Util';
-import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
-import { RecordingState } from '../state/ducks/audioRecorder';
+import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
+import { RecordingState } from '../types/AudioRecorder';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { Spinner } from './Spinner';
 import type {

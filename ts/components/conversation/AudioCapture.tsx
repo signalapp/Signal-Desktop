@@ -11,10 +11,6 @@ import type {
 } from '../../types/Attachment';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
-import {
-  ErrorDialogAudioRecorderType,
-  RecordingState,
-} from '../../state/ducks/audioRecorder';
 import { ToastVoiceNoteLimit } from '../ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
@@ -22,6 +18,10 @@ import {
   useStartRecordingShortcut,
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
+import {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../../types/AudioRecorder';
 
 type OnSendAudioRecordingType = (rec: InMemoryAttachmentDraftType) => unknown;
 

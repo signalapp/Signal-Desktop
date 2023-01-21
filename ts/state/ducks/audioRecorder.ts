@@ -14,20 +14,12 @@ import { stringToMIMEType } from '../../types/MIME';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { getComposerStateForConversation } from './composer';
-
-export enum ErrorDialogAudioRecorderType {
-  Blur,
-  ErrorRecording,
-  Timeout,
-}
+import {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../../types/AudioRecorder';
 
 // State
-
-export enum RecordingState {
-  Recording = 'recording',
-  Initializing = 'initializing',
-  Idle = 'idle',
-}
 
 export type AudioPlayerStateType = ReadonlyDeep<{
   recordingState: RecordingState;

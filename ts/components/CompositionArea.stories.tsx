@@ -16,7 +16,7 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
-import { RecordingState } from '../state/ducks/audioRecorder';
+import { RecordingState } from '../types/AudioRecorder';
 import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';

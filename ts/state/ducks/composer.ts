@@ -34,7 +34,7 @@ import {
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
 } from './linkPreviews';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
-import { RecordingState } from './audioRecorder';
+import { RecordingState } from '../../types/AudioRecorder';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
