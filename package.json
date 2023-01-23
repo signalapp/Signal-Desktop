@@ -42,7 +42,11 @@
     "@types/react": "17.0.2",
     "glob-parent": "^6.0.1",
     "got": "^11.8.5",
-    "jpeg-js": "^0.4.4"
+    "jpeg-js": "^0.4.4",
+    "json5": "^2.2.2",
+    "loader-utils": "^2.0.4",
+    "terser": "^5.14.2",
+    "minimatch": "^3.0.5"
   },
   "scripts": {
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
@@ -154,7 +158,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "2.5.0",
+    "@parcel/transformer-sass": "^2.8.3",
     "@playwright/test": "1.16.3",
     "@types/backbone": "1.4.2",
     "@types/better-sqlite3": "7.4.0",
@@ -227,7 +231,7 @@
     "node-gyp": "9.0.0",
     "node-loader": "^2.0.0",
     "nyc": "^15.1.0",
-    "parcel": "2.5.0",
+    "parcel": "^2.8.3",
     "patch-package": "^6.4.7",
     "path-browserify": "^1.0.1",
     "playwright": "1.16.3",
