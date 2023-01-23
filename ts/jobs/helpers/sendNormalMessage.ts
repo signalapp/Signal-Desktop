@@ -430,6 +430,9 @@ function getMessageRecipients({
       if (recipient.isUnregistered()) {
         return;
       }
+      if (recipient.isBlocked()) {
+        return;
+      }
 
       const recipientIdentifier = recipient.getSendTarget();
       if (!recipientIdentifier) {

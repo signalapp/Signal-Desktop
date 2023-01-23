@@ -416,6 +416,9 @@ function getRecipients(
     if (recipient.isUnregistered()) {
       continue;
     }
+    if (recipient.isBlocked()) {
+      continue;
+    }
 
     allRecipientIdentifiers.push(recipientIdentifier);
     if (!isRecipientMe) {
