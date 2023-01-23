@@ -47,8 +47,8 @@ export class WindowsUpdater extends Updater {
   protected async installUpdate(updateFilePath: string): Promise<void> {
     const { logger } = this;
 
-    logger.info('downloadAndInstall: showing dialog...');
     this.setUpdateListener(async () => {
+      logger.info('downloadAndInstall: installing...');
       try {
         await this.install(updateFilePath);
         this.installing = true;
@@ -58,6 +58,7 @@ export class WindowsUpdater extends Updater {
         throw error;
       }
 
+      logger.info('downloadAndInstall: restarting...');
       markShouldQuit();
       app.quit();
     });
