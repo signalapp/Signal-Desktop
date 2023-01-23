@@ -26,7 +26,7 @@ import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachm
 
 import { DURATION } from '../../session/constants';
 
-import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
+import { onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { debounce, isEmpty, isString } from 'lodash';
 
@@ -67,7 +67,15 @@ const Section = (props: { type: SectionType }) => {
   const handleClick = async () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      dispatch(editProfileModal({}));
+      const message = new SharedConfigMessage({
+        data: new Uint8Array([1, 2, 3]),
+        kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
+        seqno: Long.fromNumber(0),
+        timestamp: GetNetworkTime.getNowWithNetworkOffset(),
+      });
+      await getMessageQueue().sendSyncMessage({ message, namespace: SnodeNamespaces.UserProfile });
+      console.warn('FIXME');
+      // dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
       const newTheme = (isDarkMode

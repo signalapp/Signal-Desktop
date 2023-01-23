@@ -1,6 +1,9 @@
 import { isEmpty } from 'lodash';
 
-export type PersistedJobType = 'ConfigurationSyncJobType';
+export type PersistedJobType =
+  | 'ConfigurationSyncJobType'
+  | 'FakeSleepForJobType'
+  | 'FakeSleepForJobMultiType';
 
 export type SerializedPersistedJob = {
   // we  need at least those as they are needed to do lookups of the list of jobs.
@@ -81,8 +84,13 @@ export abstract class Persistedjob {
    * Can be used to wait for the task to be done before exiting the JobRunner
    */
   public async waitForCurrentTry() {
-    // tslint:disable-next-line: no-promise-as-boolean
-    return this.runningPromise || Promise.resolve();
+    try {
+      // tslint:disable-next-line: no-promise-as-boolean
+      return this.runningPromise || Promise.resolve();
+    } catch (e) {
+      window.log.warn('waitForCurrentTry got an error: ', e.message);
+      return Promise.resolve();
+    }
   }
 
   /**

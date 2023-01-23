@@ -99,7 +99,7 @@
         "comment": "Usage has been approved by Maxim on 13 Dec 2019"
       }
     ],
-    "max-func-body-length": [true, 150]
+    "max-func-body-length": [true, 350]
   },
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }

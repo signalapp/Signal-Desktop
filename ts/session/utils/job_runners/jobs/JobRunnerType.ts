@@ -1,1 +1,1 @@
-export type JobRunnerType = 'ConfigurationSyncJob';
+export type JobRunnerType = 'ConfigurationSyncJob' | 'FakeSleepForJob';
