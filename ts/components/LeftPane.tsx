@@ -601,7 +601,7 @@ export function LeftPane({
   }
 
   return (
-    <div
+    <nav
       className={classNames(
         'module-left-pane',
         isResizing && 'module-left-pane--is-resizing',
@@ -706,7 +706,7 @@ export function LeftPane({
           },
         })}
       {crashReportCount > 0 && renderCrashReportDialog()}
-    </div>
+    </nav>
   );
 }
 

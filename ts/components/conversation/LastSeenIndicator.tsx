@@ -19,8 +19,14 @@ export const LastSeenIndicator = forwardRef<HTMLDivElement, Props>(
 
     return (
       <div className="module-last-seen-indicator" ref={ref}>
-        <div className="module-last-seen-indicator__bar" />
-        <div className="module-last-seen-indicator__text">{message}</div>
+        <div className="module-last-seen-indicator__bar" role="separator" />
+        <div
+          aria-level={6}
+          className="module-last-seen-indicator__text"
+          role="heading"
+        >
+          {message}
+        </div>
       </div>
     );
   }

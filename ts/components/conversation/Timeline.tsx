@@ -871,6 +871,7 @@ export class Timeline extends React.Component<
           key={messageId}
           data-item-index={itemIndex}
           data-message-id={messageId}
+          role="listitem"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={showDebugLog}>
             {renderItem({
@@ -1047,7 +1048,7 @@ export class Timeline extends React.Component<
 
               {floatingHeader}
 
-              <div
+              <main
                 className="module-timeline__messages__container"
                 onScroll={this.onScroll}
                 ref={this.containerRef}
@@ -1059,6 +1060,7 @@ export class Timeline extends React.Component<
                     haveOldest && 'module-timeline__messages--have-oldest'
                   )}
                   ref={this.messagesRef}
+                  role="list"
                 >
                   {haveOldest && (
                     <>
@@ -1079,7 +1081,7 @@ export class Timeline extends React.Component<
                     style={AT_BOTTOM_DETECTOR_STYLE}
                   />
                 </div>
-              </div>
+              </main>
 
               {shouldShowScrollDownButton ? (
                 <ScrollDownButton
