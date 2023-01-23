@@ -393,7 +393,7 @@ export class Quote extends React.Component<Props, State> {
     let typeLabel;
 
     if (isGiftBadge) {
-      typeLabel = i18n('quote--giftBadge');
+      typeLabel = i18n('icu:quote--donation');
     } else if (attachment) {
       const { contentType, isVoiceMessage } = attachment;
       typeLabel = getTypeLabel({

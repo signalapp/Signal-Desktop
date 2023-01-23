@@ -1549,7 +1549,7 @@ describe('both/state/ducks/conversations', () => {
           ...changedMessage,
           reactions: [
             {
-              emoji: '🎁',
+              emoji: '✨',
               fromId: 'some-other-id',
               timestamp: 2222,
               targetTimestamp: 1111,
@@ -1580,7 +1580,7 @@ describe('both/state/ducks/conversations', () => {
               ...startState.messagesLookup[messageId],
               reactions: [
                 {
-                  emoji: '🎁',
+                  emoji: '✨',
                   fromId: 'some-other-id',
                   timestamp: 2222,
                   targetTimestamp: 1111,
