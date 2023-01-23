@@ -814,21 +814,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const giftBadge = this.get('giftBadge');
     if (giftBadge) {
-      const emoji = '🎁';
+      const emoji = '✨';
+      const fromContact = getContact(this.attributes);
 
       if (isOutgoing(this.attributes)) {
+        const recipient =
+          fromContact?.getTitle() ?? window.i18n('unknownContact');
         return {
           emoji,
-          text: window.i18n('message--giftBadge--preview--sent'),
+          text: window.i18n('icu:message--giftBadge--preview--sent', {
+            recipient,
+          }),
         };
       }
 
+      const sender = fromContact?.getTitle() ?? window.i18n('unknownContact');
       return {
         emoji,
         text:
           giftBadge.state === GiftBadgeStates.Unopened
-            ? window.i18n('message--giftBadge--preview--unopened')
-            : window.i18n('message--giftBadge--preview--redeemed'),
+            ? window.i18n('icu:message--giftBadge--preview--unopened', {
+                sender,
+              })
+            : window.i18n('icu:message--giftBadge--preview--redeemed'),
       };
     }
 

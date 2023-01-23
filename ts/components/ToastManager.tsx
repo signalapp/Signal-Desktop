@@ -82,7 +82,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotOpenGiftBadgeIncoming) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('message--giftBadge--unopened--toast--incoming')}
+        {i18n('icu:message--donation--unopened--toast--incoming')}
       </Toast>
     );
   }
@@ -90,7 +90,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotOpenGiftBadgeOutgoing) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('message--giftBadge--unopened--toast--outgoing')}
+        {i18n('icu:message--donation--unopened--toast--outgoing')}
       </Toast>
     );
   }

@@ -557,7 +557,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge) {
-      const description = i18n(`message--giftBadge--unopened--${direction}`);
+      const description = i18n(`icu:message--donation--unopened--${direction}`);
       const isDescriptionRTL = getDirection(description) === 'rtl';
 
       if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {
@@ -1228,7 +1228,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge.state === GiftBadgeStates.Unopened) {
-      const description = i18n(`message--giftBadge--unopened--${direction}`);
+      const description = i18n(`icu:message--donation--unopened--${direction}`);
       const isRTL = getDirection(description) === 'rtl';
       const { metadataWidth } = this.state;
 
@@ -1239,7 +1239,9 @@ export class Message extends React.PureComponent<Props, State> {
               'module-message__unopened-gift-badge',
               `module-message__unopened-gift-badge--${direction}`
             )}
-            aria-label={i18n('message--giftBadge--unopened--label')}
+            aria-label={i18n('icu:message--donation--unopened--label', {
+              sender: conversationTitle,
+            })}
           >
             <div
               className="module-message__unopened-gift-badge__ribbon-horizontal"
@@ -1302,26 +1304,24 @@ export class Message extends React.PureComponent<Props, State> {
       const remainingMinutes = Math.floor(duration / MINUTE);
 
       if (remainingDays > 1) {
-        remaining = i18n('message--giftBadge--remaining--days', {
+        remaining = i18n('icu:message--donation--remaining--days', {
           days: remainingDays,
         });
       } else if (remainingHours > 1) {
-        remaining = i18n('message--giftBadge--remaining--hours', {
+        remaining = i18n('icu:message--donation--remaining--hours', {
           hours: remainingHours,
         });
-      } else if (remainingMinutes > 1) {
-        remaining = i18n('message--giftBadge--remaining--minutes', {
+      } else if (remainingMinutes > 0) {
+        remaining = i18n('icu:message--donation--remaining--minutes', {
           minutes: remainingMinutes,
         });
-      } else if (remainingMinutes === 1) {
-        remaining = i18n('message--giftBadge--remaining--one-minute');
       } else {
-        remaining = i18n('message--giftBadge--expired');
+        remaining = i18n('icu:message--donation--expired');
       }
 
       const wasSent = direction === 'outgoing';
       const buttonContents = wasSent ? (
-        i18n('message--giftBadge--view')
+        i18n('icu:message--donation--view')
       ) : (
         <>
           <span
@@ -1330,7 +1330,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__redeemed-gift-badge__icon-check--${direction}`
             )}
           />{' '}
-          {i18n('message--giftBadge--redeemed')}
+          {i18n('icu:message--donation--redeemed')}
         </>
       );
 
@@ -1346,7 +1346,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__redeemed-gift-badge__badge',
             `module-message__redeemed-gift-badge__badge--missing-${direction}`
           )}
-          aria-label={i18n('giftBadge--missing')}
+          aria-label={i18n('icu:donation--missing')}
         />
       );
 
@@ -1356,7 +1356,7 @@ export class Message extends React.PureComponent<Props, State> {
             {badgeElement}
             <div className="module-message__redeemed-gift-badge__text">
               <div className="module-message__redeemed-gift-badge__title">
-                {i18n('message--giftBadge')}
+                {i18n('icu:message--donation')}
               </div>
               <div
                 className={classNames(
