@@ -262,6 +262,7 @@ export abstract class Updater {
 
       const mainWindow = this.getMainWindow();
       if (mainWindow) {
+        logger.info('downloadAndInstall: showing update dialog...');
         mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
           version: this.version,
         });

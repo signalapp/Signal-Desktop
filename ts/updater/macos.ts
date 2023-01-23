@@ -24,6 +24,7 @@ export class MacOSUpdater extends Updater {
   protected async installUpdate(updateFilePath: string): Promise<void> {
     const { logger } = this;
 
+    logger.info('downloadAndInstall: handing download to electron...');
     try {
       await this.handToAutoUpdate(updateFilePath);
     } catch (error) {
@@ -41,10 +42,9 @@ export class MacOSUpdater extends Updater {
 
     // At this point, closing the app will cause the update to be installed automatically
     //   because Squirrel has cached the update file and will do the right thing.
-    logger.info('downloadAndInstall: showing update dialog...');
 
     this.setUpdateListener(async () => {
-      logger.info('performUpdate: calling quitAndInstall...');
+      logger.info('downloadAndInstall: restarting...');
       markShouldQuit();
       autoUpdater.quitAndInstall();
     });
