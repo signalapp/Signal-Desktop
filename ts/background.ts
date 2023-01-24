@@ -55,6 +55,7 @@ import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
+import { optimizeFTS } from './services/ftsOptimizer';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -861,6 +862,8 @@ export async function startApp(): Promise<void> {
 
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
+
+      optimizeFTS();
 
       // Don't block on the following operation
       void window.Signal.Data.ensureFilePermissions();

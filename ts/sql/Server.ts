@@ -78,6 +78,7 @@ import type {
   DeleteSentProtoRecipientOptionsType,
   DeleteSentProtoRecipientResultType,
   EmojiType,
+  FTSOptimizationStateType,
   GetAllStoriesResultType,
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
@@ -340,6 +341,8 @@ const dataInterface: ServerInterface = {
   getMaxMessageCounter,
 
   getStatisticsForLogging,
+
+  optimizeFTS,
 
   // Server-only
 
@@ -5403,6 +5406,47 @@ async function removeKnownDraftAttachments(
   );
 
   return Object.keys(lookup);
+}
+
+// Default value of 'automerge'.
+// See: https://www.sqlite.org/fts5.html#the_automerge_configuration_option
+const OPTIMIZE_FTS_PAGE_COUNT = 4;
+
+// This query is incremental. It gets the `state` from the return value of
+// previous `optimizeFTS` call. When `state.done` is `true` - optimization is
+// complete.
+async function optimizeFTS(
+  state?: FTSOptimizationStateType
+): Promise<FTSOptimizationStateType | undefined> {
+  // See https://www.sqlite.org/fts5.html#the_merge_command
+  let pageCount = OPTIMIZE_FTS_PAGE_COUNT;
+  if (state === undefined) {
+    pageCount = -pageCount;
+  }
+
+  const db = getInstance();
+  const { changes } = prepare(
+    db,
+    `
+      INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
+    `
+  ).run({ pageCount });
+
+  if (state === undefined) {
+    return {
+      changes,
+      steps: 1,
+    };
+  }
+
+  const { changes: prevChanges, steps } = state;
+
+  if (Math.abs(changes - prevChanges) < 2) {
+    return { changes, steps, done: true };
+  }
+
+  // More work is needed.
+  return { changes, steps: steps + 1 };
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
