@@ -94,7 +94,7 @@ import type { MenuActionType } from '../ts/types/menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
-import { isProduction } from '../ts/util/version';
+import { isBeta, isProduction } from '../ts/util/version';
 import {
   isSgnlHref,
   isCaptchaHref,
@@ -119,6 +119,18 @@ import { load as loadLocale } from './locale';
 import type { LoggerType } from '../ts/types/Logging';
 
 const animationSettings = systemPreferences.getAnimationSettings();
+
+if (
+  OS.isMacOS() &&
+  !isProduction(app.getVersion()) &&
+  !isBeta(app.getVersion())
+) {
+  systemPreferences.setUserDefault(
+    'SquirrelMacEnableDirectContentsWrite',
+    'boolean',
+    true
+  );
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
