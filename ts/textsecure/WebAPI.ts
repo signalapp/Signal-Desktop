@@ -815,6 +815,7 @@ export type ConfirmCodeOptionsType = Readonly<{
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
+  cancelInflightRequests: (reason: string) => void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   confirmCode: (
     options: ConfirmCodeOptionsType
@@ -1042,6 +1043,8 @@ export type TopLevelType = {
   initialize: (options: InitializeOptionsType) => WebAPIConnectType;
 };
 
+type InflightCallback = (error: Error) => unknown;
+
 // We first set up the data that won't change during this session of the app
 export function initialize({
   url,
@@ -1152,6 +1155,29 @@ export function initialize({
       },
     });
 
+    const inflightRequests = new Set<(error: Error) => unknown>();
+    function registerInflightRequest(request: InflightCallback) {
+      inflightRequests.add(request);
+    }
+    function unregisterInFlightRequest(request: InflightCallback) {
+      inflightRequests.delete(request);
+    }
+    function cancelInflightRequests(reason: string) {
+      const logId = `cancelInflightRequests/${reason}`;
+      log.warn(`${logId}: Cancelling ${inflightRequests.size} requests`);
+      for (const request of inflightRequests) {
+        try {
+          request(new Error(`${logId}: Cancelled!`));
+        } catch (error: unknown) {
+          log.error(
+            `${logId}: Failed to cancel request: ${toLogFormat(error)}`
+          );
+        }
+      }
+      inflightRequests.clear();
+      log.warn(`${logId}: Done`);
+    }
+
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
       const agent = new ProxyAgent(proxyUrl);
@@ -1163,6 +1189,7 @@ export function initialize({
     // Thanks, function hoisting!
     return {
       authenticate,
+      cancelInflightRequests,
       cdsLookup,
       checkAccountExistence,
       checkSockets,
@@ -2391,11 +2418,25 @@ export function initialize({
         abortSignal: abortController.signal,
       });
 
-      return getStreamWithTimeout(stream, {
+      const streamPromise = getStreamWithTimeout(stream, {
         name: `getAttachment(${cdnKey})`,
         timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
         abortController,
       });
+
+      // Add callback to central store that would reject a promise
+      const { promise: cancelPromise, reject } = explodePromise<Uint8Array>();
+      const inflightRequest = (error: Error) => {
+        reject(error);
+        abortController.abort();
+      };
+      registerInflightRequest(inflightRequest);
+
+      try {
+        return Promise.race([streamPromise, cancelPromise]);
+      } finally {
+        unregisterInFlightRequest(inflightRequest);
+      }
     }
 
     type PutAttachmentResponseType = ServerAttachmentType & {
