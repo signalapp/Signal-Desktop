@@ -1035,7 +1035,7 @@ function updateToSchemaVersion20(
             SET
               json = $json,
               e164 = $e164,
-              type = $type,
+              type = $type
             WHERE
               id = $id;
             `
