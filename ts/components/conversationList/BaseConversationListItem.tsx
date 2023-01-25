@@ -310,22 +310,9 @@ function UnreadIndicator({
     return null;
   }
 
-  let classModifier: undefined | string;
-  if (count > 99) {
-    classModifier = 'many';
-  } else if (count > 9) {
-    classModifier = 'two-digits';
-  }
-
   return (
-    <div
-      className={classNames(
-        `${BASE_CLASS_NAME}__unread-indicator`,
-        classModifier &&
-          `${BASE_CLASS_NAME}__unread-indicator--${classModifier}`
-      )}
-    >
-      {Boolean(count) && Math.min(count, 99)}
+    <div className={classNames(`${BASE_CLASS_NAME}__unread-indicator`)}>
+      {Boolean(count) && count}
     </div>
   );
 }

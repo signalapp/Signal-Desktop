@@ -398,7 +398,7 @@ ConversationMessageRequest.story = {
 export function ConversationsUnreadCount(): JSX.Element {
   return (
     <Wrapper
-      rows={[4, 10, 34, 250].map(unreadCount => ({
+      rows={[4, 10, 34, 250, 2048].map(unreadCount => ({
         type: RowType.Conversation,
         conversation: createConversation({
           lastMessage: {

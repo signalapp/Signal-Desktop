@@ -4607,17 +4607,13 @@ button.module-image__border-overlay:focus {
           @include dark-theme {
             border-color: $color-gray-80;
           }
-
-          &--two-digits,
-          &--many {
-            right: -(7px + $border-width);
-          }
         }
       }
 
       // We want this to just be the unread indicator selector, not a child of the parent.
       @at-root #{$unread-indicator-selector} {
         $size: 18px;
+        flex-shrink: 0;
 
         @include font-caption-bold;
         border-radius: 10px;
@@ -4628,8 +4624,8 @@ button.module-image__border-overlay:focus {
         margin-left: 10px;
         margin-top: 1px;
         min-width: $size;
-        padding-left: 3px;
-        padding-right: 3px;
+        padding-left: 4px;
+        padding-right: 4px;
         text-align: center;
         word-break: normal;
         display: flex;
@@ -4645,22 +4641,6 @@ button.module-image__border-overlay:focus {
         }
         @include dark-theme {
           background-color: $color-ultramarine-dawn;
-        }
-
-        &--two-digits,
-        &--many {
-          padding-left: 4px;
-          padding-right: 4px;
-        }
-
-        &--many {
-          font-size: 10px;
-
-          &::after {
-            content: '+';
-            display: inline-block;
-            font-size: 9px;
-          }
         }
       }
 
