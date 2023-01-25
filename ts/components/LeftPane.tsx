@@ -605,7 +605,11 @@ export function LeftPane({
       className={classNames(
         'module-left-pane',
         isResizing && 'module-left-pane--is-resizing',
-        `module-left-pane--width-${widthBreakpoint}`
+        `module-left-pane--width-${widthBreakpoint}`,
+        modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers &&
+          'module-left-pane--mode-choose-group-members',
+        modeSpecificProps.mode === LeftPaneMode.Compose &&
+          'module-left-pane--mode-compose'
       )}
       style={{ width }}
     >

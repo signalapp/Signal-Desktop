@@ -113,9 +113,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .locator('.module-left-pane__compose-search-form__input')
       .fill('ACI');
 
-    await leftPane
-      .locator(`[data-testid="${aciContact.toContact().uuid}"]`)
-      .click();
+    await leftPane.locator('.ListTile >> "ACI Contact"').click();
 
     debug('inviting PNI member');
 
@@ -123,11 +121,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .locator('.module-left-pane__compose-search-form__input')
       .fill('PNI');
 
-    await leftPane
-      .locator(
-        `[data-testid="${pniContact.device.getUUIDByKind(UUIDKind.PNI)}"]`
-      )
-      .click();
+    await leftPane.locator('.ListTile >> "PNI Contact"').click();
 
     await leftPane
       .locator('.module-left-pane__footer button >> "Next"')

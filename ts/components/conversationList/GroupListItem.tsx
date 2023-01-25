@@ -5,8 +5,9 @@ import React from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import type { UUIDStringType } from '../../types/UUID';
-import { AvatarSize } from '../Avatar';
-import { BaseConversationListItem } from './BaseConversationListItem';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Emojify } from '../conversation/Emojify';
+import { ListTile } from '../ListTile';
 
 export enum DisabledReason {
   AlreadyMember = 'already-member',
@@ -49,21 +50,25 @@ export function GroupListItem({
         count: group.membersCount,
       });
   }
+
   return (
-    <BaseConversationListItem
-      disabled={group.disabledReason !== undefined}
-      conversationType="group"
-      title={group.title}
-      avatarSize={AvatarSize.THIRTY_TWO}
-      avatarPath={group.avatarPath}
-      acceptedMessageRequest
-      isMe={false}
-      sharedGroupNames={[]}
-      headerName={group.title}
-      i18n={i18n}
-      isSelected={false}
+    <ListTile
+      leading={
+        <Avatar
+          acceptedMessageRequest
+          avatarPath={group.avatarPath}
+          conversationType="group"
+          i18n={i18n}
+          isMe={false}
+          title={group.title}
+          sharedGroupNames={[]}
+          size={AvatarSize.THIRTY_TWO}
+          badge={undefined}
+        />
+      }
+      title={<Emojify text={group.title} />}
+      subtitle={<Emojify text={messageText} />}
       onClick={() => onSelectGroup(group.id)}
-      messageText={messageText}
     />
   );
 }

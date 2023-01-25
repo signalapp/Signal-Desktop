@@ -122,6 +122,8 @@ const rules = {
 
   'react/display-name': 'error',
 
+  'react/jsx-pascal-case': ['error', {allowNamespace: true}],
+
   // Allow returning values from promise executors for brevity.
   'no-promise-executor-return': 'off',
 

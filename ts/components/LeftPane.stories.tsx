@@ -23,14 +23,18 @@ import { setupI18n } from '../util/setupI18n';
 import { DurationInSeconds, DAY } from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
+import {
+  getDefaultConversation,
+  getDefaultGroupListItem,
+} from '../test-both/helpers/getDefaultConversation';
 import { DialogType } from '../types/Dialogs';
 import { SocketStatus } from '../types/SocketStatus';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import {
   makeFakeLookupConversationWithoutUuid,
   useUuidFetchState,
 } from '../test-both/helpers/fakeLookupConversationWithoutUuid';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -62,18 +66,14 @@ const defaultSearchProps = {
   startSearchCounter: 0,
 };
 
-const defaultGroups: Array<ConversationType> = [
-  getDefaultConversation({
+const defaultGroups: Array<GroupListItemConversationType> = [
+  getDefaultGroupListItem({
     id: 'biking-group',
     title: 'Mtn Biking Arizona 🚵☀️⛰',
-    type: 'group',
-    sharedGroupNames: [],
   }),
-  getDefaultConversation({
+  getDefaultGroupListItem({
     id: 'dance-group',
     title: 'Are we dancers? 💃',
-    type: 'group',
-    sharedGroupNames: [],
   }),
 ];
 

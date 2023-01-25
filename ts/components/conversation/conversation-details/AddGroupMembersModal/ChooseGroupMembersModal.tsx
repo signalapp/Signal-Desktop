@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable local-rules/valid-i18n-keys */
+
 import React, {
   useEffect,
   useMemo,
@@ -8,13 +10,14 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { omit } from 'lodash';
+import { noop, omit } from 'lodash';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
+import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
 import { getUsernameFromSearch } from '../../../../types/Username';
-import { strictAssert } from '../../../../util/assert';
+import { strictAssert, assertDev } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
@@ -36,11 +39,16 @@ import { ModalHost } from '../../../ModalHost';
 import { ContactPills } from '../../../ContactPills';
 import { ContactPill } from '../../../ContactPill';
 import type { Row } from '../../../ConversationList';
-import { ConversationList, RowType } from '../../../ConversationList';
-import { ContactCheckboxDisabledReason } from '../../../conversationList/ContactCheckbox';
+import { RowType } from '../../../ConversationList';
+import {
+  ContactCheckbox,
+  ContactCheckboxDisabledReason,
+} from '../../../conversationList/ContactCheckbox';
 import { Button, ButtonVariant } from '../../../Button';
 import { SearchInput } from '../../../SearchInput';
-import { shouldNeverBeCalled } from '../../../../util/shouldNeverBeCalled';
+import { ListView } from '../../../ListView';
+import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox';
+import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox';
 
 export type StatePropsType = {
   regionCode: string | undefined;
@@ -77,7 +85,6 @@ export function ChooseGroupMembersModal({
   candidateContacts,
   confirmAdds,
   conversationIdsAlreadyInGroup,
-  getPreferredBadge,
   i18n,
   maxGroupSize,
   onClose,
@@ -278,6 +285,94 @@ export function ChooseGroupMembersModal({
     return undefined;
   };
 
+  const handleContactClick = (
+    conversationId: string,
+    disabledReason: undefined | ContactCheckboxDisabledReason
+  ) => {
+    switch (disabledReason) {
+      case undefined:
+        toggleSelectedContact(conversationId);
+        break;
+      case ContactCheckboxDisabledReason.AlreadyAdded:
+      case ContactCheckboxDisabledReason.MaximumContactsSelected:
+        // These are no-ops.
+        break;
+      default:
+        throw missingCaseError(disabledReason);
+    }
+  };
+
+  const renderItem = ({ key, index, style }: ListRowProps) => {
+    const row = getRow(index);
+
+    let item;
+    switch (row?.type) {
+      case RowType.Header:
+        item = (
+          <div
+            className="module-conversation-list__item--header"
+            aria-label={i18n(row.i18nKey)}
+          >
+            {i18n(row.i18nKey)}
+          </div>
+        );
+        break;
+      case RowType.ContactCheckbox:
+        item = (
+          <ContactCheckbox
+            i18n={i18n}
+            theme={theme}
+            {...row.contact}
+            onClick={handleContactClick}
+            isChecked={row.isChecked}
+            badge={undefined}
+          />
+        );
+        break;
+      case RowType.UsernameCheckbox:
+        item = (
+          <UsernameCheckbox
+            i18n={i18n}
+            theme={theme}
+            username={row.username}
+            isChecked={row.isChecked}
+            isFetching={row.isFetching}
+            toggleConversationInChooseMembers={conversationId =>
+              handleContactClick(conversationId, undefined)
+            }
+            showUserNotFoundModal={noop}
+            setIsFetchingUUID={setIsFetchingUUID}
+            lookupConversationWithoutUuid={() => Promise.resolve(undefined)}
+          />
+        );
+        break;
+      case RowType.PhoneNumberCheckbox:
+        item = (
+          <PhoneNumberCheckbox
+            phoneNumber={row.phoneNumber}
+            lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+            showUserNotFoundModal={showUserNotFoundModal}
+            setIsFetchingUUID={setIsFetchingUUID}
+            toggleConversationInChooseMembers={conversationId =>
+              handleContactClick(conversationId, undefined)
+            }
+            isChecked={row.isChecked}
+            isFetching={row.isFetching}
+            i18n={i18n}
+            theme={theme}
+          />
+        );
+        break;
+      default:
+    }
+
+    return (
+      <div key={key} style={style}>
+        {item}
+      </div>
+    );
+  };
+
   return (
     <ModalHost
       modalName="AddGroupMembersModal.ChooseGroupMembersModal"
@@ -335,6 +430,14 @@ export function ChooseGroupMembersModal({
         {rowCount ? (
           <Measure bounds>
             {({ contentRect, measureRef }: MeasuredComponentProps) => {
+              // Though `width` and `height` are required properties, we want to be
+              // careful in case the caller sends bogus data. Notably, react-measure's
+              // types seem to be inaccurate.
+              const { width = 100, height = 100 } = contentRect.bounds || {};
+              if (!width || !height) {
+                return null;
+              }
+
               // We disable this ESLint rule because we're capturing a bubbled keydown
               //   event. See [this note in the jsx-a11y docs][0].
               //
@@ -350,43 +453,25 @@ export function ChooseGroupMembersModal({
                     }
                   }}
                 >
-                  <ConversationList
-                    dimensions={contentRect.bounds}
-                    getPreferredBadge={getPreferredBadge}
-                    getRow={getRow}
-                    i18n={i18n}
-                    onClickArchiveButton={shouldNeverBeCalled}
-                    onClickContactCheckbox={(
-                      conversationId: string,
-                      disabledReason: undefined | ContactCheckboxDisabledReason
-                    ) => {
-                      switch (disabledReason) {
-                        case undefined:
-                          toggleSelectedContact(conversationId);
-                          break;
-                        case ContactCheckboxDisabledReason.AlreadyAdded:
-                        case ContactCheckboxDisabledReason.MaximumContactsSelected:
-                          // These are no-ops.
-                          break;
+                  <ListView
+                    width={width}
+                    height={height}
+                    rowCount={rowCount}
+                    calculateRowHeight={index => {
+                      const row = getRow(index);
+                      if (!row) {
+                        assertDev(false, `Expected a row at index ${index}`);
+                        return 52;
+                      }
+
+                      switch (row.type) {
+                        case RowType.Header:
+                          return 40;
                         default:
-                          throw missingCaseError(disabledReason);
+                          return 52;
                       }
                     }}
-                    lookupConversationWithoutUuid={
-                      lookupConversationWithoutUuid
-                    }
-                    showUserNotFoundModal={showUserNotFoundModal}
-                    setIsFetchingUUID={setIsFetchingUUID}
-                    showConversation={shouldNeverBeCalled}
-                    onSelectConversation={shouldNeverBeCalled}
-                    renderMessageSearchResult={() => {
-                      shouldNeverBeCalled();
-                      return <div />;
-                    }}
-                    rowCount={rowCount}
-                    shouldRecomputeRowHeights={false}
-                    showChooseGroupMembers={shouldNeverBeCalled}
-                    theme={theme}
+                    rowRenderer={renderItem}
                   />
                 </div>
               );

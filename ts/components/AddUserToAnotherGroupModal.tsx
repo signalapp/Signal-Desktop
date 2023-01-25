@@ -1,10 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop, pick } from 'lodash';
-import React from 'react';
+import { pick } from 'lodash';
+import React, { useCallback } from 'react';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
+import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
@@ -15,12 +16,16 @@ import type {
 import { ToastType } from '../types/Toast';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import type { Row } from './ConversationList';
-import { ConversationList, RowType } from './ConversationList';
-import { DisabledReason } from './conversationList/GroupListItem';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem';
+import {
+  DisabledReason,
+  GroupListItem,
+} from './conversationList/GroupListItem';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
+import { ListView } from './ListView';
+import { ListTile } from './ListTile';
 
 type OwnProps = {
   i18n: LocalizerType;
@@ -47,7 +52,6 @@ export type Props = OwnProps & DispatchProps;
 
 export function AddUserToAnotherGroupModal({
   i18n,
-  theme,
   contact,
   toggleAddUserToAnotherGroupModal,
   addMembersToGroup,
@@ -108,7 +112,7 @@ export function AddUserToAnotherGroupModal({
   );
 
   const handleGetRow = React.useCallback(
-    (idx: number): Row | undefined => {
+    (idx: number): GroupListItemConversationType => {
       const convo = filteredConversations[idx];
 
       // these are always populated in the case of a group
@@ -129,16 +133,34 @@ export function AddUserToAnotherGroupModal({
       }
 
       return {
-        type: RowType.SelectSingleGroup,
-        group: {
-          ...pick(convo, 'id', 'avatarPath', 'title', 'unblurredAvatarPath'),
-          memberships,
-          membersCount,
-          disabledReason,
-        },
+        ...pick(convo, 'id', 'avatarPath', 'title', 'unblurredAvatarPath'),
+        memberships,
+        membersCount,
+        disabledReason,
       };
     },
     [filteredConversations, contact]
+  );
+
+  const renderGroupListItem = useCallback(
+    ({ key, index, style }: ListRowProps) => {
+      const group = handleGetRow(index);
+      return (
+        <div key={key} style={style}>
+          <GroupListItem
+            i18n={i18n}
+            group={group}
+            onSelectGroup={setSelectedGroupId}
+          />
+        </div>
+      );
+    },
+    [i18n, handleGetRow]
+  );
+
+  const handleCalculateRowHeight = useCallback(
+    () => ListTile.heightCompact,
+    []
   );
 
   return (
@@ -163,30 +185,30 @@ export function AddUserToAnotherGroupModal({
             />
 
             <Measure bounds>
-              {({ contentRect, measureRef }: MeasuredComponentProps) => (
-                <div
-                  className="AddUserToAnotherGroupModal__list-wrapper"
-                  ref={measureRef}
-                >
-                  <ConversationList
-                    dimensions={contentRect.bounds}
-                    getPreferredBadge={() => undefined}
-                    getRow={handleGetRow}
-                    i18n={i18n}
-                    lookupConversationWithoutUuid={async _ => undefined}
-                    onClickArchiveButton={noop}
-                    onClickContactCheckbox={noop}
-                    onSelectConversation={setSelectedGroupId}
-                    rowCount={filteredConversations.length}
-                    setIsFetchingUUID={noop}
-                    shouldRecomputeRowHeights={false}
-                    showChooseGroupMembers={noop}
-                    showConversation={noop}
-                    showUserNotFoundModal={noop}
-                    theme={theme}
-                  />
-                </div>
-              )}
+              {({ contentRect, measureRef }: MeasuredComponentProps) => {
+                // Though `width` and `height` are required properties, we want to be
+                // careful in case the caller sends bogus data. Notably, react-measure's
+                // types seem to be inaccurate.
+                const { width = 100, height = 100 } = contentRect.bounds || {};
+                if (!width || !height) {
+                  return null;
+                }
+
+                return (
+                  <div
+                    className="AddUserToAnotherGroupModal__list-wrapper"
+                    ref={measureRef}
+                  >
+                    <ListView
+                      width={width}
+                      height={height}
+                      rowCount={filteredConversations.length}
+                      calculateRowHeight={handleCalculateRowHeight}
+                      rowRenderer={renderGroupListItem}
+                    />
+                  </div>
+                );
+              }}
             </Measure>
           </div>
         </Modal>

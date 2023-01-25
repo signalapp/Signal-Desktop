@@ -38,6 +38,7 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
+import { Emojify } from './conversation/Emojify';
 
 export type DataPropsType = {
   attachments?: ReadonlyArray<AttachmentType>;
@@ -408,8 +409,13 @@ export function ForwardMessageModal({
           )}
           <div className="module-ForwardMessageModal__footer">
             <div>
-              {Boolean(selectedContacts.length) &&
-                selectedContacts.map(contact => contact.title).join(', ')}
+              {Boolean(selectedContacts.length) && (
+                <Emojify
+                  text={selectedContacts
+                    .map(contact => contact.title)
+                    .join(', ')}
+                />
+              )}
             </div>
             <div>
               {isEditingMessage || !isMessageEditable ? (

@@ -8,7 +8,6 @@ import { LeftPaneHelper } from './LeftPaneHelper';
 import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
@@ -20,10 +19,11 @@ import {
   isFetchingByUsername,
   isFetchingByE164,
 } from '../../util/uuidFetchState';
+import type { GroupListItemConversationType } from '../conversationList/GroupListItem';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;
-  composeGroups: ReadonlyArray<ConversationListItemPropsType>;
+  composeGroups: ReadonlyArray<GroupListItemConversationType>;
 
   regionCode: string | undefined;
   searchTerm: string;
@@ -39,7 +39,7 @@ enum TopButton {
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
   private readonly composeContacts: ReadonlyArray<ContactListItemConversationType>;
 
-  private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;
+  private readonly composeGroups: ReadonlyArray<GroupListItemConversationType>;
 
   private readonly uuidFetchState: UUIDFetchStateType;
 
@@ -224,8 +224,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       const group = this.composeGroups[virtualRowIndex];
       if (group) {
         return {
-          type: RowType.Conversation,
-          conversation: group,
+          type: RowType.SelectSingleGroup,
+          group,
         };
       }
 

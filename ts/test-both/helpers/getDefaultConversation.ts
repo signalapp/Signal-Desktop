@@ -4,8 +4,9 @@
 import casual from 'casual';
 import { sample } from 'lodash';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
+import { UUID } from '../../types/UUID';
+import type { GroupListItemConversationType } from '../../components/conversationList/GroupListItem';
 import { getRandomColor } from './getRandomColor';
 import { ConversationColors } from '../../types/Colors';
 import { StorySendMode } from '../../types/Stories';
@@ -43,6 +44,18 @@ export function getDefaultConversation(
     type: 'direct' as const,
     acknowledgedGroupNameCollisions: undefined,
     storySendMode: undefined,
+  };
+}
+
+export function getDefaultGroupListItem(
+  overrideProps: Partial<GroupListItemConversationType> = {}
+): GroupListItemConversationType {
+  return {
+    ...getDefaultGroup(),
+    disabledReason: undefined,
+    membersCount: 24,
+    memberships: [],
+    ...overrideProps,
   };
 }
 

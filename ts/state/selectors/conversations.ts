@@ -613,8 +613,25 @@ export const getFilteredComposeGroups = createSelector(
     searchTerm: string,
     groups: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
-  ): Array<ConversationType> => {
-    return filterAndSortConversationsByRecent(groups, searchTerm, regionCode);
+  ): Array<
+    ConversationType & {
+      membersCount: number;
+      disabledReason: undefined;
+      memberships: ReadonlyArray<unknown>;
+    }
+  > => {
+    return filterAndSortConversationsByRecent(
+      groups,
+      searchTerm,
+      regionCode
+    ).map(group => ({
+      ...group,
+      // we don't disable groups when composing, already filtered
+      disabledReason: undefined,
+      // should always be populated for a group
+      membersCount: group.membersCount ?? 0,
+      memberships: group.memberships ?? [],
+    }));
   }
 );
 

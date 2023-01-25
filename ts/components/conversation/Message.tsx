@@ -1,6 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable react/jsx-pascal-case */
+
 import type { ReactNode, RefObject } from 'react';
 import React from 'react';
 import { createPortal } from 'react-dom';

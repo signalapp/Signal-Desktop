@@ -4405,6 +4405,13 @@ button.module-image__border-overlay:focus {
   padding-left: 10px;
   padding-right: 10px;
 
+  // list tiles in choose-group-members and compose extend to the edge
+  .module-left-pane--mode-choose-group-members &,
+  .module-left-pane--mode-compose & {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   &--width-narrow {
     padding-left: 10px;
     padding-right: 10px;

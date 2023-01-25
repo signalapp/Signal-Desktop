@@ -64,4 +64,9 @@
       padding: 0;
     }
   }
+
+  .module-conversation-list {
+    // remove horizontal padding so ListTiles extend to the edges
+    padding: 0;
+  }
 }

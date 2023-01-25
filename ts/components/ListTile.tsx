@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
+import uuid from 'uuid';
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import { CircleCheckbox } from './CircleCheckbox';
 
 export type Props = {
   title: string | JSX.Element;
@@ -23,6 +25,7 @@ export type Props = {
   variant?: 'item' | 'panelrow';
   // defaults to div
   rootElement?: 'div' | 'button';
+  testId?: string;
 };
 
 const getClassName = getClassNamesFor('ListTile');
@@ -53,8 +56,17 @@ const getClassName = getClassNamesFor('ListTile');
  * - panelrow: more horizontal padding, intended for information rows (usually not in
  *   modals) that tend to occupy more horizontal space
  */
-export const ListTile = React.forwardRef<HTMLButtonElement, Props>(
-  function ListTile(
+export function ListTile(
+  params: Props & React.RefAttributes<HTMLButtonElement>
+): JSX.Element {
+  // forwardRef makes it impossible to add extra static fields to the function type so
+  // we have to create this inner implementation that can be wrapped with a non-arrow
+  // function. A bit weird, but looks fine at call-site.
+  return <ListTileImpl {...params} />;
+}
+
+const ListTileImpl = React.forwardRef<HTMLButtonElement, Props>(
+  function ListTileImpl(
     {
       title,
       subtitle,
@@ -67,6 +79,7 @@ export const ListTile = React.forwardRef<HTMLButtonElement, Props>(
       disabled = false,
       variant = 'item',
       rootElement = 'div',
+      testId,
     }: Props,
     ref
   ) {
@@ -81,6 +94,7 @@ export const ListTile = React.forwardRef<HTMLButtonElement, Props>(
       onClick,
       'aria-disabled': disabled ? true : undefined,
       onContextMenu,
+      'data-testid': testId,
     };
 
     const contents = (
@@ -112,3 +126,52 @@ export const ListTile = React.forwardRef<HTMLButtonElement, Props>(
     );
   }
 );
+
+// although these heights are not required for ListTile (which sizes itself based on
+// content), they are useful as constants for ListView.calculateRowHeight
+
+/** Effective ListTile height for an avatar (leading) size 36 */
+ListTile.heightFull = 64;
+
+/** Effective ListTile height for an avatar (leading) size 48 */
+ListTile.heightCompact = 52;
+
+/**
+ * ListTile with a trailing checkbox.
+ *
+ * It also wraps the ListTile with a <label> to get typical click-label-to-check behavior
+ *
+ * Same API except for:
+ * - no "trailing" param since it is populated by the checkbox
+ * - isChecked
+ */
+ListTile.checkbox = (
+  props: Omit<Props, 'trailing'> & { isChecked: boolean }
+) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const htmlId: string = useMemo(() => uuid(), []);
+
+  const { onClick, disabled, isChecked, ...otherProps } = props;
+  return (
+    <label
+      htmlFor={htmlId}
+      // `onClick` is will double-fire if we're enabled. We want it to fire when we're
+      //   disabled so we can show any "can't add contact" modals, etc. This won't
+      //   work for keyboard users, though, because labels are not tabbable.
+      {...(disabled ? { onClick } : {})}
+    >
+      <ListTile
+        {...otherProps}
+        disabled={disabled}
+        trailing={
+          <CircleCheckbox
+            id={htmlId}
+            checked={isChecked}
+            onChange={onClick}
+            disabled={disabled}
+          />
+        }
+      />
+    </label>
+  );
+};

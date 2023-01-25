@@ -5,7 +5,10 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultGroupListItem,
+} from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
 
@@ -69,7 +72,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
-          composeGroups: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: '',
           isUsernamesEnabled: true,
@@ -83,7 +86,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
-          composeGroups: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'someone',
           isUsernamesEnabled: true,
@@ -97,7 +100,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
-          composeGroups: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'someone',
           isUsernamesEnabled: false,
@@ -133,7 +136,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
-          composeGroups: [getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'foobar',
           isUsernamesEnabled: true,
@@ -240,8 +243,8 @@ describe('LeftPaneComposeHelper', () => {
         getDefaultConversation(),
       ];
       const composeGroups = [
-        getDefaultConversation(),
-        getDefaultConversation(),
+        getDefaultGroupListItem(),
+        getDefaultGroupListItem(),
       ];
       const helper = new LeftPaneComposeHelper({
         composeContacts,
@@ -255,6 +258,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
+
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Header,
         i18nKey: 'contactsHeader',
@@ -272,12 +276,12 @@ describe('LeftPaneComposeHelper', () => {
         i18nKey: 'groupsHeader',
       });
       assert.deepEqual(helper.getRow(5), {
-        type: RowType.Conversation,
-        conversation: composeGroups[0],
+        type: RowType.SelectSingleGroup,
+        group: composeGroups[0],
       });
       assert.deepEqual(helper.getRow(6), {
-        type: RowType.Conversation,
-        conversation: composeGroups[1],
+        type: RowType.SelectSingleGroup,
+        group: composeGroups[1],
       });
     });
 
@@ -571,7 +575,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.isTrue(
         helperContacts.shouldRecomputeRowHeights({
           composeContacts: [],
-          composeGroups: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'foo bar',
           isUsernamesEnabled: true,
@@ -581,7 +585,7 @@ describe('LeftPaneComposeHelper', () => {
 
       const helperGroups = new LeftPaneComposeHelper({
         composeContacts: [],
-        composeGroups: [getDefaultConversation(), getDefaultConversation()],
+        composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'foo bar',
         isUsernamesEnabled: true,
@@ -603,7 +607,7 @@ describe('LeftPaneComposeHelper', () => {
     it('should be true if the headers are in different row indices as before', () => {
       const helperContacts = new LeftPaneComposeHelper({
         composeContacts: [getDefaultConversation(), getDefaultConversation()],
-        composeGroups: [getDefaultConversation()],
+        composeGroups: [getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'soup',
         isUsernamesEnabled: true,
@@ -613,7 +617,7 @@ describe('LeftPaneComposeHelper', () => {
       assert.isTrue(
         helperContacts.shouldRecomputeRowHeights({
           composeContacts: [getDefaultConversation()],
-          composeGroups: [getDefaultConversation(), getDefaultConversation()],
+          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'soup',
           isUsernamesEnabled: true,
