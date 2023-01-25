@@ -361,7 +361,6 @@ export type GetAllStoriesResultType = ReadonlyArray<
 >;
 
 export type FTSOptimizationStateType = Readonly<{
-  changes: number;
   steps: number;
   done?: boolean;
 }>;

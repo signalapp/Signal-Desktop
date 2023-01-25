@@ -364,7 +364,8 @@ const statementCache = new WeakMap<Database, DatabaseQueryCache>();
 
 function prepare<T extends Array<unknown> | Record<string, unknown>>(
   db: Database,
-  query: string
+  query: string,
+  { pluck = false }: { pluck?: boolean } = {}
 ): Statement<T> {
   let dbCache = statementCache.get(db);
   if (!dbCache) {
@@ -372,10 +373,14 @@ function prepare<T extends Array<unknown> | Record<string, unknown>>(
     statementCache.set(db, dbCache);
   }
 
-  let result = dbCache.get(query) as Statement<T>;
+  const cacheKey = `${pluck}:${query}`;
+  let result = dbCache.get(cacheKey) as Statement<T>;
   if (!result) {
     result = db.prepare<T>(query);
-    dbCache.set(query, result);
+    if (pluck === true) {
+      result.pluck();
+    }
+    dbCache.set(cacheKey, result);
   }
 
   return result;
@@ -1077,10 +1082,9 @@ async function deleteSentProtoRecipient(
         `
         SELECT count(1) FROM sendLogRecipients
         WHERE payloadId = $id AND recipientUuid = $recipientUuid;
-        `
-      )
-        .pluck(true)
-        .get({ id, recipientUuid });
+        `,
+        { pluck: true }
+      ).get({ id, recipientUuid });
 
       // 4. If there are no remaining devices for this recipient and we included
       //    the pni signature in the proto - return the recipient to the caller.
@@ -1101,10 +1105,9 @@ async function deleteSentProtoRecipient(
       // 5. See how many more recipients there were for this payload.
       const remainingTotal = prepare(
         db,
-        'SELECT count(1) FROM sendLogRecipients WHERE payloadId = $id;'
-      )
-        .pluck(true)
-        .get({ id });
+        'SELECT count(1) FROM sendLogRecipients WHERE payloadId = $id;',
+        { pluck: true }
+      ).get({ id });
 
       strictAssert(
         isNumber(remainingTotal),
@@ -5408,9 +5411,7 @@ async function removeKnownDraftAttachments(
   return Object.keys(lookup);
 }
 
-// Default value of 'automerge'.
-// See: https://www.sqlite.org/fts5.html#the_automerge_configuration_option
-const OPTIMIZE_FTS_PAGE_COUNT = 4;
+const OPTIMIZE_FTS_PAGE_COUNT = 64;
 
 // This query is incremental. It gets the `state` from the return value of
 // previous `optimizeFTS` call. When `state.done` is `true` - optimization is
@@ -5423,30 +5424,33 @@ async function optimizeFTS(
   if (state === undefined) {
     pageCount = -pageCount;
   }
-
   const db = getInstance();
-  const { changes } = prepare(
-    db,
-    `
-      INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
-    `
-  ).run({ pageCount });
+  const getChanges = prepare(db, 'SELECT total_changes() as changes;', {
+    pluck: true,
+  });
 
-  if (state === undefined) {
-    return {
-      changes,
-      steps: 1,
-    };
-  }
+  const changeDifference = db.transaction(() => {
+    const before: number = getChanges.get({});
 
-  const { changes: prevChanges, steps } = state;
+    prepare(
+      db,
+      `
+        INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
+      `
+    ).run({ pageCount });
 
-  if (Math.abs(changes - prevChanges) < 2) {
-    return { changes, steps, done: true };
-  }
+    const after: number = getChanges.get({});
 
-  // More work is needed.
-  return { changes, steps: steps + 1 };
+    return after - before;
+  })();
+
+  const nextSteps = (state?.steps ?? 0) + 1;
+
+  // From documentation:
+  // "If the difference is less than 2, then the 'merge' command was a no-op"
+  const done = changeDifference < 2;
+
+  return { steps: nextSteps, done };
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
