@@ -17,6 +17,7 @@ import {
   isString,
   last,
   map,
+  omit,
 } from 'lodash';
 import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
@@ -46,7 +47,14 @@ import {
   toSqliteBoolean,
 } from './database_utility';
 
-import { ConfigDumpDataNode, ConfigDumpRow, UpdateLastHashType } from '../types/sqlSharedTypes';
+import {
+  ConfigDumpDataNode,
+  ConfigDumpRow,
+  MsgDuplicateSearchOpenGroup,
+  UnprocessedDataNode,
+  UnprocessedParameter,
+  UpdateLastHashType,
+} from '../types/sqlSharedTypes';
 import { OpenGroupV2Room } from '../data/opengroups';
 
 import {
@@ -437,8 +445,15 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     avatarInProfile,
     displayNameInProfile,
     conversationIdOrigin,
-    identityPrivateKey,
+    // identityPrivateKey,
   } = formatted;
+
+  //FIXME
+  console.warn('FIXME omit(formatted, identityPrivateKey);');
+  const omited = omit(formatted, 'identityPrivateKey');
+  const keys = Object.keys(omited);
+  const columnsCommaSeparated = keys.join(', ');
+  const valuesArgs = keys.map(k => `$${k}`).join(', ');
 
   const maxLength = 300;
   // shorten the last message as we never need more than `maxLength` chars (and it bloats the redux/ipc calls uselessly.
@@ -450,73 +465,9 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
   assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${CONVERSATIONS_TABLE} (
-	id,
-	active_at,
-	type,
-	members,
-  nickname,
-  profileKey,
-  zombies,
-  left,
-  expireTimer,
-  mentionedUs,
-  unreadCount,
-  lastMessageStatus,
-  lastMessage,
-  lastJoinedTimestamp,
-  groupAdmins,
-  groupModerators,
-  isKickedFromGroup,
-  subscriberCount,
-  readCapability,
-  writeCapability,
-  uploadCapability,
-  is_medium_group,
-  avatarPointer,
-  avatarImageId,
-  triggerNotificationsFor,
-  isTrustedForAttachmentDownload,
-  isPinned,
-  isApproved,
-  didApproveMe,
-  avatarInProfile,
-  displayNameInProfile,
-  conversationIdOrigin,
-  identityPrivateKey
+	${columnsCommaSeparated}
 	) values (
-	    $id,
-	    $active_at,
-	    $type,
-	    $members,
-      $nickname,
-      $profileKey,
-      $zombies,
-      $left,
-      $expireTimer,
-      $mentionedUs,
-      $unreadCount,
-      $lastMessageStatus,
-      $lastMessage,
-      $lastJoinedTimestamp,
-      $groupAdmins,
-      $groupModerators,
-      $isKickedFromGroup,
-      $subscriberCount,
-      $readCapability,
-      $writeCapability,
-      $uploadCapability,
-      $is_medium_group,
-      $avatarPointer,
-      $avatarImageId,
-      $triggerNotificationsFor,
-      $isTrustedForAttachmentDownload,
-      $isPinned,
-      $isApproved,
-      $didApproveMe,
-      $avatarInProfile,
-      $displayNameInProfile,
-      $conversationIdOrigin,
-      $identityPrivateKey
+	   ${valuesArgs}
       )`
     )
     .run({
@@ -555,7 +506,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       avatarInProfile,
       displayNameInProfile,
       conversationIdOrigin,
-      identityPrivateKey,
+      // identityPrivateKey,
     });
 }
 
@@ -1076,8 +1027,8 @@ function getMessageBySenderAndTimestamp({
 }
 
 function filterAlreadyFetchedOpengroupMessage(
-  msgDetails: Array<{ sender: string; serverTimestamp: number }> // MsgDuplicateSearchOpenGroup
-): Array<{ sender: string; serverTimestamp: number }> {
+  msgDetails: MsgDuplicateSearchOpenGroup
+): MsgDuplicateSearchOpenGroup {
   const filteredNonBlinded = msgDetails.filter(msg => {
     const rows = assertGlobalInstance()
       .prepare(
@@ -1478,127 +1429,119 @@ function getNextExpiringMessage() {
 }
 
 /* Unproccessed a received messages not yet processed */
-function saveUnprocessed(data: any) {
-  const { id, timestamp, version, attempts, envelope, senderIdentity, messageHash } = data;
-  if (!id) {
-    throw new Error(`saveUnprocessed: id was falsey: ${id}`);
-  }
+const unprocessed: UnprocessedDataNode = {
+  saveUnprocessed: (data: UnprocessedParameter) => {
+    const { id, timestamp, version, attempts, envelope, senderIdentity, messageHash } = data;
+    if (!id) {
+      throw new Error(`saveUnprocessed: id was falsey: ${id}`);
+    }
 
-  assertGlobalInstance()
-    .prepare(
-      `INSERT OR REPLACE INTO unprocessed (
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-      senderIdentity,
-      serverHash
-    ) values (
-      $id,
-      $timestamp,
-      $version,
-      $attempts,
-      $envelope,
-      $senderIdentity,
-      $messageHash
-    );`
-    )
-    .run({
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-      senderIdentity,
-      messageHash,
-    });
+    assertGlobalInstance()
+      .prepare(
+        `INSERT OR REPLACE INTO unprocessed (
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        senderIdentity,
+        serverHash
+      ) values (
+        $id,
+        $timestamp,
+        $version,
+        $attempts,
+        $envelope,
+        $senderIdentity,
+        $messageHash
+      );`
+      )
+      .run({
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        senderIdentity,
+        messageHash,
+      });
+  },
 
-  return id;
-}
+  updateUnprocessedAttempts: (id: string, attempts: number) => {
+    assertGlobalInstance()
+      .prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;')
+      .run({
+        id,
+        attempts,
+      });
+  },
 
-function updateUnprocessedAttempts(id: string, attempts: number) {
-  assertGlobalInstance()
-    .prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;')
-    .run({
-      id,
-      attempts,
-    });
-}
-function updateUnprocessedWithData(id: string, data: any = {}) {
-  const { source, serverTimestamp, decrypted, senderIdentity } = data;
+  updateUnprocessedWithData: (id: string, data: UnprocessedParameter) => {
+    const { source, decrypted, senderIdentity } = data;
 
-  assertGlobalInstance()
-    .prepare(
-      `UPDATE unprocessed SET
-      source = $source,
-      serverTimestamp = $serverTimestamp,
-      decrypted = $decrypted,
-      senderIdentity = $senderIdentity
-    WHERE id = $id;`
-    )
-    .run({
-      id,
-      source,
-      serverTimestamp,
-      decrypted,
-      senderIdentity,
-    });
-}
+    assertGlobalInstance()
+      .prepare(
+        `UPDATE unprocessed SET
+        source = $source,
+        decrypted = $decrypted,
+        senderIdentity = $senderIdentity
+      WHERE id = $id;`
+      )
+      .run({
+        id,
+        source,
+        decrypted,
+        senderIdentity,
+      });
+  },
 
-function getUnprocessedById(id: string) {
-  const row = assertGlobalInstance()
-    .prepare('SELECT * FROM unprocessed WHERE id = $id;')
-    .get({
-      id,
-    });
+  getUnprocessedById: (id: string) => {
+    const row = assertGlobalInstance()
+      .prepare('SELECT * FROM unprocessed WHERE id = $id;')
+      .get({
+        id,
+      });
 
-  return row;
-}
+    return row;
+  },
 
-function getUnprocessedCount() {
-  const row = assertGlobalInstance()
-    .prepare('SELECT count(*) from unprocessed;')
-    .get();
+  getUnprocessedCount: () => {
+    const row = assertGlobalInstance()
+      .prepare('SELECT count(*) from unprocessed;')
+      .get();
 
-  if (!row) {
-    throw new Error('getMessageCount: Unable to get count of unprocessed');
-  }
+    if (!row) {
+      throw new Error('getMessageCount: Unable to get count of unprocessed');
+    }
 
-  return row['count(*)'];
-}
+    return row['count(*)'];
+  },
 
-function getAllUnprocessed() {
-  const rows = assertGlobalInstance()
-    .prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;')
-    .all();
+  getAllUnprocessed: () => {
+    const rows = assertGlobalInstance()
+      .prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;')
+      .all();
 
-  return rows;
-}
+    return rows;
+  },
 
-function removeUnprocessed(id: string) {
-  if (!Array.isArray(id)) {
+  removeUnprocessed: (id: string): void => {
+    if (Array.isArray(id)) {
+      console.warn('removeUnprocessed only supports single ids at a time');
+      throw new Error('removeUnprocessed only supports single ids at a time');
+    }
     assertGlobalInstance()
       .prepare('DELETE FROM unprocessed WHERE id = $id;')
       .run({ id });
     return;
-  }
+  },
 
-  if (!id.length) {
-    throw new Error('removeUnprocessed: No ids to delete!');
-  }
-
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  assertGlobalInstance()
-    .prepare(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
-    .run(id);
-}
-
-function removeAllUnprocessed() {
-  assertGlobalInstance()
-    .prepare('DELETE FROM unprocessed;')
-    .run();
-}
+  removeAllUnprocessed: () => {
+    assertGlobalInstance()
+      .prepare('DELETE FROM unprocessed;')
+      .run();
+  },
+};
 
 function getNextAttachmentDownloadJobs(limit: number) {
   const timestamp = Date.now();
@@ -2565,14 +2508,8 @@ export const sqlNode = {
   hasConversationOutgoingMessage,
   fillWithTestData,
 
-  getUnprocessedCount,
-  getAllUnprocessed,
-  saveUnprocessed,
-  updateUnprocessedAttempts,
-  updateUnprocessedWithData,
-  getUnprocessedById,
-  removeUnprocessed,
-  removeAllUnprocessed,
+  // add all the calls related to the unprocessed cache of incoming messages
+  ...unprocessed,
 
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,

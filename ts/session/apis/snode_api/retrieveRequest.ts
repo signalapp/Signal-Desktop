@@ -110,7 +110,6 @@ async function retrieveNextMessages(
   const firstResult = results[0];
 
   // TODO we should probably check for status code of all the results (when polling for a few namespaces at a time)
-  console.warn('what should we do if we dont get a 200 on any of those fetches?');
 
   if (firstResult.code !== 200) {
     window?.log?.warn(`retrieveNextMessages result is not 200 but ${firstResult.code}`);

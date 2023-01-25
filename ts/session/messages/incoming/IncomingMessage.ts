@@ -10,7 +10,7 @@ type IncomingMessageAvailableTypes =
   | SignalService.DataExtractionNotification
   | SignalService.Unsend
   | SignalService.MessageRequestResponse
-  | SignalService.SharedConfigMessage;
+  | SignalService.ISharedConfigMessage;
 
 export class IncomingMessage<T extends IncomingMessageAvailableTypes> {
   public readonly envelopeTimestamp: number;

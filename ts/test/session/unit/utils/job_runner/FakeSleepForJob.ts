@@ -42,11 +42,11 @@ export class FakeSleepForMultiJob extends Persistedjob {
   }
 
   public async run() {
-    console.warn(
+    window.log.warn(
       `running job ${this.jobType} with id:"${this.identifier}". sleeping for ${this.sleepDuration} & returning ${this.returnResult} `
     );
     await sleepFor(this.sleepDuration);
-    console.warn(`${this.jobType} with id:"${this.identifier}" done. returning success `);
+    window.log.warn(`${this.jobType} with id:"${this.identifier}" done. returning success `);
     return this.returnResult;
   }
 
@@ -85,9 +85,9 @@ export class FakeSleepForJob extends Persistedjob {
   }
 
   public async run() {
-    console.warn(`running job ${this.jobType} with id:"${this.identifier}" `);
+    window.log.warn(`running job ${this.jobType} with id:"${this.identifier}" `);
     await sleepFor(5000);
-    console.warn(`${this.jobType} with id:"${this.identifier}" done. returning failed `);
+    window.log.warn(`${this.jobType} with id:"${this.identifier}" done. returning failed `);
     return false;
   }
 

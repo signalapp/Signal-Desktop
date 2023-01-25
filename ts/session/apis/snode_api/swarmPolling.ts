@@ -17,23 +17,33 @@ import pRetry from 'p-retry';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
-import { ConfigMessageHandler } from '../../../receiver/configMessage';
-import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 
-// Some websocket nonsense
-export function processMessage(message: string, options: any = {}, messageHash: string) {
+export function extractWebSocketContent(
+  message: string,
+  options: any = {},
+  messageHash: string
+): null | {
+  body: Uint8Array;
+  messageHash: string;
+  options: any;
+} {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
-    if (messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST) {
-      Receiver.handleRequest(messageBuf.request?.body, options, messageHash);
+    if (
+      messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST &&
+      messageBuf.request?.body?.length
+    ) {
+      return {
+        body: messageBuf.request.body,
+        messageHash,
+        options,
+      };
     }
+    return null;
   } catch (error) {
-    const info = {
-      message,
-      error: error.message,
-    };
-    window?.log?.warn('HTTP-Resources Failed to handle message:', info);
+    window?.log?.warn('processMessage Failed to handle message:', error.message);
+    return null;
   }
 }
 
@@ -276,27 +286,27 @@ export class SwarmPolling {
     const newMessages = await this.handleSeenMessages(messages);
     perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
 
-    // try {
-    //   if (
-    //     window.sessionFeatureFlags.useSharedUtilForUserConfig &&
-    //     userConfigMessagesMerged.length
-    //   ) {
-    //     const asIncomingMessages = userConfigMessagesMerged.map(msg => {
-    //       const incomingMessage: IncomingMessage<SignalService.SharedConfigMessage> = {
-    //         envelopeTimestamp: msg.timestamp,
-    //         message: msg.data,
-    //         messageHash: msg.hash,
-    //       };
-    //     });
-    //     await ConfigMessageHandler.handleConfigMessagesViaLibSession();
-    //   }
-    // } catch (e) {
-    //   console.error('shared util lib process messages failed with: ', e);
-    // }
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      const extractedUserConfigMessage = compact(
+        userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
+          return extractWebSocketContent(m.data, {}, m.hash);
+        })
+      );
 
-    newMessages.forEach((m: RetrieveMessageItem) => {
-      const options = isGroup ? { conversationId: pkStr } : {};
-      processMessage(m.data, options, m.hash);
+      extractedUserConfigMessage.forEach(m => {
+        Receiver.handleRequest(m.body, m.options, m.messageHash);
+      });
+    }
+
+    const extractedContentMessage = compact(
+      newMessages.map((m: RetrieveMessageItem) => {
+        const options = isGroup ? { conversationId: pkStr } : {};
+        return extractWebSocketContent(m.data, options, m.hash);
+      })
+    );
+
+    extractedContentMessage.forEach(m => {
+      Receiver.handleRequest(m.body, m.options, m.messageHash);
     });
   }
 

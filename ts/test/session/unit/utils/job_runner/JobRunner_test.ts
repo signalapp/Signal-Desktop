@@ -58,16 +58,16 @@ describe('JobRunner', () => {
     clock = Sinon.useFakeTimers({ shouldAdvanceTime: true });
     jobEventsListener = {
       onJobDeferred: (_job: SerializedPersistedJob) => {
-        // console.warn('listener got deferred for job ', job);
+        // window.log.warn('listener got deferred for job ', job);
       },
       onJobSuccess: (_job: SerializedPersistedJob) => {
-        // console.warn('listener got success for job ', job);
+        // window.log.warn('listener got success for job ', job);
       },
       onJobError: (_job: SerializedPersistedJob) => {
-        // console.warn('listener got error for job ', job);
+        // window.log.warn('listener got error for job ', job);
       },
       onJobStarted: (_job: SerializedPersistedJob) => {
-        // console.warn('listener got started for job ', job);
+        // window.log.warn('listener got started for job ', job);
       },
     };
     runner = new PersistedJobRunner('FakeSleepForJob', jobEventsListener);

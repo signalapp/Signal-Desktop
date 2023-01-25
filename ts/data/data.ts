@@ -11,7 +11,12 @@ import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
-import { MsgDuplicateSearchOpenGroup, UpdateLastHashType } from '../types/sqlSharedTypes';
+import {
+  AsyncWrapper,
+  MsgDuplicateSearchOpenGroup,
+  UnprocessedDataNode,
+  UpdateLastHashType,
+} from '../types/sqlSharedTypes';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Storage } from '../util/storage';
 import { channels } from './channels';
@@ -100,96 +105,6 @@ function _cleanData(data: any): any {
   }
   return data;
 }
-
-// we export them like this instead of directly with the `export function` cause this is helping a lot for testing
-export const Data = {
-  shutdown,
-  close,
-  removeDB,
-  getPasswordHash,
-
-  // items table logic
-  createOrUpdateItem,
-  getItemById,
-  getAllItems,
-  removeItemById,
-
-  // guard nodes
-  getGuardNodes,
-  updateGuardNodes,
-  generateAttachmentKeyIfEmpty,
-  getSwarmNodesForPubkey,
-  updateSwarmNodesForPubkey,
-  getAllEncryptionKeyPairsForGroup,
-  getLatestClosedGroupEncryptionKeyPair,
-  addClosedGroupEncryptionKeyPair,
-  removeAllClosedGroupEncryptionKeyPairs,
-  saveConversation,
-  getConversationById,
-  removeConversation,
-  getAllConversations,
-  getPubkeysInPublicConversation,
-  searchConversations,
-  searchMessages,
-  searchMessagesInConversation,
-  cleanSeenMessages,
-  cleanLastHashes,
-  saveSeenMessageHashes,
-  updateLastHash,
-  saveMessage,
-  saveMessages,
-  removeMessage,
-  removeMessagesByIds,
-  getMessageIdsFromServerIds,
-  getMessageById,
-  getMessageBySenderAndSentAt,
-  getMessageByServerId,
-  filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndTimestamp,
-  getUnreadByConversation,
-  getUnreadCountByConversation,
-  markAllAsReadByConversationNoExpiration,
-  getMessageCountByType,
-  getMessagesByConversation,
-  getLastMessagesByConversation,
-  getLastMessageIdInConversation,
-  getLastMessageInConversation,
-  getOldestMessageInConversation,
-  getMessageCount,
-  getFirstUnreadMessageIdInConversation,
-  getFirstUnreadMessageWithMention,
-  hasConversationOutgoingMessage,
-  getLastHashBySnode,
-  getSeenMessagesByHashList,
-  removeAllMessagesInConversation,
-  getMessagesBySentAt,
-  getExpiredMessages,
-  getOutgoingWithoutExpiresAt,
-  getNextExpiringMessage,
-  getUnprocessedCount,
-  getAllUnprocessed,
-  getUnprocessedById,
-  saveUnprocessed,
-  updateUnprocessedAttempts,
-  updateUnprocessedWithData,
-  removeUnprocessed,
-  removeAllUnprocessed,
-  getNextAttachmentDownloadJobs,
-  saveAttachmentDownloadJob,
-  setAttachmentDownloadJobPending,
-  resetAttachmentDownloadPending,
-  removeAttachmentDownloadJob,
-  removeAllAttachmentDownloadJobs,
-  removeAll,
-  removeAllConversations,
-  cleanupOrphanedAttachments,
-  removeOtherData,
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
-  getSnodePoolFromDb,
-  updateSnodePoolOnDb,
-  fillWithTestData,
-};
 
 // Basic
 async function shutdown(): Promise<void> {
@@ -674,49 +589,42 @@ async function getNextExpiringMessage(): Promise<MessageCollection> {
 
 // Unprocessed
 
-async function getUnprocessedCount(): Promise<number> {
+const getUnprocessedCount: AsyncWrapper<UnprocessedDataNode['getUnprocessedCount']> = () => {
   return channels.getUnprocessedCount();
-}
-
-async function getAllUnprocessed(): Promise<Array<UnprocessedParameter>> {
-  return channels.getAllUnprocessed();
-}
-
-async function getUnprocessedById(id: string): Promise<UnprocessedParameter | undefined> {
-  return channels.getUnprocessedById(id);
-}
-
-export type UnprocessedParameter = {
-  id: string;
-  version: number;
-  envelope: string;
-  timestamp: number;
-  attempts: number;
-  messageHash: string;
-  senderIdentity?: string;
-  decrypted?: string; // added once the envelopes's content is decrypted with updateCache
-  source?: string; // added once the envelopes's content is decrypted with updateCache
 };
 
-async function saveUnprocessed(data: UnprocessedParameter): Promise<string> {
-  const id = await channels.saveUnprocessed(_cleanData(data));
-  return id;
-}
+const getAllUnprocessed: AsyncWrapper<UnprocessedDataNode['getAllUnprocessed']> = () => {
+  return channels.getAllUnprocessed();
+};
 
-async function updateUnprocessedAttempts(id: string, attempts: number): Promise<void> {
-  await channels.updateUnprocessedAttempts(id, attempts);
-}
-async function updateUnprocessedWithData(id: string, data: any): Promise<void> {
-  await channels.updateUnprocessedWithData(id, data);
-}
+const getUnprocessedById: AsyncWrapper<UnprocessedDataNode['getUnprocessedById']> = id => {
+  return channels.getUnprocessedById(id);
+};
 
-async function removeUnprocessed(id: string): Promise<void> {
-  await channels.removeUnprocessed(id);
-}
+const saveUnprocessed: AsyncWrapper<UnprocessedDataNode['saveUnprocessed']> = data => {
+  return channels.saveUnprocessed(_cleanData(data));
+};
 
-async function removeAllUnprocessed(): Promise<void> {
-  await channels.removeAllUnprocessed();
-}
+const updateUnprocessedAttempts: AsyncWrapper<UnprocessedDataNode['updateUnprocessedAttempts']> = (
+  id,
+  attempts
+) => {
+  return channels.updateUnprocessedAttempts(id, attempts);
+};
+const updateUnprocessedWithData: AsyncWrapper<UnprocessedDataNode['updateUnprocessedWithData']> = (
+  id,
+  data
+) => {
+  return channels.updateUnprocessedWithData(id, _cleanData(data));
+};
+
+const removeUnprocessed: AsyncWrapper<UnprocessedDataNode['removeUnprocessed']> = id => {
+  return channels.removeUnprocessed(id);
+};
+
+const removeAllUnprocessed: AsyncWrapper<UnprocessedDataNode['removeAllUnprocessed']> = () => {
+  return channels.removeAllUnprocessed();
+};
 
 // Attachment downloads
 
@@ -908,3 +816,97 @@ export async function getAllItems(): Promise<Array<StorageItem>> {
 export async function removeItemById(id: string): Promise<void> {
   await channels.removeItemById(id);
 }
+
+// we export them like this instead of directly with the `export function` cause this is helping a lot for testing
+export const Data = {
+  shutdown,
+  close,
+  removeDB,
+  getPasswordHash,
+
+  // items table logic
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  removeItemById,
+
+  // guard nodes
+  getGuardNodes,
+  updateGuardNodes,
+  generateAttachmentKeyIfEmpty,
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
+  getAllEncryptionKeyPairsForGroup,
+  getLatestClosedGroupEncryptionKeyPair,
+  addClosedGroupEncryptionKeyPair,
+  removeAllClosedGroupEncryptionKeyPairs,
+  saveConversation,
+  getConversationById,
+  removeConversation,
+  getAllConversations,
+  getPubkeysInPublicConversation,
+  searchConversations,
+  searchMessages,
+  searchMessagesInConversation,
+  cleanSeenMessages,
+  cleanLastHashes,
+  saveSeenMessageHashes,
+  updateLastHash,
+  saveMessage,
+  saveMessages,
+  removeMessage,
+  removeMessagesByIds,
+  getMessageIdsFromServerIds,
+  getMessageById,
+  getMessageBySenderAndSentAt,
+  getMessageByServerId,
+  filterAlreadyFetchedOpengroupMessage,
+  getMessageBySenderAndTimestamp,
+  getUnreadByConversation,
+  getUnreadCountByConversation,
+  markAllAsReadByConversationNoExpiration,
+  getMessageCountByType,
+  getMessagesByConversation,
+  getLastMessagesByConversation,
+  getLastMessageIdInConversation,
+  getLastMessageInConversation,
+  getOldestMessageInConversation,
+  getMessageCount,
+  getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
+  hasConversationOutgoingMessage,
+  getLastHashBySnode,
+  getSeenMessagesByHashList,
+  removeAllMessagesInConversation,
+  getMessagesBySentAt,
+  getExpiredMessages,
+  getOutgoingWithoutExpiresAt,
+  getNextExpiringMessage,
+
+  // Unprocessed messages data
+  getUnprocessedCount,
+  getAllUnprocessed,
+  getUnprocessedById,
+  saveUnprocessed,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
+  removeUnprocessed,
+  removeAllUnprocessed,
+
+  // attachments download jobs
+  getNextAttachmentDownloadJobs,
+  saveAttachmentDownloadJob,
+  setAttachmentDownloadJobPending,
+  resetAttachmentDownloadPending,
+  removeAttachmentDownloadJob,
+  removeAllAttachmentDownloadJobs,
+  removeAll,
+  removeAllConversations,
+  cleanupOrphanedAttachments,
+  removeOtherData,
+  getMessagesWithVisualMediaAttachments,
+  getMessagesWithFileAttachments,
+  getSnodePoolFromDb,
+  updateSnodePoolOnDb,
+  fillWithTestData,
+};

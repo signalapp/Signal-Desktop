@@ -91,7 +91,7 @@ export interface ConversationAttributes {
   /**
    * When we create a closed group v3 or get promoted to admim, we need to save the private key of that closed group.
    */
-  identityPrivateKey?: string;
+  // identityPrivateKey?: string;
 }
 
 /**

@@ -169,10 +169,10 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     convo.active_at = 0;
   }
 
-  convo.identityPrivateKey = row.identityPrivateKey;
-  if (!convo.identityPrivateKey) {
-    convo.identityPrivateKey = undefined;
-  }
+  // convo.identityPrivateKey = row.identityPrivateKey;
+  // if (!convo.identityPrivateKey) {
+  //   convo.identityPrivateKey = undefined;
+  // }
 
   return convo;
 }

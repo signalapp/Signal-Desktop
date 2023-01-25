@@ -440,7 +440,9 @@ async function connect() {
     Notifications.enable();
   }, 10 * 1000); // 10 sec
 
-  await queueAllCached();
+  setTimeout(() => {
+    void queueAllCached();
+  }, 10 * 1000); // 10 sec
   await AttachmentDownloads.start({
     logger: window.log,
   });

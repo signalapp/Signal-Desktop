@@ -28,10 +28,10 @@ export class ConfigurationSyncJob extends Persistedjob {
 
   public async run() {
     // blablha do everything from the notion page, and if success, return true.
-    console.warn(`running job ${this.jobType} with id:"${this.identifier}" `);
+    window.log.warn(`running job ${this.jobType} with id:"${this.identifier}" `);
 
     await sleepFor(5000);
-    console.warn(
+    window.log.warn(
       `running job ${this.jobType} with id:"${this.identifier}" done and returning failed `
     );
 

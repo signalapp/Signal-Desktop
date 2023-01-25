@@ -14,12 +14,11 @@ import { SignalService } from '../protobuf';
 import { Data } from '../data/data';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { UnprocessedParameter } from '../types/sqlSharedTypes';
 
-// TODO: check if some of these exports no longer needed
-
-interface ReqOptions {
+export type ReqOptions = {
   conversationId: string;
-}
+};
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
@@ -29,7 +28,7 @@ async function handleSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) 
   }
 
   await removeFromCache(envelope);
-  throw new Error('Received message with no content and no legacyMessage');
+  throw new Error('Received message with no content');
 }
 
 class EnvelopeQueue {
@@ -57,8 +56,6 @@ const envelopeQueue = new EnvelopeQueue();
 
 function queueSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) {
   const id = getEnvelopeId(envelope);
-  // window?.log?.info('queueing envelope', id);
-
   const task = handleSwarmEnvelope.bind(null, envelope, messageHash);
   const taskWithTimeout = createTaskWithTimeout(task, `queueSwarmEnvelope ${id}`);
 
@@ -102,7 +99,7 @@ async function handleRequestDetail(
     envelope.senderIdentity = senderIdentity;
   }
 
-  envelope.id = envelope.serverGuid || uuidv4();
+  envelope.id = uuidv4();
   envelope.serverTimestamp = envelope.serverTimestamp ? envelope.serverTimestamp.toNumber() : null;
   envelope.messageHash = messageHash;
 
@@ -115,11 +112,7 @@ async function handleRequestDetail(
     await addToCache(envelope, plaintext, messageHash);
     perfEnd(`addToCache-${envelope.id}`, 'addToCache');
 
-    // TODO: This is the glue between the first and the last part of the
-    // receiving pipeline refactor. It is to be implemented in the next PR.
-
     // To ensure that we queue in the same order we receive messages
-
     await lastPromise;
 
     queueSwarmEnvelope(envelope, messageHash);
@@ -131,7 +124,11 @@ async function handleRequestDetail(
   }
 }
 
-export function handleRequest(plaintext: any, options: ReqOptions, messageHash: string): void {
+export function handleRequest(
+  plaintext: Uint8Array,
+  options: ReqOptions,
+  messageHash: string
+): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
@@ -163,7 +160,7 @@ export async function queueAllCachedFromSource(source: string) {
   }, Promise.resolve());
 }
 
-async function queueCached(item: any) {
+async function queueCached(item: UnprocessedParameter) {
   try {
     const envelopePlaintext = StringUtils.encode(item.envelope, 'base64');
     const envelopeArray = new Uint8Array(envelopePlaintext);
@@ -174,7 +171,7 @@ async function queueCached(item: any) {
 
     // Why do we need to do this???
     envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
-    envelope.serverTimestamp = envelope.serverTimestamp || item.serverTimestamp;
+    envelope.serverTimestamp = envelope.serverTimestamp;
 
     const { decrypted } = item;
 
@@ -194,8 +191,7 @@ async function queueCached(item: any) {
     );
 
     try {
-      const { id } = item;
-      await Data.removeUnprocessed(id);
+      await Data.removeUnprocessed(item.id);
     } catch (deleteError) {
       window?.log?.error(
         'queueCached error deleting item',

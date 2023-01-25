@@ -21,6 +21,14 @@ import { sanitizeSessionUsername } from '../../session/utils/String';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MAX_USERNAME_BYTES } from '../../session/constants';
+import { SharedConfigMessage } from '../../session/messages/outgoing/controlMessage/SharedConfigMessage';
+import { callLibSessionWorker } from '../../webworker/workers/browser/libsession_worker_interface';
+import { SignalService } from '../../protobuf';
+import Long from 'long';
+import { GetNetworkTime } from '../../session/apis/snode_api/getNetworkTime';
+import { getMessageQueue } from '../../session/sending';
+import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
+import { from_string } from 'libsodium-wrappers-sumo';
 
 interface State {
   profileName: string;
@@ -337,8 +345,35 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
   }
   // do not update the avatar if it did not change
   conversation.setSessionDisplayNameNoCommit(newName);
+
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
-  await setLastProfileUpdateTimestamp(Date.now());
-  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    await callLibSessionWorker(['UserConfig', 'setName', newName]);
+    const pointer = conversation.get('avatarPointer');
+    const profileKey = conversation.get('profileKey');
+    if (profileKey && pointer) {
+      await callLibSessionWorker([
+        'UserConfig',
+        'setProfilePicture',
+        pointer,
+        from_string(profileKey),
+      ]);
+    } else {
+      await callLibSessionWorker(['UserConfig', 'setProfilePicture', '', new Uint8Array()]);
+    }
+
+    const message = new SharedConfigMessage({
+      data: (await callLibSessionWorker(['UserConfig', 'dump'])) as Uint8Array,
+      kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
+      seqno: Long.fromNumber(0),
+      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
+    });
+    await getMessageQueue().sendSyncMessage({ message, namespace: SnodeNamespaces.UserProfile });
+  } else {
+    await setLastProfileUpdateTimestamp(Date.now());
+
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+  }
 }

@@ -333,7 +333,7 @@ export class MessageQueue {
         message instanceof SharedConfigMessage ||
         (message as any).syncTarget?.length > 0
       ) {
-        window?.log?.warn('Processing sync message');
+        window?.log?.warn('OutgoingMessageQueue: Processing sync message');
         isSyncMessage = true;
       } else {
         window?.log?.warn('Dropping message in process() to be sent to ourself');

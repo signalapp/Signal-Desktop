@@ -2,57 +2,52 @@ import React, { useEffect, useState } from 'react';
 import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Data,
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
 } from '../../data/data';
 import { getMessageQueue } from '../../session/sending';
-import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
 
-import { getOurNumber } from '../../state/selectors/user';
+import { clearSearch } from '../../state/ducks/search';
+import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import {
   getOurPrimaryConversation,
   getUnreadMessageCount,
 } from '../../state/selectors/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
-import { clearSearch } from '../../state/ducks/search';
-import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import { getOurNumber } from '../../state/selectors/user';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 
 import { DURATION } from '../../session/constants';
 
-import { onionPathModal } from '../../state/ducks/modalDialog';
-import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { debounce, isEmpty, isString } from 'lodash';
+import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
-import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
+import { ipcRenderer } from 'electron';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
+import { UserUtils } from '../../session/utils';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { SessionIconButton } from '../icon';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
-import { ipcRenderer } from 'electron';
-import { UserUtils } from '../../session/utils';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
-import { switchThemeTo } from '../../themes/switchTheme';
-import { ThemeStateType } from '../../themes/constants/colors';
-import { isDarkTheme } from '../../state/selectors/theme';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
-import { SharedConfigMessage } from '../../session/messages/outgoing/controlMessage/SharedConfigMessage';
-import { SignalService } from '../../protobuf';
-import { GetNetworkTime } from '../../session/apis/snode_api/getNetworkTime';
-import Long from 'long';
-import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 import { initializeLibSessionUtilWrappers } from '../../session/utils/libsession/libsession_utils';
+import { isDarkTheme } from '../../state/selectors/theme';
+import { ThemeStateType } from '../../themes/constants/colors';
+import { switchThemeTo } from '../../themes/switchTheme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -67,15 +62,7 @@ const Section = (props: { type: SectionType }) => {
   const handleClick = async () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      const message = new SharedConfigMessage({
-        data: new Uint8Array([1, 2, 3]),
-        kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
-        seqno: Long.fromNumber(0),
-        timestamp: GetNetworkTime.getNowWithNetworkOffset(),
-      });
-      await getMessageQueue().sendSyncMessage({ message, namespace: SnodeNamespaces.UserProfile });
-      console.warn('FIXME');
-      // dispatch(editProfileModal({}));
+      dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
       const newTheme = (isDarkMode
@@ -220,10 +207,6 @@ const doAppStartUp = async () => {
   // TODO make this a job of the JobRunner
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
-  // init the messageQueue. In the constructor, we add all not send messages
-  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-  void getMessageQueue().processAllPending();
-
   /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
   global.setTimeout(() => {
     void getOpenGroupManager().startPolling();
@@ -311,7 +294,6 @@ export const ActionsPanel = () => {
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Settings} />
-
         <Section type={SectionType.PathIndicator} />
         <Section type={SectionType.ColorMode} />
       </LeftPaneSectionContainer>

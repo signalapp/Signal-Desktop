@@ -245,7 +245,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
   const updates: Pick<
     ConversationAttributes,
     | 'type'
-    | 'identityPrivateKey'
+    // | 'identityPrivateKey'
     | 'members'
     | 'displayNameInProfile'
     | 'is_medium_group'
@@ -260,7 +260,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
-    identityPrivateKey: isV3(details) ? details.identityPrivateKey : undefined,
+    // identityPrivateKey: isV3(details) ? details.identityPrivateKey : undefined,
   };
   console.warn('updates', updates);
 

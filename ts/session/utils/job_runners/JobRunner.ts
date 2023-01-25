@@ -43,7 +43,7 @@ export class PersistedJobRunner {
   constructor(jobRunnerType: JobRunnerType, jobEventsListener: JobEventListener | null) {
     this.jobRunnerType = jobRunnerType;
     this.jobEventsListener = jobEventsListener;
-    console.warn('new runner');
+    window.log.warn('new runner');
   }
 
   public async loadJobsFromDb() {
@@ -157,7 +157,7 @@ export class PersistedJobRunner {
 
   private async writeJobsToDB() {
     const serialized = this.getSerializedJobs();
-    console.warn('writing to db', serialized);
+    window.log.warn('writing to db', serialized);
     await Data.createOrUpdateItem({
       id: this.getJobRunnerItemId(),
       value: JSON.stringify(serialized),
@@ -171,7 +171,6 @@ export class PersistedJobRunner {
     // a new job was added. trigger it if we can/have to start it
     const result = this.planNextJob();
 
-    console.warn('addJobUnchecked: ', result);
     if (result === 'no_job') {
       throw new Error('We just pushed a job, there cannot be no job');
     }
@@ -258,7 +257,7 @@ export class PersistedJobRunner {
 
     // if the time is 101, and that task is to be run at t=101, we need to start it right away.
     if (nextJob.nextAttemptTimestamp > Date.now()) {
-      console.warn(
+      window.log.warn(
         'next job is not due to be run just yet. Going idle.',
         nextJob.nextAttemptTimestamp - Date.now()
       );

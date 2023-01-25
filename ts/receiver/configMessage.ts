@@ -1,28 +1,27 @@
-import _, { groupBy, isArray, isEmpty } from 'lodash';
+import _, { isEmpty } from 'lodash';
+import { ContactInfo, ProfilePicture } from 'session_util_wrapper';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
+import { ConversationInteraction } from '../interactions';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { SignalService } from '../protobuf';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
 } from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
+import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { BlockedNumberController } from '../util';
+import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+import { callLibSessionWorker } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { EnvelopePlus } from './types';
-import { ConversationInteraction } from '../interactions';
-import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { callLibSessionWorker } from '../webworker/workers/browser/libsession_worker_interface';
-import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
-import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
-import { Dictionary } from '@reduxjs/toolkit';
-import { ContactInfo, ProfilePicture } from 'session_util_wrapper';
 
 type IncomingConfResult = {
   needsPush: boolean;
@@ -45,26 +44,22 @@ function protobufSharedConfigTypeToWrapper(
 }
 
 async function mergeConfigsWithIncomingUpdates(
-  groupedByKind: Dictionary<Array<IncomingMessage<SignalService.SharedConfigMessage>>>
+  incomingConfig: IncomingMessage<SignalService.ISharedConfigMessage>
 ) {
   const kindMessageMap: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult> = new Map();
-  // do the merging on all wrappers sequentially instead of with a promise.all()
-  const allKinds = (Object.keys(groupedByKind) as unknown) as Array<
-    SignalService.SharedConfigMessage.Kind
-  >;
+  const allKinds = [incomingConfig.message.kind];
   for (let index = 0; index < allKinds.length; index++) {
     const kind = allKinds[index];
-    // see comment above "groupedByKind = groupBy" about why this is needed
-    const castedKind = (kind as unknown) as SignalService.SharedConfigMessage.Kind;
-    const currentKindMessages = groupedByKind[castedKind];
+
+    const currentKindMessages = [incomingConfig];
     if (!currentKindMessages) {
       continue;
     }
     const toMerge = currentKindMessages.map(m => m.message.data);
 
-    const wrapperId = protobufSharedConfigTypeToWrapper(castedKind);
+    const wrapperId = protobufSharedConfigTypeToWrapper(kind);
     if (!wrapperId) {
-      throw new Error(`Invalid castedKind: ${castedKind}`);
+      throw new Error(`Invalid kind: ${kind}`);
     }
 
     await callLibSessionWorker([wrapperId, 'merge', toMerge]);
@@ -181,6 +176,7 @@ async function handleContactsUpdate(result: IncomingConfResult) {
 }
 
 async function processMergingResults(
+  envelope: EnvelopePlus,
   results: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult>
 ) {
   const keys = [...results.keys()];
@@ -206,32 +202,30 @@ async function processMergingResults(
       throw e;
     }
   }
+  await removeFromCache(envelope);
 }
 
-async function handleConfigMessagesViaLibSession(
-  configMessages: Array<IncomingMessage<SignalService.SharedConfigMessage>>
+async function handleConfigMessageViaLibSession(
+  envelope: EnvelopePlus,
+  configMessage: IncomingMessage<SignalService.ISharedConfigMessage>
 ) {
   // FIXME: Remove this once `useSharedUtilForUserConfig` is permanent
-
-  if (
-    !window.sessionFeatureFlags.useSharedUtilForUserConfig ||
-    !configMessages ||
-    !isArray(configMessages) ||
-    configMessages.length === 0
-  ) {
+  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    await removeFromCache(envelope);
     return;
   }
 
-  window?.log?.info(
-    `Handling our profileUdpates via libsession_util. count: ${configMessages.length}`
-  );
+  if (!configMessage) {
+    await removeFromCache(envelope);
 
-  // lodash does not have a way to give the type of the keys as generic parameter so this can only be a string: Array<>
-  const groupedByKind = groupBy(configMessages, m => m.message.kind);
+    return;
+  }
 
-  const kindMessagesMap = await mergeConfigsWithIncomingUpdates(groupedByKind);
+  window?.log?.info(`Handling our profileUdpates via libsession_util.`);
 
-  await processMergingResults(kindMessagesMap);
+  const kindMessagesMap = await mergeConfigsWithIncomingUpdates(configMessage);
+
+  await processMergingResults(envelope, kindMessagesMap);
 }
 
 async function handleOurProfileUpdate(
@@ -426,6 +420,7 @@ async function handleConfigurationMessage(
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessage()"'
     );
+    await removeFromCache(envelope);
     return;
   }
 
@@ -449,5 +444,5 @@ async function handleConfigurationMessage(
 
 export const ConfigMessageHandler = {
   handleConfigurationMessage,
-  handleConfigMessagesViaLibSession,
+  handleConfigMessageViaLibSession,
 };

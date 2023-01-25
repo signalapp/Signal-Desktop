@@ -1,3 +1,4 @@
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 
 /**
@@ -30,6 +31,8 @@ export type ConfigDumpRow = {
   // we might need to add a `seqno` field here.
 };
 
+// ========== configdump
+
 export type GetByVariantAndPubkeyConfigDump = (
   variant: ConfigWrapperObjectTypes,
   pubkey: string
@@ -44,4 +47,40 @@ export type ConfigDumpDataNode = {
   saveConfigDump: SaveConfigDump;
   getAllDumpsWithData: GetAllDumps;
   getAllDumpsWithoutData: GetAllDumps;
+};
+
+// ========== unprocessed
+
+export type UnprocessedParameter = {
+  id: string;
+  version: number;
+  envelope: string;
+  timestamp: number;
+  // serverTimestamp: number;
+  attempts: number;
+  messageHash: string;
+  senderIdentity?: string;
+  decrypted?: string; // added once the envelopes's content is decrypted with updateCacheWithDecryptedContent
+  source?: string; // added once the envelopes's content is decrypted with updateCacheWithDecryptedContent
+};
+
+export type UnprocessedDataNode = {
+  saveUnprocessed: (data: UnprocessedParameter) => void;
+  updateUnprocessedAttempts: (id: string, attempts: number) => void;
+  updateUnprocessedWithData: (id: string, data: UnprocessedParameter) => void;
+  getUnprocessedById: (id: string) => UnprocessedParameter | undefined;
+  getUnprocessedCount: () => number;
+  getAllUnprocessed: () => Array<UnprocessedParameter>;
+  removeUnprocessed: (id: string) => void;
+  removeAllUnprocessed: () => void;
+};
+
+// ======== attachment downloads
+
+export type AttachmentDownloadMessageDetails = {
+  messageId: string;
+  type: 'preview' | 'quote' | 'attachment';
+  index: number;
+  isOpenGroupV2: boolean;
+  openGroupV2Details: OpenGroupRequestCommonType | undefined;
 };

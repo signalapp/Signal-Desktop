@@ -9,6 +9,7 @@ import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/att
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 import { was404Error } from '../apis/snode_api/onions';
+import { AttachmentDownloadMessageDetails } from '../../types/sqlSharedTypes';
 
 // this may cause issues if we increment that value to > 1, but only having one job will block the whole queue while one attachment is downloading
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -49,7 +50,7 @@ export function stop() {
   }
 }
 
-export async function addJob(attachment: any, job: any = {}) {
+export async function addJob(attachment: any, job: AttachmentDownloadMessageDetails) {
   if (!attachment) {
     throw new Error('attachments_download/addJob: attachment is required');
   }

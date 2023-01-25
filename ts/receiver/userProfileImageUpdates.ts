@@ -57,6 +57,7 @@ export async function updateOurProfileSync(
     window?.log?.warn('[profileupdate] Cannot update our profile with empty convoid');
     return;
   }
+
   const oneAtaTimeStr = `appendFetchAvatarAndProfileJob:${ourConvo.id}`;
   return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
     return createOrUpdateProfile(ourConvo.id, profileInDataMessage, profileKey);

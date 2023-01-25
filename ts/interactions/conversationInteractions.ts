@@ -455,6 +455,10 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
       `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
     );
   }
+  return {
+    avatarPointer: ourConvo.get('avatarPointer'),
+    profileKey: ourConvo.get('profileKey'),
+  };
 }
 
 export async function replyToMessage(messageId: string) {

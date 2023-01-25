@@ -1,7 +1,7 @@
 import { EnvelopePlus } from './types';
 import { handleSwarmDataMessage } from './dataMessage';
 
-import { removeFromCache, updateCache } from './cache';
+import { removeFromCache, updateCacheWithDecryptedContent } from './cache';
 import { SignalService } from '../protobuf';
 import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
 import { KeyPrefixType, PubKey } from '../session/types';
@@ -28,6 +28,7 @@ import {
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
+import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -39,7 +40,7 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
       return;
     }
     const sentAtTimestamp = toNumber(envelope.timestamp);
-    // swarm messages already comes with a timestamp is milliseconds, so this sentAtTimestamp is correct.
+    // swarm messages already comes with a timestamp in milliseconds, so this sentAtTimestamp is correct.
     // the sogs messages do not come as milliseconds but just seconds, so we override it
     await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
@@ -270,15 +271,15 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise
       return null;
     }
 
-    perfStart(`updateCache-${envelope.id}`);
+    perfStart(`updateCacheWithDecryptedContent-${envelope.id}`);
 
-    await updateCache(envelope, plaintext).catch((error: any) => {
+    await updateCacheWithDecryptedContent(envelope, plaintext).catch((error: any) => {
       window?.log?.error(
         'decrypt failed to save decrypted message contents to cache:',
         error && error.stack ? error.stack : error
       );
     });
-    perfEnd(`updateCache-${envelope.id}`, 'updateCache');
+    perfEnd(`updateCacheWithDecryptedContent-${envelope.id}`, 'updateCacheWithDecryptedContent');
 
     return plaintext;
   } catch (error) {
@@ -432,6 +433,18 @@ export async function innerHandleSwarmContentMessage(
         content.configurationMessage as SignalService.ConfigurationMessage
       );
       return;
+    }
+    if (content.sharedConfigMessage) {
+      if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+        const asIncomingMsg: IncomingMessage<SignalService.ISharedConfigMessage> = {
+          envelopeTimestamp: sentAtTimestamp,
+          message: content.sharedConfigMessage,
+          messageHash: messageHash,
+          authorOrGroupPubkey: envelope.source,
+          authorInGroup: envelope.senderIdentity,
+        };
+        await ConfigMessageHandler.handleConfigMessageViaLibSession(envelope, asIncomingMsg);
+      }
     }
     if (content.dataExtractionNotification) {
       perfStart(`handleDataExtractionNotification-${envelope.id}`);

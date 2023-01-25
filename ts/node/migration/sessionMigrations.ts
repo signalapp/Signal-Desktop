@@ -1242,13 +1242,15 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       combinedMessageHashes TEXT);
       `);
 
-    db.exec(`ALTER TABLE conversations
-      ADD COLUMN lastReadTimestampMs INTEGER;
-      ;
-        `);
+    // db.exec(`ALTER TABLE conversations
+    //   ADD COLUMN lastReadTimestampMs INTEGER;
+    //   ;
+    //     `);
+
+    db.exec(`ALTER TABLE unprocessed DROP COLUMN serverTimestamp;`);
 
     // we need to populate those fields with the current state of the conversation so let's throw null until this is done
-    throw null;
+    // throw new Error('update me');
     writeSessionSchemaVersion(targetVersion, db);
   })();
 
