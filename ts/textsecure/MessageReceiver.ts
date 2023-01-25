@@ -1413,59 +1413,57 @@ export default class MessageReceiver
           envelope,
           content.senderKeyDistributionMessage
         );
-      } else {
-        // Note: `story = true` can be set for sender key distribution messages
+      }
 
-        const isStoryReply = Boolean(content.dataMessage?.storyContext);
-        const isGroupStoryReply = Boolean(
-          isStoryReply && content.dataMessage?.groupV2
+      const isStoryReply = Boolean(content.dataMessage?.storyContext);
+      const isGroupStoryReply = Boolean(
+        isStoryReply && content.dataMessage?.groupV2
+      );
+      const isStory = Boolean(content.storyMessage);
+      const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+
+      if (
+        envelope.story &&
+        !(isGroupStoryReply || isStory) &&
+        !isDeleteForEveryone
+      ) {
+        log.warn(
+          `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
         );
-        const isStory = Boolean(content.storyMessage);
-        const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
+      }
 
-        if (
-          envelope.story &&
-          !(isGroupStoryReply || isStory) &&
-          !isDeleteForEveryone
-        ) {
-          log.warn(
-            `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
-
-        if (!envelope.story && (isGroupStoryReply || isStory)) {
-          log.warn(
-            `${logId}: Malformed story - story=false on envelope, but was a group story send`
-          );
-        }
-
-        const areStoriesBlocked = getStoriesBlocked();
-        // Note that there are other story-related message types which aren't captured
-        //   here. Look for other calls to getStoriesBlocked down-file.
-        if (areStoriesBlocked && (isStoryReply || isStory)) {
-          log.warn(
-            `${logId}: Dropping story message - stories are disabled or unavailable`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
-
-        const sender = window.ConversationController.get(
-          envelope.sourceUuid || envelope.source
+      if (!envelope.story && (isGroupStoryReply || isStory)) {
+        log.warn(
+          `${logId}: Malformed story - story=false on envelope, but was a group story send`
         );
-        if (
-          (isStoryReply || isStory) &&
-          !isGroupV2 &&
-          (!sender || !sender.get('profileSharing'))
-        ) {
-          log.warn(
-            `${logId}: Dropping story message - !profileSharing for sender`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
+      }
+
+      const areStoriesBlocked = getStoriesBlocked();
+      // Note that there are other story-related message types which aren't captured
+      //   here. Look for other calls to getStoriesBlocked down-file.
+      if (areStoriesBlocked && (isStoryReply || isStory)) {
+        log.warn(
+          `${logId}: Dropping story message - stories are disabled or unavailable`
+        );
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
+      }
+
+      const sender = window.ConversationController.get(
+        envelope.sourceUuid || envelope.source
+      );
+      if (
+        (isStoryReply || isStory) &&
+        !isGroupV2 &&
+        (!sender || !sender.get('profileSharing'))
+      ) {
+        log.warn(
+          `${logId}: Dropping story message - !profileSharing for sender`
+        );
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
       }
 
       if (content.pniSignatureMessage) {
