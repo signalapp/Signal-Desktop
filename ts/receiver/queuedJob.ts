@@ -394,7 +394,7 @@ export async function handleMessageJob(
     // as our profile is shared accross our devices with a ConfigurationMessage
     if (messageModel.isIncoming() && regularDataMessage.profile) {
       void appendFetchAvatarAndProfileJob(
-        sendingDeviceConversation,
+        sendingDeviceConversation.id,
         regularDataMessage.profile,
         regularDataMessage.profileKey
       );

@@ -10,7 +10,6 @@ import { processNewAttachment } from '../types/MessageAttachment';
 import { MIME } from '../types';
 import { autoScaleForIncomingAvatar } from '../util/attachmentsUtil';
 import { decryptProfile } from '../util/crypto/profileEncrypter';
-import { ConversationModel } from '../models/conversation';
 import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
@@ -25,26 +24,21 @@ queue.on('reject', error => {
 });
 
 export async function appendFetchAvatarAndProfileJob(
-  conversation: ConversationModel,
+  conversationId: string,
   profileInDataMessage: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null // was any
+  profileKey?: Uint8Array | null
 ) {
-  if (!conversation?.id) {
+  if (!conversationId) {
     window?.log?.warn('[profileupdate] Cannot update profile with empty convoid');
     return;
   }
-  const oneAtaTimeStr = `appendFetchAvatarAndProfileJob:${conversation.id}`;
+  const oneAtaTimeStr = `appendFetchAvatarAndProfileJob:${conversationId}`;
 
   if (hasAlreadyOneAtaTimeMatching(oneAtaTimeStr)) {
-    // window.log.debug(
-    //   '[profileupdate] not adding another task of "appendFetchAvatarAndProfileJob" as there is already one scheduled for the conversation: ',
-    //   conversation.id
-    // );
     return;
   }
-  // window.log.info(`[profileupdate] queuing fetching avatar for ${conversation.id}`);
   const task = allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-    return createOrUpdateProfile(conversation, profileInDataMessage, profileKey);
+    return createOrUpdateProfile(conversationId, profileInDataMessage, profileKey);
   });
 
   queue.enqueue(async () => task);
@@ -56,7 +50,7 @@ export async function appendFetchAvatarAndProfileJob(
  */
 export async function updateOurProfileSync(
   profileInDataMessage: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null // was any
+  profileKey?: Uint8Array | null
 ) {
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
   if (!ourConvo?.id) {
@@ -65,7 +59,7 @@ export async function updateOurProfileSync(
   }
   const oneAtaTimeStr = `appendFetchAvatarAndProfileJob:${ourConvo.id}`;
   return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-    return createOrUpdateProfile(ourConvo, profileInDataMessage, profileKey);
+    return createOrUpdateProfile(ourConvo.id, profileInDataMessage, profileKey);
   });
 }
 
@@ -73,10 +67,14 @@ export async function updateOurProfileSync(
  * Creates a new profile from the profile provided. Creates the profile if it doesn't exist.
  */
 async function createOrUpdateProfile(
-  conversation: ConversationModel,
+  conversationId: string,
   profileInDataMessage: SignalService.DataMessage.ILokiProfile,
   profileKey?: Uint8Array | null
 ) {
+  const conversation = getConversationController().get(conversationId);
+  if (!conversation) {
+    return;
+  }
   if (!conversation.isPrivate()) {
     window.log.warn('createOrUpdateProfile can only be used for private convos');
     return;
@@ -141,6 +139,22 @@ async function createOrUpdateProfile(
     }
   } else if (profileKey) {
     conversation.set({ avatarInProfile: undefined });
+  }
+
+  if (conversation.id === UserUtils.getOurPubKeyStrFromCache()) {
+    // make sure the settings which should already set to `true` are
+    if (
+      !conversation.get('isTrustedForAttachmentDownload') ||
+      !conversation.get('isApproved') ||
+      !conversation.get('didApproveMe')
+    ) {
+      conversation.set({
+        isTrustedForAttachmentDownload: true,
+        isApproved: true,
+        didApproveMe: true,
+      });
+      changes = true;
+    }
   }
 
   if (changes) {

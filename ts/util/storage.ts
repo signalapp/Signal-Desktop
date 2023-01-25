@@ -126,6 +126,9 @@ export function getLastProfileUpdateTimestamp() {
 }
 
 export async function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   await put('last_profile_update_timestamp', lastUpdateTimestamp);
 }
 

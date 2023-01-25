@@ -218,7 +218,7 @@ export async function handleSwarmDataMessage(
   ) {
     // do not await this
     void appendFetchAvatarAndProfileJob(
-      senderConversationModel,
+      senderConversationModel.id,
       cleanDataMessage.profile,
       cleanDataMessage.profileKey
     );

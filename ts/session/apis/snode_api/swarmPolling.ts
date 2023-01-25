@@ -17,6 +17,8 @@ import pRetry from 'p-retry';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
+import { ConfigMessageHandler } from '../../../receiver/configMessage';
+import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 
 // Some websocket nonsense
 export function processMessage(message: string, options: any = {}, messageHash: string) {
@@ -271,10 +273,26 @@ export class SwarmPolling {
     }
 
     perfStart(`handleSeenMessages-${pkStr}`);
-
     const newMessages = await this.handleSeenMessages(messages);
-
     perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
+
+    // try {
+    //   if (
+    //     window.sessionFeatureFlags.useSharedUtilForUserConfig &&
+    //     userConfigMessagesMerged.length
+    //   ) {
+    //     const asIncomingMessages = userConfigMessagesMerged.map(msg => {
+    //       const incomingMessage: IncomingMessage<SignalService.SharedConfigMessage> = {
+    //         envelopeTimestamp: msg.timestamp,
+    //         message: msg.data,
+    //         messageHash: msg.hash,
+    //       };
+    //     });
+    //     await ConfigMessageHandler.handleConfigMessagesViaLibSession();
+    //   }
+    // } catch (e) {
+    //   console.error('shared util lib process messages failed with: ', e);
+    // }
 
     newMessages.forEach((m: RetrieveMessageItem) => {
       const options = isGroup ? { conversationId: pkStr } : {};

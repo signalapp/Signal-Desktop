@@ -1406,7 +1406,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setNickname(nickname: string | null) {
+  public async setNickname(nickname: string | null, shouldCommit = false) {
     if (!this.isPrivate()) {
       window.log.info('cannot setNickname to a non private conversation.');
       return;
@@ -1425,7 +1425,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set({ nickname: trimmed, displayNameInProfile: realUserName });
     }
 
-    await this.commit();
+    if (shouldCommit) {
+      await this.commit();
+    }
   }
 
   public async setSessionProfile(newProfile: {
@@ -1482,7 +1484,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @returns `nickname` so the nickname we forced for that user. For a group, this returns `undefined`
    */
   public getNickname(): string | undefined {
-    return this.isPrivate() ? this.get('nickname') : undefined;
+    return this.isPrivate() ? this.get('nickname') || undefined : undefined;
   }
 
   /**

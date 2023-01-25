@@ -1,51 +1,79 @@
 import _, { isEmpty, isNull } from 'lodash';
-import { UserConfigWrapper } from 'session_util_wrapper';
+import { BaseConfigWrapper, ContactsConfigWrapper, UserConfigWrapper } from 'session_util_wrapper';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
-// import { default as sodiumWrappers } from 'libsodium-wrappers-sumo';
 
 /* eslint-disable no-console */
 /* eslint-disable strict */
 
-let userConfig: UserConfigWrapper;
+// we can only have one of those so don't worry about storing them in a map for now
+let userProfileWrapper: UserConfigWrapper | undefined;
+let contactsConfigWrapper: ContactsConfigWrapper | undefined;
 
-// async function getSodiumWorker() {
-//   await sodiumWrappers.ready;
+// const configWrappers: Array<EntryUserConfig | EntryContactsConfig> = new Array();
 
-//   return sodiumWrappers;
-// }
+type UserWrapperType = 'UserConfig' | 'ContactsConfig';
 
-async function getCorrespondingWrapper(config: ConfigWrapperObjectTypes) {
-  if (config !== 'UserConfig') {
-    throw new Error(`Invalid config: ${config}`);
+function getUserWrapper(type: UserWrapperType): BaseConfigWrapper | undefined {
+  switch (type) {
+    case 'UserConfig':
+      return userProfileWrapper;
+    case 'ContactsConfig':
+      return contactsConfigWrapper;
   }
-  if (!userConfig) {
-    throw new Error('UserConfig is not init yet');
+}
+
+function getCorrespondingWrapper(wrapperType: ConfigWrapperObjectTypes): BaseConfigWrapper {
+  switch (wrapperType) {
+    case 'UserConfig':
+    case 'ContactsConfig':
+      const wrapper = getUserWrapper(wrapperType);
+      if (!wrapper) {
+        throw new Error(`${wrapperType} is not init yet`);
+      }
+      return wrapper;
   }
-  return userConfig;
 }
 
 function isUInt8Array(value: any) {
   return value.constructor === Uint8Array;
 }
 
-function initUserConfigWrapper(options: Array<any>) {
-  if (userConfig) {
-    throw new Error('UserConfig already init');
+function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapperType {
+  if (wrapperType !== 'ContactsConfig' && wrapperType !== 'UserConfig') {
+    throw new Error(`wrapperType "${wrapperType} is not of type User"`);
+  }
+  return wrapperType;
+}
+
+/**
+ * This function can be used to initialize a wrapper which takes the private ed25519 key of the user and a dump as argument.
+ */
+function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): BaseConfigWrapper {
+  const wrapper = getUserWrapper(wrapperType);
+  if (wrapper) {
+    throw new Error(`${wrapperType} already init`);
   }
   if (options.length !== 2) {
-    throw new Error('UserConfig init needs two arguments');
+    throw new Error(`${wrapperType} init needs two arguments`);
   }
   const [edSecretKey, dump] = options;
 
   if (isEmpty(edSecretKey) || !isUInt8Array(edSecretKey)) {
-    throw new Error('UserConfig init needs a valid edSecretKey');
+    throw new Error(`${wrapperType} init needs a valid edSecretKey`);
   }
 
   if (!isNull(dump) && !isUInt8Array(dump)) {
-    throw new Error('UserConfig init needs a valid dump');
+    throw new Error('${wrapperType} init needs a valid dump');
   }
-  console.warn('UserConfigWrapper', UserConfigWrapper);
-  userConfig = new UserConfigWrapper(edSecretKey, dump);
+  const userType = assertUserWrapperType(wrapperType);
+  switch (userType) {
+    case 'UserConfig':
+      userProfileWrapper = new UserConfigWrapper(edSecretKey, dump);
+      return userProfileWrapper;
+    case 'ContactsConfig':
+      contactsConfigWrapper = new ContactsConfigWrapper(edSecretKey, dump);
+      return contactsConfigWrapper;
+  }
 }
 
 // tslint:disable: function-name no-console
@@ -55,7 +83,7 @@ onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any]
 
   try {
     if (action === 'init') {
-      initUserConfigWrapper(args);
+      initUserWrapper(args, config);
       postMessage([jobId, null, null]);
       return;
     }

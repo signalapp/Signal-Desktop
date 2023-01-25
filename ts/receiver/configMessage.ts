@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { groupBy, isArray, isEmpty } from 'lodash';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -18,22 +18,230 @@ import { ConversationInteraction } from '../interactions';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { callLibSessionWorker } from '../webworker/workers/browser/libsession_worker_interface';
+import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+import { Dictionary } from '@reduxjs/toolkit';
+import { ContactInfo, ProfilePicture } from 'session_util_wrapper';
 
-export async function handleConfigMessagesViaLibSession(
-  configMessages: Array<SignalService.ConfigurationMessage>
+type IncomingConfResult = {
+  needsPush: boolean;
+  needsDump: boolean;
+  messageHashes: Array<string>;
+  latestSentTimestamp: number;
+};
+
+function protobufSharedConfigTypeToWrapper(
+  kind: SignalService.SharedConfigMessage.Kind
+): ConfigWrapperObjectTypes | null {
+  switch (kind) {
+    case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
+      return 'UserConfig';
+    case SignalService.SharedConfigMessage.Kind.CONTACTS:
+      return 'ContactsConfig';
+    default:
+      return null;
+  }
+}
+
+async function mergeConfigsWithIncomingUpdates(
+  groupedByKind: Dictionary<Array<IncomingMessage<SignalService.SharedConfigMessage>>>
 ) {
-  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  const kindMessageMap: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult> = new Map();
+  // do the merging on all wrappers sequentially instead of with a promise.all()
+  const allKinds = (Object.keys(groupedByKind) as unknown) as Array<
+    SignalService.SharedConfigMessage.Kind
+  >;
+  for (let index = 0; index < allKinds.length; index++) {
+    const kind = allKinds[index];
+    // see comment above "groupedByKind = groupBy" about why this is needed
+    const castedKind = (kind as unknown) as SignalService.SharedConfigMessage.Kind;
+    const currentKindMessages = groupedByKind[castedKind];
+    if (!currentKindMessages) {
+      continue;
+    }
+    const toMerge = currentKindMessages.map(m => m.message.data);
+
+    const wrapperId = protobufSharedConfigTypeToWrapper(castedKind);
+    if (!wrapperId) {
+      throw new Error(`Invalid castedKind: ${castedKind}`);
+    }
+
+    await callLibSessionWorker([wrapperId, 'merge', toMerge]);
+    const needsPush = ((await callLibSessionWorker([wrapperId, 'needsPush'])) || false) as boolean;
+    const needsDump = ((await callLibSessionWorker([wrapperId, 'needsDump'])) || false) as boolean;
+    const messageHashes = currentKindMessages.map(m => m.messageHash);
+    const latestSentTimestamp = Math.max(...currentKindMessages.map(m => m.envelopeTimestamp));
+
+    const incomingConfResult: IncomingConfResult = {
+      latestSentTimestamp,
+      messageHashes,
+      needsDump,
+      needsPush,
+    };
+    kindMessageMap.set(kind, incomingConfResult);
+  }
+
+  return kindMessageMap;
+}
+
+async function handleUserProfileUpdate(result: IncomingConfResult) {
+  if (result.needsDump) {
+    return;
+  }
+
+  const updatedUserName = (await callLibSessionWorker(['UserConfig', 'getName'])) as
+    | string
+    | undefined;
+  const updatedProfilePicture = (await callLibSessionWorker([
+    'UserConfig',
+    'getProfilePicture',
+  ])) as ProfilePicture;
+
+  // fetch our own conversation
+  const userPublicKey = UserUtils.getOurPubKeyStrFromCache();
+  if (!userPublicKey) {
+    return;
+  }
+
+  const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
+
+  // trigger an update of our profileName and picture if there is one.
+  // this call checks for differences between updating anything
+  void updateOurProfileSync(
+    { displayName: updatedUserName, profilePicture: picUpdate ? updatedProfilePicture.url : null },
+    picUpdate ? updatedProfilePicture.key : null
+  );
+}
+
+async function handleContactsUpdate(result: IncomingConfResult) {
+  if (result.needsDump) {
+    return;
+  }
+
+  const allContacts = (await callLibSessionWorker(['ContactsConfig', 'getAll'])) as Array<
+    ContactInfo
+  >;
+
+  for (let index = 0; index < allContacts.length; index++) {
+    const wrapperConvo = allContacts[index];
+
+    if (wrapperConvo.id && getConversationController().get(wrapperConvo.id)) {
+      const existingConvo = getConversationController().get(wrapperConvo.id);
+      let changes = false;
+
+      // Note: the isApproved and didApproveMe flags are irreversible so they should only be updated when getting set to true
+      if (
+        existingConvo.get('isApproved') !== undefined &&
+        wrapperConvo.approved !== undefined &&
+        existingConvo.get('isApproved') !== wrapperConvo.approved
+      ) {
+        await existingConvo.setIsApproved(wrapperConvo.approved, false);
+        changes = true;
+      }
+
+      if (
+        existingConvo.get('didApproveMe') !== undefined &&
+        wrapperConvo.approvedMe !== undefined &&
+        existingConvo.get('didApproveMe') !== wrapperConvo.approvedMe
+      ) {
+        await existingConvo.setDidApproveMe(wrapperConvo.approvedMe, false);
+        changes = true;
+      }
+
+      const convoBlocked = wrapperConvo.blocked || false;
+      if (convoBlocked !== existingConvo.isBlocked()) {
+        if (existingConvo.isPrivate()) {
+          await BlockedNumberController.setBlocked(wrapperConvo.id, convoBlocked);
+        } else {
+          await BlockedNumberController.setGroupBlocked(wrapperConvo.id, convoBlocked);
+        }
+      }
+
+      if (wrapperConvo.nickname !== existingConvo.getNickname()) {
+        await existingConvo.setNickname(wrapperConvo.nickname || null, false);
+        changes = true;
+      }
+      // make sure to write the changes to the database now as the `appendFetchAvatarAndProfileJob` call below might take some time before getting run
+      if (changes) {
+        await existingConvo.commit();
+      }
+
+      // we still need to handle the the `name` and the `profilePicture` but those are currently made asynchronously
+      void appendFetchAvatarAndProfileJob(
+        existingConvo.id,
+        {
+          displayName: wrapperConvo.name,
+          profilePicture: wrapperConvo.profilePicture?.url || null,
+        },
+        wrapperConvo.profilePicture?.key || null
+      );
+    }
+  }
+}
+
+async function processMergingResults(
+  results: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult>
+) {
+  const keys = [...results.keys()];
+
+  for (let index = 0; index < keys.length; index++) {
+    const kind = keys[index];
+    const result = results.get(kind);
+
+    if (!result) {
+      continue;
+    }
+
+    try {
+      switch (kind) {
+        case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
+          await handleUserProfileUpdate(result);
+          break;
+        case SignalService.SharedConfigMessage.Kind.CONTACTS:
+          await handleContactsUpdate(result);
+          break;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+}
+
+async function handleConfigMessagesViaLibSession(
+  configMessages: Array<IncomingMessage<SignalService.SharedConfigMessage>>
+) {
+  // FIXME: Remove this once `useSharedUtilForUserConfig` is permanent
+
+  if (
+    !window.sessionFeatureFlags.useSharedUtilForUserConfig ||
+    !configMessages ||
+    !isArray(configMessages) ||
+    configMessages.length === 0
+  ) {
+    return;
   }
 
   window?.log?.info(
     `Handling our profileUdpates via libsession_util. count: ${configMessages.length}`
   );
+
+  // lodash does not have a way to give the type of the keys as generic parameter so this can only be a string: Array<>
+  const groupedByKind = groupBy(configMessages, m => m.message.kind);
+
+  const kindMessagesMap = await mergeConfigsWithIncomingUpdates(groupedByKind);
+
+  await processMergingResults(kindMessagesMap);
 }
 
 async function handleOurProfileUpdate(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
 ) {
+  // this call won't be needed with the new sharedUtilLibrary
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
   if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
     window?.log?.info(
@@ -197,7 +405,7 @@ const handleContactFromConfig = async (
     }
 
     void appendFetchAvatarAndProfileJob(
-      contactConvo,
+      contactConvo.id,
       profileInDataMessage,
       contactReceived.profileKey
     );

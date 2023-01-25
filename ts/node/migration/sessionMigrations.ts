@@ -1233,7 +1233,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   /**
    * Create a table to store our sharedConfigMessage dumps
-   **/
+   */
   db.transaction(() => {
     db.exec(`CREATE TABLE configDump(
       variant TEXT NOT NULL,
@@ -1241,6 +1241,13 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       data BLOB,
       combinedMessageHashes TEXT);
       `);
+
+    db.exec(`ALTER TABLE conversations
+      ADD COLUMN lastReadTimestampMs INTEGER;
+      ;
+        `);
+
+    // we need to populate those fields with the current state of the conversation so let's throw null until this is done
     throw null;
     writeSessionSchemaVersion(targetVersion, db);
   })();

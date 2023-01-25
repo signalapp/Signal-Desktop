@@ -1,3 +1,5 @@
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+
 /**
  * This wrapper can be used to make a function type not async, asynced.
  * We use it in the typing of the database communication, because the data calls (renderer side) have essentially the same signature of the sql calls (node side), with an added `await`
@@ -20,14 +22,8 @@ export type UpdateLastHashType = {
   namespace: number;
 };
 
-/**
- * Shared config dump types
- */
-
-export type SharedConfigSupportedVariant = 'user-profile' | 'contacts';
-
 export type ConfigDumpRow = {
-  variant: SharedConfigSupportedVariant; // the variant this entry is about. (user-config, contacts, ...)
+  variant: ConfigWrapperObjectTypes; // the variant this entry is about. (user pr, contacts, ...)
   pubkey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
   data: Uint8Array; // the blob returned by libsession.dump() call
   combinedMessageHashes?: string; // array of lastHashes to keep track of, stringified
@@ -35,14 +31,17 @@ export type ConfigDumpRow = {
 };
 
 export type GetByVariantAndPubkeyConfigDump = (
-  variant: SharedConfigSupportedVariant,
+  variant: ConfigWrapperObjectTypes,
   pubkey: string
 ) => Array<ConfigDumpRow>;
 export type GetByPubkeyConfigDump = (pubkey: string) => Array<ConfigDumpRow>;
 export type SaveConfigDump = (dump: ConfigDumpRow) => void;
+export type GetAllDumps = () => Array<ConfigDumpRow>;
 
 export type ConfigDumpDataNode = {
   getConfigDumpByVariantAndPubkey: GetByVariantAndPubkeyConfigDump;
   getConfigDumpsByPubkey: GetByPubkeyConfigDump;
   saveConfigDump: SaveConfigDump;
+  getAllDumpsWithData: GetAllDumps;
+  getAllDumpsWithoutData: GetAllDumps;
 };

@@ -47,12 +47,12 @@ import { switchThemeTo } from '../../themes/switchTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
-import { callLibSessionWorker } from '../../webworker/workers/browser/libsession_worker_interface';
 import { SharedConfigMessage } from '../../session/messages/outgoing/controlMessage/SharedConfigMessage';
 import { SignalService } from '../../protobuf';
 import { GetNetworkTime } from '../../session/apis/snode_api/getNetworkTime';
 import Long from 'long';
 import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
+import { initializeLibSessionUtilWrappers } from '../../session/utils/libsession/libsession_utils';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -204,19 +204,12 @@ const triggerAvatarReUploadIfNeeded = async () => {
 /**
  * This function is called only once: on app startup with a logged in user
  */
-const doAppStartUp = () => {
-  // init the messageQueue. In the constructor, we add all not send messages
-  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-  void getMessageQueue().processAllPending();
+const doAppStartUp = async () => {
+  await initializeLibSessionUtilWrappers();
 
   void setupTheme();
   // this generates the key to encrypt attachments locally
-  void Data.generateAttachmentKeyIfEmpty();
-
-  /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
-  global.setTimeout(() => {
-    void getOpenGroupManager().startPolling();
-  }, 5000);
+  await Data.generateAttachmentKeyIfEmpty();
 
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();
@@ -224,19 +217,22 @@ const doAppStartUp = () => {
 
   void loadDefaultRooms();
 
+  // TODO make this a job of the JobRunner
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
-  setTimeout(async () => {
-    const keypair = await UserUtils.getUserED25519KeyPairBytes();
-    if (!keypair) {
-      throw new Error('edkeypair not found for current user');
-    }
+  // init the messageQueue. In the constructor, we add all not send messages
+  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+  void getMessageQueue().processAllPending();
 
-    await callLibSessionWorker(['UserConfig', 'init', keypair.privKeyBytes, null]);
-    console.warn(`getName result:"${await callLibSessionWorker(['UserConfig', 'getName'])}"`);
-    console.warn('setName');
-    await callLibSessionWorker(['UserConfig', 'setName', 'MyName']);
-    console.warn(`getName result:"${await callLibSessionWorker(['UserConfig', 'getName'])}"`);
+  /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
+  global.setTimeout(() => {
+    void getOpenGroupManager().startPolling();
+  }, 10000);
+
+  global.setTimeout(() => {
+    // init the messageQueue. In the constructor, we add all not send messages
+    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+    void getMessageQueue().processAllPending();
   }, 3000);
 };
 

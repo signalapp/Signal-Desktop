@@ -9,7 +9,7 @@ const internalCallLibSessionWorker = async ([
   config,
   fnName,
   ...args
-]: LibSessionWorkerFunctions): Promise<any> => {
+]: LibSessionWorkerFunctions): Promise<unknown> => {
   if (!libsessionWorkerInterface) {
     const libsessionWorkerPath = join(
       getAppRootPath(),
@@ -26,6 +26,8 @@ const internalCallLibSessionWorker = async ([
   return libsessionWorkerInterface?.callWorker(config, fnName, ...args);
 };
 
-export const callLibSessionWorker = async (callToMake: LibSessionWorkerFunctions): Promise<any> => {
+export const callLibSessionWorker = async (
+  callToMake: LibSessionWorkerFunctions
+): Promise<unknown> => {
   return internalCallLibSessionWorker(callToMake);
 };

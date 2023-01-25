@@ -688,7 +688,7 @@ async function handleMessageRequestResponse(
 
   if (messageRequestResponse.profile && !isEmpty(messageRequestResponse.profile)) {
     void appendFetchAvatarAndProfileJob(
-      conversationToApprove,
+      conversationToApprove.id,
       messageRequestResponse.profile,
       messageRequestResponse.profileKey
     );

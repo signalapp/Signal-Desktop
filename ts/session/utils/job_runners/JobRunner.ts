@@ -21,6 +21,16 @@ export type JobEventListener = {
   onJobStarted: (job: SerializedPersistedJob) => void;
 };
 
+/**
+ * This class is used to plan jobs and make sure they are retried until the success.
+ * By having a specific type, we can find the logic to be run by that type of job.
+ *
+ * There are different type of jobs which can be scheduled, but we currently only use the SyncConfigurationJob.
+ *
+ * SyncConfigurationJob is a job which can only be planned once until it is a success. So in the queue  on jobs, there can only be one SyncConfigurationJob at all times.
+ *
+ *
+ */
 export class PersistedJobRunner {
   private isInit = false;
   private jobsScheduled: Array<Persistedjob> = [];

@@ -298,7 +298,7 @@ export async function setNotificationForConvoId(
 }
 export async function clearNickNameByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
-  await conversation.setNickname(null);
+  await conversation.setNickname(null, true);
 }
 
 export function showChangeNickNameByConvoId(conversationId: string) {

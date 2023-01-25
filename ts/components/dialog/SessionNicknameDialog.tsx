@@ -43,7 +43,7 @@ export const SessionNicknameDialog = (props: Props) => {
       throw new Error('Cant save without conversation id');
     }
     const conversation = getConversationController().get(conversationId);
-    await conversation.setNickname(nickname);
+    await conversation.setNickname(nickname, true);
     onClickClose();
   };
 

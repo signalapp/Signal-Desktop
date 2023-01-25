@@ -46,12 +46,7 @@ import {
   toSqliteBoolean,
 } from './database_utility';
 
-import {
-  ConfigDumpDataNode,
-  ConfigDumpRow,
-  SharedConfigSupportedVariant,
-  UpdateLastHashType,
-} from '../types/sqlSharedTypes';
+import { ConfigDumpDataNode, ConfigDumpRow, UpdateLastHashType } from '../types/sqlSharedTypes';
 import { OpenGroupV2Room } from '../data/opengroups';
 
 import {
@@ -67,6 +62,7 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -2031,7 +2027,7 @@ function removeV2OpenGroupRoom(conversationId: string) {
  */
 
 const configDumpData: ConfigDumpDataNode = {
-  getConfigDumpByVariantAndPubkey: (variant: SharedConfigSupportedVariant, pubkey: string) => {
+  getConfigDumpByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, pubkey: string) => {
     const rows = assertGlobalInstance()
       .prepare('SELECT * from configDump WHERE variant = $variant AND pubkey = $pubkey;')
       .get({
@@ -2083,6 +2079,32 @@ const configDumpData: ConfigDumpDataNode = {
         combinedMessageHashes,
         data,
       });
+  },
+
+  getAllDumpsWithData: () => {
+    const rows = assertGlobalInstance()
+      .prepare('SELECT variant, publicKey, combinedMessageHashes, data from configDump;')
+      .get();
+
+    if (!rows) {
+      return [];
+    }
+    throw new Error(`getAllDumpsWithData: rows: ${JSON.stringify(rows)} `);
+
+    return rows;
+  },
+
+  getAllDumpsWithoutData: () => {
+    const rows = assertGlobalInstance()
+      .prepare('SELECT variant, publicKey, combinedMessageHashes from configDump;')
+      .get();
+
+    if (!rows) {
+      return [];
+    }
+    throw new Error(`getAllDumpsWithoutData: rows: ${JSON.stringify(rows)} `);
+
+    return rows;
   },
 };
 
