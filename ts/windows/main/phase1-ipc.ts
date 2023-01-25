@@ -38,7 +38,8 @@ window.RETRY_DELAY = false;
 
 window.platform = process.platform;
 window.getTitle = () => title;
-window.getLocale = () => config.locale;
+window.getResolvedMessagesLocale = () => config.resolvedTranslationsLocale;
+window.getPreferredSystemLocales = () => config.preferredSystemLocales;
 window.getEnvironment = getEnvironment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;

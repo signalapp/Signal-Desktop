@@ -160,7 +160,8 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
-    getLocale: () => string;
+    getResolvedMessagesLocale: () => string;
+    getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;

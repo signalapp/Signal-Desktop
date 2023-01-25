@@ -49,13 +49,13 @@ function finalize(
 }
 
 export function load({
-  appLocale,
+  preferredSystemLocales,
   logger,
 }: {
-  appLocale: string;
-  logger: Pick<LoggerType, 'error' | 'warn'>;
+  preferredSystemLocales: Array<string>;
+  logger: Pick<LoggerType, 'error' | 'warn' | 'info'>;
 }): LocaleType {
-  if (!appLocale) {
+  if (preferredSystemLocales.length === 0) {
     throw new TypeError('`appLocale` is required');
   }
 
@@ -68,27 +68,28 @@ export function load({
 
   const english = getLocaleMessages('en');
 
-  // Load locale - if we can't load messages for the current locale, we
-  // default to 'en'
-  //
-  // possible locales:
-  // https://source.chromium.org/chromium/chromium/src/+/main:ui/base/l10n/l10n_util.cc
-  const languageOnly = removeRegion(appLocale);
+  for (const locale of preferredSystemLocales) {
+    try {
+      logger.info(`Loading preferred system locale: '${locale}'`);
+      return finalize(getLocaleMessages(locale), english, locale);
+    } catch (e) {
+      logger.warn(
+        `Problem loading messages for locale '${locale}', ${e.toString()}`
+      );
+    }
 
-  try {
-    return finalize(getLocaleMessages(appLocale), english, appLocale);
-  } catch (e) {
-    logger.warn(`Problem loading messages for locale ${appLocale}`);
+    const languageOnly = removeRegion(locale);
+    try {
+      logger.warn(`Falling back to parent language: '${languageOnly}'`);
+      // Note: messages are from parent language, but we still keep the region
+      return finalize(getLocaleMessages(languageOnly), english, locale);
+    } catch (e) {
+      logger.error(
+        `Problem loading messages for parent locale '${languageOnly}'`
+      );
+    }
   }
 
-  try {
-    logger.warn(`Falling back to parent language: '${languageOnly}'`);
-    // Note: messages are from parent language, but we still keep the region
-    return finalize(getLocaleMessages(languageOnly), english, appLocale);
-  } catch (e) {
-    logger.error(`Problem loading messages for locale ${languageOnly}`);
-
-    logger.warn("Falling back to 'en' locale");
-    return finalize(english, english, 'en');
-  }
+  logger.warn("Falling back to 'en' locale");
+  return finalize(english, english, 'en');
 }

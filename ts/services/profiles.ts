@@ -223,8 +223,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   );
 
   const userLanguages = getUserLanguages(
-    navigator.languages,
-    window.getLocale()
+    window.getPreferredSystemLocales(),
+    window.getResolvedMessagesLocale()
   );
 
   let profile;

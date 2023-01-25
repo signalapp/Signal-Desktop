@@ -197,8 +197,11 @@ const PLATFORMS = [
 
 describe('createTemplate', () => {
   const { i18n } = loadLocale({
-    appLocale: 'en',
+    preferredSystemLocales: ['en'],
     logger: {
+      info(_arg: unknown) {
+        // noop
+      },
       error(arg: unknown) {
         throw new Error(String(arg));
       },

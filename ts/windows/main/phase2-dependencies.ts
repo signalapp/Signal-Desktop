@@ -43,15 +43,15 @@ window.libphonenumberFormat = PhoneNumberFormat;
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-const { locale } = config;
-moment.updateLocale(locale, {
+const { resolvedTranslationsLocale, preferredSystemLocales } = config;
+moment.updateLocale(resolvedTranslationsLocale, {
   relativeTime: {
     s: window.i18n('timestamp_s'),
     m: window.i18n('timestamp_m'),
     h: window.i18n('timestamp_h'),
   },
 });
-moment.locale(locale);
+moment.locale(preferredSystemLocales);
 
 const userDataPath = SignalContext.getPath('userData');
 window.BasePaths = {

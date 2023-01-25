@@ -5,10 +5,16 @@
 
 @mixin font-family {
   font-family: $inter;
+  /* Japanese */
   &:lang(ja) {
     font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
       メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
       sans-serif;
+  }
+  /* Farsi (Persian) */
+  &:lang(fa) {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+      Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
 }
 

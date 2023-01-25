@@ -16,7 +16,10 @@ function ColdRoot() {
   return (
     <ReduxProvider store={store}>
       <Router history={history}>
-        <I18n messages={localeMessages} locale={SignalContext.config.locale}>
+        <I18n
+          messages={localeMessages}
+          locale={SignalContext.config.resolvedTranslationsLocale}
+        >
           <App
             executeMenuRole={SignalContext.executeMenuRole}
             hasCustomTitleBar={SignalContext.OS.hasCustomTitleBar()}

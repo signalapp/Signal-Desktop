@@ -552,7 +552,7 @@ export async function startApp(): Promise<void> {
 
   document.documentElement.setAttribute(
     'lang',
-    window.getLocale().substring(0, 2)
+    window.getResolvedMessagesLocale().split(/[-_]/)[0]
   );
 
   KeyChangeListener.init(window.textsecure.storage.protocol);

@@ -352,7 +352,8 @@ let menuOptions: CreateTemplateOptionsType | undefined;
 
 // These will be set after app fires the 'ready' event
 let logger: LoggerType | undefined;
-let locale: LocaleType | undefined;
+let preferredSystemLocales: Array<string> | undefined;
+let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
 function getLogger(): LoggerType {
@@ -364,12 +365,19 @@ function getLogger(): LoggerType {
   return logger;
 }
 
-function getLocale(): LocaleType {
-  if (!locale) {
-    throw new Error('getLocale: Locale not yet initialized!');
+function getPreferredSystemLocales(): Array<string> {
+  if (!preferredSystemLocales) {
+    throw new Error('getPreferredSystemLocales: Locales not yet initialized!');
+  }
+  return preferredSystemLocales;
+}
+
+function getResolvedMessagesLocale(): LocaleType {
+  if (!resolvedTranslationsLocale) {
+    throw new Error('getResolvedMessagesLocale: Locale not yet initialized!');
   }
 
-  return locale;
+  return resolvedTranslationsLocale;
 }
 
 type PrepareUrlOptions = { forCalling?: boolean; forCamera?: boolean };
@@ -404,7 +412,8 @@ async function prepareUrl(
 
   const urlParams: RendererConfigType = {
     name: packageJson.productName,
-    locale: getLocale().name,
+    resolvedTranslationsLocale: getResolvedMessagesLocale().name,
+    preferredSystemLocales: getPreferredSystemLocales(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),
@@ -750,7 +759,7 @@ async function createWindow() {
   }
 
   mainWindowCreated = true;
-  setupSpellChecker(mainWindow, getLocale());
+  setupSpellChecker(mainWindow, getResolvedMessagesLocale());
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
@@ -879,8 +888,12 @@ async function createWindow() {
         getLogger().info('close: showing tray notice');
 
         const n = new Notification({
-          title: getLocale().i18n('minimizeToTrayNotification--title'),
-          body: getLocale().i18n('minimizeToTrayNotification--body'),
+          title: getResolvedMessagesLocale().i18n(
+            'minimizeToTrayNotification--title'
+          ),
+          body: getResolvedMessagesLocale().i18n(
+            'minimizeToTrayNotification--body'
+          ),
         });
 
         n.show();
@@ -1143,7 +1156,7 @@ async function showScreenShareWindow(sourceName: string) {
     minimizable: false,
     resizable: false,
     show: false,
-    title: getLocale().i18n('screenShareWindow'),
+    title: getResolvedMessagesLocale().i18n('screenShareWindow'),
     titleBarStyle: nonMainTitleBarStyle,
     width,
     webPreferences: {
@@ -1194,7 +1207,7 @@ async function showAbout() {
     width: 500,
     height: 500,
     resizable: false,
-    title: getLocale().i18n('aboutSignalDesktop'),
+    title: getResolvedMessagesLocale().i18n('aboutSignalDesktop'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1242,7 +1255,7 @@ async function showSettingsWindow() {
     height: 700,
     frame: true,
     resizable: false,
-    title: getLocale().i18n('signalDesktopPreferences'),
+    title: getResolvedMessagesLocale().i18n('signalDesktopPreferences'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1294,7 +1307,9 @@ async function getIsLinked() {
 let stickerCreatorWindow: BrowserWindow | undefined;
 async function showStickerCreator() {
   if (!(await getIsLinked())) {
-    const message = getLocale().i18n('StickerCreator--Authentication--error');
+    const message = getResolvedMessagesLocale().i18n(
+      'StickerCreator--Authentication--error'
+    );
 
     await dialog.showMessageBox({
       type: 'warning',
@@ -1319,7 +1334,7 @@ async function showStickerCreator() {
     width: 800,
     minWidth: 800,
     height: 650,
-    title: getLocale().i18n('signalDesktopStickerCreator'),
+    title: getResolvedMessagesLocale().i18n('signalDesktopStickerCreator'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1338,7 +1353,7 @@ async function showStickerCreator() {
   };
 
   stickerCreatorWindow = new BrowserWindow(options);
-  setupSpellChecker(stickerCreatorWindow, getLocale());
+  setupSpellChecker(stickerCreatorWindow, getResolvedMessagesLocale());
 
   handleCommonWindowEvents(stickerCreatorWindow, titleBarOverlay);
 
@@ -1381,7 +1396,7 @@ async function showDebugLogWindow() {
     width: 700,
     height: 500,
     resizable: false,
-    title: getLocale().i18n('debugLog'),
+    title: getResolvedMessagesLocale().i18n('debugLog'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1445,7 +1460,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       width: Math.min(400, size[0]),
       height: Math.min(150, size[1]),
       resizable: false,
-      title: getLocale().i18n('allowAccess'),
+      title: getResolvedMessagesLocale().i18n('allowAccess'),
       titleBarStyle: nonMainTitleBarStyle,
       autoHideMenuBar: true,
       backgroundColor: await getBackgroundColor(),
@@ -1567,13 +1582,13 @@ const onDatabaseError = async (error: string) => {
 
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
-      getLocale().i18n('deleteAndRestart'),
-      getLocale().i18n('copyErrorAndQuit'),
+      getResolvedMessagesLocale().i18n('deleteAndRestart'),
+      getResolvedMessagesLocale().i18n('copyErrorAndQuit'),
     ],
     defaultId: 1,
     cancelId: 1,
     detail: redactAll(error),
-    message: getLocale().i18n('databaseError'),
+    message: getResolvedMessagesLocale().i18n('databaseError'),
     noLink: true,
     type: 'error',
   });
@@ -1601,8 +1616,10 @@ ipc.on('database-error', (_event: Electron.Event, error: string) => {
   drop(onDatabaseError(error));
 });
 
-function getAppLocale(): string {
-  return getEnvironment() === Environment.Test ? 'en' : app.getLocale();
+function loadPreferredSystemLocales(): Array<string> {
+  return getEnvironment() === Environment.Test
+    ? ['en']
+    : app.getPreferredSystemLanguages();
 }
 
 async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
@@ -1654,9 +1671,17 @@ app.on('ready', async () => {
 
   await setupCrashReports(getLogger);
 
-  if (!locale) {
-    const appLocale = getAppLocale();
-    locale = loadLocale({ appLocale, logger: getLogger() });
+  if (!resolvedTranslationsLocale) {
+    preferredSystemLocales = loadPreferredSystemLocales();
+    logger.info(
+      `app.ready: preferred system locales: ${preferredSystemLocales.join(
+        ', '
+      )}}`
+    );
+    resolvedTranslationsLocale = loadLocale({
+      preferredSystemLocales,
+      logger: getLogger(),
+    });
   }
 
   sqlInitPromise = initializeSQL(userDataPath);
@@ -1762,7 +1787,7 @@ app.on('ready', async () => {
     );
   }
 
-  GlobalErrors.updateLocale(locale);
+  GlobalErrors.updateLocale(resolvedTranslationsLocale);
 
   // If the sql initialization takes more than three seconds to complete, we
   // want to notify the user that things are happening
@@ -1877,7 +1902,9 @@ app.on('ready', async () => {
 
   setupMenu();
 
-  systemTrayService = new SystemTrayService({ i18n: locale.i18n });
+  systemTrayService = new SystemTrayService({
+    i18n: resolvedTranslationsLocale.i18n,
+  });
   systemTrayService.setMainWindow(mainWindow);
   systemTrayService.setEnabled(
     shouldMinimizeToSystemTray(await systemTraySettingCache.get())
@@ -1920,7 +1947,10 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     // overrides
     ...options,
   };
-  const template = createTemplate(menuOptions, getLocale().i18n);
+  const template = createTemplate(
+    menuOptions,
+    getResolvedMessagesLocale().i18n
+  );
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
@@ -2235,7 +2265,7 @@ ipc.on('get-built-in-images', async () => {
 // Ingested in preload.js via a sendSync call
 ipc.on('locale-data', event => {
   // eslint-disable-next-line no-param-reassign
-  event.returnValue = getLocale().messages;
+  event.returnValue = getResolvedMessagesLocale().messages;
 });
 
 ipc.on('user-config-key', event => {

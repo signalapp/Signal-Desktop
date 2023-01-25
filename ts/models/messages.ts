@@ -2961,8 +2961,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             'getProfile: expected updatesUrl to be a defined string'
           );
           const userLanguages = getUserLanguages(
-            navigator.languages,
-            window.getLocale()
+            window.getPreferredSystemLocales(),
+            window.getResolvedMessagesLocale()
           );
           const { messaging } = window.textsecure;
           if (!messaging) {

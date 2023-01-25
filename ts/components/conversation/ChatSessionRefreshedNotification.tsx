@@ -36,7 +36,7 @@ export function ChatSessionRefreshedNotification(
 
     const baseUrl =
       'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
-    const locale = window.getLocale();
+    const locale = window.getResolvedMessagesLocale();
     const supportLocale = mapToSupportLocale(locale);
     const url = baseUrl.replace('LOCALE', supportLocale);
 
