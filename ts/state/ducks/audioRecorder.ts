@@ -116,6 +116,7 @@ function startRecording(
         });
       }
     } catch (err) {
+      log.error('AudioRecorder/ERROR_RECORDING', err);
       dispatch({
         type: ERROR_RECORDING,
         payload: ErrorDialogAudioRecorderType.ErrorRecording,
