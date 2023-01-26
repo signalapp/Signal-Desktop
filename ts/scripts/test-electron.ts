@@ -13,15 +13,23 @@ const ELECTRON = join(
   process.platform === 'win32' ? 'electron.cmd' : 'electron'
 );
 
-const stdout = execFileSync(ELECTRON, [ROOT_DIR], {
-  cwd: ROOT_DIR,
-  env: {
-    ...process.env,
-    NODE_ENV: 'test',
-    TEST_QUIT_ON_COMPLETE: 'on',
-  },
-  encoding: 'utf8',
-});
+let stdout: string;
+try {
+  stdout = execFileSync(ELECTRON, [ROOT_DIR], {
+    cwd: ROOT_DIR,
+    env: {
+      ...process.env,
+      NODE_ENV: 'test',
+      TEST_QUIT_ON_COMPLETE: 'on',
+    },
+    encoding: 'utf8',
+  });
+} catch (error) {
+  console.error('Status', error.status);
+  console.error(error.output[0] ?? '');
+  console.error(error.output[1] ?? '');
+  process.exit(1);
+}
 
 const match = stdout.match(/ci:test-electron:done=(.*)?\n/);
 

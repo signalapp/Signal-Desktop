@@ -2125,7 +2125,10 @@ async function _getAllMessages(): Promise<Array<MessageType>> {
 }
 async function _removeAllMessages(): Promise<void> {
   const db = getInstance();
-  db.prepare<EmptyQuery>('DELETE from messages;').run();
+  db.exec(`
+    DELETE FROM messages;
+    INSERT INTO messages_fts(messages_fts) VALUES('optimize');
+  `);
 }
 
 async function getAllMessageIds(): Promise<Array<string>> {
@@ -4881,6 +4884,8 @@ async function removeAll(): Promise<void> {
       DELETE FROM storyReads;
       DELETE FROM unprocessed;
       DELETE FROM uninstalled_sticker_packs;
+
+      INSERT INTO messages_fts(messages_fts) VALUES('optimize');
     `);
   })();
 }

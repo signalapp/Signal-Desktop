@@ -50,6 +50,7 @@ import updateToSchemaVersion71 from './71-merge-notifications';
 import updateToSchemaVersion72 from './72-optimize-call-id-message-lookup';
 import updateToSchemaVersion73 from './73-remove-phone-number-discovery';
 import updateToSchemaVersion74 from './74-optimize-convo-open';
+import updateToSchemaVersion75 from './75-signal-tokenizer';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1969,6 +1970,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion72,
   updateToSchemaVersion73,
   updateToSchemaVersion74,
+  updateToSchemaVersion75,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
