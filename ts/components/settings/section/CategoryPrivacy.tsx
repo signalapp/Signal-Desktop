@@ -12,21 +12,7 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { displayPasswordModal } from '../SessionSettings';
 
-async function toggleLinkPreviews() {
-  const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
-  await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
-  if (!newValue) {
-    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
-  } else {
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        title: window.i18n('linkPreviewsTitle'),
-        message: window.i18n('linkPreviewsConfirmMessage'),
-        okTheme: SessionButtonColor.Danger,
-      })
-    );
-  }
-}
+
 
 const TypingBubbleItem = () => {
   return (
@@ -41,8 +27,31 @@ export const SettingsCategoryPrivacy = (props: {
   hasPassword: boolean | null;
   onPasswordUpdated: (action: string) => void;
 }) => {
+
+  const [isLinkPreviewsOn, setIsLinkPreviewsOn] = React.useState(Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview)))
+  
+  async function toggleLinkPreviews() {
+  const newValue = !isLinkPreviewsOn
+    await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
+    setIsLinkPreviewsOn(newValue)
+  if (!newValue) {
+    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+    setIsLinkPreviewsOn(false)
+  } else {
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('linkPreviewsTitle'),
+        message: window.i18n('linkPreviewsConfirmMessage'),
+        okTheme: SessionButtonColor.Danger,
+        onClickCancel: async () => {
+            await window.setSettingValue(SettingsKey.settingsLinkPreview, Boolean(false));
+            setIsLinkPreviewsOn(false)},
+      })
+    );
+  }
+}
+  
   const forceUpdate = useUpdate();
-  const isLinkPreviewsOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
 
   if (props.hasPassword !== null) {
     return (
