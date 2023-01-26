@@ -157,5 +157,3 @@ export class WebAudioRecorder {
     this.onError(this, `WebAudioRecorder.js: ${message}`);
   }
 }
-
-window.WebAudioRecorder = WebAudioRecorder;

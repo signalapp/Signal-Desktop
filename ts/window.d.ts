@@ -55,7 +55,6 @@ import type { IPCEventsType } from './util/createIPCEvents';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
-import type { WebAudioRecorder } from './WebAudioRecorder';
 
 export { Long } from 'long';
 
@@ -205,7 +204,6 @@ declare global {
     MessageController: MessageController;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
-    WebAudioRecorder: typeof WebAudioRecorder;
     Whisper: WhisperType;
     getSignalProtocolStore: () => SignalProtocolStore;
     i18n: LocalizerType;

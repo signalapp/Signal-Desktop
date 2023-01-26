@@ -1,10 +1,10 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import * as log from '../logging/log';
-import type { WebAudioRecorder } from '../WebAudioRecorder';
 import * as Errors from '../types/errors';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
+import { WebAudioRecorder } from '../WebAudioRecorder';
 
 export class RecorderClass {
   private context?: AudioContext;
@@ -58,7 +58,7 @@ export class RecorderClass {
     this.context = new AudioContext();
     this.input = this.context.createGain();
 
-    this.recorder = new window.WebAudioRecorder(
+    this.recorder = new WebAudioRecorder(
       this.input,
       {
         timeLimit: 60 + 3600, // one minute more than our UI-imposed limit
