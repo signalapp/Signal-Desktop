@@ -29,20 +29,6 @@ import { collect } from './iterables';
 import { DurationInSeconds } from './durations';
 import { sanitizeLinkPreview } from '../services/LinkPreview';
 
-function cleanLinkPreviewIfAny(attachment: AttachmentType): AttachmentType {
-  if (!attachment.textAttachment || !attachment.textAttachment.preview) {
-    return attachment;
-  }
-
-  return {
-    ...attachment,
-    textAttachment: {
-      ...attachment.textAttachment,
-      preview: undefined,
-    },
-  };
-}
-
 export async function sendStoryMessage(
   listIds: Array<string>,
   conversationIds: Array<string>,
@@ -153,8 +139,7 @@ export async function sendStoryMessage(
       sendStateByListId.set(distributionList.id, sendStateByConversationId);
     });
 
-  const cleanedAttachment = cleanLinkPreviewIfAny(attachment);
-  const attachments: Array<AttachmentType> = [cleanedAttachment];
+  const attachments: Array<AttachmentType> = [attachment];
 
   const linkPreview = attachment?.textAttachment?.preview;
   const sanitizedLinkPreview = linkPreview
