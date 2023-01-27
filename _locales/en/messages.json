@@ -6065,6 +6065,10 @@
     "message": "Reply",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Reply to Group",
     "description": "Button label to reply to a group story"
@@ -6134,7 +6138,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "React to story",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {

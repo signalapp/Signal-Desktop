@@ -601,7 +601,12 @@ export function StoryViewer({
             />
           )}
           <div className="StoryViewer__protection StoryViewer__protection--top" />
-          <div className="StoryViewer__container">
+          <div
+            className="StoryViewer__container"
+            onDoubleClick={() =>
+              setCurrentViewTarget(StoryViewTargetType.Replies)
+            }
+          >
             <StoryImage
               attachment={attachment}
               firstName={firstName || title}
@@ -908,7 +913,6 @@ export function StoryViewer({
         {(currentViewTarget === StoryViewTargetType.Replies ||
           currentViewTarget === StoryViewTargetType.Views) && (
           <StoryViewsNRepliesModal
-            conversationTitle={group?.title ?? title}
             authorTitle={firstName || title}
             canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}
@@ -942,7 +946,6 @@ export function StoryViewer({
             replies={replies}
             skinTone={skinTone}
             sortedGroupMembers={group?.sortedGroupMembers}
-            storyPreviewAttachment={attachment}
             views={views}
             viewTarget={currentViewTarget}
             onChangeViewTarget={setCurrentViewTarget}

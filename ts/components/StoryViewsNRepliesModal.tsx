@@ -9,10 +9,8 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { usePopper } from 'react-popper';
 import { noop } from 'lodash';
 
-import type { AttachmentType } from '../types/Attachment';
 import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -29,14 +27,12 @@ import { Emojify } from './conversation/Emojify';
 import { Message, TextDirection } from './conversation/Message';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { Modal } from './Modal';
-import { Quote } from './conversation/Quote';
 import { ReactionPicker } from './conversation/ReactionPicker';
 import { Tabs } from './Tabs';
 import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { WidthBreakpoint } from './_util';
 import { getAvatarColor } from '../types/Colors';
-import { getStoryReplyText } from '../util/getStoryReplyText';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -79,7 +75,6 @@ export enum StoryViewsNRepliesTab {
 }
 
 export type PropsType = {
-  conversationTitle: string;
   authorTitle: string;
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -104,7 +99,6 @@ export type PropsType = {
   replies: ReadonlyArray<ReplyType>;
   skinTone?: number;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
-  storyPreviewAttachment?: AttachmentType;
   views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
@@ -113,7 +107,6 @@ export type PropsType = {
 };
 
 export function StoryViewsNRepliesModal({
-  conversationTitle,
   authorTitle,
   canReply,
   getPreferredBadge,
@@ -134,7 +127,6 @@ export function StoryViewsNRepliesModal({
   replies,
   skinTone,
   sortedGroupMembers,
-  storyPreviewAttachment,
   views,
   viewTarget,
   onChangeViewTarget,
@@ -153,7 +145,6 @@ export function StoryViewsNRepliesModal({
   const shouldScrollToBottomRef = useRef(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
-  const [showReactionPicker, setShowReactionPicker] = useState(false);
 
   const currentTab = useMemo<StoryViewsNRepliesTab>(() => {
     return viewTarget === StoryViewTargetType.Replies
@@ -185,17 +176,6 @@ export function StoryViewsNRepliesModal({
     [inputApiRef, onUseEmoji]
   );
 
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  );
-
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'top-start',
-    strategy: 'fixed',
-  });
-
   let composerElement: JSX.Element | undefined;
 
   useLayoutEffect(() => {
@@ -218,22 +198,18 @@ export function StoryViewsNRepliesModal({
   } else if (canReply) {
     composerElement = (
       <>
-        {!group && (
-          <Quote
-            authorTitle={authorTitle}
-            conversationColor="ultramarine"
-            conversationTitle={conversationTitle}
-            i18n={i18n}
-            isFromMe={false}
-            isGiftBadge={false}
-            isStoryReply
-            isViewOnce={false}
-            moduleClassName="StoryViewsNRepliesModal__quote"
-            rawAttachment={storyPreviewAttachment}
-            referencedMessageNotFound={false}
-            text={getStoryReplyText(i18n, storyPreviewAttachment)}
-          />
-        )}
+        <ReactionPicker
+          i18n={i18n}
+          onPick={emoji => {
+            if (!group) {
+              onClose();
+            }
+            onReact(emoji);
+          }}
+          onSetSkinTone={onSetSkinTone}
+          preferredReactionEmoji={preferredReactionEmoji}
+          renderEmojiPicker={renderEmojiPicker}
+        />
         <div className="StoryViewsNRepliesModal__compose-container">
           <div className="StoryViewsNRepliesModal__composer">
             <CompositionInput
@@ -255,7 +231,9 @@ export function StoryViewsNRepliesModal({
               placeholder={
                 group
                   ? i18n('StoryViewer__reply-group')
-                  : i18n('StoryViewer__reply')
+                  : i18n('icu:StoryViewer__reply-placeholder', {
+                      firstName: authorTitle,
+                    })
               }
               sortedGroupMembers={sortedGroupMembers}
               theme={ThemeType.dark}
@@ -271,36 +249,6 @@ export function StoryViewsNRepliesModal({
               />
             </CompositionInput>
           </div>
-          <button
-            aria-label={i18n('StoryViewsNRepliesModal__react')}
-            className="StoryViewsNRepliesModal__react"
-            onClick={() => {
-              setShowReactionPicker(!showReactionPicker);
-            }}
-            ref={setReferenceElement}
-            type="button"
-          />
-          {showReactionPicker && (
-            <div
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              <ReactionPicker
-                i18n={i18n}
-                onClose={() => {
-                  setShowReactionPicker(false);
-                }}
-                onPick={emoji => {
-                  setShowReactionPicker(false);
-                  onReact(emoji);
-                }}
-                onSetSkinTone={onSetSkinTone}
-                preferredReactionEmoji={preferredReactionEmoji}
-                renderEmojiPicker={renderEmojiPicker}
-              />
-            </div>
-          )}
         </div>
       </>
     );
