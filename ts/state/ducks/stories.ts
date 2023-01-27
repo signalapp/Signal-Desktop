@@ -1625,6 +1625,7 @@ export function reducer(
   if (action.type === DOE_STORY) {
     return {
       ...state,
+      selectedStoryData: undefined,
       stories: state.stories.filter(
         existingStory => existingStory.messageId !== action.payload
       ),
