@@ -245,11 +245,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       !this.conversations.length &&
       !this.pinnedConversations.length &&
       !this.archivedConversations.length;
-    return (
-      hasNoConversations ||
-      this.isAboutToSearchInAConversation ||
-      Boolean(this.startSearchCounter)
-    );
+    return hasNoConversations || this.isAboutToSearchInAConversation;
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneInboxPropsType>): boolean {
