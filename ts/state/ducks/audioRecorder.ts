@@ -14,6 +14,7 @@ import { stringToMIMEType } from '../../types/MIME';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { getComposerStateForConversation } from './composer';
+import * as Errors from '../../types/errors';
 import {
   ErrorDialogAudioRecorderType,
   RecordingState,
@@ -116,7 +117,7 @@ function startRecording(
         });
       }
     } catch (err) {
-      log.error('AudioRecorder/ERROR_RECORDING', err);
+      log.error('AudioRecorder/ERROR_RECORDING', Errors.toLogFormat(err));
       dispatch({
         type: ERROR_RECORDING,
         payload: ErrorDialogAudioRecorderType.ErrorRecording,
