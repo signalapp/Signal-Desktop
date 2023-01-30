@@ -44,6 +44,8 @@ import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import * as log from '../logging/log';
 import { useRefMerger } from '../hooks/useRefMerger';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -102,6 +104,9 @@ export type Props = Readonly<{
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
+  linkPreviewLoading?: boolean;
+  linkPreviewResult?: LinkPreviewType;
+  onCloseLinkPreview?(conversationId: string): unknown;
 }>;
 
 const MAX_LENGTH = 64 * 1024;
@@ -110,22 +115,25 @@ const BASE_CLASS_NAME = 'module-composition-input';
 export function CompositionInput(props: Props): React.ReactElement {
   const {
     children,
+    clearQuotedMessage,
     conversationId,
-    i18n,
     disabled,
-    large,
-    inputApi,
-    moduleClassName,
-    onPickEmoji,
-    onSubmit,
-    onScroll,
-    placeholder,
-    skinTone,
-    draftText,
     draftBodyRanges,
+    draftText,
     getPreferredBadge,
     getQuotedMessage,
-    clearQuotedMessage,
+    i18n,
+    inputApi,
+    large,
+    linkPreviewLoading,
+    linkPreviewResult,
+    moduleClassName,
+    onCloseLinkPreview,
+    onPickEmoji,
+    onScroll,
+    onSubmit,
+    placeholder,
+    skinTone,
     sortedGroupMembers,
     theme,
   } = props;
@@ -698,10 +706,21 @@ export function CompositionInput(props: Props): React.ReactElement {
               onScroll={onScroll}
               className={classNames(
                 getClassName('__input__scroller'),
+                linkPreviewResult
+                  ? getClassName('__input__scroller--link-preview')
+                  : null,
                 large ? getClassName('__input__scroller--large') : null,
                 children ? getClassName('__input--with-children') : null
               )}
             >
+              {conversationId && linkPreviewLoading && linkPreviewResult && (
+                <StagedLinkPreview
+                  {...linkPreviewResult}
+                  moduleClassName="CompositionInput__link-preview"
+                  i18n={i18n}
+                  onClose={() => onCloseLinkPreview?.(conversationId)}
+                />
+              )}
               {reactQuill}
               {emojiCompletionElement}
               {mentionCompletionElement}

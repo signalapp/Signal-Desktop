@@ -52,7 +52,6 @@ import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileS
 import { MediaQualitySelector } from './MediaQualitySelector';
 import type { Props as QuoteProps } from './conversation/Quote';
 import { Quote } from './conversation/Quote';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { countStickers } from './stickers/lib';
 import {
   useAttachFileShortcut,
@@ -691,15 +690,6 @@ export function CompositionArea({
             />
           </div>
         )}
-        {linkPreviewLoading && linkPreviewResult && (
-          <div className="preview-wrapper">
-            <StagedLinkPreview
-              {...linkPreviewResult}
-              i18n={i18n}
-              onClose={() => onCloseLinkPreview(conversationId)}
-            />
-          </div>
-        )}
         {draftAttachments.length ? (
           <div className="CompositionArea__attachment-list">
             <AttachmentList
@@ -732,8 +722,8 @@ export function CompositionArea({
           )}
         >
           <CompositionInput
-            conversationId={conversationId}
             clearQuotedMessage={clearQuotedMessage}
+            conversationId={conversationId}
             disabled={isDisabled}
             draftBodyRanges={draftBodyRanges}
             draftText={draftText}
@@ -742,6 +732,9 @@ export function CompositionArea({
             i18n={i18n}
             inputApi={inputApiRef}
             large={large}
+            linkPreviewLoading={linkPreviewLoading}
+            linkPreviewResult={linkPreviewResult}
+            onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}
             onEditorStateChange={onEditorStateChange}
             onPickEmoji={onPickEmoji}
