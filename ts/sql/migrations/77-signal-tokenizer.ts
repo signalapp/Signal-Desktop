@@ -5,12 +5,12 @@ import type { Database } from '@signalapp/better-sqlite3';
 
 import type { LoggerType } from '../../types/Logging';
 
-export default function updateToSchemaVersion75(
+export default function updateToSchemaVersion77(
   currentVersion: number,
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 75) {
+  if (currentVersion >= 77) {
     return;
   }
 
@@ -37,8 +37,8 @@ export default function updateToSchemaVersion75(
       `
     );
 
-    db.pragma('user_version = 75');
+    db.pragma('user_version = 77');
   })();
 
-  logger.info('updateToSchemaVersion75: success!');
+  logger.info('updateToSchemaVersion77: success!');
 }
