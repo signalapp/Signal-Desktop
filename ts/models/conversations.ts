@@ -90,7 +90,6 @@ import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
 import { notificationService } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
-import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import {
@@ -5040,8 +5039,6 @@ export class ConversationModel extends window.Backbone
     await window.Signal.Data.removeAllMessagesInConversation(this.id, {
       logId: this.idForLogging(),
     });
-
-    scheduleOptimizeFTS();
   }
 
   getTitle(options?: { isShort?: boolean }): string {
