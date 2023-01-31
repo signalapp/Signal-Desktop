@@ -78,7 +78,6 @@ import type {
   DeleteSentProtoRecipientOptionsType,
   DeleteSentProtoRecipientResultType,
   EmojiType,
-  FTSOptimizationStateType,
   GetAllStoriesResultType,
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
@@ -341,8 +340,6 @@ const dataInterface: ServerInterface = {
   getMaxMessageCounter,
 
   getStatisticsForLogging,
-
-  optimizeFTS,
 
   // Server-only
 
@@ -5409,48 +5406,6 @@ async function removeKnownDraftAttachments(
   );
 
   return Object.keys(lookup);
-}
-
-const OPTIMIZE_FTS_PAGE_COUNT = 64;
-
-// This query is incremental. It gets the `state` from the return value of
-// previous `optimizeFTS` call. When `state.done` is `true` - optimization is
-// complete.
-async function optimizeFTS(
-  state?: FTSOptimizationStateType
-): Promise<FTSOptimizationStateType | undefined> {
-  // See https://www.sqlite.org/fts5.html#the_merge_command
-  let pageCount = OPTIMIZE_FTS_PAGE_COUNT;
-  if (state === undefined) {
-    pageCount = -pageCount;
-  }
-  const db = getInstance();
-  const getChanges = prepare(db, 'SELECT total_changes() as changes;', {
-    pluck: true,
-  });
-
-  const changeDifference = db.transaction(() => {
-    const before: number = getChanges.get({});
-
-    prepare(
-      db,
-      `
-        INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
-      `
-    ).run({ pageCount });
-
-    const after: number = getChanges.get({});
-
-    return after - before;
-  })();
-
-  const nextSteps = (state?.steps ?? 0) + 1;
-
-  // From documentation:
-  // "If the difference is less than 2, then the 'merge' command was a no-op"
-  const done = changeDifference < 2;
-
-  return { steps: nextSteps, done };
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
