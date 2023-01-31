@@ -43,6 +43,18 @@ export type TypeOfPersistedData =
   | FakeSleepJobData
   | FakeSleepForMultiJobData;
 
+export type AddJobCheckReturn =
+  | 'skipAddSameJobPresent'
+  | 'removeJobsFromQueue'
+  | 'sameJobDataAlreadyInQueue'
+  | null;
+
+export enum RunJobResult {
+  Success = 1,
+  RetryJobIfPossible = 2,
+  PermanentFailure = 3,
+}
+
 /**
  * This class can be used to save and run jobs from the database.
  * Every child class must take the minimum amount of arguments, and make sure they are unlikely to change.
@@ -55,7 +67,7 @@ export type TypeOfPersistedData =
 export abstract class PersistedJob<T extends PersistedJobData> {
   public persistedData: T;
 
-  private runningPromise: Promise<boolean> | null = null;
+  private runningPromise: Promise<RunJobResult> | null = null;
 
   public constructor(data: T) {
     if (data.maxAttempts < 1) {
@@ -109,13 +121,11 @@ export abstract class PersistedJob<T extends PersistedJobData> {
 
   public abstract nonRunningJobsToRemove(jobs: Array<T>): Array<T>;
 
-  public abstract addJobCheck(
-    jobs: Array<T>
-  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null;
+  public abstract addJobCheck(jobs: Array<T>): AddJobCheckReturn;
 
-  public addJobCheckSameTypePresent(jobs: Array<T>): 'skipAsJobTypeAlreadyPresent' | null {
+  public addJobCheckSameTypePresent(jobs: Array<T>): 'skipAddSameJobPresent' | null {
     return jobs.some(j => j.jobType === this.persistedData.jobType)
-      ? 'skipAsJobTypeAlreadyPresent'
+      ? 'skipAddSameJobPresent'
       : null;
   }
 
@@ -126,7 +136,7 @@ export abstract class PersistedJob<T extends PersistedJobData> {
    *
    * Note: you should check the this.isAborted() to know if you should cancel the current processing of your logic.
    */
-  protected abstract run(): Promise<boolean>;
+  protected abstract run(): Promise<RunJobResult>;
 
   protected serializeBase(): T {
     return cloneDeep(this.persistedData);

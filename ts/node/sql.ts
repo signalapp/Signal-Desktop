@@ -410,7 +410,6 @@ function getConversationCount() {
 // tslint:disable-next-line: max-func-body-length
 function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
   const formatted = assertValidConversationAttributes(data);
-  console.warn('formatted', formatted);
 
   const {
     id,

@@ -6,6 +6,7 @@ import {
   AvatarDownloadPersistedData,
   ConfigurationSyncPersistedData,
   PersistedJob,
+  RunJobResult,
   TypeOfPersistedData,
 } from './PersistedJob';
 
@@ -18,13 +19,6 @@ import {
 export type StartProcessingResult = 'job_in_progress' | 'job_deferred' | 'job_started' | 'no_job';
 
 export type AddJobResult = 'job_deferred' | 'job_started';
-
-export type JobEventListener = {
-  onJobSuccess: (job: TypeOfPersistedData) => void;
-  onJobDeferred: (job: TypeOfPersistedData) => void;
-  onJobError: (job: TypeOfPersistedData) => void;
-  onJobStarted: (job: TypeOfPersistedData) => void;
-};
 
 /**
  * This class is used to plan jobs and make sure they are retried until the success.
@@ -43,11 +37,9 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private readonly jobRunnerType: JobRunnerType;
   private nextJobStartTimer: NodeJS.Timeout | null = null;
   private currentJob: PersistedJob<T> | null = null;
-  private readonly jobEventsListener: JobEventListener | null;
 
-  constructor(jobRunnerType: JobRunnerType, jobEventsListener: JobEventListener | null) {
+  constructor(jobRunnerType: JobRunnerType, _jobEventsListener: null) {
     this.jobRunnerType = jobRunnerType;
-    this.jobEventsListener = jobEventsListener;
     window?.log?.warn(`new runner of type ${jobRunnerType} built`);
   }
 
@@ -96,10 +88,8 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       .map(k => k.serializeJob());
 
     const addJobChecks = job.addJobCheck(serializedNonRunningJobs);
-    if (addJobChecks === 'skipAsJobTypeAlreadyPresent') {
-      window.log.warn(
-        `job runner has already a job with type:"${job.persistedData.jobType}" planned so not adding another one`
-      );
+    if (addJobChecks === 'skipAddSameJobPresent') {
+      window.log.warn(`addjobCheck returned "${addJobChecks}" so not adding it`);
       return 'type_exists';
     }
 
@@ -288,6 +278,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       this.planNextJob();
       return;
     }
+    let success: RunJobResult | null = null;
 
     try {
       if (this.currentJob) {
@@ -295,11 +286,9 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       }
       this.currentJob = nextJob;
 
-      this.jobEventsListener?.onJobStarted(this.currentJob.serializeJob());
+      success = await this.currentJob.runJob();
 
-      const success = await this.currentJob.runJob();
-
-      if (!success) {
+      if (success !== RunJobResult.Success) {
         throw new Error(`job ${nextJob.persistedData.identifier} failed`);
       }
 
@@ -307,30 +296,23 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       this.deleteJobsByIdentifier([this.currentJob.persistedData.identifier]);
       await this.writeJobsToDB();
     } catch (e) {
-      if (nextJob.persistedData.currentRetry >= nextJob.persistedData.maxAttempts - 1) {
+      if (
+        success === RunJobResult.PermanentFailure ||
+        nextJob.persistedData.currentRetry >= nextJob.persistedData.maxAttempts - 1
+      ) {
         // we cannot restart this job anymore. Remove the entry completely
         this.deleteJobsByIdentifier([nextJob.persistedData.identifier]);
-        if (this.jobEventsListener && this.currentJob) {
-          this.jobEventsListener.onJobError(this.currentJob.serializeJob());
-        }
       } else {
         nextJob.persistedData.currentRetry = nextJob.persistedData.currentRetry + 1;
         // that job can be restarted. Plan a retry later with the already defined retry
         nextJob.persistedData.nextAttemptTimestamp =
           Date.now() + nextJob.persistedData.delayBetweenRetries;
-        if (this.jobEventsListener && this.currentJob) {
-          this.jobEventsListener.onJobDeferred(this.currentJob.serializeJob());
-        }
       }
       // in any case, either we removed a job or changed one of the timestamp.
       // so sort the list again, and persist it
       this.sortJobsList();
       await this.writeJobsToDB();
     } finally {
-      if (this.jobEventsListener && this.currentJob) {
-        this.jobEventsListener.onJobSuccess(this.currentJob.serializeJob());
-      }
-
       this.currentJob = null;
 
       // start the next job if there is any to be started now, or just plan the wakeup of our runner for the right time.
@@ -341,7 +323,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private assertIsInitialized() {
     if (!this.isInit) {
       throw new Error(
-        'persisted job runner was not initlized yet. Call initWithData with what you have persisted first'
+        'persisted job runner was not initlized yet. Call loadJobsFromDb with what you have persisted first'
       );
     }
   }

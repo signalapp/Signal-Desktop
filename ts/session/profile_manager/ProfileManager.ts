@@ -2,11 +2,7 @@ import { to_hex } from 'libsodium-wrappers-sumo';
 import { isEmpty } from 'lodash';
 import { getConversationController } from '../conversations';
 import { UserUtils } from '../utils';
-import { runners } from '../utils/job_runners/JobRunner';
-import {
-  AvatarDownloadJob,
-  shouldAddAvatarDownloadJob,
-} from '../utils/job_runners/jobs/AvatarDownloadJob';
+import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 
 /**
  * This can be used to update our conversation display name with the given name right away, and plan an AvatarDownloadJob to retrieve the new avatar if needed to download it
@@ -16,18 +12,14 @@ async function updateOurProfileSync(
   profileUrl: string | null,
   profileKey: Uint8Array | null
 ) {
-  const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
+  const us = UserUtils.getOurPubKeyStrFromCache();
+  const ourConvo = getConversationController().get(us);
   if (!ourConvo?.id) {
-    window?.log?.warn('[profileupdate] Cannot update our profile with empty convoid');
+    window?.log?.warn('[profileupdate] Cannot update our profile without convo associated');
     return;
   }
 
-  return updateProfileOfContact(
-    UserUtils.getOurPubKeyStrFromCache(),
-    displayName,
-    profileUrl,
-    profileKey
-  );
+  return updateProfileOfContact(us, displayName, profileUrl, profileKey);
 }
 
 /**
@@ -56,15 +48,12 @@ async function updateProfileOfContact(
   // add an avatar download job only if needed
 
   const profileKeyHex = !profileKey || isEmpty(profileKey) ? null : to_hex(profileKey);
-  if (shouldAddAvatarDownloadJob({ pubkey, profileUrl, profileKeyHex })) {
-    const avatarDownloadJob = new AvatarDownloadJob({
-      conversationId: pubkey,
-      profileKeyHex,
-      profilePictureUrl: profileUrl || null,
-    });
 
-    await runners.avatarDownloadRunner.addJob(avatarDownloadJob);
-  }
+  await AvatarDownload.addAvatarDownloadJobIfNeeded({
+    profileKeyHex,
+    profileUrl,
+    pubkey,
+  });
 }
 
 export const ProfileManager = {

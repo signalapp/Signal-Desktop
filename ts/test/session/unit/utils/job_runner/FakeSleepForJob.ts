@@ -2,9 +2,11 @@ import { isNumber } from 'lodash';
 import { v4 } from 'uuid';
 import { sleepFor } from '../../../../../session/utils/Promise';
 import {
+  AddJobCheckReturn,
   FakeSleepForMultiJobData,
   FakeSleepJobData,
   PersistedJob,
+  RunJobResult,
 } from '../../../../../session/utils/job_runners/PersistedJob';
 
 export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData> {
@@ -34,7 +36,7 @@ export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData>
     }
   }
 
-  public async run() {
+  public async run(): Promise<RunJobResult> {
     window.log.warn(
       `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}". sleeping for ${this.persistedData.sleepDuration} & returning ${this.persistedData.returnResult} `
     );
@@ -42,7 +44,10 @@ export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData>
     window.log.warn(
       `${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done. returning success `
     );
-    return this.persistedData.returnResult;
+    if (this.persistedData.returnResult) {
+      return RunJobResult.Success;
+    }
+    return RunJobResult.RetryJobIfPossible;
   }
 
   public serializeJob(): FakeSleepForMultiJobData {
@@ -52,9 +57,7 @@ export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData>
   /**
    * For the fakesleep for multi, we want to allow as many job as we want, so this returns null
    */
-  public addJobCheck(
-    _jobs: Array<FakeSleepForMultiJobData>
-  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+  public addJobCheck(_jobs: Array<FakeSleepForMultiJobData>): AddJobCheckReturn {
     return null;
   }
 
@@ -89,7 +92,7 @@ export class FakeSleepForJob extends PersistedJob<FakeSleepJobData> {
     }
   }
 
-  public async run() {
+  public async run(): Promise<RunJobResult> {
     window.log.warn(
       `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" `
     );
@@ -97,16 +100,14 @@ export class FakeSleepForJob extends PersistedJob<FakeSleepJobData> {
     window.log.warn(
       `${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done. returning failed `
     );
-    return false;
+    return RunJobResult.RetryJobIfPossible;
   }
 
   public serializeJob(): FakeSleepJobData {
     return super.serializeBase();
   }
 
-  public addJobCheck(
-    jobs: Array<FakeSleepJobData>
-  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+  public addJobCheck(jobs: Array<FakeSleepJobData>): AddJobCheckReturn {
     return this.addJobCheckSameTypePresent(jobs);
   }
 

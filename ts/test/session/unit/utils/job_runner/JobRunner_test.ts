@@ -2,15 +2,11 @@ import { expect } from 'chai';
 import _, { isUndefined } from 'lodash';
 import Sinon from 'sinon';
 import { v4 } from 'uuid';
-import {
-  JobEventListener,
-  PersistedJobRunner,
-} from '../../../../../session/utils/job_runners/JobRunner';
+import { PersistedJobRunner } from '../../../../../session/utils/job_runners/JobRunner';
 import { FakeSleepForJob, FakeSleepForMultiJob } from './FakeSleepForJob';
 import {
   FakeSleepForMultiJobData,
   FakeSleepJobData,
-  TypeOfPersistedData,
 } from '../../../../../session/utils/job_runners/PersistedJob';
 import { sleepFor } from '../../../../../session/utils/Promise';
 import { stubData } from '../../../../test-utils/utils';
@@ -55,31 +51,13 @@ describe('JobRunner', () => {
   let clock: Sinon.SinonFakeTimers;
   let runner: PersistedJobRunner<FakeSleepJobData>;
   let runnerMulti: PersistedJobRunner<FakeSleepForMultiJobData>;
-  let jobEventsListener: JobEventListener;
 
   beforeEach(() => {
     getItemById = stubData('getItemById');
     stubData('createOrUpdateItem');
     clock = Sinon.useFakeTimers({ shouldAdvanceTime: true });
-    jobEventsListener = {
-      onJobDeferred: (_job: TypeOfPersistedData) => {
-        // window.log.warn('listener got deferred for job ', job);
-      },
-      onJobSuccess: (_job: TypeOfPersistedData) => {
-        // window.log.warn('listener got success for job ', job);
-      },
-      onJobError: (_job: TypeOfPersistedData) => {
-        // window.log.warn('listener got error for job ', job);
-      },
-      onJobStarted: (_job: TypeOfPersistedData) => {
-        // window.log.warn('listener got started for job ', job);
-      },
-    };
-    runner = new PersistedJobRunner<FakeSleepJobData>('FakeSleepForJob', jobEventsListener);
-    runnerMulti = new PersistedJobRunner<FakeSleepForMultiJobData>(
-      'FakeSleepForMultiJob',
-      jobEventsListener
-    );
+    runner = new PersistedJobRunner<FakeSleepJobData>('FakeSleepForJob', null);
+    runnerMulti = new PersistedJobRunner<FakeSleepForMultiJobData>('FakeSleepForMultiJob', null);
   });
 
   afterEach(() => {
@@ -95,8 +73,9 @@ describe('JobRunner', () => {
           id: '',
           value: JSON.stringify([]),
         });
+        const job = getFakeSleepForJob(123);
 
-        await runner.loadJobsFromDb();
+        await runner.addJob(job);
         throw new Error('PLOP'); // the line above should throw something else
       } catch (e) {
         expect(e.message).to.not.eq('PLOP');

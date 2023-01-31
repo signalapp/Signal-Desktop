@@ -48,7 +48,6 @@ import { initializeLibSessionUtilWrappers } from '../../session/utils/libsession
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
-import { AvatarDownloadJob } from '../../session/utils/job_runners/jobs/AvatarDownloadJob';
 import { runners } from '../../session/utils/job_runners/JobRunner';
 
 const Section = (props: { type: SectionType }) => {
@@ -64,20 +63,6 @@ const Section = (props: { type: SectionType }) => {
   const handleClick = async () => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
-      const us = UserUtils.getOurPubKeyStrFromCache();
-      const ourConvo = getConversationController().get(us);
-
-      const job = new AvatarDownloadJob({
-        conversationId: us,
-        currentRetry: 0,
-        delayBetweenRetries: 3000,
-        maxAttempts: 3,
-        profileKeyHex: ourConvo.get('profileKey') || null,
-        profilePictureUrl: ourConvo.get('avatarPointer') || null,
-      });
-      await runners.avatarDownloadRunner.loadJobsFromDb();
-      runners.avatarDownloadRunner.startProcessing();
-      await runners.avatarDownloadRunner.addJob(job);
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
@@ -213,6 +198,9 @@ const doAppStartUp = async () => {
   void setupTheme();
   // this generates the key to encrypt attachments locally
   await Data.generateAttachmentKeyIfEmpty();
+
+  await runners.avatarDownloadRunner.loadJobsFromDb();
+  runners.avatarDownloadRunner.startProcessing();
 
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();

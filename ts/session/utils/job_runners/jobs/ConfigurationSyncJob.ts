@@ -1,6 +1,11 @@
 import { v4 } from 'uuid';
 import { sleepFor } from '../../Promise';
-import { ConfigurationSyncPersistedData, PersistedJob } from '../PersistedJob';
+import {
+  AddJobCheckReturn,
+  ConfigurationSyncPersistedData,
+  PersistedJob,
+  RunJobResult,
+} from '../PersistedJob';
 
 const defaultMsBetweenRetries = 3000;
 
@@ -22,7 +27,7 @@ export class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersiste
     });
   }
 
-  public async run() {
+  public async run(): Promise<RunJobResult> {
     // blablha do everything from the notion page, and if success, return true.
     window.log.warn(
       `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" `
@@ -33,7 +38,7 @@ export class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersiste
       `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done and returning failed `
     );
 
-    return false;
+    return RunJobResult.RetryJobIfPossible;
   }
 
   public serializeJob(): ConfigurationSyncPersistedData {
@@ -41,9 +46,7 @@ export class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersiste
     return fromParent;
   }
 
-  public addJobCheck(
-    jobs: Array<ConfigurationSyncPersistedData>
-  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+  public addJobCheck(jobs: Array<ConfigurationSyncPersistedData>): AddJobCheckReturn {
     return this.addJobCheckSameTypePresent(jobs);
   }
 

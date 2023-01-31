@@ -1,4 +1,4 @@
-import { isEmpty, isEqual, isNumber } from 'lodash';
+import { isEmpty, isEqual, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { downloadAttachment } from '../../../../receiver/attachments';
@@ -8,7 +8,13 @@ import { autoScaleForIncomingAvatar } from '../../../../util/attachmentsUtil';
 import { decryptProfile } from '../../../../util/crypto/profileEncrypter';
 import { getConversationController } from '../../../conversations';
 import { fromHexToArray } from '../../String';
-import { AvatarDownloadPersistedData, PersistedJob } from '../PersistedJob';
+import { runners } from '../JobRunner';
+import {
+  AddJobCheckReturn,
+  AvatarDownloadPersistedData,
+  PersistedJob,
+  RunJobResult,
+} from '../PersistedJob';
 
 const defaultMsBetweenRetries = 10000;
 const defaultMaxAttemps = 3;
@@ -16,7 +22,7 @@ const defaultMaxAttemps = 3;
 /**
  * Returns true if given those details we should add an Avatar Download Job to the list of jobs to run
  */
-export function shouldAddAvatarDownloadJob({
+function shouldAddAvatarDownloadJob({
   profileKeyHex,
   profileUrl,
   pubkey,
@@ -36,13 +42,38 @@ export function shouldAddAvatarDownloadJob({
     window.log.warn('shouldAddAvatarDownloadJob can only be used for private convos currently');
     return false;
   }
-  if (profileUrl && !isEmpty(profileKeyHex)) {
-    const prevPointer = conversation.get('avatarPointer');
-    const needsUpdate = !prevPointer || !isEqual(prevPointer, profileUrl);
+  const prevPointer = conversation.get('avatarPointer');
 
-    return needsUpdate;
+  if (!isEmpty(profileUrl) && !isEmpty(profileKeyHex) && !isEqual(prevPointer, profileUrl)) {
+    return true;
   }
   return false;
+}
+
+async function addAvatarDownloadJobIfNeeded({
+  profileKeyHex,
+  profileUrl,
+  pubkey,
+}: {
+  pubkey: string;
+  profileUrl: string | null | undefined;
+  profileKeyHex: string | null | undefined;
+}) {
+  if (profileKeyHex && shouldAddAvatarDownloadJob({ pubkey, profileUrl, profileKeyHex })) {
+    const avatarDownloadJob = new AvatarDownloadJob({
+      conversationId: pubkey,
+      profileKeyHex,
+      profilePictureUrl: profileUrl || null,
+    });
+    window.log.debug(
+      `addAvatarDownloadJobIfNeeded: adding job download for ${pubkey}:${profileUrl}:${profileKeyHex} `
+    );
+    await runners.avatarDownloadRunner.addJob(avatarDownloadJob);
+  } else {
+    window.log.debug(
+      `addAvatarDownloadJobIfNeeded: no download required for ${pubkey}:${profileUrl}:${profileKeyHex} `
+    );
+  }
 }
 
 /**
@@ -51,7 +82,7 @@ export function shouldAddAvatarDownloadJob({
  * When the jobRunners starts this job, the job first checks if a download is required or not (avatarPointer changed and wasn't already downloaded).
  * If yes, it downloads the new avatar, decrypt it and store it before updating the conversation with the new url,profilekey and local file storage.
  */
-export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
+class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
   constructor({
     conversationId,
     nextAttemptTimestamp,
@@ -86,7 +117,7 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
-  public async run(): Promise<boolean> {
+  public async run(): Promise<RunJobResult> {
     const convoId = this.persistedData.conversationId;
 
     window.log.warn(
@@ -95,7 +126,7 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
 
     if (!this.persistedData.identifier || !convoId) {
       // return true so we do not retry this task.
-      return true;
+      return RunJobResult.PermanentFailure;
     }
 
     let conversation = getConversationController().get(convoId);
@@ -103,11 +134,11 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
       // return true so we do not retry this task.
       window.log.warn('AvatarDownloadJob did not corresponding conversation');
 
-      return true;
+      return RunJobResult.PermanentFailure;
     }
     if (!conversation.isPrivate()) {
       window.log.warn('AvatarDownloadJob can only be used for private convos currently');
-      return true;
+      return RunJobResult.PermanentFailure;
     }
     let changes = false;
 
@@ -120,7 +151,7 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
       // return true so we do not retry this task.
       window.log.warn('AvatarDownloadJob shouldAddAvatarDownloadJob said no');
 
-      return true;
+      return RunJobResult.PermanentFailure;
     }
 
     if (this.persistedData.profilePictureUrl && this.persistedData.profileKeyHex) {
@@ -162,16 +193,23 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
             ({ path } = upgraded);
           } catch (e) {
             window?.log?.error(`[profileupdate] Could not decrypt profile image: ${e}`);
+            return RunJobResult.RetryJobIfPossible; // so we retry this job
           }
 
           conversation.set({ avatarInProfile: path || undefined });
 
           changes = true;
         } catch (e) {
+          if (isString(e.message) && (e.message as string).includes('404')) {
+            window.log.warn(
+              `[profileupdate] Failed to download attachment at ${this.persistedData.profilePictureUrl}. We got 404 error: "${e.message}"`
+            );
+            return RunJobResult.PermanentFailure;
+          }
           window.log.warn(
             `[profileupdate] Failed to download attachment at ${this.persistedData.profilePictureUrl}. Maybe it expired? ${e.message}`
           );
-          // do not return here, we still want to update the display name even if the avatar failed to download
+          return RunJobResult.RetryJobIfPossible;
         }
       }
     } else {
@@ -210,7 +248,7 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
     }
 
     // return true so this job is marked as a success
-    return true;
+    return RunJobResult.Success;
   }
 
   public serializeJob(): AvatarDownloadPersistedData {
@@ -222,12 +260,27 @@ export class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData>
     return jobs.filter(j => j.conversationId === this.persistedData.conversationId);
   }
 
-  public addJobCheck(
-    jobs: Array<AvatarDownloadPersistedData>
-  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+  public addJobCheck(jobs: Array<AvatarDownloadPersistedData>): AddJobCheckReturn {
+    // avoid adding the same job if the exact same one is already planned
+    const hasSameJob = jobs.some(j => {
+      return (
+        j.conversationId === this.persistedData.conversationId &&
+        j.profileKeyHex === this.persistedData.profileKeyHex &&
+        j.profilePictureUrl === this.persistedData.profilePictureUrl
+      );
+    });
+
+    if (hasSameJob) {
+      return 'skipAddSameJobPresent';
+    }
     if (this.nonRunningJobsToRemove(jobs).length) {
       return 'removeJobsFromQueue';
     }
     return null;
   }
 }
+
+export const AvatarDownload = {
+  AvatarDownloadJob,
+  addAvatarDownloadJobIfNeeded,
+};
