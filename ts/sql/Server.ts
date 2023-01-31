@@ -2647,7 +2647,7 @@ function getOldestMessageForConversation(
   const row = db
     .prepare<Query>(
       `
-      SELECT * FROM messages WHERE
+      SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, includeStoryReplies)})
@@ -2680,7 +2680,7 @@ function getNewestMessageForConversation(
   const row = db
     .prepare<Query>(
       `
-      SELECT * FROM messages WHERE
+      SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, includeStoryReplies)})
@@ -2744,35 +2744,29 @@ function getLastConversationPreview({
 }): MessageType | undefined {
   type Row = Readonly<{
     json: string;
-    received_at: number;
-    sent_at: number;
   }>;
 
   const db = getInstance();
 
-  const queryTemplate = (extraClause: string): string => {
-    return `
-      SELECT json, received_at, sent_at FROM messages
-      INDEXED BY messages_preview
-      WHERE
-        conversationId IS $conversationId AND
-        shouldAffectPreview IS 1 AND
-        isGroupLeaveEventFromOther IS 0 AND
-        ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
-        ${extraClause}
-      ORDER BY received_at DESC, sent_at DESC
-      LIMIT 1
-    `;
-  };
+  const index = includeStoryReplies
+    ? 'messages_preview'
+    : 'messages_preview_without_story';
 
   const row: Row | undefined = prepare(
     db,
     `
-      SELECT * FROM (${queryTemplate('expiresAt IS NULL')})
-      UNION ALL
-      SELECT * FROM (${queryTemplate('expiresAt > $now')})
-      ORDER BY received_at DESC, sent_at DESC
-      LIMIT 1;
+      SELECT json FROM (
+        SELECT json, expiresAt FROM messages
+        INDEXED BY ${index}
+        WHERE
+          conversationId IS $conversationId AND
+          shouldAffectPreview IS 1 AND
+          isGroupLeaveEventFromOther IS 0
+          ${includeStoryReplies ? '' : 'AND storyId IS NULL'}
+        ORDER BY received_at DESC, sent_at DESC
+      )
+      WHERE likely(expiresAt > $now)
+      LIMIT 1
     `
   ).get({
     conversationId,
@@ -2818,7 +2812,7 @@ async function getLastConversationMessage({
   const row = db
     .prepare<Query>(
       `
-      SELECT * FROM messages WHERE
+      SELECT json FROM messages WHERE
         conversationId = $conversationId
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
@@ -2849,7 +2843,7 @@ function getOldestUnseenMessageForConversation(
   const row = db
     .prepare<Query>(
       `
-      SELECT * FROM messages WHERE
+      SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = $conversationId AND
         seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
@@ -3124,7 +3118,6 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
     .prepare<Query>(
       `
       SELECT json FROM messages WHERE
-        expiresAt IS NOT NULL AND
         expiresAt <= $now
       ORDER BY expiresAt ASC;
       `
@@ -3174,6 +3167,10 @@ async function getSoonestMessageExpiry(): Promise<undefined | number> {
     )
     .pluck(true)
     .get();
+
+  if (result != null && result >= Number.MAX_SAFE_INTEGER) {
+    return undefined;
+  }
 
   return result || undefined;
 }
