@@ -2,14 +2,12 @@ import { isNumber } from 'lodash';
 import { v4 } from 'uuid';
 import { sleepFor } from '../../../../../session/utils/Promise';
 import {
-  Persistedjob,
-  SerializedPersistedJob,
+  FakeSleepForMultiJobData,
+  FakeSleepJobData,
+  PersistedJob,
 } from '../../../../../session/utils/job_runners/PersistedJob';
 
-export class FakeSleepForMultiJob extends Persistedjob {
-  private readonly sleepDuration: number;
-  private readonly returnResult: boolean;
-
+export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData> {
   constructor({
     identifier,
     nextAttemptTimestamp,
@@ -17,25 +15,20 @@ export class FakeSleepForMultiJob extends Persistedjob {
     currentRetry,
     returnResult,
     sleepDuration,
-  }: {
-    identifier: string | null;
-    nextAttemptTimestamp: number | null;
-    maxAttempts: number | null;
-    currentRetry: number;
-    sleepDuration: number;
-    returnResult: boolean;
-  }) {
+  }: Pick<FakeSleepForMultiJobData, 'currentRetry' | 'returnResult' | 'sleepDuration'> &
+    Partial<
+      Pick<FakeSleepForMultiJobData, 'nextAttemptTimestamp' | 'maxAttempts' | 'identifier'>
+    >) {
     super({
       jobType: 'FakeSleepForJobMultiType',
       identifier: identifier || v4(),
       delayBetweenRetries: 10000,
       maxAttempts: isNumber(maxAttempts) ? maxAttempts : 3,
       nextAttemptTimestamp: nextAttemptTimestamp || Date.now() + 3000,
-      singleJobInQueue: false,
       currentRetry,
+      returnResult,
+      sleepDuration,
     });
-    this.returnResult = returnResult;
-    this.sleepDuration = sleepDuration;
     if (process.env.NODE_APP_INSTANCE !== undefined) {
       throw new Error('FakeSleepForJobMultiType are only meant for testing purposes');
     }
@@ -43,41 +36,53 @@ export class FakeSleepForMultiJob extends Persistedjob {
 
   public async run() {
     window.log.warn(
-      `running job ${this.jobType} with id:"${this.identifier}". sleeping for ${this.sleepDuration} & returning ${this.returnResult} `
+      `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}". sleeping for ${this.persistedData.sleepDuration} & returning ${this.persistedData.returnResult} `
     );
-    await sleepFor(this.sleepDuration);
-    window.log.warn(`${this.jobType} with id:"${this.identifier}" done. returning success `);
-    return this.returnResult;
+    await sleepFor(this.persistedData.sleepDuration);
+    window.log.warn(
+      `${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done. returning success `
+    );
+    return this.persistedData.returnResult;
   }
 
-  public serializeJob(): SerializedPersistedJob {
-    const fromParent = super.serializeBase();
-    fromParent.sleepDuration = this.sleepDuration;
-    fromParent.returnResult = this.returnResult;
-    return fromParent;
+  public serializeJob(): FakeSleepForMultiJobData {
+    return super.serializeBase();
+  }
+
+  /**
+   * For the fakesleep for multi, we want to allow as many job as we want, so this returns null
+   */
+  public addJobCheck(
+    _jobs: Array<FakeSleepForMultiJobData>
+  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+    return null;
+  }
+
+  /**
+   * For the MultiFakeSleep job, there are no jobs to remove if we try to add a new one of the same type.
+   */
+  public nonRunningJobsToRemove(_jobs: Array<FakeSleepForMultiJobData>) {
+    return [];
   }
 }
 
-export class FakeSleepForJob extends Persistedjob {
+export class FakeSleepForJob extends PersistedJob<FakeSleepJobData> {
   constructor({
     identifier,
     nextAttemptTimestamp,
     maxAttempts,
     currentRetry,
-  }: {
-    identifier: string | null;
-    nextAttemptTimestamp: number | null;
-    maxAttempts: number | null;
-    currentRetry: number;
-  }) {
+  }: Pick<FakeSleepJobData, 'currentRetry' | 'maxAttempts'> &
+    Partial<Pick<FakeSleepJobData, 'nextAttemptTimestamp' | 'identifier'>>) {
     super({
       jobType: 'FakeSleepForJobType',
       identifier: identifier || v4(),
       delayBetweenRetries: 10000,
-      maxAttempts: isNumber(maxAttempts) ? maxAttempts : 3,
+      maxAttempts,
       nextAttemptTimestamp: nextAttemptTimestamp || Date.now() + 3000,
-      singleJobInQueue: true,
       currentRetry,
+      returnResult: false,
+      sleepDuration: 5000,
     });
     if (process.env.NODE_APP_INSTANCE !== undefined) {
       throw new Error('FakeSleepForJob are only meant for testing purposes');
@@ -85,14 +90,32 @@ export class FakeSleepForJob extends Persistedjob {
   }
 
   public async run() {
-    window.log.warn(`running job ${this.jobType} with id:"${this.identifier}" `);
-    await sleepFor(5000);
-    window.log.warn(`${this.jobType} with id:"${this.identifier}" done. returning failed `);
+    window.log.warn(
+      `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" `
+    );
+    await sleepFor(this.persistedData.sleepDuration);
+    window.log.warn(
+      `${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done. returning failed `
+    );
     return false;
   }
 
-  public serializeJob(): SerializedPersistedJob {
-    const fromParent = super.serializeBase();
-    return fromParent;
+  public serializeJob(): FakeSleepJobData {
+    return super.serializeBase();
+  }
+
+  public addJobCheck(
+    jobs: Array<FakeSleepJobData>
+  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null {
+    return this.addJobCheckSameTypePresent(jobs);
+  }
+
+  /**
+   * For the FakeSleep job, we do not care about the jobs already in the list.
+   * We just never want to add a new job of that type if there is already one in the queue.
+   * This is done by the `addJobCheck` method above
+   */
+  public nonRunningJobsToRemove(_jobs: Array<FakeSleepJobData>) {
+    return [];
   }
 }

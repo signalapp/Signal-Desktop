@@ -3,40 +3,29 @@ import {
   FakeSleepForJob,
   FakeSleepForMultiJob,
 } from '../../../test/session/unit/utils/job_runner/FakeSleepForJob';
+import { AvatarDownloadJob } from './jobs/AvatarDownloadJob';
 import { ConfigurationSyncJob } from './jobs/ConfigurationSyncJob';
-import { Persistedjob, PersistedJobType, SerializedPersistedJob } from './PersistedJob';
+import { PersistedJob, TypeOfPersistedData } from './PersistedJob';
 
-export function persistedJobFromData(data: SerializedPersistedJob): Persistedjob | null {
+export function persistedJobFromData<T extends TypeOfPersistedData>(
+  data: T
+): PersistedJob<T> | null {
   if (!data || isEmpty(data.jobType) || !isString(data?.jobType)) {
     return null;
   }
-  const jobType: PersistedJobType = data.jobType as PersistedJobType;
-  switch (jobType) {
+
+  switch (data.jobType) {
     case 'ConfigurationSyncJobType':
-      return new ConfigurationSyncJob({
-        maxAttempts: data.maxAttempts,
-        identifier: data.identifier,
-        nextAttemptTimestamp: data.nextAttemptTimestamp,
-        currentRetry: data.currentRetry,
-      });
+      return (new ConfigurationSyncJob(data) as unknown) as PersistedJob<T>;
+
+    case 'AvatarDownloadJobType':
+      return (new AvatarDownloadJob(data) as unknown) as PersistedJob<T>;
     case 'FakeSleepForJobType':
-      return new FakeSleepForJob({
-        maxAttempts: data.maxAttempts,
-        identifier: data.identifier,
-        nextAttemptTimestamp: data.nextAttemptTimestamp,
-        currentRetry: data.currentRetry,
-      });
+      return (new FakeSleepForJob(data) as unknown) as PersistedJob<T>;
     case 'FakeSleepForJobMultiType':
-      return new FakeSleepForMultiJob({
-        maxAttempts: data.maxAttempts,
-        identifier: data.identifier,
-        nextAttemptTimestamp: data.nextAttemptTimestamp,
-        currentRetry: data.currentRetry,
-        returnResult: data.returnResult,
-        sleepDuration: data.sleepDuration,
-      });
+      return (new FakeSleepForMultiJob(data) as unknown) as PersistedJob<T>;
     default:
-      console.warn('unknown persisted job type:', jobType);
+      console.warn('unknown persisted job type:', (data as any).jobType);
       return null;
   }
 }

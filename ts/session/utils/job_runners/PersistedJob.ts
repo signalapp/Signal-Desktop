@@ -1,75 +1,84 @@
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 
 export type PersistedJobType =
   | 'ConfigurationSyncJobType'
+  | 'AvatarDownloadJobType'
   | 'FakeSleepForJobType'
   | 'FakeSleepForJobMultiType';
 
-export type SerializedPersistedJob = {
-  // we  need at least those as they are needed to do lookups of the list of jobs.
-  jobType: string;
+interface PersistedJobData {
+  jobType: PersistedJobType;
   identifier: string;
   nextAttemptTimestamp: number;
-  maxAttempts: number; // to run try to run it twice, set this to 2.
-  currentRetry: number; //
-  // then we can have other details on a specific type of job case
-  [key: string]: any;
-};
+  delayBetweenRetries: number;
+  maxAttempts: number; // to try to run this job twice, set this to 2.
+  currentRetry: number;
+}
 
-export abstract class Persistedjob {
-  public readonly identifier: string;
-  public readonly singleJobInQueue: boolean;
-  public readonly delayBetweenRetries: number;
-  public readonly maxAttempts: number;
-  public readonly jobType: PersistedJobType;
-  public currentRetry: number;
-  public nextAttemptTimestamp: number;
+export interface FakeSleepJobData extends PersistedJobData {
+  jobType: 'FakeSleepForJobType';
+  returnResult: boolean;
+  sleepDuration: number;
+}
+export interface FakeSleepForMultiJobData extends PersistedJobData {
+  jobType: 'FakeSleepForJobMultiType';
+  returnResult: boolean;
+  sleepDuration: number;
+}
+
+export interface AvatarDownloadPersistedData extends PersistedJobData {
+  jobType: 'AvatarDownloadJobType';
+  conversationId: string;
+  profileKeyHex: string | null;
+  profilePictureUrl: string | null;
+}
+
+export interface ConfigurationSyncPersistedData extends PersistedJobData {
+  jobType: 'ConfigurationSyncJobType';
+}
+
+export type TypeOfPersistedData =
+  | ConfigurationSyncPersistedData
+  | AvatarDownloadPersistedData
+  | FakeSleepJobData
+  | FakeSleepForMultiJobData;
+
+/**
+ * This class can be used to save and run jobs from the database.
+ * Every child class must take the minimum amount of arguments, and make sure they are unlikely to change.
+ * For instance, don't have the attachments to downloads as arguments, just the messageId and the index.
+ * Don't have the new profileImage url for an avatar download job, just the conversationId.
+ *
+ * It is the role of the job to fetch the latest data, and decide if a process is needed or not
+ * If the job throws or returns false, it will be retried by the corresponding job runner.
+ */
+export abstract class PersistedJob<T extends PersistedJobData> {
+  public persistedData: T;
 
   private runningPromise: Promise<boolean> | null = null;
 
-  public constructor({
-    maxAttempts,
-    delayBetweenRetries,
-    identifier,
-    singleJobInQueue,
-    jobType,
-    nextAttemptTimestamp,
-  }: {
-    identifier: string;
-    maxAttempts: number;
-    delayBetweenRetries: number;
-    singleJobInQueue: boolean;
-    jobType: PersistedJobType;
-    nextAttemptTimestamp: number;
-    currentRetry: number;
-  }) {
-    this.identifier = identifier;
-    this.jobType = jobType;
-    this.delayBetweenRetries = delayBetweenRetries;
-    this.maxAttempts = maxAttempts;
-    this.currentRetry = 0;
-    this.singleJobInQueue = singleJobInQueue;
-    this.nextAttemptTimestamp = nextAttemptTimestamp;
-
-    if (maxAttempts < 1) {
+  public constructor(data: T) {
+    if (data.maxAttempts < 1) {
       throw new Error('maxAttempts must be >= 1');
     }
 
-    if (isEmpty(identifier)) {
+    if (isEmpty(data.identifier)) {
       throw new Error('identifier must be not empty');
     }
 
-    if (isEmpty(jobType)) {
-      throw new Error('identifier must be not empty');
+    if (isEmpty(data.jobType)) {
+      throw new Error('jobType must be not empty');
     }
 
-    if (delayBetweenRetries <= 0) {
+    if (data.delayBetweenRetries <= 0) {
       throw new Error('delayBetweenRetries must be at least > 0');
     }
 
-    if (nextAttemptTimestamp <= 0) {
+    if (data.nextAttemptTimestamp <= 0) {
       throw new Error('nextAttemptTimestamp must be set and > 0');
     }
+
+    this.persistedData = data;
   }
 
   public async runJob() {
@@ -86,30 +95,40 @@ export abstract class Persistedjob {
   public async waitForCurrentTry() {
     try {
       // tslint:disable-next-line: no-promise-as-boolean
-      return this.runningPromise || Promise.resolve();
+      return this.runningPromise || Promise.resolve(true);
     } catch (e) {
       window.log.warn('waitForCurrentTry got an error: ', e.message);
-      return Promise.resolve();
+      return Promise.resolve(true);
     }
   }
 
   /**
    * This one must be reimplemented in the child class, and must first call `super.serializeBase()`
    */
-  public abstract serializeJob(): SerializedPersistedJob;
+  public abstract serializeJob(): T;
 
-  protected abstract run(): Promise<boolean>; // must return true if that job is a success and doesn't need to be retried
+  public abstract nonRunningJobsToRemove(jobs: Array<T>): Array<T>;
 
-  protected serializeBase(): SerializedPersistedJob {
-    return {
-      // those are mandatory
-      jobType: this.jobType,
-      identifier: this.identifier,
-      nextAttemptTimestamp: this.nextAttemptTimestamp,
-      maxAttempts: this.maxAttempts,
-      currentRetry: this.currentRetry,
-      delayBetweenRetries: this.delayBetweenRetries,
-      singleJobInQueue: this.singleJobInQueue,
-    };
+  public abstract addJobCheck(
+    jobs: Array<T>
+  ): 'skipAsJobTypeAlreadyPresent' | 'removeJobsFromQueue' | null;
+
+  public addJobCheckSameTypePresent(jobs: Array<T>): 'skipAsJobTypeAlreadyPresent' | null {
+    return jobs.some(j => j.jobType === this.persistedData.jobType)
+      ? 'skipAsJobTypeAlreadyPresent'
+      : null;
+  }
+
+  /**
+   * This function will be called by the runner do run the logic of that job.
+   * It **must** return true if that job is a success and doesn't need to be retried.
+   * If it returns false, or throws, it will be retried (if not reach the retries limit yet).
+   *
+   * Note: you should check the this.isAborted() to know if you should cancel the current processing of your logic.
+   */
+  protected abstract run(): Promise<boolean>;
+
+  protected serializeBase(): T {
+    return cloneDeep(this.persistedData);
   }
 }

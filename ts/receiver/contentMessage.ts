@@ -27,8 +27,8 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -700,9 +700,10 @@ async function handleMessageRequestResponse(
   }
 
   if (messageRequestResponse.profile && !isEmpty(messageRequestResponse.profile)) {
-    void appendFetchAvatarAndProfileJob(
+    await ProfileManager.updateProfileOfContact(
       conversationToApprove.id,
-      messageRequestResponse.profile,
+      messageRequestResponse.profile.displayName,
+      messageRequestResponse.profile.profilePicture,
       messageRequestResponse.profileKey
     );
   }

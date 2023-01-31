@@ -18,11 +18,11 @@ import {
 } from '../models/messageFactory';
 import { MessageModel } from '../models/message';
 import { isUsFromCache } from '../session/utils/User';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -216,10 +216,10 @@ export async function handleSwarmDataMessage(
     cleanDataMessage.profile &&
     cleanDataMessage.profileKey?.length
   ) {
-    // do not await this
-    void appendFetchAvatarAndProfileJob(
+    await ProfileManager.updateProfileOfContact(
       senderConversationModel.id,
-      cleanDataMessage.profile,
+      cleanDataMessage.profile.displayName,
+      cleanDataMessage.profile.profilePicture,
       cleanDataMessage.profileKey
     );
   }

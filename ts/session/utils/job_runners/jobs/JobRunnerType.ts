@@ -1,1 +1,5 @@
-export type JobRunnerType = 'ConfigurationSyncJob' | 'FakeSleepForJob';
+export type JobRunnerType =
+  | 'ConfigurationSyncJob'
+  | 'FakeSleepForJob'
+  | 'FakeSleepForMultiJob'
+  | 'AvatarDownloadJob';

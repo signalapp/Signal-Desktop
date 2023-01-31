@@ -2,7 +2,12 @@ import { cloneDeep, compact, isArray, isString } from 'lodash';
 import { Data } from '../../../data/data';
 import { persistedJobFromData } from './JobDeserialization';
 import { JobRunnerType } from './jobs/JobRunnerType';
-import { Persistedjob, SerializedPersistedJob } from './PersistedJob';
+import {
+  AvatarDownloadPersistedData,
+  ConfigurationSyncPersistedData,
+  PersistedJob,
+  TypeOfPersistedData,
+} from './PersistedJob';
 
 /**
  * 'job_in_progress' if there is already a job in progress
@@ -15,10 +20,10 @@ export type StartProcessingResult = 'job_in_progress' | 'job_deferred' | 'job_st
 export type AddJobResult = 'job_deferred' | 'job_started';
 
 export type JobEventListener = {
-  onJobSuccess: (job: SerializedPersistedJob) => void;
-  onJobDeferred: (job: SerializedPersistedJob) => void;
-  onJobError: (job: SerializedPersistedJob) => void;
-  onJobStarted: (job: SerializedPersistedJob) => void;
+  onJobSuccess: (job: TypeOfPersistedData) => void;
+  onJobDeferred: (job: TypeOfPersistedData) => void;
+  onJobError: (job: TypeOfPersistedData) => void;
+  onJobStarted: (job: TypeOfPersistedData) => void;
 };
 
 /**
@@ -31,26 +36,26 @@ export type JobEventListener = {
  *
  *
  */
-export class PersistedJobRunner {
+export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private isInit = false;
-  private jobsScheduled: Array<Persistedjob> = [];
+  private jobsScheduled: Array<PersistedJob<T>> = [];
   private isStarted = false;
   private readonly jobRunnerType: JobRunnerType;
   private nextJobStartTimer: NodeJS.Timeout | null = null;
-  private currentJob: Persistedjob | null = null;
+  private currentJob: PersistedJob<T> | null = null;
   private readonly jobEventsListener: JobEventListener | null;
 
   constructor(jobRunnerType: JobRunnerType, jobEventsListener: JobEventListener | null) {
     this.jobRunnerType = jobRunnerType;
     this.jobEventsListener = jobEventsListener;
-    window.log.warn('new runner');
+    window?.log?.warn(`new runner of type ${jobRunnerType} built`);
   }
 
   public async loadJobsFromDb() {
     if (this.isInit) {
-      throw new Error('job runner already init');
+      return;
     }
-    let jobsArray: Array<SerializedPersistedJob> = [];
+    let jobsArray: Array<T> = [];
     const found = await Data.getItemById(this.getJobRunnerItemId());
     if (found && found.value && isString(found.value)) {
       const asStr = found.value;
@@ -67,7 +72,7 @@ export class PersistedJobRunner {
         jobsArray = [];
       }
     }
-    const jobs: Array<Persistedjob> = compact(jobsArray.map(persistedJobFromData));
+    const jobs: Array<PersistedJob<T>> = compact(jobsArray.map(persistedJobFromData));
     this.jobsScheduled = cloneDeep(jobs);
     // make sure the list is sorted
     this.sortJobsList();
@@ -75,29 +80,42 @@ export class PersistedJobRunner {
   }
 
   public async addJob(
-    job: Persistedjob
+    job: PersistedJob<T>
   ): Promise<'type_exists' | 'identifier_exists' | AddJobResult> {
     this.assertIsInitialized();
 
-    if (job.singleJobInQueue) {
-      // make sure there is no job with that same type already scheduled.
-      if (this.jobsScheduled.find(j => j.jobType === job.jobType)) {
-        console.info(
-          `job runner has already a job with type:"${job.jobType}" planned so not adding another one`
-        );
-        return 'type_exists';
-      }
-      return this.addJobUnchecked(job);
-    }
-
-    // make sure there is no job with that same identifier already .
-    if (this.jobsScheduled.find(j => j.identifier === job.identifier)) {
-      console.info(
-        `job runner has already a job with id:"${job.identifier}" planned so not adding another one`
+    if (this.jobsScheduled.find(j => j.persistedData.identifier === job.persistedData.identifier)) {
+      window.log.info(
+        `job runner has already a job with id:"${job.persistedData.identifier}" planned so not adding another one`
       );
       return 'identifier_exists';
     }
-    console.info(`job runner adding type :"${job.jobType}" `);
+
+    const serializedNonRunningJobs = this.jobsScheduled
+      .filter(j => j !== this.currentJob)
+      .map(k => k.serializeJob());
+
+    const addJobChecks = job.addJobCheck(serializedNonRunningJobs);
+    if (addJobChecks === 'skipAsJobTypeAlreadyPresent') {
+      window.log.warn(
+        `job runner has already a job with type:"${job.persistedData.jobType}" planned so not adding another one`
+      );
+      return 'type_exists';
+    }
+
+    // if addJobCheck returned 'removeJobsFromQueue it means that job logic estimates some jobs have to remove before adding that one.
+    // so let's grab the jobs to remove, remove them, and then add that new job nevertheless
+    if (addJobChecks === 'removeJobsFromQueue') {
+      // fetch all the jobs which we should remove and remove them
+      const toRemove = job.nonRunningJobsToRemove(serializedNonRunningJobs);
+      this.deleteJobsByIdentifier(toRemove.map(m => m.identifier));
+      this.sortJobsList();
+      await this.writeJobsToDB();
+    }
+
+    // make sure there is no job with that same identifier already .
+
+    window.log.info(`job runner adding type :"${job.persistedData.jobType}" `);
     return this.addJobUnchecked(job);
   }
 
@@ -145,14 +163,16 @@ export class PersistedJobRunner {
 
   public startProcessing(): StartProcessingResult {
     if (this.isStarted) {
-      throw new Error('startProcessing already called');
+      return this.planNextJob();
     }
     this.isStarted = true;
     return this.planNextJob();
   }
 
   private sortJobsList() {
-    this.jobsScheduled.sort((a, b) => a.nextAttemptTimestamp - b.nextAttemptTimestamp);
+    this.jobsScheduled.sort(
+      (a, b) => a.persistedData.nextAttemptTimestamp - b.persistedData.nextAttemptTimestamp
+    );
   }
 
   private async writeJobsToDB() {
@@ -164,7 +184,8 @@ export class PersistedJobRunner {
     });
   }
 
-  private async addJobUnchecked(job: Persistedjob) {
+  private async addJobUnchecked(job: PersistedJob<T>) {
+    console.warn('job', job);
     this.jobsScheduled.push(cloneDeep(job));
     this.sortJobsList();
     await this.writeJobsToDB();
@@ -202,6 +223,7 @@ export class PersistedJobRunner {
         return 'no_job';
       }
     }
+
     if (this.currentJob) {
       return 'job_in_progress';
     }
@@ -211,7 +233,7 @@ export class PersistedJobRunner {
       return 'no_job';
     }
 
-    if (nextJob.nextAttemptTimestamp <= Date.now()) {
+    if (nextJob.persistedData.nextAttemptTimestamp <= Date.now()) {
       if (this.nextJobStartTimer) {
         global.clearTimeout(this.nextJobStartTimer);
         this.nextJobStartTimer = null;
@@ -233,18 +255,20 @@ export class PersistedJobRunner {
         this.nextJobStartTimer = null;
       }
       void this.runNextJob();
-    }, Math.max(nextJob.nextAttemptTimestamp - Date.now(), 1));
+    }, Math.max(nextJob.persistedData.nextAttemptTimestamp - Date.now(), 1));
 
     return 'job_deferred';
   }
 
-  private deleteJobByIdentifier(identifier: string) {
-    const jobIndex = this.jobsScheduled.findIndex(f => f.identifier === identifier);
-    console.info('deleteJobByIdentifier job', identifier, ' index', jobIndex);
+  private deleteJobsByIdentifier(identifiers: Array<string>) {
+    identifiers.forEach(identifier => {
+      const jobIndex = this.jobsScheduled.findIndex(f => f.persistedData.identifier === identifier);
+      window.log.info('deleteJobsByIdentifier job', identifier, ' index', jobIndex);
 
-    if (jobIndex >= 0) {
-      this.jobsScheduled.splice(jobIndex, 1);
-    }
+      if (jobIndex >= 0) {
+        this.jobsScheduled.splice(jobIndex, 1);
+      }
+    });
   }
 
   private async runNextJob() {
@@ -256,10 +280,10 @@ export class PersistedJobRunner {
     const nextJob = this.jobsScheduled[0];
 
     // if the time is 101, and that task is to be run at t=101, we need to start it right away.
-    if (nextJob.nextAttemptTimestamp > Date.now()) {
+    if (nextJob.persistedData.nextAttemptTimestamp > Date.now()) {
       window.log.warn(
         'next job is not due to be run just yet. Going idle.',
-        nextJob.nextAttemptTimestamp - Date.now()
+        nextJob.persistedData.nextAttemptTimestamp - Date.now()
       );
       this.planNextJob();
       return;
@@ -274,25 +298,26 @@ export class PersistedJobRunner {
       this.jobEventsListener?.onJobStarted(this.currentJob.serializeJob());
 
       const success = await this.currentJob.runJob();
+
       if (!success) {
-        throw new Error(`job ${nextJob.identifier} failed`);
+        throw new Error(`job ${nextJob.persistedData.identifier} failed`);
       }
 
       // here the job did not throw and didn't return false. Consider it OK then and remove it from the list of jobs to run.
-      this.deleteJobByIdentifier(this.currentJob.identifier);
+      this.deleteJobsByIdentifier([this.currentJob.persistedData.identifier]);
       await this.writeJobsToDB();
     } catch (e) {
-      // either the job throw or didn't return 'OK'
-      if (nextJob.currentRetry >= nextJob.maxAttempts - 1) {
+      if (nextJob.persistedData.currentRetry >= nextJob.persistedData.maxAttempts - 1) {
         // we cannot restart this job anymore. Remove the entry completely
-        this.deleteJobByIdentifier(nextJob.identifier);
+        this.deleteJobsByIdentifier([nextJob.persistedData.identifier]);
         if (this.jobEventsListener && this.currentJob) {
           this.jobEventsListener.onJobError(this.currentJob.serializeJob());
         }
       } else {
-        nextJob.currentRetry = nextJob.currentRetry + 1;
+        nextJob.persistedData.currentRetry = nextJob.persistedData.currentRetry + 1;
         // that job can be restarted. Plan a retry later with the already defined retry
-        nextJob.nextAttemptTimestamp = Date.now() + nextJob.delayBetweenRetries;
+        nextJob.persistedData.nextAttemptTimestamp =
+          Date.now() + nextJob.persistedData.delayBetweenRetries;
         if (this.jobEventsListener && this.currentJob) {
           this.jobEventsListener.onJobDeferred(this.currentJob.serializeJob());
         }
@@ -322,8 +347,16 @@ export class PersistedJobRunner {
   }
 }
 
-const configurationSyncRunner = new PersistedJobRunner('ConfigurationSyncJob', null);
+const configurationSyncRunner = new PersistedJobRunner<ConfigurationSyncPersistedData>(
+  'ConfigurationSyncJob',
+  null
+);
+const avatarDownloadRunner = new PersistedJobRunner<AvatarDownloadPersistedData>(
+  'AvatarDownloadJob',
+  null
+);
 
 export const runners = {
   configurationSyncRunner,
+  avatarDownloadRunner,
 };

@@ -13,9 +13,9 @@ import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -393,9 +393,10 @@ export async function handleMessageJob(
     // the only profile we don't update with what is coming here is ours,
     // as our profile is shared accross our devices with a ConfigurationMessage
     if (messageModel.isIncoming() && regularDataMessage.profile) {
-      void appendFetchAvatarAndProfileJob(
+      await ProfileManager.updateProfileOfContact(
         sendingDeviceConversation.id,
-        regularDataMessage.profile,
+        regularDataMessage.profile.displayName,
+        regularDataMessage.profile.profilePicture,
         regularDataMessage.profileKey
       );
     }

@@ -11,6 +11,7 @@ import {
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
@@ -21,7 +22,6 @@ import { callLibSessionWorker } from '../webworker/workers/browser/libsession_wo
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { EnvelopePlus } from './types';
-import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
 
 type IncomingConfResult = {
   needsPush: boolean;
@@ -101,10 +101,9 @@ async function handleUserProfileUpdate(result: IncomingConfResult) {
 
   const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
 
-  // trigger an update of our profileName and picture if there is one.
-  // this call checks for differences between updating anything
-  void updateOurProfileSync(
-    { displayName: updatedUserName, profilePicture: picUpdate ? updatedProfilePicture.url : null },
+  await ProfileManager.updateOurProfileSync(
+    updatedUserName,
+    picUpdate ? updatedProfilePicture.url : null,
     picUpdate ? updatedProfilePicture.key : null
   );
 }
@@ -157,18 +156,16 @@ async function handleContactsUpdate(result: IncomingConfResult) {
         await existingConvo.setNickname(wrapperConvo.nickname || null, false);
         changes = true;
       }
-      // make sure to write the changes to the database now as the `appendFetchAvatarAndProfileJob` call below might take some time before getting run
+      // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
       if (changes) {
         await existingConvo.commit();
       }
 
-      // we still need to handle the the `name` and the `profilePicture` but those are currently made asynchronously
-      void appendFetchAvatarAndProfileJob(
+      // we still need to handle the the `name` (sync) and the `profilePicture` (asynchronous)
+      await ProfileManager.updateProfileOfContact(
         existingConvo.id,
-        {
-          displayName: wrapperConvo.name,
-          profilePicture: wrapperConvo.profilePicture?.url || null,
-        },
+        wrapperConvo.name,
+        wrapperConvo.profilePicture?.url || null,
         wrapperConvo.profilePicture?.key || null
       );
     }
@@ -243,11 +240,8 @@ async function handleOurProfileUpdate(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    const lokiProfile = {
-      displayName,
-      profilePicture,
-    };
-    await updateOurProfileSync(lokiProfile, profileKey);
+    await ProfileManager.updateOurProfileSync(displayName, profilePicture, profileKey);
+
     await setLastProfileUpdateTimestamp(_.toNumber(sentAt));
     // do not trigger a signin by linking if the display name is empty
     if (displayName) {
@@ -398,10 +392,11 @@ const handleContactFromConfig = async (
       await BlockedNumberController.unblock(contactConvo.id);
     }
 
-    void appendFetchAvatarAndProfileJob(
+    await ProfileManager.updateProfileOfContact(
       contactConvo.id,
-      profileInDataMessage,
-      contactReceived.profileKey
+      profileInDataMessage.displayName || undefined,
+      profileInDataMessage.profilePicture || null,
+      contactReceived.profileKey || null
     );
   } catch (e) {
     window?.log?.warn('failed to handle  a new closed group from configuration message');

@@ -7,7 +7,11 @@ import {
   PersistedJobRunner,
 } from '../../../../../session/utils/job_runners/JobRunner';
 import { FakeSleepForJob, FakeSleepForMultiJob } from './FakeSleepForJob';
-import { SerializedPersistedJob } from '../../../../../session/utils/job_runners/PersistedJob';
+import {
+  FakeSleepForMultiJobData,
+  FakeSleepJobData,
+  TypeOfPersistedData,
+} from '../../../../../session/utils/job_runners/PersistedJob';
 import { sleepFor } from '../../../../../session/utils/Promise';
 import { stubData } from '../../../../test-utils/utils';
 
@@ -21,7 +25,7 @@ function getFakeSleepForJob(timestamp: number): FakeSleepForJob {
   return job;
 }
 
-function getFakeSleepForJobPersisted(timestamp: number): SerializedPersistedJob {
+function getFakeSleepForJobPersisted(timestamp: number): FakeSleepJobData {
   return getFakeSleepForJob(timestamp).serializeJob();
 }
 
@@ -49,7 +53,8 @@ function getFakeSleepForMultiJob({
 describe('JobRunner', () => {
   let getItemById: Sinon.SinonStub;
   let clock: Sinon.SinonFakeTimers;
-  let runner: PersistedJobRunner;
+  let runner: PersistedJobRunner<FakeSleepJobData>;
+  let runnerMulti: PersistedJobRunner<FakeSleepForMultiJobData>;
   let jobEventsListener: JobEventListener;
 
   beforeEach(() => {
@@ -57,31 +62,40 @@ describe('JobRunner', () => {
     stubData('createOrUpdateItem');
     clock = Sinon.useFakeTimers({ shouldAdvanceTime: true });
     jobEventsListener = {
-      onJobDeferred: (_job: SerializedPersistedJob) => {
+      onJobDeferred: (_job: TypeOfPersistedData) => {
         // window.log.warn('listener got deferred for job ', job);
       },
-      onJobSuccess: (_job: SerializedPersistedJob) => {
+      onJobSuccess: (_job: TypeOfPersistedData) => {
         // window.log.warn('listener got success for job ', job);
       },
-      onJobError: (_job: SerializedPersistedJob) => {
+      onJobError: (_job: TypeOfPersistedData) => {
         // window.log.warn('listener got error for job ', job);
       },
-      onJobStarted: (_job: SerializedPersistedJob) => {
+      onJobStarted: (_job: TypeOfPersistedData) => {
         // window.log.warn('listener got started for job ', job);
       },
     };
-    runner = new PersistedJobRunner('FakeSleepForJob', jobEventsListener);
+    runner = new PersistedJobRunner<FakeSleepJobData>('FakeSleepForJob', jobEventsListener);
+    runnerMulti = new PersistedJobRunner<FakeSleepForMultiJobData>(
+      'FakeSleepForMultiJob',
+      jobEventsListener
+    );
   });
 
   afterEach(() => {
     Sinon.restore();
     runner.resetForTesting();
+    runnerMulti.resetForTesting();
   });
 
   describe('loadJobsFromDb', () => {
-    it('throw if already loaded', async () => {
-      await runner.loadJobsFromDb();
+    it('throw if not loaded', async () => {
       try {
+        getItemById.resolves({
+          id: '',
+          value: JSON.stringify([]),
+        });
+
         await runner.loadJobsFromDb();
         throw new Error('PLOP'); // the line above should throw something else
       } catch (e) {
@@ -154,21 +168,21 @@ describe('JobRunner', () => {
     });
 
     it('can add a FakeSleepForJobMulti (sorted) even if one is already there', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 1234 });
       const job2 = getFakeSleepForMultiJob({ timestamp: 123 });
       const job3 = getFakeSleepForMultiJob({ timestamp: 1 });
 
-      let result = await runner.addJob(job);
+      let result = await runnerMulti.addJob(job);
       expect(result).to.eq('job_deferred');
 
-      result = await runner.addJob(job2);
+      result = await runnerMulti.addJob(job2);
       expect(result).to.eq('job_deferred');
 
-      result = await runner.addJob(job3);
+      result = await runnerMulti.addJob(job3);
       expect(result).to.eq('job_deferred');
 
-      expect(runner.getJobList()).to.deep.eq([
+      expect(runnerMulti.getJobList()).to.deep.eq([
         job3.serializeJob(),
         job2.serializeJob(),
         job.serializeJob(),
@@ -176,87 +190,90 @@ describe('JobRunner', () => {
     });
 
     it('cannot add a FakeSleepForJobMulti with an id already existing', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 1234 });
-      const job2 = getFakeSleepForMultiJob({ timestamp: 123, identifier: job.identifier });
-      let result = await runner.addJob(job);
+      const job2 = getFakeSleepForMultiJob({
+        timestamp: 123,
+        identifier: job.persistedData.identifier,
+      });
+      let result = await runnerMulti.addJob(job);
       expect(result).to.be.eq('job_deferred');
-      result = await runner.addJob(job2);
+      result = await runnerMulti.addJob(job2);
       expect(result).to.be.eq('identifier_exists');
 
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
     });
 
     it('two jobs are running sequentially', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 100 });
       const job2 = getFakeSleepForMultiJob({ timestamp: 200 });
-      runner.startProcessing();
+      runnerMulti.startProcessing();
       clock.tick(110);
       // job should be started right away
-      let result = await runner.addJob(job);
+      let result = await runnerMulti.addJob(job);
       expect(result).to.eq('job_started');
-      result = await runner.addJob(job2);
+      result = await runnerMulti.addJob(job2);
       expect(result).to.eq('job_deferred');
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
 
       // each job takes 5s to finish, so let's tick once the first one should be done
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
 
-      expect(runner.getJobList()).to.deep.eq([job2.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job2.serializeJob()]);
 
       clock.tick(5000);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
 
-      expect(runner.getJobList()).to.deep.eq([]);
+      expect(runnerMulti.getJobList()).to.deep.eq([]);
     });
 
     it('adding one job after the first is done starts it', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 100 });
       const job2 = getFakeSleepForMultiJob({ timestamp: 120 });
-      runner.startProcessing();
+      runnerMulti.startProcessing();
       clock.tick(110);
       // job should be started right away
-      let result = await runner.addJob(job);
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob()]);
+      let result = await runnerMulti.addJob(job);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
 
       expect(result).to.eq('job_started');
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
       clock.tick(5010);
 
-      // just give some time for the runner to pick up a new job
+      // just give some time for the runnerMulti to pick up a new job
       await sleepFor(100);
 
       // the first job should already be finished now
-      result = await runner.addJob(job2);
+      result = await runnerMulti.addJob(job2);
       expect(result).to.eq('job_started');
-      expect(runner.getJobList()).to.deep.eq([job2.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job2.serializeJob()]);
 
       // each job takes 5s to finish, so let's tick once the first one should be done
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
 
-      expect(runner.getJobList()).to.deep.eq([]);
+      expect(runnerMulti.getJobList()).to.deep.eq([]);
     });
 
     it('adding one job after the first is done schedules it', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 100 });
-      runner.startProcessing();
+      runnerMulti.startProcessing();
       clock.tick(110);
       // job should be started right away
-      let result = await runner.addJob(job);
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob()]);
+      let result = await runnerMulti.addJob(job);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
 
       expect(result).to.eq('job_started');
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
       clock.tick(5010);
       // just give some time for the runner to pick up a new job
 
@@ -265,10 +282,10 @@ describe('JobRunner', () => {
       const job2 = getFakeSleepForMultiJob({ timestamp: clock.now + 100 });
 
       // job should already be finished now
-      result = await runner.addJob(job2);
+      result = await runnerMulti.addJob(job2);
       // new job should be deferred as timestamp is not in the past
       expect(result).to.eq('job_deferred');
-      expect(runner.getJobList()).to.deep.eq([job2.serializeJob()]);
+      expect(runnerMulti.getJobList()).to.deep.eq([job2.serializeJob()]);
 
       // tick enough for the job to need to be started
       clock.tick(100);
@@ -278,9 +295,9 @@ describe('JobRunner', () => {
       clock.tick(5000);
 
       await job2.waitForCurrentTry();
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
 
-      expect(runner.getJobList()).to.deep.eq([]);
+      expect(runnerMulti.getJobList()).to.deep.eq([]);
     });
   });
 
@@ -352,27 +369,27 @@ describe('JobRunner', () => {
     });
 
     it('does await if there are jobs and one is started', async () => {
-      await runner.loadJobsFromDb();
+      await runnerMulti.loadJobsFromDb();
       const job = getFakeSleepForMultiJob({ timestamp: 100, returnResult: false }); // this job keeps failing
-      runner.startProcessing();
+      runnerMulti.startProcessing();
       clock.tick(110);
       // job should be started right away
-      const result = await runner.addJob(job);
-      expect(runner.getJobList()).to.deep.eq([job.serializeJob()]);
+      const result = await runnerMulti.addJob(job);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
 
       expect(result).to.eq('job_started');
       clock.tick(5010);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
       const jobUpdated = {
         ...job.serializeJob(),
         nextAttemptTimestamp: clock.now + 10000,
         currentRetry: 1,
       };
-      // just give  time for the runner to pick up a new job
+      // just give  time for the runnerMulti to pick up a new job
       await sleepFor(10);
 
       // the job failed, so the job should still be there
-      expect(runner.getJobList()).to.deep.eq([jobUpdated]);
+      expect(runnerMulti.getJobList()).to.deep.eq([jobUpdated]);
 
       // that job should be retried now
       clock.tick(11000);
@@ -384,16 +401,16 @@ describe('JobRunner', () => {
       };
       await sleepFor(10);
 
-      await runner.waitCurrentJob();
-      expect(runner.getJobList()).to.deep.eq([jobUpdated2]);
+      await runnerMulti.waitCurrentJob();
+      expect(runnerMulti.getJobList()).to.deep.eq([jobUpdated2]);
 
       // that job should be retried one more time and then removed from the list of jobs to be run
       clock.tick(11000);
-      await runner.waitCurrentJob();
+      await runnerMulti.waitCurrentJob();
       await sleepFor(10);
 
-      await runner.waitCurrentJob();
-      expect(runner.getJobList()).to.deep.eq([]);
+      await runnerMulti.waitCurrentJob();
+      expect(runnerMulti.getJobList()).to.deep.eq([]);
     });
   });
 });
