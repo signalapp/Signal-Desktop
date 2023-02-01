@@ -895,7 +895,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
       }
 
-      if (attributes.type === 'incoming') {
+      const ourUuid = window.textsecure.storage.user
+        .getCheckedUuid()
+        .toString();
+
+      if (
+        attributes.type === 'incoming' &&
+        attributes.storyReaction.targetAuthorUuid === ourUuid
+      ) {
         return window.i18n('Quote__story-reaction-notification--incoming', {
           emoji: attributes.storyReaction.emoji,
         });
@@ -3362,6 +3369,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             `${getMessageIdForLogging(storyMessage)} from this device`
         );
       } else {
+        if (isFromSomeoneElse) {
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from someone else`
+          );
+        } else if (isFromSync) {
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from another device`
+          );
+        }
+
         const generatedMessage = reaction.get('storyReactionMessage');
         strictAssert(
           generatedMessage,
@@ -3420,21 +3439,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             );
           }
         }
-        if (isFromSomeoneElse) {
-          drop(targetConversation.notify(messageToAdd));
-        }
 
-        if (isFromSync) {
+        if (isFromSomeoneElse) {
           log.info(
-            'handleReaction: receiving story reaction to ' +
-              `${getMessageIdForLogging(storyMessage)} from another device`
-          );
-        } else {
-          log.info(
-            'handleReaction: receiving story reaction to ' +
+            'handleReaction: notifying for story reaction to ' +
               `${getMessageIdForLogging(storyMessage)} from someone else`
           );
-          void conversation.notify(this, reaction);
+          if (await shouldReplyNotifyUser(messageToAdd, targetConversation)) {
+            drop(targetConversation.notify(messageToAdd));
+          }
         }
       }
     } else {

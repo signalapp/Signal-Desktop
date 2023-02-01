@@ -307,6 +307,8 @@ class NotificationService extends EventEmitter {
           } else {
             notificationMessage = i18n('newMessage');
           }
+        } else if (storyId) {
+          notificationMessage = message;
         } else if (reaction) {
           notificationMessage = i18n('notificationReactionMessage', {
             sender: senderTitle,
