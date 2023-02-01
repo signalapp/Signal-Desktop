@@ -795,8 +795,8 @@ export class ConversationModel extends window.Backbone
     shouldSave?: boolean;
   } = {}): void {
     log.info(
-      `Conversation ${this.idForLogging()} is now unregistered, ` +
-        `timestamp=${timestamp}`
+      `setUnregistered(${this.idForLogging()}): conversation is now ` +
+        `unregistered, timestamp=${timestamp}`
     );
 
     const oldFirstUnregisteredAt = this.get('firstUnregisteredAt');
@@ -819,6 +819,26 @@ export class ConversationModel extends window.Backbone
 
     if (shouldSave) {
       window.Signal.Data.updateConversation(this.attributes);
+    }
+
+    const e164 = this.get('e164');
+    const pni = this.get('pni');
+    const aci = this.get('uuid');
+    if (e164 && pni && aci && pni !== aci) {
+      this.updateE164(undefined);
+      this.updatePni(undefined);
+
+      const { conversation: split } =
+        window.ConversationController.maybeMergeContacts({
+          pni,
+          e164,
+          reason: `ConversationModel.setUnregistered(${aci})`,
+        });
+
+      log.info(
+        `setUnregistered(${this.idForLogging()}): splitting pni ${pni} and ` +
+          `e164 ${e164} into a separate conversation ${split.idForLogging()}`
+      );
     }
 
     if (

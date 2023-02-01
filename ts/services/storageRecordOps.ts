@@ -964,10 +964,6 @@ export async function mergeContactRecord(
     reason: 'mergeContactRecord',
   });
 
-  if (!conversation) {
-    throw new Error(`No conversation for ${storageID}`);
-  }
-
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
   if (conversation.get('uuid') !== uuid) {
     log.warn(

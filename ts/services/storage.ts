@@ -1469,7 +1469,7 @@ async function processRemoteRecords(
 
   let accountItem: MergeableItemType | undefined;
 
-  const prunedStorageItems = decryptedItems.filter(item => {
+  let prunedStorageItems = decryptedItems.filter(item => {
     const { itemType, storageID, storageRecord } = item;
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (accountItem !== undefined) {
@@ -1506,6 +1506,36 @@ async function processRemoteRecords(
     return false;
   });
 
+  // Find remote contact records that:
+  // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
+  // - Match local contact that has `local.serviceUuid != remote.pni`.
+  const splitPNIContacts = new Array<MergeableItemType>();
+  prunedStorageItems = prunedStorageItems.filter(item => {
+    const { itemType, storageRecord } = item;
+    const { contact } = storageRecord;
+    if (itemType !== ITEM_TYPE.CONTACT || !contact) {
+      return true;
+    }
+
+    if (
+      !contact.serviceE164 ||
+      !contact.pni ||
+      contact.pni !== contact.serviceUuid
+    ) {
+      return true;
+    }
+
+    const localUuid = window.ConversationController.get(contact.pni)?.get(
+      'uuid'
+    );
+    if (!localUuid || localUuid === contact.pni) {
+      return true;
+    }
+
+    splitPNIContacts.push(item);
+    return false;
+  });
+
   try {
     log.info(
       `storageService.process(${storageVersion}): ` +
@@ -1517,13 +1547,31 @@ async function processRemoteRecords(
           `record=${redactStorageID(accountItem.storageID, storageVersion)}`
       );
     }
+    if (splitPNIContacts.length !== 0) {
+      log.info(
+        `storageService.process(${storageVersion}): ` +
+          `split pni contacts=${splitPNIContacts.length}`
+      );
+    }
 
-    const mergedRecords = [
-      ...(await pMap(
-        prunedStorageItems,
+    const mergeWithConcurrency = (
+      items: ReadonlyArray<MergeableItemType>
+    ): Promise<Array<MergedRecordType>> => {
+      return pMap(
+        items,
         (item: MergeableItemType) => mergeRecord(storageVersion, item),
         { concurrency: 32 }
-      )),
+      );
+    };
+
+    const mergedRecords = [
+      ...(await mergeWithConcurrency(prunedStorageItems)),
+
+      // Merge split PNI contacts after processing remote records. If original
+      // e164+ACI+PNI contact is unregistered - it is going to be split so we
+      // have to make that happen first. Otherwise we will ignore ContactRecord
+      // changes on these since there is already a parent "merged" contact.
+      ...(await mergeWithConcurrency(splitPNIContacts)),
 
       // Merge Account records last since it contains the pinned conversations
       // and we need all other records merged first before we can find the pinned

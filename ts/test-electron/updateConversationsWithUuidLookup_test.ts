@@ -36,7 +36,7 @@ describe('updateConversationsWithUuidLookup', () => {
       aci?: string | null;
       reason?: string;
     }): {
-      conversation: ConversationModel | undefined;
+      conversation: ConversationModel;
       mergePromises: Array<Promise<void>>;
     } {
       assert(
@@ -75,8 +75,7 @@ describe('updateConversationsWithUuidLookup', () => {
         return { conversation: convoE164, mergePromises: [] };
       }
 
-      assert.fail('FakeConversationController should never get here');
-      return { conversation: undefined, mergePromises: [] };
+      throw new Error('FakeConversationController should never get here');
     }
 
     lookupOrCreate({

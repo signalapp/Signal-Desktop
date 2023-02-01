@@ -2615,16 +2615,12 @@ export async function startApp(): Promise<void> {
     if (!conversation && groupId) {
       conversation = window.ConversationController.get(groupId);
     }
-    if (!groupV2Id && !groupId && senderConversation) {
+    if (!groupV2Id && !groupId) {
       conversation = senderConversation;
     }
 
     const ourId = window.ConversationController.getOurConversationId();
 
-    if (!senderConversation) {
-      log.warn('onTyping: maybeMergeContacts returned falsey sender!');
-      return;
-    }
     if (!ourId) {
       log.warn("onTyping: Couldn't get our own id!");
       return;
@@ -2867,7 +2863,6 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const messageDescriptor = getMessageDescriptor({
-      confirm,
       message: data.message,
       source: data.source,
       sourceUuid: data.sourceUuid,
@@ -3012,16 +3007,6 @@ export async function startApp(): Promise<void> {
       reason: 'onProfileKeyUpdate',
     });
 
-    if (!conversation) {
-      log.error(
-        'onProfileKeyUpdate: could not find conversation',
-        data.source,
-        data.sourceUuid
-      );
-      confirm();
-      return;
-    }
-
     if (!data.profileKey) {
       log.error('onProfileKeyUpdate: missing profileKey', data.profileKey);
       confirm();
@@ -3155,14 +3140,12 @@ export async function startApp(): Promise<void> {
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
   //   at callsites to make sure both source and destination are populated.
   const getMessageDescriptor = ({
-    confirm,
     message,
     source,
     sourceUuid,
     destination,
     destinationUuid,
   }: {
-    confirm: () => unknown;
     message: ProcessedDataMessage;
     source?: string;
     sourceUuid?: string;
@@ -3236,7 +3219,7 @@ export async function startApp(): Promise<void> {
         });
 
       const conversationId = window.ConversationController.ensureGroup(id, {
-        addedBy: fromContact?.id,
+        addedBy: fromContact.id,
       });
 
       return {
@@ -3250,12 +3233,6 @@ export async function startApp(): Promise<void> {
       e164: destination,
       reason: `getMessageDescriptor(${message.timestamp}): private`,
     });
-    if (!conversation) {
-      confirm();
-      throw new Error(
-        `getMessageDescriptor/${message.timestamp}: maybeMergeContacts returned falsey conversation`
-      );
-    }
 
     return {
       type: Message.PRIVATE,
@@ -3274,7 +3251,6 @@ export async function startApp(): Promise<void> {
     strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
-      confirm,
       ...data,
 
       // 'sent' event: the sender is always us!
@@ -3692,10 +3668,6 @@ export async function startApp(): Promise<void> {
 
     event.confirm();
 
-    if (!sourceConversation) {
-      return;
-    }
-
     strictAssert(
       isValidUuid(sourceUuid),
       'onReadOrViewReceipt: Missing sourceUuid'
@@ -3824,11 +3796,6 @@ export async function startApp(): Promise<void> {
       timestamp,
       `wasSentEncrypted=${wasSentEncrypted}`
     );
-
-    if (!sourceConversation) {
-      log.info('onDeliveryReceipt: no conversation for', source, sourceUuid);
-      return;
-    }
 
     strictAssert(
       envelopeTimestamp,

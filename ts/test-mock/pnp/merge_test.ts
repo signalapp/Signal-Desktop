@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import { UUIDKind, Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
+import Long from 'long';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
@@ -26,7 +27,7 @@ describe('pnp/merge', function needsName() {
   let aciIdentityKey: Uint8Array;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({ contactCount: 0 });
     await bootstrap.init();
 
     const { server, phone } = bootstrap;
@@ -64,7 +65,7 @@ describe('pnp/merge', function needsName() {
 
       serviceE164: undefined,
       identityKey: aciIdentityKey,
-      profileKey: pniContact.profileKey.serialize(),
+      givenName: pniContact.profileName,
     });
 
     // Put both contacts in left pane
@@ -109,7 +110,7 @@ describe('pnp/merge', function needsName() {
 
       debug('opening conversation with the aci contact');
       await leftPane
-        .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${pniContact.device.uuid}"]`)
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -166,7 +167,7 @@ describe('pnp/merge', function needsName() {
       if (finalContact === UUIDKind.ACI) {
         debug('switching back to ACI conversation');
         await leftPane
-          .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
+          .locator(`[data-testid="${pniContact.device.uuid}"]`)
           .click();
 
         await window.locator('.module-conversation-hero').waitFor();
@@ -178,24 +179,12 @@ describe('pnp/merge', function needsName() {
       {
         const state = await phone.expectStorageState('consistency check');
         await phone.setStorageState(
-          state
-            .removeRecord(
-              item =>
-                item.record.contact?.serviceUuid ===
-                pniContact.device.getUUIDByKind(UUIDKind.ACI)
-            )
-            .removeRecord(
-              item =>
-                item.record.contact?.serviceUuid ===
-                pniContact.device.getUUIDByKind(UUIDKind.PNI)
-            )
-            .addContact(pniContact, {
-              identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-              whitelisted: true,
-              pni: pniContact.device.getUUIDByKind(UUIDKind.PNI),
-              identityKey: pniContact.publicKey.serialize(),
-              profileKey: pniContact.profileKey.serialize(),
-            })
+          state.mergeContact(pniContact, {
+            identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+            whitelisted: true,
+            identityKey: pniContact.publicKey.serialize(),
+            profileKey: pniContact.profileKey.serialize(),
+          })
         );
         await phone.sendFetchStorage({
           timestamp: bootstrap.getTimestamp(),
@@ -230,4 +219,223 @@ describe('pnp/merge', function needsName() {
       }
     });
   }
+
+  it('accepts storage service contact splitting', async () => {
+    const { phone } = bootstrap;
+
+    debug(
+      'removing both contacts from storage service, adding one combined contact'
+    );
+    {
+      const state = await phone.expectStorageState('consistency check');
+      await phone.setStorageState(
+        state.mergeContact(pniContact, {
+          identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+          whitelisted: true,
+          identityKey: pniContact.publicKey.serialize(),
+          profileKey: pniContact.profileKey.serialize(),
+        })
+      );
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+    }
+
+    const window = await app.getWindow();
+    const leftPane = window.locator('.left-pane-wrapper');
+
+    debug('opening conversation with the merged contact');
+    await leftPane
+      .locator(
+        `[data-testid="${pniContact.device.uuid}"] >> ` +
+          `"${pniContact.profileName}"`
+      )
+      .click();
+
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('Send message to merged contact');
+    {
+      const composeArea = window.locator(
+        '.composition-area-wrapper, .conversation .ConversationView'
+      );
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
+
+      await compositionInput.type('Hello merged');
+      await compositionInput.press('Enter');
+    }
+
+    debug('Split contact and mark ACI as unregistered');
+    {
+      let state = await phone.expectStorageState('consistency check');
+
+      state = state.updateContact(pniContact, {
+        pni: undefined,
+        serviceE164: undefined,
+        unregisteredAtTimestamp: Long.fromNumber(bootstrap.getTimestamp()),
+      });
+
+      state = state.addContact(
+        pniContact,
+        {
+          identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+          whitelisted: true,
+
+          identityKey: pniIdentityKey,
+
+          serviceE164: pniContact.device.number,
+          givenName: 'PNI Contact',
+        },
+        UUIDKind.PNI
+      );
+
+      state = state.pin(pniContact, UUIDKind.PNI);
+
+      await phone.setStorageState(state);
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+    }
+
+    debug('Wait for pni contact to appear');
+    await leftPane
+      .locator(`[data-testid="${pniContact.device.pni}"]`)
+      .waitFor();
+
+    debug('Verify that the message is in the ACI conversation');
+    {
+      // Should have both PNI and ACI messages
+      await window.locator('.module-message__text >> "Hello merged"').waitFor();
+
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 1, 'message count');
+    }
+
+    debug('Open PNI conversation');
+    await leftPane.locator(`[data-testid="${pniContact.device.pni}"]`).click();
+
+    debug('Verify absence of messages in the PNI conversation');
+    {
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 0, 'message count');
+    }
+  });
+
+  it('splits contact when ACI becomes unregistered', async () => {
+    const { phone, server } = bootstrap;
+
+    debug(
+      'removing both contacts from storage service, adding one combined contact'
+    );
+    {
+      const state = await phone.expectStorageState('consistency check');
+      await phone.setStorageState(
+        state.mergeContact(pniContact, {
+          identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+          whitelisted: true,
+          identityKey: pniContact.publicKey.serialize(),
+          profileKey: pniContact.profileKey.serialize(),
+        })
+      );
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+    }
+
+    const window = await app.getWindow();
+    const leftPane = window.locator('.left-pane-wrapper');
+
+    debug('opening conversation with the merged contact');
+    await leftPane
+      .locator(
+        `[data-testid="${pniContact.device.uuid}"] >> ` +
+          `"${pniContact.profileName}"`
+      )
+      .click();
+
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('Unregistering ACI');
+    server.unregister(pniContact);
+
+    const state = await phone.expectStorageState('initial state');
+
+    debug('Send message to merged contact');
+    {
+      const composeArea = window.locator(
+        '.composition-area-wrapper, .conversation .ConversationView'
+      );
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
+
+      await compositionInput.type('Hello merged');
+      await compositionInput.press('Enter');
+    }
+
+    debug('Verify that contact is split in storage service');
+    {
+      const newState = await phone.waitForStorageState({
+        after: state,
+      });
+
+      const { added, removed } = newState.diff(state);
+      assert.strictEqual(added.length, 2, 'only two records must be added');
+      assert.strictEqual(removed.length, 1, 'only one record must be removed');
+
+      let pniContacts = 0;
+      let aciContacts = 0;
+      for (const { contact } of added) {
+        if (!contact) {
+          throw new Error('Invalid record');
+        }
+
+        const { serviceUuid, serviceE164, pni } = contact;
+        if (serviceUuid === pniContact.device.uuid) {
+          aciContacts += 1;
+          assert.strictEqual(pni, '');
+          assert.strictEqual(serviceE164, '');
+        } else if (serviceUuid === pniContact.device.pni) {
+          pniContacts += 1;
+          assert.strictEqual(pni, serviceUuid);
+          assert.strictEqual(serviceE164, pniContact.device.number);
+        }
+      }
+      assert.strictEqual(aciContacts, 1);
+      assert.strictEqual(pniContacts, 1);
+
+      assert.strictEqual(removed[0].contact?.pni, pniContact.device.pni);
+      assert.strictEqual(
+        removed[0].contact?.serviceUuid,
+        pniContact.device.uuid
+      );
+
+      // Pin PNI so that it appears in the left pane
+      const updated = newState.pin(pniContact, UUIDKind.PNI);
+      await phone.setStorageState(updated);
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+    }
+
+    debug('Verify that the message is in the ACI conversation');
+    {
+      // Should have both PNI and ACI messages
+      await window.locator('.module-message__text >> "Hello merged"').waitFor();
+
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 1, 'message count');
+    }
+
+    debug('Open PNI conversation');
+    await leftPane.locator(`[data-testid="${pniContact.device.pni}"]`).click();
+
+    debug('Verify absence of messages in the PNI conversation');
+    {
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 0, 'message count');
+    }
+  });
 });

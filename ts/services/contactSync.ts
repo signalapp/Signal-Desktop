@@ -11,7 +11,6 @@ import * as Errors from '../types/errors';
 import type { ValidateConversationType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
-import { strictAssert } from '../util/assert';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import * as log from '../logging/log';
 
@@ -110,7 +109,6 @@ async function doContactSync({
       aci: details.uuid,
       reason: logId,
     });
-    strictAssert(conversation, 'need conversation to queue the job!');
 
     // It's important to use queueJob here because we might update the expiration timer
     //   and we don't want conflicts with incoming message processing happening on the

@@ -104,7 +104,7 @@ function checkForAccount(
             e164: phoneNumber,
             reason: 'checkForAccount',
           });
-        uuid = maybeMerged?.get('uuid');
+        uuid = maybeMerged.get('uuid');
       }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));

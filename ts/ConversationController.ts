@@ -381,7 +381,7 @@ export class ConversationController {
       reason: 'getOurConversationId',
     });
 
-    return conversation?.id;
+    return conversation.id;
   }
 
   getOurConversationIdOrThrow(): string {
@@ -465,7 +465,7 @@ export class ConversationController {
     fromPniSignature?: boolean;
     mergeOldAndNew?: (options: SafeCombineConversationsParams) => Promise<void>;
   }): {
-    conversation: ConversationModel | undefined;
+    conversation: ConversationModel;
     mergePromises: Array<Promise<void>>;
   } {
     const dataProvided = [];
