@@ -193,7 +193,9 @@ export const getHasStoryViewReceiptSetting = createSelector(
 export const getRemoteBuildExpiration = createSelector(
   getItems,
   (state: ItemsStateType): number | undefined =>
-    Number(state.remoteBuildExpiration)
+    state.remoteBuildExpiration === undefined
+      ? undefined
+      : Number(state.remoteBuildExpiration)
 );
 
 export const getAutoDownloadUpdate = createSelector(

@@ -18,12 +18,17 @@ const SIXTY_DAYS = 60 * DAY;
 export const getExpiration = (state: StateType): ExpirationStateType =>
   state.expiration;
 
-export const getExpirationTimestamp = createSelector(
+const getPackagedBuildExpiration = createSelector(
   getExpiration,
+  ({ buildExpiration }) => buildExpiration
+);
+
+export const getExpirationTimestamp = createSelector(
+  getPackagedBuildExpiration,
   getRemoteBuildExpiration,
   getAutoDownloadUpdate,
   (
-    { buildExpiration }: Readonly<ExpirationStateType>,
+    buildExpiration: number,
     remoteBuildExpiration: number | undefined,
     autoDownloadUpdate: boolean
   ): number => {
@@ -31,11 +36,19 @@ export const getExpirationTimestamp = createSelector(
       ? buildExpiration
       : buildExpiration - SIXTY_DAYS;
 
-    if (remoteBuildExpiration) {
-      return Math.min(remoteBuildExpiration, localBuildExpiration);
+    // Log the expiration date in this selector because it invalidates only
+    // if one of the arguments changes.
+    let result: number;
+    let type: string;
+    if (remoteBuildExpiration && remoteBuildExpiration < localBuildExpiration) {
+      type = 'remote';
+      result = remoteBuildExpiration;
+    } else {
+      type = 'local';
+      result = localBuildExpiration;
     }
-
-    return localBuildExpiration;
+    log.info(`Build expires (${type}): ${new Date(result).toISOString()}`);
+    return result;
   }
 );
 
@@ -51,8 +64,6 @@ export const hasExpired = createSelector(
     if (getEnvironment() !== Environment.Production && buildExpiration === 0) {
       return false;
     }
-
-    log.info('Build expires: ', new Date(buildExpiration).toISOString());
 
     if (isInPast(buildExpiration)) {
       return true;
