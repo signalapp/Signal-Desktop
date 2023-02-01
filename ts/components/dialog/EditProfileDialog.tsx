@@ -3,32 +3,25 @@ import { QRCode } from 'react-qr-svg';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
+import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 
 import { ConversationModel } from '../../models/conversation';
 
-import { getConversationController } from '../../session/conversations';
 import autoBind from 'auto-bind';
-import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
+import { getConversationController } from '../../session/conversations';
+import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { sanitizeSessionUsername } from '../../session/utils/String';
+import { editProfileModal } from '../../state/ducks/modalDialog';
+import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
-import { sanitizeSessionUsername } from '../../session/utils/String';
-import { setLastProfileUpdateTimestamp } from '../../util/storage';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
-import { SharedConfigMessage } from '../../session/messages/outgoing/controlMessage/SharedConfigMessage';
-import { callLibSessionWorker } from '../../webworker/workers/browser/libsession_worker_interface';
-import { SignalService } from '../../protobuf';
-import Long from 'long';
-import { GetNetworkTime } from '../../session/apis/snode_api/getNetworkTime';
-import { getMessageQueue } from '../../session/sending';
-import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
-import { from_string } from 'libsodium-wrappers-sumo';
 
 interface State {
   profileName: string;
@@ -350,27 +343,8 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
   await conversation.commit();
 
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    await callLibSessionWorker(['UserConfig', 'setName', newName]);
-    const pointer = conversation.get('avatarPointer');
-    const profileKey = conversation.get('profileKey');
-    if (profileKey && pointer) {
-      await callLibSessionWorker([
-        'UserConfig',
-        'setProfilePicture',
-        pointer,
-        from_string(profileKey),
-      ]);
-    } else {
-      await callLibSessionWorker(['UserConfig', 'setProfilePicture', '', new Uint8Array()]);
-    }
-
-    const message = new SharedConfigMessage({
-      data: (await callLibSessionWorker(['UserConfig', 'dump'])) as Uint8Array,
-      kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
-      seqno: Long.fromNumber(0),
-      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
-    });
-    await getMessageQueue().sendSyncMessage({ message, namespace: SnodeNamespaces.UserProfile });
+    await ConfigurationSync.queueNewJobIfNeeded();
+    await setLastProfileUpdateTimestamp(Date.now());
   } else {
     await setLastProfileUpdateTimestamp(Date.now());
 

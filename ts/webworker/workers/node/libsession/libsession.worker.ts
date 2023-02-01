@@ -1,19 +1,22 @@
 import _, { isEmpty, isNull } from 'lodash';
-import { BaseConfigWrapper, ContactsConfigWrapper, UserConfigWrapper } from 'session_util_wrapper';
+import {
+  BaseConfigWrapper,
+  BaseConfigWrapperInsideWorker,
+  ContactsConfigWrapperInsideWorker,
+  UserConfigWrapperInsideWorker,
+} from 'session_util_wrapper';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
 /* eslint-disable no-console */
 /* eslint-disable strict */
 
 // we can only have one of those so don't worry about storing them in a map for now
-let userProfileWrapper: UserConfigWrapper | undefined;
-let contactsConfigWrapper: ContactsConfigWrapper | undefined;
-
-// const configWrappers: Array<EntryUserConfig | EntryContactsConfig> = new Array();
+let userProfileWrapper: UserConfigWrapperInsideWorker | undefined;
+let contactsConfigWrapper: ContactsConfigWrapperInsideWorker | undefined;
 
 type UserWrapperType = 'UserConfig' | 'ContactsConfig';
 
-function getUserWrapper(type: UserWrapperType): BaseConfigWrapper | undefined {
+function getUserWrapper(type: UserWrapperType): BaseConfigWrapperInsideWorker | undefined {
   switch (type) {
     case 'UserConfig':
       return userProfileWrapper;
@@ -22,7 +25,9 @@ function getUserWrapper(type: UserWrapperType): BaseConfigWrapper | undefined {
   }
 }
 
-function getCorrespondingWrapper(wrapperType: ConfigWrapperObjectTypes): BaseConfigWrapper {
+function getCorrespondingWrapper(
+  wrapperType: ConfigWrapperObjectTypes
+): BaseConfigWrapperInsideWorker {
   switch (wrapperType) {
     case 'UserConfig':
     case 'ContactsConfig':
@@ -68,10 +73,10 @@ function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): Bas
   const userType = assertUserWrapperType(wrapperType);
   switch (userType) {
     case 'UserConfig':
-      userProfileWrapper = new UserConfigWrapper(edSecretKey, dump);
+      userProfileWrapper = new UserConfigWrapperInsideWorker(edSecretKey, dump);
       return userProfileWrapper;
     case 'ContactsConfig':
-      contactsConfigWrapper = new ContactsConfigWrapper(edSecretKey, dump);
+      contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(edSecretKey, dump);
       return contactsConfigWrapper;
   }
 }

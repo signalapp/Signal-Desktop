@@ -9,6 +9,13 @@ export type AsyncWrapper<T extends (...args: any) => any> = (
   ...args: Parameters<T>
 ) => Promise<ReturnType<T>>;
 
+/**
+ * This type is used to build from an objectType filled with functions, a new object type where all the functions their async equivalent
+ */
+export type AsyncObjectWrapper<Type extends Record<string, (...args: any) => any>> = {
+  [Property in keyof Type]: AsyncWrapper<Type[Property]>;
+};
+
 export type MsgDuplicateSearchOpenGroup = Array<{
   sender: string;
   serverTimestamp: number;
@@ -25,28 +32,33 @@ export type UpdateLastHashType = {
 
 export type ConfigDumpRow = {
   variant: ConfigWrapperObjectTypes; // the variant this entry is about. (user pr, contacts, ...)
-  pubkey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
+  publicKey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
   data: Uint8Array; // the blob returned by libsession.dump() call
-  combinedMessageHashes?: string; // array of lastHashes to keep track of, stringified
+  combinedMessageHashes: Array<string>; // array of lastHashes to keep track of
   // we might need to add a `seqno` field here.
 };
 
+export type ConfigDumpRowWithoutData = Pick<
+  ConfigDumpRow,
+  'publicKey' | 'combinedMessageHashes' | 'variant'
+>;
+
 // ========== configdump
 
-export type GetByVariantAndPubkeyConfigDump = (
-  variant: ConfigWrapperObjectTypes,
-  pubkey: string
-) => Array<ConfigDumpRow>;
-export type GetByPubkeyConfigDump = (pubkey: string) => Array<ConfigDumpRow>;
-export type SaveConfigDump = (dump: ConfigDumpRow) => void;
-export type GetAllDumps = () => Array<ConfigDumpRow>;
-
 export type ConfigDumpDataNode = {
-  getConfigDumpByVariantAndPubkey: GetByVariantAndPubkeyConfigDump;
-  getConfigDumpsByPubkey: GetByPubkeyConfigDump;
-  saveConfigDump: SaveConfigDump;
-  getAllDumpsWithData: GetAllDumps;
-  getAllDumpsWithoutData: GetAllDumps;
+  getByVariantAndPubkey: (
+    variant: ConfigWrapperObjectTypes,
+    publicKey: string
+  ) => Array<ConfigDumpRow>;
+  getMessageHashesByVariantAndPubkey: (
+    variant: ConfigWrapperObjectTypes,
+    publicKey: string
+  ) => Array<string>;
+  saveConfigDump: (dump: ConfigDumpRow) => void;
+  saveCombinedMessageHashesForMatching: (row: ConfigDumpRowWithoutData) => void;
+
+  getAllDumpsWithData: () => Array<ConfigDumpRow>;
+  getAllDumpsWithoutData: () => Array<ConfigDumpRowWithoutData>;
 };
 
 // ========== unprocessed

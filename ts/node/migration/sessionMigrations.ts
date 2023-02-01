@@ -1247,6 +1247,10 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     //   ;
     //     `);
 
+    // for manually flagging conversations as :unread"
+    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN markedAsUnread BOOLEAN;`);
+
+    // Didn't find any reference to this serverTimestamp in the unprocessed table needed.
     db.exec(`ALTER TABLE unprocessed DROP COLUMN serverTimestamp;`);
 
     // we need to populate those fields with the current state of the conversation so let's throw null until this is done

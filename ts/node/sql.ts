@@ -48,8 +48,6 @@ import {
 } from './database_utility';
 
 import {
-  ConfigDumpDataNode,
-  ConfigDumpRow,
   MsgDuplicateSearchOpenGroup,
   UnprocessedDataNode,
   UnprocessedParameter,
@@ -70,7 +68,7 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
-import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+import { configDumpData } from './sql_calls/config_dump';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -1963,92 +1961,6 @@ function removeV2OpenGroupRoom(conversationId: string) {
       conversationId,
     });
 }
-
-/**
- * Config dumps sql calls
- */
-
-const configDumpData: ConfigDumpDataNode = {
-  getConfigDumpByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, pubkey: string) => {
-    const rows = assertGlobalInstance()
-      .prepare('SELECT * from configDump WHERE variant = $variant AND pubkey = $pubkey;')
-      .get({
-        pubkey,
-        variant,
-      });
-
-    if (!rows) {
-      return [];
-    }
-    throw new Error(`getConfigDumpByVariantAndPubkey: rows: ${JSON.stringify(rows)} `);
-
-    return rows;
-  },
-
-  getConfigDumpsByPubkey: (pubkey: string) => {
-    const rows = assertGlobalInstance()
-      .prepare('SELECT * from configDump WHERE pubkey = $pubkey;')
-      .get({
-        pubkey,
-      });
-
-    if (!rows) {
-      return [];
-    }
-    throw new Error(`getConfigDumpsByPubkey: rows: ${JSON.stringify(rows)} `);
-
-    return rows;
-  },
-
-  saveConfigDump: ({ data, pubkey, variant, combinedMessageHashes }: ConfigDumpRow) => {
-    assertGlobalInstance()
-      .prepare(
-        `INSERT OR REPLACE INTO configDump (
-          pubkey,
-          variant,
-          combinedMessageHashes,
-          data
-      ) values (
-        $pubkey,
-        $variant,
-        $combinedMessageHashes,
-        $data,
-      );`
-      )
-      .run({
-        pubkey,
-        variant,
-        combinedMessageHashes,
-        data,
-      });
-  },
-
-  getAllDumpsWithData: () => {
-    const rows = assertGlobalInstance()
-      .prepare('SELECT variant, publicKey, combinedMessageHashes, data from configDump;')
-      .get();
-
-    if (!rows) {
-      return [];
-    }
-    throw new Error(`getAllDumpsWithData: rows: ${JSON.stringify(rows)} `);
-
-    return rows;
-  },
-
-  getAllDumpsWithoutData: () => {
-    const rows = assertGlobalInstance()
-      .prepare('SELECT variant, publicKey, combinedMessageHashes from configDump;')
-      .get();
-
-    if (!rows) {
-      return [];
-    }
-    throw new Error(`getAllDumpsWithoutData: rows: ${JSON.stringify(rows)} `);
-
-    return rows;
-  },
-};
 
 /**
  * Others

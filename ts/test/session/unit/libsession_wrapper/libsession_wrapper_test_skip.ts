@@ -35,7 +35,6 @@ describe('libsession_wrapper', () => {
     expect(pushResult.seqno).to.be.eq(0);
     expect(pushResult.data.length).to.be.eq(256);
 
-    expect(conf.encryptionDomain()).to.be.eq('UserProfile');
     expect(conf.storageNamespace()).to.be.eq(2);
     expect(to_hex(pushResult.data)).to.be.deep.eq(
       '9ffb5347e061ac40d937ae4f1a890031475bdc11653f94c8ae1d516ffda71d9ee9cdaf9fbaeb15d835cdc7b3b6ecc120361f004ff172dd5e757c80ede10e88945536e6841255a7bca73664ab8a0607fcfe2579c05bb3d9d4b34ac1de2921e703783ce39e317a512cb9d4e3b59176cbde47b5ba24a03065bf8fefe3e8ca2609e0ad10c7c9c3f81dc6d3a399bda0c190e8a228d0acb22863ab84c2d0c411be74dac4de1f8bc18539635db01ea1ef7f28e505703d67786cb419690edd4bd8c92926fc1d6449eaccc31d7d9639e1b36222e5672b87d1e34b7860308c3f40b3997f39fecf6ceb889323826fa69e001816307799fc9fed302a90faa1e43f7cd7367c3c'

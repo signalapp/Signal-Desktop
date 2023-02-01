@@ -124,7 +124,7 @@ export async function send(
           ? SnodeNamespaces.ClosedGroupMessage
           : SnodeNamespaces.UserMessages;
       }
-      let timestamp = networkTimestamp;
+      const timestamp = networkTimestamp;
       // the user config namespaces requires a signature to be added
       let signOpts: SnodeSignatureResult | undefined;
       if (SnodeNamespace.isUserConfigNamespace(namespace)) {
@@ -247,7 +247,7 @@ export async function sendMessageToSnode({
     window?.log?.info(
       `loki_message:::sendMessage - Successfully stored message to ${ed25519Str(pubKey)} via ${
         snode.ip
-      }:${snode.port}`
+      }:${snode.port} on namespace: ${namespace}`
     );
   }
 }

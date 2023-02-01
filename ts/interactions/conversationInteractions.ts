@@ -40,6 +40,7 @@ import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { getSodiumRenderer } from '../session/crypto';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -449,7 +450,11 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 
   if (newAvatarDecrypted) {
     await setLastProfileUpdateTimestamp(Date.now());
-    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    } else {
+      await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+    }
   } else {
     window.log.info(
       `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`

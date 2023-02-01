@@ -231,7 +231,7 @@ export class MessageQueue {
     pubkey,
   }: {
     pubkey: PubKey;
-    message: ClosedGroupNewMessage | CallMessage;
+    message: ClosedGroupNewMessage | CallMessage | SharedConfigMessage;
     namespace: SnodeNamespaces;
   }): Promise<boolean | number> {
     let rawMessage;
@@ -258,6 +258,7 @@ export class MessageQueue {
    */
   public async processPending(device: PubKey, isSyncMessage: boolean = false) {
     const messages = await this.pendingMessageCache.getForDevice(device);
+    console.warn('processPending', messages);
 
     const jobQueue = this.getJobQueue(device);
     messages.forEach(async message => {

@@ -1,5 +1,17 @@
+import { from_string } from 'libsodium-wrappers-sumo';
+import { isNumber } from 'lodash';
+import Long from 'long';
 import { v4 } from 'uuid';
-import { sleepFor } from '../../Promise';
+import { UserUtils } from '../..';
+import { SignalService } from '../../../../protobuf';
+import { UserConfigWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
+import { GetNetworkTime } from '../../../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
+import { getConversationController } from '../../../conversations';
+import { SharedConfigMessage } from '../../../messages/outgoing/controlMessage/SharedConfigMessage';
+import { getMessageQueue } from '../../../sending';
+import { PubKey } from '../../../types';
+import { runners } from '../JobRunner';
 import {
   AddJobCheckReturn,
   ConfigurationSyncPersistedData,
@@ -8,35 +20,75 @@ import {
 } from '../PersistedJob';
 
 const defaultMsBetweenRetries = 3000;
+const defaultMaxAttempts = 3;
 
-export class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> {
+class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> {
   constructor({
     identifier,
     nextAttemptTimestamp,
     maxAttempts,
     currentRetry,
-  }: Pick<ConfigurationSyncPersistedData, 'identifier' | 'currentRetry' | 'maxAttempts'> &
-    Partial<Pick<ConfigurationSyncPersistedData, 'nextAttemptTimestamp'>>) {
+  }: Partial<
+    Pick<
+      ConfigurationSyncPersistedData,
+      'identifier' | 'nextAttemptTimestamp' | 'currentRetry' | 'maxAttempts'
+    >
+  >) {
     super({
       jobType: 'ConfigurationSyncJobType',
       identifier: identifier || v4(),
       delayBetweenRetries: defaultMsBetweenRetries,
-      maxAttempts: maxAttempts,
+      maxAttempts: isNumber(maxAttempts) ? maxAttempts : defaultMaxAttempts,
+      currentRetry: isNumber(currentRetry) ? currentRetry : 0,
       nextAttemptTimestamp: nextAttemptTimestamp || Date.now() + defaultMsBetweenRetries,
-      currentRetry,
     });
   }
 
   public async run(): Promise<RunJobResult> {
-    // blablha do everything from the notion page, and if success, return true.
-    window.log.warn(
-      `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" `
+    window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
+
+    const us = UserUtils.getOurPubKeyStrFromCache();
+    const conversation = getConversationController().get(us);
+    if (!us || !conversation) {
+      window.log.warn('did not find our own conversation');
+      return RunJobResult.PermanentFailure;
+    }
+    const name = conversation.get('displayNameInProfile');
+    const pointer = conversation.get('avatarPointer');
+    const profileKey = conversation.get('profileKey');
+    await UserConfigWrapperActions.setName(name || '');
+
+    if (profileKey && pointer) {
+      await UserConfigWrapperActions.setProfilePicture(pointer, from_string(profileKey));
+    } else {
+      await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
+    }
+
+    const data = await UserConfigWrapperActions.push();
+
+    const message = new SharedConfigMessage({
+      data: data.data,
+      kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
+      seqno: Long.fromNumber(data.seqno),
+      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
+    });
+
+    const result = await getMessageQueue().sendToPubKeyNonDurably({
+      message,
+      namespace: SnodeNamespaces.UserProfile,
+      pubkey: PubKey.cast(us),
+    });
+    console.warn(
+      `ConfigurationSyncJob sendToPubKeyNonDurably ${this.persistedData.identifier} returned: "${result}"`
     );
 
-    await sleepFor(5000);
-    window.log.warn(
-      `running job ${this.persistedData.jobType} with id:"${this.persistedData.identifier}" done and returning failed `
-    );
+    if (isNumber(result)) {
+      // try {
+      //   markAsPushed
+      // }
+      debugger;
+      return RunJobResult.Success;
+    }
 
     return RunJobResult.RetryJobIfPossible;
   }
@@ -59,3 +111,16 @@ export class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersiste
     return [];
   }
 }
+
+/**
+ * Queue a new Sync Configuration if needed job.
+ * A ConfigurationSyncJob can only be added if there is none of the same type queued already.
+ */
+async function queueNewJobIfNeeded() {
+  await runners.configurationSyncRunner.addJob(new ConfigurationSyncJob({}));
+}
+
+export const ConfigurationSync = {
+  ConfigurationSyncJob,
+  queueNewJobIfNeeded,
+};

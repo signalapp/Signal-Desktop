@@ -44,7 +44,7 @@ import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
-import { initializeLibSessionUtilWrappers } from '../../session/utils/libsession/libsession_utils';
+import { LibSessionUtil } from '../../session/utils/libsession/libsession_utils';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
@@ -193,7 +193,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
  * This function is called only once: on app startup with a logged in user
  */
 const doAppStartUp = async () => {
-  await initializeLibSessionUtilWrappers();
+  await LibSessionUtil.initializeLibSessionUtilWrappers();
 
   void setupTheme();
   // this generates the key to encrypt attachments locally
@@ -201,6 +201,8 @@ const doAppStartUp = async () => {
 
   await runners.avatarDownloadRunner.loadJobsFromDb();
   runners.avatarDownloadRunner.startProcessing();
+  await runners.configurationSyncRunner.loadJobsFromDb();
+  runners.configurationSyncRunner.startProcessing();
 
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();

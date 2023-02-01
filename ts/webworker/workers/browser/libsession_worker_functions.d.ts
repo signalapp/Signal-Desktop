@@ -1,6 +1,5 @@
 import {
   BaseConfigActions,
-  BaseConfigWrapper,
   ContactsConfigActionsType,
   UserConfigActionsType,
 } from 'session_util_wrapper';
@@ -19,10 +18,5 @@ type UserConfigFunctions =
 type ContactsConfigFunctions =
   | [ContactsConfig, ...BaseConfigActions]
   | [ContactsConfig, ...ContactsConfigActionsType];
-
-/**Those are the actions inherited from BaseConfigWrapper to ClosedGroupConfigWrapper */
-// type ClosedGroupConfigFromBase = [ClosedGroupConfig, ...BaseConfigActions];
-// type ClosedGroupConfigFunctions = ClosedGroupConfigFromBase;
-//| ClosedGroupConfigFunctions;
 
 export type LibSessionWorkerFunctions = UserConfigFunctions | ContactsConfigFunctions;

@@ -1,5 +1,5 @@
-import _, { isEmpty } from 'lodash';
-import { ContactInfo, ProfilePicture } from 'session_util_wrapper';
+import _, { compact, flattenDeep, isEmpty, isEqual } from 'lodash';
+import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
@@ -13,12 +13,17 @@ import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { UserUtils } from '../session/utils';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { BlockedNumberController } from '../util';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
-import { callLibSessionWorker } from '../webworker/workers/browser/libsession_worker_interface';
+import {
+  ContactsWrapperActions,
+  GenericWrapperActions,
+  UserConfigWrapperActions,
+} from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { EnvelopePlus } from './types';
@@ -30,7 +35,7 @@ type IncomingConfResult = {
   latestSentTimestamp: number;
 };
 
-function protobufSharedConfigTypeToWrapper(
+function pbKindToVariant(
   kind: SignalService.SharedConfigMessage.Kind
 ): ConfigWrapperObjectTypes | null {
   switch (kind) {
@@ -45,59 +50,44 @@ function protobufSharedConfigTypeToWrapper(
 
 async function mergeConfigsWithIncomingUpdates(
   incomingConfig: IncomingMessage<SignalService.ISharedConfigMessage>
-) {
-  const kindMessageMap: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult> = new Map();
-  const allKinds = [incomingConfig.message.kind];
-  for (let index = 0; index < allKinds.length; index++) {
-    const kind = allKinds[index];
+): Promise<{ kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }> {
+  const { kind } = incomingConfig.message;
 
-    const currentKindMessages = [incomingConfig];
-    if (!currentKindMessages) {
-      continue;
-    }
-    const toMerge = currentKindMessages.map(m => m.message.data);
+  const toMerge = [incomingConfig.message.data];
 
-    const wrapperId = protobufSharedConfigTypeToWrapper(kind);
-    if (!wrapperId) {
-      throw new Error(`Invalid kind: ${kind}`);
-    }
-
-    await callLibSessionWorker([wrapperId, 'merge', toMerge]);
-    const needsPush = ((await callLibSessionWorker([wrapperId, 'needsPush'])) || false) as boolean;
-    const needsDump = ((await callLibSessionWorker([wrapperId, 'needsDump'])) || false) as boolean;
-    const messageHashes = currentKindMessages.map(m => m.messageHash);
-    const latestSentTimestamp = Math.max(...currentKindMessages.map(m => m.envelopeTimestamp));
-
-    const incomingConfResult: IncomingConfResult = {
-      latestSentTimestamp,
-      messageHashes,
-      needsDump,
-      needsPush,
-    };
-    kindMessageMap.set(kind, incomingConfResult);
+  const wrapperId = pbKindToVariant(kind);
+  if (!wrapperId) {
+    throw new Error(`Invalid kind: ${kind}`);
   }
 
-  return kindMessageMap;
+  await GenericWrapperActions.merge(wrapperId, toMerge);
+  const needsPush = await GenericWrapperActions.needsPush(wrapperId);
+  const needsDump = await GenericWrapperActions.needsDump(wrapperId);
+  const messageHashes = [incomingConfig.messageHash];
+  const latestSentTimestamp = incomingConfig.envelopeTimestamp;
+
+  const incomingConfResult: IncomingConfResult = {
+    latestSentTimestamp,
+    messageHashes,
+    needsDump,
+    needsPush,
+  };
+
+  return { kind, result: incomingConfResult };
 }
 
-async function handleUserProfileUpdate(result: IncomingConfResult) {
+async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
+  const updatedUserName = await UserConfigWrapperActions.getName();
+  console.warn('got', updatedUserName);
+
   if (result.needsDump) {
-    return;
+    return result;
   }
 
-  const updatedUserName = (await callLibSessionWorker(['UserConfig', 'getName'])) as
-    | string
-    | undefined;
-  const updatedProfilePicture = (await callLibSessionWorker([
-    'UserConfig',
-    'getProfilePicture',
-  ])) as ProfilePicture;
-
-  // fetch our own conversation
-  const userPublicKey = UserUtils.getOurPubKeyStrFromCache();
-  if (!userPublicKey) {
-    return;
+  if (!updatedUserName) {
+    debugger;
   }
+  const updatedProfilePicture = await UserConfigWrapperActions.getProfilePicture();
 
   const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
 
@@ -106,16 +96,15 @@ async function handleUserProfileUpdate(result: IncomingConfResult) {
     picUpdate ? updatedProfilePicture.url : null,
     picUpdate ? updatedProfilePicture.key : null
   );
+  return result;
 }
 
-async function handleContactsUpdate(result: IncomingConfResult) {
+async function handleContactsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   if (result.needsDump) {
-    return;
+    return result;
   }
 
-  const allContacts = (await callLibSessionWorker(['ContactsConfig', 'getAll'])) as Array<
-    ContactInfo
-  >;
+  const allContacts = await ContactsWrapperActions.getAll();
 
   for (let index = 0; index < allContacts.length; index++) {
     const wrapperConvo = allContacts[index];
@@ -161,7 +150,7 @@ async function handleContactsUpdate(result: IncomingConfResult) {
         await existingConvo.commit();
       }
 
-      // we still need to handle the the `name` (sync) and the `profilePicture` (asynchronous)
+      // we still need to handle the the `name` (synchronous) and the `profilePicture` (asynchronous)
       await ProfileManager.updateProfileOfContact(
         existingConvo.id,
         wrapperConvo.name,
@@ -170,36 +159,85 @@ async function handleContactsUpdate(result: IncomingConfResult) {
       );
     }
   }
+  return result;
 }
 
 async function processMergingResults(
   envelope: EnvelopePlus,
-  results: Map<SignalService.SharedConfigMessage.Kind, IncomingConfResult>
+  result: { kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }
 ) {
-  const keys = [...results.keys()];
+  const pubkey = envelope.source;
 
-  for (let index = 0; index < keys.length; index++) {
-    const kind = keys[index];
-    const result = results.get(kind);
+  const { kind, result: incomingResult } = result;
 
-    if (!result) {
-      continue;
-    }
-
-    try {
-      switch (kind) {
-        case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
-          await handleUserProfileUpdate(result);
-          break;
-        case SignalService.SharedConfigMessage.Kind.CONTACTS:
-          await handleContactsUpdate(result);
-          break;
-      }
-    } catch (e) {
-      throw e;
-    }
+  if (!incomingResult) {
+    await removeFromCache(envelope);
+    return;
   }
+
+  try {
+    let finalResult = incomingResult;
+
+    switch (kind) {
+      case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
+        finalResult = await handleUserProfileUpdate(incomingResult);
+        break;
+      case SignalService.SharedConfigMessage.Kind.CONTACTS:
+        finalResult = await handleContactsUpdate(incomingResult);
+        break;
+      default:
+        throw new Error(`processMergingResults unknown kind of contact : ${kind}`);
+    }
+    const variant = pbKindToVariant(kind);
+    if (!variant) {
+      throw new Error('unknown variant');
+    }
+    // We need to get the existing message hashes and combine them with the latest from the
+    // service node to ensure the next push will properly clean up old messages
+    const oldMessageHashesWithDup = (
+      await ConfigDumpData.getByVariantAndPubkey(variant, envelope.source)
+    ).map(m => m.combinedMessageHashes);
+    const oldMessageHashes = new Set(...flattenDeep(compact(oldMessageHashesWithDup)));
+    const allMessageHashes = new Set([...oldMessageHashes, ...finalResult.messageHashes]);
+    const finalResultsHashes = new Set([...finalResult.messageHashes]);
+
+    // lodash does deep compare of Sets
+    const messageHashesChanged = !isEqual(oldMessageHashes, finalResultsHashes);
+
+    if (finalResult.needsDump) {
+      // The config data had changes so regenerate the dump and save it
+
+      const dump = await GenericWrapperActions.dump(variant);
+      await ConfigDumpData.saveConfigDump({
+        data: dump,
+        publicKey: pubkey,
+        variant,
+        combinedMessageHashes: [...allMessageHashes],
+      });
+    } else if (messageHashesChanged) {
+      // The config data didn't change but there were different messages on the service node
+      // so just update the message hashes so the next sync can properly remove any old ones
+      await ConfigDumpData.saveCombinedMessageHashesForMatching({
+        publicKey: pubkey,
+        variant,
+        combinedMessageHashes: [...allMessageHashes],
+      });
+    }
+
+    console.warn('all dumps in DB: ', await ConfigDumpData.getAllDumpsWithoutData());
+    await removeFromCache(envelope);
+  } catch (e) {
+    window.log.error(`processMergingResults failed with ${e.message}`);
+    await removeFromCache(envelope);
+    return;
+  }
+
   await removeFromCache(envelope);
+  // Now that the local state has been updated, trigger a config sync (this will push any
+  // pending updates and properly update the state)
+  if (result.result.needsPush) {
+    await ConfigurationSync.queueNewJobIfNeeded();
+  }
 }
 
 async function handleConfigMessageViaLibSession(
@@ -218,11 +256,11 @@ async function handleConfigMessageViaLibSession(
     return;
   }
 
-  window?.log?.info(`Handling our profileUdpates via libsession_util.`);
+  window?.log?.info('Handling our profileUdpates via libsession_util.');
 
-  const kindMessagesMap = await mergeConfigsWithIncomingUpdates(configMessage);
+  const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessage);
 
-  await processMergingResults(envelope, kindMessagesMap);
+  await processMergingResults(envelope, incomingMergeResult);
 }
 
 async function handleOurProfileUpdate(
