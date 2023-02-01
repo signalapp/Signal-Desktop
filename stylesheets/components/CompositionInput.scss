@@ -202,8 +202,13 @@ div.CompositionInput__link-preview {
   background: $color-gray-02;
   border-radius: 8px;
   flex-direction: row-reverse;
+  justify-content: space-between;
   margin-bottom: 4px;
   overflow: hidden;
+
+  @include dark-theme {
+    background: $color-gray-80;
+  }
 
   &__icon-container {
     align-items: center;
