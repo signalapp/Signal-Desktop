@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} na {conversationTitle} ni akaunti moja. Historia ya jumbe zote mbili zipo hapa.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Historia ya jumbe zako na {conversationTitle} na nambari zao {obsoleteConversationNumber} zimeunganishwa.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "Historia ya jumbe zako na {conversationTitle} na gumzo lao lingine zimeunganishwa.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Jifunze Zaidi",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} inamilikiwa na {conversationTitle}. Nyote ni wanachama wa {sharedGroup}.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} inamilikiwa na {conversationTitle}",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Kijipicha cha taswira kutoka kwa ujumbe ulionukuliwa",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Tafadhali Washa Upya Signal ili kutekeleza sasisho."
+    "message": "Tafadhali Washa Upya Signal ili kutekeleza sasisho.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Washa upya Signal"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "Imeshindikana kupata taarifa za beji ya zawadi",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Imeshindwa kuchukua taarifa za michango",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "Tazama ujumbe huu kwenye simu ili kuufungua",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Tazama ujumbe huu kwenye simu ili kuufungua",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Bonyeza ujumbe huu kwenye kifaa chako cha mkononi ili kutazama zawadi yako",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Gusa ujumbe kwenye kifaa chako cha mkononi ili kuangalia mchango wako",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Zawadi",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ameichangia Signal kwa niaba yako",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Angalia simu yako ili kufungua zawadi",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Angalia simu yako kufungua mchango huu",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Angalia simu yako kutazama zawadi yako",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Angalia simu yako kuangalia mchango wako",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Umepokea zawadi",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} amekuchangia",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Umekomboa beji ya zawadi",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Umekomboa mchango",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Umetuma beji ya zawadi",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Umemchangia {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Beji ya Zawadi",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Mchango",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Zawadi",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Mchango",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "zimebaki siku $days$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "zimebaki siku {days}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "zimebaki saa $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "zimebaki saa {hours}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "zimebaki dakika $minutes$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Imebaki dakika 1} other {zimebaki dakika {minutes,number}}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Imebaki dakika 1",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Imekwisha muda",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Imekwisha muda",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Tazama",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Tazama",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Imekombolewa",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Imekombolewa",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Asante kwa kutuunga mkono!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Asante kwa kutuunga mkono!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Umemzawadi $name$ beji. Watakapokubali, watapatiwa chaguzi ya kuonyesha ama kuficha beji yao.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Umetoa mchango kwa Signal kwa niaba ya {name}. Watapatiwa uchaguzi wa kuonyesha kuunga mkono kwao kwenye wasifu wao.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Pakiti ya vibandiko haikuweza kusimikwa",
@@ -6253,6 +6334,18 @@
     "message": "Tarakimu hizi zinasaidia kuliweka jina lako la mtumiaji kibinafsi ili kuepuke jumbe zisizotakikana. Share jina lako la mtumiaji na watu na makundi ambayo ungependa kuzungumza nayo tu. Ukibadili jina lako la mtumiaji utatumiwa seti mpya ya tarakimu.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Muda si mrefu Signal desktop haitaikubali tena toleo lako la {OS} mfumo wa uendeshaji wa kompyuta yako. Ili kuendelea kutumia Signal, sasisha mfumo wa uendeshaji wa kompyuta kabla ya {expirationDate}. <learnMoreLink>Jifunze zaidi</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop haifanyi tena kazi kwenye kompyuta hii. Ili kutumia Signal desktop tena, sasisha toleo la mfumo wako wa uendeshaji wa {OS}. <learnMoreLink>Jifunze zaidi</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop haifanyi tena kazi kwenye kompyuta hii. Ili kutumia Signal desktop tena, sasisha toleo la mfumo wako wa uendeshaji wa {OS}.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Kuna Lipi Jipya?",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "Unapopiga simu ya kikundi kwa vikundi vidogo (vya hadi watu 16), unaweza kuchagua kutuma arifa ya mlio. Wana kikundi watasikia mlio ikiwa wanatumia toleo la beta la iOS au wanatumia Desktop au Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Bofya mara mbili kwenye safu yoyote ya ujumbe ili kujibu kwa kunukuu. Ni kama njia ya mkato ya mawazo mapya kuhusu mawazo ya zamani. Shukrani kwa {whynothugo} na jumuiya ya Signal kwa kutekeleza kipengele hiki na kutoa mrejesho.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Sasa ni rahisi kubofya nje ya picha ili kuondosha muonekano wa galeri bila kukuza zaidi. Wakati mwingine ulitaka tu kufunga, na badala yake mambo yakaharibika zaidi. Shukrani kwa {jojomatik} kwa kutuwezesha!",
+    "description": "Release notes for v6.3"
   }
 }

@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} pripadaju istom računu. Vaša povijest poruka za oba razgovora nalazi se ovdje.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Povijest vašeg razgovora s korisnikom {conversationTitle} sada je povezana s njegovim brojem {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "Povijest vašeg razgovora s korisnikom {conversationTitle} sada je povezana s drugim razgovorom s istim korisnikom.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Saznajte više",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "Broj {phoneNumber} pripada korisniku {conversationTitle}. Oboje ste članovi grupe {sharedGroup}.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "Broj {phoneNumber} pripada korisniku {conversationTitle}",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Sličica fotografije iz citirane poruke",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Kliknite Ponovno pokreni Signal za primjenu ažuriranja."
+    "message": "Kliknite Ponovno pokreni Signal za primjenu ažuriranja.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Ponovno pokreni Signal"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "Nije moguće dohvatiti detalje poklonjene značke",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Nije moguće učitati podatke o donaciji",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "Otvorite ovu poruku na mobilnom uređaju da biste je pročitali",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Otvorite ovu poruku na mobilnom uređaju da biste je pročitali",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Dodirnite ovu poruku za prikaz vašeg poklona",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Dodirnite ovu poruku na mobilnom uređaju za prikaz vaše donacije",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Poklon",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "Korisnik {sender} donirao je Signalu u vaše ime",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Provjerite svoj telefon i otvorite poklon",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Provjerite svoj telefon i otvorite donaciju",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Provjerite svoj telefon da biste vidjeli svoj poklon",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Provjerite svoj telefon za prikaz donacije",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Dobili ste poklon",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "Korisnik {sender} donirao je u vaše ime",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Preuzeli ste poklonjenu značku",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Preuzeli ste donaciju",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Poslali ste značku na poklon",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Izvršili ste donaciju u ime korisnika {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Značka na poklon",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Donacija",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Poklon",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Donacija",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Preostalo je $days$ dana",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Preostalo je {days} dana",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Preostalo sati: $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Preostalo je {hours} sati",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Preostale minute: $minutes$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Preostala je {minutes,number} minuta} few {Preostale su {minutes,number} minute} many {Preostalo je {minutes,number} minuta} other {Preostalo je {minutes,number} minuta}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 preostala minuta",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Isteklo",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Isteklo",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Prikaz",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Pregled",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Preuzeto",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Preuzeto",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Hvala vam na podršci!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Hvala vam na podršci!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Poklonili ste značku korisniku $name$. Kad ju prihvati, moći će izabrati hoće li ju prikazati ili sakriti.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Izvršili ste donaciju Signalu u ime korisnika {name}. Korisnik će moći izabrati hoće li iskazati podršku na svom profilu.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Paket naljepnica nije moguće instalirati",
@@ -6253,6 +6334,18 @@
     "message": "Ove znamenke čuvaju privatnost vašeg korisničkog imena kako bi se izbjeglo primanje neželjenih poruka. Podijelite svoje korisničko ime samo s osobama i grupama s kojima želite razgovarati. Ako promijenite korisničko ime, dobit ćete novi skup znamenki.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal uskoro više neće biti kompatibilan s verzijom {OS} na vašem računalu. Da biste nastavili koristiti Signal, ažurirajte operacijski sustav vašeg računala do {expirationDate}. <learnMoreLink>Saznajte više</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal za desktop više nije kompatibilan s ovim računalom. Ažurirajte verziju {OS} na svom računalu da biste ponovno koristili Signal za desktop. <learnMoreLink>Saznajte više</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal za desktop više nije kompatibilan s ovim računalom. Ažurirajte verziju {OS} na svom računalu da biste ponovno koristili Signal za desktop.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Novosti",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "Kada započnete grupni poziv za manje grupe (do 16 osoba), možete odabrati slanje zvučne obavijesti. Članovi grupe čut će zvučnu obavijest ako koriste beta verziju iOS-a, Desktop ili Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Dvaput kliknite na bilo koji red poruke u razgovoru da biste započeli citirani odgovor. To je poput prečaca za nove misli o starim idejama. Hvala {whynothugo} i zajednici Signal na implementaciji ove značajke i pružanju povratnih informacija.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Sada je lakše kliknuti izvan slike za zatvaranje prikaza galerije bez nepotrebnog zumiranja. Ponekad ste samo htjeli zatvoriti sliku, a umjesto toga bi proradio zoom. Hvala {jojomatik} na ispravku!",
+    "description": "Release notes for v6.3"
   }
 }

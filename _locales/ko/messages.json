@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} 님과 {conversationTitle} 님은 같은 계정입니다. 두 채팅 모두의 메시지 기록을 여기서 확인하세요.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} 님과 해당 사용자 번호 {obsoleteConversationNumber}의 메시지 기록을 병합했습니다.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "{conversationTitle} 님과의 메시지 기록과 해당 사용자가 속하는 다른 채팅의 메시지 기록을 병합했습니다.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "자세히 알아보기",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber}번은 {conversationTitle} 님의 전화번호입니다. 두 사람 다 {sharedGroup}의 멤버입니다.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber}번은 {conversationTitle} 님의 전화번호입니다.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "인용된 메시지의 이미지 섬네일",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Signal을 다시 시작하여 업데이트를 적용하세요."
+    "message": "Signal을 다시 시작하여 업데이트를 적용하세요.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal 재시작"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "선물 배지 세부 정보를 찾아올 수 없습니다.",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "기부 세부 정보를 가져오지 못했습니다.",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "모바일에서 이 메시지를 확인하여 선물을 열어 보세요.",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "모바일에서 이 메시지를 확인하여 선물을 열어 보세요.",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "모바일에서 이 메시지를 탭하여 선물을 확인하세요.",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "모바일에서 이 메시지를 탭하여 기부를 확인하세요.",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "선물",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} 님이 귀하를 대신해 Signal에 기부했습니다.",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "휴대전화에서 선물을 열어 보세요.",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "이 기부를 열려면 휴대전화를 확인하세요.",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "휴대전화에서 선물을 확인하세요.",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "이 기부를 보려면 휴대전화를 확인하세요.",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "선물을 받았습니다.",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} 님이 귀하를 대신해 기부했습니다.",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "선물 배지를 사용했습니다.",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "기부를 사용했습니다.",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "선물 배지를 보냈습니다.",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "{recipient} 님을 대신해 기부했습니다.",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "선물 배지",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "기부",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "선물",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "기부",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$일 남음",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days}일 남음",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$시간 남음",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours}시간 남음",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$분 남음",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {{minutes,number}분 남음}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1분 남음",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "만료됨",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "만료됨",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "보기",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "보기",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "사용함",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "사용함",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "지원해 주셔서 감사합니다!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "지지와 성원에 감사드립니다!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "$name$ 님에게 배지를 선물했습니다. 받는 사람이 선물을 수락한 후 배지 표시 여부를 결정할 수 있습니다.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} 님을 대신하여 Signal에 기부했습니다. 프로필을 통해 지지를 표현할 옵션이 제공됩니다.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "스티커 팩을 설치할 수 없음",
@@ -6253,6 +6334,18 @@
     "message": "이 일련번호는 사용자 이름을 비공개로 유지하여 원치 않는 메시지를 피할 수 있도록 도와줍니다. 채팅을 원하는 사용자 및 그룹과만 사용자 이름을 공유하세요. 사용자 이름을 변경하면 새로운 일련번호가 부여됩니다.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal 데스크톱이 곧 귀하의 컴퓨터에서 사용하는 {OS} 버전에 대한 지원을 중단합니다. Signal을 계속 사용하려면 {expirationDate}까지 컴퓨터 운영 체제를 업데이트하세요. 자세히 알아보기",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal 데스크톱이 이 컴퓨터에서 더 이상 작동하지 않습니다. Signal 데스크톱을 다시 사용하려면 컴퓨터의 {OS} 버전을 업데이트하세요. 자세히 알아보기",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal 데스크톱이 이 컴퓨터에서 더 이상 작동하지 않습니다. Signal 데스크톱을 다시 사용하려면 컴퓨터의 {OS} 버전을 업데이트하세요.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "업데이트 내용",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "소규모 그룹(최대 16명)과 그룹 통화를 시작할 경우 전화벨 알림을 보낼 수 있습니다. iOS 베타, 데스크톱, Android를 사용 중일 경우 그룹 구성원의 전화벨이 울립니다.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "메시지를 두 번 클릭하여 채팅에서 답장할 때 메시지를 인용해 보세요. 지난 아이디어에 대한 새로운 생각을 공유하는 지름길입니다. 좋은 의견을 제시해준 Signal 커뮤니티와 이 기능을 실현하도록 도와준 {whynothugo}에게 감사드립니다.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "이제 이미지 밖을 클릭하면 이미지가 확대되는 대신 갤러리 보기가 종료됩니다. 가까운 것도 좋지만 자고로 관계란 적절한 거리가 유지될 때 더 아름다운 법이죠. 이 문제를 해결해 준 {jojomatik}에 감사드립니다!",
+    "description": "Release notes for v6.3"
   }
 }

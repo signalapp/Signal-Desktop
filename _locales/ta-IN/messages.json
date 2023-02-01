@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} மற்றும் {conversationTitle} ஆகியவை ஒரே கணக்கைச் சேர்ந்தவை. இரண்டு சாட்களுக்கான உங்கள் மெசேஜ் வரலாறு இங்கே உள்ளது.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "{conversationTitle} உடனான உங்கள் செய்தி வரலாறும் அவர்களுக்குச் சொந்தமான மற்றொரு சாட்டும் இணைக்கப்பட்டது.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} உடனான உங்கள் மெசேஜ் வரலாறு மற்றும் அவர்களின் எண் {obsoleteConversationNumber} இணைக்கப்பட்டன.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} உடனான உங்கள் மெசேஜ் வரலாறும் அவர்களுக்குச் சொந்தமான மற்றொரு சாட்டும் இணைக்கப்பட்டன.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "மேலும் அறிக",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} {conversationTitle} க்கு சொந்தமானது. நீங்கள் இருவரும் {sharedGroup} இன் உறுப்பினர்கள்.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} {conversationTitle} க்கு சொந்தமானது",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "மேற்கோள் செய்தியிலிருந்து படத்தின் சிறு உருவம்",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "புதுப்பிப்புகளைப் பயன்படுத்த மறுதொடக்கம் Signal லை அழுத்தவும்."
+    "message": "புதுப்பிப்புகளைப் பயன்படுத்த மறுதொடக்கம் Signal லை அழுத்தவும்.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "சிக்னலை மறுதொடக்கம் செய்யுங்கள்"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "கிஃப்ட் பேட்ஜ் விவரங்களைப் பெற முடியவில்லை",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "நன்கொடை விவரங்களைப் பெற முடியவில்லை",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "இந்த செய்தியைத் திறக்க மொபைலில் பார்க்கவும்",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "இந்த மெசேஜைத் திறக்க மொபைலில் பார்க்கவும்",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "உங்கள் பரிசைக் காண மொபைலில் இந்த செய்தியைத் தட்டவும்",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "உங்கள் நன்கொடையைக் காண மொபைலில் இந்த மெசேஜைத் தட்டவும்",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "பரிசு",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "உங்கள் சார்பாக Signalக்கு {sender} நன்கொடை அளித்துள்ளார்",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "பரிசைத் திறக்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "இந்த நன்கொடையைத் திறக்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "உங்கள் பரிசைப் பார்க்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "உங்கள் நன்கொடையைப் பார்க்க உங்கள் மொபைலைச் சரிபார்க்கவும்",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "நீங்கள் ஒரு பரிசு பெற்றுள்ளீர்கள்",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} உங்களுக்காக நன்கொடை அளித்துள்ளார்",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "நீங்கள் ஒரு பரிசு பேட்ஜை மீட்டெடுத்துள்ளீர்கள்",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "நீங்கள் நன்கொடையை ரிடீம் செய்தீர்கள்",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "நீங்கள் ஒரு பரிசு பேட்ஜ்-ஐ அனுப்பியுள்ளீர்கள்",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "நீங்கள் {recipient} க்காக நன்கொடை அளித்துள்ளீர்கள்",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "பரிசு பேட்ஜ்",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "நன்கொடை",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "பரிசு",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "நன்கொடை",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ நாட்கள் மீதம்",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} நாட்கள் மீதமுள்ளன",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ மணிநேரம் மீதம்",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} மணிநேரம் மீதமுள்ளன",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ நிமிடங்கள் மீதம்",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 நிமிடம் மீதமுள்ளது} other {{minutes,number} நிமிடங்கள் மீதமுள்ளது}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 நிமிடம் மீதம்",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "காலாவதியாகிவிட்டது",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "காலாவதியாகிவிட்டது",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "காண்க",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "காண்க",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "மீட்டெடுக்கப்பட்டது",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ரிடீம் செய்யப்பட்டது",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "உங்கள் ஆதரவுக்கு நன்றி!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "உங்கள் ஆதரவுக்கு நன்றி!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "$name$ க்கு ஒரு பேட்ஜ்-ஐப் பரிசளித்துள்ளீர்கள். அவர்கள் ஏற்றுக்கொண்டால், அவர்களின் பேட்ஜைக் காட்ட அல்லது மறைக்க அவர்களுக்கு விருப்பம் வழங்கப்படும்.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} சார்பாக Signalக்கு நன்கொடை அளித்துள்ளீர்கள். அவர்களின் புரொஃபைலில் தங்கள் ஆதரவைக் காட்ட அவர்களுக்கு விருப்பம் வழங்கப்படும்.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ஸ்டிக்கர் பேக் நிறுவ முடியவில்லை",
@@ -4738,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, YYYY",
+    "message": "D, MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -6253,6 +6334,18 @@
     "message": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal டெஸ்க்டாப் விரைவில் உங்கள் கணினியின் {OS} பதிப்பை ஆதரிக்காது. சிக்னலைத் தொடர்ந்து பயன்படுத்த, உங்கள் கணினியின் இயங்குதளத்தை {expirationDate} க்குள் புதுப்பிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "இந்த கணினியில் இனிமேலும் Signal டெஸ்க்டாப் வேலை செய்யாது. Signal டெஸ்க்டாப்பை மீண்டும் பயன்படுத்த, உங்கள் கணினியின் {OS} பதிப்பைப் புதுப்பிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "இந்த கணினியில் இனிமேலும் Signal டெஸ்க்டாப் வேலை செய்யாது. Signal டெஸ்க்டாப்பை மீண்டும் பயன்படுத்த, உங்கள் கணினியின் {OS} பதிப்பைப் புதுப்பிக்கவும்.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "புதிதாக என்ன உள்ளது",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "சிறிய குழுக்களுக்கு (16 பேர் வரை) நீங்கள் ஒரு குழு அழைப்பைத் தொடங்கும்போது, ஒரு அழைப்பு அறிவிப்பை அனுப்ப நீங்கள் தேர்வு செய்யலாம். குழு உறுப்பினர்கள் ஐ.ஓ.எஸ் பீட்டாவில் இருந்தால் அல்லது டெஸ்க்டாப் அல்லது ஆண்ட்ராய்டைப் பயன்படுத்தினால் அவர்கள் ஒரு அழைப்பு ஒலியைக் கேட்பார்கள்.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "மேற்கோள் காட்டப்பட்ட பதிலைத் தொடங்க, சாட்டில் ஏதேனும் செய்தி வரிசையில் இருமுறை கிளிக் செய்யவும். பழைய யோசனைகளைப் பற்றிய புதிய எண்ணங்களுக்கு இது ஒரு குறுக்குவழி போன்றது. இந்த அம்சத்தை செயல்படுத்தி கருத்து வழங்கியதற்காக {whynothugo} மற்றும் சிக்னல் சமூகத்திற்கு நன்றி.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "இப்போது பெரிதாக்காமல் கேலரி காட்சியை நிராகரிக்க படத்தின் வெளியே கிளிக் செய்வது எளிது. சில நேரங்களில் நீங்கள் மூட முயன்றால், பதிலாக காட்சி மிக நெருக்கமாகிவிடுகின்றது. சரிசெய்ததற்கு {jojomatik} க்கு நன்றி!",
+    "description": "Release notes for v6.3"
   }
 }

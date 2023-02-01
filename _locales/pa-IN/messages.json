@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} ਅਤੇ {conversationTitle} ਇੱਕੋ ਖਾਤਾ ਹੈ। ਤੁਹਾਡੀਆਂ ਦੋਵਾਂ ਚੈਟਾਂ ਦੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਇੱਥੇ ਮੌਜੂਦ ਹਨ।",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "{conversationTitle} ਦੇ ਨਾਲ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਸਬੰਧਤ ਇੱਕ ਹੋਰ ਚੈਟ ਨੂੰ ਆਪਸ ਵਿੱਚ ਮਿਲਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} ਅਤੇ ਉਹਨਾਂ ਦੇ ਨੰਬਰ {obsoleteConversationNumber} ਨਾਲ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਇਕੱਠਾ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} ਦੇ ਨਾਲ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਸਬੰਧਤ ਇੱਕ ਹੋਰ ਚੈਟ ਨੂੰ ਇਕੱਠਾ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} ਨੰਬਰ {conversationTitle} ਦਾ ਹੈ। ਤੁਸੀਂ ਦੋਵੇਂ {sharedGroup} ਦੇ ਮੈਂਬਰ ਹੋ।",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} ਨੰਬਰ {conversationTitle} ਦਾ ਹੈ",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ਹਵਾਲਾ ਦਿੱਤੇ ਸੁਨੇੇਹੇ ਤੋਂ ਚਿੱਤਰ ਦਾ ਥੰਬਨੇਲ",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ਅੱਪਡੇਟ ਲਾਗੂ ਕਰਨ ਲਈ Signal ਮੁੜ ਚਾਲੂ ਕਰੋ ਨੂੰ ਦਬਾਓ।"
+    "message": "ਅੱਪਡੇਟ ਲਾਗੂ ਕਰਨ ਲਈ Signal ਮੁੜ ਚਾਲੂ ਕਰੋ ਨੂੰ ਦਬਾਓ।",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal ਮੁੜ ਚਾਲੂ ਕਰੋ"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "ਬੈਜ ਦੇ ਤੋਹਫ਼ੇ ਦੇ ਵੇਰਵੇ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ ਰਹੇ",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "ਦਾਨ ਦੇ ਵੇਰਵੇ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ ਰਹੇ",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਦੇਖਣ ਲਈ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਖੋਲ੍ਹੋ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਦੇਖਣ ਲਈ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਖੋਲ੍ਹੋ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "ਆਪਣਾ ਤੋਹਫ਼ਾ ਦੇਖਣ ਲਈ ਮੋਬਾਈਲ ਵਿੱਚ ਇਸ ਸੁਨੇਹੇ 'ਤੇ ਟੈਪ ਕਰੋ",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "ਆਪਣਾ ਦਾਨ ਦੇਖਣ ਲਈ ਮੋਬਾਈਲ ਵਿੱਚ ਇਸ ਸੁਨੇਹੇ 'ਤੇ ਟੈਪ ਕਰੋ",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ਤੋਹਫ਼ਾ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ਨੇ ਤੁਹਾਡੀ ਤਰਫ਼ ਤੋਂ Signal ਨੂੰ ਦਾਨ ਦਿੱਤਾ ਹੈ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ਤੋਹਫ਼ਾ ਖੋਲ੍ਹਣ ਲਈ ਆਪਣਾ ਫ਼ੋਨ ਚੈੱਕ ਕਰੋ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ਇਸ ਦਾਨ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਆਪਣਾ ਫ਼ੋਨ ਦੇਖੋ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ਆਪਣਾ ਤੋਹਫ਼ਾ ਦੇਖਣ ਲਈ ਆਪਣਾ ਫ਼ੋਨ ਚੈੱਕ ਕਰੋ",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "ਆਪਣਾ ਦਾਨ ਦੇਖਣ ਲਈ ਆਪਣਾ ਫ਼ੋਨ ਦੇਖੋ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "ਤੁਹਾਨੂੰ ਇੱਕ ਤੋਹਫ਼ਾ ਮਿਲਿਆ ਹੈ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} ਨੇ ਤੁਹਾਡੀ ਤਰਫ਼ ਤੋਂ ਦਾਨ ਦਿੱਤਾ",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "ਤੁਸੀਂ ਤੋਹਫ਼ੇ ਵਿੱਚ ਮਿਲਿਆ ਬੈਜ ਰੀਡੀਮ ਕੀਤਾ",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "ਤੁਸੀਂ ਇੱਕ ਦਾਨ ਰੀਡੀਮ ਕੀਤਾ ਹੈ",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "ਤੁਸੀਂ ਤੋਹਫ਼ੇ ਵਿੱਚ ਬੈਜ ਭੇਜਿਆ ਹੈ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "ਤੁਸੀਂ {recipient} ਦੀ ਤਰਫ਼ ਤੋਂ ਦਾਨ ਦਿੱਤਾ",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ਬੈਜ ਦਾ ਤੋਹਫ਼ਾ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ਦਾਨ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ਤੋਹਫ਼ਾ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ਦਾਨ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ਦਿਨ ਬਾਕੀ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ਦਿਨ ਬਾਕੀ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ਘੰਟੇ ਬਾਕੀ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ਘੰਟੇ ਬਾਕੀ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ ਮਿੰਟ ਬਾਕੀ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 ਮਿੰਟ ਬਾਕੀ} other {{minutes,number} ਮਿੰਟ ਬਾਕੀ}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 ਮਿੰਟ ਬਾਕੀ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "ਮਿਆਦ ਪੁੱਗੀ",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "ਮਿਆਦ ਪੁੱਗੀ",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "ਵੇਖੋ",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ਦੇਖੋ",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "ਰੀਡੀਮ ਕੀਤਾ ਗਿਆ",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ਰੀਡੀਮ ਕੀਤਾ ਗਿਆ",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "ਤੁਸੀਂ $name$ ਨੂੰ ਤੋਹਫ਼ੇ ਵਿੱਚ ਬੈਜ ਦਿੱਤਾ ਹੈ। ਜਦੋਂ ਉਹ ਇਸਨੂੰ ਸਵੀਕਾਰ ਕਰ ਲੈਣਗੇ, ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਆਪਣਾ ਬੈਜ ਦਿਖਾਉਣ ਜਾਂ ਲੁਕਾਉਣ ਦਾ ਵਿਕਲਪ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "ਤੁਸੀਂ {name} ਦੀ ਤਰਫ਼ ਤੋਂ Signal ਨੂੰ ਦਾਨ ਦਿੱਤਾ ਹੈ। ਉਹਨਾਂ ਨੂੰ ਆਪਣੀ ਪ੍ਰੋਫਾਈਲ ਉੱਤੇ ਆਪਣਾ ਸਹਿਯੋਗ ਦਿਖਾਉਣ ਦਾ ਵਿਕਲਪ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ਸਟਿੱਕਰ ਪੈਕ ਸਥਾਪਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ",
@@ -6253,6 +6334,18 @@
     "message": "ਇਹ ਅੰਕ ਤੁਹਾਡੇ ਵਰਤੋਂਕਾਰ ਨਾਂ ਨੂੰ ਪ੍ਰਾਈਵੇਟ ਰੱਖਣ ਵਿੱਚ ਮਦਦ ਕਰਦੇ ਹਨ ਤਾਂ ਜੋ ਤੁਸੀਂ ਅਣਚਾਹੇ ਸੁਨੇਹਿਆਂ ਤੋਂ ਬਚ ਸਕੋ। ਆਪਣਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਸਿਰਫ਼ ਉਹਨਾਂ ਲੋਕਾਂ ਅਤੇ ਗਰੁੱਪਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ ਜਿਹਨਾਂ ਨਾਲ ਤੁਸੀਂ ਚੈਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ। ਜੇਕਰ ਤੁਸੀਂ ਵਰਤੋਂਕਾਰ ਨਾਂ ਬਦਲਦੇ ਹੋ ਤਾਂ ਅੰਕਾਂ ਨੂੰ ਵੀ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal Desktop ਜਲਦੀ ਹੀ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੇ {OS} ਵਰਜਨ ਵਿੱਚ ਕੰਮ ਕਰਨਾ ਬੰਦ ਕਰ ਦੇਵੇਗਾ। Signal ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਰਹਿਣ ਲਈ, {expirationDate} ਤੱਕ ਆਪਣੇ ਕੰਪਿਊਟਰ ਦੇ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal Desktop ਹੁਣ ਇਸ ਕੰਪਿਊਟਰ 'ਤੇ ਕੰਮ ਨਹੀਂ ਕਰਦਾ ਹੈ। Signal Desktop ਦੀ ਦੁਬਾਰਾ ਵਰਤੋਂ ਕਰਨ ਲਈ, ਆਪਣੇ ਕੰਪਿਊਟਰ ਦੇ {OS} ਦਾ ਵਰਜ਼ਨ ਅੱਪਡੇਟ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal Desktop ਹੁਣ ਇਸ ਕੰਪਿਊਟਰ 'ਤੇ ਕੰਮ ਨਹੀਂ ਕਰਦਾ ਹੈ। Signal Desktop ਦੀ ਦੁਬਾਰਾ ਵਰਤੋਂ ਕਰਨ ਲਈ, ਆਪਣੇ ਕੰਪਿਊਟਰ ਦੇ {OS} ਦਾ ਵਰਜ਼ਨ ਅੱਪਡੇਟ ਕਰੋ।",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "ਨਵਾਂ ਕੀ ਹੈ",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "ਜਦੋਂ ਤੁਸੀਂ ਛੋਟੇ ਗਰੁੱਪ (ਵੱਧ ਤੋਂ ਵੱਧ 16 ਲੋਕ) ਲਈ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਰਿੰਗ ਰਾਹੀਂ ਸੂਚਨਾ ਭੇਜਣ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ। ਜੇਕਰ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ iOS ਬੀਟਾ ਜਾਂ Desktop ਜਾਂ Android ਐਪ ਦੀ ਵਰਤੋਂ ਕਰ ਰਹੇ ਹਨ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਰਿੰਗ ਸੁਣਾਈ ਦੇਵੇਗੀ।",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ਕਿਸੇ ਸੁਨੇਹੇ ਦਾ ਹਵਾਲਾ ਦਿੰਦੇ ਹੋਏ ਉਸਦਾ ਜਵਾਬ ਦੇਣ ਲਈ ਚੈਟ ਵਿੱਚ ਕਿਸੇ ਵੀ ਸੁਨੇਹੇ 'ਤੇ ਦੋ ਵਾਰ ਕਲਿੱਕ ਕਰੋ। ਇਹ ਕਿਸੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਬਾਰੇ ਕੋਈ ਨਵੀਂ ਗੱਲ ਕਰਨ ਲਈ ਇੱਕ ਸ਼ਾਰਟਕੱਟ ਵਾਂਗ ਹੈ। ਇਸ ਫੀਚਰ ਨੂੰ ਲਾਗੂ ਕਰਨ ਅਤੇ ਇਸ ਬਾਰੇ ਫੀਡਬੈਕ ਪ੍ਰਦਾਨ ਕਰਨ ਲਈ {whynothugo} ਅਤੇ Signal ਭਾਈਚਾਰੇ ਦਾ ਧੰਨਵਾਦ।",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ਹੁਣ ਜ਼ੂਮ ਇਨ ਕੀਤੇ ਬਿਨਾਂ ਗੈਲਰੀ ਵਿਊ ਵਿੱਚੋਂ ਆਸਾਨੀ ਨਾਲ ਬਾਹਰ ਜਾਣ ਲਈ ਤੁਸੀਂ ਤਸਵੀਰ ਦੇ ਬਾਹਰ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੈ। ਕਈ ਵਾਰ ਤੁਸੀਂ ਬਸ ਤਸਵੀਰ ਨੂੰ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਪਰ ਗਲਤੀ ਨਾਲ ਜ਼ੂਮ ਹੋ ਜਾਂਦਾ ਹੈ। ਇਸ ਸਮੱਸਿਆ ਨੂੰ ਠੀਕ ਕਰਨ ਲਈ {jojomatik} ਦਾ ਧੰਨਵਾਦ!",
+    "description": "Release notes for v6.3"
   }
 }

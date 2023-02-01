@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} និង {conversationTitle} គឺជាគណនីតែមួយ។ ប្រវត្តិសាររបស់អ្នកសម្រាប់ការជជែកទាំងពីរមាននៅទីនេះ។",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកជាមួយ {conversationTitle} និងលេខ {obsoleteConversationNumber} របស់គេត្រូវបានបញ្ចូលគ្នា។",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "ប្រវត្តិសាររបស់អ្នកជាមួយ {conversationTitle} និងការជជែកមួយផ្សេងទៀតដែលមានគេនៅក្នុងនោះដែរត្រូវបានបញ្ចូលគ្នា។",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "ស្វែងយល់បន្ថែម",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}។ អ្នកទាំងពីរជាសមាជិកនៃ {sharedGroup}។",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។"
+    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "បើកSignal ឡើងវិញ"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "មិនអាចបើកព័ត៌មានលម្អិតអំពីស្លាកកាដូបានទេ",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "មិនអាចបើកព័ត៌មានលម្អិតអំពីការបរិច្ចាគបានទេ",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "ចុចសារនេះនៅលើទូរសព្ទដើម្បីមើលកាដូរបស់អ្នក",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "ចុចលើសារនេះនៅលើទូរសព្ទដៃ ដើម្បីមើលការបរិច្ចាគរបស់អ្នក",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "កាដូ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} បានបរិច្ចាគទៅ Signal ជំនួសឲ្យអ្នក",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីបើកមើលកាដូ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីបើកមើលការបរិច្ចាគនេះ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីមើលកាដូសម្រាប់អ្នក",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីមើលការបរិច្ចាគនេះ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "អ្នកទទួលបានកាដូមួយ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} បានបរិច្ចាគសម្រាប់អ្នក",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "អ្នកបានប្តូរយកស្លាកកាដូ",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "អ្នកបានប្តូរយកការបរិច្ចាគមួយ",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "អ្នកបានផ្ញើស្លាកកាដូ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "អ្នកបានបរិច្ចាគសម្រាប់ {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ស្លាកកាដូ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ការបរិច្ចាគ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "កាដូ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ការបរិច្ចាគ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "នៅសល់ $days$ ថ្ងៃទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "នៅសល់ {days} ថ្ងៃទៀត",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "នៅសល់ $hours$ ម៉ោងទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "នៅសល់ {hours} ម៉ោងទៀត",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "នៅសល់ $minutes$ នាទីទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {នៅសល់ {minutes,number} នាទីទៀត}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "នៅសល់ 1 នាទីទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "បានផុតកំណត់",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "បានផុតកំណត់",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "បង្ហាញ",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "មើល",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "បានប្តូរ",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "បានប្តូរយក",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "អរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "អរគុណចំពោះការគាំទ្ររបស់អ្នក!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "អ្នកបានផ្តល់ស្លាកមួយទៅ $name$។ ពេលគេទទួលយករួច គេនឹងមានជម្រើសបង្ហាញ ឬលាក់ស្លាករបស់គេ។",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "អ្នកបានធ្វើការបរិច្ចាគទៅ Signal ជំនួសឲ្យ {name}។ គេនឹងត្រូវបានផ្តល់ជម្រើសដើម្បីបង្ហាញការគាំទ្ររបស់គេនៅលើប្រូហ្វាល់របស់គេ។",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "កញ្ចប់ស្ទីកគ័រមិនអាចដំឡើងបាន",
@@ -6253,6 +6334,18 @@
     "message": "លេខទាំងនេះជួយរក្សាឲ្យឈ្មោះអ្នកប្រើរបស់អ្នកស្ថិតក្នុងភាពឯកជន ដើម្បីឲ្យអ្នកអាចជៀសវាងនូវការទទួលសារដែលមិនចង់បាន។ សូមចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នកតែជាមួយមនុស្ស និងក្រុមដែលអ្នកចង់ជជែកជាមួយប៉ុណ្ណោះ។ ប្រសិនបើអ្នកប្តូរឈ្មោះអ្នកប្រើ អ្នកនឹងទទួលបានសំណុំលេខថ្មី។",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop នឹងប្រើលែងបាននៅលើកំណែ {OS} របស់កុំព្យូទ័រអ្នកទៀតហើយក្នុងពេលឆាប់ៗនេះ។ ដើម្បីបន្តប្រើប្រាស់ Signal សូមដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការកុំព្យូទ័ររបស់អ្នកត្រឹម {expirationDate}។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "អ្វីដែលថ្មី",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "នៅពេលអ្នកចាប់ផ្តើមការហៅទូរសព្ទជាក្រុមសម្រាប់ក្រុមត្រូចៗ (រហូតដល់ទៅ 16 នាក់) អ្នកអាចជ្រើសរើសផ្ញើការជូនដំណឹងភ្ជាប់ជាមួយសំឡេងរោទ៍បាន។ សមាជិកក្រុមនឹងឮសំឡេងរោទ៍ប្រសិនបើពួកគេប្រើ iOS បេតា ឬកំពុងប្រើកម្មវិធីសម្រាប់កុំព្យូទ័រ ឬ Android។",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ចុចពីរដងលើជួរសារណាមួយនៅក្នុងការជជែក ដើម្បីចាប់ផ្តើមការឆ្លើយតបចំពោះសារដកស្រង់ណាមួយ។ វាដូចជាផ្លូវកាត់សម្រាប់គំនិតថ្មីៗអំពីគំនិតចាស់ៗ។ សូមអរគុណដល់ {whynothugo} និងសហគមន៍ Signal ចំពោះការប្រើប្រាស់មុខងារនេះ និងផ្តល់ជាមតិកែលម្អ។",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ឥឡូវនេះកាន់តែងាយស្រួលក្នុងការចុចនៅខាងក្រៅរូបភាពដើម្បីបិទទិដ្ឋភាពសាលរូបភាពដោយមិនបាច់ពង្រីក។ កាលពីមុន ពេលខ្លះអ្នកគ្រាន់តែចង់បិទវាទេ ប៉ុន្តែវាបែរជាពង្រីកមកជិតខ្លាំងពេកទៅវិញ។ សូមអរគុណដល់ {jojomatik} ចំពោះការកែលម្អនេះ!",
+    "description": "Release notes for v6.3"
   }
 }

@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} এবং {conversationTitle} একই অ্যাকাউন্ট৷ উভয় চ্যাটের ম্যাসেজ ইতিহাসই এখানে আছে।",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle}-এর সাথে আপনার ম্যাসেজের ইতিহাস এবং তাদের নম্বর {obsoleteConversationNumber} একত্রিত করা হয়েছে।",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "{conversationTitle}-এর সাথে আপনার ম্যাসেজের ইতিহাস এবং তাদের সাথে সম্পর্কিত অন্য একটি চ্যাট একত্রিত করা হয়েছে।",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "আরো জানুন",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর। আপনারা দুজনই {sharedGroup} গ্ৰুপের সদস্য।",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর।",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ছবি এবং উদ্ধৃত মেসেজের থাম্বনেইল",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "আপডেটগুলি প্রয়োগ করতে Signal পূনরায় চালু করুন।"
+    "message": "আপডেটগুলি প্রয়োগ করতে Signal পূনরায় চালু করুন।",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal পুনরায় চালু করুন"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "গিফট ব্যাজের বিস্তারিত সংগ্রহ করা সম্ভব হয়নি",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "ডোনেশনের বিস্তারিত তথ্য সংগ্রহ করা সম্ভব হয়নি",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "এটি খুলতে মোবাইলে এই ম্যাসেজটি দেখুন",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "এটি খুলতে মোবাইলে এই ম্যাসেজটি দেখুন",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "মোবাইলে এই ম্যাসেজটি ট্যাপ করে আপনার উপহার দেখুন",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "আপনার ডোনেশন দেখতে মোবাইলে এই ম্যাসেজটি আলতো চাপুন",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "উপহার",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "আপনার পক্ষ হয়ে {sender} Signal-কে ডোনেট করেছেন",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "গিফট খুলতে আপনার ফোন চেক করুন",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "এই ডোনেশনটি খুলে দেখতে আপনার ফোন চেক করুন",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "গিফট দেখতে আপনার ফোন চেক করুন",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "আপনার ডোনেশনটি খুলে দেখতে আপনার ফোন চেক করুন",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "আপনি একটি উপহার পেয়েছেন",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} আপনার জন্য ডোনেট করেছেন",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "আপনি একটি গিফট ব্যাজ ফিরে পেয়েছেন",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "আপনি একটি ডোনেশন ছাড় করেছেন",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "আপনি একটি গিফট ব্যাজ পাঠিয়েছেন",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "আপনি {recipient}-এর পক্ষ হয়ে ডোনেট করেছেন",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "গিফট ব্যাজ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ডোনেশন",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "উপহার",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ডোনেশন",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ দিন বাকি",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} দিন বাকি",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ঘন্টা বাকি",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ঘন্টা বাকি",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ মিনিট বাকি",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 মিনিট বাকি আছে} other {{minutes,number} মিনিট বাকি আছে}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 মিনিট বাকি",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "বাতিল",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "বাতিল",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "দেখুন",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "দেখান",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "ফিরে পাওয়া গেছে",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ছাড় করা হয়েছে",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "আপনার সহযোগীতার জন্য ধন্যবাদ!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "আপনার সহযোগিতার জন্য ধন্যবাদ!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "আপনি $name$-কে একটি ব্যাজ উপহার দিয়েছেন। তিনি এটি গ্রহণ করলে, ব্যাজটি দেখানো বা লুকিয়ে রাখার জন্য তাদেরকে একটি অপশন দেওয়া হবে।",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "আপনি {name}-এর পক্ষ হয়ে Signal-এ একটি ডোনেশন দিয়েছেন। তাদের প্রোফাইলে তাদের সমর্থন প্রদর্শন করার জন্য সুযোগ দেওয়া হবে।",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "স্টিকার প্যাক ইনস্টল করা যায়নি",
@@ -6253,6 +6334,18 @@
     "message": "এই সংখ্যাগুলো আপনার ইউজারনেমটি গোপন রাখতে সাহায্য করে, যাতে আপনি অবাঞ্ছিত ম্যাসেজ এড়িয়ে যেতে পারেন। আপনি যে ব্যক্তি ও গ্রুপের সাথে চ্যাট করতে চান শুধুমাত্র তাদের সাথে আপনার ইউজারনেমটি শেয়ার করুন। ইউজারনেমটি পরিবর্তন করলে আপনি একগুচ্ছ নতুন সংখ্যা পাবেন।",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "কিছুদিনের মধ্যে Signal আর আপনার কম্পিউটারের {OS} সংস্করণ সমর্থন করবে না। Signal ব্যবহার চালিয়ে যেতে, {expirationDate}-এর মধ্যে আপনার কম্পিউটারের অপারেটিং সিস্টেম আপডেট করুন। <learnMoreLink>আরো জানুন</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal ডেস্কটপ এই কম্পিউটারে আর কাজ করে না। আবার Signal ডেস্কটপ ব্যবহার করতে, আপনার কম্পিউটারের {OS} সংস্করণ আপডেট করুন। <learnMoreLink>আরো জানুন</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal ডেস্কটপ এই কম্পিউটারে আর কাজ করে না। আবার Signal ডেস্কটপ ব্যবহার করতে, আপনার কম্পিউটারের {OS} সংস্করণ আপডেট করুন।",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "নতুন কি",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "আপনি যখন একটি ছোট গ্রুপকে গ্রুপ কল দিতে শুরু করেন (16 জন পর্যন্ত), তখন আপনি একটি রিংগিং নোটিফিকেশন পাঠাতে পারেন। গ্ৰুপের সদস্যরা যদি iOS বেটা সংস্করণে থাকেন বা ডেস্কটপ বা Android ব্যবহার করে থাকেন, তবে তারা রিং শুনতে পাবেন।",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "উদ্ধৃত করে উত্তর দিতে চ্যাটের যেকোনো ম্যাসেজের সারিতে দুইবার ক্লিক করুন। এটি পুরানো ধারণার ব্যাপারে নতুন চিন্তাধারা দেওয়ার জন্য একটি শর্টকাটের মতো কাজ করে। এই ফিচারটি বাস্তবায়ন ও ফিচারটি সম্পর্কে প্রতিক্রিয়া জানানোর জন্য {whynothugo} এবং Signal কমিউনিটিকে ধন্যবাদ।",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "জুম ইন না করে গ্যালারি ভিউ বন্ধ করতে এখন ছবির বাইরে ক্লিক করুন সহজেই। কখনো হয়তো আপনি চেয়েছিলেন ছবিটি বন্ধ করতে, কিন্তু দেখা গেলো তার পরিবর্তে ছবিটি পুরো স্ক্রীনজুড়ে খুলে গিয়েছে। এটি সংশোধন করার জন্য {jojomatik}-কে ধন্যবাদ!",
+    "description": "Release notes for v6.3"
   }
 }

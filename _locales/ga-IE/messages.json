@@ -1236,9 +1236,13 @@
     "messageformat": "Baineann {obsoleteConversationTitle} agus {conversationTitle} leis an gcuntas céanna. Tá stair na dteachtaireachtaí don dá chomhrá anseo.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "Cumascadh stair do theachtaireachtaí le {conversationTitle} agus comhrá eile ar leis an duine sin é.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Cumascadh stair do theachtaireachtaí le {conversationTitle} agus uimhir an duine sin {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Cumascadh stair do theachtaireachtaí le {conversationTitle} agus comhrá eile leis an duine sin.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Tuilleadh Faisnéise",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "Is le {conversationTitle} {phoneNumber}. Tá sibh beirt in bhur mball de {sharedGroup}.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "Is le {conversationTitle} {phoneNumber}",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Mionsamhail íomhá ón teachtaireacht luaite",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Brúigh Atosaigh Signal chun na nuashonruithe a chur i bhfeidhm."
+    "message": "Brúigh Atosaigh Signal chun na nuashonruithe a chur i bhfeidhm.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Atosaigh Signal"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "Níorbh fhéidir sonraí an tsuaitheantais bhronntanais a fháil",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Ní féidir sonraí an tabhartais a fháil",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "Féach ar an teachtaireacht seo ar an nguthán póca lena hoscailt",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Féach ar an teachtaireacht seo ar ghuthán póca lena hoscailt",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Tapáil an teachtaireacht seo ar an nguthán póca chun do bhronntanas a fheiceáil",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Tapáil an teachtaireacht seo ar ghuthán póca le féachaint ar do thabhartas",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Bronntanas",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "Thug {sender} tabhartas do Signal ar do shon",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Seiceáil do ghuthán chun an bronntanas a oscailt",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Seiceáil do ghuthán chun an tabhartas sin a oscailt",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Seiceáil do ghuthán do bhronntanas a fheiceáil",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Seiceáil do ghuthán le féachaint ar do thabhartas",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Fuair tú bronntanas",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "Thug {sender} tabhartas ar do shon",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "D’fhuascail tú suaitheantas bronntanais",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "D’fhuascail tú tabhartas",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Sheol tú suaitheantas bronntanais",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Thug tú tabhartas ar son {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Suaitheantas Bronntanais",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Tabhartas",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Bronntanas",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Tabhartas",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ lá fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} lá fágtha",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Uaireanta an chloig fágtha: $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Uaireanta an chloig fágtha: {hours}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ nóiméad fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 nóiméad fágtha} two {{minutes,number} nóiméad fágtha} few {{minutes,number} nóiméad fágtha} many {{minutes,number} nóiméad fágtha} other {{minutes,number} nóiméad fágtha}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 nóiméad fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Expired",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "As feidhm",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Amharc",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Amharc ar",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Fuascailte",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Fuascailte",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Go raibh maith agat as do thacaíocht!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Go raibh maith agat as do thacaíocht!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Thug tú suaitheantas mar bhronntanas do $name$. Nuair a ghlactar leis, tabharfar an rogha an suaitheantas a thaispeáint nó a fholú.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Thug tú tabhartas do Signal ar son {name}. Tabharfar rogha don duine sin tacaíocht a léiriú ar an bpróifíl.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Níorbh fhéidir beart greamán a shuiteáil",
@@ -6253,6 +6334,18 @@
     "message": "Cabhraíonn na digití seo le d'ainm úsáideora a choimeád príobháideach agus teachtaireachtaí gan iarraidh a sheachaint. Ná comhroinn d'ainm úsáideora ach le daoine agus le grúpaí ar mhaith leat comhrá a dhéanamh leo. Má athraíonn tú d'ainm úsáideora gheobhaidh tú tacar nua digití.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Ní bheidh tacú ag Signal Desktop a thuilleadh don leagan de {OS} ar do ríomhaire. Le leanúint le Signal a úsáid, nuashonraigh córas oibriúcháin do ríomhaire faoin {expirationDate}. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Ní oibríonn Signal Desktop ar an ríomhaire seo a thuilleadh. Le Signal Desktop a úsáid arís, nuashonraigh an leagan de {OS} ar do ríomhaire. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Ní oibríonn Signal Desktop ar an ríomhaire seo a thuilleadh. Le Signal Desktop a úsáid arís, nuashonraigh an leagan de {OS} ar do ríomhaire.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Cad Atá Nua",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "Nuair a thosaíonn tú ar ghlao grúpa do ghrúpaí beaga (suas le 16 duine), is féidir leat a roghnú fógra glaoigh a sheoladh. Cluinfidh baill den ghrúpa glaoch má tá siad ar an mbéite iOS nó ag úsáid Ríomhaire deisce nó Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Cliceáil faoi dhó ar aon ró teachtaireachta i gcomhrá chun tús a chur le freagra luaite. Tá sé mar a bheadh aicearra le haghaidh smaointe nua faoi sheanchuimhnimh. Buíochas le {whynothugo} agus le pobal Signal as an ngné seo a chur i bhfeidhm agus aiseolas a thabhairt.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Tá sé níos éasca anois cliceáil ag imeall íomhá le hamharc an ghailearaí a ruaigeadh gan zúmáil isteach. Uaireanta b'fhearr leat rudaí a dhúnadh, in ionad a bheith iomarcach. Buíochas le {jojomatik} as an réiteach!",
+    "description": "Release notes for v6.3"
   }
 }
