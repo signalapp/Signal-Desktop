@@ -325,7 +325,7 @@ export function createIPCEvents(
     setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
       window.storage.put('notification-setting', value),
     getNotificationDrawAttention: () =>
-      window.storage.get('notification-draw-attention', true),
+      window.storage.get('notification-draw-attention', false),
     setNotificationDrawAttention: value =>
       window.storage.put('notification-draw-attention', value),
     getAudioNotification: () => window.storage.get('audio-notification'),
