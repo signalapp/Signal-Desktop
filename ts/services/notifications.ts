@@ -256,7 +256,7 @@ class NotificationService extends EventEmitter {
 
     const shouldDrawAttention = storage.get(
       'notification-draw-attention',
-      true
+      false
     );
     if (shouldDrawAttention) {
       log.info('NotificationService: drawing attention');

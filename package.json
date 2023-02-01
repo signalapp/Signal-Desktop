@@ -13,7 +13,7 @@
   "browserslist": "last 1 chrome versions",
   "main": "app/main.js",
   "scripts": {
-    "postinstall": "yarn build:acknowledgments && patch-package && yarn electron:install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn build:acknowledgments && patch-package && yarn electron:install-app-deps",
     "postuninstall": "yarn build:acknowledgments",
     "start": "electron .",
     "generate": "npm-run-all build-protobuf build:esbuild sass get-expire-time copy-components",
