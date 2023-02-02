@@ -1656,7 +1656,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Ορθογραφικός έλεγχς κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
+    "message": "Ορθογραφικός έλεγχος κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
