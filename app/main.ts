@@ -1619,7 +1619,11 @@ ipc.on('database-error', (_event: Electron.Event, error: string) => {
 function loadPreferredSystemLocales(): Array<string> {
   return getEnvironment() === Environment.Test
     ? ['en']
-    : app.getPreferredSystemLanguages();
+    : [
+        // TODO(DESKTOP-4929): Temp fix to inherit Chromium's l10n_util logic
+        app.getLocale(),
+        ...app.getPreferredSystemLanguages(),
+      ];
 }
 
 async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
@@ -1676,7 +1680,7 @@ app.on('ready', async () => {
     logger.info(
       `app.ready: preferred system locales: ${preferredSystemLocales.join(
         ', '
-      )}}`
+      )}`
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,

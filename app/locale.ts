@@ -55,8 +55,8 @@ export function load({
   preferredSystemLocales: Array<string>;
   logger: Pick<LoggerType, 'error' | 'warn' | 'info'>;
 }): LocaleType {
-  if (preferredSystemLocales.length === 0) {
-    throw new TypeError('`appLocale` is required');
+  if (preferredSystemLocales == null) {
+    throw new TypeError('`preferredSystemLocales` is required');
   }
 
   if (!logger || !logger.error) {
@@ -64,6 +64,10 @@ export function load({
   }
   if (!logger.warn) {
     throw new TypeError('`logger.warn` is required');
+  }
+
+  if (preferredSystemLocales.length === 0) {
+    logger.warn('`preferredSystemLocales` was empty');
   }
 
   const english = getLocaleMessages('en');
