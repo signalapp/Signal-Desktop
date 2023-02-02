@@ -16,6 +16,9 @@ export const popupXDefault = -81;
 export const popupYDefault = -90;
 
 const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number }>`
+  div:first-child {
+    margin-left: 1.7rem;
+  }
   ${StyledPopupContainer} {
     position: absolute;
     top: ${props => `${props.y}px;`};

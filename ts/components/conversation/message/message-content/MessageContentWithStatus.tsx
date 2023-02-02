@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
-
+import { MessageAvatar } from '../message-content/MessageAvatar';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -118,6 +118,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
       >
+        <MessageAvatar messageId={messageId} />
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}
@@ -125,7 +126,6 @@ export const MessageContentWithStatuses = (props: Props) => {
         />
         <StyledMessageWithAuthor isIncoming={isIncoming}>
           <MessageAuthorText messageId={messageId} />
-
           <MessageContent messageId={messageId} isDetailView={isDetailView} />
         </StyledMessageWithAuthor>
         <MessageStatus
