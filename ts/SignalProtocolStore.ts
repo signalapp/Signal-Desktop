@@ -2012,10 +2012,22 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  getAllUnprocessedAndIncrementAttempts(): Promise<Array<UnprocessedType>> {
-    return this.withZone(GLOBAL_ZONE, 'getAllUnprocessed', async () => {
-      return window.Signal.Data.getAllUnprocessedAndIncrementAttempts();
+  getAllUnprocessedIds(): Promise<Array<string>> {
+    return this.withZone(GLOBAL_ZONE, 'getAllUnprocessedIds', () => {
+      return window.Signal.Data.getAllUnprocessedIds();
     });
+  }
+
+  getUnprocessedByIdsAndIncrementAttempts(
+    ids: ReadonlyArray<string>
+  ): Promise<Array<UnprocessedType>> {
+    return this.withZone(
+      GLOBAL_ZONE,
+      'getAllUnprocessedByIdsAndIncrementAttempts',
+      async () => {
+        return window.Signal.Data.getUnprocessedByIdsAndIncrementAttempts(ids);
+      }
+    );
   }
 
   getUnprocessedById(id: string): Promise<UnprocessedType | undefined> {
@@ -2080,7 +2092,9 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
+  /** only for testing */
   removeAllUnprocessed(): Promise<void> {
+    log.info('removeAllUnprocessed');
     return this.withZone(GLOBAL_ZONE, 'removeAllUnprocessed', async () => {
       await window.Signal.Data.removeAllUnprocessed();
     });

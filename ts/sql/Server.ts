@@ -261,7 +261,8 @@ const dataInterface: ServerInterface = {
   migrateConversationMessages,
 
   getUnprocessedCount,
-  getAllUnprocessedAndIncrementAttempts,
+  getUnprocessedByIdsAndIncrementAttempts,
+  getAllUnprocessedIds,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
@@ -3391,12 +3392,12 @@ async function getUnprocessedCount(): Promise<number> {
   return getCountFromTable(getInstance(), 'unprocessed');
 }
 
-async function getAllUnprocessedAndIncrementAttempts(): Promise<
-  Array<UnprocessedType>
-> {
+async function getAllUnprocessedIds(): Promise<Array<string>> {
+  log.info('getAllUnprocessedIds');
   const db = getInstance();
 
   return db.transaction(() => {
+    // cleanup first
     const { changes: deletedStaleCount } = db
       .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
       .run({
@@ -3410,18 +3411,11 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
       );
     }
 
-    db.prepare<EmptyQuery>(
-      `
-        UPDATE unprocessed
-        SET attempts = attempts + 1
-      `
-    ).run();
-
     const { changes: deletedInvalidCount } = db
       .prepare<Query>(
         `
           DELETE FROM unprocessed
-          WHERE attempts > $MAX_UNPROCESSED_ATTEMPTS
+          WHERE attempts >= $MAX_UNPROCESSED_ATTEMPTS
         `
       )
       .run({ MAX_UNPROCESSED_ATTEMPTS });
@@ -3436,21 +3430,56 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
     return db
       .prepare<EmptyQuery>(
         `
+          SELECT id 
+          FROM unprocessed
+          ORDER BY receivedAtCounter ASC
+        `
+      )
+      .pluck()
+      .all();
+  })();
+}
+
+async function getUnprocessedByIdsAndIncrementAttempts(
+  ids: ReadonlyArray<string>
+): Promise<Array<UnprocessedType>> {
+  log.info('getUnprocessedByIdsAndIncrementAttempts', { totalIds: ids.length });
+
+  const db = getInstance();
+
+  batchMultiVarQuery(db, ids, batch => {
+    return db
+      .prepare<ArrayQuery>(
+        `
+          UPDATE unprocessed
+          SET attempts = attempts + 1
+          WHERE id IN (${batch.map(() => '?').join(', ')})
+        `
+      )
+      .run(batch);
+  });
+
+  return batchMultiVarQuery(db, ids, batch => {
+    return db
+      .prepare<ArrayQuery>(
+        `
           SELECT *
           FROM unprocessed
+          WHERE id IN (${batch.map(() => '?').join(', ')})
           ORDER BY receivedAtCounter ASC;
         `
       )
-      .all()
+      .all(batch)
       .map(row => ({
         ...row,
         urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
         story: Boolean(row.story),
       }));
-  })();
+  });
 }
 
 function removeUnprocessedsSync(ids: ReadonlyArray<string>): void {
+  log.info('removeUnprocessedsSync', { totalIds: ids.length });
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -3462,6 +3491,7 @@ function removeUnprocessedsSync(ids: ReadonlyArray<string>): void {
 }
 
 function removeUnprocessedSync(id: string | Array<string>): void {
+  log.info('removeUnprocessedSync', { id });
   const db = getInstance();
 
   if (!Array.isArray(id)) {

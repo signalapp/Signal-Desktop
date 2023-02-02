@@ -560,7 +560,10 @@ export type DataInterface = {
   ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
-  getAllUnprocessedAndIncrementAttempts: () => Promise<Array<UnprocessedType>>;
+  getUnprocessedByIdsAndIncrementAttempts: (
+    ids: ReadonlyArray<string>
+  ) => Promise<Array<UnprocessedType>>;
+  getAllUnprocessedIds: () => Promise<Array<string>>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedUpdateType
@@ -570,6 +573,8 @@ export type DataInterface = {
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
+
+  /** only for testing */
   removeAllUnprocessed: () => Promise<void>;
 
   getAttachmentDownloadJobById: (
