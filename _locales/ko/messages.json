@@ -6066,6 +6066,10 @@
     "message": "답장",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "그룹에 답장",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "스토리에 반응",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "이제 이미지 밖을 클릭하면 이미지가 확대되는 대신 갤러리 보기가 종료됩니다. 가까운 것도 좋지만 자고로 관계란 적절한 거리가 유지될 때 더 아름다운 법이죠. 이 문제를 해결해 준 {jojomatik}에 감사드립니다!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }

@@ -6066,6 +6066,10 @@
     "message": "প্রত্যুত্তর",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "গ্ৰুপে উত্তর দিন",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "স্টোরি-তে রিঅ্যাক্ট করুন",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "জুম ইন না করে গ্যালারি ভিউ বন্ধ করতে এখন ছবির বাইরে ক্লিক করুন সহজেই। কখনো হয়তো আপনি চেয়েছিলেন ছবিটি বন্ধ করতে, কিন্তু দেখা গেলো তার পরিবর্তে ছবিটি পুরো স্ক্রীনজুড়ে খুলে গিয়েছে। এটি সংশোধন করার জন্য {jojomatik}-কে ধন্যবাদ!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }

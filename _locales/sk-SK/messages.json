@@ -6066,6 +6066,10 @@
     "message": "Odpovedať",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Odpovedať v skupine",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagovať na príbeh",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Teraz je jednoduchšie kliknúť mimo fotografie a zrušiť plný náhľad bez približovania. Možno sa vám stalo, že ste fotku chceli len zavrieť, no namiesto toho sa vám zobrazila v tých najmenších detailoch. Ďakujeme {jojomatik} za opravu!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }

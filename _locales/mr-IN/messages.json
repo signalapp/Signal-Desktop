@@ -6066,6 +6066,10 @@
     "message": "प्रत्युत्तर द्या",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "गटाला प्रत्त्युत्तर द्या",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "स्टोरी ला प्रतिक्रिया द्या",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "गॅलरी दृश्य डिसमिस करण्यासाठी आता झूम इन न करता प्रतिमेच्या बाहेर क्लिक करणे सोपे आहे. काहीवेळा आपण गोष्टीच्या अतिशय जवळ जाण्याऐवजी, आणि आपणाला फक्त बंद करावयाचे असते. दोष निवारणासाठी {jojomatik} चे आभार!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }

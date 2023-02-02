@@ -1656,7 +1656,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Ορθογραφικός έλεγχς κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
+    "message": "Ορθογραφικός έλεγχος κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
@@ -6066,6 +6066,10 @@
     "message": "Απάντηση",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Reply to {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Απάντηση στην ομάδα",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Αντίδραση στην ιστορία",
+    "message": "(deleted 01/25/23) React to story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Τώρα είναι πιο εύκολο να κάνεις κλικ έξω από μια εικόνα για να απορρίψεις την προβολή της συλλογής χωρίς να κάνεις ζουμ. Μερικές φορές ήθελες απλώς να κλείσεις, και αντί αυτού τα πράγματα μεγάλωναν πολύ. Ευχαριστούμε τον χρήστη {jojomatik} για τη διόρθωση!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }
