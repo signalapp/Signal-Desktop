@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import dataInterface from '../sql/Client';
-import { updateOurUsernameAndPni } from '../util/updateOurUsernameAndPni';
 import { sleep } from '../util/sleep';
 import type { UsernameReservationType } from '../types/Username';
 import { ReserveUsernameError } from '../types/Username';
@@ -54,7 +52,6 @@ export async function reserveUsername(
   const { nickname, previousUsername, abortSignal } = options;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('reserveUsername: Username has changed on another device');
@@ -96,8 +93,7 @@ async function updateUsernameAndSyncProfile(
   const me = window.ConversationController.getOurConversationOrThrow();
 
   // Update backbone, update DB, then tell linked devices about profile update
-  me.set({ username });
-  dataInterface.updateConversation(me.attributes);
+  await me.updateUsername(username);
 
   try {
     await singleProtoJobQueue.add(
@@ -123,7 +119,6 @@ export async function confirmUsername(
   const { previousUsername, username, reservationToken } = reservation;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
@@ -161,7 +156,6 @@ export async function deleteUsername(
   }
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');

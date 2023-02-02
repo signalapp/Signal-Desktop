@@ -146,7 +146,6 @@ import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
-import { updateOurUsernameAndPni } from './util/updateOurUsernameAndPni';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
@@ -2262,18 +2261,15 @@ export async function startApp(): Promise<void> {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
-          await Promise.all([
-            server.registerCapabilities({
-              announcementGroup: true,
-              giftBadges: true,
-              'gv2-3': true,
-              senderKey: true,
-              changeNumber: true,
-              stories: true,
-              pni: isPnpEnabled(),
-            }),
-            updateOurUsernameAndPni(),
-          ]);
+          await server.registerCapabilities({
+            announcementGroup: true,
+            giftBadges: true,
+            'gv2-3': true,
+            senderKey: true,
+            changeNumber: true,
+            stories: true,
+            pni: isPnpEnabled(),
+          });
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',
@@ -3532,10 +3528,7 @@ export async function startApp(): Promise<void> {
         log.info('onFetchLatestSync: fetching latest local profile');
         const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await Promise.all([
-          getProfile(ourUuid, ourE164),
-          updateOurUsernameAndPni(),
-        ]);
+        await getProfile(ourUuid, ourE164);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:

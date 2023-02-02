@@ -36,11 +36,35 @@ export function getTitleNoDefault(
 
   return (
     (isShort ? attributes.systemGivenName : undefined) ||
-    attributes.name ||
+    getSystemName(attributes) ||
     (isShort ? attributes.profileName : undefined) ||
     getProfileName(attributes) ||
     getNumber(attributes) ||
     (username && window.i18n('at-username', { username }))
+  );
+}
+
+// Note that the used attributes field should match the ones we listen for
+// change on in ConversationModel (see `ConversationModel#maybeClearUsername`)
+export function canHaveUsername(
+  attributes: Pick<
+    ConversationAttributesType,
+    'id' | 'type' | 'name' | 'profileName' | 'profileFamilyName' | 'e164'
+  >,
+  ourConversationId: string | undefined
+): boolean {
+  if (!isDirectConversation(attributes)) {
+    return false;
+  }
+
+  if (ourConversationId === attributes.id) {
+    return true;
+  }
+
+  return (
+    !getSystemName(attributes) &&
+    !getProfileName(attributes) &&
+    !getNumber(attributes)
   );
 }
 
@@ -52,6 +76,22 @@ export function getProfileName(
 ): string | undefined {
   if (isDirectConversation(attributes)) {
     return combineNames(attributes.profileName, attributes.profileFamilyName);
+  }
+
+  return undefined;
+}
+
+export function getSystemName(
+  attributes: Pick<
+    ConversationAttributesType,
+    'systemGivenName' | 'systemFamilyName' | 'type'
+  >
+): string | undefined {
+  if (isDirectConversation(attributes)) {
+    return combineNames(
+      attributes.systemGivenName,
+      attributes.systemFamilyName
+    );
   }
 
   return undefined;

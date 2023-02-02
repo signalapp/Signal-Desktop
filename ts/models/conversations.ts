@@ -97,6 +97,7 @@ import {
   getProfileName,
   getTitle,
   getTitleNoDefault,
+  canHaveUsername,
 } from '../util/getTitle';
 import { markConversationRead } from '../util/markConversationRead';
 import { handleMessageSend } from '../util/handleMessageSend';
@@ -349,6 +350,10 @@ export class ConversationModel extends window.Backbone
 
     this.on('newmessage', this.onNewMessage);
     this.on('change:profileKey', this.onChangeProfileKey);
+    this.on(
+      'change:name change:profileName change:profileFamilyName change:e164',
+      () => this.maybeClearUsername()
+    );
 
     const sealedSender = this.get('sealedSender');
     if (sealedSender === undefined) {
@@ -1826,7 +1831,9 @@ export class ConversationModel extends window.Backbone
 
       // We had previously stored `null` instead of `undefined` in some cases. We should
       //   be able to remove this `dropNull` once usernames have gone to production.
-      username: dropNull(this.get('username')),
+      username: canHaveUsername(this.attributes, ourConversationId)
+        ? dropNull(this.get('username'))
+        : undefined,
 
       about: this.getAboutText(),
       aboutText: this.get('about'),
@@ -4216,6 +4223,50 @@ export class ConversationModel extends window.Backbone
     return Boolean(
       isMe(conv.attributes) || conv.get('name') || conv.get('profileSharing')
     );
+  }
+
+  async maybeClearUsername(): Promise<void> {
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+
+    // Clear username once we have other information about the contact
+    if (
+      canHaveUsername(this.attributes, ourConversationId) ||
+      !this.get('username')
+    ) {
+      return;
+    }
+
+    log.info(`maybeClearUsername(${this.idForLogging()}): clearing username`);
+
+    this.unset('username');
+    window.Signal.Data.updateConversation(this.attributes);
+    this.captureChange('clearUsername');
+  }
+
+  async updateUsername(
+    username: string | undefined,
+    { shouldSave = true }: { shouldSave?: boolean } = {}
+  ): Promise<void> {
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+
+    if (!canHaveUsername(this.attributes, ourConversationId)) {
+      return;
+    }
+
+    if (this.get('username') === username) {
+      return;
+    }
+
+    log.info(`updateUsername(${this.idForLogging()}): updating username`);
+
+    this.set('username', username);
+    this.captureChange('updateUsername');
+
+    if (shouldSave) {
+      await window.Signal.Data.updateConversation(this.attributes);
+    }
   }
 
   async updateLastMessage(): Promise<void> {

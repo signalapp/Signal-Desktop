@@ -33,6 +33,7 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import { canHaveUsername } from '../util/getTitle';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
@@ -155,6 +156,11 @@ export async function toContactRecord(
   const e164 = conversation.get('e164');
   if (e164) {
     contactRecord.serviceE164 = e164;
+  }
+  const username = conversation.get('username');
+  const ourID = window.ConversationController.getOurConversationId();
+  if (username && canHaveUsername(conversation.attributes, ourID)) {
+    contactRecord.username = username;
   }
   const pni = conversation.get('pni');
   if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
@@ -977,6 +983,10 @@ export async function mergeContactRecord(
       details: [],
     };
   }
+
+  await conversation.updateUsername(dropNull(contactRecord.username), {
+    shouldSave: false,
+  });
 
   let needsProfileFetch = false;
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {

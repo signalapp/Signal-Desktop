@@ -97,7 +97,7 @@ export async function lookupConversationWithoutUuid(
 
         conversationId = convo.id;
 
-        convo.set({ username: foundUsername.username });
+        await convo.updateUsername(foundUsername.username);
       }
     }
 
