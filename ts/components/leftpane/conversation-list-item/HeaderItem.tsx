@@ -170,7 +170,11 @@ export const ConversationListItemHeaderItem = () => {
         @
       </MentionAtSymbol>
     ) : null;
-    unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
+    unreadCountDiv = (
+      <p className="module-conversation-list-item__unread-count">
+        {unreadCount > 9999 ? '9999+' : unreadCount}
+      </p>
+    );
   }
 
   return (
