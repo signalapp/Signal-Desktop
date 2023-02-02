@@ -6404,5 +6404,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Now it's easier to click outside of an image to dismiss the gallery view without zooming in. Sometimes you just wanted to close, and instead things got too close. Thanks to {jojomatik} for the fix!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
+    "description": "Release notes for v6.5"
   }
 }
