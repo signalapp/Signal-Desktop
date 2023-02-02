@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} နှင့် {conversationTitle} သည် တူညီသော အကောင့်မှ ဖြစ်ပါသည်။ ချက်(တ်)နှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် တွေ့နိုင်ပါသည်။",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "{conversationTitle} နှင့် သင်၏ မက်ဆေ့ချ်မှတ်တမ်း၊ ၎င်းတို့နှင့် သက်ဆိုင်သည့် အခြား ချက်(တ်)ကို ပေါင်းစည်းထားပါသည်။",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} နှင့် သင်၏ မက်ဆေ့ချ်မှတ်တမ်း၊ ၎င်းတို့၏ နံပါတ် {obsoleteConversationNumber} တို့ကို ပေါင်းစည်းထားပါသည်။",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} နှင့် သင်၏ မက်ဆေ့ချ်မှတ်တမ်း၊ ၎င်းတို့ပိုင်ဆိုင်သည့် အခြားချက်(တ်)ကို ပေါင်းစည်းထားပါသည်။",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "ပိုလေ့လာရန်",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်။ သင်တို့သည် {sharedGroup} အဖွဲ့ဝင်များ ဖြစ်ပါသည်။",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Quote လုပ်ထားသော မက်ဆေ့ချ်မှ ပုံကြမ်း",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "အပ်ဒိတ်များကို သုံးရန်အတွက် Signal ကို ပြန်စတင်ရန်ကို နှိပ်ပါ။"
+    "message": "အပ်ဒိတ်များကို သုံးရန်အတွက် Signal ကို ပြန်စတင်ရန်ကို နှိပ်ပါ။",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Restart Signal"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "လက်ဆောင်ဘဲ့ဂျ်အကြောင်း အသေးစိတ်ကို ရယူ၍ မရနိုင်ပါ",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "လှူဒါန်းမှု အသေးစိတ်ကို ရယူ၍ မရနိုင်ပါ",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "ဤမက်ဆေ့ချ်ကို ဖွင့်ရန် ၎င်းကို မိုဘိုင်းတွင် ကြည့်ပါ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ဤမက်ဆေ့ချ်ကို ဖွင့်ရန် ၎င်းကို မိုဘိုင်းတွင် ကြည့်ပါ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "သင်၏ လက်ဆောင်ကို ကြည့်ရန် မိုဘိုင်းတွင် ဤမက်ဆေ့ချ်ကို နှိပ်ပါ",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "သင်၏ လှူဒါန်းမှုကို ကြည့်ရန် မိုဘိုင်းတွင် ဤမက်ဆေ့ချ်ကို နှိပ်ပါ",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "လက်ဆောင်",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} သည် သင့်ကိုယ်စား Signal သို့ လှူထားပါသည်",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "လက်ဆောင်ကို ဖွင့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ဤလှူဒါန်းမှုကို ဖွင့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "သင့်လက်ဆောင်ကို ကြည့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "သင့်လှူဒါန်းမှုကို ကြည့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "လက်ဆောင်တစ်ခု ရခဲ့ပါသည်",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} သည် သင့်အတွက် လှူထားပါသည်",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "လက်ဆောင် ဘဲ့ဂျ်ကို လဲလှယ်ခဲ့ပါသည်",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "သင်သည် လှူဒါန်းမှုကို လဲလှယ်ထားပါသည်",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "သင်သည် လက်ဆောင်ဘဲ့ဂျ် ပို့ထားသည်",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "သင်သည် {recipient} အတွက် လှူထားပါသည်",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "လက်ဆောင်ဘဲ့ဂျ်",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "လှူဒါန်းမှု",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "လက်ဆောင်",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "လှူဒါန်းမှု",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ရက် ကျန်ရှိသည်",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ရက် ကျန်ရှိသည်",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ နာရီ ကျန်ရှိသည်",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} နာရီ ကျန်ရှိသည်",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ မိနစ် ကျန်ရှိသည်",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {{minutes,number} မိနစ် ကျန်ရှိသည်}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "၁ မိနစ် ကျန်ရှိသည်",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "သက်တမ်းကုန်ပြီး",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "သက်တမ်းကုန်ပြီး",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "ကြည့်မယ်",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ကြည့်ရန်",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "လဲလှယ်ပြီး",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "လဲလှယ်ပြီး",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "သင့်ပံ့ပိုးကူညီမှုအတွက် ကျေးဇူးတင်ပါသည်။",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "သင့်ပံ့ပိုးကူညီမှုအတွက် ကျေးဇူးတင်ပါသည်။",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "သင်သည် $name$ သို့ ဘဲ့ဂျ်တစ်ခု လက်ဆောင်ပေးထားပါသည်။ ၎င်းတို့ လက်ခံသည့်အခါ ၎င်းတို့၏ ဘဲ့ဂျ်ကို ပြသရန် သို့မဟုတ် ဝှက်ရန် ရွေးချယ်ခွင့် ရှိပါမည်။",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "သင်သည် {name} ကိုယ်စား Signal သို့ လှူဒါန်းထားပါသည်။ ၎င်းတို့၏ ပရိုဖိုင်တွင် ပံ့ပိုးမှုကို ပြသရန်အတွက် ၎င်းတို့အား ရွေးချယ်ခွင့် ပေးပါမည်။",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "စတစ်ကာတွဲကို ထည့်သွင်းမရပါ",
@@ -6253,6 +6334,18 @@
     "message": "ဤဂဏန်းများသည် သင့်သုံးစွဲသူအမည်ကို သီးသန့်လျှို့ဝှက်ပေးထားသောကြောင့် မလိုချင်သည့် မက်ဆေ့ချ်များကို ရှောင်နိုင်ပါသည်။ သင့်သုံးစွဲသူအမည်ကို သင် ချက်(တ်)လိုသည့် လူများ၊ အဖွဲ့များထံသာ ဝေမျှနိုင်ပါသည်။ သုံးစွဲသူအမည်များကို ပြောင်းလိုက်ပါက ဂဏန်းတွဲအသစ် ရရှိပါမည်။",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို Signal Desktop က မကြာမီ ပံ့ပိုးပေးတော့မည် မဟုတ်ပါ။ Signal ကို ဆက်သုံးရန် သင့်ကွန်ပျူတာ၏ လုပ်ဆောင်မှုစနစ်ကို {expirationDate} မတိုင်မီ အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "အသစ်များ",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "အဖွဲ့ငယ် (လူ 16 ဦးအထိ) အတွက် အဖွဲ့ကောလ်ကို စတင်သည့်အခါ ဖုန်းမြည်သံ အသိပေးချက် ပို့ရန် ရွေးချယ်နိုင်ပါသည်။ အဖွဲ့ဝင်များသည် iOS beta သို့မဟုတ် ဒတ်ခ်စတော့(ပ်) သို့မဟုတ် Android ကို သုံးနေပါက ဖုန်းမြည်သံကို ကြားရပါမည်။",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Quote လုပ်ထားသော အကြောင်းပြန်စာကို စတင်ရန် ချက်(တ်)ရှိ မက်ဆေ့ချ် တစ်ခုခုကို နှစ်ချက်နှိပ်ပါ။ ယင်းသည် အိုင်ဒီယာဟောင်းများနှင့်ပတ်သက်သော အတွေးသစ်များအတွက် ရှော့တ်ကတ်ဖြစ်ပါသည်။ ဤအင်္ဂါရပ်ကို အကောင်အထည်ဖော်၍ တုံ့ပြန်ချက်ပေးသည့်အတွက် {whynothugo} နှင့် Signal အဖွဲ့အစည်းကို ကျေးဇူးတင်ပါသည်။",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ဇူးမ် မချဲ့ဘဲ ပုံပြခန်းကြည့်ရှုမှုကို ဖယ်ရန် ပုံပြင်ပကို နှိပ်ရသည်မှာ ယခုဆို ပိုမိုလွယ်ကူသွားပါသည်။ တစ်ခါတစ်ရံ ပိတ်ချလိုက်လိုသော်လည်း ထိုအစား မျက်စိမှောက်နေတတ်သည်။ ပြုပြင်ပေးမှုအတွက် {jojomatik} ကို ကျေးဇူးတင်ပါသည်။",
+    "description": "Release notes for v6.3"
   }
 }

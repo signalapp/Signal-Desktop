@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} మరియు {conversationTitle} లు ఒకే అకౌంట్. రెండు చాట్‌ల కొరకు మీ సందేశం చరిత్ర ఇక్కడ ఉంది.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "{conversationTitle} తో మీ సందేశ చరిత్ర మరియు వాటికి సంబంధించిన మరో చాట్ విలీనం చేయబడ్డాయి.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} తో మీ సందేశ చరిత్ర మరియు వాటి {obsoleteConversationNumber} నంబరు కలిపేయబడ్డాయి.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} తో మీ సందేశ చరిత్ర మరియు వాటికి సంబంధించిన మరో చాట్ కలిపేయబడ్డాయి.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "మరింత తెలుసుకోండి",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది. మీరు {sharedGroup} రెండింటి సభ్యులు.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "కోట్ చేసిన సందేశం నుండి చిత్రం యొక్క సూక్ష్మచిత్రం",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి."
+    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal పున ప్రారంభించండి"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "గిఫ్ట్ బ్యాడ్జీ వివరాలను పొందలేకపోయారు",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "విరాళం వివరాలను పొందలేకపోయింది",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "దీనిని ఓపెన్ చేయడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "దీనిని తెరవడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "మీ గిఫ్ట్‌ని చూడటానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "బహుమతి",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "మీ తరఫున Signal కు {sender} విరాళం ఇచ్చారు",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "బహుమతిని ఓపెన్ చేయడానికి మీ ఫోన్‌ని చెక్ చేయండి",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ఈ విరాళాన్ని తెరవడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "మీ బహుమతిని వీక్షించడానికి మీ ఫోన్ చెక్ చేయండి",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "మీరు ఒక బహుమతిని అందుకున్నారు",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "మీ కొరకు {sender} విరాళం ఇచ్చారు",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "మీరు ఒక బహుమతి బ్యాడ్జిని రీడిమ్ చేసుకున్నారు",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "మీరు ఒక విరాళాన్ని రీడిమ్ చేసుకున్నారు",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "మీరు ఒక బహుమతి బ్యాడ్జిని పంపారు",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "మీరు {recipient} కొరకు విరాళం ఇచ్చారు",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "బహుమతి బ్యాడ్జి",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "విరాళం",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "బహుమతి",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "విరాళం",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ రోజులు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} రోజులు మిగిలి ఉన్నాయి",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ గంటలు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} గంటలు మిగిలి ఉన్నాయి",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ నిమిషాలు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {{minutes,number} నిమిషం మిగిలి ఉంది} other {{minutes,number} నిమిషాలు మిగిలి ఉన్నాయి}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 నిమిషం మిగిలి ఉంది",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "గడువు తీరింది",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "గడువు తీరింది",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "వీక్షణ",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "వీక్షించండి",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "రీడిమ్ చేయబడింది",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "రీడిమ్ చేయబడింది",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "మీ సపోర్ట్‌కు ధన్యవాదాలు!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "మీ మద్దతుకు ధన్యవాదాలు!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "మీరు $name$కు బ్యాడ్జిని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జిని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "మీరు {name} తరఫున Signal కు విరాళం ఇచ్చారు. వారి ప్రొఫైల్‌లో తమ మద్దతును చూపించేందుకు ఎంపిక వారికి ఇవ్వబడుతుంది.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "స్టిక్కర్ ప్యాక్ వ్యవస్థాపించబడలేదు",
@@ -6253,6 +6334,18 @@
     "message": "ఈ అంకెలు మీ యూజర్‌నేమ్‌ను గోప్యంగా ఉంచడానికి సహాయపడతాయి, కాబట్టి మీరు అవాంఛిత సందేశాలను నివారించవచ్చు. మీరు చాట్ చేయడానికి ఇష్టపడే వ్యక్తులు మరియు గ్రూపులతో మాత్రమే మీ యూజర్‌నేమ్‌ను పంచుకోండి. ఒకవేళ మీరు యూజర్‌నేమ్‌లను మార్చితే, మీరు కొత్త అంకెల అమరికను పొందుతారు.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "త్వరలో {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌కు Signal డెస్క్‌టాప్ ఇక ఏమాత్రం మద్దతు ఇవ్వదు. Signal ఉపయోగించడాన్నికొనసాగించేందుకు, {expirationDate} లోపు మీ కంప్యూటర్ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేసుకోండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal డెస్క్‌టాప్ ఈ కంప్యూటర్‌పై ఇక ఏమాత్రం పనిచేయదు. Signal డెస్క్‌టాప్‌ను మళ్ళీ ఉపయోగించడానికి, {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌ను అప్‌డేట్ చేయండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal డెస్క్‌టాప్ ఈ కంప్యూటర్‌పై ఇక ఏమాత్రం పనిచేయదు. Signal డెస్క్‌టాప్‌ను మళ్ళీ ఉపయోగించడానికి, {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌ను అప్‌డేట్ చేయండి.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "కొత్తది ఏమిటి",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "చిన్న గ్రూపుల కోసం (16 మంది వరకు) మీరు గ్రూప్ కాల్‌ను ప్రారంభించినప్పుడు, మీరు రింగింగ్ నోటిఫికేషన్‌ను పంపేందుకు ఎంచుకోవచ్చు. ఒకవేళ వారు iOS బీటాలో ఉన్నా లేదా డెస్క్‌టాప్ లేదా ఆండ్రాయిడ్ ఉపయోగిస్తున్నా గ్రూప్ సభ్యులు రింగ్ వింటారు.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "కోట్ చేసిన ప్రత్యుత్తరాన్ని ప్రారంభించడానికి చాట్‌లోని ఏదైనా సందేశం వరుసపై డబుల్ క్లిక్ చేయండి. పాత ఆలోచనల గురించి కొత్త ఆలోచనల కొరకు ఇది షార్ట్‌కట్ వంటిది. ఈ ఫీచర్ అమలు చేసినందుకు మరియు అభిప్రాయాన్ని అందించినందుకు {whynothugo} కు మరియు Signal కమ్యూనిటీకి ధన్యవాదాలు.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "జూమ్ ఇన్ చేయకుండానే గ్యాలరీ వీక్షణను రద్దు చేయడానికి చిత్రం వెలుపల క్లిక్ చేయడం ఇప్పుడు సులభం. కొన్నిసార్లు మీరు కేవలం మూసివేయాలని అనుకుంటారు మరియు బదులుగా విషయాలు చాలా దగ్గరగా అవుతాయి. పరిష్కరించినందుకు {jojomatik} కు ధన్యవాదాలు!",
+    "description": "Release notes for v6.3"
   }
 }

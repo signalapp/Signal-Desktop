@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} ಮತ್ತು {conversationTitle} ಒಂದೇ ಖಾತೆಯಾಗಿದೆ. ಎರಡೂ ಚಾಟ್‌ಗಳ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸ ಇಲ್ಲಿದೆ.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸ ಮತ್ತು ಅವರ ನಂಬರ್ {obsoleteConversationNumber} ಅನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
     "messageformat": "{conversationTitle} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸ ಮತ್ತು ಅವರಿಗೆ ಸೇರಿದ ಬೇರೊಂದು ಚಾಟ್ ಅನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ. ನೀವಿಬ್ಬರೂ {sharedGroup} ನ ಸದಸ್ಯರಾಗಿದ್ದೀರಿ.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ಕೋಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ನಿಂದ ಥಂಬ್‌ನೇಲ್ ಇಮೇಜ್",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ"
+    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "ಗಿಫ್ಟ್ ಬ್ಯಾಡ್ಜ್ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "ದೇಣಿಗೆ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ನೋಡಿ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಟ್ಯಾಪ್ ಮಾಡಿ",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ಉಡುಗೊರೆ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ಅವರು ನಿಮ್ಮ ಪರವಾಗಿ Signal‌ಗೆ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ಉಡುಗೊರೆ ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ಈ ದೇಣಿಗೆಯನ್ನು ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} ಅವರು ನಿಮಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಅನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "ನೀವು ದೇಣಿಗೆಯನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಕಳುಹಿಸಿದ್ದೀರಿ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "ನೀವು {recipient} ಅವರಿಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ದೇಣಿಗೆ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ಉಡುಗೊರೆ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ದೇಣಿಗೆ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ದಿನಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ದಿನಗಳು ಬಾಕಿಯಿವೆ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ} other {{minutes,number} ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "ಅವಧಿ ಮುಗಿದಿದೆ",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "ಅವಧಿ ಮುಗಿದಿದೆ",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "ತೋರಿಸು",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ವೀಕ್ಷಿಸಿ",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "ನೀವು $name$ ಅವರಿಗೆ ಬ್ಯಾಡ್ಜ್ ಉಡುಗೊರೆ ನೀಡಿದ್ದೀರಿ. ಅವರು ಸ್ವೀಕರಿಸಿದಾಗ, ತಮ್ಮ ಬ್ಯಾಡ್ಜ್ ತೋರಿಸಲು ಅಥವಾ ಮರೆಮಾಡಲು ಅವರಿಗೊಂಡು ಅವಕಾಶ ನೀಡಲಾಗುತ್ತದೆ.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} ಅವರ ಪರವಾಗಿ Signal ಗೆ ನೀವು ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ. ತಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ತಮ್ಮ ಬೆಂಬಲವನ್ನು ಪ್ರದರ್ಶಿಸಲು ಅವರಿಗೆ ಆಯ್ಕೆಯನ್ನು ನೀಡಲಾಗುತ್ತದೆ.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗದು",
@@ -6253,6 +6334,18 @@
     "message": "ಈ ಅಂಕಿಗಳು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಗೌಪ್ಯವಾಗಿರಿಸಲು ನೆರವಾಗುತ್ತವೆ, ಹಾಗಾಗಿ ನೀವು ಅನಪೇಕ್ಷಿತ ಮೆಸೇಜ್‌ಗಳನ್ನು ತಪ್ಪಿಸಬಹುದು. ನೀವು ಚಾಟ್ ಮಾಡಲು ಬಯಸುವ ಜನರು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಮಾತ್ರ ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಹಂಚಿಕೊಳ್ಳಿ. ಯೂಸರ್‌ನೇಮ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ ಅಂಕಿಗಳ ಹೊಸ ಸೆಟ್ ಅನ್ನು ನೀವು ಪಡೆಯುತ್ತೀರಿ.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು Signal desktop ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು {expirationDate} ನ ಒಳಗೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal desktop ಇನ್ನು ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ. Signal desktop ಅನ್ನು ಮತ್ತೆ ಬಳಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal desktop ಇನ್ನು ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ. Signal desktop ಅನ್ನು ಮತ್ತೆ ಬಳಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿ.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "ಹೊಸತೇನಿದೆ",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "ನೀವು ಸಣ್ಣ ಗ್ರೂಪ್‌ಗಳಿಗೆ (16 ಜನರ ತನಕ) ಗ್ರೂಪ್ ಕಾಲ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸುವಾಗ, ರಿಂಗಣಿಸುವ ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಬಹುದು. ಗ್ರೂಪ್ ಸದಸ್ಯರು iOS ಬೀಟಾದಲ್ಲಿದ್ದರೆ ಅಥವಾ Desktop ಅಥವಾ Android ಬಳಸುತ್ತಿದ್ದರೆ ರಿಂಗ್ ಆಲಿಸುತ್ತಾರೆ.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ಉಲ್ಲೇಖಿತ ಉತ್ತರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಚಾಟ್‌ನಲ್ಲಿ ಯಾವುದೇ ಮೆಸೇಜ್ ಸಾಲಿನ ಮೇಲೆ ಡಬಲ್ ಕ್ಲಿಕ್ ಮಾಡಿ. ಇದೊಂಥರಾ ಹಳೇ ಐಡಿಯಾಗಳ ಕುರಿತಾದ ಹೊಸ ಆಲೋಚನೆಗಳಿಗೆ ಶಾರ್ಟ್‌ಕಟ್ ಇದ್ದಂತೆ. ಈ ಫೀಚರ್ ಅನ್ನು ಅನುಷ್ಠಾನಗೊಳಿಸಿದ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಒದಗಿಸಿದ {whynothugo} ಮತ್ತು Signal ಸಮುದಾಯಕ್ಕೆ ಧನ್ಯವಾದಗಳು.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ಝೂಮ್ ಇನ್ ಮಾಡದೆಯೇ ಗ್ಯಾಲರಿ ವೀಕ್ಷಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಲು ಇಮೇಜ್‌ನ ಹೊರಗಡೆ ಕ್ಲಿಕ್ ಮಾಡುವುದು ಈಗ ಸುಲಭ. ಕೆಲವೊಮ್ಮೆ ಸಂಗತಿಗಳನ್ನು ತೀರಾ ಝೂಮ್ ಮಾಡುವುದು ಹಿತವಾಗದೆ ಮುಚ್ಚಲು ಬಯಸುತ್ತೀರಿ. ಸರಿಪಡಿಸಿದ್ದಕ್ಕಾಗಿ {jojomatik} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು!",
+    "description": "Release notes for v6.3"
   }
 }

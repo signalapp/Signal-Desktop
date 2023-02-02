@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} , {conversationTitle} എന്നിവ ഒരേ അക്കൗണ്ടാണ്. രണ്ട് ചാറ്റുകൾക്കുമുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രം ഇവിടെയുണ്ട്.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "{conversationTitle} എന്നതുമായുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രവും അവരുടേതായ മറ്റൊരു ചാറ്റും ലയിപ്പിച്ചിരിക്കുന്നു.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} എന്നതുമായുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രവും അവരുടെ {obsoleteConversationNumber} നമ്പറും ലയിപ്പിച്ചു.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} എന്നതുമായുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രവും അവരുടേതായ മറ്റൊരു ചാറ്റും ലയിപ്പിച്ചു.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "കൂടുതൽ അറിയുക",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} എന്ന ഫോൺ നമ്പർ {conversationTitle} എന്നയാളുടേതാണ്. നിങ്ങൾ രണ്ടുപേരും {sharedGroup} എന്നതിലെ അംഗങ്ങളാണ്.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} {conversationTitle} എന്നയാളുടെ നമ്പറാണ്",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ഉദ്ധരിച്ച സന്ദേശം-ത്തിൽ നിന്നുള്ള ചിത്രത്തിന്റെ ലഘുചിത്രം",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക."
+    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal പുനരാരംഭിക്കുക"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ് വിശദാംശങ്ങൾ കണ്ടെത്താൻ കഴിയുന്നില്ല",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "സംഭാവനാ വിശദാംശങ്ങൾ ലഭ്യമാക്കാനായില്ല",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "നിങ്ങളുടെ ഗിഫ്റ്റ് കാണാൻ, മൊബൈലിലെ ഈ സന്ദേശത്തിൽ ടാപ്പ് ചെയ്യുക",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ മൊബൈലിൽ ഈ സന്ദേശം ടാപ്പ് ചെയ്യുക",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ഗിഫ്റ്റ്",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} നിങ്ങളുടെ പേരിൽ Signal-ലേക്ക് സംഭാവന നൽകി",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ഗിഫ്റ്റ് തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ഈ സംഭാവന തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ഗിഫ്റ്റ് കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "നിങ്ങൾക്കൊരു ഗിഫ്റ്റ് ലഭിച്ചു",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} നിങ്ങൾക്കായി സംഭാവന ചെയ്‌തു",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "നിങ്ങളൊരു ഗിഫ്റ്റ് ബാഡ്‍ജ് റിഡീം ചെയ്‌തു",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "നിങ്ങളൊരു സംഭാവന റിഡീം ചെയ്‌തു",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "നിങ്ങൾ ഒരു ഗിഫ്റ്റ് ബാഡ്‌ജ് അയച്ചു",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "നിങ്ങൾ {recipient} എന്നയാൾക്ക് സംഭാവന നൽകി",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ്",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "സംഭാവന",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ഗിഫ്റ്റ്",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "സംഭാവന",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ദിവസം ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ദിവസം ശേഷിക്കുന്നു",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ മണിക്കൂർ ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} മണിക്കൂർ ശേഷിക്കുന്നു",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {ഒരു മിനിറ്റ് ശേഷിക്കുന്നു} other {{minutes,number} മിനിറ്റ് ശേഷിക്കുന്നു}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "കാലഹരണപ്പെട്ടു",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "കാലഹരണപ്പെട്ടു",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "കാണുക",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "കാണുക",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "റിഡീം ചെയ്‌തു",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "റിഡീം ചെയ്‌തു",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "നിങ്ങൾ $name$ എന്നയാൾക്ക് ഒരു ബാഡ്‌ജ് സമ്മാനിച്ചു. ബാഡ്‌ജ് സ്വീകരിക്കുമ്പോൾ, അത് പ്രദർശിപ്പിക്കാനോ മറയ്ക്കാനോ അവര്‍ക്ക് തിരഞ്ഞെടുക്കാം.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} എന്നയാൾക്ക് വേണ്ടി നിങ്ങൾ Signal-ലേക്ക് സംഭാവന നൽകി. അവരുടെ പ്രൊഫൈലിൽ പിന്തുണ കാണിക്കാനുള്ള ഓപ്ഷൻ അവർക്ക് നൽകും.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് ഇൻസ്റ്റാൾ ചെയ്യാൻ കഴിഞ്ഞില്ല",
@@ -6253,6 +6334,18 @@
     "message": "അനാവശ്യ സന്ദേശങ്ങൾ ഒഴിവാക്കുന്നതിന്, ഈ അക്കങ്ങൾ നിങ്ങളുടെ ഉപയോക്തൃനാമം സ്വകാര്യമായി സൂക്ഷിക്കാൻ സഹായിക്കുന്നു. നിങ്ങൾ ചാറ്റ് ചെയ്യാൻ ആഗ്രഹിക്കുന്ന ആളുകളുമായും ഗ്രൂപ്പുകളുമായും മാത്രം നിങ്ങളുടെ ഉപയോക്തൃനാമം പങ്കിടുക. ഉപയോക്തൃനാമങ്ങൾ മാറ്റുകയാണെങ്കിൽ, നിങ്ങൾക്ക് ഒരു കൂട്ടം പുതിയ അക്കങ്ങൾ ലഭിക്കും.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിലെ {OS} പതിപ്പിനുള്ള പിന്തുണ Signal ഡെസ്‌ക്ടോപ്പിൽ ഉടൻ അവസാനിക്കും. Signal ഉപയോഗിക്കുന്നത് തുടരാൻ {expirationDate}-ന് മുമ്പ് നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പ് ഈ കമ്പ്യൂട്ടറിൽ ഇനി പ്രവർത്തിക്കില്ല. Signal ഡെസ്‌ക്ടോപ്പ് വീണ്ടും ഉപയോഗിക്കാൻ നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ {OS} പതിപ്പ് അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പ് ഈ കമ്പ്യൂട്ടറിൽ ഇനി പ്രവർത്തിക്കില്ല. Signal ഡെസ്‌ക്ടോപ്പ് വീണ്ടും ഉപയോഗിക്കാൻ നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ {OS} പതിപ്പ് അപ്ഡേറ്റ് ചെയ്യുക.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "പുതിയതായി എന്തുണ്ട്",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "നിങ്ങൾ ചെറിയ ഗ്രൂപ്പുകൾക്കായി (16 ആളുകൾ വരെയുള്ളത്) ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിക്കുമ്പോൾ, നിങ്ങൾക്ക് ഒരു റിംഗിംഗ് അറിയിപ്പ് അയയ്ക്കാൻ തീരുമാനിക്കാം. ഗ്രൂപ്പ് അംഗങ്ങൾ iOS ബീറ്റയിലാണെങ്കിലോ അല്ലെങ്കിൽ ഡെസ്‌ക്ടോപ്പ് അല്ലെങ്കിൽ Android ഉപയോഗിക്കുകയാണെങ്കിലോ അവർ ഒരു റിംഗ് കേൾക്കും.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ലഭിച്ച ചാറ്റിനെ ഉദ്ധരിച്ച് മറുപടി നൽകാൻ ഏതെങ്കിലും സന്ദേശത്തിന്‍റെ വരിയിൽ ഡബിൾ ക്ലിക്ക് ചെയ്യുക. പഴയ ആശയങ്ങളിലെ പുതിയൊരു ചിന്തയ്ക്കുള്ള കുറുക്കുവഴി പോലെയാണത്. ഈ ഫീച്ചർ കൊണ്ടുവന്നതിനും ഫീഡ്ബാക്ക് നൽകിയതും {whynothugo} എന്നതിനും Signal കമ്മ്യൂണിറ്റിക്കും നന്ദി.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "സൂം ചെയ്യാതെ തന്നെ ഗ്യാലറി കാഴ്ച്ച നിരാകരിക്കാൻ ഒരു ചിത്രത്തിന് പുറത്ത് ക്ലിക്ക് ചെയ്യാൻ ഇപ്പോൾ വളരെ എളുപ്പമാണ്. നിങ്ങൾക്കത് അടയ്ക്കണമെന്ന് തോന്നിയാലും ചിലത് വല്ലാതങ്ങ് പറ്റിച്ചേർന്നിരിക്കുന്നതിനാൽ സാധിച്ചിരുന്നില്ല. ഈ പരിഹാരത്തിന് {jojomatik} എന്നതിന് നന്ദി!",
+    "description": "Release notes for v6.3"
   }
 }

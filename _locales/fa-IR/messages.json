@@ -1236,9 +1236,13 @@
     "messageformat": "{obsoleteConversationTitle} و {conversationTitle} یک حساب هستند. تاریخچه پیام هر دو چت شما اینجا هست.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "سابقه پیام شما با {conversationTitle} و چت دیگری که متعلق به او بود ادغام شده است.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "تاریخچه پیام شما با {conversationTitle} و شماره او {obsoleteConversationNumber} ادغام شده است.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "تاریخچه پیام شما با {conversationTitle} و گفتگویی دیگر که متعلق به او بود ادغام شده است.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "اطلاعات بیشتر",
@@ -1254,11 +1258,11 @@
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} متعلق به {conversationTitle} است. شما هر دو عضو {sharedGroup} هستید.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
     "messageformat": "{phoneNumber} متعلق به {conversationTitle} است",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "تامبنیل تصویر از پیام نقل قول شده",
@@ -2158,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید."
+    "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "راه اندازی مجدد سیگنال"
@@ -2279,83 +2284,159 @@
   },
   "giftBadge--missing": {
     "message": "جزئیات نشان هدیه دریافت نشد",
-    "description": "Aria label for gift badge when we can't fetch the details"
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "دریافت جزئیات کمک مالی امکان‌پذیر نیست",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "برای باز کردن این پیام، آن را در تلفن همراه مشاهده کنید",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "برای باز کردن این پیام، آن را در تلفن همراه مشاهده کنید",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "برای مشاهده هدیه خود، روی این پیام در تلفن همراه ضربه بزنید",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "برای مشاهده کمک مالی خود، روی این پیام در تلفن همراهتان ضربه بزنید",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "هدیه",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} از طرف شما به سیگنال کمک مالی کرد",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "برای باز کردن هدیه تلفن خود را بررسی کنید",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "برای باز کردن این کمک مالی، تلفن‌تان را ببینید",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "برای مشاهده هدیه خود تلفن خود را بررسی کنید",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "برای مشاهده کمک مالی خود، تلفن‌تان را ببینید",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "شما یک هدیه دریافت کردید",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} از طرف شما کمک مالی کرد",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "شما یک نشان هدیه آزادسازی کردید",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "شما یک کمک مالی آزادسازی کردید",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "شما یک نشان هدیه فرستادید",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "از طرف {recipient} کمک مالی کردید",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "نشان هدیه",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "کمک مالی",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "هدیه",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "کمک مالی",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ روز باقی مانده",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} روز باقی مانده",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ساعت باقی مانده",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ساعت باقی مانده",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ دقیقه باقی مانده",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {۱ دقیقه باقی مانده} other {{minutes,number} دقیقه باقی مانده}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 دقیقه باقی مانده",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "منقضی شده",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "منقضی شده",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "مشاهده",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "مشاهده",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "آزادسازی شده",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "آزادسازی‌شده",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "از پشتیبانی شما سپاسگذاریم!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "از حمایت شما سپاسگزاریم!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "شما به $name$ یک نشان هدیه داده‌اید. وقتی آن را قبول کرد، به او حق انتخاب داده می‌شود که نشان خود را در معرض دید قرار دهد یا آن را پنهان کند.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "شما از طرف {name} به سیگنال کمک مالی کرده‌اید. به او امکان داده می‌شود که حمایت خود را در نمایه ‌اش نشان دهد.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "پک استیکر نمی تواند نصب شود",
@@ -6253,6 +6334,18 @@
     "message": "این ارقام به حفظ حریم خصوصی نام کاربری‌تان کمک می‌کند تا بتوانید از پیام‌های ناخواسته جلوگیری کنید. نام کاربری خود را فقط با افراد و گروه‌هایی که می‌خواهید با آن‌ها گفتگو کنید به اشتراک بگذارید. اگر نام کاربری را تغییر دهید، مجموعه اعداد جدیدی دریافت خواهید کرد.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "سیگنال دسکتاپ به‌زودی دیگر از نسخه {OS} رایانه شما پشتیبانی نخواهد کرد. برای ادامه استفاده از سیگنال، سیستم‌عامل رایانه خود را تا تاریخ {expirationDate} به‌روزرسانی کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "سیگنال دسکتاپ دیگر روی این رایانه کار نمی‌کند. برای استفاده دوباره از سیگنال دسکتاپ، نسخه {OS} رایانه خود را به‌روزرسانی کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "سیگنال دسکتاپ دیگر روی این رایانه کار نمی‌کند. برای استفاده دوباره از سیگنال دسکتاپ، نسخه {OS} رایانه خود را به‌روزرسانی کنید.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "تازه‌ها",
     "description": "Title for the whats new modal"
@@ -6300,5 +6393,13 @@
   "WhatsNew__v6.1--1": {
     "message": "وقتی یک تماس گروهی در گروه‌های کوچک (حداکثر ۱۶ نفر) شروع می‌کنید، می‌توانید انتخاب کنید که اعلان زنگ ارسال شود. اگر اعضای گروه نسخه بتای iOS داشته باشند یا از دسک‌تاپ یا اندروید استفاده کنند، صدای زنگ را خواهند شنید.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "برای شروع یک پاسخ نقل‌قولی، دو بار روی هر یک از ردیف‌های پیام در گفتگو کلیک کنید. این به مانند میان‌بُری است برای ثبت نظرات جدید درباره ایده‌های قدیمی. با تشکر از {whynothugo} و جامعه سیگنال برای اجرای این قابلیت و ارائه بازخورد.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "حالا دیگر آسان‌تر از قبل می‌توانید بیرون یک تصویر کلیک کنید تا از نمای گالری خارج شوید و دیگر ناخواسته جایی از تصویر را بزرگ‌نمایی نکنید. گاهی اوقات فقط می‌خواستید تصویر را ببندید ولی در عوض بازترش می‌کردید. با سپاس از {jojomatik} برای این رفع اشکال!",
+    "description": "Release notes for v6.3"
   }
 }
