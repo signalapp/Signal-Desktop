@@ -329,6 +329,7 @@ export const ReactListModal = (props: Props): ReactElement => {
             inModal={true}
             onSelected={handleSelectedReaction}
             onClick={handleReactionClick}
+            noAvatar={true}
           />
         </StyledReactionsContainer>
         {reactionsMap && currentReact && (
