@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { select, text } from '@storybook/addon-knobs';
 
 import type { Props } from './AtMentionify';
 import { AtMentionify } from './AtMentionify';
@@ -15,13 +14,9 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
-  direction: select(
-    'direction',
-    { incoming: 'incoming', outgoing: 'outgoing' },
-    overrideProps.direction || 'incoming'
-  ),
+  direction: overrideProps.direction || 'incoming',
   showConversation: action('showConversation'),
-  text: text('text', overrideProps.text || ''),
+  text: overrideProps.text || '',
 });
 
 export function NoMentions(): JSX.Element {
@@ -31,10 +26,6 @@ export function NoMentions(): JSX.Element {
 
   return <AtMentionify {...props} />;
 }
-
-NoMentions.story = {
-  name: 'No @mentions',
-};
 
 export function MultipleMentions(): JSX.Element {
   const bodyRanges = [
@@ -68,10 +59,6 @@ export function MultipleMentions(): JSX.Element {
 
   return <AtMentionify {...props} />;
 }
-
-MultipleMentions.story = {
-  name: 'Multiple @Mentions',
-};
 
 export function ComplexMentions(): JSX.Element {
   const bodyRanges = [
@@ -109,6 +96,24 @@ export function ComplexMentions(): JSX.Element {
   return <AtMentionify {...props} />;
 }
 
-ComplexMentions.story = {
-  name: 'Complex @mentions',
-};
+export function WithOddCharacter(): JSX.Element {
+  const bodyRanges = [
+    {
+      start: 4,
+      length: 1,
+      mentionUuid: 'ope',
+      replacementText: 'Zero Cool',
+      conversationID: 'x',
+    },
+  ];
+
+  const props = createProps({
+    bodyRanges,
+    text: AtMentionify.preprocessMentions(
+      'Hey \uFFFC - Check out │https://www.signal.org│',
+      bodyRanges
+    ),
+  });
+
+  return <AtMentionify {...props} />;
+}
