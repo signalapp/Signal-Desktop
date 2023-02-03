@@ -20,6 +20,7 @@ import type {
   ShowConversationType,
 } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
+import { Intl } from '../Intl';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -44,16 +45,14 @@ export type PropsDataType = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
+    | 'type'
     | 'unblurredAvatarPath'
   >;
 
-  to: {
-    groupName?: string;
-    phoneNumber?: string;
-    title: string;
-    isMe?: boolean;
-    profileName?: string;
-  };
+  to: Pick<
+    ConversationType,
+    'isMe' | 'phoneNumber' | 'profileName' | 'title' | 'type'
+  >;
 };
 
 type PropsHousekeepingType = {
@@ -164,14 +163,60 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     let headerName: ReactNode;
     if (isNoteToSelf) {
       headerName = i18n('noteToSelf');
+    } else if (from.isMe) {
+      if (to.type === 'group') {
+        headerName = (
+          <span>
+            <Intl
+              i18n={i18n}
+              id="icu:searchResultHeader--you-to-group"
+              components={{
+                receiverGroup: renderPerson(i18n, to),
+              }}
+            />
+          </span>
+        );
+      } else {
+        headerName = (
+          <span>
+            <Intl
+              i18n={i18n}
+              id="icu:searchResultHeader--you-to-receiver"
+              components={{
+                receiverContact: renderPerson(i18n, to),
+              }}
+            />
+          </span>
+        );
+      }
     } else {
-      // This isn't perfect because (1) it doesn't work with RTL languages (2)
-      //   capitalization may be incorrect for some languages, like English.
-      headerName = (
-        <span>
-          {renderPerson(i18n, from)} {i18n('toJoiner')} {renderPerson(i18n, to)}
-        </span>
-      );
+      // eslint-disable-next-line no-lonely-if
+      if (to.type === 'group') {
+        headerName = (
+          <span>
+            <Intl
+              i18n={i18n}
+              id="icu:searchResultHeader--sender-to-group"
+              components={{
+                sender: renderPerson(i18n, from),
+                receiverGroup: renderPerson(i18n, to),
+              }}
+            />
+          </span>
+        );
+      } else {
+        headerName = (
+          <span>
+            <Intl
+              i18n={i18n}
+              id="icu:searchResultHeader--sender-to-you"
+              components={{
+                sender: renderPerson(i18n, from),
+              }}
+            />
+          </span>
+        );
+      }
     }
 
     const snippetBodyRanges = getFilteredBodyRanges(snippet, body, bodyRanges);
