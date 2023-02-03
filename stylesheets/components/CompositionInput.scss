@@ -108,6 +108,7 @@
       &--link-preview {
         min-height: 110px;
         max-height: 200px;
+        padding-top: 0;
       }
     }
 
@@ -203,7 +204,8 @@ div.CompositionInput__link-preview {
   border-radius: 8px;
   flex-direction: row-reverse;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin: 6px;
+  min-height: 74px;
   overflow: hidden;
 
   @include dark-theme {
@@ -222,6 +224,10 @@ div.CompositionInput__link-preview {
     padding-bottom: 8px;
     padding-left: 12px;
     padding-top: 8px;
+  }
+
+  &__no-image {
+    margin-right: 0;
   }
 }
 

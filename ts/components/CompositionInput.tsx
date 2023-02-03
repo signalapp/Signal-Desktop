@@ -695,6 +695,14 @@ export function CompositionInput(props: Props): React.ReactElement {
             ref={ref}
             data-testid="CompositionInput"
           >
+            {conversationId && linkPreviewLoading && linkPreviewResult && (
+              <StagedLinkPreview
+                {...linkPreviewResult}
+                moduleClassName="CompositionInput__link-preview"
+                i18n={i18n}
+                onClose={() => onCloseLinkPreview?.(conversationId)}
+              />
+            )}
             {children}
             <div
               ref={
@@ -706,21 +714,13 @@ export function CompositionInput(props: Props): React.ReactElement {
               onScroll={onScroll}
               className={classNames(
                 getClassName('__input__scroller'),
-                linkPreviewResult
+                !large && linkPreviewResult
                   ? getClassName('__input__scroller--link-preview')
                   : null,
                 large ? getClassName('__input__scroller--large') : null,
                 children ? getClassName('__input--with-children') : null
               )}
             >
-              {conversationId && linkPreviewLoading && linkPreviewResult && (
-                <StagedLinkPreview
-                  {...linkPreviewResult}
-                  moduleClassName="CompositionInput__link-preview"
-                  i18n={i18n}
-                  onClose={() => onCloseLinkPreview?.(conversationId)}
-                />
-              )}
               {reactQuill}
               {emojiCompletionElement}
               {mentionCompletionElement}
