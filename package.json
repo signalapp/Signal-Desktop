@@ -503,5 +503,6 @@
       "node_modules/mp4box/dist/mp4box.all.js",
       "!node_modules/.cache"
     ]
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }
