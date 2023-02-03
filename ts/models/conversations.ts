@@ -34,7 +34,6 @@ import { toDayMillis } from '../util/timestamp';
 import { isGIF } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
-import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
@@ -3847,19 +3846,11 @@ export class ConversationModel extends window.Backbone
   }
 
   async makeQuote(quotedMessage: MessageModel): Promise<QuotedMessageType> {
-    const { getName } = EmbeddedContact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = getContact(quotedMessage.attributes)!;
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
     const sticker = quotedMessage.get('sticker');
-
-    const body = quotedMessage.get('body');
-    const embeddedContact = quotedMessage.get('contact');
-    const embeddedContactName =
-      embeddedContact && embeddedContact.length > 0
-        ? getName(embeddedContact[0])
-        : '';
 
     return {
       authorUuid: contact.get('uuid'),
@@ -3873,7 +3864,7 @@ export class ConversationModel extends window.Backbone
       isGiftBadge: isGiftBadge(quotedMessage.attributes),
       messageId: quotedMessage.get('id'),
       referencedMessageNotFound: false,
-      text: body || embeddedContactName,
+      text: quotedMessage.getQuoteBodyText(),
     };
   }
 

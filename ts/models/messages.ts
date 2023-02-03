@@ -2030,6 +2030,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return result;
   }
 
+  getQuoteBodyText(): string | undefined {
+    const storyReactionEmoji = this.get('storyReaction')?.emoji;
+    const body = this.get('body');
+    const embeddedContact = this.get('contact');
+    const embeddedContactName =
+      embeddedContact && embeddedContact.length > 0
+        ? EmbeddedContact.getName(embeddedContact[0])
+        : '';
+
+    return body || embeddedContactName || storyReactionEmoji;
+  }
+
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
     quote: QuotedMessageType
@@ -2078,7 +2090,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     quote.isViewOnce = false;
 
     // eslint-disable-next-line no-param-reassign
-    quote.text = originalMessage.get('body');
+    quote.text = originalMessage.getQuoteBodyText();
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
     }
