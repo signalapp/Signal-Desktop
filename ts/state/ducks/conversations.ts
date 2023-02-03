@@ -134,10 +134,7 @@ import { isNotNil } from '../../util/isNotNil';
 import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
 import { UUIDKind } from '../../types/UUID';
-import {
-  removeLinkPreview,
-  suspendLinkPreviews,
-} from '../../services/LinkPreview';
+import { removeLinkPreview } from '../../services/LinkPreview';
 import type {
   ReplaceAttachmentsActionType,
   SetFocusActionType,
@@ -3670,7 +3667,6 @@ function onConversationClosed(
     }
 
     removeLinkPreview(conversationId);
-    suspendLinkPreviews();
 
     dispatch({
       type: CONVERSATION_UNLOADED,
