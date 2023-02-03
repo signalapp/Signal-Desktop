@@ -2,6 +2,7 @@ import AbortController from 'abort-controller';
 import { OpenGroupReactionResponse } from '../../../../types/Reaction';
 import { Reactions } from '../../../../util/reactions';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   batchFirstSubIsSuccess,
   batchGlobalIsSuccess,
@@ -26,7 +27,8 @@ export const clearSogsReactionByServerId = async (
   serverId: number,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<boolean> => {
-  const { supported, conversation } = await hasReactionSupport(serverId);
+  const converationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
+  const { supported, conversation } = await hasReactionSupport(converationId, serverId);
   if (!supported) {
     return false;
   }
@@ -51,7 +53,7 @@ export const clearSogsReactionByServerId = async (
   addToMutationCache(cacheEntry);
 
   // Since responses can take a long time we immediately update the moderators's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
-  await Reactions.handleClearReaction(serverId, reaction);
+  await Reactions.handleClearReaction(converationId, serverId, reaction);
 
   const options: Array<OpenGroupBatchRow> = [
     {

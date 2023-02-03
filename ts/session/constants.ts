@@ -39,6 +39,7 @@ export const CONVERSATION = {
   // Maximum voice message duraton of 5 minutes
   // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,
+  MAX_UNREAD_COUNT: 9999,
 };
 // Max attachment size: 6 MB
 

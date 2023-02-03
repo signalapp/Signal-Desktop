@@ -249,12 +249,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await deleteExternalFilesOfConversation(this.attributes);
   }
 
-  public async onExpired(_message: MessageModel) {
-    await this.updateLastMessage();
-
-    // removeMessage();
-  }
-
   public getGroupAdmins(): Array<string> {
     const groupAdmins = this.get('groupAdmins');
 
@@ -476,26 +470,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
     return true;
-  }
-
-  public async onReadMessage(message: MessageModel, readAt: number) {
-    // We mark as read everything older than this message - to clean up old stuff
-    //   still marked unread in the database. If the user generally doesn't read in
-    //   the desktop app, so the desktop app only gets read syncs, we can very
-    //   easily end up with messages never marked as read (our previous early read
-    //   sync handling, read syncs never sent because app was offline)
-
-    // We queue it because we often get a whole lot of read syncs at once, and
-    //   their markRead calls could very easily overlap given the async pull from DB.
-
-    // Lastly, we don't send read syncs for any message marked read due to a read
-    //   sync. That's a notification explosion we don't need.
-    return this.queueJob(() =>
-      this.markReadBouncy(message.get('received_at') as any, {
-        sendReadReceipts: false,
-        readAt,
-      })
-    );
   }
 
   public async getUnreadCount() {
@@ -761,7 +735,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
           you: true,
-          isOpenGroup: false,
         });
         return;
       }
@@ -778,7 +751,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
           you: true,
-          isOpenGroup: false,
         });
         return;
       }
@@ -1693,15 +1665,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('type') === ConversationTypeEnum.GROUP;
   }
 
-  public async removeMessage(messageId: any) {
+  public async removeMessage(messageId: string) {
     await Data.removeMessage(messageId);
     this.updateLastMessage();
 
     window.inboxStore?.dispatch(
-      conversationActions.messageDeleted({
-        conversationKey: this.id,
-        messageId,
-      })
+      conversationActions.messagesDeleted([
+        {
+          conversationKey: this.id,
+          messageId,
+        },
+      ])
     );
   }
 

@@ -38,14 +38,14 @@ function hitRateLimit(): boolean {
  */
 const getMessageByReaction = async (
   reaction: SignalService.DataMessage.IReaction,
-  isOpenGroup: boolean
+  openGroupConversationId?: string
 ): Promise<MessageModel | null> => {
   let originalMessage = null;
   const originalMessageId = Number(reaction.id);
   const originalMessageAuthor = reaction.author;
 
-  if (isOpenGroup) {
-    originalMessage = await Data.getMessageByServerId(originalMessageId);
+  if (openGroupConversationId && !isEmpty(openGroupConversationId)) {
+    originalMessage = await Data.getMessageByServerId(openGroupConversationId, originalMessageId);
   } else {
     const collection = await Data.getMessagesBySentAt(originalMessageId);
     originalMessage = collection.find((item: MessageModel) => {
@@ -152,19 +152,19 @@ const handleMessageReaction = async ({
   reaction,
   sender,
   you,
-  isOpenGroup,
+  openGroupConversationId,
 }: {
   reaction: SignalService.DataMessage.IReaction;
   sender: string;
   you: boolean;
-  isOpenGroup: boolean;
+  openGroupConversationId?: string;
 }) => {
   if (!reaction.emoji) {
     window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
     return;
   }
 
-  const originalMessage = await getMessageByReaction(reaction, isOpenGroup);
+  const originalMessage = await getMessageByReaction(reaction, openGroupConversationId);
   if (!originalMessage) {
     return;
   }
@@ -240,10 +240,12 @@ const handleMessageReaction = async ({
  * Handles updating the UI when clearing all reactions for a certain emoji
  * Only usable by moderators in opengroups and runs on their client
  */
-const handleClearReaction = async (serverId: number, emoji: string) => {
-  const originalMessage = await Data.getMessageByServerId(serverId);
+const handleClearReaction = async (conversationId: string, serverId: number, emoji: string) => {
+  const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    window?.log?.warn(
+      `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
+    );
     return;
   }
 
@@ -265,14 +267,18 @@ const handleClearReaction = async (serverId: number, emoji: string) => {
 
 /**
  * Handles all message reaction updates/responses for opengroups
+ * serverIds are not unique so we need the conversationId
  */
 const handleOpenGroupMessageReactions = async (
-  reactions: OpenGroupReactionList,
-  serverId: number
+  conversationId: string,
+  serverId: number,
+  reactions: OpenGroupReactionList
 ) => {
-  const originalMessage = await Data.getMessageByServerId(serverId);
+  const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    window?.log?.warn(
+      `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
+    );
     return;
   }
 

@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messageExpired } from '../../../../state/ducks/conversations';
+import { messagesExpired } from '../../../../state/ducks/conversations';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
@@ -16,7 +16,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
-import { MessageAvatar } from '../message-content/MessageAvatar';
+
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { ReadableMessage } from './ReadableMessage';
 import styled, { keyframes } from 'styled-components';
@@ -68,10 +68,12 @@ function useIsExpired(props: ExpiringProps) {
       await Data.removeMessage(messageId);
       if (convoId) {
         dispatch(
-          messageExpired({
-            conversationKey: convoId,
-            messageId,
-          })
+          messagesExpired([
+            {
+              conversationKey: convoId,
+              messageId,
+            },
+          ])
         );
         const convo = getConversationController().get(convoId);
         convo?.updateLastMessage();
@@ -113,7 +115,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   display: flex;
   align-items: center;
   width: 100%;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.03rem;
   padding: var(--margins-xs) var(--margins-lg) 0;
 
   &.message-highlighted {
@@ -236,7 +238,6 @@ export const GenericReadableMessage = (props: Props) => {
       isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      <MessageAvatar messageId={messageId} />
       {expirationLength && expirationTimestamp && (
         <ExpireTimer
           isCorrectSide={!isIncoming}

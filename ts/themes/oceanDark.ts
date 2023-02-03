@@ -154,4 +154,7 @@ export const oceanDark: ThemeColorVariables = {
   '--call-buttons-icon-disabled-color': THEMES.OCEAN_DARK.COLOR7!,
   '--call-buttons-dropdown-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
+
+  '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
+  '--file-dropzone-border-color': 'var(--primary-color)',
 };

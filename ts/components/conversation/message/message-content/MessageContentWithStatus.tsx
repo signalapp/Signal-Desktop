@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
-
+import { MessageAvatar } from '../message-content/MessageAvatar';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -20,7 +20,7 @@ import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
-  'direction' | 'isDeleted'
+  'conversationType' | 'direction' | 'isDeleted'
 >;
 
 type Props = {
@@ -40,7 +40,7 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
   width: 100%;
 
   ${StyledMessageReactions} {
-    margin-right: var(--margins-sm);
+    margin-right: var(--margins-md);
   }
 `;
 
@@ -88,11 +88,13 @@ export const MessageContentWithStatuses = (props: Props) => {
   };
 
   const { messageId, ctxMenuID, isDetailView, dataTestId, enableReactions } = props;
+
   if (!contentProps) {
     return null;
   }
-  const { direction, isDeleted } = contentProps;
+  const { conversationType, direction, isDeleted } = contentProps;
   const isIncoming = direction === 'incoming';
+  const noAvatar = conversationType !== 'group' || direction === 'outgoing';
 
   const [popupReaction, setPopupReaction] = useState('');
 
@@ -118,6 +120,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
       >
+        <MessageAvatar messageId={messageId} noAvatar={noAvatar} />
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}
@@ -125,7 +128,6 @@ export const MessageContentWithStatuses = (props: Props) => {
         />
         <StyledMessageWithAuthor isIncoming={isIncoming}>
           <MessageAuthorText messageId={messageId} />
-
           <MessageContent messageId={messageId} isDetailView={isDetailView} />
         </StyledMessageWithAuthor>
         <MessageStatus
@@ -148,6 +150,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           popupReaction={popupReaction}
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}
+          noAvatar={noAvatar}
         />
       )}
     </StyledMessageContentContainer>

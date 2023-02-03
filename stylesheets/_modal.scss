@@ -13,7 +13,7 @@
     position: relative;
     max-width: 350px;
     margin: 100px auto;
-    padding: 1em;
+    padding: 1rem;
     background-color: var(--modal-background-content-color);
     border-radius: var(--border-radius);
     overflow: auto;
@@ -23,7 +23,7 @@
 
 /* remove scroll bars */
 .loki-dialog .add-moderators-dialog .content {
-  padding: 1.1em;
+  padding: 1.1rem;
 }
 
 .session-modal {

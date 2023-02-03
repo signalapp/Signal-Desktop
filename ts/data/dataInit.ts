@@ -38,7 +38,7 @@ const channelsToMake = new Set([
   'saveSeenMessageHashes',
   'saveMessages',
   'removeMessage',
-  '_removeMessages',
+  'removeMessagesByIds',
   'getUnreadByConversation',
   'markAllAsReadByConversationNoExpiration',
   'getUnreadCountByConversation',

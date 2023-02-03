@@ -139,7 +139,7 @@ export const Data = {
   saveMessage,
   saveMessages,
   removeMessage,
-  _removeMessages,
+  removeMessagesByIds,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessageBySenderAndSentAt,
@@ -396,9 +396,13 @@ async function removeMessage(id: string): Promise<void> {
   }
 }
 
-// Note: this method will not clean up external files, just delete from SQL
-async function _removeMessages(ids: Array<string>): Promise<void> {
-  await channels.removeMessage(ids);
+/**
+ * Note: this method will not clean up external files, just delete from SQL.
+ * Files are cleaned up on app start if they are not linked to any messages
+ *
+ */
+async function removeMessagesByIds(ids: Array<string>): Promise<void> {
+  await channels.removeMessagesByIds(ids);
 }
 
 async function getMessageIdsFromServerIds(
@@ -442,10 +446,11 @@ async function getMessageBySenderAndSentAt({
 }
 
 async function getMessageByServerId(
+  conversationId: string,
   serverId: number,
   skipTimerInit: boolean = false
 ): Promise<MessageModel | null> {
-  const message = await channels.getMessageByServerId(serverId);
+  const message = await channels.getMessageByServerId(conversationId, serverId);
   if (!message) {
     return null;
   }
@@ -644,7 +649,7 @@ async function removeAllMessagesInConversation(conversationId: string): Promise<
     await Promise.all(messages.map(message => message.cleanup()));
 
     // eslint-disable-next-line no-await-in-loop
-    await channels.removeMessage(ids);
+    await channels.removeMessagesByIds(ids);
   } while (messages.length > 0);
 }
 

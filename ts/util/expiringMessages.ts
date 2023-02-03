@@ -1,42 +1,61 @@
-import _ from 'lodash';
+import { throttle, uniq } from 'lodash';
 import moment from 'moment';
-import { MessageModel } from '../models/message';
-import { messageExpired } from '../state/ducks/conversations';
+import { messagesExpired } from '../state/ducks/conversations';
 import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { LocalizerKeys } from '../types/LocalizerKeys';
 import { initWallClockListener } from './wallClockListener';
 
 import { Data } from '../data/data';
+import { getConversationController } from '../session/conversations';
+
+export async function destroyMessagesAndUpdateRedux(
+  messages: Array<{
+    conversationKey: string;
+    messageId: string;
+  }>
+) {
+  if (!messages.length) {
+    return;
+  }
+  const conversationWithChanges = uniq(messages.map(m => m.conversationKey));
+
+  try {
+    // Delete all thoses messages in a single sql call
+    await Data.removeMessagesByIds(messages.map(m => m.messageId));
+  } catch (e) {
+    window.log.error('destroyMessages: removeMessagesByIds failed', e && e.message ? e.message : e);
+  }
+  // trigger a redux update if needed for all those messages
+  window.inboxStore?.dispatch(messagesExpired(messages));
+
+  // trigger a refresh the last message for all those uniq conversation
+  conversationWithChanges.map(convoIdToUpdate => {
+    getConversationController()
+      .get(convoIdToUpdate)
+      ?.updateLastMessage();
+  });
+}
 
 async function destroyExpiredMessages() {
   try {
     window.log.info('destroyExpiredMessages: Loading messages...');
     const messages = await Data.getExpiredMessages();
 
-    await Promise.all(
-      messages.map(async (message: MessageModel) => {
-        window.log.info('Message expired', {
-          sentAt: message.get('sent_at'),
-        });
+    const messagesExpiredDetails: Array<{
+      conversationKey: string;
+      messageId: string;
+    }> = messages.map(m => ({
+      conversationKey: m.attributes.conversationId,
+      messageId: m.id,
+    }));
 
-        // We delete after the trigger to allow the conversation time to process
-        //   the expiration before the message is removed from the database.
-        await Data.removeMessage(message.id);
+    messages.map(expired => {
+      window.log.info('Message expired', {
+        sentAt: expired.get('sent_at'),
+      });
+    });
 
-        // trigger the expiration of the message on the redux itself.
-        window.inboxStore?.dispatch(
-          messageExpired({
-            conversationKey: message.attributes.conversationId,
-            messageId: message.id,
-          })
-        );
-
-        const conversation = message.getConversation();
-        if (conversation) {
-          await conversation.onExpired(message);
-        }
-      })
-    );
+    await destroyMessagesAndUpdateRedux(messagesExpiredDetails);
   } catch (error) {
     window.log.error(
       'destroyExpiredMessages: Error deleting expired messages',
@@ -81,7 +100,7 @@ async function checkExpiringMessages() {
   }
   timeout = global.setTimeout(destroyExpiredMessages, wait);
 }
-const throttledCheckExpiringMessages = _.throttle(checkExpiringMessages, 1000);
+const throttledCheckExpiringMessages = throttle(checkExpiringMessages, 1000);
 
 let isInit = false;
 

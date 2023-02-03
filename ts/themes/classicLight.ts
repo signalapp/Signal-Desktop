@@ -153,4 +153,7 @@ export const classicLight: ThemeColorVariables = {
   '--call-buttons-icon-disabled-color': 'var(--disabled-color)',
   '--call-buttons-dropdown-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
+
+  '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
+  '--file-dropzone-border-color': 'var(--text-primary-color)',
 };

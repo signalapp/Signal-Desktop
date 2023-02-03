@@ -4,14 +4,14 @@ import { UserUtils } from '../../session/utils';
 
 const StyledPillDividerLine = styled.div`
   border-bottom: 1px solid var(--border-color);
-  line-height: 0.1em;
+  line-height: 0.1rem;
   flex-grow: 1;
   height: 1px;
   align-self: center;
 `;
 
 const StyledPillSpan = styled.span`
-  padding: 5px 15px;
+  padding: 6px 15px 5px;
   border-radius: 50px;
   color: var(--text-primary-color);
   border: 1px solid var(--border-color);

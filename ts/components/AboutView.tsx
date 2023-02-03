@@ -15,7 +15,7 @@ const StyledContent = styled.div`
 
   img {
     padding: 12px;
-    margin-top: 1em;
+    margin-top: 1rem;
   }
 
   a {

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Data } from '../../../data/data';
 import { useConversationPropsById, useIsPinned } from '../../../hooks/useParamSelector';
 import { getUsBlindedInThatServer } from '../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { CONVERSATION } from '../../../session/constants';
 import { UserUtils } from '../../../session/utils';
 import {
   openConversationToSpecificMessage,
@@ -170,7 +171,11 @@ export const ConversationListItemHeaderItem = () => {
         @
       </MentionAtSymbol>
     ) : null;
-    unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
+    unreadCountDiv = (
+      <p className="module-conversation-list-item__unread-count">
+        {unreadCount > CONVERSATION.MAX_UNREAD_COUNT ? `${CONVERSATION.MAX_UNREAD_COUNT}+` : unreadCount}
+      </p>
+    );
   }
 
   return (

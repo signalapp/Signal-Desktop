@@ -189,6 +189,10 @@ export type ThemeColorVariables = {
   '--call-buttons-icon-disabled-color': string;
   '--call-buttons-dropdown-color': string;
   '--call-buttons-dropdown-shadow': string;
+
+  /* File Dropzone */
+  '--file-dropzone-background-color': string;
+  '--file-dropzone-border-color': string;
 };
 
 export function loadThemeColors(variables: ThemeColorVariables) {

@@ -17,8 +17,8 @@ const StyledContent = styled.div`
   height: 100%;
 
   .session-button {
-    margin: 1em auto 1em 0;
-    padding: 1em;
+    margin: 1rem auto 1rem 0;
+    padding: 1rem;
     width: fit-content;
   }
 

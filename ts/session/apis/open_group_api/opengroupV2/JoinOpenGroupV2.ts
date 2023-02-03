@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
 
@@ -22,14 +23,14 @@ import { getOpenGroupManager } from './OpenGroupManagerV2';
 // 143.198.213.255:80/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
 
 export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undefined {
-  const lowerCased = urlWithPubkey.trim().toLowerCase();
+  const trimmed = urlWithPubkey.trim();
   try {
-    if (!openGroupV2CompleteURLRegex.test(lowerCased)) {
+    if (!openGroupV2CompleteURLRegex.test(trimmed)) {
       throw new Error('regex fail');
     }
 
     // prefix the URL if it does not have a prefix
-    const prefixedUrl = prefixify(lowerCased);
+    const prefixedUrl = prefixify(trimmed);
     // new URL fails if the protocol is not explicit
     const url = new URL(prefixedUrl);
 
@@ -43,7 +44,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     };
     return room;
   } catch (e) {
-    window?.log?.error('Invalid Opengroup v2 join URL:', lowerCased, e);
+    window?.log?.error('Invalid Opengroup v2 join URL:', trimmed, e);
   }
   return undefined;
 }
@@ -57,13 +58,16 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @param room The room id to join
  * @param publicKey The server publicKey. It comes from the joining link. (or is already here for the default open group server)
  */
-async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean): Promise<void> {
+async function joinOpenGroupV2(
+  room: OpenGroupV2Room,
+  fromConfigMessage: boolean
+): Promise<ConversationModel | undefined> {
   if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
-    return;
+    return undefined;
   }
 
-  const serverUrl = room.serverUrl.toLowerCase();
-  const roomId = room.roomId.toLowerCase();
+  const serverUrl = room.serverUrl;
+  const roomId = room.roomId;
   const publicKey = room.serverPublicKey.toLowerCase();
   const prefixedServer = prefixify(serverUrl);
 
@@ -97,6 +101,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
     if (!fromConfigMessage) {
       await forceSyncConfigurationNowIfNeeded();
     }
+    return conversation;
   } catch (e) {
     window?.log?.error('Could not join open group v2', e.message);
     throw e;
@@ -154,24 +159,23 @@ export async function joinOpenGroupV2WithUIEvents(
 
     uiCallback?.({ loadingState: 'started', conversationKey: conversationID });
 
-    await joinOpenGroupV2(parsedRoom, fromConfigMessage);
+    const convoCreated = await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
-    const isConvoCreated = getConversationController().get(conversationID);
-    if (isConvoCreated) {
+    if (convoCreated) {
       if (showToasts) {
         ToastUtils.pushToastSuccess(
           'connectToServerSuccess',
           window.i18n('connectToServerSuccess')
         );
       }
-      uiCallback?.({ loadingState: 'finished', conversationKey: conversationID });
+      uiCallback?.({ loadingState: 'finished', conversationKey: convoCreated?.id });
 
       return true;
-    } else {
-      if (showToasts) {
-        ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-      }
     }
+    if (showToasts) {
+      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+    }
+
     uiCallback?.({ loadingState: 'failed', conversationKey: conversationID });
   } catch (error) {
     window?.log?.warn('got error while joining open group:', error.message);
