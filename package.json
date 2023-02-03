@@ -308,14 +308,12 @@
     "webpack-dev-server": "4.11.1"
   },
   "resolutions": {
-    "@storybook/react/@storybook/core/node-fetch": "2.6.1",
     "@types/react": "17.0.45",
     "@types/react-dom": "17.0.17",
     "dmg-license": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fabric/canvas": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
-    "fast-glob/glob-parent": "5.1.2",
-    "read-last-lines/mz/thenify-all/thenify": "3.3.1"
+    "fast-glob/glob-parent": "5.1.2"
   },
   "engines": {
     "node": "16.17.1"
