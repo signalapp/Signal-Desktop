@@ -68,7 +68,7 @@ export function SafetyNumberNotification({
           size={ButtonSize.Small}
           variant={ButtonVariant.SystemMessage}
         >
-          {i18n('verifyNewNumber')}
+          {i18n('icu:SafetyNumberNotification__viewSafetyNumber')}
         </Button>
       }
     />

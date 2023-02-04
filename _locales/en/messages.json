@@ -571,10 +571,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified"
+    "message": "Mark as verified",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark as not verified",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Mark as verified",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Clear verification",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -1148,6 +1158,10 @@
   },
   "showSafetyNumber": {
     "message": "View safety number"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "View safety number",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "View recent media",
@@ -1974,7 +1988,15 @@
   },
   "verifyNewNumber": {
     "message": "Verify Safety Number",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "View Safety Number",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "View Safety Number",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "This user can't be verified until you've exchanged messages with them.",
