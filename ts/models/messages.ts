@@ -90,6 +90,7 @@ import {
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import { findAndFormatContact } from '../util/findAndFormatContact';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import {
   getAttachmentsForMessage,
   getMessagePropStatus,
@@ -3154,11 +3155,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isGroupStoryReply =
         isGroup(conversation.attributes) && message.get('storyId');
 
-      const keepMutedChatsArchived =
-        window.storage.get('keepMutedChatsArchived') ?? false;
-      const keepThisConversationArchived =
-        keepMutedChatsArchived && conversation.isMuted();
-
       if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
         const markReadAt = Math.min(
           Date.now(),
@@ -3201,7 +3197,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } else if (
         isFirstRun &&
         !isGroupStoryReply &&
-        !keepThisConversationArchived
+        canConversationBeUnarchived(conversation.attributes)
       ) {
         conversation.setArchived(false);
       }
