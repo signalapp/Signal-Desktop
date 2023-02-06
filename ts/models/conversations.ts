@@ -71,6 +71,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
 import { UUID, UUIDKind } from '../types/UUID';
@@ -3274,7 +3275,7 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
     void this.updateUnread();
 
-    if (this.get('isArchived')) {
+    if (canConversationBeUnarchived(this.attributes)) {
       this.setArchived(false);
     }
   }
