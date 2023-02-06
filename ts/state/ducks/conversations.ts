@@ -136,6 +136,7 @@ import { startConversation } from '../../util/startConversation';
 import { UUIDKind } from '../../types/UUID';
 import {
   removeLinkPreview,
+  resumeLinkPreviews,
   suspendLinkPreviews,
 } from '../../services/LinkPreview';
 import type {
@@ -3622,6 +3623,8 @@ function onConversationOpened(
     }
 
     drop(conversation.updateVerified());
+
+    resumeLinkPreviews();
 
     replaceAttachments(
       conversation.get('id'),

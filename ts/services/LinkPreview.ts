@@ -41,6 +41,10 @@ export function suspendLinkPreviews(): void {
   disableLinkPreviews = true;
 }
 
+export function resumeLinkPreviews(): void {
+  disableLinkPreviews = false;
+}
+
 export function hasLinkPreviewLoaded(): boolean {
   return Boolean(linkPreviewResult);
 }
