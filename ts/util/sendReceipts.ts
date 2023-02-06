@@ -137,6 +137,11 @@ export async function sendReceipts({
             }),
             { messageIds, sendType: type }
           );
+
+          window.SignalCI?.handleEvent('receipts', {
+            type,
+            timestamps,
+          });
         })
       );
     })

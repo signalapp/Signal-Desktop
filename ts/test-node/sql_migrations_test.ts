@@ -2494,4 +2494,596 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion78', () => {
+    it('moves receipt jobs over to conversation queue', () => {
+      updateToVersion(77);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const CONVERSATION_ID_1 = generateGuid();
+
+      db.exec(
+        `
+        INSERT INTO messages
+        (id, json)
+        VALUES ('${MESSAGE_ID_1}', '${JSON.stringify({
+          conversationId: CONVERSATION_ID_1,
+        })}')
+        `
+      );
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'random job',
+        data: {},
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          deliveryReceipts: [],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3',
+        timestamp: 3,
+        queueType: 'read receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          readReceipts: [],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-4',
+        timestamp: 4,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          viewedReceipt: {},
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-5',
+        timestamp: 5,
+        queueType: 'conversation',
+        data: {},
+      });
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+      const deliveryJobs = db
+        .prepare(
+          "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';"
+        )
+        .pluck();
+      const readJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';")
+        .pluck();
+      const viewedJobs = db
+        .prepare(
+          "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';"
+        )
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 5, 'before total');
+      assert.strictEqual(conversationJobs.get(), 1, 'before conversation');
+      assert.strictEqual(deliveryJobs.get(), 1, 'before delivery');
+      assert.strictEqual(readJobs.get(), 1, 'before read');
+      assert.strictEqual(viewedJobs.get(), 1, 'before viewed');
+
+      updateToVersion(78);
+
+      assert.strictEqual(totalJobs.get(), 5, 'after total');
+      assert.strictEqual(conversationJobs.get(), 4, 'after conversation');
+      assert.strictEqual(deliveryJobs.get(), 0, 'after delivery');
+      assert.strictEqual(readJobs.get(), 0, 'after read');
+      assert.strictEqual(viewedJobs.get(), 0, 'after viewed');
+    });
+
+    it('updates delivery jobs with their conversationId', () => {
+      updateToVersion(77);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+
+      const CONVERSATION_ID_1 = generateGuid();
+      const CONVERSATION_ID_2 = generateGuid();
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          deliveryReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 1,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: MESSAGE_ID_2,
+          deliveryReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 2,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3-missing-data',
+        timestamp: 3,
+        queueType: 'delivery receipts',
+      });
+      insertJobSync(db, {
+        id: 'id-4-non-string-messageId',
+        timestamp: 4,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: 4,
+          deliveryReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 4,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-5-missing-message',
+        timestamp: 5,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: 'missing',
+          deliveryReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 5,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-6-missing-conversation',
+        timestamp: 6,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+          deliveryReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 6,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-7-missing-delivery-receipts',
+        timestamp: 7,
+        queueType: 'delivery receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+        },
+      });
+
+      const messageJson1 = JSON.stringify({
+        conversationId: CONVERSATION_ID_1,
+      });
+      const messageJson2 = JSON.stringify({
+        conversationId: CONVERSATION_ID_2,
+      });
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}', '${messageJson1}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID_2}', '${messageJson2}'),
+          ('${MESSAGE_ID_3}', null, '{}');
+        `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+      const deliveryJobs = db
+        .prepare(
+          "SELECT COUNT(*) FROM jobs WHERE queueType = 'delivery receipts';"
+        )
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
+      assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
+      assert.strictEqual(deliveryJobs.get(), 7, 'delivery jobs before');
+
+      updateToVersion(78);
+
+      assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
+      assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
+      assert.strictEqual(deliveryJobs.get(), 0, 'delivery jobs after');
+
+      const jobs = getJobsInQueueSync(db, 'conversation');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-1',
+          timestamp: 1,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_1,
+            receiptsType: 'deliveryReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_1,
+                timestamp: 1,
+              },
+            ],
+          },
+        },
+        {
+          id: 'id-2',
+          timestamp: 2,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_2,
+            receiptsType: 'deliveryReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_2,
+                timestamp: 2,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('updates read jobs with their conversationId', () => {
+      updateToVersion(77);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+
+      const CONVERSATION_ID_1 = generateGuid();
+      const CONVERSATION_ID_2 = generateGuid();
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'read receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          readReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 1,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'read receipts',
+        data: {
+          messageId: MESSAGE_ID_2,
+          readReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 2,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3-missing-data',
+        timestamp: 3,
+        queueType: 'read receipts',
+      });
+      insertJobSync(db, {
+        id: 'id-4-non-string-messageId',
+        timestamp: 4,
+        queueType: 'read receipts',
+        data: {
+          messageId: 4,
+          readReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 4,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-5-missing-message',
+        timestamp: 5,
+        queueType: 'read receipts',
+        data: {
+          messageId: 'missing',
+          readReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 5,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-6-missing-conversation',
+        timestamp: 6,
+        queueType: 'read receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+          readReceipts: [
+            {
+              messageId: MESSAGE_ID_1,
+              timestamp: 6,
+            },
+          ],
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-7-missing-read-receipts',
+        timestamp: 7,
+        queueType: 'read receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+        },
+      });
+
+      const messageJson1 = JSON.stringify({
+        conversationId: CONVERSATION_ID_1,
+      });
+      const messageJson2 = JSON.stringify({
+        conversationId: CONVERSATION_ID_2,
+      });
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}', '${messageJson1}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID_2}', '${messageJson2}'),
+          ('${MESSAGE_ID_3}', null, '{}');
+        `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+      const readJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'read receipts';")
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
+      assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
+      assert.strictEqual(readJobs.get(), 7, 'delivery jobs before');
+
+      updateToVersion(78);
+
+      assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
+      assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
+      assert.strictEqual(readJobs.get(), 0, 'read jobs after');
+
+      const jobs = getJobsInQueueSync(db, 'conversation');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-1',
+          timestamp: 1,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_1,
+            receiptsType: 'readReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_1,
+                timestamp: 1,
+              },
+            ],
+          },
+        },
+        {
+          id: 'id-2',
+          timestamp: 2,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_2,
+            receiptsType: 'readReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_2,
+                timestamp: 2,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+
+    it('updates viewed jobs with their conversationId', () => {
+      updateToVersion(77);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+
+      const CONVERSATION_ID_1 = generateGuid();
+      const CONVERSATION_ID_2 = generateGuid();
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: MESSAGE_ID_1,
+          viewedReceipt: {
+            messageId: MESSAGE_ID_1,
+            timestamp: 1,
+          },
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: MESSAGE_ID_2,
+          viewedReceipt: {
+            messageId: MESSAGE_ID_1,
+            timestamp: 2,
+          },
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3-missing-data',
+        timestamp: 3,
+        queueType: 'viewed receipts',
+      });
+      insertJobSync(db, {
+        id: 'id-4-non-string-messageId',
+        timestamp: 4,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: 4,
+          viewedReceipt: {
+            messageId: MESSAGE_ID_1,
+            timestamp: 4,
+          },
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-5-missing-message',
+        timestamp: 5,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: 'missing',
+          viewedReceipt: {
+            messageId: MESSAGE_ID_1,
+            timestamp: 5,
+          },
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-6-missing-conversation',
+        timestamp: 6,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+          viewedReceipt: {
+            messageId: MESSAGE_ID_1,
+            timestamp: 6,
+          },
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-7-missing-viewed-receipt',
+        timestamp: 7,
+        queueType: 'viewed receipts',
+        data: {
+          messageId: MESSAGE_ID_3,
+        },
+      });
+
+      const messageJson1 = JSON.stringify({
+        conversationId: CONVERSATION_ID_1,
+      });
+      const messageJson2 = JSON.stringify({
+        conversationId: CONVERSATION_ID_2,
+      });
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}', '${messageJson1}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID_2}', '${messageJson2}'),
+          ('${MESSAGE_ID_3}', null, '{}');
+        `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+      const viewedJobs = db
+        .prepare(
+          "SELECT COUNT(*) FROM jobs WHERE queueType = 'viewed receipts';"
+        )
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 7, 'total jobs before');
+      assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
+      assert.strictEqual(viewedJobs.get(), 7, 'delivery jobs before');
+
+      updateToVersion(78);
+
+      assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
+      assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
+      assert.strictEqual(viewedJobs.get(), 0, 'viewed jobs after');
+
+      const jobs = getJobsInQueueSync(db, 'conversation');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-1',
+          timestamp: 1,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_1,
+            receiptsType: 'viewedReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_1,
+                timestamp: 1,
+              },
+            ],
+          },
+        },
+        {
+          id: 'id-2',
+          timestamp: 2,
+          queueType: 'conversation',
+          data: {
+            type: 'Receipts',
+            conversationId: CONVERSATION_ID_2,
+            receiptsType: 'viewedReceipt',
+            receipts: [
+              {
+                messageId: MESSAGE_ID_1,
+                conversationId: CONVERSATION_ID_2,
+                timestamp: 2,
+              },
+            ],
+          },
+        },
+      ]);
+    });
+  });
 });

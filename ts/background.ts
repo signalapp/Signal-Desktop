@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber, debounce } from 'lodash';
+import { isNumber, debounce, groupBy } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
 import type { MenuOptionsType } from './types/menu';
 import type { Receipt } from './types/Receipt';
+import { ReceiptType } from './types/Receipt';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ThemeType } from './types/Util';
@@ -145,11 +146,13 @@ import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import type { MainWindowStatsType } from './windows/context';
-import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
-import { conversationJobQueue } from './jobs/conversationJobQueue';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
@@ -482,7 +485,17 @@ export async function startApp(): Promise<void> {
       wait: 500,
       maxSize: 100,
       processBatch: async deliveryReceipts => {
-        await deliveryReceiptsJobQueue.add({ deliveryReceipts });
+        const groups = groupBy(deliveryReceipts, 'conversationId');
+        await Promise.all(
+          Object.keys(groups).map(async conversationId => {
+            await conversationJobQueue.add({
+              type: conversationQueueJobEnum.enum.Receipts,
+              conversationId,
+              receiptsType: ReceiptType.Delivery,
+              receipts: groups[conversationId],
+            });
+          })
+        );
       },
     });
 

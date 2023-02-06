@@ -103,7 +103,6 @@ import {
   isGroupV2,
 } from '../../util/whatTypeOfConversation';
 import { missingCaseError } from '../../util/missingCaseError';
-import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { isIncoming, isOutgoing } from '../selectors/message';
@@ -147,6 +146,7 @@ import {
   setQuoteByMessageId,
   resetComposer,
 } from './composer';
+import { ReceiptType } from '../../types/Receipt';
 
 // State
 
@@ -1675,17 +1675,24 @@ export const markViewed = (messageId: string): void => {
 
   if (isIncoming(message.attributes)) {
     const convoAttributes = message.getConversation()?.attributes;
+    const conversationId = message.get('conversationId');
     drop(
-      viewedReceiptsJobQueue.add({
-        viewedReceipt: {
-          messageId,
-          senderE164,
-          senderUuid,
-          timestamp,
-          isDirectConversation: convoAttributes
-            ? isDirectConversation(convoAttributes)
-            : true,
-        },
+      conversationJobQueue.add({
+        type: conversationQueueJobEnum.enum.Receipts,
+        conversationId,
+        receiptsType: ReceiptType.Viewed,
+        receipts: [
+          {
+            messageId,
+            conversationId,
+            senderE164,
+            senderUuid,
+            timestamp,
+            isDirectConversation: convoAttributes
+              ? isDirectConversation(convoAttributes)
+              : true,
+          },
+        ],
       })
     );
   }

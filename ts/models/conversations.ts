@@ -137,7 +137,6 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import type { ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
@@ -160,6 +159,7 @@ import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../util/removePendingMember';
 import { isMemberPending } from '../util/isMemberPending';
 import { imageToBlurHash } from '../util/imageToBlurHash';
+import { ReceiptType } from '../types/Receipt';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -2182,17 +2182,22 @@ export class ConversationModel extends window.Backbone
       const readMessages = messages.filter(m => !hasErrors(m) && isIncoming(m));
 
       if (isLocalAction) {
+        const conversationId = this.get('id');
+
         // eslint-disable-next-line no-await-in-loop
-        await readReceiptsJobQueue.addIfAllowedByUser(
-          window.storage,
-          readMessages.map(m => ({
+        await conversationJobQueue.add({
+          type: conversationQueueJobEnum.enum.Receipts,
+          conversationId: this.get('id'),
+          receiptsType: ReceiptType.Read,
+          receipts: readMessages.map(m => ({
             messageId: m.id,
+            conversationId,
             senderE164: m.source,
             senderUuid: m.sourceUuid,
             timestamp: m.sent_at,
             isDirectConversation: isDirectConversation(this.attributes),
-          }))
-        );
+          })),
+        });
       }
 
       // eslint-disable-next-line no-await-in-loop
