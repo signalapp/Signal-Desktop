@@ -328,9 +328,13 @@ export function getEmojiCount(str: string): number {
   return count;
 }
 
+export function hasNonEmojiText(str: string): boolean {
+  return str.replace(emojiRegex(), '').trim().length > 0;
+}
+
 export function getSizeClass(str: string): SizeClassType {
   // Do we have non-emoji characters?
-  if (str.replace(emojiRegex(), '').trim().length > 0) {
+  if (hasNonEmojiText(str)) {
     return '';
   }
 

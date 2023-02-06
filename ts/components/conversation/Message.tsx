@@ -80,8 +80,7 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import { createRefMerger } from '../../util/refMerger';
-import { emojiToData, getEmojiCount } from '../emoji/lib';
-import { isEmojiOnlyText } from '../../util/isEmojiOnlyText';
+import { emojiToData, getEmojiCount, hasNonEmojiText } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import type { UUIDStringType } from '../../types/UUID';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
@@ -715,7 +714,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return Boolean(
       text &&
-        isEmojiOnlyText(text) &&
+        !hasNonEmojiText(text) &&
         getEmojiCount(text) < 6 &&
         !quote &&
         !storyReplyContext &&
