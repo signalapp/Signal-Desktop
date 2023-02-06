@@ -2315,7 +2315,8 @@ export async function startApp(): Promise<void> {
             window.Whisper.events.once(event, () => resolve());
             return promise;
           },
-          'firstRun:waitForEvent'
+          'firstRun:waitForEvent',
+          { timeout: 2 * durations.MINUTE }
         );
 
         let storageServiceSyncComplete: Promise<void>;
