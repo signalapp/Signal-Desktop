@@ -1113,11 +1113,14 @@ export default class MessageReceiver
       id,
       version: 2,
 
+      // This field is only used for aging items out of the cache. The original
+      //   envelope's timestamp will be used when retrying this item.
+      timestamp: envelope.receivedAtDate,
+
       attempts: 0,
       envelope: Bytes.toBase64(plaintext),
       messageAgeSec: envelope.messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
-      timestamp: envelope.timestamp,
       urgent: envelope.urgent,
       story: envelope.story,
     };
