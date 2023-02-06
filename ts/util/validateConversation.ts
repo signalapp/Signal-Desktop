@@ -3,7 +3,6 @@
 
 import type { ValidateConversationType } from '../model-types.d';
 import { isDirectConversation } from './whatTypeOfConversation';
-import { parseNumber } from './libphonenumberUtil';
 import { isValidUuid } from '../types/UUID';
 
 export function validateConversation(
@@ -27,23 +26,13 @@ export function validateConversation(
 }
 
 function validateNumber(attributes: ValidateConversationType): string | null {
-  if (isDirectConversation(attributes) && attributes.e164) {
-    const regionCode = window.storage.get('regionCode');
-    if (!regionCode) {
-      throw new Error('No region code');
-    }
-    const number = parseNumber(attributes.e164, regionCode);
-    if (number.isValidNumber) {
-      return null;
+  const { e164 } = attributes;
+  if (isDirectConversation(attributes) && e164) {
+    if (!/^\+[0-9]{1,19}$/.test(e164)) {
+      return 'Invalid E164';
     }
 
-    let errorMessage: undefined | string;
-    if (number.error instanceof Error) {
-      errorMessage = number.error.message;
-    } else if (typeof number.error === 'string') {
-      errorMessage = number.error;
-    }
-    return errorMessage || 'Invalid phone number';
+    return null;
   }
 
   return null;
