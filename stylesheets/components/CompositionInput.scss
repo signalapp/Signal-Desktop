@@ -106,8 +106,6 @@
       }
 
       &--link-preview {
-        min-height: 110px;
-        max-height: 200px;
         padding-top: 0;
       }
     }
@@ -228,6 +226,7 @@ div.CompositionInput__link-preview {
 
   &__no-image {
     margin-right: 0;
+    min-width: 74px;
   }
 }
 
@@ -249,5 +248,9 @@ button.CompositionInput__link-preview__close-button {
     content: '';
     height: 16px;
     width: 16px;
+
+    @include dark-theme {
+      background-color: $color-gray-05;
+    }
   }
 }
