@@ -28,6 +28,7 @@ export type PropsType = {
   profileName?: string;
   theme: ThemeType;
   title: string;
+  hasFailedStorySends?: boolean;
   unreadStoriesCount: number;
 
   showArchivedConversations: () => void;
@@ -149,6 +150,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       avatarPath,
       badge,
       color,
+      hasFailedStorySends,
       hasPendingUpdate,
       i18n,
       name,
@@ -251,7 +253,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               title={i18n('stories')}
               type="button"
             >
-              {unreadStoriesCount ? (
+              {hasFailedStorySends && (
+                <span className="module-main-header__stories-badge">!</span>
+              )}
+              {!hasFailedStorySends && unreadStoriesCount ? (
                 <span className="module-main-header__stories-badge">
                   {unreadStoriesCount}
                 </span>

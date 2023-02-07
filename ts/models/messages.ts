@@ -1467,6 +1467,26 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         })
       )
     );
+
+    this.notifyStorySendFailed();
+  }
+
+  public notifyStorySendFailed(): void {
+    if (!isStory(this.attributes)) {
+      return;
+    }
+
+    notificationService.add({
+      conversationId: this.get('conversationId'),
+      storyId: this.id,
+      messageId: this.id,
+      senderTitle:
+        this.getConversation()?.getTitle() ?? window.i18n('Stories__mine'),
+      message: this.hasSuccessfulDelivery()
+        ? window.i18n('icu:Stories__failed-send--partial')
+        : window.i18n('icu:Stories__failed-send--full'),
+      isExpiringMessage: false,
+    });
   }
 
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
@@ -1619,6 +1639,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               updatedAt: Date.now(),
             }
           );
+          this.notifyStorySendFailed();
         }
       }
 

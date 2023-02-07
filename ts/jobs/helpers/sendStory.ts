@@ -440,6 +440,8 @@ export async function sendStory(
       const oldSendStateByConversationId =
         message.get('sendStateByConversationId') || {};
 
+      let hasFailedSends = false;
+
       const newSendStateByConversationId = Object.keys(
         oldSendStateByConversationId
       ).reduce((acc, conversationId) => {
@@ -481,6 +483,8 @@ export async function sendStory(
           };
         }
 
+        hasFailedSends = true;
+
         return {
           ...acc,
           [conversationId]: sendStateReducer(oldSendState, {
@@ -489,6 +493,10 @@ export async function sendStory(
           }),
         };
       }, {} as SendStateByConversationId);
+
+      if (hasFailedSends) {
+        message.notifyStorySendFailed();
+      }
 
       if (isEqual(oldSendStateByConversationId, newSendStateByConversationId)) {
         return;

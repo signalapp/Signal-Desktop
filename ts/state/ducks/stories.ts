@@ -23,6 +23,7 @@ import * as log from '../../logging/log';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { SendStatus } from '../../messages/MessageSendState';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { assertDev, strictAssert } from '../../util/assert';
@@ -987,6 +988,10 @@ const viewStory: ViewStoryActionCreatorType = (
 
     // Go directly to the storyId selected
     if (!viewDirection) {
+      const hasFailedSend = Object.values(
+        story.sendStateByConversationId || {}
+      ).some(({ status }) => status === SendStatus.Failed);
+
       dispatch({
         type: VIEW_STORY,
         payload: {
@@ -995,7 +1000,7 @@ const viewStory: ViewStoryActionCreatorType = (
           numStories,
           storyViewMode,
           unviewedStoryConversationIdsSorted,
-          viewTarget,
+          viewTarget: hasFailedSend ? undefined : viewTarget,
         },
       });
       return;
