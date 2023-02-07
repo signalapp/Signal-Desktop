@@ -4019,14 +4019,8 @@ export class ConversationModel extends window.Backbone
     let expirationStartTimestamp: number | undefined;
     let expireTimer: DurationInSeconds | undefined;
 
-    // If it's a group story reply then let's match the expiration timers
-    // with the parent story's expiration.
-    if (storyId && isGroup(this.attributes)) {
-      const parentStory = await getMessageById(storyId);
-      expirationStartTimestamp =
-        parentStory?.expirationStartTimestamp || Date.now();
-      expireTimer = parentStory?.expireTimer || DurationInSeconds.DAY;
-    } else {
+    // For normal messages and 1:1 story replies, we use the parent conversation's timer
+    if (!storyId || isDirectConversation(this.attributes)) {
       await this.maybeApplyUniversalTimer();
       expireTimer = this.get('expireTimer');
     }
