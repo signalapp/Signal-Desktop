@@ -41,9 +41,12 @@ export const CONVERSATION = {
   MAX_VOICE_MESSAGE_DURATION: 300,
   MAX_UNREAD_COUNT: 9999,
 };
-// Max attachment size: 6 MB
 
-export const MAX_ATTACHMENT_FILESIZE_BYTES = 6 * 1000 * 1000; // 6MB
+/**
+ * The file server and onion request max upload size is 10MB precisely.
+ * 10MB is still ok, but one byte more is not.
+ */
+export const MAX_ATTACHMENT_FILESIZE_BYTES = 10 * 1000 * 1000;
 
 export const VALIDATION = {
   MAX_GROUP_NAME_LENGTH: 30,

@@ -1,3 +1,5 @@
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../constants';
+
 /**
  * This file is used to pad message buffer and attachments
  */
@@ -73,10 +75,17 @@ export function addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
   const originalUInt = new Uint8Array(data);
   window?.log?.info('Adding attachment padding...');
 
-  const paddedSize = Math.max(
+  let paddedSize = Math.max(
     541,
     Math.floor(Math.pow(1.05, Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))))
   );
+
+  if (
+    paddedSize > MAX_ATTACHMENT_FILESIZE_BYTES &&
+    originalUInt.length <= MAX_ATTACHMENT_FILESIZE_BYTES
+  ) {
+    paddedSize = MAX_ATTACHMENT_FILESIZE_BYTES;
+  }
   const paddedData = new ArrayBuffer(paddedSize);
   const paddedUInt = new Uint8Array(paddedData);
 

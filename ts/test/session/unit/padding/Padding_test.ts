@@ -10,6 +10,7 @@ import {
   getUnpaddedAttachment,
   removeMessagePadding,
 } from '../../../../session/crypto/BufferPadding';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../../../session/constants';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -27,6 +28,41 @@ describe('Padding', () => {
       // this makes sure that the padding is just the 0 bytes
       expect(new Uint8Array(paddedBuffer.slice(bufferIn.length))).to.equalBytes(
         new Uint8Array(541 - bufferIn.length)
+      );
+    });
+
+    it('no padding if attachment has the max size', () => {
+      //if the attachment is already of the max size, we do not pad it more
+      const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES);
+      const paddedBuffer = addAttachmentPadding(bufferIn);
+      expect(paddedBuffer.byteLength).to.equal(MAX_ATTACHMENT_FILESIZE_BYTES);
+      expect(new Uint8Array(paddedBuffer)).to.equalBytes(bufferIn);
+    });
+
+    it('add padding is limited to max attachment size', () => {
+      // there is only enough room to add one byte as padding.
+      const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES - 1);
+      const paddedBuffer = addAttachmentPadding(bufferIn);
+      expect(paddedBuffer.byteLength).to.equal(MAX_ATTACHMENT_FILESIZE_BYTES);
+      expect(new Uint8Array(paddedBuffer.slice(0, bufferIn.length))).to.equalBytes(bufferIn);
+      // this makes sure that the padding is just the 0 bytes
+      expect(paddedBuffer.slice(bufferIn.length).byteLength).to.eq(1);
+      expect(new Uint8Array(paddedBuffer.slice(bufferIn.length))).to.equalBytes(
+        new Uint8Array([0])
+      );
+    });
+
+    it('add padding if the attachment is already too big', () => {
+      // we just want to make sure we do not overide attachment data. The file upload will fail, but at least make sure to keep the user data.
+      const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES + 1);
+      const paddedBuffer = addAttachmentPadding(bufferIn);
+      const expectedPaddedSize = Math.floor(
+        Math.pow(1.05, Math.ceil(Math.log(bufferIn.length) / Math.log(1.05)))
+      );
+      expect(new Uint8Array(paddedBuffer.slice(0, bufferIn.length))).to.equalBytes(bufferIn);
+      // this makes sure that the padding is just the 0 bytes
+      expect(new Uint8Array(paddedBuffer.slice(bufferIn.length))).to.equalBytes(
+        new Uint8Array(expectedPaddedSize - bufferIn.length)
       );
     });
 
