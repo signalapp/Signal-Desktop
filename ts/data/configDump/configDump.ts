@@ -16,6 +16,9 @@ export const ConfigDumpData: AsyncObjectWrapper<ConfigDumpDataNode> = {
   },
   saveConfigDump: (dump: ConfigDumpRow) => {
     console.warn('saveConfigDump', dump);
+    if (dump.combinedMessageHashes.some(m => m && m.length < 5)) {
+      throw new Error('saveConfigDump combinedMessageHashes have invalid size');
+    }
     return channels.saveConfigDump(dump);
   },
   saveCombinedMessageHashesForMatching: (dump: ConfigDumpRowWithoutData) => {
@@ -27,5 +30,8 @@ export const ConfigDumpData: AsyncObjectWrapper<ConfigDumpDataNode> = {
   },
   getAllDumpsWithoutData: () => {
     return channels.getAllDumpsWithoutData();
+  },
+  getCombinedHashesByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, pubkey: string) => {
+    return channels.getCombinedHashesByVariantAndPubkey(variant, pubkey);
   },
 };

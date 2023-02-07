@@ -55,6 +55,7 @@ function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapp
  */
 function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): BaseConfigWrapper {
   const wrapper = getUserWrapper(wrapperType);
+  console.warn('initUserWrapper: ', wrapperType);
   if (wrapper) {
     throw new Error(`${wrapperType} already init`);
   }
@@ -68,7 +69,7 @@ function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): Bas
   }
 
   if (!isNull(dump) && !isUInt8Array(dump)) {
-    throw new Error('${wrapperType} init needs a valid dump');
+    throw new Error(`${wrapperType} init needs a valid dump`);
   }
   const userType = assertUserWrapperType(wrapperType);
   switch (userType) {

@@ -1,5 +1,6 @@
 import { cloneDeep, compact, isArray, isString } from 'lodash';
 import { Data } from '../../../data/data';
+import { timeout } from '../Promise';
 import { persistedJobFromData } from './JobDeserialization';
 import { JobRunnerType } from './jobs/JobRunnerType';
 import {
@@ -286,7 +287,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       }
       this.currentJob = nextJob;
 
-      success = await this.currentJob.runJob();
+      success = await timeout(this.currentJob.runJob(), this.currentJob.getJobTimeoutMs());
 
       if (success !== RunJobResult.Success) {
         throw new Error(`job ${nextJob.persistedData.identifier} failed`);

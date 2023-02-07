@@ -1,16 +1,17 @@
 import { from_string } from 'libsodium-wrappers-sumo';
-import { isNumber } from 'lodash';
-import Long from 'long';
+import { compact, groupBy, isArray, isEmpty, isNumber, isString, uniq } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
-import { SignalService } from '../../../../protobuf';
-import { UserConfigWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
-import { GetNetworkTime } from '../../../apis/snode_api/getNetworkTime';
-import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
+import { ConfigDumpData } from '../../../../data/configDump/configDump';
+import {
+  GenericWrapperActions,
+  UserConfigWrapperActions,
+} from '../../../../webworker/workers/browser/libsession_worker_interface';
+import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
 import { getConversationController } from '../../../conversations';
 import { SharedConfigMessage } from '../../../messages/outgoing/controlMessage/SharedConfigMessage';
-import { getMessageQueue } from '../../../sending';
-import { PubKey } from '../../../types';
+import { MessageSender } from '../../../sending/MessageSender';
+import { LibSessionUtil, OutgoingConfResult } from '../../libsession/libsession_utils';
 import { runners } from '../JobRunner';
 import {
   AddJobCheckReturn,
@@ -21,6 +22,148 @@ import {
 
 const defaultMsBetweenRetries = 3000;
 const defaultMaxAttempts = 3;
+
+export type SingleDestinationChanges = {
+  destination: string;
+  messages: Array<OutgoingConfResult>;
+  allOldHashes: Array<string>;
+};
+
+type SuccessfulChange = {
+  message: SharedConfigMessage;
+  publicKey: string;
+  updatedHash: Array<string>;
+};
+
+/**
+ * Later in the syncing logic, we want to batch-send all the updates for a pubkey in a single batch call.
+ * To make this easier, this function prebuilds and merges together all the changes for each pubkey.
+ */
+async function retrieveSingleDestinationChanges(): Promise<Array<SingleDestinationChanges>> {
+  const outgoingConfResults = await LibSessionUtil.pendingChangesForPubkey(
+    UserUtils.getOurPubKeyStrFromCache()
+  );
+
+  const groupedByDestination = groupBy(outgoingConfResults, m => m.destination);
+
+  const singleDestChanges: Array<SingleDestinationChanges> = Object.keys(groupedByDestination).map(
+    destination => {
+      const messages = groupedByDestination[destination];
+      const uniqHashes = compact(
+        uniq(messages.filter(m => m.oldMessageHashes).map(m => m.oldMessageHashes)).flat()
+      );
+
+      return { allOldHashes: uniqHashes, destination, messages };
+    }
+  );
+
+  return singleDestChanges;
+}
+
+/**
+ * This function is run once we get the results from the multiple batch-send.
+ * For each results, it checks wha
+ */
+function resultsToSuccessfulChange(
+  allResults: Array<PromiseSettledResult<NotEmptyArrayOfBatchResults | null>>,
+  requests: Array<SingleDestinationChanges>
+): Array<SuccessfulChange> {
+  const successfulChanges: Array<SuccessfulChange> = [];
+
+  /**
+   * For each batch request, we get as result
+   * - status code + hash of the new config message
+   * - status code of the delete of all messages as given by the request hashes.
+   *
+   * As it is a sequence, the delete might have failed but the new config message might still be posted.
+   * So we need to check which request failed, and if it is the delete by hashes, we need to add the hash of the posted message to the list of hashes
+   */
+  debugger;
+
+  try {
+    for (let i = 0; i < allResults.length; i++) {
+      const result = allResults[i];
+
+      // the batch send was rejected. Let's skip handling those results altogether. Another job will handle the retry logic.
+      if (result.status !== 'fulfilled') {
+        continue;
+      }
+
+      const resultValue = result.value;
+      if (!resultValue) {
+        continue;
+      }
+
+      const request = requests?.[i];
+      if (!result) {
+        continue;
+      }
+
+      const didDeleteOldConfigMessages = Boolean(
+        !isEmpty(request.allOldHashes) &&
+          resultValue &&
+          resultValue?.length &&
+          request &&
+          resultValue[resultValue.length - 1].code === 200
+      );
+
+      for (let j = 0; j < resultValue.length; j++) {
+        const batchResult = resultValue[j];
+        const messagePostedHashes = batchResult?.body?.hash;
+
+        if (
+          batchResult.code === 200 &&
+          isString(messagePostedHashes) &&
+          request.messages?.[j].message &&
+          request.destination
+        ) {
+          // a message was posted. We need to add it to the tracked list of hashes
+          console.warn(
+            `messagePostedHashes for j:${j}; didDeleteOldConfigMessages:${didDeleteOldConfigMessages}: `,
+            messagePostedHashes
+          );
+          successfulChanges.push({
+            publicKey: request.destination,
+            updatedHash: didDeleteOldConfigMessages
+              ? [messagePostedHashes]
+              : [...request.allOldHashes, messagePostedHashes],
+            message: request.messages?.[j].message,
+          });
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('eeee', e);
+    debugger;
+    throw e;
+  }
+
+  return successfulChanges;
+}
+
+async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<void> {
+  for (let i = 0; i < changes.length; i++) {
+    const change = changes[i];
+    const variant = LibSessionUtil.kindToVariant(change.message.kind);
+    const needsDump = await LibSessionUtil.markAsPushed(
+      variant,
+      change.publicKey,
+      change.message.seqno.toNumber()
+    );
+
+    if (!needsDump) {
+      continue;
+    }
+    const dump = await GenericWrapperActions.dump(variant);
+    console.warn('change.updatedHash', change.updatedHash);
+    await ConfigDumpData.saveConfigDump({
+      data: dump,
+      publicKey: change.publicKey,
+      variant,
+      combinedMessageHashes: change.updatedHash,
+    });
+  }
+}
 
 class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> {
   constructor({
@@ -45,11 +188,16 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
   }
 
   public async run(): Promise<RunJobResult> {
+    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      return RunJobResult.Success;
+    }
     window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
 
     const us = UserUtils.getOurPubKeyStrFromCache();
+    const ed25519Key = await UserUtils.getUserED25519KeyPairBytes();
     const conversation = getConversationController().get(us);
-    if (!us || !conversation) {
+    if (!us || !conversation || !ed25519Key) {
+      // we check for ed25519Key because it is needed for authenticated requests
       window.log.warn('did not find our own conversation');
       return RunJobResult.PermanentFailure;
     }
@@ -64,33 +212,49 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
     }
 
-    const data = await UserConfigWrapperActions.push();
+    const singleDestChanges = await retrieveSingleDestinationChanges();
 
-    const message = new SharedConfigMessage({
-      data: data.data,
-      kind: SignalService.SharedConfigMessage.Kind.USER_PROFILE,
-      seqno: Long.fromNumber(data.seqno),
-      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
-    });
+    // If there are no pending changes then the job can just complete (next time something
+    // is updated we want to try and run immediately so don't scuedule another run in this case)
 
-    const result = await getMessageQueue().sendToPubKeyNonDurably({
-      message,
-      namespace: SnodeNamespaces.UserProfile,
-      pubkey: PubKey.cast(us),
-    });
-    console.warn(
-      `ConfigurationSyncJob sendToPubKeyNonDurably ${this.persistedData.identifier} returned: "${result}"`
-    );
-
-    if (isNumber(result)) {
-      // try {
-      //   markAsPushed
-      // }
-      debugger;
+    if (isEmpty(singleDestChanges)) {
       return RunJobResult.Success;
     }
 
-    return RunJobResult.RetryJobIfPossible;
+    const allResults = await Promise.allSettled(
+      singleDestChanges.map(async dest => {
+        const msgs = dest.messages.map(item => {
+          return {
+            namespace: item.namespace,
+            pubkey: item.destination,
+            timestamp: item.message.timestamp,
+            ttl: item.message.ttl(),
+            message: item.message,
+          };
+        });
+        return MessageSender.sendMessagesToSnode(msgs, dest.destination, dest.allOldHashes);
+      })
+    );
+
+    console.warn(
+      `ConfigurationSyncJob sendToPubKeyNonDurably ${this.persistedData.identifier} returned: "${allResults}"`
+    );
+    // we do a sequence call here. If we do not have the right expected number of results, consider it
+
+    debugger;
+    if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
+      return RunJobResult.RetryJobIfPossible;
+    }
+
+    const changes = resultsToSuccessfulChange(allResults, singleDestChanges);
+    if (isEmpty(changes)) {
+      return RunJobResult.RetryJobIfPossible;
+    }
+    // Now that we have the successful changes, we need to mark them as pushed and
+    // generate any config dumps which need to be stored
+
+    await buildAndSaveDumpsToDB(changes);
+    return RunJobResult.Success;
   }
 
   public serializeJob(): ConfigurationSyncPersistedData {
@@ -109,6 +273,10 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
    */
   public nonRunningJobsToRemove(_jobs: Array<ConfigurationSyncPersistedData>) {
     return [];
+  }
+
+  public getJobTimeoutMs(): number {
+    return 20000;
   }
 }
 

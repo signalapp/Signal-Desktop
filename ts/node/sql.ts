@@ -23,7 +23,7 @@ import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
-import { ConversationAttributes, ConversationTypeEnum } from '../models/conversationAttributes';
+import { ConversationAttributes } from '../models/conversationAttributes';
 import {
   arrayStrToJson,
   assertValidConversationAttributes,
@@ -447,7 +447,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
 
   //FIXME
   console.warn('FIXME omit(formatted, identityPrivateKey);');
-  const omited = omit(formatted, 'identityPrivateKey');
+  const omited = omit(formatted, 'identityPrivateKey', 'markedAsUnread');
   const keys = Object.keys(omited);
   const columnsCommaSeparated = keys.join(', ');
   const valuesArgs = keys.map(k => `$${k}`).join(', ');
@@ -2187,161 +2187,6 @@ function cleanUpOldOpengroupsOnStart() {
   })();
 }
 
-// tslint:disable: binary-expression-operand-order insecure-random
-/**
- * Only using this for development. Populate conversation and message tables.
- */
-function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
-  const convoBeforeCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
-    .get()['count(*)'];
-
-  const lipsum =
-    // eslint:disable-next-line max-line-length
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem,
-    non suscipit      purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Suspendisse cursus aliquet       velit a dignissim. Integer at nisi sed velit consequat
-    dictum. Phasellus congue tellus ante.        Ut rutrum hendrerit dapibus. Fusce
-    luctus, ante nec interdum molestie, purus urna volutpat         turpis, eget mattis
-    lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus          at
-    nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi
-    ante.           Donec aliquam porta nibh, vel scelerisque orci condimentum sed.
-    Proin in mattis ipsum,            ac euismod sem. Donec malesuada sem nisl, at
-    vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
-    metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
-    imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
-    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur
-            viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
-    mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
-    odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
-    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.
-    Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
-    viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
-    ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
-    fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum
-    malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque
-    eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed
-    justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec
-    auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at
-    tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non
-    augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus
-    elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis
-    lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent
-    faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae
-    aliquet sollicitudin.
-    `;
-
-  const msgBeforeCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
-    .get()['count(*)'];
-
-  console.info('==== fillWithTestData ====');
-  console.info({
-    convoBeforeCount,
-    msgBeforeCount,
-    convoToAdd: numConvosToAdd,
-    msgToAdd: numMsgsToAdd,
-  });
-
-  const convosIdsAdded = [];
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < numConvosToAdd; index++) {
-    const activeAt = Date.now() - index;
-    const id = Date.now() - 1000 * index;
-    const convoObjToAdd: ConversationAttributes = {
-      active_at: activeAt,
-      members: [],
-      displayNameInProfile: `${activeAt}`,
-      id: `05${id}`,
-      type: ConversationTypeEnum.GROUPV3,
-      didApproveMe: false,
-      expireTimer: 0,
-      groupAdmins: [],
-      groupModerators: [],
-      isApproved: false,
-      isKickedFromGroup: false,
-      isPinned: false,
-      isTrustedForAttachmentDownload: false,
-      is_medium_group: false,
-      lastJoinedTimestamp: 0,
-      lastMessage: null,
-      lastMessageStatus: undefined,
-      left: false,
-      mentionedUs: false,
-      subscriberCount: 0,
-      readCapability: true,
-      writeCapability: true,
-      uploadCapability: true,
-      triggerNotificationsFor: 'all',
-      unreadCount: 0,
-      zombies: [],
-    };
-    convosIdsAdded.push(id);
-    try {
-      saveConversation(convoObjToAdd);
-      // eslint-disable-next-line no-empty
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < numMsgsToAdd; index++) {
-    const activeAt = Date.now() - index;
-    const id = Date.now() - 1000 * index;
-
-    const lipsumStartIdx = Math.floor(Math.random() * lipsum.length);
-    const lipsumLength = Math.floor(Math.random() * lipsum.length - lipsumStartIdx);
-    const fakeBodyText = lipsum.substring(lipsumStartIdx, lipsumStartIdx + lipsumLength);
-
-    const convoId = convosIdsAdded[Math.floor(Math.random() * convosIdsAdded.length)];
-    const msgObjToAdd = {
-      // body: `fake body ${activeAt}`,
-      body: `fakeMsgIdx-spongebob-${index} ${fakeBodyText} ${activeAt}`,
-      conversationId: `05${id}`,
-      // eslint-disable-next-line camelcase
-      expires_at: 0,
-      hasAttachments: 0,
-      hasFileAttachments: 0,
-      hasVisualMediaAttachments: 0,
-      id: `${id}`,
-      serverId: 0,
-      serverTimestamp: 0,
-      // eslint-disable-next-line camelcase
-      received_at: Date.now(),
-      sent: 0,
-      // eslint-disable-next-line camelcase
-      sent_at: Date.now(),
-      source: `${convoId}`,
-      type: 'outgoing',
-      unread: 1,
-      expireTimer: 0,
-      expirationStartTimestamp: 0,
-    };
-
-    if (convoId % 10 === 0) {
-      console.info('uyo , convoId ', { index, convoId });
-    }
-
-    try {
-      saveMessage(msgObjToAdd);
-      // eslint-disable-next-line no-empty
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  const convoAfterCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
-    .get()['count(*)'];
-
-  const msgAfterCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
-    .get()['count(*)'];
-
-  console.info({ convoAfterCount, msgAfterCount });
-  return convosIdsAdded;
-}
-
 export type SqlNodeType = typeof sqlNode;
 
 export function close() {
@@ -2417,7 +2262,6 @@ export const sqlNode = {
   getFirstUnreadMessageIdInConversation,
   getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
-  fillWithTestData,
 
   // add all the calls related to the unprocessed cache of incoming messages
   ...unprocessed,

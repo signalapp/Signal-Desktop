@@ -19,7 +19,7 @@ export interface LokiFetchOptions {
  * A small wrapper around node-fetch which deserializes response
  * returns insecureNodeFetch response or false
  */
-async function lokiFetch({
+async function doRequest({
   options,
   url,
   associatedWith,
@@ -61,7 +61,7 @@ async function lokiFetch({
     }
 
     if (url.match(/https:\/\//)) {
-      // import that this does not get set in lokiFetch fetchOptions
+      // import that this does not get set in doRequest fetchOptions
       fetchOptions.agent = snodeHttpsAgent;
     }
 
@@ -71,7 +71,7 @@ async function lokiFetch({
       'Content-Type': APPLICATION_JSON,
     };
 
-    window?.log?.warn(`insecureNodeFetch => lokiFetch of ${url}`);
+    window?.log?.warn(`insecureNodeFetch => doRequest of ${url}`);
 
     const response = await insecureNodeFetch(url, {
       ...fetchOptions,
@@ -136,7 +136,7 @@ export async function snodeRpc(
     agent: null,
   };
 
-  return lokiFetch({
+  return doRequest({
     url,
     options: fetchOptions,
     targetNode,

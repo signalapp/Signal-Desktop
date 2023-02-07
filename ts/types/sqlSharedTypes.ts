@@ -59,6 +59,10 @@ export type ConfigDumpDataNode = {
 
   getAllDumpsWithData: () => Array<ConfigDumpRow>;
   getAllDumpsWithoutData: () => Array<ConfigDumpRowWithoutData>;
+  getCombinedHashesByVariantAndPubkey: (
+    variant: ConfigWrapperObjectTypes,
+    pubkey: string
+  ) => Set<string>;
 };
 
 // ========== unprocessed

@@ -67,6 +67,10 @@ export class FakeSleepForMultiJob extends PersistedJob<FakeSleepForMultiJobData>
   public nonRunningJobsToRemove(_jobs: Array<FakeSleepForMultiJobData>) {
     return [];
   }
+
+  public getJobTimeoutMs(): number {
+    return 10000;
+  }
 }
 
 export class FakeSleepForJob extends PersistedJob<FakeSleepJobData> {
@@ -118,5 +122,9 @@ export class FakeSleepForJob extends PersistedJob<FakeSleepJobData> {
    */
   public nonRunningJobsToRemove(_jobs: Array<FakeSleepJobData>) {
     return [];
+  }
+
+  public getJobTimeoutMs(): number {
+    return 10000;
   }
 }

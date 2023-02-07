@@ -144,4 +144,29 @@ export const configDumpData: ConfigDumpDataNode = {
         combinedMessageHashes: JSON.stringify(combinedMessageHashes || []),
       });
   },
+
+  getCombinedHashesByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, publicKey: string) => {
+    const rows = assertGlobalInstance()
+      .prepare(
+        'SELECT combinedMessageHashes from configDump WHERE variant = $variant AND publicKey = $publicKey;'
+      )
+      .all({
+        publicKey,
+        variant,
+      });
+
+    if (!rows) {
+      return new Set();
+    }
+    const asArrays = compact(
+      rows.map(t => {
+        try {
+          return JSON.parse(t.combinedMessageHashes);
+        } catch {
+          return null;
+        }
+      })
+    );
+    return new Set(asArrays.flat(1));
+  },
 };

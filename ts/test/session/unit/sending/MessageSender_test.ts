@@ -35,7 +35,7 @@ describe('MessageSender', () => {
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, SignalService.Envelope.Type]>;
 
     beforeEach(() => {
-      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessageToSnode').resolves();
+      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessagesToSnode').resolves();
 
       stubData('getMessageById').resolves();
 

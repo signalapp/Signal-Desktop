@@ -129,6 +129,8 @@ export abstract class PersistedJob<T extends PersistedJobData> {
       : null;
   }
 
+  public abstract getJobTimeoutMs(): number;
+
   /**
    * This function will be called by the runner do run the logic of that job.
    * It **must** return true if that job is a success and doesn't need to be retried.

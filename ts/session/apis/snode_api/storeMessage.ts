@@ -1,23 +1,63 @@
+import { isEmpty } from 'lodash';
 import { Snode } from '../../../data/data';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
-import { StoreOnNodeParams, StoreOnNodeSubRequest } from './SnodeRequestTypes';
+import {
+  DeleteByHashesFromNodeParams,
+  DeleteFromNodeSubRequest,
+  NotEmptyArrayOfBatchResults,
+  StoreOnNodeParams,
+  StoreOnNodeSubRequest,
+} from './SnodeRequestTypes';
 
-function buildStoreRequests(params: StoreOnNodeParams): Array<StoreOnNodeSubRequest> {
-  const request: StoreOnNodeSubRequest = {
-    method: 'store',
-    params,
-  };
-  return [request];
+function justStores(params: Array<StoreOnNodeParams>) {
+  return params.map(p => {
+    return {
+      method: 'store',
+      params: p,
+    } as StoreOnNodeSubRequest;
+  });
 }
 
+function buildStoreRequests(
+  params: Array<StoreOnNodeParams>,
+  toDeleteOnSequence: DeleteByHashesFromNodeParams | null
+): Array<StoreOnNodeSubRequest | DeleteFromNodeSubRequest> {
+  if (!toDeleteOnSequence || isEmpty(toDeleteOnSequence)) {
+    return justStores(params);
+  }
+  return [...justStores(params), ...buildDeleteByHashesSubRequest(toDeleteOnSequence)];
+}
+
+function buildDeleteByHashesSubRequest(
+  params: DeleteByHashesFromNodeParams
+): Array<DeleteFromNodeSubRequest> {
+  return [
+    {
+      method: 'delete',
+      params,
+    },
+  ];
+}
+
+/**
+ * Send a 'store' request to the specified targetNode, using params as argument
+ * @returns the Array of stored hashes if it is a success, or null
+ */
 async function storeOnNode(
   targetNode: Snode,
-  params: StoreOnNodeParams
-): Promise<string | null | boolean> {
+  params: Array<StoreOnNodeParams>,
+  toDeleteOnSequence: DeleteByHashesFromNodeParams | null
+): Promise<NotEmptyArrayOfBatchResults> {
   try {
-    const subRequests = buildStoreRequests(params);
-    const result = await doSnodeBatchRequest(subRequests, targetNode, 4000, params.pubkey);
+    const subRequests = buildStoreRequests(params, toDeleteOnSequence);
+    const result = await doSnodeBatchRequest(
+      subRequests,
+      targetNode,
+      4000,
+      params[0].pubkey,
+      toDeleteOnSequence ? 'sequence' : 'batch'
+    );
 
     if (!result || !result.length) {
       window?.log?.warn(
@@ -28,24 +68,16 @@ async function storeOnNode(
     }
 
     const firstResult = result[0];
+    console.warn('we should probably check other results code');
 
     if (firstResult.code !== 200) {
       window?.log?.warn('first result status is not 200 for storeOnNode but: ', firstResult.code);
       throw new Error('storeOnNode: Invalid status code');
     }
 
-    // no retry here. If an issue is with the path this is handled in lokiOnionFetch
-    // if there is an issue with the targetNode, we still send a few times this request to a few snodes in // already so it's handled
+    GetNetworkTime.handleTimestampOffsetFromNetwork('store', firstResult.body.t);
 
-    const parsed = firstResult.body;
-    GetNetworkTime.handleTimestampOffsetFromNetwork('store', parsed.t);
-
-    const messageHash = parsed.hash;
-    if (messageHash) {
-      return messageHash;
-    }
-
-    return true;
+    return result;
   } catch (e) {
     window?.log?.warn('store - send error:', e, `destination ${targetNode.ip}:${targetNode.port}`);
     throw e;

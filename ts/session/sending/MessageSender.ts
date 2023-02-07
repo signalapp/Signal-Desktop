@@ -1,38 +1,46 @@
 // REMOVE COMMENT AFTER: This can just export pure functions as it doesn't need state
 
-import { RawMessage } from '../types/RawMessage';
-import { SignalService } from '../../protobuf';
-import { MessageEncrypter } from '../crypto';
+import { AbortController } from 'abort-controller';
+import ByteBuffer from 'bytebuffer';
+import _, { isEmpty, isNil, isString, sample } from 'lodash';
 import pRetry from 'p-retry';
-import { PubKey } from '../types';
+import { Data } from '../../../ts/data/data';
+import { SignalService } from '../../protobuf';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
-import { fromUInt8ArrayToBase64 } from '../utils/String';
-import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { addMessagePadding } from '../crypto/BufferPadding';
-import _ from 'lodash';
-import { getSwarmFor } from '../apis/snode_api/snodePool';
-import { MessageSender } from '.';
-import { Data, Snode } from '../../../ts/data/data';
-import { getConversationController } from '../conversations';
-import { ed25519Str } from '../onions/onionPath';
-import { EmptySwarmError } from '../utils/errors';
-import ByteBuffer from 'bytebuffer';
 import {
   sendMessageOnionV4BlindedRequest,
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
-import { AbortController } from 'abort-controller';
-import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
-import { StoreOnNodeParams } from '../apis/snode_api/SnodeRequestTypes';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { getSwarmFor } from '../apis/snode_api/snodePool';
+import {
+  NotEmptyArrayOfBatchResults,
+  StoreOnNodeMessage,
+  StoreOnNodeParams,
+  StoreOnNodeParamsNoSig,
+} from '../apis/snode_api/SnodeRequestTypes';
 import { SnodeSignature, SnodeSignatureResult } from '../apis/snode_api/snodeSignatures';
-import { UserUtils } from '../utils';
+import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
+import { getConversationController } from '../conversations';
+import { MessageEncrypter } from '../crypto';
+import { addMessagePadding } from '../crypto/BufferPadding';
+import { ContentMessage } from '../messages/outgoing';
+import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
+import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
+import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { ed25519Str } from '../onions/onionPath';
+import { PubKey } from '../types';
+import { RawMessage } from '../types/RawMessage';
+import { EmptySwarmError } from '../utils/errors';
+import { fromUInt8ArrayToBase64 } from '../utils/String';
 
 // ================ SNODE STORE ================
 
-function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
+function overwriteOutgoingTimestampWithNetworkTimestamp(message: { plainTextBuffer: Uint8Array }) {
   const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
   const { plainTextBuffer } = message;
@@ -63,89 +71,106 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
   return { overRiddenTimestampBuffer, networkTimestamp };
 }
 
-export function getMinRetryTimeout() {
+function getMinRetryTimeout() {
   return 1000;
 }
 
+function isSyncMessage(message: ContentMessage) {
+  if (
+    message instanceof ConfigurationMessage ||
+    message instanceof ClosedGroupNewMessage ||
+    message instanceof UnsendMessage ||
+    message instanceof SharedConfigMessage ||
+    (message as any).syncTarget?.length > 0
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /**
- * Send a message via service nodes.
+ * Send a single message via service nodes.
  *
  * @param message The message to send.
  * @param attempts The amount of times to attempt sending. Minimum value is 1.
  */
-export async function send(
+async function send(
   message: RawMessage,
   attempts: number = 3,
   retryMinTimeout?: number, // in ms
-  isSyncMessage?: boolean
+  isASyncMessage?: boolean
 ): Promise<{ wrappedEnvelope: Uint8Array; effectiveTimestamp: number }> {
   return pRetry(
     async () => {
       const recipient = PubKey.cast(message.device);
-      const { encryption, ttl } = message;
-      let namespace = message.namespace;
+      const { ttl } = message;
 
-      const {
-        overRiddenTimestampBuffer,
-        networkTimestamp,
-      } = overwriteOutgoingTimestampWithNetworkTimestamp(message);
+      // we can only have a single message in this send function for now
+      const [encryptedAndWrapped] = await encryptMessagesAndWrap([
+        {
+          destination: message.device,
+          plainTextBuffer: message.plainTextBuffer,
+          namespace: message.namespace,
+          ttl,
+          identifier: message.identifier,
+          isSyncMessage: Boolean(isASyncMessage),
+        },
+      ]);
 
-      const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
-        recipient,
-        overRiddenTimestampBuffer,
-        encryption
-      );
-
-      const envelope = await buildEnvelope(
-        envelopeType,
-        recipient.key,
-        networkTimestamp,
-        cipherText
-      );
-
-      const data = wrapEnvelope(envelope);
       // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
       // before we return from the await below.
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
-      const found = await Data.getMessageById(message.identifier);
-
+      const found = await Data.getMessageById(encryptedAndWrapped.identifier);
       // make sure to not update the sent timestamp if this a currently syncing message
       if (found && !found.get('sentSync')) {
-        found.set({ sent_at: networkTimestamp });
+        found.set({ sent_at: encryptedAndWrapped.networkTimestamp });
         await found.commit();
       }
 
-      // right when we upgrade from not having namespaces stored in the outgoing cached messages our messages won't have a namespace associated.
-      // So we need to keep doing the lookup of where they should go if the namespace is not set.
-      if (namespace === null || namespace === undefined) {
-        namespace = getConversationController()
-          .get(recipient.key)
-          ?.isClosedGroup()
-          ? SnodeNamespaces.ClosedGroupMessage
-          : SnodeNamespaces.UserMessages;
+      const batchResult = await MessageSender.sendMessagesDataToSnode(
+        [
+          {
+            pubkey: recipient.key,
+            data64: encryptedAndWrapped.data64,
+            ttl,
+            timestamp: encryptedAndWrapped.networkTimestamp,
+            namespace: encryptedAndWrapped.namespace,
+          },
+        ],
+        recipient.key,
+        null
+      );
+
+      const isDestinationClosedGroup = getConversationController()
+        .get(recipient.key)
+        ?.isClosedGroup();
+      // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
+      if (
+        encryptedAndWrapped.identifier &&
+        (encryptedAndWrapped.isSyncMessage || isDestinationClosedGroup) &&
+        batchResult &&
+        !isEmpty(batchResult) &&
+        batchResult[0].code === 200 &&
+        !isEmpty(batchResult[0].body.hash)
+      ) {
+        const messageSendHash = batchResult[0].body.hash;
+        const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
+        if (foundMessage) {
+          await foundMessage.updateMessageHash(messageSendHash);
+          await foundMessage.commit();
+          window?.log?.info(
+            `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
+              'messageHash'
+            )}`
+          );
+        }
       }
-      const timestamp = networkTimestamp;
-      // the user config namespaces requires a signature to be added
-      let signOpts: SnodeSignatureResult | undefined;
-      if (SnodeNamespace.isUserConfigNamespace(namespace)) {
-        signOpts = await SnodeSignature.getSnodeSignatureParams({
-          method: 'store' as 'store',
-          namespace,
-          ourPubkey: UserUtils.getOurPubKeyStrFromCache(),
-          pubkey: recipient.key,
-        });
-      }
-      await MessageSender.sendMessageToSnode({
-        pubKey: recipient.key,
-        data,
-        ttl,
-        timestamp,
-        isSyncMessage,
-        messageId: message.identifier,
-        namespace,
-        ...signOpts,
-      });
-      return { wrappedEnvelope: data, effectiveTimestamp: networkTimestamp };
+
+      return {
+        wrappedEnvelope: encryptedAndWrapped.data,
+        effectiveTimestamp: encryptedAndWrapped.networkTimestamp,
+      };
     },
     {
       retries: Math.max(attempts - 1, 0),
@@ -155,100 +180,267 @@ export async function send(
   );
 }
 
-export type SendMessageSignatureOpts = {
-  signature?: string; // needed for some namespaces
-  namespace: SnodeNamespaces;
-  pubkey_ed25519?: string;
-  timestamp: number;
-};
+async function sendMessagesDataToSnode(
+  params: Array<StoreOnNodeParamsNoSig>,
+  destination: string,
+  oldMessageHashes: Array<string> | null
+): Promise<NotEmptyArrayOfBatchResults> {
+  const rightDestination = params.filter(m => m.pubkey === destination);
+  const swarm = await getSwarmFor(destination);
 
-// tslint:disable-next-line: function-name
-export async function sendMessageToSnode({
-  data,
-  namespace,
-  pubKey,
-  timestamp,
-  ttl,
-  isSyncMessage,
-  signature,
-  messageId,
-  pubkey_ed25519,
-}: {
-  pubKey: string;
-  data: Uint8Array;
-  ttl: number;
-  namespace: SnodeNamespaces;
-  isSyncMessage?: boolean;
-  messageId?: string;
-} & SendMessageSignatureOpts): Promise<void> {
-  const data64 = ByteBuffer.wrap(data).toString('base64');
-  const swarm = await getSwarmFor(pubKey);
+  const withSigWhenRequired: Array<StoreOnNodeParams> = await Promise.all(
+    rightDestination.map(async item => {
+      // some namespaces require a signature to be added
+      let signOpts: SnodeSignatureResult | undefined;
+      if (SnodeNamespace.isUserConfigNamespace(item.namespace)) {
+        signOpts = await SnodeSignature.getSnodeSignatureParams({
+          method: 'store' as const,
+          namespace: item.namespace,
+          pubkey: destination,
+        });
+      }
+      const store: StoreOnNodeParams = {
+        data: item.data64,
+        namespace: item.namespace,
+        pubkey: item.pubkey,
+        timestamp: item.timestamp,
+        ttl: item.ttl,
+        ...signOpts,
+      };
+      return store;
+    })
+  );
 
-  const conversation = getConversationController().get(pubKey);
-  const isClosedGroup = conversation?.isClosedGroup();
+  debugger;
+  const signedDeleteOldHashesRequest = oldMessageHashes?.length
+    ? await SnodeSignature.getSnodeSignatureByHashesParams({
+        method: 'delete' as const,
+        messages: oldMessageHashes,
+        pubkey: destination,
+      })
+    : null;
 
-  // send parameters
-  const params: StoreOnNodeParams = {
-    pubkey: pubKey,
-    ttl: `${ttl}`,
-    timestamp: `${timestamp}`,
-    data: data64,
-    namespace,
-  };
-
-  if (signature && pubkey_ed25519) {
-    params.signature = signature;
-    params.pubkey_ed25519 = pubkey_ed25519;
+  const snode = sample(swarm);
+  if (!snode) {
+    throw new EmptySwarmError(destination, 'Ran out of swarm nodes to query');
   }
-
-  const usedNodes = _.slice(swarm, 0, 1);
-  if (!usedNodes || usedNodes.length === 0) {
-    throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
-  }
-
-  let successfulSendHash: string | undefined;
-
-  let snode: Snode | undefined;
-  const snodeTried = usedNodes[0];
 
   try {
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
-    // the only case we could care about a retry would be when the usedNode is not correct,
-    // but considering we trigger this request with a few snode in //, this should be fine.
-    const successfulSend = await SnodeAPIStore.storeOnNode(snodeTried, params);
+    const storeResults = await SnodeAPIStore.storeOnNode(
+      snode,
+      withSigWhenRequired,
+      signedDeleteOldHashesRequest
+    );
 
-    if (successfulSend) {
-      if (_.isString(successfulSend)) {
-        successfulSendHash = successfulSend;
-      }
-      snode = snodeTried;
+    if (snode) {
+      window?.log?.info(
+        `sendMessagesToSnode - Successfully stored messages to ${ed25519Str(destination)} via ${
+          snode.ip
+        }:${snode.port} on namespaces: ${rightDestination.map(m => m.namespace).join(',')}`
+      );
     }
+
+    return storeResults;
   } catch (e) {
-    const snodeStr = snodeTried ? `${snodeTried.ip}:${snodeTried.port}` : 'null';
+    const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `loki_message:::sendMessage - "${e.code}:${e.message}" to ${pubKey} via snode:${snodeStr}`
+      `sendMessagesToSnode - "${e.code}:${e.message}" to ${destination} via snode:${snodeStr}`
     );
     throw e;
   }
+}
 
-  // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
-  if (messageId && (isSyncMessage || isClosedGroup) && successfulSendHash) {
-    const message = await Data.getMessageById(messageId);
-    if (message) {
-      await message.updateMessageHash(successfulSendHash);
-      await message.commit();
-      window?.log?.info(
-        `updated message ${message.get('id')} with hash: ${message.get('messageHash')}`
-      );
-    }
+function encryptionBasedOnConversation(destination: PubKey) {
+  if (
+    getConversationController()
+      .get(destination.key)
+      ?.isClosedGroup()
+  ) {
+    return SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
+  } else {
+    return SignalService.Envelope.Type.SESSION_MESSAGE;
   }
+}
 
-  if (snode) {
-    window?.log?.info(
-      `loki_message:::sendMessage - Successfully stored message to ${ed25519Str(pubKey)} via ${
-        snode.ip
-      }:${snode.port} on namespace: ${namespace}`
+type SharedEncryptAndWrap = {
+  ttl: number;
+  identifier: string;
+  isSyncMessage: boolean;
+};
+
+type EncryptAndWrapMessage = {
+  plainTextBuffer: Uint8Array;
+  destination: string;
+  namespace: number | null;
+} & SharedEncryptAndWrap;
+
+type EncryptAndWrapMessageResults = {
+  data64: string;
+  networkTimestamp: number;
+  data: Uint8Array;
+  namespace: number;
+} & SharedEncryptAndWrap;
+
+async function encryptMessageAndWrap(
+  params: EncryptAndWrapMessage
+): Promise<EncryptAndWrapMessageResults> {
+  const {
+    destination,
+    identifier,
+    isSyncMessage: syncMessage,
+    namespace,
+    plainTextBuffer,
+    ttl,
+  } = params;
+
+  const {
+    overRiddenTimestampBuffer,
+    networkTimestamp,
+  } = overwriteOutgoingTimestampWithNetworkTimestamp({ plainTextBuffer });
+  const recipient = PubKey.cast(destination);
+
+  const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
+    recipient,
+    overRiddenTimestampBuffer,
+    encryptionBasedOnConversation(recipient)
+  );
+
+  const envelope = await buildEnvelope(envelopeType, recipient.key, networkTimestamp, cipherText);
+
+  const data = wrapEnvelope(envelope);
+  const data64 = ByteBuffer.wrap(data).toString('base64');
+
+  // override the namespaces if those are unset in the incoming messages
+  // right when we upgrade from not having namespaces stored in the outgoing cached messages our messages won't have a namespace associated.
+  // So we need to keep doing the lookup of where they should go if the namespace is not set.
+
+  const overridenNamespace = !isNil(namespace)
+    ? namespace
+    : getConversationController()
+        .get(recipient.key)
+        ?.isClosedGroup()
+    ? SnodeNamespaces.ClosedGroupMessage
+    : SnodeNamespaces.UserMessages;
+
+  return {
+    data64,
+    networkTimestamp,
+    data,
+    namespace: overridenNamespace,
+    ttl,
+    identifier,
+    isSyncMessage: syncMessage,
+  };
+}
+
+async function encryptMessagesAndWrap(
+  messages: Array<EncryptAndWrapMessage>
+): Promise<Array<EncryptAndWrapMessageResults>> {
+  return Promise.all(messages.map(encryptMessageAndWrap));
+}
+
+/**
+ * Send a list of messages to a single service node.
+ * Used currently only for sending SharedConfigMessage to multiple messages at a time.
+ *
+ * @param params the messages to deposit
+ * @param destination the pubkey we should deposit those message for
+ * @returns the hashes of successful deposit
+ */
+async function sendMessagesToSnode(
+  params: Array<StoreOnNodeMessage>,
+  destination: string,
+  oldMessageHashes: Array<string> | null
+): Promise<NotEmptyArrayOfBatchResults | null> {
+  try {
+    const recipient = PubKey.cast(destination);
+
+    const encryptedAndWrapped = await encryptMessagesAndWrap(
+      params.map(m => ({
+        destination: m.pubkey,
+        plainTextBuffer: m.message.plainTextBuffer(),
+        namespace: m.namespace,
+        ttl: m.message.ttl(),
+        identifier: m.message.identifier,
+        isSyncMessage: MessageSender.isSyncMessage(m.message),
+      }))
     );
+
+    // first update all the associated timestamps of our messages in DB, if the outgoing messages are associated with one.
+    await Promise.all(
+      encryptedAndWrapped.map(async (m, index) => {
+        // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
+        // before we return from the await below.
+        // and the isDuplicate messages relies on sent_at timestamp to be valid.
+        const found = await Data.getMessageById(m.identifier);
+
+        // make sure to not update the sent timestamp if this a currently syncing message
+        if (found && !found.get('sentSync')) {
+          found.set({ sent_at: encryptedAndWrapped[index].networkTimestamp });
+          await found.commit();
+        }
+      })
+    );
+
+    const batchResults = await pRetry(
+      async () => {
+        return MessageSender.sendMessagesDataToSnode(
+          encryptedAndWrapped.map(wrapped => ({
+            pubkey: recipient.key,
+            data64: wrapped.data64,
+            ttl: wrapped.ttl,
+            timestamp: wrapped.networkTimestamp,
+            namespace: wrapped.namespace,
+          })),
+          recipient.key,
+          oldMessageHashes
+        );
+      },
+      {
+        retries: 2,
+        factor: 1,
+        minTimeout: MessageSender.getMinRetryTimeout(),
+      }
+    );
+
+    if (!batchResults || isEmpty(batchResults)) {
+      throw new Error('result is empty for sendMessagesToSnode');
+    }
+
+    const isDestinationClosedGroup = getConversationController()
+      .get(recipient.key)
+      ?.isClosedGroup();
+
+    await Promise.all(
+      encryptedAndWrapped.map(async (message, index) => {
+        // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
+        if (
+          message.identifier &&
+          (message.isSyncMessage || isDestinationClosedGroup) &&
+          batchResults[index] &&
+          !isEmpty(batchResults[index]) &&
+          isString(batchResults[index].body.hash)
+        ) {
+          const hashFoundInResponse = batchResults[index].body.hash;
+          const foundMessage = await Data.getMessageById(message.identifier);
+          if (foundMessage) {
+            await foundMessage.updateMessageHash(hashFoundInResponse);
+            await foundMessage.commit();
+            window?.log?.info(
+              `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
+                'messageHash'
+              )}`
+            );
+          }
+        }
+      })
+    );
+
+    return batchResults;
+  } catch (e) {
+    window.log.warn(`sendMessagesToSnode failed with ${e.message}`);
+    return null;
   }
 }
 
@@ -296,7 +488,7 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
  * Send a message to an open group v2.
  * @param message The open group message.
  */
-export async function sendToOpenGroupV2(
+async function sendToOpenGroupV2(
   rawMessage: OpenGroupVisibleMessage,
   roomInfos: OpenGroupRequestCommonType,
   blinded: boolean,
@@ -324,7 +516,7 @@ export async function sendToOpenGroupV2(
  * Send a message to an open group v2.
  * @param message The open group message.
  */
-export async function sendToOpenGroupV2BlindedRequest(
+async function sendToOpenGroupV2BlindedRequest(
   encryptedContent: Uint8Array,
   roomInfos: OpenGroupRequestCommonType,
   recipientBlindedId: string
@@ -344,3 +536,13 @@ export async function sendToOpenGroupV2BlindedRequest(
   );
   return msg;
 }
+
+export const MessageSender = {
+  sendToOpenGroupV2BlindedRequest,
+  sendMessagesDataToSnode,
+  sendMessagesToSnode,
+  getMinRetryTimeout,
+  sendToOpenGroupV2,
+  send,
+  isSyncMessage,
+};

@@ -60,6 +60,7 @@ async function addAvatarDownloadJobIfNeeded({
   profileKeyHex: string | null | undefined;
 }) {
   if (profileKeyHex && shouldAddAvatarDownloadJob({ pubkey, profileUrl, profileKeyHex })) {
+    debugger;
     const avatarDownloadJob = new AvatarDownloadJob({
       conversationId: pubkey,
       profileKeyHex,
@@ -277,6 +278,10 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
       return 'removeJobsFromQueue';
     }
     return null;
+  }
+
+  public getJobTimeoutMs(): number {
+    return 10000;
   }
 }
 

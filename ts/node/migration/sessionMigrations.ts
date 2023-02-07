@@ -1239,7 +1239,9 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       variant TEXT NOT NULL,
       publicKey TEXT NOT NULL,
       data BLOB,
-      combinedMessageHashes TEXT);
+      combinedMessageHashes TEXT,
+      PRIMARY KEY (publicKey, variant)
+      );
       `);
 
     // db.exec(`ALTER TABLE conversations

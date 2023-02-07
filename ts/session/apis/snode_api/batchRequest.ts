@@ -5,22 +5,29 @@ import { snodeRpc } from './sessionRpc';
 import { NotEmptyArrayOfBatchResults, SnodeApiSubRequests } from './SnodeRequestTypes';
 
 /**
- * This is the equivalent to the batch send on sogs. The target node  runs each sub request and returns a list of all the sub status and bodies.
+ * This is the equivalent to the batch send on sogs. The target node runs each sub request and returns a list of all the sub status and bodies.
  * If the global status code is not 200, an exception is thrown.
  * The body is already parsed from json and is enforced to be an Array of at least one element
  * @param subRequests the list of requests to do
  * @param targetNode the node to do the request to, once all the onion routing is done
  * @param timeout the timeout at which we should cancel this request.
  * @param associatedWith used mostly for handling 421 errors, we need the pubkey the change is associated to
+ * @param method can be either batch or sequence. A batch call will run all calls even if one of them fails. A sequence call will stop as soon as the first one fails
  */
 export async function doSnodeBatchRequest(
   subRequests: Array<SnodeApiSubRequests>,
   targetNode: Snode,
   timeout: number,
-  associatedWith?: string
+  associatedWith?: string,
+  method: 'batch' | 'sequence' = 'batch'
 ): Promise<NotEmptyArrayOfBatchResults> {
+  console.warn(
+    `doSnodeBatchRequest "${method}":`,
+    subRequests.map(m => m.method),
+    subRequests
+  );
   const result = await snodeRpc({
-    method: 'batch',
+    method,
     params: { requests: subRequests },
     targetNode,
     associatedWith,

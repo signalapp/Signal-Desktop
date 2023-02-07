@@ -1,3 +1,4 @@
+import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { SnodeNamespaces } from './namespaces';
 
 export type SwarmForSubRequest = { method: 'get_swarm'; params: { pubkey: string } };
@@ -51,30 +52,6 @@ export type RetrieveSubRequestType =
   | RetrievePubkeySubRequestType
   | RetrieveSubKeySubRequestType;
 
-// FIXME those store types are not right
-// type StoreAlwaysNeeded = { pubkey: string; timestamp: number; data: string };
-
-// type StoreUnauthenticatedSubRequest = {
-//   method: 'store';
-//   params: {
-//     ttl?: string; // required, unless expiry is given
-//     expiry?: number; // required, unless ttl is given
-//     namespace: UnauthenticatedNamespaces; // we can only store without authentication on namespaces divisible by 10 (...-60...0...60...)
-//   } & StoreAlwaysNeeded;
-// };
-
-// type StoreAuthenticatedSubRequest = {
-//   method: 'store';
-//   params: {
-//     ttl?: string; // required, unless expiry is given
-//     expiry?: number; // required, unless ttl is given
-//     subkey?: string;
-//     signature: string; // base64 encoded
-//     pubkey_ed25519: string;
-//     sig_timestamp?: number;
-//   } & StoreAlwaysNeeded;
-// };
-
 /**
  * OXEND_REQUESTS
  */
@@ -105,18 +82,53 @@ export type GetServiceNodesSubRequest = {
   };
 };
 
+export type StoreOnNodeParamsNoSig = {
+  pubkey: string;
+  ttl: number;
+  timestamp: number;
+  data64: string;
+  namespace: number;
+};
+
 export type StoreOnNodeParams = {
   pubkey: string;
-  ttl: string;
-  timestamp: string;
+  ttl: number;
+  timestamp: number;
   data: string;
   namespace: number;
   signature?: string;
   pubkey_ed25519?: string;
 };
+export type DeleteFromNodeWithTimestampParams = {
+  timestamp: string | number;
+} & DeleteSigParameters;
+export type DeleteByHashesFromNodeParams = { messages: Array<string> } & DeleteSigParameters;
+
+export type StoreOnNodeMessage = {
+  pubkey: string;
+  timestamp: number;
+  namespace: number;
+  message: SharedConfigMessage;
+};
 
 export type StoreOnNodeSubRequest = { method: 'store'; params: StoreOnNodeParams };
 export type NetworkTimeSubRequest = { method: 'info'; params: {} };
+
+type DeleteSigParameters = {
+  pubkey: string;
+  pubkey_ed25519: string;
+  signature: string;
+};
+
+export type DeleteAllFromNodeSubRequest = {
+  method: 'delete_all';
+  params: DeleteFromNodeWithTimestampParams;
+};
+
+export type DeleteFromNodeSubRequest = {
+  method: 'delete';
+  params: DeleteByHashesFromNodeParams;
+};
 
 export type OxendSubRequest = OnsResolveSubRequest | GetServiceNodesSubRequest;
 
@@ -125,7 +137,9 @@ export type SnodeApiSubRequests =
   | SwarmForSubRequest
   | OxendSubRequest
   | StoreOnNodeSubRequest
-  | NetworkTimeSubRequest;
+  | NetworkTimeSubRequest
+  | DeleteFromNodeSubRequest
+  | DeleteAllFromNodeSubRequest;
 
 // tslint:disable: array-type
 export type NonEmptyArray<T> = [T, ...T[]];

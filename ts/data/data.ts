@@ -4,11 +4,10 @@
 import _ from 'lodash';
 import { MessageResultProps } from '../components/search/MessageSearchResults';
 import { ConversationCollection, ConversationModel } from '../models/conversation';
-import { ConversationAttributes, ConversationTypeEnum } from '../models/conversationAttributes';
+import { ConversationAttributes } from '../models/conversationAttributes';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
-import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
 import {
@@ -702,40 +701,6 @@ async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
   await Data.createOrUpdateItem({ id: SNODE_POOL_ITEM_ID, value: snodesAsJsonString });
 }
 
-/**
- * Generates fake conversations and distributes messages amongst the conversations randomly
- * @param numConvosToAdd Amount of fake conversations to generate
- * @param numMsgsToAdd Number of fake messages to generate
- */
-async function fillWithTestData(convs: number, msgs: number) {
-  const newConvos = [];
-  for (let convsAddedCount = 0; convsAddedCount < convs; convsAddedCount++) {
-    const convoId = `${Date.now()} + ${convsAddedCount}`;
-    const newConvo = await getConversationController().getOrCreateAndWait(
-      convoId,
-      ConversationTypeEnum.PRIVATE
-    );
-    newConvos.push(newConvo);
-  }
-
-  for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
-    // tslint:disable: insecure-random
-    const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
-    const direction = Math.random() > 0.5 ? 'outgoing' : 'incoming';
-    const body = `spongebob ${new Date().toString()}`;
-    if (direction === 'outgoing') {
-      await convoToChoose.addSingleOutgoingMessage({
-        body,
-      });
-    } else {
-      await convoToChoose.addSingleIncomingMessage({
-        source: convoToChoose.id,
-        body,
-      });
-    }
-  }
-}
-
 function keysToArrayBuffer(keys: any, data: any) {
   const updated = _.cloneDeep(data);
   // tslint:disable: one-variable-per-declaration
@@ -908,5 +873,4 @@ export const Data = {
   getMessagesWithFileAttachments,
   getSnodePoolFromDb,
   updateSnodePoolOnDb,
-  fillWithTestData,
 };

@@ -1,7 +1,7 @@
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, MessageUtils, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
-import { MessageSender } from '.';
+import { MessageSender } from './';
 import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
@@ -321,19 +321,13 @@ export class MessageQueue {
     isGroup = false
   ): Promise<void> {
     // Don't send to ourselves
-    const currentDevice = UserUtils.getOurPubKeyFromCache();
+    const us = UserUtils.getOurPubKeyFromCache();
     let isSyncMessage = false;
-    if (currentDevice && destinationPk.isEqual(currentDevice)) {
+    if (us && destinationPk.isEqual(us)) {
       // We allow a message for ourselve only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
       // or a message with a syncTarget set.
 
-      if (
-        message instanceof ConfigurationMessage ||
-        message instanceof ClosedGroupNewMessage ||
-        message instanceof UnsendMessage ||
-        message instanceof SharedConfigMessage ||
-        (message as any).syncTarget?.length > 0
-      ) {
+      if (MessageSender.isSyncMessage(message)) {
         window?.log?.warn('OutgoingMessageQueue: Processing sync message');
         isSyncMessage = true;
       } else {

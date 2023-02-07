@@ -77,6 +77,7 @@ const allowedKeysFormatRowOfConversation = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'identityPrivateKey',
+  'markedAsUnread',
 ];
 // tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
@@ -132,6 +133,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   convo.readCapability = Boolean(convo.readCapability);
   convo.writeCapability = Boolean(convo.writeCapability);
   convo.uploadCapability = Boolean(convo.uploadCapability);
+  convo.markedAsUnread = Boolean(convo.markedAsUnread);
 
   if (!convo.conversationIdOrigin) {
     convo.conversationIdOrigin = undefined;
@@ -211,6 +213,7 @@ const allowedKeysOfConversationAttributes = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'identityPrivateKey',
+  'markedAsUnread',
 ];
 
 /**

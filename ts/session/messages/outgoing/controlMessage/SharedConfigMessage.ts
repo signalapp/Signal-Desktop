@@ -4,6 +4,7 @@ import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
 import { ContentMessage } from '..';
 import Long from 'long';
+import { TTL_DEFAULT } from '../../../constants';
 
 interface SharedConfigParams extends MessageParams {
   seqno: Long;
@@ -27,6 +28,10 @@ export class SharedConfigMessage extends ContentMessage {
     return new SignalService.Content({
       sharedConfigMessage: this.sharedConfigProto(),
     });
+  }
+
+  public ttl(): number {
+    return TTL_DEFAULT.TTL_CONFIG;
   }
 
   protected sharedConfigProto(): SignalService.SharedConfigMessage {
