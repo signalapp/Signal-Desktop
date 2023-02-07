@@ -452,7 +452,7 @@ export function CompositionArea({
 
   const sendButtonFragment = (
     <>
-      <div className="CompositionArea__placeholder" />
+      <div hidden={!large} className="CompositionArea__placeholder" />
       <div className="CompositionArea__button-cell">
         <button
           type="button"
@@ -750,6 +750,7 @@ export function CompositionArea({
             {stickerButtonFragment}
             {!dirty ? micButtonFragment : null}
             {attButton}
+            {dirty || !shouldShowMicrophone ? sendButtonFragment : null}
           </>
         ) : null}
       </div>
