@@ -26,8 +26,7 @@ export type Contents = {
 //   and instantiate these inside of `GlobalAudioProvider`. (We may wish to keep
 //   `audioContext` global, however, as the browser limits the number that can be
 //   created.)
-const audioContext = new AudioContext();
-void audioContext.suspend();
+let audioContext: AudioContext | undefined;
 
 const waveformCache: WaveformCache = new LRU({
   max: MAX_WAVEFORM_COUNT,
@@ -104,6 +103,11 @@ async function doComputePeaks(
     const emptyResult = { peaks, duration };
     waveformCache.set(url, emptyResult);
     return emptyResult;
+  }
+
+  if (!audioContext) {
+    audioContext = new AudioContext();
+    await audioContext.suspend();
   }
 
   const data = await audioContext.decodeAudioData(raw);
