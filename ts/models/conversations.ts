@@ -5516,6 +5516,15 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    const validationError = this.validate();
+    if (validationError) {
+      log.error(
+        `not pinning ${this.idForLogging()} because of ` +
+          `validation error ${validationError}`
+      );
+      return;
+    }
+
     log.info('pinning', this.idForLogging());
     const pinnedConversationIds = new Set(
       window.storage.get('pinnedConversationIds', new Array<string>())
