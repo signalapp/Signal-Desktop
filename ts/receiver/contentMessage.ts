@@ -626,11 +626,9 @@ async function handleMessageRequestResponse(
     unblindedConvoId,
     ConversationTypeEnum.PRIVATE
   );
-  let mostRecentActiveAt =
-    Math.max(...compact(convosToMerge.map(m => m.get('active_at')))) || Date.now();
-
-  if (!isFinite(mostRecentActiveAt)) {
-    mostRecentActiveAt = Date.now();
+  let mostRecentActiveAt = Math.max(...compact(convosToMerge.map(m => m.get('active_at'))));
+  if (!isFinite(mostRecentActiveAt) || mostRecentActiveAt <= 0) {
+    mostRecentActiveAt = toNumber(envelope.timestamp);
   }
 
   conversationToApprove.set({
