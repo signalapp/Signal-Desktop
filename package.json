@@ -381,6 +381,7 @@
           "minOSVersion": "6.1.0"
         }
       },
+      "signDlls": true,
       "target": [
         "nsis"
       ]
