@@ -48,21 +48,16 @@ describe('pnp/PNI Signature', function needsName() {
     state = state.addContact(
       pniContact,
       {
-        identityState: Proto.ContactRecord.IdentityState.VERIFIED,
         whitelisted: true,
-
-        identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
-
         serviceE164: pniContact.device.number,
+        identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
         givenName: 'PNI Contact',
       },
       UUIDKind.PNI
     );
 
     state = state.addContact(pniContact, {
-      identityState: Proto.ContactRecord.IdentityState.VERIFIED,
       whitelisted: true,
-
       serviceE164: undefined,
       identityKey: pniContact.publicKey.serialize(),
       profileKey: pniContact.profileKey.serialize(),
@@ -360,22 +355,9 @@ describe('pnp/PNI Signature', function needsName() {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 3, 'messages');
 
-      // Two 'verify contact' and nothing else
+      // No notifications
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 2, 'notifications');
-
-      // TODO: DESKTOP-4663
-      const first = await notifications.first();
-      assert.match(
-        await first.innerText(),
-        /You marked your Safety Number with Unknown contact as verified from another device/
-      );
-
-      const second = await notifications.nth(1);
-      assert.match(
-        await second.innerText(),
-        /You marked your Safety Number with ACI Contact as verified from another device/
-      );
+      assert.strictEqual(await notifications.count(), 0, 'notifications');
     }
   });
 });
