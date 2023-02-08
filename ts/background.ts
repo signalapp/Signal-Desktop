@@ -2853,7 +2853,7 @@ export async function startApp(): Promise<void> {
   }: EnvelopeEvent): Promise<void> {
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
-      const { mergePromises } =
+      const { mergePromises, conversation } =
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
           aci: envelope.sourceUuid,
@@ -2862,6 +2862,10 @@ export async function startApp(): Promise<void> {
 
       if (mergePromises.length > 0) {
         await Promise.all(mergePromises);
+      }
+
+      if (envelope.reportingToken) {
+        await conversation.updateReportingToken(envelope.reportingToken);
       }
     }
   }

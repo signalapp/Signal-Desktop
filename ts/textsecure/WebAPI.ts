@@ -812,6 +812,12 @@ export type ConfirmCodeOptionsType = Readonly<{
   accessKey?: Uint8Array;
 }>;
 
+export type ReportMessageOptionsType = Readonly<{
+  senderUuid: string;
+  serverGuid: string;
+  token?: string;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -931,7 +937,7 @@ export type WebAPIType = {
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   registerKeys: (genKeys: KeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
-  reportMessage: (senderUuid: string, serverGuid: string) => Promise<void>;
+  reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
   requestVerificationVoice: (number: string, token: string) => Promise<void>;
   checkAccountExistence: (uuid: UUID) => Promise<boolean>;
@@ -1800,15 +1806,19 @@ export function initialize({
       });
     }
 
-    async function reportMessage(
-      senderUuid: string,
-      serverGuid: string
-    ): Promise<void> {
+    async function reportMessage({
+      senderUuid,
+      serverGuid,
+      token,
+    }: ReportMessageOptionsType): Promise<void> {
+      const jsonData = { token };
+
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
         urlParameters: urlPathFromComponents([senderUuid, serverGuid]),
         responseType: 'bytes',
+        jsonData,
       });
     }
 

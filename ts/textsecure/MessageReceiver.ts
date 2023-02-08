@@ -412,6 +412,9 @@ export default class MessageReceiver
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
           story: decoded.story,
+          reportingToken: decoded.reportingToken?.length
+            ? decoded.reportingToken
+            : undefined,
         };
 
         // After this point, decoding errors are not the server's
@@ -848,6 +851,9 @@ export default class MessageReceiver
           item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
         urgent: isBoolean(item.urgent) ? item.urgent : true,
         story: Boolean(item.story),
+        reportingToken: item.reportingToken
+          ? Bytes.fromBase64(item.reportingToken)
+          : undefined,
       };
 
       const { decrypted } = item;
@@ -1123,6 +1129,9 @@ export default class MessageReceiver
       receivedAtCounter: envelope.receivedAtCounter,
       urgent: envelope.urgent,
       story: envelope.story,
+      reportingToken: envelope.reportingToken
+        ? Bytes.toBase64(envelope.reportingToken)
+        : undefined,
     };
     this.decryptAndCacheBatcher.add({
       request,
@@ -1262,14 +1271,12 @@ export default class MessageReceiver
       return;
     }
 
-    if (envelope.content) {
-      await this.innerHandleContentMessage(envelope, plaintext);
-
-      return;
+    if (!envelope.content) {
+      this.removeFromCache(envelope);
+      throw new Error('Received message with no content');
     }
 
-    this.removeFromCache(envelope);
-    throw new Error('Received message with no content');
+    await this.innerHandleContentMessage(envelope, plaintext);
   }
 
   private async unsealEnvelope(

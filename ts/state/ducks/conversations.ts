@@ -2870,7 +2870,7 @@ function blockAndReportSpam(
         await Promise.all([
           conversation.syncMessageRequestResponse(messageRequestEnum.BLOCK),
           addReportSpamJob({
-            conversation: conversation.format(),
+            conversation: conversation.attributes,
             getMessageServerGuidsForSpam:
               window.Signal.Data.getMessageServerGuidsForSpam,
             jobQueue: reportSpamJobQueue,

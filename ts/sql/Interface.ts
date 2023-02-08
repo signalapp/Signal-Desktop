@@ -264,6 +264,7 @@ export type UnprocessedType = {
   decrypted?: string;
   urgent?: boolean;
   story?: boolean;
+  reportingToken?: string;
 };
 
 export type UnprocessedUpdateType = {

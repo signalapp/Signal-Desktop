@@ -2090,6 +2090,18 @@ export class ConversationModel extends window.Backbone
     }
   }
 
+  async updateReportingToken(token?: Uint8Array): Promise<void> {
+    const oldValue = this.get('reportingToken');
+    const newValue = token ? Bytes.toBase64(token) : undefined;
+
+    if (oldValue === newValue) {
+      return;
+    }
+
+    this.set('reportingToken', newValue);
+    await window.Signal.Data.updateConversation(this.attributes);
+  }
+
   incrementMessageCount(): void {
     this.set({
       messageCount: (this.get('messageCount') || 0) + 1,

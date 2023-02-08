@@ -97,6 +97,7 @@ export type ProcessedEnvelope = Readonly<{
   groupId?: string;
   urgent?: boolean;
   story?: boolean;
+  reportingToken?: Uint8Array;
 }>;
 
 export type ProcessedAttachment = {

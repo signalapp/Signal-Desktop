@@ -353,6 +353,7 @@ export type ConversationAttributesType = {
   username?: string;
   shareMyPhoneNumber?: boolean;
   previousIdentityKey?: string;
+  reportingToken?: string;
 
   // Group-only
   groupId?: string;
