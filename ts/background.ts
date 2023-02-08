@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber, debounce, groupBy } from 'lodash';
+import { isNumber, throttle, groupBy } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -1179,11 +1179,30 @@ export async function startApp(): Promise<void> {
       onConversationClosed(id, 'removed');
       conversationRemoved(id);
     });
+
+    const addedConvoBatcher = createBatcher<ConversationModel>({
+      name: 'addedConvoBatcher',
+      processBatch(batch) {
+        batchDispatch(() => {
+          batch.forEach(conversation => {
+            conversationAdded(conversation.id, conversation.format());
+          });
+        });
+      },
+
+      // This delay ensures that the .format() call isn't synchronous as a
+      //   Backbone property is changed. Important because our _byUuid/_byE164
+      //   lookups aren't up-to-date as the change happens; just a little bit
+      //   after.
+      wait: 1,
+      maxSize: Infinity,
+    });
+
     convoCollection.on('add', conversation => {
       if (!conversation) {
         return;
       }
-      conversationAdded(conversation.id, conversation.format());
+      addedConvoBatcher.add(conversation);
     });
 
     const changedConvoBatcher = createBatcher<ConversationModel>({
@@ -1771,10 +1790,16 @@ export async function startApp(): Promise<void> {
     });
   };
 
-  window.Whisper.events.on(
-    'mightBeUnlinked',
-    debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
+  const throttledEnqueueReconnectToWebSocket = throttle(
+    enqueueReconnectToWebSocket,
+    1000
   );
+
+  window.Whisper.events.on('mightBeUnlinked', () => {
+    if (window.Signal.Util.Registration.everDone()) {
+      throttledEnqueueReconnectToWebSocket();
+    }
+  });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
     void unlinkAndDisconnect(RemoveAllConfiguration.Full);
