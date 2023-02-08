@@ -52,6 +52,7 @@ export type IPCEventsValuesType = {
   callRingtoneNotification: boolean;
   callSystemNotification: boolean;
   countMutedConversations: boolean;
+  enterKeySends: boolean;
   hasStoriesDisabled: boolean;
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
@@ -356,6 +357,8 @@ export function createIPCEvents(
 
     getSpellCheck: () => window.storage.get('spell-check', true),
     setSpellCheck: value => window.storage.put('spell-check', value),
+    getEnterKeySends: () => window.storage.get('enter-key-sends', true),
+    setEnterKeySends: value => window.storage.put('enter-key-sends', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>

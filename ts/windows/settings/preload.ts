@@ -31,6 +31,7 @@ const settingCallRingtoneNotification = createSetting(
 const settingCallSystemNotification = createSetting('callSystemNotification');
 const settingCountMutedConversations = createSetting('countMutedConversations');
 const settingDeviceName = createSetting('deviceName', { setter: false });
+const settingEnterKeySends = createSetting('enterKeySends');
 const settingHideMenuBar = createSetting('hideMenuBar');
 const settingIncomingCallNotification = createSetting(
   'incomingCallNotification'
@@ -141,6 +142,7 @@ const renderPreferences = async () => {
     hasCallNotifications,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
+    hasEnterKeySends,
     hasHideMenuBar,
     hasIncomingCallNotifications,
     hasLinkPreviews,
@@ -180,6 +182,7 @@ const renderPreferences = async () => {
     hasCallNotifications: settingCallSystemNotification.getValue(),
     hasCallRingtoneNotification: settingCallRingtoneNotification.getValue(),
     hasCountMutedConversations: settingCountMutedConversations.getValue(),
+    hasEnterKeySends: settingEnterKeySends.getValue(),
     hasHideMenuBar: settingHideMenuBar.getValue(),
     hasIncomingCallNotifications: settingIncomingCallNotification.getValue(),
     hasLinkPreviews: settingLinkPreview.getValue(),
@@ -238,6 +241,7 @@ const renderPreferences = async () => {
     hasCallNotifications,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
+    hasEnterKeySends,
     hasHideMenuBar,
     hasIncomingCallNotifications,
     hasLinkPreviews,
@@ -308,6 +312,7 @@ const renderPreferences = async () => {
     onCountMutedConversationsChange: reRender(
       settingCountMutedConversations.setValue
     ),
+    onEnterKeySendsChange: reRender(settingEnterKeySends.setValue),
     onHasStoriesDisabledChanged: reRender(async (value: boolean) => {
       await settingHasStoriesDisabled.setValue(value);
       if (!value) {

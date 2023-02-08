@@ -5407,6 +5407,10 @@
     "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
     "description": "Description for the generate link previews setting"
   },
+  "Preferences__enter-key-sends--title": {
+    "message": "Enter key sends",
+    "description": "Title for the enter key sends setting"
+  },
   "Preferences--advanced": {
     "message": "Advanced",
     "description": "Title for advanced settings"
@@ -5482,6 +5486,10 @@
   "Preferences__devices": {
     "message": "Devices",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__keyboard": {
+    "message": "Keyboard",
+    "description": "Label for keyboard list in chat settings pane"
   },
   "Preferences__turn-stories-on": {
     "message": "Turn on stories",
