@@ -17,6 +17,8 @@ export const debug = createDebug('mock:test:username');
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 const USERNAME = 'signalapp.55';
+const NICKNAME = 'signalapp';
+const CARL_USERNAME = 'carl.84';
 
 describe('pnp/username', function needsName() {
   this.timeout(durations.MINUTE);
@@ -92,9 +94,7 @@ describe('pnp/username', function needsName() {
       .waitFor();
 
     debug('adding profile key for username contact');
-    let state: StorageState = await phone.expectStorageState(
-      'consistency check'
-    );
+    let state = await phone.expectStorageState('consistency check');
     state = state.updateContact(usernameContact, {
       profileKey: usernameContact.profileKey.serialize(),
     });
@@ -132,6 +132,134 @@ describe('pnp/username', function needsName() {
         usernameContact.device.uuid
       );
       assert.strictEqual(removed[0].contact?.username, USERNAME);
+    }
+  });
+
+  it('reserves/confirms/deletes username', async () => {
+    const { phone, server } = bootstrap;
+
+    const window = await app.getWindow();
+
+    debug('opening avatar context menu');
+    await window
+      .locator('.module-main-header .module-Avatar__contents')
+      .click();
+
+    debug('opening profile editor');
+    await window
+      .locator('.module-avatar-popup .module-avatar-popup__profile')
+      .click();
+
+    debug('opening username editor');
+    const profileEditor = window.locator('.ProfileEditor');
+    await profileEditor.locator('.ProfileEditor__row >> "Username"').click();
+
+    debug('entering new username');
+    const usernameField = profileEditor.locator('.Input__input');
+    await usernameField.type(NICKNAME);
+
+    debug('waiting for generated discriminator');
+    const discriminator = profileEditor.locator(
+      '.EditUsernameModalBody__discriminator:not(:empty)'
+    );
+    await discriminator.waitFor();
+
+    const discriminatorValue = await discriminator.innerText();
+    assert.match(discriminatorValue, /^\.\d+$/);
+
+    const username = `${NICKNAME}${discriminatorValue}`;
+
+    debug('saving username');
+    let state = await phone.expectStorageState('consistency check');
+    await profileEditor.locator('.module-Button >> "Save"').click();
+
+    debug('checking the username is saved');
+    {
+      await profileEditor
+        .locator(`.ProfileEditor__row >> "${username}"`)
+        .waitFor();
+
+      const uuid = await server.lookupByUsername(username);
+      assert.strictEqual(uuid, phone.device.uuid);
+
+      const newState = await phone.waitForStorageState({
+        after: state,
+      });
+
+      const { added, removed } = newState.diff(state);
+      assert.strictEqual(added.length, 1, 'only one record must be added');
+      assert.strictEqual(removed.length, 1, 'only one record must be removed');
+
+      assert.strictEqual(added[0]?.account?.username, username);
+
+      state = newState;
+    }
+
+    debug('deleting username');
+    await profileEditor
+      .locator('button[aria-label="Copy or delete username"]')
+      .click();
+    await profileEditor.locator('button[aria-label="Delete"]').click();
+    await window
+      .locator('.module-Modal .module-Modal__button-footer button >> "Delete"')
+      .click();
+    await profileEditor.locator('.ProfileEditor__row >> "Username"').waitFor();
+
+    debug('confirming username deletion');
+    {
+      const uuid = await server.lookupByUsername(username);
+      assert.strictEqual(uuid, undefined);
+
+      const newState = await phone.waitForStorageState({
+        after: state,
+      });
+
+      const { added, removed } = newState.diff(state);
+      assert.strictEqual(added.length, 1, 'only one record must be added');
+      assert.strictEqual(removed.length, 1, 'only one record must be removed');
+
+      assert.strictEqual(added[0]?.account?.username, '');
+
+      state = newState;
+    }
+  });
+
+  it('looks up contacts by username', async () => {
+    const { desktop, server } = bootstrap;
+
+    debug('creating a contact with username');
+    const carl = await server.createPrimaryDevice({
+      profileName: 'Carl',
+    });
+
+    await server.setUsername(carl.device.uuid, CARL_USERNAME);
+
+    const window = await app.getWindow();
+
+    debug('entering username into search field');
+    await window.locator('button[aria-label="New conversation"]').click();
+
+    const searchInput = window.locator('.module-SearchInput__container input');
+    await searchInput.type(`@${CARL_USERNAME}`);
+
+    debug('starting lookup');
+    await window.locator(`button >> "@${CARL_USERNAME}"`).click();
+
+    debug('sending a message');
+    {
+      const composeArea = window.locator(
+        '.composition-area-wrapper, .conversation .ConversationView'
+      );
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
+
+      await compositionInput.type('Hello Carl');
+      await compositionInput.press('Enter');
+
+      const { body, source } = await carl.waitForMessage();
+      assert.strictEqual(body, 'Hello Carl');
+      assert.strictEqual(source, desktop);
     }
   });
 });

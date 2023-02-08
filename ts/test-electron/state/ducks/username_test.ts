@@ -25,7 +25,7 @@ import { ReserveUsernameError } from '../../../types/Username';
 const DEFAULT_RESERVATION = {
   username: 'abc.12',
   previousUsername: undefined,
-  reservationToken: 'def',
+  hash: new Uint8Array(),
 };
 
 describe('electron/state/ducks/username', () => {

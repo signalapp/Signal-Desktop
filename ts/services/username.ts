@@ -1,8 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { usernames } from '@signalapp/libsignal-client';
+
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import { strictAssert } from '../util/assert';
 import { sleep } from '../util/sleep';
+import { getMinNickname, getMaxNickname } from '../util/Username';
 import type { UsernameReservationType } from '../types/Username';
 import { ReserveUsernameError } from '../types/Username';
 import * as Errors from '../types/errors';
@@ -58,14 +62,29 @@ export async function reserveUsername(
   }
 
   try {
-    const { username, reservationToken } = await server.reserveUsername({
+    const candidates = usernames.generateCandidates(
       nickname,
+      getMinNickname(),
+      getMaxNickname()
+    );
+    const hashes = candidates.map(username => usernames.hash(username));
+
+    const { usernameHash } = await server.reserveUsername({
+      hashes,
       abortSignal,
     });
 
+    const index = hashes.findIndex(hash => hash.equals(usernameHash));
+    if (index === -1) {
+      log.warn('reserveUsername: failed to find username hash in the response');
+      return { ok: false, error: ReserveUsernameError.Unprocessable };
+    }
+
+    const username = candidates[index];
+
     return {
       ok: true,
-      reservation: { previousUsername, username, reservationToken },
+      reservation: { previousUsername, username, hash: usernameHash },
     };
   } catch (error) {
     if (error instanceof HTTPError) {
@@ -116,18 +135,20 @@ export async function confirmUsername(
     throw new Error('server interface is not available!');
   }
 
-  const { previousUsername, username, reservationToken } = reservation;
+  const { previousUsername, username, hash } = reservation;
 
   const me = window.ConversationController.getOurConversationOrThrow();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
   }
+  const proof = usernames.generateProof(username);
+  strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
 
   try {
     await server.confirmUsername({
-      usernameToConfirm: username,
-      reservationToken,
+      hash,
+      proof,
       abortSignal,
     });
 

@@ -2162,37 +2162,30 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.21.1.tgz#381d6162ae0e7719dc625780c1d6c3f9f558c33d"
-  integrity sha512-PiQfzB1sI5G6BEDl7Vq/4gj1btLkqvPwd4F9b0IHmWqgLAuCDR/ROnrKtEVRZlWmmWLMTwxo61E0eUhnesgrTQ==
+"@signalapp/libsignal-client@0.22.0", "@signalapp/libsignal-client@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.22.0.tgz#d57441612df46f90df68fc5d9ad45b857b9d2c44"
+  integrity sha512-f1PJuxpcbmhvHxzbf0BvSJhNA3sqXrwnTf2GtfFB2CQoqTEiGCRYfyFZjwUBByiFFI5mTWKER6WGAw5AvG/3+A==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/libsignal-client@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.20.0.tgz#d3160575e61592dcc85cb216ff9f38074b24d554"
-  integrity sha512-uVrDVQKIVNVIGaGfacmpd10O0vSywC5D83PZRRlTBetMideLjxwksj1lco6t5QbM4m6G5Bwc5/xZ/cjzsUjCOA==
+"@signalapp/mock-server@2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-2.14.0.tgz#6309d944cf46e58f6141df45075de882d964ae0a"
+  integrity sha512-NSLnfjho4HCyrz4Y6cyoIK0f+iuhOrxEFmaabdVUepOaSHPZi1MTyYYo0d6NzD/PGREAQFJuzqNaE+7zhSiPEQ==
   dependencies:
-    node-gyp-build "^4.2.3"
-    uuid "^8.3.0"
-
-"@signalapp/mock-server@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-2.13.0.tgz#928c95a4890b21c811d29b3b0765aa3a35d28006"
-  integrity sha512-YZZdEYhVoWT4Ih4ZJLu1AaLtn+i8RFO/Tr55/72TvrtcWLjolik3YTnGqHnAcxNR+6mfeCfhpp7+rtexYnnefw==
-  dependencies:
-    "@signalapp/libsignal-client" "^0.20.0"
+    "@signalapp/libsignal-client" "^0.22.0"
     debug "^4.3.2"
     long "^4.0.0"
     micro "^9.3.4"
     microrouter "^3.1.3"
     protobufjs "^6.10.2"
-    typescript "^4.5.5"
+    typescript "^4.9.5"
     url-pattern "^1.0.3"
     uuid "^8.3.2"
     ws "^8.4.2"
+    zod "^3.20.2"
 
 "@signalapp/ringrtc@2.24.0":
   version "2.24.0"
@@ -17806,10 +17799,10 @@ typescript@4.9.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
 
-typescript@^4.5.5:
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
-  integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
+typescript@^4.9.5:
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
+  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 uc.micro@^1.0.1:
   version "1.0.5"
@@ -19010,6 +19003,11 @@ zod@3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.5.1.tgz#e93ce58e182bb76f7d29ccd24feee72611f9a129"
   integrity sha512-Gg9GTai0iDHowuYM9VNhdFMmesgt44ufzqaE5CPHshpuK5fCzbibdqCnrWuYH6ZmOn/N+BlGmwZtVSijhKmhKw==
+
+zod@^3.20.2:
+  version "3.20.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
+  integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==
 
 zwitch@^1.0.0:
   version "1.0.5"

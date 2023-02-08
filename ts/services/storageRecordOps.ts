@@ -236,6 +236,10 @@ export function toAccountRecord(
   if (avatarUrl !== undefined) {
     accountRecord.avatarUrl = avatarUrl;
   }
+  const username = conversation.get('username');
+  if (username !== undefined) {
+    accountRecord.username = username;
+  }
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
   accountRecord.noteToSelfMarkedUnread = Boolean(
     conversation.get('markedUnread')
@@ -1136,6 +1140,7 @@ export async function mergeAccountRecord(
     hasViewedOnboardingStory,
     storiesDisabled,
     storyViewReceiptsEnabled,
+    username,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1407,6 +1412,7 @@ export async function mergeAccountRecord(
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
     markedUnread: Boolean(noteToSelfMarkedUnread),
+    username: dropNull(username),
     storageID,
     storageVersion,
   });

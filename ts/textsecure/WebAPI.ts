@@ -24,7 +24,7 @@ import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
-import { toWebSafeBase64 } from '../util/webSafeBase64';
+import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isPnpEnabled } from '../util/isPnpEnabled';
 import type { SocketStatus } from '../types/SocketStatus';
@@ -505,9 +505,9 @@ const URL_CALLS = {
   subscriptions: 'v1/subscription',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
-  username: 'v1/accounts/username',
-  reservedUsername: 'v1/accounts/username/reserved',
-  confirmUsername: 'v1/accounts/username/confirm',
+  username: 'v1/accounts/username_hash',
+  reserveUsername: 'v1/accounts/username_hash/reserve',
+  confirmUsername: 'v1/accounts/username_hash/confirm',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -687,9 +687,17 @@ export type ProfileType = Readonly<{
   badges?: unknown;
 }>;
 
-export type AccountType = Readonly<{
-  uuid?: string;
+export type GetAccountForUsernameOptionsType = Readonly<{
+  hash: Uint8Array;
 }>;
+
+const getAccountForUsernameResultZod = z.object({
+  uuid: z.string(),
+});
+
+export type GetAccountForUsernameResultType = z.infer<
+  typeof getAccountForUsernameResultZod
+>;
 
 export type GetIceServersResultType = Readonly<{
   username: string;
@@ -784,19 +792,20 @@ export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
 export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
 
 export type ReserveUsernameOptionsType = Readonly<{
-  nickname: string;
+  hashes: ReadonlyArray<Uint8Array>;
   abortSignal?: AbortSignal;
 }>;
 
 export type ConfirmUsernameOptionsType = Readonly<{
-  usernameToConfirm: string;
-  reservationToken: string;
+  hash: Uint8Array;
+  proof: Uint8Array;
   abortSignal?: AbortSignal;
 }>;
 
 const reserveUsernameResultZod = z.object({
-  username: z.string(),
-  reservationToken: z.string(),
+  usernameHash: z
+    .string()
+    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
 });
 export type ReserveUsernameResultType = z.infer<
   typeof reserveUsernameResultZod
@@ -874,7 +883,9 @@ export type WebAPIType = {
     identifier: string,
     options: GetProfileOptionsType
   ) => Promise<ProfileType>;
-  getAccountForUsername: (username: string) => Promise<AccountType>;
+  getAccountForUsername: (
+    options: GetAccountForUsernameOptionsType
+  ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
     identifier: string,
     options: GetProfileUnauthOptionsType
@@ -1628,16 +1639,21 @@ export function initialize({
       })) as ProfileType;
     }
 
-    async function getAccountForUsername(usernameToFetch: string) {
-      return (await _ajax({
-        call: 'username',
-        httpType: 'GET',
-        urlParameters: `/${encodeURIComponent(usernameToFetch)}`,
-        responseType: 'json',
-        redactUrl: _createRedactor(usernameToFetch),
-        unauthenticated: true,
-        accessKey: undefined,
-      })) as ProfileType;
+    async function getAccountForUsername({
+      hash,
+    }: GetAccountForUsernameOptionsType) {
+      const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
+      return getAccountForUsernameResultZod.parse(
+        await _ajax({
+          call: 'username',
+          httpType: 'GET',
+          urlParameters: `/${hashBase64}`,
+          responseType: 'json',
+          redactUrl: _createRedactor(hashBase64),
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
     }
 
     async function putProfile(
@@ -1774,15 +1790,18 @@ export function initialize({
         abortSignal,
       });
     }
+
     async function reserveUsername({
-      nickname,
+      hashes,
       abortSignal,
     }: ReserveUsernameOptionsType) {
       const response = await _ajax({
-        call: 'reservedUsername',
+        call: 'reserveUsername',
         httpType: 'PUT',
         jsonData: {
-          nickname,
+          usernameHashes: hashes.map(hash =>
+            toWebSafeBase64(Bytes.toBase64(hash))
+          ),
         },
         responseType: 'json',
         abortSignal,
@@ -1791,16 +1810,16 @@ export function initialize({
       return reserveUsernameResultZod.parse(response);
     }
     async function confirmUsername({
-      usernameToConfirm,
-      reservationToken,
+      hash,
+      proof,
       abortSignal,
     }: ConfirmUsernameOptionsType) {
       await _ajax({
         call: 'confirmUsername',
         httpType: 'PUT',
         jsonData: {
-          usernameToConfirm,
-          reservationToken,
+          usernameHash: toWebSafeBase64(Bytes.toBase64(hash)),
+          zkProof: toWebSafeBase64(Bytes.toBase64(proof)),
         },
         abortSignal,
       });
