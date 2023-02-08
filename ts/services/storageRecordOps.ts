@@ -19,6 +19,7 @@ import { assertDev } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
+import { isNotNil } from '../util/isNotNil';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
@@ -1269,8 +1270,8 @@ export async function mergeAccountRecord(
       `remote pinned=${pinnedConversations.length}`
     );
 
-    const remotelyPinnedConversationPromises = pinnedConversations.map(
-      async ({ contact, legacyGroupId, groupMasterKey }) => {
+    const remotelyPinnedConversations = pinnedConversations
+      .map(({ contact, legacyGroupId, groupMasterKey }) => {
         let conversation: ConversationModel | undefined;
 
         if (contact) {
@@ -1307,15 +1308,8 @@ export async function mergeAccountRecord(
         }
 
         return conversation;
-      }
-    );
-
-    const remotelyPinnedConversations = (
-      await Promise.all(remotelyPinnedConversationPromises)
-    ).filter(
-      (conversation): conversation is ConversationModel =>
-        conversation !== undefined
-    );
+      })
+      .filter(isNotNil);
 
     const remotelyPinnedConversationIds = remotelyPinnedConversations.map(
       ({ id }) => id
