@@ -20,7 +20,7 @@ import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 const StyledAvatar = styled.div`
   position: relative;
   margin-inline-end: 20px;
-  padding-top: 5px;
+  padding-bottom: 6px;
   padding-inline-end: 4px;
 `;
 

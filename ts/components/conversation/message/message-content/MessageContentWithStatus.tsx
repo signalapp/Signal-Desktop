@@ -46,6 +46,8 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
 
 const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
   max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
+  display: flex;
+  flex-direction: column;
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
