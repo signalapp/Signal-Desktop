@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "সমস্ত ডেটা মুছে দিন এবং পুনরায় চালু করুন",
+    "message": "সকল ডেটা মুছে ফেলুন এবং পুনরায় চালু করুন",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "মুছে দিন",
+    "message": "মুছে ফেলুন",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "সব মুছুন",
+    "message": "সব মুছে ফেলুন",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -481,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "স্টোরি থেকে বাদ দিন",
+    "message": "স্টোরি থেকে সরিয়ে দিন",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "যাচাইকৃত হিসাবে চিহ্নিত করুন"
+    "message": "যাচাইকৃত হিসাবে চিহ্নিত করুন",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "অযাচাইকৃত হিসাবে চিহ্নিত করুন"
+    "message": "অযাচাইকৃত হিসাবে চিহ্নিত করুন",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "যাচাইকৃত হিসাবে চিহ্নিত করুন",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "যাচাইকরণ সম্পূর্ণ করুন",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ এর সাথে আপনি আপনার নিরাপত্তা নাম্বার যাচাইকৃত চিহ্নিত করেছেন।",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal এ স্বাগতম!"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "মূল বার্তাটি আর পাওয়া যাচ্ছে না",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "মূল বার্তা পাওয়া গেছে, তবে লোড হয়নি। এটিকে লোড করতে স্ক্রোল করুন।",
@@ -1067,7 +1077,7 @@
     "message": "মেসেজের বিশদ বিবরণ"
   },
   "delete": {
-    "message": "মুছুন"
+    "message": "মুছে ফেলুন"
   },
   "accept": {
     "message": "স্বীকার করুন"
@@ -1109,9 +1119,25 @@
     "message": "প্রতি",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} থেকে {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender}-এর কাছ থেকে আপনার কাছে",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "আপনার কাছ থেকে {receiverGroup}-এর কাছে",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "আপনার কাছ থেকে {receiverContact}-এর কাছে",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "প্রতি",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "পাঠানো হয়েছে",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "নিরাপত্তা নাম্বার দেখুন"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "নিরাপত্তা নাম্বার দেখুন",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "সাম্প্রতিক মিডিয়া দেখুন",
@@ -1169,19 +1199,19 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "আমার বার্তা মুছুন",
+    "message": "আমার জন্য বার্তাটি মুছে ফেলুন",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "সকলের জন্য বার্তা মুছুন",
+    "message": "সকলের জন্য বার্তাটি মুছে ফেলুন",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "এই কথোপকথন স্থায়ীভাবে মুছে ফেলবেন?",
+    "message": "এই কথোপকথন চিরতরে মুছে ফেলবেন?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "সকল ডেটা মুছে দিন?",
+    "message": "সকল ডেটা মুছে ফেলবেন?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "আপনি সমস্ত পরিচিতি এবং সমস্ত বার্তা সহ এই অ্যাপ্লিকেশনটির সংরক্ষিত অ্যাকাউন্টের সমস্ত তথ্য মুছে ফেলতে চলেছেন। আপনি যেকোন সময় আপনার মোবাইল ডিভাইসের সাথে আবার লিঙ্ক করতে পারবেন, তবে এটি মোছা বার্তাগুলি পুনরুদ্ধার করবে না।",
+    "message": "আপনি সকল কন্টাক্ট ও বার্তা সহ এই অ্যাপ্লিকেশনটির সেভ করা অ্যাকাউন্টের সকল তথ্য মুছে ফেলতে চলেছেন। আপনি যেকোনো সময় আপনার মোবাইল ডিভাইসের সাথে আবার লিংক করতে পারবেন, তবে এটি মুছে ফেলা বার্তাগুলো পুনরুদ্ধার করবে না।",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "সকল ডেটা মুছে দিন",
+    "message": "সকল ডেটা মুছে ফেলুন",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার অচল কিছু ডেটা রয়েছে। আপনি চালিয়ে গেলে এটি মুছে যাবে এবং আপনি স্ক্র্যাচ থেকে শুরু করবেন।",
+    "message": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার কিছু পুরনো ডেটা রয়েছে। আপনি চালিয়ে গেলে এগুলো মুছে যাবে এবং আপনি আবার প্রথম থেকে শুরু করবেন।",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "পুরোনো ডেটা মুছুন",
+    "message": "পুরোনো ডেটা মুছে ফেলুন",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "নিরাপত্তা নাম্বার যাচাই করুন",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "নিরাপত্তা নাম্বার দেখুন",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "নিরাপত্তা নাম্বার দেখুন",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "আপনি তাদের সাথে মেসেজগুলি বিনিময় না করা পর্যন্ত এই ইউজারকে যাচাই করা যাবে না।",
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "নির্বাচিত মেসেজ মুছুন",
+    "message": "নির্বাচিত মেসেজ মুছে ফেলুন",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ড্রাফ্ট লিংকের প্রিভিউ সরান",
+    "message": "খসড়া লিংকের প্রিভিউ সরিয়ে দিন",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "সমস্ত ড্রাফ্ট সংযুক্তি সরান",
+    "message": "সকল খসড়া সংযুক্তি সরিয়ে ফেলুন",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "সংযুক্তি সরান",
+    "message": "সংযুক্তি সরিয়ে ফেলুন",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2963,7 +3001,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "স্টিকার সরান",
+    "message": "স্টিকার সরিয়ে ফেলুন",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3111,7 +3149,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "প্রতিক্রিয়া সরান",
+    "message": "প্রতিক্রিয়া সরিয়ে ফেলুন",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3187,7 +3225,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
@@ -3195,7 +3233,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "এই কথোপকথনটি আপনার সমস্ত ডিভাইস থেকে মুছে ফেলা হবে।",
+    "message": "এই কথোপকথনটি আপনার সকল ডিভাইস থেকে মুছে ফেলা হবে।",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3203,15 +3241,15 @@
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "মুছুন এবং ছেড়ে যান",
+    "message": "মুছে ফেলুন এবং ছেড়ে যান",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "আপনি এই গ্রুপটি ছেড়ে চলে যাবেন এবং এটি আপনার সমস্ত ডিভাইস থেকে মুছে ফেলা হবে।",
+    "message": "আপনি এই গ্রুপটি ছেড়ে চলে যাবেন এবং এটি আপনার সকল ডিভাইস থেকে মুছে ফেলা হবে।",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "আপনি এই লিংকের মাধ্যমে গ্ৰুপে যোগ দিতে পারবেন না কারণ একজন অ্যাডমিন আপনাকে বাদ দিয়েছেন।",
+    "message": "আপনি এই লিংকের মাধ্যমে গ্ৰুপে যোগ দিতে পারবেন না, কারণ একজন অ্যাডমিন আপনাকে সরিয়ে দিয়েছেন।",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3691,15 +3729,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ গ্রুপের নামটি অপসারণ করেছেন।",
+    "message": "$memberName$ গ্রুপের নামটি সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "আপনি গ্রুপের নাম সরিয়েছেন।",
+    "message": "আপনি গ্রুপের নাম সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "একজন সদস্য গ্রুপের নামটি অপসারণ করেছেন।",
+    "message": "একজন সদস্য গ্রুপের নামটি সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,15 +3753,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ গ্রুপের অবতারটি সরিয়েছেন।",
+    "message": "$memberName$ গ্রুপের অবতারটি সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "আপনি গ্রুপের অবতারটি সরিয়েছেন।",
+    "message": "আপনি গ্রুপের অবতারটি সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "একজন সদস্য গ্রুপের অবতারটি সরিয়েছেন।",
+    "message": "একজন সদস্য গ্রুপের অবতারটি সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$-কে সরিয়েছেন।",
+    "message": "$adminName$ $memberName$-কে সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3929,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "আপনি $memberName$-কে সরিয়েছেন।",
+    "message": "আপনি $memberName$-কে সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "একজন সদস্য $memberName$-কে সরিয়েছেন।",
+    "message": "একজন সদস্য $memberName$-কে সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ আপনাকে সরিয়েছেন।",
+    "message": "$adminName$ আপনাকে সরিয়ে দিয়েছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "আপনাকে গ্রুপ থেকে সরানো হয়েছে।",
+    "message": "আপনাকে গ্রুপ থেকে সরিয়ে ফেলা হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4171,7 +4209,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "গ্রুপের বিবরণ সরানো হয়েছে।",
+    "message": "গ্রুপের বিবরণ সরিয়ে ফেলা হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "এই সদস্যরা নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাদেরকে গ্রুপটি থেকে সরানো হবে:",
+    "message": "এই সদস্যরা নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাদেরকে গ্রুপটি থেকে সরিয়ে ফেলা হবে:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "এই সদস্যটি নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাকে গ্রুপটি থেকে সরানো হবে।",
+    "message": "এই সদস্যটি নতুন গ্রুপে যোগদানের যোগ্য নন এবং তাকে গ্রুপটি থেকে সরিয়ে ফেলা হবে।",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "এই সদস্যরা নতুন গ্রুপে যোগ দিতে সমর্থ হননি এবং তাদেরকে গ্রুপটি থেকে সরানো হয়েছে:",
+    "message": "এই সদস্যরা নতুন গ্রুপে যোগ দিতে সমর্থ হননি এবং তাদেরকে গ্রুপটি থেকে সরিয়ে ফেলা হয়েছে:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "এই সদস্যটি নতুন গ্রুপে যোগ দিতে সমর্থ হননি এবং তাকে গ্রুপটি থেকে সরানো হয়েছে:",
+    "message": "এই সদস্যটি নতুন গ্রুপে যোগ দিতে সমর্থ হননি এবং তাকে গ্রুপটি থেকে সরিয়ে ফেলা হয়েছে:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$-কে গ্রুপটি থেকে সরানো হয়েছে।",
+    "message": "$contact$-কে গ্রুপটি থেকে সরিয়ে ফেলা হয়েছে।",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ জন সদস্যকে গ্রুপটি থেকে সরানো হয়েছে।",
+    "message": "$count$ জন সদস্যকে গ্রুপটি থেকে সরিয়ে ফেলা হয়েছে।",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "অ্যাডমিন হিসাবে সরান",
+    "message": "অ্যাডমিন হিসেবে সরিয়ে ফেলুন",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4413,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "গ্রুপ অ্যাডমিন হিসেবে $contact$ সরাবেন?",
+    "message": "গ্রুপ অ্যাডমিন হিসেবে $contact$ সরিয়ে দেবেন?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "গ্রুপ থেকে সরান",
+    "message": "গ্রুপ থেকে সরিয়ে ফেলুন",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4725,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ফটো সরান",
+    "message": "ছবি সরিয়ে ফেলুন",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "কন্ট্যাক্ট সরান",
+    "message": "কন্টাক্ট সরিয়ে ফেলুন",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "গ্রুপ থেকে সরান",
+    "message": "গ্রুপ থেকে সরিয়ে ফেলুন",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "\"$name$\"-কে গ্রুপ থেকে বাদ দিতে চান? তিনি গ্রুপ লিংকের মাধ্যমে আর যোগ দিতে পারবেন না।",
+    "message": "\"$name$\"-কে গ্রুপ থেকে সরিয়ে দিতে চান? তিনি গ্রুপ লিংকের মাধ্যমে আর যোগ দিতে পারবেন না।",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,11 +4965,11 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "সকলের জন্য মেসেজ মোছা ব্যর্থ হয়েছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+    "message": "সকলের জন্য মেসেজ মুছে ফেলা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "রঙ মুছুন",
+    "message": "রঙ মুছে ফেলুন",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5187,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "আপনার ইউজারনেম সরানো যায়নি। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+    "message": "আপনার ইউজারনেম সরিয়ে ফেলা যায়নি। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,15 +5241,15 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "ব্যবহারকারীর নাম মুছুন",
+    "message": "ব্যবহারকারীর নাম মুছে ফেলুন",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "এটি আপনার ব্যবহারকারীর নাম মুছে ফেলবে, অন্য ব্যবহারকারীদের এটি দাবি করার অনুমতি দেবে ৷ আপনি কি নিশ্চিত?",
+    "message": "এটি আপনার ব্যবহারকারীর নাম মুছে ফেলবে, যা অন্য ব্যবহারকারীদের এই নামটি ব্যবহার করতে দিবে। আপনি কি নিশ্চিত?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5227,7 +5265,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5455,7 +5493,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "আপনি আর স্টোরি শেয়ার করতে বা দেখতে পারবেন না। আপনি সম্প্রতি শেয়ার করেছেন এমন স্টোরি আপডেটগুলোও মুছে ফেলা হবে৷",
+    "message": "আপনি আর স্টোরি শেয়ার করতে বা দেখতে পারবেন না। আপনি সম্প্রতি শেয়ার করেছেন এমন স্টোরির আপডেটগুলোও মুছে ফেলা হবে৷",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5681,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "স্টোরিটি মুছে ফেলবেন? যারা এটি পেয়েছেন তাদের জন্যও এটি মুছে ফেলা হবে৷",
+    "message": "স্টোরিটি মুছে ফেলবেন? যারা এটি পেয়েছেন তাদের জন্যও এটি মুছে যাবে৷",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5831,11 +5869,11 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "সরান",
+    "message": "সরিয়ে ফেলুন",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$ সরান",
+    "message": "$title$ সরিয়ে ফেলুন",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -6066,6 +6104,10 @@
     "message": "প্রত্যুত্তর",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName}-কে উত্তর দিন",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "গ্ৰুপে উত্তর দিন",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "স্টোরি-তে রিঅ্যাক্ট করুন",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "স্টোরি-তে রিঅ্যাক্ট করা হয়েছে",
@@ -6147,11 +6189,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "আমার জন্য মুছুন",
+    "messageformat": "আমার জন্য মুছে ফেলুন",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "প্রত্যেকের জন্য মুছুন",
+    "messageformat": "প্রত্যেকের জন্য মুছে ফেলুন",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6175,7 +6217,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "মুছুন",
+    "message": "মুছে ফেলুন",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "আপনার স্টোরি-র দর্শকদের জন্য একটি লিংক যোগ করুন",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "টেক্সট যোগ করুন",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "জুম ইন না করে গ্যালারি ভিউ বন্ধ করতে এখন ছবির বাইরে ক্লিক করুন সহজেই। কখনো হয়তো আপনি চেয়েছিলেন ছবিটি বন্ধ করতে, কিন্তু দেখা গেলো তার পরিবর্তে ছবিটি পুরো স্ক্রীনজুড়ে খুলে গিয়েছে। এটি সংশোধন করার জন্য {jojomatik}-কে ধন্যবাদ!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "আরো দ্রুত প্রতিক্রিয়া জানান। এখন আপনি একটি স্টোরির উত্তর দেওয়ার সময় যেকোনো ইমোজিতে ক্লিক করে রিঅ্যাক্ট করতে পারেন।",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "এখন চাইনিজ এবং জাপানি ভাষায় আলাদা আলাদা অক্ষর অনুযায়ী আপনার ম্যাসেজের ইতিহাস অনুসন্ধান করা সম্ভব।",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

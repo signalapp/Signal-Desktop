@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marcar como verificado"
+    "message": "Marcar como verificado",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marcar como não verificado"
+    "message": "Marcar como não verificado",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marcar como verificado",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Limpar verificação",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Verificou o seu número de segurança com $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Bem-vindo(a) ao Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "A mensagem original já não se encontra disponível",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "A mensagem original foi encontrada mas não carregada. Mova o texto para cima para a carregar.",
@@ -1109,9 +1119,25 @@
     "message": "Para",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} para {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "De {sender} para si",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "De si para {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "De si para {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "para",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Enviada",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Ver número de segurança"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Ver número de segurança",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Ver multimédia recente",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verificar o número de segurança",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Ver número de segurança",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Ver número de segurança",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Este utilizador não pode ser verificado antes de ter trocado mensagens com ele.",
@@ -5455,7 +5493,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Já não poderá partilhar ou ver histórias. As atualizações de histórias que tenha partilhado recentemente também serão apagadas.",
+    "message": "Já não poderá partilhar ou ver histórias. As atualizações de histórias que tenha partilhado recentemente também serão eliminadas.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5939,7 +5977,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Tem a certeza de que deseja eliminar “{groupTitle}”?",
+    "messageformat": "Tem a certeza de que deseja remover “{groupTitle}”?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6019,7 +6057,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eliminar história? Esta ação removerá a história desta lista, mas ainda poderá ver histórias deste grupo.",
+    "message": "Remover história? Esta ação removerá a história desta lista, mas ainda poderá ver histórias deste grupo.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "Responder",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Responder a {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reagir à história",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagiu à história",
@@ -6274,6 +6316,14 @@
     "message": "Adiciona um link para os visualizadores da tua story",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Adicionar texto",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Agora é mais fácil clicar fora de uma imagem para ignorar a visualização da galeria sem ampliar. Às vezes é mesmo melhor ir embora do que ficar a olhar. Agradecemos a {jojomatik} pela correção!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "★ Acelere o seu tempo de resposta. Agora pode reagir mais rapidamente tocando em qualquer emoji ao responder a uma história.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Agora é possível pesquisar no histórico de mensagens caracteres individuais em chinês e japonês.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

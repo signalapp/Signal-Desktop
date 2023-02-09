@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Als verifiziert markieren"
+    "message": "Als verifiziert markieren",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Als nicht verifiziert markieren"
+    "message": "Als nicht verifiziert markieren",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Als verifiziert markieren",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Verifikation entfernen",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Du hast deine Sicherheitsnummer mit $name$ verifiziert.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Willkommen bei Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Originalnachricht nicht mehr verfügbar",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Originalnachricht gefunden, aber nicht geladen. Scrolle zum Laden nach oben.",
@@ -1109,9 +1119,25 @@
     "message": "An",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} an {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} an dich",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Du an {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Du an {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "an",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Versendet",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Sicherheitsnummer anzeigen"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Sicherheitsnummer anzeigen",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Letzte Medieninhalte anzeigen",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Sicherheitsnummer verifizieren",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Sicherheitsnummer anzeigen",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Sicherheitsnummer anzeigen",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Dieser Nutzer kann nicht verifiziert werden, bevor ihr Nachrichten ausgetauscht habt.",
@@ -6066,6 +6104,10 @@
     "message": "Antworten",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Antwort an {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Gruppe antworten",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Auf Story reagieren",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Auf Story reagiert",
@@ -6274,6 +6316,14 @@
     "message": "Füge einen Link für die Betrachter deiner Story hinzu.",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Text hinzufügen",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Jetzt ist es einfacher, die Galerie-Ansicht durch Klicken außerhalb eines Bildes zu schließen, ohne hineinzuzoomen. Manchmal wolltest du einfach nur abschalten, aber stattdessen kamen dir die Dinge zu nahe. Danke an {jojomatik} für den Lösungsvorschlag!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Verkürze deine Antwortzeit. Jetzt kannst du noch schneller reagieren, indem du auf ein beliebiges Emoji klickst, um auf eine Story zu antworten.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Es ist jetzt möglich, deinen Nachrichtenverlauf nach einzelnen Zeichen auf Chinesisch und Japanisch zu durchsuchen.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

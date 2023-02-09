@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Σημείωση ως επιβεβαιωμένο"
+    "message": "Σημείωση ως επιβεβαιωμένο",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Σημείωση ως μη επιβεβαιωμένο"
+    "message": "Σημείωση ως μη επιβεβαιωμένο",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Σημείωση ως επιβεβαιωμένο",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Αφαίρεση επιβεβαίωσης",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Επιβεβαίωσες τον αριθμό ασφαλείας με τον/την $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Καλωσήλθες στο Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Το αρχικό μήνυμα δεν είναι πλέον διαθέσιμο",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Το αρχικό μήνυμα βρέθηκε, αλλά δεν φορτώθηκε. Σκρόλαρε προς τα πάνω για να φορτωθεί.",
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Αυτό το μήνυμα θα διαγραφτεί από αυτή τη συσκευή.",
+    "message": "Αυτό το μήνυμα θα διαγραφεί από αυτή τη συσκευή.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Αυτό το μήνυμα θα διαγραφεί για όλους/ες στη συνομιλία, αν έχουν μια πρόσφατη έκδοση του Signal. Θα μπορούν να δούν ότι διέγραψες ένα μήνυμα.",
+    "message": "Αυτό το μήνυμα θα διαγραφεί για όλους/ες στη συνομιλία, αν έχουν μια πρόσφατη έκδοση του Signal. Θα μπορούν να δουν ότι διέγραψες ένα μήνυμα.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "Προς",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} προς {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} προς εσένα",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Εσύ προς {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Εσύ προς {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "προς",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Στάλθηκε",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Εμφάνιση αριθμού ασφαλείας"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Προβολή πρόσφατων πολυμέσων",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Επανάληψη Διαγραφής για όλους",
+    "message": "Επανάληψη διαγραφής για όλους",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1169,7 +1199,7 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "Διαγραφή μηνύματος για εμένα",
+    "message": "Διαγραφή μηνύματος για μένα",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
@@ -1656,7 +1686,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Ορθογραφικός έλεγχς κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
+    "message": "Ορθογραφικός έλεγχος κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφτούν και θα ξεκινήσεις απ' την αρχή.",
+    "message": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφούν και θα ξεκινήσεις από την αρχή.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Διαγραφή παλιών δεδομένων",
+    "message": "Διαγραφή παλαιών δεδομένων",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Διαγράφτηκε εν μέρει, πάτα για επανάληψη",
+    "message": "Διαγράφηκε εν μέρει, πάτα για επανάληψη",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Επιβεβαίωση αριθμού ασφαλείας",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Αυτός ο/η χρήστης/τρια δεν μπορεί να επιβεβαιωθεί μέχρι να ανταλλάξεις μηνύματα μαζί του/της.",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Το τελευταίο μήνυμα ίσως να έχει διαγραφτεί.",
+    "message": "Το τελευταίο μήνυμα ίσως να έχει διαγραφεί.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Αυτο το μήνυμα διαγράφτηκε.",
+    "message": "Αυτό το μήνυμα διαγράφτηκε.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2963,7 +3001,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Αφαίρεση αυτοκολλήτου",
+    "message": "Αφαίρεση αυτοκόλλητου",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Δεν θα μπορείς πλέον να επεξεργαστείς ή να διαγράψεις στοιχεία, αφού δημιουργήσεις το πακέτο αυτοκολλήτων.",
+    "message": "Δεν θα μπορείς πλέον να επεξεργαστείς ή να διαγράψεις στοιχεία, αφού δημιουργήσεις το πακέτο αυτοκόλλητων.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3199,7 +3237,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Διαγραφή και αποχώρηση από $group$;",
+    "message": "Διαγραφή και αποχώρηση από την ομάδα $group$;",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Θα φύγεις απ'την ομάδα, και αυτή θα διαγραφτεί απ' όλες τις συσκευές σου.",
+    "message": "Θα φύγεις από την ομάδα και αυτή θα διαγραφεί από όλες τις συσκευές σου.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή ένας/μια διαχειριστής σε αφαίρεσε.",
+    "message": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή κάποιος διαχειριστής σε αφαίρεσε.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "Ο/Η$adminName$ αφαίρεσε τον/την $memberName$.",
+    "message": "Ο/Η $adminName$ αφαίρεσε τον/την $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Αφαιρέθηκες από την ομάδα.",
+    "message": "Σε αφαίρεσαν από την ομάδα.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4171,7 +4209,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "Η περιγραφή ομάδας αφαιρέθηκε.",
+    "message": "Η περιγραφή της ομάδας αφαιρέθηκε.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και θα αφαιρεθούν από την ομάδα:",
+    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Νέες Ομάδες και θα αφαιρεθούν από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και θα αφαιρεθεί από την ομάδα:",
+    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Νέες Ομάδες και θα αφαιρεθεί από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και αφαιρέθηκαν από την ομάδα:",
+    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Νέες Ομάδες και αφαιρέθηκαν από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και αφαιρέθηκε από την ομάδα:",
+    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Νέες Ομάδες και αφαιρέθηκε από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4379,7 +4417,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Αφαίρεση απ' την ομάδα",
+    "message": "Αφαίρεση από την ομάδα",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Αφαίρεση απ' την ομάδα",
+    "message": "Αφαίρεση από την ομάδα",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Παρακαλώ προσπάθησε ξανά αργότερα.",
+    "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Προσπάθησε ξανά αργότερα.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Αυτό το προσαρμοσμένο χρώμα χρησιμοποιείται σε $num$ συνομιλίες. Θέλεις να το διαγράψεις για όλες τις συνομιλίες;",
+    "message": "Αυτό το εξατομικευμένο χρώμα χρησιμοποιείται σε $num$ συνομιλίες. Θέλεις να το διαγράψεις από όλες τις συνομιλίες;",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5187,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Το όνομα χρήστη σου δεν μπόρεσε να αφαιρεθεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
+    "message": "Δεν ήταν δυνατή η αφαίρεση του ονόματος χρήστη σου. Έλεγξε τη σύνδεσή σου και προσπάθησε ξανά.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5207,7 +5245,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Αυτό θα αφαιρέσει το όνομα χρήστη σου, και άλλοι χρήστες θα μπορέσουν να το χρησιμοποιήσουν. Είσαι σίγουρος/η;",
+    "message": "Αυτή η ενέργεια θα αφαιρέσει το όνομα χρήστη σου και άλλοι χρήστες θα μπορούν να το χρησιμοποιήσουν. Είσαι σίγουρος/η;",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5855,11 +5893,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Διαγραφή προσαρμοσμένης ιστορίας",
+    "message": "Διαγραφή εξατομικευμένης ιστορίας",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"$name$\"; Οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία θα διαγραφούν επίσης.",
+    "message": "Θέλεις σίγουρα να διαγράψεις την ιστορία \"$name$\"; Θα διαγραφούν και οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5939,7 +5977,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"{groupTitle}\";",
+    "messageformat": "Θέλεις σίγουρα να διαγράψεις την ιστορία \"{groupTitle}\";",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6066,6 +6104,10 @@
     "message": "Απάντηση",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Απάντηση προς {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Απάντηση στην ομάδα",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Αντίδραση στην ιστορία",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Αντέδρασε στην ιστορία",
@@ -6147,7 +6189,7 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Διαγραφή για εμένα",
+    "messageformat": "Διαγραφή για μένα",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "Πρόσθεσε σύνδεσμο για τα άτομα που βλέπουν την ιστορία σου",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "Προσθήκη κειμένου",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Τώρα είναι πιο εύκολο να κάνεις κλικ έξω από μια εικόνα για να απορρίψεις την προβολή της συλλογής χωρίς να κάνεις ζουμ. Μερικές φορές ήθελες απλώς να κλείσεις, και αντί αυτού τα πράγματα μεγάλωναν πολύ. Ευχαριστούμε τον χρήστη {jojomatik} για τη διόρθωση!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Επιτάχυνε τον χρόνο απόκρισής σου. Τώρα μπορείς να αντιδράς πιο γρήγορα κάνοντας κλικ σε οποιοδήποτε emoji όταν απαντάς σε μια ιστορία.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Πλέον μπορείς να κάνεις αναζήτηση στο ιστορικό μηνυμάτων σου για μεμονωμένους χαρακτήρες στα κινεζικά και τα ιαπωνικά.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

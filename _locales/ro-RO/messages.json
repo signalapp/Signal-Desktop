@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marchează ca fiind verificat"
+    "message": "Marchează ca fiind verificat",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marchează ca fiind neverificat"
+    "message": "Marchează ca fiind neverificat",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marchează ca fiind verificat",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Șterge verificarea",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Ai verificat numărul tău de siguranță cu $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Bun venit la Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Mesajul original nu mai este disponibil",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Mesaj original a fost găsit, dar nu a fost încărcat. Derulează în sus pentru a-l încărca.",
@@ -1109,9 +1119,25 @@
     "message": "Către",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} către {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} către tine",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Tu către {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Tu către {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "către",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Trimis",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Afișează numărul de siguranță"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Afișează numărul de siguranță",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Afișare media recente",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Reîncearcă ștergerea pentru toată lumea",
+    "message": "Reîncearcă Ștergerea pentru Toată Lumea",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1712,7 +1742,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Șterge datele vechi",
+    "message": "Șterge Datele Vechi",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifică numărul de siguranță",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Afișează Numărul de Siguranță",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Afișează Numărul de Siguranță",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Acest utilizator nu poate fi verificat până nu schimbi mesaje cu el.",
@@ -3207,7 +3245,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Șterge și părăsește",
+    "message": "Șterge și Pleacă",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -4267,15 +4305,15 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Acest memebru nu se poate alătura noilor grupuri și va fi șters din grup.",
+    "message": "Acest membru nu se poate alătura Noilor Grupuri și va fi șters din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Acești membri nu s-au putut alătura grupurilor noi, și au fost eliminați din grup.",
+    "message": "Acești membri nu s-au putut alătura Noilor Grupuri și au fost eliminați din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Acest membru nu s-a putut alătura grupurilor noi, și a fost eliminat din grup:",
+    "message": "Acest membru nu s-a putut alătura Noilor Grupuri și a fost eliminat din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -6066,6 +6104,10 @@
     "message": "Răspunde",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Răspunde către {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Răspunde grupului",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reacționează la poveste",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Ai reacționat la poveste",
@@ -6274,6 +6316,14 @@
     "message": "Adaugă un link pentru cei care-ți văd povestea",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Adăugare text",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Acum este mai simplu să dai clic în afara unei imagini ca să închizi vizualizarea de tip galerie fără să mărești. Uneori voiai doar să închizi, dar în schimb măreai lucruri. Mulțumim {jojomatik} pentru reparare!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Mărește-ți viteza de răspuns. Acum poți să reacționezi mai rapid dând clic pe un emoji în timp ce răspunzi la o poveste.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Acum este posibil să cauți în istoricul de mesaje pentru personaje individuale în chineză și japoneză.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

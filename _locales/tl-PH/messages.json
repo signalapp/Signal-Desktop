@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Delete all data at i-restart",
+    "message": "Burahin ang lahat ng data at i-restart",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Alisin lahat",
+    "message": "Tanggalin lahat",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -481,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Alisin mula sa story",
+    "message": "Tanggalin mula sa story",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified"
+    "message": "Mark as verified",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark as not verified",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Mark as verified",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Clear verification",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Welcome sa Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Ang orihinal na mensahe ay wala na",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Original message found, but not loaded. Mag-scroll up to load it.",
@@ -1067,7 +1077,7 @@
     "message": "Detalye ng Mensahe"
   },
   "delete": {
-    "message": "Delete"
+    "message": "Burahin"
   },
   "accept": {
     "message": "Tanggapin"
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "This message will be deleted mula sa device na ito.",
+    "message": "Buburahin ang message mula sa device na ito.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Ang message na ito ay made-delete sa lahat ng nasa conversation kung sila'y nasa recent version ng Signal. Makikita nila na nag-delete ka ng message.",
+    "message": "Mabubura ang message na ito sa lahat ng nasa chat kung sila'y nasa recent version ng Signal. Makikita nila na nagbura ka ng message.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "To",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} hanggang {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} to you",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "You to {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "You to {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "To",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Sent",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Tingnan ang numerong pangkaligtasan"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Tingnan ang numerong pangkaligtasan",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "I-view ang recent media",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Retry Delete for Everyone",
+    "message": "Subukang Burahin Ulit Para sa Lahat",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1169,11 +1199,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "I-delete ang message for me",
+    "message": "Burahin sa 'kin ang message",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "I-delete ang message for everyone",
+    "message": "Burahin sa lahat ang message",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Gusto mo bang i-delete ang lahat ng data?",
+    "message": "Gusto mo bang i-burahin ang lahat ng data?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Ide-delete mo na sa application na ito ang lahat ng saved account information, kasama ang lahat ng contacts at messages. Pwede mo ulit i-link ang iyong mobile device, pero hindi nito mare-restore ang deleted messages.",
+    "message": "Buburahin mo na sa application na ito ang lahat ng saved account information, kasama ang lahat ng contacts at messages. Pwede mo ulit i-link ang iyong mobile device, pero hindi nito mare-restore ang naburang messages.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "I-delete ang lahat ng data",
+    "message": "Burahin ang lahat ng data",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "You have old data mula sa prior installation ng Signal Desktop. If you choose to continue, made-delete ito and you will start from scratch.",
+    "message": "Mayroon kang lumang data mula sa lumang installation ng Signal Desktop. Mabubura ito kapag nagpatuloy ka at magsisimula ka ulit sa simula.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "I-delete ang Old Data",
+    "message": "Burahin ang Lumang Data",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "Delete failed",
+    "message": "Hindi nabura",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Partially deleted, i-click para masubukan ulit",
+    "message": "Hindi nabura lahat, i-click para masubukan ulit",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Beripikahin ang numerong pangkaligtasan",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Tingnan ang numerong pangkaligtasan",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Tingnan ang numerong pangkaligtasan",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Ang user na ito ay hindi mabeberipika hangga't hindi ka nakikipagpalitan ng mensahe sa kanya.",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Maaaring na-delete ang huling message.",
+    "message": "Maaaring nabura na ang huling message.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Ang mensaheng ito ay nabura na.",
+    "message": "Nabura na ang mensaheng ito.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Delete selected message",
+    "message": "Burahin ang piniling message",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Remove draft link preview",
+    "message": "Tanggalin ang draft link preview",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Remove all draft attachments",
+    "message": "Tanggalin ang lahat ng draft attachments",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "Remove attachment",
+    "message": "Tanggalin ang attachment",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2963,7 +3001,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "I-remove ang sticker",
+    "message": "Tanggalin ang sticker",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Hindi ka na pwedeng mag-edit o mag-delete after creating a sticker pack.",
+    "message": "Hindi ka na pwedeng mag-edit o magbura pagkatapos mong gumawa ng sticker pack.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3111,7 +3149,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "I-remove ang reaction",
+    "message": "Tanggalin ang reaction",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3191,15 +3229,15 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Burahin ang pag-uusap?",
+    "message": "Burahin ang chat?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Ang pag-uusap na ito mabubura sa lahat ng iyong mga device.",
+    "message": "Mabubura ang chat na ito sa lahat ng iyong mga device.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "I-delete at Mag-leave sa $group$?",
+    "message": "Burahin at Umalis sa $group$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Aalis ka sa grupong ito, at ito'y mabubura sa lahat ng iyong mga device.",
+    "message": "Aalis ka sa grupong ito, at mabubura ito sa lahat ng iyong mga device.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3695,7 +3733,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Tinanggal mo ang pangalan ng grupo.",
+    "message": "Tinanggal mo ang group name.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Ikaw ay tinanggal sa grupo.",
+    "message": "Tinanggal ka sa grupo.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4171,7 +4209,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "Natanggal ang group description.",
+    "message": "Tinanggal ang group description.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "I-remove as admin",
+    "message": "Tanggalin bilang admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4413,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Gusto mo bang i-remove si $contact$ bilang group admin?",
+    "message": "Gusto mo bang tanggalin si $contact$ bilang group admin?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "I-remove mula sa group",
+    "message": "Tanggalin mula sa group",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,7 +4725,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Tanggalin ang larawan",
+    "message": "Tanggalin ang photo",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "I-remove mula sa group",
+    "message": "Tanggalin mula sa group",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4927,15 +4965,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Failed to delete message for everyone. Subukan ulit mamaya.",
+    "message": "Hindi mabura ang message para sa lahat. Subukan ulit mamaya.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "Delete color",
+    "message": "Burahin ang color",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Ginamit ang custom color na ito sa $num$ chats. Gusto mo bang i-delete ito sa lahat ng chats?",
+    "message": "Ginamit ang custom color na ito sa $num$ chat. Gusto mo bang burahin ito sa lahat ng chats?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5203,7 +5241,7 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "I-delete ang username",
+    "message": "Burahin ang username",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
@@ -5215,7 +5253,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Kopyahin o i-delete ang username",
+    "message": "Kopyahin o burahin ang username",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5227,7 +5265,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "I-delete",
+    "message": "Burahin",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5455,7 +5493,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Hindi ka na pwedeng mag-share o mag-view ng stories. Made-delete rin ang story updates na shinare mo.",
+    "message": "Hindi ka na pwedeng mag-share o mag-view ng stories. Mabubura rin ang story updates na shinare mo.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5681,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Gusto mo bang i-delete ang story? Ang story na ito'y made-delete sa'yo at sa lahat ng naka-receive nito.",
+    "message": "Gusto mo bang burahin ang story? Mabubura ang story na ito sa 'yo at sa lahat ng naka-receive nito.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5855,11 +5893,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "I-delete ang custom story",
+    "message": "Burahin ang custom story",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Sigurado ka bang gusto mong i-delete ang \"$name$\"? Made-delete rin ang updates na naka-share sa story na ito.",
+    "message": "Sigurado ka bang gusto mong burahin ang \"$name$\"? Mabubura rin ang updates na naka-share sa story na ito.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6015,7 +6053,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "I-delete ang story",
+    "message": "Burahin ang story",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "Tugon",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Mag-reply kay {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Mag-react sa story",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Nag-react sa story",
@@ -6147,11 +6189,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "I-delete sa'kin",
+    "messageformat": "Burahin sa 'kin",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "I-delete sa lahat",
+    "messageformat": "Burahin sa lahat",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "Mag-add ng link para sa viewers ng iyong story",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "Mag-add ng text",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Mas madali nang mag-click sa labas ng image para i-dismiss ang gallery view nang hindi kinakailangang mag-zoom in. Minsan kasi masyadong nagiging feeling close ang pic 'pag gusto mo lang naman i-close ang gallery. Maraming salamat sa {jojomatik} para sa fix!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "★ Pabilisin ang response time mo. Pwede kang mag-react nang mas mabilis ngayon sa pamamagitan ng pag-tap ng anumang emoji kapag nagre-reply ka sa story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Pwede nang i-search ang iyong message history sa individual characters ng Chinese at Japanese.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

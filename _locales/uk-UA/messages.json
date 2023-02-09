@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Видалити дані та перезапустити",
+    "message": "Видалити усі дані та перезапустити",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Відмітити перевіреним"
+    "message": "Відмітити перевіреним",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Відмітити непідтвердженим"
+    "message": "Відмітити непідтвердженим",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Відмітити перевіреним",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Чітка верифікація",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Ви підтвердили код безпеки, який $name$ використовує для зв’язку з вами.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Ласкаво просимо до Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Оригінальне повідомлення більше не доступно",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Оригінал тексту повідомлення знайдено, але його не було завантажено. Прокрутіть вгору, щоб завантажити його.",
@@ -1109,9 +1119,25 @@
     "message": "Кому",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} до {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} надіслав вам",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Ви надіслали {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Ви надіслали {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "до",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Надіслано",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Перевірити номер безпеки"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Перевірити номер безпеки",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Дивитись нещодавні медіа",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Підтвердити номер безпеки",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Подивитись код безпеки",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Подивитись код безпеки",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Цього користувача неможливо завірити, допоки ви не обміняєтесь повідомленнями.",
@@ -3195,7 +3233,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Ця розмова буде видаленf з усіх ваших пристроїв.",
+    "message": "Ця розмова буде видалена з усіх ваших пристроїв.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3207,7 +3245,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Видалити і Покинути",
+    "message": "Видалити та покинути",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -4687,7 +4725,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Видалати світлину",
+    "message": "Видалити фото",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -6066,6 +6104,10 @@
     "message": "Відповісти",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Відповісти користувачу {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Відповісти на історію групи",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Реагувати на сторі",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Реакція на сторі",
@@ -6274,6 +6316,14 @@
     "message": "Додайте посилання для глядачів вашої сторі",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Додати текст",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Тепер можна просто клацнути за межами зображення, щоб закрити відображення галереї, не збільшуючи випадково масштаб. Дякуємо {jojomatik} за виправлення!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Відповідайте без затримок. Тепер ви можете швидко відреагувати на сторі, натиснувши на емодзі.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Тепер ви можете шукати в історії повідомлень окремі символи китайської та японської мов.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

@@ -469,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Je, una uhakika unataka kumwondoa mpokeaji 1 kutoka kwa stori {story}?} other {Una uhakika unataka kumuondoa mpokeaji {count,number} kutoka kwenye stori {story}?}}",
+    "messageformat": "{count, plural, one {Je, una uhakika ungetaka kumuondoa mpokeaji 1 kutoka kwa stori {story}?} other {Una uhakika ungetaka kumuondoa mpokeaji {count,number} kutoka kwenye stori {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Weka alama kuwa imehakikishwa"
+    "message": "Weka alama kuwa imehakikishwa",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Weka alama kuwa haijahakikishwa"
+    "message": "Weka alama kuwa haijahakikishwa",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Weka alama kuwa imehakikishwa",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Futa uthibitishwaji",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Haujahakikisha nambari yako ya usalama na  $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Karibu Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Ujumbe halisi haupo tena",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Ujumbe asili umepatikana, lakini haujapakia.\nBiringiza ili kuupakia.",
@@ -1109,9 +1119,25 @@
     "message": "Kwa",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} kwa {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} kwako",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Kutoka kwako kwenda {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Kutoka kwako kwenda {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "kwa",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Umetumwa",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Tazama nambari ya usalama"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Tazama nambari ya usalama",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Tazama media za hivi majuzi",
@@ -1696,7 +1726,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Uko karibu kufuta habari yote iliyohifadhiwa ya akaunti ya kifaa hiki, ikiwezo wawasiliani wote na ujumbe wako. Unaweza kuunganisha na kifaa chako cha rununu wakati mwingine, lakini hilo halitarudisha ujumbe uliofutwa.",
+    "message": "Uko karibu kufuta habari yote iliyohifadhiwa ya akaunti ya kifaa hiki, ikiwepo wawasiliani wote na ujumbe wako. Unaweza kuunganisha na kifaa chako cha mkononi wakati wote, lakini hilo halitarudisha ujumbe uliofutwa.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Una data zee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni.",
+    "message": "Una data nzee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Futa Data Zee",
+    "message": "Futa Data Nzee",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Hakikisha Nambari ya Usalama",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Tazama Nambari za Usalama",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Tazama Nambari za Usalama",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Mtumiaji huyu hawezi kuthibitishwa hadi ubadilishane ujumbe naye.",
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Ujumbe huu umefutwa",
+    "message": "Ujumbe huu umefutwa.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2767,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Ondoa mtazamo wa kiungo rasimu",
+    "message": "Ondoa rasimu ya hakikisho la kiungo",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Hautaweza kuhariri ama kufuta baada ya kutengeneza pakiti ya vibandiko.",
+    "message": "Hutaweza kuhariri ama kufuta baada ya kutengeneza pakiti ya vibandiko.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3191,7 +3229,7 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Futa maongezi?",
+    "message": "Futa gumzo?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Utaondoka kundi hili, na litafutwa kutoka kwa vifaa vyako vyote.",
+    "message": "Utaondoka kutoka kikundi hiki, na kitafutwa kutoka kwa vifaa vyako vyote.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Umeondolewa kutoka kwa kundi.",
+    "message": "Umeondolewa kutoka kwa kikundi.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Mwondoe kama msimamizi",
+    "message": "Ondoa kama admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4413,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Muondoe $contact$ kama admin wa kikundi?",
+    "message": "Ondoa $contact$ kama admin wa kikundi?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Mwondoe kwenye kikundi",
+    "message": "Ondoa kwenye kikundi",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Mwondoe kwenye kikundi",
+    "message": "Ondoa kwenye kikundi",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Waondoe \"$name$\" kutoka kwa kikundi? Hawataweza kujiunga tena kwa kupitia kiungo cha kikundi.",
+    "message": "Ondoa \"$name$\" kutoka kwa kikundi? Hawataweza kujiunga tena kupitia kwa kiungo cha kikundi.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Hujaweza kufuta ujumbe kwa kila mtu. Tafadhali jaribu tena baadaye.",
+    "message": "Imeshindikana kufuta ujumbe kwa kila mtu. Tafadhali jaribu tena baadaye.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5835,7 +5873,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Muondoe $title$",
+    "message": "Ondoa $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5859,7 +5897,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Una uhakika unataka kufuta \"$name$\"? Masasisho yaliyoshirikishwa kwenye stori hii pia yatafutwa.",
+    "message": "Una uhakika ungetaka kufuta \"$name$\"? Masasisho yaliyoshirikishwa kwenye stori hii pia yatafutwa.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5939,7 +5977,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Je, una uhakika unataka kuondoa \"{groupTitle}\"?",
+    "messageformat": "Je, una uhakika ungetaka kuondoa \"{groupTitle}\"?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6066,6 +6104,10 @@
     "message": "Jibu",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Mjibu {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Jibu kwenye Kikundi",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "React kwa Stori",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Ame-react kwa stori",
@@ -6147,7 +6189,7 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Nifutie",
+    "messageformat": "Futa kwangu",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "Ongeza kiungo kwa watazamaji wa stori yako",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "Ongeza maandishi",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Sasa ni rahisi kubofya nje ya picha ili kuondosha muonekano wa galeri bila kukuza zaidi. Wakati mwingine ulitaka tu kufunga, na badala yake mambo yakaharibika zaidi. Shukrani kwa {jojomatik} kwa kutuwezesha!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Harakisha muda wako wa majibu. Sasa unaweza ku-react haraka zaidi kwa kugusa emoji yoyote unapokuwa unajibu stori.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Sasa inawezekana kutafuta historia yako ya jumbe kwa herufi moja moja za Kichina na Kijapani.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

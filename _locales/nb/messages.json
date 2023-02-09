@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Slett alle data og restart",
+    "message": "Slett alle data og start på nytt",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merk som bekreftet"
+    "message": "Merk som bekreftet",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Merk som ikke bekreftet"
+    "message": "Merk som ikke bekreftet",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Merk som bekreftet",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Fjern bekreftelse",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Du har bekreftet sikkerhetsnummeret du deler med $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Velkommen til Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Den Originale meldingen er ikke tilgjengelig lenger",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Originalmelding funnet, men ikke lastet. Rull opp for å laste den.",
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Meldingen vil bli slettet fra denne enheten.",
+    "message": "Meldingen slettes fra denne enheten.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Denne meldingen vil bli slettet for alle i samtalen dersom de er på en nylig versjon av Signal. De vil kunne se at du har slettet en samtale.",
+    "message": "Denne meldingen blir slettet for alle i samtalen dersom de er på en nylig versjon av Signal. De vil kunne se at du har slettet en melding.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "Til",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} til {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "Fra {sender} til deg",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Fra deg til {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Fra deg til {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "til",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Sendt",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Vis sikkerhetsnummer"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Vis sikkerhetsnummer",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Vis nyere media",
@@ -1692,7 +1722,7 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Slett alle data?",
+    "message": "Vil du slette alle dataene?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
@@ -1700,7 +1730,7 @@
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "Slett alle data",
+    "message": "Slett alle dataene",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1712,7 +1742,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Slett gammel data",
+    "message": "Slett gamle data",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Bekreft sikkerhetsnummer",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Vis sikkerhetsnummer",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Vis sikkerhetsnummer",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Denne brukeren kan ikke bli verifisert før du har utvekslet meldinger med personen.",
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Remove draft link preview",
+    "message": "Fjern utkast til forhåndsvisning av lenke",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Remove all draft attachments",
+    "message": "Fjern alle vedlegg i utkast",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Du vil ikke lenger være i stand til å gjøre endringer eller slette noe etter du har opprettet en klistremerkepakke.",
+    "message": "Du vil ikke lenger kunne endre eller slette noe etter du har opprettet en klistremerkepakke.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3195,11 +3233,11 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Denne samtalen vil slettes fra alle enhetene dine.",
+    "message": "Denne samtalen slettes fra alle enhetene dine.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Slett og forlat $group$?",
+    "message": "Vil du slette og forlate $group$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Du vil forlate denne gruppen, og den blir slettet fra alle enhetene dine.",
+    "message": "Du forlater denne gruppen, og den blir slettet fra alle enhetene dine.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3715,7 +3753,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ fjernet gruppens avatar.",
+    "message": "$memberName$ fjernet gruppeavataren.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Disse medlemmene kunne ikke legges til den nye gruppen, og har blitt fjernet:",
+    "message": "Disse medlemmene kan ikke bli med i nye grupper og er fjernet fra gruppen:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Dette medlemmet kunne ikke legges til den nye gruppen, og har blitt fjernet:",
+    "message": "Dette medlemmet kan ikke bli med i nye grupper og er fjernet fra gruppen:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Disse medlemmene var ikke i stand til å bli med i nye grupper, og ble fjernet fra gruppen:",
+    "message": "Disse medlemmene kunne ikke bli med i nye grupper og ble fjernet fra gruppen:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Dette medlemmet var ikke i stand til å bli med i nye grupper, og ble fjernet fra gruppen:",
+    "message": "Dette medlemmet kunne ikke bli med i nye grupper og ble fjernet fra gruppen:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Vil du fjerne $contact$som gruppeadmin?",
+    "message": "Vil du fjerne $contact$ som gruppeadministrator?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4687,11 +4725,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Fjern bilde",
+    "message": "Fjern bildet",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Fjern kontakt",
+    "message": "Fjern kontakten",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4887,11 +4925,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Fjern «$name$» fra gruppen?",
+    "message": "Vil du fjerne «$name$» fra gruppen?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Vil du fjerne $name$ fra gruppen? Hvis du gjør dette, vil vedkommende ikke kunne spørre om å bli med i gruppen via gruppelenken igjen.",
+    "message": "Vil du fjerne $name$ fra gruppen? Vedkommende vil ikke kunne spørre om å bli med i gruppen via gruppelenken igjen.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,15 +4965,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Kunne ikke slette meldingen for alle. Vennligst prøv igjen senere.",
+    "message": "Kunne ikke slette meldingen for alle. Prøv igjen senere.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "Fjern farge",
+    "message": "Slett fargen",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Denne selvvalgte fargen brukes i $num$ samtaler. Ønsker du å fjerne den fra alle samtaler?",
+    "message": "Denne egendefinerte fargen brukes i $num$ samtaler. Ønsker du å slette den fra alle samtalene?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5207,7 +5245,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Dette vil fjerne brukernavnet ditt, og andre brukere kan ta det. Er du helt sikker?",
+    "message": "Dette fjerner brukernavnet ditt, og andre brukere kan ta det. Er du helt sikker?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -6019,7 +6057,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Vil du slette storyen? Dette vil fjerne storyen fra listen. Du kan fremdeles se de andre storyene fra denne gruppen.",
+    "message": "Vil du slette storyen? Dette fjerner storyen fra listen. Du kan fremdeles se de andre storyene fra denne gruppen.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "Svar",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Svar til {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reager på storyen",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagerte på storyen",
@@ -6274,6 +6316,14 @@
     "message": "Del en lenke med de som ser storyen din",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Legg til tekst",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Nå kan du lukke en fullskjermsvisning ved å trykke utenfor bildet uten å zoome inn på det. Noen ganger vil du bare avslutte uten å komme tettere innpå. Takk til {jojomatik} for denne løsningen!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Få fart på responstiden din. Nå kan du reagere på storyer raskere – bare trykk på en emoji for å svare på en story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Det er nå mulig å søke etter kinesiske og japanske tegn i meldingsloggen din.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

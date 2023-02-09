@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Отметить как подтверждённый"
+    "message": "Отметить как подтверждённый",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Отметить как неподтверждённый"
+    "message": "Отметить как неподтверждённый",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Отметить как подтверждённый",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Сбросить подтверждение",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Вы подтвердили свой код безопасности с $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Добро пожаловать в Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Исходное сообщение больше не доступно",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Исходное сообщение найдено, но не загружено. Прокрутите вверх, чтобы загрузить его.",
@@ -1109,9 +1119,25 @@
     "message": "Кому",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} для {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} отправил(-а) вам",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Вы отправили {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Вы отправили {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "Кому",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Отправленные",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Просмотреть код безопасности"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Просмотреть код безопасности",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Просмотреть недавние медиа",
@@ -1564,7 +1594,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Вы не будете получать голосовые и видеовызовы этого участника, а он не будет получать ваши.",
+    "message": "Вы не будете получать аудио и видео от этого участника, а он не будет получать ваши.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Подтвердить код безопасности",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Посмотреть код безопасности",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Посмотреть код безопасности",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Этот пользователь не может быть подтвержден, пока вы не обменяетесь сообщениями с ним.",
@@ -2447,7 +2485,7 @@
     "description": "Title for the sticker manager"
   },
   "stickers--StickerManager--Available": {
-    "message": "Доступно",
+    "message": "Доступные",
     "description": "Shown in the sticker pack manager as a tab for available stickers"
   },
   "stickers--StickerManager--InstalledPacks": {
@@ -6066,6 +6104,10 @@
     "message": "Ответить",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Ответить {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Ответить группе",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Отреагировать на историю",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Отреагировал(-а) на историю",
@@ -6274,6 +6316,14 @@
     "message": "Добавьте ссылку для зрителей вашей истории",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Добавьте текст",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Теперь достаточно кликнуть за пределами изображения, чтобы закрыть вид галереи, а не увеличивать фото. Раньше иногда вы просто хотели закрыть, а вместо этого приближали. Спасибо {jojomatik} за исправление!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Отвечайте быстрее. Теперь вы можете реагировать быстрее, нажав на любой эмодзи при ответе на историю.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Теперь в истории сообщений можно искать отдельные символы на китайском и японском.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

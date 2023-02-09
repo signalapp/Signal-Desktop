@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Oznacz jako zweryfikowany"
+    "message": "Oznacz jako zweryfikowany",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Oznacz jako niezweryfikowany"
+    "message": "Oznacz jako niezweryfikowany",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Oznacz jako zweryfikowany",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Wycofaj weryfikację",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Zweryfikowałeś(aś) numer bezpieczeństwa z $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Witamy w Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Oryginalna wiadomość nie jest już dostępna",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Znaleziono oryginalną wiadomość, ale nie została załadowana. Przewiń w górę, aby załadować.",
@@ -1098,7 +1108,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Ta wiadomość zostanie usunięta u wszystkich uczestników tej konwersacji, jeśli używają najnowszej wersji Signal. Będą oni mogli zobaczyć, że skasowałeś(aś) wiadomość.",
+    "message": "Ta wiadomość zostanie usunięta u wszystkich uczestników tej konwersacji, jeśli używają najnowszej wersji Signal. Będą oni mogli zobaczyć, że skasowałeś(-aś) wiadomość.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "Do",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} do {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} do Ciebie",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Ty do {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Ty do {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "do",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Wysłano",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Zobacz numer bezpieczeństwa"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Zobacz numer bezpieczeństwa",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Pokaż ostatnie multimedia",
@@ -1181,7 +1211,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Usunąć tę konwersację bezpowrotnie?",
+    "message": "Usunąć trwale tę konwersację?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1708,7 +1738,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Masz przestarzałe dane ze starej instalacji Signal Desktop. Kontynuacja spowoduje ich usunięcie i zaczniesz od zera.",
+    "message": "Masz przestarzałe dane ze starej instalacji Signal Desktop. Kontynuacja spowoduje ich usunięcie i zaczniesz od początku.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Zweryfikuj numer bezpieczeństwa",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Zobacz number bezpieczeństwa",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Zobacz number bezpieczeństwa",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Ten użytkownik nie może zostać zweryfikowany dopóki nie napiszecie do siebie.",
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Po utworzeniu pakietu naklejek, nie będziesz móc go edytować, ani usunąć.",
+    "message": "Po utworzeniu pakietu naklejek nie ma możliwości jego edycji ani usunięcia.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3691,15 +3729,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ usunął(ęła) nazwę grupy.",
+    "message": "$memberName$ usunął(-ęła) nazwę grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Usunąłeś(ęłaś) nazwę grupy.",
+    "message": "Usunąłeś(-ęłaś) nazwę grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Członek grupy usunął nazwę grupy.",
+    "message": "Członek grupy usunął jej nazwę.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,15 +3753,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ usunął(ęła) awatara grupy.",
+    "message": "$memberName$ usunął(-ęła) awatar grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Usunąłeś(ęłaś) awatara grupy.",
+    "message": "Usunąłeś(-ęłaś) awatar grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "Członek grupy usunął awatara grupy.",
+    "message": "Członek grupy usunął jej awatar.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ usunął(ęła) $memberName$.",
+    "message": "$adminName$ usunął(-ęła) $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,7 +3929,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Usunąłeś(ęłaś) $memberName$.",
+    "message": "Usunąłeś(-ęłaś) $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3899,7 +3937,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ usunął(ęła) Cię.",
+    "message": "$adminName$ usunął(-ęła) Cię.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Zostałeś(aś) usunięty(a) z grupy.",
+    "message": "Zostałeś(-aś) usunięty(-a) z grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,11 +4201,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Usunąłeś(ęłaś) opis grupy.",
+    "message": "Usunąłeś(-ęłaś) opis grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ usunął(ęła) opis grupy.",
+    "message": "$memberName$ usunął(-ęła) opis grupy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Ci członkowie nie mogą dołączyć do Nowej grupy i zostaną z niej usunięci:",
+    "message": "Ci członkowie nie mogą dołączyć do Nowych grup i zostaną usunięci z grupy:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Ten członek nie może dołączyć do Nowej grupy i zostanie z niej usunięty:",
+    "message": "Ten członek nie może dołączyć do Nowych grup i zostanie usunięty z grupy:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Ci członkowie nie mogli dołączyć do Nowej grupy i zostali z niej usunięci:",
+    "message": "Ci członkowie nie mogli dołączyć do Nowych grup i zostali usunięci z grupy:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Ten członek nie mógł dołączyć do Nowej grupy i został z niej usunięty:",
+    "message": "Ten członek nie mógł dołączyć do Nowych grup i został usunięty z grupy:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ został(a) usunięty(a) z grupy.",
+    "message": "$contact$ został(-a) usunięty(-a) z grupy.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ osób(y) zostało(y) usuniętych(e) z grupy.",
+    "message": "$count$ osób(osoby) zostało(-y) usuniętych(-e) z grupy.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -5455,7 +5493,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Stracisz możliwość udostępniania i wyświetlania relacji. Relacje udostępnione przez Ciebie w ostatnich godzinach również zostaną usunięte.",
+    "message": "Stracisz możliwość udostępniania i wyświetlania relacji. Relacje niedawno udostępnione przez Ciebie również zostaną usunięte.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5835,7 +5873,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Usuń: $title$",
+    "message": "Usuń $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -6019,7 +6057,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Usunąć relację? To spowoduje usunięcie relacji z tej listy. Zachowasz możliwość wyświetlania relacji z tej grupy.",
+    "message": "Usunąć relację? To spowoduje usunięcie relacji z tej listy, ale zachowasz możliwość wyświetlania relacji z tej grupy.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "Odpowiedz",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Odpowiedz {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Zareaguj na relację",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Zareagowano na relację",
@@ -6274,6 +6316,14 @@
     "message": "Dodaj link dla widzów Twojej relacji",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Dodaj tekst",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Od teraz, klikając poza obrazem, zamkniesz widok galerii, zamiast powiększać grafikę. Bo czasem wyraźniej widać na odległość. Dzięki, {jojomatik}, za tę poprawkę!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Skróć swój czas reakcji. Od teraz możesz odpowiadać jeszcze szybciej na relacje, wysyłając emoji.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Od teraz możesz przeszukiwać historię wiadomości, wpisując pojedyncze znaki z alfabetu chińskiego i japońskiego.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

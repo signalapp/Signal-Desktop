@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "标记为已验证"
+    "message": "标记为已验证",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "标记为未验证"
+    "message": "标记为未验证",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "标记为已验证",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "清除验证",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "您已验证与$name$的安全码。",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "欢迎来到 Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "原始消息失效",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "原始消息可用，但尚未加载。向上滑动可加载。",
@@ -1109,9 +1119,25 @@
     "message": "至",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender}发送给{receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender}发送给您",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "您发送给{receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "您发送给{receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "向",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "已发送",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "查看安全码"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "查看安全码",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "查看最近媒体",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "验证安全码",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "查看安全码",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "查看安全码",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "此用户在您和他通信之前将不能被验证。",
@@ -3199,7 +3237,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "是否删除并离开 $group$？",
+    "message": "是否删除并离开$group$？",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3691,11 +3729,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ 删除了群组名称。",
+    "message": "$memberName$删除了群组名称。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "你删除了群名称。",
+    "message": "你删除了群组名称。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3715,7 +3753,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ 删除了群组头像。",
+    "message": "$memberName$删除了群组头像。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ 移除了 $memberName$。",
+    "message": "$adminName$移除了$memberName$。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3929,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "您移除了 $memberName$。",
+    "message": "您移除了$memberName$。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "一位成员移除了 $memberName$。",
+    "message": "一位成员移除了$memberName$。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ 已将您移除。",
+    "message": "$adminName$已将您移除。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4167,7 +4205,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ 已删除群组描述。",
+    "message": "$memberName$已删除群组描述。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4291,7 +4329,7 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "已从群组移除 $contact$。",
+    "message": "已从群组移除$contact$。",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {{count,number} 个共同群组}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -6066,6 +6104,10 @@
     "message": "回复",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "回复{firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "回复群组",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "回应动态",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "回应了此动态",
@@ -6274,6 +6316,14 @@
     "message": "为您的动态访客添加链接",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "添加文本",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "现在，点击图片以外的屏幕即可轻松退出图库浏览模式，避免误操作放大图片。我们懂你的心思。感谢 {jojomatik} 修复这一功能！",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "回应速度得到提升。在回复动态时，您现在可以通过点击任何一个表情符号来更快回应动态。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "您现在可以搜索消息历史记录中的单个中文或日语字符。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

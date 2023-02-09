@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Tandai terverifikasi"
+    "message": "Tandai terverifikasi",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Tandai tidak terverifikasi"
+    "message": "Tandai tidak terverifikasi",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Tandai terverifikasi",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Hapus verifikasi",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Anda telah memverifikasi nomor keamanan Anda dengan $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Selamat datang di Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Pesan asli tidak lagi tersedia",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Pesan asli ditemukan, namun tidak dimuat. Gulir ke atas untuk memuatnya.",
@@ -1098,7 +1108,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Pesan ini akan dihapus untuk setiap orang dalam percakapan ini jika mereka menggunakan versi terbaru Signal. Mereka dapat melihat ketika Anda menghapus sebuah pesan.",
+    "message": "Pesan ini akan dihapus untuk semua orang yang ada dalam percakapan jika mereka menggunakan versi terbaru Signal. Mereka akan bisa melihat ketika Anda menghapus sebuah pesan.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "Kepada",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} ke {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ke Anda",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Anda ke {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Anda ke {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "kepada",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Terkirim",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Lihat nomor keamanan"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Lihat nomor keamanan",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Lihat media terbaru",
@@ -1181,7 +1211,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Hapus obrolan ini selamanya?",
+    "message": "Hapus obrolan ini secara permanen?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1696,7 +1726,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Anda akan menghapus semua informasi dari akun Anda dalam aplikasi ini, termasuk semua kontak dan pesan. Anda selalu dapat menghubungkan dengan perangkat seluler Anda lagi, tetapi itu tidak akan memulihkan pesan yang dihapus.",
+    "message": "Anda akan menghapus semua informasi akun yang tersimpan dalam aplikasi ini, termasuk semua kontak dan pesan. Anda selalu dapat menghubungkan lagi dengan perangkat seluler Anda, tetapi itu tidak akan memulihkan pesan yang telah dihapus.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifikasi Nomor Keamanan",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Lihat Nomor Keamanan",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Lihat Nomor Keamanan",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Penguna ini tidak bisa diverifikasi sampai Anda bertukar pesan dengan mereka.",
@@ -2767,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Hapus draf pratinjau tautan",
+    "message": "Hapus pratinjau tautan pada draf",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Anda tidak dapat menyunting atau menghapus setelah selesai membuat paket stiker.",
+    "message": "Anda tidak akan bisa lagi mengedit atau menghapus setelah selesai membuat paket stiker.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Anda akan keluar dari grup ini, dan akan dihapus dari semua perangkat Anda.",
+    "message": "Anda akan keluar dari grup ini, dan grup akan dihapus dari semua perangkat Anda.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -4263,7 +4301,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:",
+    "message": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
@@ -4275,7 +4313,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluargkan dari grup:",
+    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Cabut dari admin",
+    "message": "Hapus dari peran admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {{count,number} grup yang sama}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -4687,7 +4725,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Buang foto",
+    "message": "Hapus foto",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Hapus \"$name$\" dari grup? Mereka tidak akan bisa gabung lagi via tautan grup.",
+    "message": "Keluarkan \"$name$\" dari grup? Mereka tidak akan bisa gabung lagi melalui tautan grup.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Gagal menghapus pesan untuk semuanya. Mohon coba lagi nanti.",
+    "message": "Gagal menghapus pesan untuk semua orang. Silakan coba lagi nanti.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5207,7 +5245,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Ini akan menghapus nama pengguna Anda, memungkinkan pengguna lain untuk memakainya. Apakah Anda yakin?",
+    "message": "Ini akan menghapus nama pengguna Anda, dan memungkinkan pengguna lain untuk memakainya. Apakah Anda yakin?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5859,7 +5897,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Yakin Anda mau menghapus \"$name$\"? Pembaruan yang dibagikan ke cerita ini juga akan dihapus.",
+    "message": "Anda yakin ingin menghapus \"$name$\"? Pembaruan yang dibagikan ke cerita ini juga akan dihapus.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6019,7 +6057,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Hapus cerita? Ini akan menghapus cerita dari daftar Anda, tetapi Anda masih dapat melihat cerita dari grup ini.",
+    "message": "Hapus cerita? Ini akan menghapus cerita dari daftar Anda, tetapi Anda masih bisa melihat cerita dari grup ini.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "Balas",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Balas ke {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Tanggapi cerita",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Menanggapi cerita",
@@ -6274,6 +6316,14 @@
     "message": "Tambahkan tautan untuk penonton cerita Anda",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Tambah teks",
     "description": "Placeholder for the add text input"
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Sekarang lebih mudah mengeklik di luar gambar untuk menutup tampilan galeri tanpa memperbesar. Terkadang Anda hanya ingin menutup, tetapi justru jadi terlalu dekat. Terima kasih kepada {jojomatik} untuk perbaikannya!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Percepat waktu respons Anda. Sekarang Anda dapat menanggapi lebih cepat dengan mengeklik emoji apa pun saat membalas cerita.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Kini Anda dapat mencari riwayat pesan untuk tiap karakter dalam bahasa Mandarin dan Jepang.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

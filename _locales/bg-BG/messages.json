@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Маркирайте, както е потвърдено"
+    "message": "Маркирайте, както е потвърдено",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Маркирай като непотвърден"
+    "message": "Маркирай като непотвърден",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Маркирайте, както е потвърдено",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Изчистване на проверка",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Вие потвърдихте номера ви за безопасност с $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Добре дошли в Сигнал"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Оригиналното съобщение вече не е налично",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Оригиналното съобщение е намерено, но не е заредено.\nСкролнете по-нагоре, за да го заредите.",
@@ -1067,7 +1077,7 @@
     "message": "Детайли за съобщението"
   },
   "delete": {
-    "message": "Изтрий"
+    "message": "Изтриване"
   },
   "accept": {
     "message": "Приемам"
@@ -1094,7 +1104,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Това съобщение ще бъде изтрито от вашето устройство.",
+    "message": "Това съобщение ще бъде изтрито от това устройство.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1109,9 +1119,25 @@
     "message": "До",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} към {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "От {sender} към вас",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "От вас към {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "От вас към {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "към",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Изпратено",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Преглеждане на числото за сигурност"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Преглеждане на числото за сигурност",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Разгледай последната мултимедия",
@@ -1169,15 +1199,15 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "Изтрий съобщението за мен",
+    "message": "Изтриване на съобщението за мен",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "Изтрий съобщението за всички",
+    "message": "Изтриване на съобщението за всички",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
@@ -1700,7 +1730,7 @@
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "Изтрийте всички данни",
+    "message": "Изтриване на всички данни",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1712,7 +1742,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Изтрий стари данни",
+    "message": "Изтриване на стари данни",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Провери Номерата за Безопасност",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Вижте номера за сигурност",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Вижте номера за сигурност",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Потребителят не може да бъде потвърден, докато не обмените съобщения с него.",
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Изтрий избраното съобщение",
+    "message": "Изтриване на избраното съобщение",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Изтрива чернова на преглед на връзка",
+    "message": "Премахване на чернова на преглед на връзката",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Изтрива всички чернови за прикачени обекти",
+    "message": "Премахване на всички чернови за прикачени файлове",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "Изтрий прикачен обект",
+    "message": "Премахване на прикачения файл",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3187,15 +3225,15 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Изтрий разговора?",
+    "message": "Изтриване на разговора?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Този разговор ще бъде изтрит от всичките ти устройства.",
+    "message": "Този разговор ще бъде изтрит от всичките ви устройства.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3203,7 +3241,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Ще напуснеш групата и тя ще бъде изтрита от всичките ти устройства.",
+    "message": "Ще напуснете тази група и тя ще бъде изтрита от всичките ви устройства.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3899,7 +3937,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$Ви премахна от групата.",
+    "message": "$adminName$ ви премахна от групата.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Бяхте отстранени от групата.",
+    "message": "Бяхте премахнати от групата.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Тези членове не могат да влязат в нови групи и ще бъдат премахнати от групата:",
+    "message": "Тези членове не могат да се присъединяват към нови групи и ще бъдат премахнати от групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Този член не може да влезе в нови групи и ще бъде премахнат от групата:",
+    "message": "Този член не може да се присъединява към нови групи и ще бъде премахнат от групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Тези членове не бяха готови да влязат в нови групи и бяха премахнати от групата:",
+    "message": "Тези членове не можеха да се присъединят към нови групи и бяха премахнати от групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Този член не беше готов да влезе в нови групи и беше премахнат от групата:",
+    "message": "Този член не можеше да се присъединява към нови групи и беше премахнат от групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$беше отстранен от групата.",
+    "message": "$contact$ беше премахнат от групата.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ членове бяха отстранени от групата.",
+    "message": "$count$ членове бяха премахнати от групата.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Отстраняване като администратор",
+    "message": "Премахване като администратор",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4379,7 +4417,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Отстраняване от групата",
+    "message": "Премахване от групата",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4691,7 +4729,7 @@
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Премахни контакт",
+    "message": "Премахване на контакт",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Отстраняване от групата",
+    "message": "Премахване от групата",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4931,7 +4969,7 @@
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "Изтрий цвят",
+    "message": "Изтриване на цвят",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5211,7 +5249,7 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5831,7 +5869,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "Премахни",
+    "message": "Премахване",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -6066,6 +6104,10 @@
     "message": "Отговори",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Отговор до {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Отговор до групата",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Реагиране на история",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Реагира на историята",
@@ -6147,11 +6189,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Изтрий за мен",
+    "messageformat": "Изтриване за мен",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "Изтрий за всички",
+    "messageformat": "Изтриване за всички",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6175,7 +6217,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "Изтрий",
+    "message": "Изтриване",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "Добавяне на линк за зрителите на историята ви",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "Добавяне на текст",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Вече е по-лесно да кликнете извън изображение, за да излезете от изгледа на галерията, без да увеличавате мащаба. Понякога просто искаш да излезеш от изображението, а вместо това влизаш все по-навътре. Благодарим на {jojomatik} за корекцията!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Ускорете времето си за реакция. Вече можете да реагирате по-бързо, като кликнете върху някое емоджи, докато отговаряте на история.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Вече е възможно да търсите в историята на съобщенията си отделни символи на китайски и японски.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

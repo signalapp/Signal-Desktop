@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "બધો ડેટા નષ્ટ કરીને ફરીથી પ્રારંભ કરો",
+    "message": "બધો ડેટા ડિલીટ કરીને ફરીથી શરૂ કરો",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "કાઢી નાખો",
+    "message": "ડિલીટ કરો",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -469,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {શું તમે ખરેખર સ્ટોરી {story} માંથી 1 પ્રાપ્તકર્તાને દૂર કરવા માંગો છો?} other {શું તમે ખરેખર સ્ટોરી {story} માંથી {count,number} પ્રાપ્તકર્તાને દૂર કરવા માંગો છો?}}",
+    "messageformat": "{count, plural, one {શું તમે ખરેખર સ્ટોરી {story} માંથી 1 પ્રાપ્તકર્તાને દૂર કરવા માગો છો?} other {શું તમે ખરેખર સ્ટોરી {story} માંથી {count,number} પ્રાપ્તકર્તાને દૂર કરવા માગો છો?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ચકાસાયેલ તરીકે માર્ક કરો"
+    "message": "ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો"
+    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ચકાસણી દૂર કરો",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "તમે $name$ સાથે તમારો સલામતી નંબર ચકાસી લીધો છે.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal પર આપનું સ્વાગત છે"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "મૂળ મેસેજ હવે ઉપલબ્ધ નથી",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "મૂળ મેસેજ મળ્યો, પરંતુ લોડ થયો નથી. તેને લોડ કરવા માટે ઉપર સ્ક્રોલ કરો.",
@@ -1067,7 +1077,7 @@
     "message": "મેસેજની વિગતો"
   },
   "delete": {
-    "message": "કાઢી નાખો"
+    "message": "ડિલીટ કરો"
   },
   "accept": {
     "message": "સ્વીકાર"
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "આ મેસેજ આ ડિવાઇસમાંથી કાઢી નાંખવામાં આવશે.",
+    "message": "આ મેસેજ આ ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "જો આ મેસેજ Signal નાં તાજેતરનાં વર્ઝન પર હોય તો વાતચીતમાં દરેક માટે આ મેસેજ કાઢી નાખવામાં આવશે. તેઓ જોઈ શકશે કે તમે કોઈ મેસેજ કાઢી નાખ્યો છે.",
+    "message": "જો આ મેસેજ Signalનાં તાજેતરનાં વર્ઝન પર હોય તો વાતચીતમાં દરેક માટે આ મેસેજ ડિલીટ કરવામાં આવશે. તેઓ જોઈ શકશે કે તમે કોઈ મેસેજ ડિલીટ કર્યો છે.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "તરફ:",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender}એ {receiverGroup}માં",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender}એ તમને",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "તમે {receiverGroup}ને",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "તમે {receiverContact}ને",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ને:",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "મોકલ્યો",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "સલામતી નંબર જુઓ"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "તાજેતરના મીડિયા જુઓ",
@@ -1169,19 +1199,19 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "મારા માટે મેસેજ કાીઢી નાખો",
+    "message": "મારા માટે મેસેજ ડિલીટ કરો",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "દરેક માટે મેસેજ કાીઢી નાખો",
+    "message": "દરેક માટે મેસેજ ડિલીટ કરો",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "કાઢી નાખો",
+    "message": "ડિલીટ કરો",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "આ વાતચીત કાયમીરૂપે કાઢી નાખીએ?",
+    "message": "આ વાતચીત કાયમીરૂપે ડિલીટ કરીએ?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "બધા ડેટા કાઢી નાખીએ?",
+    "message": "બધા ડેટા ડિલીટ કરીએ?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "તમે બધા સંપર્કો અને બધા સંદેશાઓ સહિત આ એપ્લિકેશનની તમામ સાચવેલી એકાઉન્ટ માહિતીને કાઢી નાખવાના છો. તમે હંમેશા તમારા મોબાઇલ ઉપકરણ સાથે ફરીથી લિંક કરી શકો છો, પરંતુ તે કાઢી નાખેલા સંદેશાઓને રિસ્ટોર કરશે નહીં.",
+    "message": "તમે બધા સંપર્કો અને બધા મેસેજ સહિત આ એપ્લિકેશનની તમામ સાચવેલી એકાઉન્ટ માહિતીને ડિલીટ કરવાના છો. તમે હંમેશા તમારા મોબાઇલ ડિવાઇસ સાથે ફરીથી લિંક કરી શકો છો, પરંતુ તે ડિલીટ કરેલા મેસેજને રિસ્ટોર કરશે નહીં.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "બધા ડેટા કાઢી નાખો",
+    "message": "બધા ડેટા ડિલીટ કરો",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "તમારી પાસે Signal ડેસ્કટોપના પહેલાના ઈન્સ્ટોલેશનનો અપ્રચલિત ડેટા છે. જો તમે ચાલુ રાખવાનું પસંદ કરો છો, તો તે કાઢી નાખવામાં આવશે અને તમે શરૂઆતથી પ્રારંભ કરશો.",
+    "message": "તમારી પાસે Signal ડેસ્કટોપના પહેલાંના ઇન્સ્ટોલેશનનો અપ્રચલિત ડેટા છે. જો તમે ચાલુ રાખવાનું પસંદ કરો છો, તો તે ડિલીટ કરવામાં આવશે અને તમે પહેલેથી શરૂ કરશો.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "જૂનો ડેટા કાઢી નાખો",
+    "message": "જૂનો ડેટા ડિલીટ કરો",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ડિલીટ નિષ્ફળ થયું",
+    "message": "ડિલીટ કરવાનું નિષ્ફળ થયું",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "સલામતી નંબર ચકાસો",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "જ્યાં સુધી તમે તેમની સાથે મેસેજની આપ-લે ન કરો ત્યાં સુધી આ વપરાશકર્તાની ચકાસણી કરી શકાતી નથી.",
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "આ મેસેજ કાઢી નાખ્યો હતો.",
+    "message": "આ મેસેજ ડિલીટ કર્યો હતો.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "પસંદ કરેલ મેસેજ કાઢી નાખો",
+    "message": "પસંદ કરેલ મેસેજ ડિલીટ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ડ્રાફ્ટ લિંક પ્રિવ્યુ દૂર કરવું",
+    "message": "ડ્રાફ્ટ લિંક પ્રિવ્યૂ દૂર કરવું",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "બધા ડ્રાફ્ટ અટચમેન્ટ દૂર કરવા",
+    "message": "બધા ડ્રાફ્ટ જોડાણ દૂર કરવા",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "અટેચમેન્ટ દૂર કરવું",
+    "message": "જોડાણ દૂર કરો",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "સ્ટીકર પેક બનાવ્યા પછી તમે હવે ફેરફાર કરી શકશો નહીં અથવા તેને કાઢી શકશો નહીં.",
+    "message": "સ્ટીકર પેક બનાવ્યા પછી તમે હવે ફેરફાર કરી શકશો નહીં અથવા તેને ડિલીટ કરી શકશો નહીં.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3187,31 +3225,31 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "કાઢી નાખો",
+    "message": "ડિલીટ કરો",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "વાતચીત કાઢી નાંખો?",
+    "message": "વાતચીત ડિલીટ કરવી છે?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "આ વાતચીત તમારા બધા ડિવાઇસમાંથી કાઢી નાખવામાં આવશે.",
+    "message": "આ વાતચીત તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ કાઢી નાખો અને છોડો?",
+    "message": "$group$ ડિલીટ કરી અને છોડવું છે?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "કાઢી નાખો",
+    "message": "ડિલીટ કરો",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "કાઢી નાખો અને છોડો",
+    "message": "ડિલીટ કરો અને છોડો",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "તમે આ ગ્રુપ ને છોડી દો, અને તે તમારા બધા ડિવાઇસમાંથી કાઢી નાખવામાં આવશે.",
+    "message": "તમે આ ગ્રુપને છોડી દો, અને તે તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "તમે ગ્રુપ લિંક દ્વારા આ ગ્રુપમાં જોડાઈ શકતા નથી કારણ કે એક એડમીને તમને દૂર કર્યા.",
+    "message": "તમે ગ્રુપ લિંક દ્વારા આ ગ્રુપમાં જોડાઈ શકતા નથી કારણ કે એક એડમિને તમને દૂર કર્યા.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3699,7 +3737,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "એક મેમ્બરે ગ્રુપનું નામ દૂર કર્યું.",
+    "message": "કોઈ સભ્યએ ગ્રુપનું નામ દૂર કર્યું.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3723,7 +3761,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "એક મેમ્બરે ગ્રુપ અવતાર દૂર કર્યો.",
+    "message": "કોઈ સભ્યએ ગ્રુપ અવતાર દૂર કર્યો.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ દૂર $memberName$.",
+    "message": "$adminName$ એ $memberName$ દૂર કરી.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,11 +3929,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "તમે $memberName$ ને દૂર કર્યા.",
+    "message": "તમે $memberName$ને દૂર કર્યા.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "એક મેમ્બરે $memberName$ ને દૂર કર્યા.",
+    "message": "કોઈ સભ્યએ $memberName$ને દૂર કર્યા.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "તમને ગ્રુપ માંથી દૂર કરવામાં આવ્યા હતા.",
+    "message": "તમને ગ્રુપમાંથી દૂર કરવામાં આવ્યા હતા.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,15 +4201,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "તમે ગ્રુપ વર્ણન દૂર કર્યું.",
+    "message": "તમે ગ્રુપનું વર્ણન દૂર કર્યું.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ એ ગ્રુપ ડિસ્ક્રિપ્શન દૂર કર્યું.",
+    "message": "$memberName$ એ ગ્રુપનું વર્ણન દૂર કર્યું.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "ગ્રુપ ડિસ્ક્રિપ્શન દૂર કરવામાં આવ્યું હતું.",
+    "message": "ગ્રુપનું વર્ણન દૂર કરવામાં આવ્યું હતું.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "આ મેમ્બર્સ નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
+    "message": "આ સભ્યો નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને તેમને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "આ મેમ્બર નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
+    "message": "આ સભ્ય નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નથી, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવશે:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "આ મેમ્બર્સ નવા ગ્રુપમાં જોડાવા માટે સક્ષમ ન હતા, અને તેમને ગ્રુપમાંથી દૂર કરવામાં આવ્યા હતા:",
+    "message": "આ સભ્યો નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નહોતા, અને તેમને ગ્રુપમાંથી દૂર કરવામાં આવ્યા:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "આ મેમ્બર નવા ગ્રુપમાં જોડાવા માટે સક્ષમ ન હતો, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવ્યો:",
+    "message": "આ સભ્ય નવા ગ્રુપમાં જોડાવા માટે સક્ષમ નહોતા, અને તેને ગ્રુપમાંથી દૂર કરવામાં આવ્યા:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ ને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
+    "message": "$contact$ને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ મેમ્બર્સને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
+    "message": "$count$ સભ્યોને ગ્રુપમાંથી દૂર કરવામાં આવ્યા.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "એડમિન તરીકે દૂર કરવું",
+    "message": "એડમિન તરીકેથી દૂર કરો",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4413,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ને ગ્રુપ એડમીનના પદેથી દૂર કરવા છે?",
+    "message": "$contact$ને ગ્રુપ એડમિનના પદેથી દૂર કરવા છે?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "ગ્રુપમાંથી દૂર કરવું",
+    "message": "ગ્રુપમાંથી દૂર કરો",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4725,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ફોટો કાઢો",
+    "message": "ફોટો દૂર કરો",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "સંપર્ક દૂર કરવું",
+    "message": "સંપર્ક દૂર કરો",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4927,15 +4965,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "દરેક માટે મેસેજ કાઢી નાખવામાં નિષ્ફળ. કૃપા કરીને પછીથી ફરી પ્રયાસ કરો.",
+    "message": "દરેક માટે મેસેજ ડિલીટ કરવામાં નિષ્ફળ. કૃપા કરીને પછીથી ફરી પ્રયાસ કરો.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "કલર કાઢી નાખો",
+    "message": "કલર ડિલીટ કરો",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "આ કસ્ટમ રંગનો ઉપયોગ $num$ ચેટ્સમાં થાય છે. શું તમે તેને બધી ચેટ્સ માટે કાઢી નાખવા માંગો છો?",
+    "message": "આ કસ્ટમ રંગનો ઉપયોગ $num$ ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "કાઢી નાખો",
+    "message": "ડિલીટ કરો",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5187,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "તમારું ઉપયોગકર્તા નામ દૂર ન થઈ શક્યું. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો.",
+    "message": "તમારું યુઝરનેમ દૂર થઈ શક્યું નહીં. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,11 +5241,11 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "ઉપયોગકર્તા નામ ડિલીટ કરો",
+    "message": "યુઝરનેમ ડિલીટ કરો",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "આમ કરવાથી તમારું ઉપયોગકર્તા નામ દૂર થઈ જશે, અને અન્ય ઉપયોગકર્તાઓ તેને લઈ શકશે. તમે ખરેખર આમ કરવા માંગો છો?",
+    "message": "આમ કરવાથી તમારું યુઝરનેમ દૂર થઈ જશે, અને અન્ય ઉપયોગકર્તાઓ તેને લઈ શકશે. તમે ખરેખર આમ કરવા માગો છો?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5215,7 +5253,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "યુઝરનેમ કૉપી અથવા ડિલીટ કરો",
+    "message": "યુઝરનેમ કૉપિ અથવા ડિલીટ કરો",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5859,7 +5897,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "શું તમે ખરેખર “ $name$ ” ને ડિલીટ કરવા માંગો છો? આ સ્ટોરી પર શેર કરેલ અપડેટ પણ ડિલીટ થઈ જશે.",
+    "message": "શું તમે ખરેખર “ $name$ ” ને ડિલીટ કરવા માગો છો? આ સ્ટોરી પર શેર કરેલ અપડેટ પણ ડિલીટ થઈ જશે.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5939,7 +5977,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "શું તમે ખરેખર “ {groupTitle} ” ને દૂર કરવા માંગો છો?",
+    "messageformat": "શું તમે ખરેખર “ {groupTitle} ” ને દૂર કરવા માગો છો?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6066,6 +6104,10 @@
     "message": "જવાબ",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName}ને જવાબ આપો",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ગ્રુપમાં જવાબ આપો",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "સ્ટોરી પર પ્રતિક્રિયા આપો",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "સ્ટોરી પર પ્રતિક્રિયા આપી",
@@ -6147,11 +6189,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "મારા માટે કાઢી નાખો",
+    "messageformat": "મારા માટે ડિલીટ કરો",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "બધા માટે કાઢી નાખો",
+    "messageformat": "બધા માટે ડિલીટ કરો",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "તમારી સ્ટોરીના દર્શકો માટે લિંક ઉમેરો",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "લખાણ ઉમેરો",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "હવે ઝૂમ ઇન કર્યા વિના ગેલેરી વ્યૂને કાઢી નાખવા માટે ફોટાની બહાર ક્લિક કરવું વધુ સરળ છે. કેટલીક વાર તમે ફક્ત બંધ કરવા માગતા હતા અને તેના બદલે વસ્તુઓ ખૂબ નજીક આવી જતી હતી. આને ઉકેલવા માટે {jojomatik} નો આભાર!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "તમારા પ્રતિભાવ સમયને ઝડપી બનાવો. હવે તમે સ્ટોરીનો જવાબ આપતી વખતે કોઈપણ ઇમોજી પર ક્લિક કરીને ઝડપથી પ્રતિક્રિયા આપી શકો છો.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ચાઇનીઝ અને જાપાનીઝમાં વ્યક્તિગત અક્ષરો માટે તમારી મેસેજ હિસ્ટ્રીમાં શોધવાનું હવે શક્ય છે.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }

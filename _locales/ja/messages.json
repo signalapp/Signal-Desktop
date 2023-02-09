@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "すべてのデータを削除して再起動",
+    "message": "すべてのデータを消去して再起動",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "検証済みにする"
+    "message": "検証済みにする",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "未検証にする"
+    "message": "未検証にする",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "検証済みにする",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "未検証にする",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ に対する安全番号を検証しました。",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signalへようこそ"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "元のメッセージはもう利用できません",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。",
@@ -1067,7 +1077,7 @@
     "message": "メッセージの詳細"
   },
   "delete": {
-    "message": "削除する"
+    "message": "消去"
   },
   "accept": {
     "message": "承認する"
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "このメッセージはこの端末から削除されます。",
+    "message": "このメッセージはこの端末から消去されます。",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "このメッセージは、チャットの参加者が最新バージョンの Signal を使っている場合、削除されます。参加者は、あなたがメッセージを削除したことは確認できます。",
+    "message": "このメッセージは、チャットの参加者が最新バージョンの Signal を使っている場合、全員に対して消去されます。参加者は、あなたがメッセージを消去したことが確認できます。",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "宛先",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} から {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} からあなた",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "あなたから {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "あなたから {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "宛先",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "送信",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "安全番号を表示する"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "安全番号を表示する",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "最近使用したメディア",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "全員分の削除を再実行",
+    "message": "全員分の消去を再実行",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1169,15 +1199,15 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "自分だけメッセージを削除",
+    "message": "自分だけメッセージを消去",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "全員でメッセージを削除",
+    "message": "全員分のメッセージを消去",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "すべてのデータを削除しますか？",
+    "message": "すべてのデータを消去しますか？",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "このアプリからすべてのアカウント情報を（連絡先とメッセージも含めて）削除します。また後で再びモバイルデバイスとリンクすることができますが、削除されたメッセージを元に戻すことはできません。",
+    "message": "このアプリからすべてのアカウント情報を（連絡先とメッセージも含めて）消去します。また後で再びモバイルデバイスとリンクすることができますが、消去されたメッセージを元に戻すことはできません。",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "すべてのデータを削除する",
+    "message": "すべてのデータを消去する",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは削除され、フレッシュな状態で改めて利用を始めることになります。",
+    "message": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは消去され、フレッシュな状態で改めて利用を始めることになります。",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "古いデータを削除",
+    "message": "古いデータを消去",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "削除できませんでした",
+    "message": "消去できませんでした",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "一部だけ削除済み、クリックして再実行",
+    "message": "一部だけ消去済み、クリックして再実行",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "安全番号を検証する",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "安全番号の検証",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "安全番号の検証",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "メッセージをやり取りするまではこのユーザーを確認できません。",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "最後のメッセージは削除された可能性があります。",
+    "message": "最後のメッセージは消去された可能性があります。",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "このメッセージは削除されました。",
+    "message": "このメッセージは消去されました。",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "選択したメッセージを削除",
+    "message": "選択したメッセージを消去",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "ステッカーパックは作成後に、編集や削除を行うことができません。",
+    "message": "ステッカーパックは作成後に編集や消去を行うことができません。",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3187,31 +3225,31 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "チャットを削除しますか？",
+    "message": "チャットを消去しますか？",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "このチャットはすべての端末から削除されます。",
+    "message": "このチャットはすべての端末から消去されます。",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "削除して $group$ から抜けますか？",
+    "message": "消去して $group$ から抜けますか？",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "削除して抜ける",
+    "message": "消去して抜ける",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "このグループから抜けて、すべての端末から削除します。",
+    "message": "このグループから抜けて、すべての端末から消去します。",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {共通のグループ {count,number}件}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -4883,7 +4921,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "グループから削除する",
+    "message": "グループから削除",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "\"$name$\"を、グループから削除しますか？このユーザは、グループリンクからもう一度このグループに入ることは、できなくなります。",
+    "message": "「$name$」を、グループから削除しますか？このユーザーは、グループリンクからもう一度このグループに入ることができなくなります。",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,15 +4965,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "全員でのメッセージ削除に失敗しました。あとで再度試してください。",
+    "message": "全員でのメッセージ消去に失敗しました。あとで再度試してください。",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "色を削除",
+    "message": "色を消去",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "この色は$num$件のチャットで使用されています。すべてのチャットで削除しますか？",
+    "message": "この色は$num$件のチャットで使用されています。すべてのチャットで消去しますか？",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5203,7 +5241,7 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "ユーザー名を削除",
+    "message": "ユーザー名を消去",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
@@ -5211,11 +5249,11 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "ユーザーネームをコピーまたは削除します",
+    "message": "ユーザーネームをコピーまたは消去します",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5227,7 +5265,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5455,7 +5493,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "ストーリーを共有したり閲覧したりできなくなります。最近共有したストーリーの更新情報も削除されます。",
+    "message": "ストーリーを共有したり閲覧したりできなくなります。最近共有したストーリーの更新情報も消去されます。",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5681,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "このストーリーを削除しますか？これを受けとった人も削除されます。",
+    "message": "このストーリーを消去しますか？これを受けとった人も消去されます。",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5855,11 +5893,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "カスタムストーリーを削除する",
+    "message": "カスタムストーリーを消去する",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "本当に「$name$」を削除しますか？ストーリーで共有された更新情報も削除されます。",
+    "message": "本当に「$name$」を消去しますか？ストーリーで共有された更新情報も消去されます。",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6015,7 +6053,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ストーリーを削除する",
+    "message": "ストーリーを消去する",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -6064,6 +6102,10 @@
   },
   "StoryViewer__reply": {
     "message": "返信",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName}へ返信",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6178,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "ストーリーへのリアクション",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "ストーリーにリアクションがありました",
@@ -6147,11 +6189,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "自分の分だけ削除",
+    "messageformat": "自分の分だけ消去",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "全員分を削除",
+    "messageformat": "全員分を消去",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6175,7 +6217,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6273,6 +6315,14 @@
   "StoryCreator__link-preview-empty": {
     "message": "ストーリーを閲覧する人のためのリンクを追加します",
     "description": "Empty state for the link preview"
+  },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story failed to send",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story couldn't be sent to all recipients",
+    "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
     "message": "テキストを追加",
@@ -6401,5 +6451,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "画像の外側をクリックしてギャラリービューを解除することができるようになりました。画像が拡大されることはありません。画像を閉じたいのにむしろ拡大される、なんて真逆でしたよね。修正してくれた {jojomatik}に感謝します！",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "返信を、より速くストーリーに返信するときに、お好きな絵文字をクリックすることで、より速くリアクションできるようになりました。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "中国語と日本語で、1文字単位でのメッセージ履歴検索が可能になりました。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "description": "Release notes for v6.6"
   }
 }
