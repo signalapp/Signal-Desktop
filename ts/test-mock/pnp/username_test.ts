@@ -89,7 +89,7 @@ describe('pnp/username', function needsName() {
     debug('find username in the left pane');
     await leftPane
       .locator(
-        `[data-testid="${usernameContact.device.uuid}"] >> "@${USERNAME}"`
+        `[data-testid="${usernameContact.device.uuid}"] >> "${USERNAME}"`
       )
       .waitFor();
 
@@ -243,7 +243,7 @@ describe('pnp/username', function needsName() {
     await searchInput.type(`@${CARL_USERNAME}`);
 
     debug('starting lookup');
-    await window.locator(`button >> "@${CARL_USERNAME}"`).click();
+    await window.locator(`button >> "${CARL_USERNAME}"`).click();
 
     debug('sending a message');
     {

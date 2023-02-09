@@ -40,7 +40,7 @@ export function getTitleNoDefault(
     (isShort ? attributes.profileName : undefined) ||
     getProfileName(attributes) ||
     getNumber(attributes) ||
-    (username && window.i18n('at-username', { username }))
+    username
   );
 }
 
