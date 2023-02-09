@@ -3223,50 +3223,57 @@ export class ConversationModel extends window.Backbone
         throw missingCaseError(callHistoryDetails);
     }
 
-    const message = {
-      conversationId: this.id,
-      type: 'call-history',
-      sent_at: timestamp,
-      received_at:
-        receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
-      readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
-      seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
-      callHistoryDetails: detailsToSave,
-      // TODO: DESKTOP-722
-    } as unknown as MessageAttributesType;
+    // This is sometimes called inside of another conversation queue job so if
+    // awaited it would block on this forever.
+    drop(
+      this.queueJob('addCallHistory', async () => {
+        const message = {
+          conversationId: this.id,
+          type: 'call-history',
+          sent_at: timestamp,
+          received_at:
+            receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
+          received_at_ms: timestamp,
+          readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
+          seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
+          callHistoryDetails: detailsToSave,
+          // TODO: DESKTOP-722
+        } as unknown as MessageAttributesType;
 
-    if (callHistoryDetails.callMode === CallMode.Direct) {
-      const messageId = await window.Signal.Data.getCallHistoryMessageByCallId(
-        this.id,
-        callHistoryDetails.callId
-      );
-      if (messageId != null) {
-        log.info(
-          `addCallHistory: Found existing call history message (Call ID ${callHistoryDetails.callId}, Message ID: ${messageId})`
+        if (callHistoryDetails.callMode === CallMode.Direct) {
+          const messageId =
+            await window.Signal.Data.getCallHistoryMessageByCallId(
+              this.id,
+              callHistoryDetails.callId
+            );
+          if (messageId != null) {
+            log.info(
+              `addCallHistory: Found existing call history message (Call ID ${callHistoryDetails.callId}, Message ID: ${messageId})`
+            );
+            message.id = messageId;
+          }
+        }
+
+        const id = await window.Signal.Data.saveMessage(message, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
+
+        const model = window.MessageController.register(
+          id,
+          new window.Whisper.Message({
+            ...message,
+            id,
+          })
         );
-        message.id = messageId;
-      }
-    }
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
+        this.trigger('newmessage', model);
+        void this.updateUnread();
 
-    const model = window.MessageController.register(
-      id,
-      new window.Whisper.Message({
-        ...message,
-        id,
+        if (canConversationBeUnarchived(this.attributes)) {
+          this.setArchived(false);
+        }
       })
     );
-
-    this.trigger('newmessage', model);
-    void this.updateUnread();
-
-    if (canConversationBeUnarchived(this.attributes)) {
-      this.setArchived(false);
-    }
   }
 
   /**
