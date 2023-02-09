@@ -361,6 +361,12 @@ export type GetAllStoriesResultType = ReadonlyArray<
   }
 >;
 
+export type FTSOptimizationStateType = Readonly<{
+  changes: number;
+  steps: number;
+  done?: boolean;
+}>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -710,6 +716,10 @@ export type DataInterface = {
   getMaxMessageCounter(): Promise<number | undefined>;
 
   getStatisticsForLogging(): Promise<Record<string, string>>;
+
+  optimizeFTS: (
+    state?: FTSOptimizationStateType
+  ) => Promise<FTSOptimizationStateType | undefined>;
 };
 
 export type ServerInterface = DataInterface & {
