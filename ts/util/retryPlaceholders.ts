@@ -190,6 +190,10 @@ export class RetryPlaceholders {
 
     this.items.splice(index, 1);
     this.makeLookups();
+
+    log.info(
+      `RetryPlaceholders.findByMessageAndRemove: Removing ${sentAt} from conversation ${conversationId}`
+    );
     await this.save();
 
     return result;
