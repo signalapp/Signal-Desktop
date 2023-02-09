@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Ukloni sve",
+    "message": "Уклони све",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -2767,7 +2767,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Ukloni nacrt prikaza linka",
+    "message": "Уклони нацрт приказа линка",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Ne možete da se pridružite ovoj grupi preko linka za grupu jer vas je administrator uklonio.",
+    "message": "Не можете да се придружите овој групи преко линка за групу јер вас је администратор уклонио.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -4375,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Уклонити $contact$ као администратор групе?",
+    "message": "Уклонити $contact$ као администратора групе?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4891,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Želite li da uklonite korisnika ($name$) iz grupe? Neće moći ponovo da se pridruži grupi preko linka.",
+    "message": "Желите ли да уклоните корисника ($name$) из групе? Неће моћи поново да се придружи групи преко линка.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Није успело да се избрише порука за све. Покушајте поново касније.",
+    "message": "Брисање поруке за све није успело. Покушајте поново касније.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5835,7 +5835,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Ukloni korisnika ($title$)",
+    "message": "Уклони корисника ($title$)",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -6066,6 +6066,10 @@
     "message": "Одговори",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Одговорите кориснику ({firstName})",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Одговорити групи",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагујте на причу",
+    "message": "(избрисано 25/01/2023) Реагујте на причу",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Сада је можете да кликнете изван слике да бисте одбацили приказ галерије без потребе да зумирате. Можете да затворите слику без претераног приближавања. Хвала програмеру {jojomatik} на овој поправци!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Убрзајте време одговора. Сада можете брже да реагујете тако што ћете кликнути на било који емоџи када одговарате на причу.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Сада је могуће претраживати историју порука помоћу појединачних знакова на кинеском и јапанском.",
+    "description": "Release notes for v6.5"
   }
 }

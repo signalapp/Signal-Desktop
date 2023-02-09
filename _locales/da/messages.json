@@ -2279,7 +2279,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Beskeden blev slettet",
+    "message": "Beskeden blev slettet.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -3195,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Samtalen vil blive slettet fra alle dine enheder",
+    "message": "Samtalen vil blive slettet fra alle dine enheder.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3211,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Du forlader gruppen og den vil blive slettet fra alle dine enheder",
+    "message": "Du forlader gruppen og den vil blive slettet fra alle dine enheder.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3691,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "\"$memberName$\" fjernede navnet på gruppen",
+    "message": "\"$memberName$\" fjernede navnet på gruppen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Du fjernede navnet på gruppen",
+    "message": "Du fjernede navnet på gruppen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "En medlem fjernede navnet på gruppen",
+    "message": "En medlem fjernede navnet på gruppen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "\"$memberName$\" fjernede gruppens avatar",
+    "message": "\"$memberName$\" fjernede gruppens avatar.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Du fjernede gruppens avatar",
+    "message": "Du fjernede gruppens avatar.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "En medlem fjernede gruppens avatar",
+    "message": "En medlem fjernede gruppens avatar.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ fjernede $memberName$",
+    "message": "$adminName$ fjernede $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Du fjernede $memberName$",
+    "message": "Du fjernede $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "En medlem fjernede $memberName$",
+    "message": "En medlem fjernede $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ fjernede dig",
+    "message": "$adminName$ fjernede dig.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Du er blevet fjernet fra gruppen",
+    "message": "Du er blevet fjernet fra gruppen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -6066,6 +6066,10 @@
     "message": "Besvar",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Besvar {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Svar gruppe",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagér på historie",
+    "message": "(slettet 25/01/23) Reager på historien",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Nu er det nemmere at klikke uden for et billede for at afvise gallerivisningen uden at zoome ind. Nogle gange ville man bare gerne lukke, men i stedet kom man lidt for tæt på. Tak for rettelsen, {jojomatik}!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Få en hurtigere svartid. Nu kan du reagere hurtigere ved at klikke på en emoji, når du svarer på en historie.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Det er nu muligt at søge efter individuelle tegn på kinesisk og japansk i din beskedhistorik.",
+    "description": "Release notes for v6.5"
   }
 }

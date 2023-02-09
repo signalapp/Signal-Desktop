@@ -469,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, other {{story} 스토리에서 받는 사람 {count,number}명을 삭제할까요?}}",
+    "messageformat": "{count, plural, other {{story} 스토리에서 받는 사람 {count,number}명을 제거할까요?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "이 애플리케이션에 저장된 계정 정보, 모든 연락처와 모든 메시지를 지우려 합니다. 모바일 기기를 다시 연결할 수 있으나 지워진 메시지는 복구할 수 없습니다.",
+    "message": "이 애플리케이션에 저장된 계정 정보, 모든 연락처와 모든 메시지를 삭제하려 합니다. 모바일 기기를 다시 연결할 수 있으나 삭제된 메시지는 복구할 수 없습니다.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -2747,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "메시지 삭제하기",
+    "message": "선택한 메시지 삭제하기",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "관리자가 당신을 차단했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다.",
+    "message": "관리자가 당신을 제거했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3691,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ 님이 그룹 이름을 삭제했습니다.",
+    "message": "$memberName$ 님이 그룹 이름을 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "그룹 이름을 삭제했습니다.",
+    "message": "그룹 이름을 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "멤버가 그룹 이름을 삭제했습니다.",
+    "message": "멤버가 그룹 이름을 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,7 +3715,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ 님이 그룹 아바타를 삭제했습니다.",
+    "message": "$memberName$ 님이 그룹 아바타를 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
@@ -3723,7 +3723,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "멤버가 그룹 아바타를 삭제했습니다.",
+    "message": "멤버가 그룹 아바타를 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3891,11 +3891,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "$memberName$ 님을 삭제했습니다.",
+    "message": "$memberName$ 님을 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "멤버가 $memberName$ 님을 삭제했습니다.",
+    "message": "멤버가 $memberName$ 님을 제거했습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "그룹에서 제외되었습니다.",
+    "message": "그룹에서 제거되었습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4171,7 +4171,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "그룹 설명이 삭제되었습니다.",
+    "message": "그룹 설명이 제거되었습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4271,11 +4271,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "이 멤버들은 새 그룹에 가입할 수 없었으며 그룹에서 제거되었습니다.",
+    "message": "이 멤버들은 새 그룹에 가입하지 못했고 그룹에서 제거되었습니다.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "이 멤버는 새 그룹에 가입할 수 없었으며 그룹에서 제거되었습니다.",
+    "message": "이 멤버는 새 그룹에 가입하지 못했고 그룹에서 제거되었습니다.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4363,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "권리자 권한으로 제외",
+    "message": "권리자 권한으로 제거",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4379,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "그룹에서 제외",
+    "message": "그룹에서 제거",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "사진 삭제",
+    "message": "사진 제거",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "연락처 삭제",
+    "message": "연락처 제거",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "그룹에서 제외",
+    "message": "그룹에서 제거",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -5187,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "사용자명을 제거하지 못했습니다. 연결을 확인하고 다시 시도하세요.",
+    "message": "사용자 이름을 제거하지 못했습니다. 연결을 확인하고 다시 시도하세요.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,11 +5203,11 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "사용자명 삭제",
+    "message": "사용자 이름 삭제",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "사용자명을 삭제하면 다른 사용자가 사용할 수 있게 됩니다. 계속할까요?",
+    "message": "사용자 이름을 삭제하면 다른 사용자가 사용할 수 있게 됩니다. 계속할까요?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5831,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "삭제",
+    "message": "제거",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5939,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "''{groupTitle}'을(를) 삭제할까요?",
+    "messageformat": "''{groupTitle}'을(를) 제거할까요?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6066,6 +6066,10 @@
     "message": "답장",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} 님에게 답장",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "그룹에 답장",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "스토리에 반응",
+    "message": "(23/01/25에 삭제함) 스토리에 반응",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "이제 이미지 밖을 클릭하면 이미지가 확대되는 대신 갤러리 보기가 종료됩니다. 가까운 것도 좋지만 자고로 관계란 적절한 거리가 유지될 때 더 아름다운 법이죠. 이 문제를 해결해 준 {jojomatik}에 감사드립니다!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "더 빨리 반응하세요. 이제 스토리에 답장할 때 아무 이모지나 클릭하여 더욱 빠르게 반응할 수 있습니다.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "이제 중국어나 일본어 개별 글자로 메시지 기록을 검색할 수 있습니다.",
+    "description": "Release notes for v6.5"
   }
 }

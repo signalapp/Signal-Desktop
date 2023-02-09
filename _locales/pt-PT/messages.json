@@ -5455,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Já não poderá partilhar ou ver histórias. As atualizações de histórias que tenha partilhado recentemente também serão apagadas.",
+    "message": "Já não poderá partilhar ou ver histórias. As atualizações de histórias que tenha partilhado recentemente também serão eliminadas.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5939,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Tem a certeza de que deseja eliminar “{groupTitle}”?",
+    "messageformat": "Tem a certeza de que deseja remover “{groupTitle}”?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6019,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eliminar história? Esta ação removerá a história desta lista, mas ainda poderá ver histórias deste grupo.",
+    "message": "Remover história? Esta ação removerá a história desta lista, mas ainda poderá ver histórias deste grupo.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Responder",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Responder a {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagir à história",
+    "message": "(eliminado 25/01/2023) Reagiu à história",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Agora é mais fácil clicar fora de uma imagem para ignorar a visualização da galeria sem ampliar. Às vezes é mesmo melhor ir embora do que ficar a olhar. Agradecemos a {jojomatik} pela correção!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "★ Acelere o seu tempo de resposta. Agora pode reagir mais rapidamente tocando em qualquer emoji ao responder a uma história.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Agora é possível pesquisar no histórico de mensagens caracteres individuais em chinês e japonês.",
+    "description": "Release notes for v6.5"
   }
 }

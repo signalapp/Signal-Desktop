@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ဖျက်မည်",
+    "message": "ဖျက်ရန်",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -1067,7 +1067,7 @@
     "message": "Message Detail"
   },
   "delete": {
-    "message": "ဖျက်ပါ"
+    "message": "ဖျက်ရန်"
   },
   "accept": {
     "message": "လက်ခံသည်"
@@ -1098,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "အကယ်၍ သူတို့ကလတ်တလော Signal ပုံစံတွင်ရှိနေလျှင်ဤမက်ဆေ့ခ်ျသည်စကားပြောဆိုမှုတွင်ပါဝင်သူများအတွက်ဖျက်ပစ်လိမ့်မည်။ သူတို့ကသင်မက်ဆေ့ခ်ျတစ်ခုဖျက်လိုက်သည်ကိုတွေ့နိုင်လိမ့်မည်။",
+    "message": "စကားဝိုင်းတွင် ရှိသူများသည် လတ်တလောထွက်ထားသော Signal ဗားရှင်းကို အသုံးပြုနေပါက ဤမက်ဆေ့ခ်ျကို လူတိုင်းအတွက် ဖျက်သွားပါမည်။ သင်က မက်ဆေ့ခ်ျတစ်ခုဖျက်လိုက်သည်ကို ၎င်းတို့ကမြင်နိုင်လိမ့်မည်။",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "အားလုံးအတွက် ဖျက်သည်ကို ပြန်ကြိုးစားရန်",
+    "message": "လူတိုင်းအတွက် ဖျက်သည်ကို ပြန်ကြိုးစားရန်",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1173,15 +1173,15 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "အားလုံးအတွက် မက်ဆေ့ချ်ကို ဖျက်ရန်",
+    "message": "လူတိုင်းအတွက် မက်ဆေ့ချ်ကို ဖျက်ရန်",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "ဖျက်မည်",
+    "message": "ဖျက်ရန်",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Permanently delete this conversation?",
+    "message": "ဤစကားဝိုင်းကို အပြီး ဖျက်ပစ်မည်လား။",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2279,7 +2279,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "ဤမက်ဆေ့အား ဖျက်ပြီးပါပြီ",
+    "message": "ဤမက်ဆေ့အား ဖျက်ပြီးပါပြီ။",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2767,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "အကြမ်း လင့်ခ်ကြိုတင်ကြည့်ရှုမှုကို ဖယ်ရှားရန်",
+    "message": "မူကြမ်း လင့်ခ်ကြိုတင်ကြည့်ရှုမှုကို ဖယ်ရှားရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "အကြမ်း ပူးတွဲဖိုင်များအားလုံးကို ဖယ်ရှားရန်",
+    "message": "မူကြမ်း ပူးတွဲဖိုင်များအားလုံးကို ဖယ်ရှားရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2963,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "စတစ်ကာကို ဖယ်ရှားရန်",
+    "message": "စတစ်ကာ ဖယ်ရှားရန်",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3187,15 +3187,15 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "ဖျက်မည်",
+    "message": "ဖျက်ရန်",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "စကားများကို ဖျက်မလား?",
+    "message": "စကားဝိုင်းကို ဖျက်မည်လား။",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "ဤစကားပြောဆိုမှုထားမှုကို သင်၏ကိရိယာအားလုံးမှ ဖျက်ပစ်လိမ့်မည်။",
+    "message": "ဤစကားဝိုင်းကို သင်၏စက်အားလုံးမှ ဖျက်သွားပါမည်။",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3203,15 +3203,15 @@
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "ဖျက်မည်",
+    "message": "ဖျက်ရန်",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "ဖျက်သိမ်းပြီး ထွက်ခွာမယ်",
+    "message": "ဖျက်ပြီး ထွက်ရန်",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "သင်သည် ၎င်းအဖွဲ့မှ ထွက်ခွာပြီး ၎င်းအဖွဲ့သည် သင်၏ အခြားစက်များအားလုံးပေါ်မှလည်း ဖျက်သိမ်းသွားပါမည်။",
+    "message": "သင်သည် ဤအဖွဲ့မှ ထွက်မည်ဖြစ်ပြီး ယင်းအဖွဲ့ကို သင်၏ အခြားစက်များအားလုံးမှလည်း ဖျက်သွားပါမည်။",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3695,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "သင်သည် အဖွဲ့၏ အမည်ကို ဖယ်ရှားခဲ့ပါသည်။",
+    "message": "သင်သည် အဖွဲ့အမည်ကို ဖယ်ရှားခဲ့ပါသည်။",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "၎င်းအဖွဲ့ဝင်များသည် အဖွဲ့သစ်သို့ မဝင်ရောက်နိုင်သောကြောင့် အဖွဲ့မှ​ ဖယ်ရှားခံခဲ့ရပါသည် -",
+    "message": "၎င်းမန်ဘာများသည် အဖွဲ့အသစ်များတွင် ပါဝင်၍မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားသွားပါမည် -",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "၎င်းအဖွဲ့ဝင်သည် အဖွဲ့သစ်သို့ မဝင်ရောက်နိုင်သောကြောင့် အဖွဲ့မှ​ ဖယ်ရှားခံခဲ့ရပါသည် -",
+    "message": "ဤမန်ဘာသည် အဖွဲ့အသစ်များတွင် ပါဝင်၍မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားသွားပါမည် -",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "ဤမန်ဘာများသည် အဖွဲ့သစ်များတွင် ပါဝင်၍ မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားခံထားရပါသည်-",
+    "message": "၎င်းမန်ဘာများသည် အဖွဲ့သစ်များတွင် ပါဝင်၍မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားခဲ့ပါသည် -",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "ဤမန်ဘာသည် အဖွဲ့သစ်များတွင် ပါဝင်၍ မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားခံထားရပါသည်-",
+    "message": "ဤမန်ဘာသည် အဖွဲ့သစ်များတွင် ပါဝင်၍မရနိုင်သောကြောင့် အဖွဲ့မှ ဖယ်ရှားခဲ့ပါသည် -",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4363,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "အက်မင်အဖြစ်ဖယ်ရှားမည်",
+    "message": "အက်မင်အဖြစ်မှ ဖယ်ရှားရန်",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4379,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "အုပ်စုမှဖယ်ရှားမည်",
+    "message": "အဖွဲ့မှ ဖယ်ရှားရန်",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ပုံကို ဖယ်ပ",
+    "message": "ပုံကို ဖယ်ရှားရန်",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4883,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "အဖွဲ့မှ ဖယ်ရှားမယ်",
+    "message": "အဖွဲ့မှ ဖယ်ရှားရန်",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "မက်ဆေ့ချ်ကို လူအားလုံးအတွက် ဖျက်ပစ်ရန် မအောင်မြင်ပါ။ နောက်မှ ပြန်ကြိုးစားပေးပါ။",
+    "message": "မက်ဆေ့ချ်ကို လူတိုင်းအတွက် ဖျက်ပစ်ရန် မအောင်မြင်ပါ။ နောက်မှ ပြန်ကြိုးစားပေးပါ။",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4995,7 +4995,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "ဖျက်မယ်",
+    "message": "ဖျက်ရန်",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5211,7 +5211,7 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "ဖျက်မယ်",
+    "message": "ဖျက်ရန်",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5831,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "ဖယ်ရှားမယ်",
+    "message": "ဖယ်ရှားရန်",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -6066,6 +6066,10 @@
     "message": "စာပြန်မည်",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} ထံ အကြောင်းပြန်ရန်",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "အဖွဲ့အတွက် ပြန်စာ",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "စတိုရီကို တုံ့ပြန်မှု ပေးရန်",
+    "message": "(01/25/23 တွင် ဖျက်ထားသည်) စတိုရီကို တုံ့ပြန်ရန်",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6147,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မယ်",
+    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်ပါ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "လူတိုင်းအတွက်ဖျက်ပါ",
+    "messageformat": "လူတိုင်းအတွက် ဖျက်ပါ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "ဇူးမ် မချဲ့ဘဲ ပုံပြခန်းကြည့်ရှုမှုကို ဖယ်ရန် ပုံပြင်ပကို နှိပ်ရသည်မှာ ယခုဆို ပိုမိုလွယ်ကူသွားပါသည်။ တစ်ခါတစ်ရံ ပိတ်ချလိုက်လိုသော်လည်း ထိုအစား မျက်စိမှောက်နေတတ်သည်။ ပြုပြင်ပေးမှုအတွက် {jojomatik} ကို ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "သင့်တုံ့ပြန်ချိန်ကို တိုးမြှင့်ပါ။ ယခုအခါ စတိုရီကို အကြောင်းပြန်သည့်အခါ မည်သည့်အီမိုဂျိကိုမဆို နှိပ်၍ ပိုမိုမြန်ဆန်စွာ တုံ့ပြန်နိုင်ပါပြီ။",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ယခုအခါ တရုတ်အက္ခရာနှင့် ဂျပန်အက္ခရာ တစ်လုံးစီအတွက် သင့်မက်ဆေ့ချ်မှတ်တမ်းကို ရှာ၍ ရနိုင်ပါပြီ။",
+    "description": "Release notes for v6.5"
   }
 }

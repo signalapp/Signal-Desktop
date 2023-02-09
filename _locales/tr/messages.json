@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Hepsini çıkar",
+    "message": "Hepsini kaldır",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -481,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Hikayeden çıkar",
+    "message": "Hikayeden kaldır",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -1098,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Bu ileti konuşmadaki güncel bir Signal sürümü kullanan herkesten silinecektir. Üyeler bir ileti sildiğinizi göreceklerdir.",
+    "message": "Bu mesaj, konuşmadaki güncel bir Signal sürümüne sahip olan herkesten silinecektir. Konuşmadakiler bir mesajı sildiğini görebilir.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1169,11 +1169,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "İletiyi benden sil",
+    "message": "Mesajı benden sil",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "İletiyi herkesten sil",
+    "message": "Mesajı herkesten sil",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Tüm kişilerin ve tüm iletilerin dahil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresiniz. İstediğiniz zaman mobil cihazınızla tekrar bağlayabilirsiniz, ancak silinen iletiler geri yüklenmeyecektir.",
+    "message": "Tüm kişilerin ve tüm iletilerin dâhil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresin. İstediğin zaman mobil cihazınla yeniden bağlayabilirsin ancak silinen iletiler geri yüklenmeyecektir.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Daha önceki Signal Masaüstü kurulumundan kalma eski verileriniz var. Eğer devam etmeyi seçerseniz, bu veriler silinecek ve sıfırdan başlayacaksınız.",
+    "message": "Daha önceki Signal Masaüstü kurulumundan kalma eski verilerin var. Eğer devam etmeyi seçersen bu veriler silinecek ve sıfırdan başlayacaksın.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1770,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Kısmen silindi, tekrar denemek için tıklayın",
+    "message": "Kısmen silindi, tekrar denemek için tıkla",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -3019,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Çıkartma paketini oluşturduktan sonra düzenlemeler yapamayacak veya silemeyeceksiniz.",
+    "message": "Çıkartma paketini oluşturduktan sonra düzenleme yapamayacak veya paketi silemeyeceksin.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3199,7 +3199,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ grubunu Sil ve Ayırl?",
+    "message": "$group$ grubunu Sil ve Ayrıl?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Bu gruptan ayrılacaksınız ve tüm cihazlarınızdan silinecek.",
+    "message": "Bu gruptan ayrılacaksın ve tüm cihazlarından silinecek.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Yönetici tarafından kaldırıldığınız için bu gruba, grup bağlantısı ile katılamazsınız.",
+    "message": "Gruptan yönetici tarafından çıkarıldığın için gruba bağlantıyla katılamazsın.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3695,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Grup adını kaldırdınız.",
+    "message": "Grup adını kaldırdın.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$, $memberName$ kişisini çıkarttı.",
+    "message": "$memberName$, $adminName$ tarafından çıkarıldı.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "$memberName$ kişisini çıkarttınız.",
+    "message": "$memberName$ adlı kişiyi çıkarttın.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Bir üye $memberName$ kişisini çıkarttı.",
+    "message": "$memberName$, bir üye tarafından çıkarıldı.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ sizi çıkarttı.",
+    "message": "$adminName$ seni çıkarttı.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Gruptan çıkartıldınız.",
+    "message": "Gruptan çıkartıldın.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,11 +4163,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Grup açıklamasını kaldırdınız.",
+    "message": "Grup açıklamasını kaldırdın.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ grup açıklamasını kaldırdı",
+    "message": "$memberName$ grup açıklamasını kaldırdı.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4263,7 +4263,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Bu üyeler Yeni Gruplara katılamazlar ve gruptan çıkarılacaklardır:",
+    "message": "Bu üyeler Yeni Gruplara katılamazlar ve gruptan çıkarılacaklar:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
@@ -4379,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Gruptan çıkart",
+    "message": "Gruptan çıkar",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4883,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Gruptan çıkart",
+    "message": "Gruptan çıkar",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4891,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "\"$name$\" gruptan kaldırılsın mı? Grup bağlantısı üzerinden tekrar katılamayacaktır.",
+    "message": "\"$name$\" gruptan çıkarılsın mımı? Gruba tekrar bağlantı üzerinden katılamayacak.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "İletinin herkesten silinmesi başarısız oldu. Lütfen daha sonra tekrar deneyin.",
+    "message": "İletinin herkesten silinmesi başarısız oldu. Lütfen daha sonra tekrar dene.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Bu özel renk $num$ konuşmada kullanılıyor. Tüm konuşmalar için silmek istiyor musunuz?",
+    "message": "Bu özel renk $num$ konuşmada kullanılıyor. Tüm konuşmalar için silmek istiyor musun?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5187,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Kullanıcı adınız kaldırılamadı. Bağlantınızı kontrol edip tekrar deneyin.",
+    "message": "Kullanıcı adın kaldırılamadı. Bağlantını kontrol et ve tekrar dene.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,11 +5203,11 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "Kullanıcı adını kaldır",
+    "message": "Kullanıcı adını sil",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Bu kullanıcı adınızı kaldırıp diğer kullanıcılar tarafından kullanılabilir hale getirecektir. Emin misiniz?",
+    "message": "Bu işlem kullanıcı adını kaldırarak söz konusu adı diğer kullanıcılar tarafından kullanılabilir hâle getirecektir. Kaldırmak istiyor musun?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5835,7 +5835,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$öğesini kaldır",
+    "message": "$title$ adlı kişiyi kaldır",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -6066,6 +6066,10 @@
     "message": "Cevapla",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Yanıtla: {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Gruba Yanıtla",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Hikayeye tepki ver",
+    "message": "(25/01/2023 tarihinde silindi) Hikayeye tepki ver",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Galeri görünümünü yakınlaştırmadan kapatmak için bir resmin dışına tıklamak artık daha kolay. Bazen sadece resmi kapatmak isterken bunun yerine yanlışlıkla her şeyi yakınlaştırırsın ya? Düzeltme için teşekkürler {jojomatik}!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Yanıt süreni hızlandır. Artık bir hikayeyi yanıtlarken herhangi bir emojiye tıklayarak daha hızlı tepki verebilirsin.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Artık mesaj geçmişinde Çince ve Japonca karakterleri tek tek aramak mümkün.",
+    "description": "Release notes for v6.5"
   }
 }

@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Vee alle data uit en begin weer",
+    "message": "Skrap alle data en begin weer",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "Verwyder",
+    "message": "Skrap",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -1067,7 +1067,7 @@
     "message": "Boodskapbesonderhede"
   },
   "delete": {
-    "message": "Verwyder"
+    "message": "Skrap"
   },
   "accept": {
     "message": "Aanvaar"
@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Probeer weer skrap vir almal",
+    "message": "Probeer weer Skrap vir Almal",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1692,15 +1692,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Vee alle data uit?",
+    "message": "Skrap alle data?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Jy is op die punt om al die gestoorde rekeninginligting van hierdie toepassing te verwyder, insluitend alle kontakte en alle boodskappe. Jy kan altyd weer met jou selfoon koppel, maar dit sal nie die verwyderde boodskappe herstel nie.",
+    "message": "Jy is op die punt om al die gestoorde rekeninginligting van hierdie toepassing te skrap, insluitend alle kontakte en alle boodskappe. Jy kan altyd weer met jou selfoon koppel, maar dit sal nie die verwyderde boodskappe herstel nie.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "Vee alle data uit",
+    "message": "Skrap alle data",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Jy het verouderde data uit 'n vorige installasie van Signal Desktop. As jy kies om voort te gaan, sal dit verwyder word en jy sal van voor af begin.",
+    "message": "Jy het verouderde data uit 'n vorige installasie van Signal Desktop. As jy kies om voort te gaan, sal dit geskrap word en jy sal van voor af begin.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Vee ou data uit",
+    "message": "Skrap ou data",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -4267,7 +4267,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Hierdie lede kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:",
+    "message": "Hierdie lid kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -6066,6 +6066,10 @@
     "message": "Antwoord",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Antwoord aan {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Antwoord aan Groep",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reageer op storie",
+    "message": "(geskrap 25/01/23) Reageer op storie",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Nou is dit makliker om buite 'n beeld te klik om van daardie galerybeeld ontslae te raak sonder dat dit inzoem. Soms wou jy die beeld net toemaak, nie opblaas nie. Dankie aan {jojomatik} vir hierdie regstelling!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Versnel jou responstyd. Nou kan jy vinniger reageer deur op enige emoji te klik wanneer jy op 'n storie antwoord.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Dit is nou moontlik om deur jou boodskapgeskiedenis vir individuele karakters in Chinees en Japannees te soek.",
+    "description": "Release notes for v6.5"
   }
 }

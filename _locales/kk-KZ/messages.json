@@ -3691,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ топтың атын өшіріп тастады.",
+    "message": "$memberName$ топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Сіз топ атауын алып тастадыңыз.",
+    "message": "Сіз топ атауын өшіріп тастадыңыз.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Мүше топтың атын өшіріп тастады.",
+    "message": "Мүше топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -4271,11 +4271,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4375,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ топ админінен өшіру керек пе?",
+    "message": "$contact$ топ әкімшісінен өшіру керек пе?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4687,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Фотосуретті жою",
+    "message": "Фотосуретті өшіру",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -5835,7 +5835,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$ деген пайдаланушыны өшіру",
+    "message": "$title$ өшіру",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5859,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" деген стористі шынымен де жойып тастағыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
+    "message": "\"$name$\" шынымен де жойғыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6066,6 +6066,10 @@
     "message": "Жауап беру",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} деген кісіге жауап беру",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Топқа жауап беру",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Сториске реакция қалдыру",
+    "message": "(25/01/23 күні жойылды) Сториске реакция қалдыру",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Енді суреттен тыс жерді басып қалып, суретті ұлғайтпай-ақ галерея көрінісін жабуға болады. Кейде жай ғана суретті жабайын дегенде, ол үлкейіп кететін. Осыны түзеткені үшін {jojomatik} ұжымына рақмет!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Барынша тез жауап беріңіз. Енді стористерге жауап бергенде, кез келген эмодзиді түртіп, жылдам реакция қалдыра аласыз.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Енді хаттар тарихынан қытай немесе жапон тілдерінде жекелекен иероглифтерді іздеуіңізге болады.",
+    "description": "Release notes for v6.5"
   }
 }

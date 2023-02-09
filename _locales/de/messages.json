@@ -6066,6 +6066,10 @@
     "message": "Antworten",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Antwort an {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Gruppe antworten",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Auf Story reagieren",
+    "message": "(gelöscht am 25.01.23) Auf Story reagieren",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Jetzt ist es einfacher, die Galerie-Ansicht durch Klicken außerhalb eines Bildes zu schließen, ohne hineinzuzoomen. Manchmal wolltest du einfach nur abschalten, aber stattdessen kamen dir die Dinge zu nahe. Danke an {jojomatik} für den Lösungsvorschlag!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Verkürze deine Antwortzeit. Jetzt kannst du noch schneller reagieren, indem du auf ein beliebiges Emoji klickst, um auf eine Story zu antworten.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Es ist jetzt möglich, deinen Nachrichtenverlauf nach einzelnen Zeichen auf Chinesisch und Japanisch zu durchsuchen.",
+    "description": "Release notes for v6.5"
   }
 }

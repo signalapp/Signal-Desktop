@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Reîncearcă ștergerea pentru toată lumea",
+    "message": "Reîncearcă Ștergerea pentru Toată Lumea",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1712,7 +1712,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Șterge datele vechi",
+    "message": "Șterge Datele Vechi",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -3207,7 +3207,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Șterge și părăsește",
+    "message": "Șterge și Pleacă",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -4267,15 +4267,15 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Acest memebru nu se poate alătura noilor grupuri și va fi șters din grup.",
+    "message": "Acest membru nu se poate alătura Noilor Grupuri și va fi șters din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Acești membri nu s-au putut alătura grupurilor noi, și au fost eliminați din grup.",
+    "message": "Acești membri nu s-au putut alătura Noilor Grupuri și au fost eliminați din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Acest membru nu s-a putut alătura grupurilor noi, și a fost eliminat din grup:",
+    "message": "Acest membru nu s-a putut alătura Noilor Grupuri și a fost eliminat din grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -6066,6 +6066,10 @@
     "message": "Răspunde",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Răspunde către {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Răspunde grupului",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reacționează la poveste",
+    "message": "(șters pe data de 25/01/23) Reacționează la poveste",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Acum este mai simplu să dai clic în afara unei imagini ca să închizi vizualizarea de tip galerie fără să mărești. Uneori voiai doar să închizi, dar în schimb măreai lucruri. Mulțumim {jojomatik} pentru reparare!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Mărește-ți viteza de răspuns. Acum poți să reacționezi mai rapid dând clic pe un emoji în timp ce răspunzi la o poveste.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Acum este posibil să cauți în istoricul de mesaje pentru personaje individuale în chineză și japoneză.",
+    "description": "Release notes for v6.5"
   }
 }

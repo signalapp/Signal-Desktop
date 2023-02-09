@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸು",
+    "message": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಿ",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -1067,7 +1067,7 @@
     "message": "ಸಂದೇಶದ ವಿವರಗಳು"
   },
   "delete": {
-    "message": "ಅಳಿಸು"
+    "message": "ಅಳಿಸಿ"
   },
   "accept": {
     "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ"
@@ -1708,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Signal Desktop ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.",
+    "message": "Signal Desktop ನ ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1758,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ",
+    "message": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -2767,7 +2767,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ಡ್ರಾಫ್ಟ್‌ ಲಿಂಕ್ ಪೂರ್ವವೀಕ್ಷಣೆ ತೆಗೆದುಹಾಕಿ",
+    "message": "ಡ್ರಾಫ್ಟ್‌ ಲಿಂಕ್ ಪೂರ್ವನೋಟವನ್ನು ತೆಗೆದುಹಾಕಿ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -3199,7 +3199,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "ಅಳಿಸುವುದೇ ಮತ್ತು $group$ ಬಿಡುವುದೇ?",
+    "message": "$group$ ಅನ್ನು ಅಳಿಸುವುದೇ ಮತ್ತು ತೊರೆಯುವುದೇ?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂ್ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ.",
+    "message": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3695,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "ನೀವು ಗುಂಪಿನ ಹೆಸರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
+    "message": "ನೀವು ಗ್ರೂಪಿನ ಹೆಸರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ ಅವರು $memberName$ ಅವರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
+    "message": "$adminName$, $memberName$ ನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3899,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ ಅವರು ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
+    "message": "$adminName$ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "ನಿಮ್ಮನ್ನು ಗುಂಪಿನಿಂದ ತೆಗೆಯಲಾಗಿದೆ.",
+    "message": "ನಿಮ್ಮನ್ನು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆಯಲಾಗಿದೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ನೀವು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ",
+    "message": "ಗ್ರೂಪ್ ವಿವರಣೆಯನ್ನು ನೀವು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4171,7 +4171,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ತೆಗೆಯಲಾಗಿದೆ.",
+    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ . ಆದ್ದರಿಂದ ಈ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆಯಲಾಗುವುದು",
+    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗ್ರೂಪ್‌ಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ, ಆದ್ದರಿಂದ ಈ ಗ್ರೂಪ್‌ನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳಿಗೆ ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
+    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಮತ್ತು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
+    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ, ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಮತ್ತು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
+    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4363,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "ಅಡ್ಮಿನ್ ಆಗಿ ತೆಗೆಯಿರಿ",
+    "message": "ಅಡ್ಮಿನ್ ಆಗಿ ತೆಗೆದುಹಾಕಿ",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4379,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "ಗುಂಪಿನಿಂದ ತೆಗೆಯಿರಿ",
+    "message": "ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಿ",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4883,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "ಗುಂಪಿನಿಂದ ತೆಗೆಯಿರಿ",
+    "message": "ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಿ",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4891,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": ".\"$name$\" ಅವರನ್ನು ಗುಂಪಿನಿಂದ ತೆಗೆದುಹಾಕುವುದೇ? ಅವರಿಗೆ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ಮತ್ತೆ ಸೇರಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
+    "message": ".\"$name$\" ಅವರನ್ನು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕುವುದೇ? ಅವರಿಗೆ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ಮತ್ತೆ ಸೇರಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ಎಲ್ಲರಿಗೂ ಮೆಸೇಜ್ ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
+    "message": "ಎಲ್ಲರಿಗೂ ಮೆಸೇಜ್ ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "ಈ ಕಸ್ಟಮ್ ಬಣ್ಣವನ್ನು $num$ ಚಾಟ್‌ಗಳಲ್ಲಿ ಬಳಸಲಾಗಿದೆ. ಎಲ್ಲ ಚಾಟ್‌ಗಳಿಗೆ ಅಳಿಸಲು ನೀವು ಬಯಸಿದ್ದೀರಾ?",
+    "message": "ಈ ಕಸ್ಟಮ್ ಬಣ್ಣವನ್ನು $num$ ಚಾಟ್‌ಗಳಲ್ಲಿ ಬಳಸಲಾಗಿದೆ. ಎಲ್ಲ ಚಾಟ್‌ಗಳಿಗೆ ಅಳಿಸಲು ನೀವು ಬಯಸುತ್ತೀರಾ",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4995,7 +4995,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5211,7 +5211,7 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5455,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "ಸ್ಟೋರೀಸ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5855,11 +5855,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿರಿ",
+    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ ಅಳಿಸಿ",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" ಅನ್ನು ಅಳಿಸಲು ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಿಹಾಕಲು ಬಯಸುತ್ತೀರಾ? ಈ ಸ್ಟೋರಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾದ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "\"$name$\" ಅನ್ನು ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ? ಈ ಸ್ಟೋರಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾದ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡ ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6015,7 +6015,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿ",
+    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿ",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -6064,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "ಉತ್ತರಿಸಿ",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} ಅವರಿಗೆ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
+    "message": "(01/25/23 ರಂದು ಅಳಿಸಲಾಗಿದೆ) ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6147,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸು",
+    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸಿ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸು",
+    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸಿ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "ಝೂಮ್ ಇನ್ ಮಾಡದೆಯೇ ಗ್ಯಾಲರಿ ವೀಕ್ಷಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಲು ಇಮೇಜ್‌ನ ಹೊರಗಡೆ ಕ್ಲಿಕ್ ಮಾಡುವುದು ಈಗ ಸುಲಭ. ಕೆಲವೊಮ್ಮೆ ಸಂಗತಿಗಳನ್ನು ತೀರಾ ಝೂಮ್ ಮಾಡುವುದು ಹಿತವಾಗದೆ ಮುಚ್ಚಲು ಬಯಸುತ್ತೀರಿ. ಸರಿಪಡಿಸಿದ್ದಕ್ಕಾಗಿ {jojomatik} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ನಿಮ್ಮ ಪ್ರತ್ಯುತ್ತರ ಸಮಯವನ್ನು ವೇಗಗೊಳಿಸಿ. ನೀವೀಗ ಸ್ಟೋರಿಗೆ ಉತ್ತರಿಸುವಾಗ ಯಾವುದೇ ಎಮೋಜಿ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ತ್ವರಿತವಾಗಿ ಪ್ರತಿಕ್ರಿಯಿಸಬಹುದು.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ಇದೀಗ ಚೈನೀಸ್ ಮತ್ತು ಜಪಾನೀಸ್‌ ಭಾಷೆಯ ಪ್ರತಿ ಕ್ಯಾರೆಕ್ಟರ್‌ಗಾಗಿ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಸರ್ಚ್ ಮಾಡಲು ಸಾಧ್ಯ.",
+    "description": "Release notes for v6.5"
   }
 }

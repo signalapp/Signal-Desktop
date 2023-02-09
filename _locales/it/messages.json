@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Rimuovi tutte",
+    "message": "Rimuovi tutto",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -1067,7 +1067,7 @@
     "message": "Dettagli messaggio"
   },
   "delete": {
-    "message": "Cancella"
+    "message": "Elimina"
   },
   "accept": {
     "message": "Accetta"
@@ -1181,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Vuoi rimuovere definitivamente la conversazione?",
+    "message": "Vuoi eliminare definitivamente la conversazione?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Stai per eliminare tutti i dati salvati nell'applicazione, compresi i contatti e i messaggi. Potrai sempre ricollegare il tuo dispositivo mobile, ma questo non ripristinerà i messaggi eliminati.",
+    "message": "Stai per eliminare tutti i dati salvati nell'applicazione, compresi i contatti e i messaggi. Puoi associarlo di nuovo al tuo dispositivo mobile, ma i messaggi eliminati non saranno ripristinati.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -2963,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Rimuovi adesivo",
+    "message": "Rimuovi sticker",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3019,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Non potrai più apportare modifiche o eliminarlo dopo aver creato un pacchetto di adesivi.",
+    "message": "Dopo la creazione di un pacchetto di adesivi, non potrai più apportare modifiche o eliminarlo.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3211,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Abbandonerai questo gruppo e verrà eliminato da tutti i tuoi dispositivi.",
+    "message": "Quando abbandonerai il gruppo, verrà eliminato da tutti i tuoi dispositivi.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Questi membri non sono in grado di unirsi ai Nuovi Gruppi e saranno rimossi dal gruppo:",
+    "message": "Questi membri non possono unirsi ai Nuovi Gruppi e saranno rimossi dal gruppo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Questo membro non è in grado di unirsi ai Nuovi Gruppi e sarà rimosso dal gruppo:",
+    "message": "Questo membro non può unirsi ai Nuovi Gruppi e sarà rimosso dal gruppo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Questi membri non sono in grado di unirsi ai Nuovi Gruppi e sono stati rimossi dal gruppo:",
+    "message": "Questi membri non possono unirsi ai Nuovi Gruppi e sono stati rimossi dal gruppo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Questo membro non è in grado di unirsi ai Nuovi Gruppi ed è stato rimosso dal gruppo:",
+    "message": "Questo membro non può unirsi ai Nuovi Gruppi ed è stato rimosso dal gruppo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -5187,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Il tuo nome utente non può essere eliminato. Controlla la tua connessione e riprova.",
+    "message": "Il tuo nome utente non può essere rimosso. Controlla la tua connessione e riprova.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5207,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Questo rimuoverà il tuo nome utente, permettendo ad altri utenti di richiederlo. Sei sicuro?",
+    "message": "Questo rimuoverà il tuo nome utente, permettendo ad altri utenti di usarlo. Vuoi procedere comunque?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5939,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Confermi di voler eliminare la Storia \"{groupTitle}\"?",
+    "messageformat": "Confermi di voler rimuovere la Storia \"{groupTitle}\"?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6066,6 +6066,10 @@
     "message": "Rispondi",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Rispondi a {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Rispondi al gruppo",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagisci alla Storia",
+    "message": "(eliminato il 25/01/23) Reagisci alla Storia",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Ora cliccando fuori dall'immagine uscirai dalla visualizzazione a schermo intero: niente più zoom, promesso. Grazie a {jojomatik} per aver risolto il problema!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Risposte sempre più rapide. Da ora puoi reagire più velocemente a una Storia toccando l'emoji.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Da ora puoi cercare singoli caratteri in cinese e giapponese nella tua cronologia di messaggi.",
+    "description": "Release notes for v6.5"
   }
 }

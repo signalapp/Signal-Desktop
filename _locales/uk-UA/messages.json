@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Видалити дані та перезапустити",
+    "message": "Видалити усі дані та перезапустити",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -3195,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Ця розмова буде видаленf з усіх ваших пристроїв.",
+    "message": "Ця розмова буде видалена з усіх ваших пристроїв.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3207,7 +3207,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Видалити і Покинути",
+    "message": "Видалити та покинути",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -4687,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Видалати світлину",
+    "message": "Видалити фото",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -6066,6 +6066,10 @@
     "message": "Відповісти",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Відповісти користувачу {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Відповісти на історію групи",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагувати на сторі",
+    "message": "(видалено 25.01.23) Відреагувати на сторі",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Тепер можна просто клацнути за межами зображення, щоб закрити відображення галереї, не збільшуючи випадково масштаб. Дякуємо {jojomatik} за виправлення!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Відповідайте без затримок. Тепер ви можете швидко відреагувати на сторі, натиснувши на емодзі.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Тепер ви можете шукати в історії повідомлень окремі символи китайської та японської мов.",
+    "description": "Release notes for v6.5"
   }
 }

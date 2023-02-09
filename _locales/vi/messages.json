@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Bạn sắp xóa tất cả thông tin tài khoản đã lưu của ứng dụng này, bao gồm tất cả các liên hệ và tất cả các tin nhắn. Bạn luôn có thể liên kết lại với thiết bị di động của mình, nhưng điều đó sẽ giúp không khôi phục các tin nhắn đã xóa.",
+    "message": "Bạn sắp xóa tất cả thông tin tài khoản đã lưu của ứng dụng này, bao gồm tất cả các liên hệ và tất cả các tin nhắn. Bạn luôn có thể liên kết lại với thiết bị di động của mình, nhưng điều đó sẽ không giúp khôi phục các tin nhắn đã xóa.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -3019,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Bạn sẽ không thể chỉnh sửa hay xóa gói nhãn dán sau khi tải lên",
+    "message": "Bạn sẽ không thể chỉnh sửa hay xóa gói nhãn dán sau khi tải lên.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3111,7 +3111,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Gỡ biẻu cảm",
+    "message": "Gỡ biểu cảm",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3691,7 +3691,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ đã \u001Dgỡ bỏ tên nhóm.",
+    "message": "$memberName$ đã gỡ bỏ tên nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -4363,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Bỏ quyền quản trị",
+    "message": "Xóa với tư cách quản trị viên",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4887,7 +4887,7 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Loại bỏ \"$name$\" khỏi nhóm?",
+    "message": "Xóa\"$name$\" khỏi nhóm?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
@@ -6066,6 +6066,10 @@
     "message": "Trả lời",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Trả lời {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Trả lời cho Nhóm",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Bày tỏ cảm xúc với story",
+    "message": "(đã xóa ngày 25/01/23) Bày tỏ cảm xúc với story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Giờ đây bạn có thể dễ dàng nhấn phía ngoài một bức ảnh để thoát khỏi chế độ xem ảnh lớn. Thao tác này trước đây chỉ giúp phóng to ảnh hơn. Cảm ơn thành viên {jojomatik} đã giúp khắc phục điểm này!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Giúp thời gian phản hồi của bạn nhanh hơn. Giờ đây bạn có thể bày tỏ cảm xúc nhanh hơn bằng cách bấm vào bất kỳ emoji nào khi trả lời một story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Người dùng nay có thể tìm kiếm lịch sử tin nhắn bằng các ký tự riêng lẻ của tiếng Trung và tiếng Nhật.",
+    "description": "Release notes for v6.5"
   }
 }

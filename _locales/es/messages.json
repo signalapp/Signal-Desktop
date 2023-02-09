@@ -1094,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Este mensaje se eliminará de este dispositivo",
+    "message": "Este mensaje se eliminará de este dispositivo.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Este mensaje se eliminará para tod@s en el chat, si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado.",
+    "message": "Este mensaje se eliminará para todxs en el chat, si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "No puedes volver a unirte a este grupo vía enlace porque un@ admin te ha vetado.",
+    "message": "No puedes volver a unirte a este grupo vía enlace porque un admin te ha vetado.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Est@s participantes no pueden unirse a nuevos grupos y se les expulsará del grupo:",
+    "message": "Estxs participantes no pueden unirse a nuevos grupos y se les expulsará del grupo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Est@ participante no puede unirse a nuevos grupos y se le expulsará del grupo:",
+    "message": "Estx participante no puede unirse a nuevos grupos y se le expulsará del grupo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Est@s participantes no pueden unirse a nuevos grupos y se les expulsará del grupo:",
+    "message": "Estxs participantes no pueden unirse a nuevos grupos y se les expulsará del grupo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Est@ participante no puede unirse a nuevos grupos y se le expulsará del grupo:",
+    "message": "Estx participante no puede unirse a nuevos grupos y se le expulsará del grupo:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Fallo al eliminar el mensaje para tod@s. Inténtalo más tarde.",
+    "message": "Fallo al eliminar el mensaje para todxs. Inténtalo más tarde.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5203,11 +5203,11 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "Eliminar alias (nombre de usuari@)",
+    "message": "Eliminar alias (nombre de usuarix)",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Esto eliminará tu alias, permitiendo a otra persona usarlo. ¿Estás segur@?",
+    "message": "Esto eliminará tu alias, permitiendo a otra persona usarlo. ¿Estás segurx?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -6066,6 +6066,10 @@
     "message": "Responder",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Responder a {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Responder en el grupo",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reacciona a la historia",
+    "message": "(eliminado el 25/01/23) Reaccionar a la historia",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Ahora es más fácil hacer clic fuera de una imagen para descartar la vista de galería sin hacer zoom. A veces solo querías cerrar y, en cambio, las cosas se acercaban demasiado. ¡Gracias a {jojomatik} por la solución!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Acelera tu tiempo de respuesta. Ahora puedes reaccionar más rápido haciendo clic en cualquier emoji al responder a una historia.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Ahora es posible buscar en tu historial de mensajes caracteres individuales en chino y japonés.",
+    "description": "Release notes for v6.5"
   }
 }

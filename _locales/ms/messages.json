@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Padam semua dan mula semula",
+    "message": "Padam semua data dan mula semula",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -1098,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Mesej ini akan dipadam untuk semua orang didalam perbualan jika mereka mempunyai versi terkini aplikasi Signal. Mereka akan dapat melihat bahawa anda telah memadamkan suatu mesej.",
+    "message": "Mesej ini akan dipadam untuk semua orang dalam perbualan jika mereka menggunakan versi terkini aplikasi Signal. Mereka akan dapat melihat jika anda telah memadamkan suatu mesej.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Anda akan memadam semua maklumat akaun aplikasi yang disimpan, ini termasuk semua kenalan dan semua mesej. Anda boleh memautkan dengan peranti mudah alih anda, tetapi itu tidak akan memulihkan mesej yang dipadam.",
+    "message": "Anda akan memadam semua maklumat akaun yang disimpan dalam aplikasi, ini termasuk semua kenalan dan semua mesej. Anda boleh memautkan dengan peranti mudah alih anda, tetapi itu tidak akan memulihkan mesej yang dipadam.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1758,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "Gagal padam",
+    "message": "Gagal dipadam",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -3191,7 +3191,7 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Padamkan perbualan?",
+    "message": "Padam perbualan?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -4375,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Singkirkan $contact$ dari pentadbir kumpulan?",
+    "message": "Singkirkan $contact$ sebagai pentadbir kumpulan?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -6066,6 +6066,10 @@
     "message": "Balas",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Balas kepada {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Balas kepada Kumpulan",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Beri reaksi kepada cerita",
+    "message": "(dipadamkan 25/01/23) Beri reaksi terhadap cerita",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Kini lebih mudah untuk mengklik di luar imej untuk mengetepikan paparan galeri tanpa mengezum masuk. Kadang-kadang anda hanya mahu menutupnya, tetapi lain pula yang jadi. Terima kasih kepada {jojomatik} untuk pembaikan!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Percepatkan masa respons anda. Kini anda boleh memberi reaksi dengan lebih pantas dengan mengklik mana-mana emoji apabila membalas cerita.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Kini anda boleh mencari sejarah mesej anda untuk aksara individu dalam bahasa Cina dan Jepun.",
+    "description": "Release notes for v6.5"
   }
 }

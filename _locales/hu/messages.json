@@ -2963,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Matrica törlése",
+    "message": "Matrica eltávolítása",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3207,7 +3207,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Törlés és kilépés.",
+    "message": "Törlés és kilépés",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ eltávolította $memberName$-t.",
+    "message": "$adminName$ eltávolította $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,11 +3891,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Eltávolítottad $memberName$-t.",
+    "message": "Eltávolítottad $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Egy tag eltávolította $memberName$-t.",
+    "message": "Egy tag eltávolította $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Az alábbi tagok nem tudnak az új típusú csoportba belépni, ezért eltávolításra kerülnek:",
+    "message": "Az alábbi tagok nem tudnak az Új csoportba belépni, ezért eltávolításra kerülnek:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Az alábbi tag nem tud az új típusú csoportba belépni, ezért eltávolításra kerül:",
+    "message": "Az alábbi tag nem tud az Új csoportba belépni, ezért eltávolításra kerül:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Az alábbi tagok nem tudtak az új típusú csoportba belépni, ezért eltávolításra kerültek:",
+    "message": "Az alábbi tagok nem tudtak az Új csoportba belépni, ezért eltávolításra kerültek:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Az alábbi tag nem tudott az új típusú csoportba belépni, ezért eltávolításra került:",
+    "message": "Az alábbi tag nem tudott az Új csoportba belépni, ezért eltávolításra került:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4295,7 +4295,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ db tag el lett távolítva a csoportból",
+    "message": "$count$ db tag el lett távolítva a csoportból.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4887,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "\"$name$\" eltávolítása a csoportból?",
+    "message": "„$name$\" eltávolítása a csoportból?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Eltávolítod \"$name$\" felhasználót a csoportból? A jövőben nem lesz képes csatlakozni a csoporthivatkozás segítségével.",
+    "message": "Eltávolítod „$name$\" felhasználót a csoportból? A jövőben nem lesz képes csatlakozni a csoporthivatkozás segítségével.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -5207,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Ezzel törlöd felhasználónevedet, ami így más számára elérhetővé válik. Biztos vagy benne?",
+    "message": "Ezzel eltávolítod a felhasználónevedet, ami így más számára elérhetővé válik. Biztos vagy benne?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5939,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Biztosan törölni szeretnéd a következőt: „{groupTitle}”?",
+    "messageformat": "Biztosan el szeretnéd távolítani a következőt: „{groupTitle}”?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6019,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eltávolítod a Történetet? Ha igen, a Történet törlésre kerül a listádról, azonban továbbra is látni fogod a Történeteket ebből a csoportból.",
+    "message": "Eltávolítod a Történetet? Ha igen, a Történet eltávolításra kerül a listádról, azonban továbbra is látni fogod a Történeteket ebből a csoportból.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Válasz",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Válasz {firstName} számára",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reakció a Történetre",
+    "message": "(törölve: 2023. 01. 25.) Reakció a Történetre",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Mostantól egyszerűbb kikattintani egy képből, hogy nagyítás nélkül kilépj a Galérianézetből. Van, hogy csak be akarsz zárni valamit, de helyette ráközelítesz. Köszönjük a javítást, {jojomatik}!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Gyorsítsd fel a válaszidőt. Mostantól gyorsabban reagálhatsz, ha rákattintasz valamely hangulatjelre, amikor válaszolsz egy Történetre.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Mostantól lehetőséged van rákeresni az egyes kínai és japán karakterekre az üzenetelőzményekben.",
+    "description": "Release notes for v6.5"
   }
 }

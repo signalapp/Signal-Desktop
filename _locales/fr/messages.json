@@ -473,7 +473,7 @@
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Tout supprimer",
+    "message": "Retirer tous",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -481,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Supprimer de la Story",
+    "message": "Retirer de la Story",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -1708,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous commencerez à zéro.",
+    "message": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous recommencerez à zéro.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1770,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Supprimé partiellement, cliquez pour réessayer",
+    "message": "Suppression partielle, cliquez pour réessayer",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Vous ne pouvez pas vous joindre au groupe avec le lien du groupe car un administrateur vous a supprimé.",
+    "message": "Vous ne pouvez pas vous joindre au groupe avec le lien du groupe car un administrateur vous a retiré.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3715,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ a supprimé l’avatar du groupe.",
+    "message": "$memberName$ a retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Vous avez supprimé l’avatar du groupe.",
+    "message": "Vous avez retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "Un membre a supprimé l’avatar du groupe.",
+    "message": "Un membre a retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ a supprimé $memberName$.",
+    "message": "$adminName$ a retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Vous avez supprimé $memberName$.",
+    "message": "Vous avez retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Un membre a supprimé $memberName$.",
+    "message": "Un membre a retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ vous a supprimé.",
+    "message": "$adminName$ vous a retiré.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Vous avez été supprimé du groupe.",
+    "message": "Vous avez été retiré(e) du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,15 +4163,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Vous avez supprimé la description du groupe.",
+    "message": "Vous avez effacé la description du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ a supprimé la description du groupe.",
+    "message": "$memberName$ a effacé la description du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "La description du groupe a été supprimée.",
+    "message": "La description du groupe a été effacée.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Ces membres ne peuvent pas se joindre aux Nouveaux groupes et seront supprimés du groupe :",
+    "message": "Ces membres ne peuvent pas se joindre aux Nouveaux groupes et seront retirés du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Ce membre ne peut pas se joindre aux Nouveaux groupes et sera supprimé du groupe :",
+    "message": "Ce membre ne peut pas se joindre aux nouveaux groupes et sera retiré du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Ces membres ne pouvaient pas se joindre à de Nouveaux groupes et ont été supprimés du groupe :",
+    "message": "Ces membres ne pouvaient pas se joindre à de nouveaux groupes et ont été retirés du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Ce membre ne pouvait pas se joindre à de Nouveaux groupes et a été supprimé du groupe :",
+    "message": "Ce membre ne pouvait pas se joindre à de nouveaux groupes et a été retiré du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ a été supprimé du groupe.",
+    "message": "$contact$ a été retiré du groupe.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ membres ont été supprimés du groupe.",
+    "message": "$count$ membres ont été retirés du groupe.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4379,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Supprimer du groupe",
+    "message": "Retirer du groupe",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Supprimer la photo",
+    "message": "Retirer la photo",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Supprimer le contact",
+    "message": "Retirer le contact",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,15 +4883,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Supprimer du groupe",
+    "message": "Retirer du groupe",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Supprimer « $name$ » du groupe ?",
+    "message": "Retirer « $name$ » du groupe ?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Supprimer « $name$ » du groupe ? Cette personne ne pourra plus se joindre au groupe grâce au lien de groupe.",
+    "message": "Retirer « $name$ » du groupe ? Cette personne ne pourra plus se joindre au groupe grâce au lien de groupe.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -5215,7 +5215,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copier ou supprimer le pseudo",
+    "message": "Copier ou supprimer le nom d'utilisateur",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5831,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "Supprimer",
+    "message": "Retirer",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5855,7 +5855,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Effacer la Story personnalisée",
+    "message": "Supprimer la Story personnalisée",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -6015,7 +6015,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Effacer la Story",
+    "message": "Supprimer la Story",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -6064,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Répondre",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Répondre à {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Réagir à la Story",
+    "message": "(supprimé le 24/01/23) Réagir à une Story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Cliquer en dehors de l’image vous permettra désormais de quitter la vue galerie au lieu de zoomer dessus. En fermant une page, vous vous retrouviez avec tout en grand. Nous souhaitons remercier {jojomatik} pour avoir corrigé ce bug !",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Accélérez votre temps de réponse. Vous pouvez désormais réagir plus rapidement en appuyant sur l'émoji de votre choix pour répondre à une Story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Il vous est désormais possible de rechercher des caractères individuels dans l'historique des messages en chinois et en japonais.",
+    "description": "Release notes for v6.5"
   }
 }

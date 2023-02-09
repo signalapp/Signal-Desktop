@@ -469,11 +469,11 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {დარწმუნებული ხარ, რომ 1 მიმღების {story} Story-დან ამოშლა გსურს?} other {დარწმუნებული ხარ, რომ {count,number} მიმღების {story} Story-დან ამოშლა გსურს?}}",
+    "messageformat": "{count, plural, one {დარწმუნებული ხარ, რომ 1 მიმღების {story} Story-დან წაშლა გსურს?} other {დარწმუნებული ხარ, რომ {count,number} მიმღების {story} Story-დან წაშლა გსურს?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "ყველას ამოშლა",
+    "message": "ყველას წაშლა",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -1098,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "ეს შეტყობინება წაიშლება ყველასთვის ამ მიმოწერაში, თუ მათ Signal-ის უახლესი ვერსია აქვთ. ისინი დაინახავენ, რომ თქვენ წაშალეთ შეტყობინება.",
+    "message": "ეს შეტყობინება ყველასთვის წაიშლება ამ მიმოწერაში ვინც Signal-ის უახლეს ვერსიაზეა. ისინი დაინახავენ, რომ შენ წაშალე შეტყობინება.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1169,11 +1169,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "შეტყობინების წაშლა ჩემთვის",
+    "message": "შეტყობინების ჩემთან წაშლა",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "შეტყობინების წაშლა ყველასთვის",
+    "message": "შეტყობინების ყველასთან წაშლა",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1181,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Permanently delete this conversation?",
+    "message": "გსურს ამ მიმოწერის სამუდამოდ წაშლა?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1712,7 +1712,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "ძველ მონაცემთა წაშლა",
+    "message": "ძველი მონაცემების წაშლა",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -2767,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ბმულის მონახაზის წინასწარი ნხავის წაშლა",
+    "message": "ბმულის მონახაზის წინასწარი ნახვის წაშლა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "ყველა დანართის მონახაზების წაშლა",
+    "message": "ყველა დანართი მონახაზების წაშლა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "დანართის ამოშლა",
+    "message": "დანართის წაშლა",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3191,7 +3191,7 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "წავშალო დიალოგი?",
+    "message": "წავშალოთ მიმოწერა?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ -მა $memberName$ ამოშალა.",
+    "message": "$adminName$ -მა $memberName$ წაშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "შენ $memberName$ ამოშალე.",
+    "message": "შენ $memberName$ წაშალე.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "ჯგუფის წევრმა $memberName$ ამოშალა.",
+    "message": "ჯგუფის წევრმა $memberName$ წაშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ -მა ამოგშალა.",
+    "message": "$adminName$ -მა წაგშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "ჯგუფიდან ამოგშალეს.",
+    "message": "ჯგუფიდან წაგშალეს.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4691,7 +4691,7 @@
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "კონტაქტის ამოშლა",
+    "message": "კონტაქტის წაშლა",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ყველასთვის შეტყობინების წაშლა ვერ მოხერხდა. გთხოვთ მოგვიანებით კიდევ სცადო.",
+    "message": "შეტყობინების წაშლა ყველასთვის ვერ მოხერხდა. გთხოვთ მოგვიანებით კიდევ სცადო.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5859,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "დარწმუნებული ხარ, რომ \"$name$\"-ის წაშლა გსურს? ასევე წაიშლება ამ Story-იზე გაზიარებული განახლებები.",
+    "message": "დარწმუნებული ხარ, რომ \"$name$\"-ის წაშლა გსურს? ამ Story-იზე გაზიარებული განახლებები ასევე წაიშლება.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6066,6 +6066,10 @@
     "message": "პასუხი",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "უპასუხე {firstName}-ს",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ჯგუფისთვის პასუხის მიწერა",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Story-ზე გამოხმაურება",
+    "message": "(წაიშალა 01/25/23) გამოეხმაურე Story-ის",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6147,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ჩემთვის წაშლა",
+    "messageformat": "ჩემთან წაშლა",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "ყველასთვის წაშლა",
+    "messageformat": "ყველასთან წაშლა",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "ახლა გალერიის ხედის გაუქმება უფრო მარტივად, მისი გადიდების გარეშე, სურათის გარეთ დაწკაპუნებით შეგიძლია. ხანდახან უბრალოდ დახურვა გინდოდა, მაგრამ პირიქით, მიახლოება გამოდიოდა. მადლობა {jojomatik}-ს ამის გამოსწორებისთვის!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "შეამცირე პასუხის დაბრუნების დრო. ახლა უკვე შეგიძლია Story-იზე პასუხისას ნებისმიერ emoji-ზე დაჭერით უფრო სწრაფად გამოეხმაურო.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ახლა უკვე შესაძლებელია შენი შეტყობინებების ისტორიაში ჩინურ და იაპონურ ენებზე ცალკეული სიმბოლოები მოძებნო.",
+    "description": "Release notes for v6.5"
   }
 }

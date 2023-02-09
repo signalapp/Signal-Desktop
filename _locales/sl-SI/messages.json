@@ -469,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Ali ste prepričani, da želite odstraniti 1 prejemnika iz Zgodbe {story} ?} two {Ali ste prepričani, da želite odstraniti {count,number} prejemnika iz Zgodbe {story} ?} few {Ali ste prepričani, da želite odstraniti {count,number} prejemnike iz Zgodbe {story} ?} other {Ali ste prepričani, da želite odstraniti {count,number} prejemnikov iz Zgodbe {story} ?}}",
+    "messageformat": "{count, plural, one {Ali ste prepričani, da želite odstraniti 1 prejemnika iz zgodbe {story} ?} two {Ali ste prepričani, da želite odstraniti {count,number} prejemnika iz zgodbe {story} ?} few {Ali ste prepričani, da želite odstraniti {count,number} prejemnike iz zgodbe {story} ?} other {Ali ste prepričani, da želite odstraniti {count,number} prejemnikov iz zgodbe {story} ?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Poskusi znova izbriši za vse",
+    "message": "Poskusi znova izbrisati za vse",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -2279,7 +2279,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Sporočilo je bilo izbrisano",
+    "message": "Sporočilo je bilo izbrisano.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ je odstranil_a člana_ico $memberName$iz skupine.",
+    "message": "$adminName$ je odstranil_a člana_ico $memberName$ iz skupine.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,11 +3891,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Odstranili ste člana_ico $memberName$iz skupine.",
+    "message": "Odstranili ste člana_ico $memberName$ iz skupine.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Član_ica skupine je odstranil_a uporabnika_co $memberName$iz skupine.",
+    "message": "Član_ica skupine je odstranil_a uporabnika_co $memberName$ iz skupine.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -6066,6 +6066,10 @@
     "message": "Odgovori",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Odgovori osebi {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Odgovori skupini",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagiraj na zgodbo",
+    "message": "(izbrisano 25/01/23) Odzovite se na zgodbo",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Zdaj je lažje klikniti zunaj slike, da opustite ogled fotografije, brez da bi jo povečali. Včasih ste želeli samo zapreti, namesto tega pa so stvari prišle preblizu. Hvala {jojomatik} za popravek!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Pospešite svoj odzivni čas. Zdaj se lahko hitreje odzovete s klikom na katerikoli emoji, ko odgovarjate na zgodbo.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Zdaj je mogoče v zgodovini sporočil iskati posamezne znake v kitajščini in japonščini.",
+    "description": "Release notes for v6.5"
   }
 }

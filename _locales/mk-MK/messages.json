@@ -469,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Дали сте сигурни дека сакате да отстраните {count,number} примач од приказната {story}?} other {Дали сте сигурни дека сакате да отстраните {count,number} примачи од приказната {story}?}}",
+    "messageformat": "{count, plural, one {Дали сте сигурни дека сакате да отстраните 1 примач од приказната {story}?} other {Дали сте сигурни дека сакате да отстраните {count,number} примачи од приказната {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -1181,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Перманетно да го избришам разговорот?",
+    "message": "Трајно да се избрише разговорот?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Ќе ги избришете сите информации за сметката за оваа апликација, вклучувајќи ги контактите и сите пораки. Секогаш можете да го поврзете Вашиот мобилен уред повторно, но тоа нема да ги врати избришаните пораки.",
+    "message": "Ќе ги избришете сите информации за сметката за оваа апликација, вклучувајќи ги контактите и сите пораки. Секогаш можете да го поврзете вашиот мобилен уред повторно, но тоа нема да ги врати избришаните пораки.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Имате стари податоци од претходна инсталација на Signal Desktop. Ако изберете да продолжите тие ќе бидат избришани и ќе почнете од почеток.",
+    "message": "Имате стари податоци од претходна инсталација на Signal Desktop. Ако изберете да продолжите, тие ќе бидат избришани и ќе почнете од почеток.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2215,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Можно е последната порака да е избришана",
+    "message": "Можно е последната порака да е избришана.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2767,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Отстрани го нацрт прегледот за линкот",
+    "message": "Отстрани го нацрт-прегледот за линкот",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Отстрани ги сите нацрт прилози",
+    "message": "Отстрани ги сите нацрт-прилози",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -3019,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Нема да бидете во можност да ги уредувате или бришете стикерите откако ќе создадете пакет со стикери.",
+    "message": "Нема да можете да ги уредувате или бришете стикерите откако ќе создадете пакет со стикери.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3195,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Овој разговор ќе биде избришан од сите Ваши уреди.",
+    "message": "Овој разговор ќе биде избришан од сите ваши уреди.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор Ве отстрани.",
+    "message": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор ве отстрани.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3899,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ Ве отстрани.",
+    "message": "$adminName$ ве отстрани.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4271,7 +4271,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Овие членови не се во можност да се приклучат на „Нови групи“ и затоа беа отстранети од групата:",
+    "message": "Овие членови не се во можност да се приклучат на „Нови групи“ и беа отстранети од групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Неуспешно е бришењето на пораката за сите. Ве молиме обидете се одново подоцна.",
+    "message": "Бришењето на пораката за сите беше неуспешно. Ве молиме обидете се одново подоцна.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -6066,6 +6066,10 @@
     "message": "Одговори",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Одговорете на {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Одговорете на групата",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагирајте на приказната",
+    "message": "(избришано на 25/01/23) Реагирајте на приказната",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Сега е лесно да кликнете надвор од сликата за да не биде прикажана на цел екран, без истата да се зумира. Некогаш сакавте само да излезете од прозорецот, а не да го зголемите. Благодарност до {jojomatik} што го среди ова!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Одговарајте побрзо. Сега можете побрзо да реагирате со кликање на кој било емотикон кога одговарате на приказна.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Сега можете да пребарувате индивидуални знаци на кинески и јапонски во вашата историја на разговори.",
+    "description": "Release notes for v6.5"
   }
 }

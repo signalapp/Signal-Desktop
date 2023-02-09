@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "ลบข้อมูลทั้งหมดและเริ่มใหม่",
+    "message": "ลบข้อมูลทั้งหมดและรีสตาร์ท",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -1094,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ข้อความนี้จะถูกลบออกจากอุปกรณ์นี้",
+    "message": "ระบบจะลบข้อความนี้ออกจากอุปกรณ์เครื่องนี้",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "หากพวกเขากำลังใช้ Signal รุ่นที่เพิ่งปรับปรุงไม่นานนี้ ข้อความนี้จะถูกลบจากทุกคนที่อยู่ในบทสนทนา พวกเขาจะเห็นว่าคุณลบข้อความ",
+    "message": "ระบบจะลบข้อความนี้สำหรับทุกคนในการสนทนาที่ใช้ Signal เวอร์ชันล่าสุด และผู้ใช้จะเห็นว่าคุณลบข้อความ",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "ลองลบสำหรับทุกคนใหม่อีกครั้ง",
+    "message": "ลองลบสำหรับทุกคนอีกครั้ง",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "คุณกำลังจะลบข้อมูลบัญชีที่บันทึกไว้ของโปรแกรมนี้ทั้งหมด ซึ่งรวมถึงรายชื่อผู้ติดต่อและข้อความทั้งหมด คุณสามารถเชื่อมต่อกับอุปกรณ์เคลื่อนที่ของคุณใหม่ได้เสมอแต่จะไม่สามารถเรียกคืนข้อความที่ถูกลบไปแล้ว",
+    "message": "คุณกำลังจะลบข้อมูลบัญชีที่บันทึกไว้ทั้งหมดของแอปพลิเคชันนี้ ซึ่งรวมถึงรายชื่อผู้ติดต่อและข้อความทั้งหมด คุณสามารถเชื่อมต่อกับอุปกรณ์เคลื่อนที่ใหม่ได้เสมอแต่จะไม่สามารถกู้คืนข้อความที่ถูกลบไปแล้ว",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "คุณมีข้อมูลที่ล้าสมัยแล้วจากการติดตั้ง Signal Desktop ครั้งก่อนหน้า ถ้าคุณเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและคุณจะเริ่มต้นใหม่จากศูนย์",
+    "message": "คุณมีข้อมูลที่ล้าสมัยจากการติดตั้ง Signal เดสก์ท็อปครั้งก่อนหน้า หากเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและทุกอย่างจะเริ่มต้นใหม่ทั้งหมด",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2747,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "ลบข้อความที่ถูกเลือก",
+    "message": "ลบข้อความที่เลือกไว้",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ลบร่างภาพตัวอย่างลิงก์",
+    "message": "ลบตัวอย่างลิงก์ฉบับร่าง",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "เอาร่างแฟ้มแนบออกทั้งหมด",
+    "message": "ลบไฟล์แนบฉบับร่างออกทั้งหมด",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "เอาแฟ้มแนบออก",
+    "message": "ลบไฟล์แนบออก",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3111,7 +3111,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ลบการตอบสนอง",
+    "message": "ลบการแสดงความรู้สึก",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3191,15 +3191,15 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "ลบการสนทนาหรือไม่?",
+    "message": "ลบการสนทนาหรือไม่",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "การสนทนานี้จะถูกลบออกจากทุกอุปกรณ์ของคุณ",
+    "message": "การสนทนานี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "ลบและออกจากกลุ่ม $group$ หรือไม่?",
+    "message": "ลบและออกจากกลุ่ม $group$ หรือไม่",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "คุณจะออกจากกลุ่มนี้และมันจะถูกลบออกจากทุกอุปกรณ์ของคุณ",
+    "message": "คุณจะออกจากกลุ่มนี้และระบบจะลบกลุ่มออกจากอุปกรณ์ทุกเครื่องของคุณ",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "คุณเข้าร่วมกลุ่มนี้ด้วยลิงก์กลุ่มนี้ไม่ได้เพราะผู้ดูแลลบคุณออกไปแล้ว",
+    "message": "คุณเข้าร่วมกลุ่มนี้ด้วยลิงก์กลุ่มไม่ได้เพราะผู้ดูแลลบคุณออกไปแล้ว",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3691,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ ได้ลบชื่อกลุ่มออก",
+    "message": "$memberName$ ลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "คุณได้ลบชื่อกลุ่ม",
+    "message": "คุณลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "สมาชิกได้ลบชื่อกลุ่มออก",
+    "message": "สมาชิกลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ ได้ลบภาพประจำตัวกลุ่ม",
+    "message": "$memberName$ ลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "คุณได้ลบภาพประจำตัวกลุ่ม",
+    "message": "คุณลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "สมาชิกได้ลบภาพประจำตัวกลุ่ม",
+    "message": "สมาชิกลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ ได้ลบ $memberName$ ออก",
+    "message": "$adminName$ ลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "คุณได้ลบ $memberName$ ออก",
+    "message": "คุณลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "สมาชิกได้ลบ $memberName$ ออก",
+    "message": "สมาชิกลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ ได้ลบคุณออก",
+    "message": "$adminName$ ลบคุณออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4263,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "สมาชิกเหล่านี้ไม่สามารถร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
+    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกลบออกจากกลุ่ม:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
+    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกลบออกจากกลุ่ม:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
+    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกลบออกจากกลุ่มแล้ว:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
+    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกลบออกจากกลุ่มแล้ว:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4375,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "ปลด $contact$ จากการเป็นผู้ดูแลกลุ่มหรือไม่?",
+    "message": "ปลด $contact$ จากการเป็นผู้ดูแลกลุ่มหรือไม่",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4887,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่?",
+    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่ เขาจะไม่สามารถกลับเข้ากลุ่มใหม่ได้ผ่านลิงก์กลุ่มนี้",
+    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่ ผู้ใช้รายนี้จะไม่สามารถกลับเข้ากลุ่มอีกครั้งผ่านลิงก์กลุ่มนี้",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "การลบข้อความสำหรับทุกคนไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
+    "message": "ลบข้อความสำหรับทุกคนไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "สีกำหนดเองนี้มีการใช้งานใน $num$ แชต คุณต้องการลบสีนี้จากแชตทั้งหมดหรือไม่?",
+    "message": "สีที่กำหนดเองนี้มีการใช้งานในแชท $num$ รายการ คุณต้องการลบสีนี้จากแชททั้งหมดหรือไม่",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5187,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "ไม่สามารถลบชื่อผู้ใช้ของคุณได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง",
+    "message": "ไม่สามารถลบชื่อผู้ใช้ของคุณได้ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5207,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "นี่จะเป็นการลบชื่อผู้ใช้ของคุณและทำให้ผู้ใช้รายอื่นนำไปใช้ได้ คุณแน่ใจหรือไม่",
+    "message": "การดำเนินการนี้จะลบชื่อผู้ใช้ของคุณและทำให้ผู้ใช้รายอื่นนำไปใช้ได้ คุณแน่ใจหรือไม่",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -6066,6 +6066,10 @@
     "message": "ตอบกลับ",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "ตอบกลับหา {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ตอบกลับกลุ่ม",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "แสดงความรู้สึกต่อสตอรี่",
+    "message": "(ลบแล้วเมื่อ 25/01/2023) แสดงความรู้สึกต่อสตอรี่",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "ปิดหน้าต่างที่แสดงรูปภาพแบบเต็มจอได้ง่ายขึ้น เพียงคลิกนอกขอบเขตรูป แอปจะพาคุณกลับมายังหน้าเดิม และไม่ซูมเข้าอีกต่อไป เพราะบางครั้งคุณแค่อยากกลับไปหน้าเก่า แต่รูปบนจอดันขยายหลายเท่าจนตกใจ ต้องขอบคุณ {jojomatik} ที่ช่วยแก้ไขปัญหานี้!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ตอบกลับทันใจ ถ่ายทอดความรู้สึกได้ทันที ตอบกลับสตอรี่ได้รวดเร็วยิ่งกว่าเดิม แค่คลิกอีโมจิที่ตอบโจทย์เพื่อแสดงความรู้สึกของคุณ",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ตอนนี้คุณสามารถใช้ตัวอักษรภาษาจีนและภาษาญี่ปุ่นตัวหนึ่งตัวใดในการค้นหาประวัติการส่งข้อความได้แล้ว",
+    "description": "Release notes for v6.5"
   }
 }

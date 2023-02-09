@@ -1094,7 +1094,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Esta mensaxe borrarase do teu dispositivo.",
+    "message": "Esta mensaxe eliminarase do teu dispositivo.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1161,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Reintentar Borrar para todos",
+    "message": "Reintentar Eliminar para todos",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1181,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Queres borrar de xeito permanente a conversa seleccionada?",
+    "message": "Queres eliminar de xeito permanente a conversa seleccionada?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2215,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Pode que se eliminara a última mensaxe.",
+    "message": "Pode que se eliminase a última mensaxe.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2747,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Borrar mensaxe seleccionada",
+    "message": "Eliminar mensaxe seleccionada",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -3691,7 +3691,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ eliminou o nome do grupo.",
+    "message": "$memberName$ Eliminou o nome do grupo.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -4375,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Eliminar a $contact$ como admr. do grupo?",
+    "message": "Eliminar a $contact$ como administrador do grupo?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Erro ao borrar a mensaxe para todos. Inténtao de novo máis tarde.",
+    "message": "Erro ao eliminar a mensaxe para todos. Inténtao de novo máis tarde.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Emprégase esta cor personalizada en $num$conversas. Queres eliminala de todas as conversas?",
+    "message": "Emprégase esta cor personalizada en $num$ conversas. Queres eliminala de todas as conversas?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -6066,6 +6066,10 @@
     "message": "Responder",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Responder a {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Responder ao grupo",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reaccionar á historia",
+    "message": "(eliminada 25/01/2023) Reaccionar á historia",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Agora é máis doado premer no exterior dunha imaxe para ignorar a vista de galería sen facer zoom. Ás veces só querías pechar algo e, polo contrario, só conseguías agrandalo. Grazas a {jojomatik} pola corrección!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Mellora o teu tempo de resposta. Agora podes reaccionar máis rápido ao seleccionar calquera emoticona ao responder a unha historia.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Xa podes buscar no teu historial de mensaxes caracteres individuais en chinés e xaponés.",
+    "description": "Release notes for v6.5"
   }
 }

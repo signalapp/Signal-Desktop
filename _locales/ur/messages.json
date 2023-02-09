@@ -1094,7 +1094,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "اس پیغام کو اس آلہ سے حذف کردیا جائے گا۔",
+    "message": "اس پیغام کو اس ڈیوائس سے حذف کردیا جائے گا۔",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$ کو ہٹا دیا",
+    "message": "$adminName$ $memberName$ کو ہٹا دیا۔",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -6066,6 +6066,10 @@
     "message": "جواب دیں",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} کو جواب دیں",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "گروپ کو جواب دیں",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "سٹوری پر ردعمل دیں",
+    "message": "(حذف کردہ 01/25/23) سٹوری پر ری ایکٹ کریں",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "اب زوم ان کیے بغیر گیلری ویو کو ختم کرنے کے لیے تصویر کے باہر کلک کرنا مزید آسان ہو گیا ہے۔ کبھی کبھار آپ قریب ہونا چاہتے ہیں، لیکن چیزیں کہیں زیادہ قریب ہو جاتی ہیں۔ درستگی کے لیے {jojomatik} کا شکریہ!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "اپنے رد عمل کے وقت کی رفتار بڑھائیں۔ اب آپ سٹوری کا جواب دیتے وقت کسی ایموجی پر کلک کر کے زیادہ تیزی سے ری ایکٹ کر سکتے ہیں۔",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "اب چینی اور جاپانی زبانوں میں انفرادی حروف کے حوالے سے اپنی میسج ہسٹری تلاش کرنا ممکن ہے۔",
+    "description": "Release notes for v6.5"
   }
 }

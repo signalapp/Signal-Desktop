@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -1094,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കപ്പെടും.",
+    "message": "ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "സംഭാഷണത്തിലെ എല്ലാവർ‌ക്കും അവർ‌ Signal(സിഗ്‌നലി)ന്റെ സമീപകാല പതിപ്പിലാണെങ്കിൽ‌ ഈ സന്ദേശം ഇല്ലാതാക്കും. നിങ്ങൾ ഒരു സന്ദേശം ഇല്ലാതാക്കിയത് അവർക്ക് കാണാൻ കഴിയും.",
+    "message": "സംഭാഷണത്തിലെ എല്ലാവർ‌ക്കും അവർ‌ Signal-ന്റെ പുതിയ പതിപ്പിലാണെങ്കിൽ‌ ഈ സന്ദേശം ഇല്ലാതാക്കും. നിങ്ങൾ ഒരു സന്ദേശം ഇല്ലാതാക്കിയെന്ന് അവർക്ക് കാണാൻ കഴിയും.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1177,11 +1177,11 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "ഈ സംഭാഷണം ശാശ്വതമായി ഇല്ലാതാക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ?",
+    "message": "ഈ സംഭാഷണം ശാശ്വതമായി ഇല്ലാതാക്കണോ?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1696,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "എല്ലാ കോൺ‌ടാക്റ്റുകൾ-ളും എല്ലാ സന്ദേശങ്ങള്‍-ളും ഉൾപ്പെടെ, ഈ ആപ്ലിക്കേഷന്റെ സംരക്ഷിച്ച എല്ലാ അക്കൗണ്ട് വിവരങ്ങളും നിങ്ങൾ ഇല്ലാതാക്കാൻ പോവുകയാണ്. നിങ്ങൾക്ക് എല്ലായ്പ്പോഴും നിങ്ങളുടെ മൊബൈൽ ഉപകരണവുമായി വീണ്ടും ലിങ്ക് ചെയ്യാം കഴിയും, പക്ഷേ അത് ഇല്ലാതാക്കിയ സന്ദേശങ്ങള്‍ പുന:സ്ഥാപിക്കില്ല.",
+    "message": "എല്ലാ കോൺ‌ടാക്റ്റുകളും എല്ലാ സന്ദേശങ്ങളും ഉൾപ്പെടെ, ഈ ആപ്ലിക്കേഷന്റെ സംരക്ഷിച്ച എല്ലാ അക്കൗണ്ട് വിവരങ്ങളും നിങ്ങൾ ഇല്ലാതാക്കാൻ പോവുകയാണ്. നിങ്ങൾക്ക് എല്ലായ്‌പ്പോഴും നിങ്ങളുടെ മൊബൈലുമായി വീണ്ടും ലിങ്ക് ചെയ്യാം കഴിയും, പക്ഷേ അത് ഇല്ലാതാക്കിയ സന്ദേശങ്ങള്‍ പുന:സ്ഥാപിക്കില്ല.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1758,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ഇല്ലാതാക്കുന്നത് പരാജയപ്പെട്ടു",
+    "message": "ഇല്ലാതാക്കാനായില്ല",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -2767,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ഡ്രാഫ്റ്റ് ലിങ്ക് പ്രിവ്യൂ നീക്കംചെയ്യുക",
+    "message": "ഡ്രാഫ്റ്റ് ലിങ്ക് പ്രിവ്യൂ നീക്കം ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "എല്ലാ ഡ്രാഫ്റ്റ് അറ്റാച്ചുമെന്റുകളും നീക്കംചെയ്യുക",
+    "message": "എല്ലാ ഡ്രാഫ്റ്റ് അറ്റാച്ചുമെന്റുകളും നീക്കം ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "അറ്റാച്ച്മെന്റ് നീക്കംചെയ്യുക",
+    "message": "അറ്റാച്ച്മെന്റ് നീക്കം ചെയ്യുക",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3019,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ ചെയ്യാനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
+    "message": "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ വരുത്താനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3187,11 +3187,11 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "സംഭാഷണം നീക്കം ചെയ്യുക?",
+    "message": "സംഭാഷണം നീക്കം ചെയ്യണോ?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3199,19 +3199,19 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ഇല്ലാതാക്കി ഉപേക്ഷിക്കണോ?",
+    "message": "$group$ ഇല്ലാതാക്കിയ ശേഷം പുറത്തുകടക്കണോ?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "ഡിലീറ്റ് ചെയ്ത് ലീവ് ചെയ്യുക",
+    "message": "ഇല്ലാതാക്കിയ ശേഷം പുറത്തുകടക്കുക",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "നിങ്ങൾ ഈ ഗ്രൂപ്പ് ഉപേക്ഷിക്കും, അത് നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കപ്പെടും.",
+    "message": "നിങ്ങൾ ഈ ഗ്രൂപ്പിൽ നിന്ന് പുറത്തുകടക്കും, നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കുകയും ചെയ്യും.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3691,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു ",
+    "message": "$memberName$ ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "നിങ്ങൾ ഗ്രൂപ്പിൻ്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു",
+    "message": "നിങ്ങൾ ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "ഒരു അംഗം ഗ്രൂപ്പിന്റെ പേര് നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3715,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു",
+    "message": "$memberName$ ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "നിങ്ങൾ ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു",
+    "message": "നിങ്ങൾ ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "ഒരു അംഗം ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3883,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$-യെ നീക്കം ചെയ്തു.",
+    "message": "$adminName$ $memberName$ എന്നയാളെ നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3891,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "നിങ്ങൾ $memberName$-നെ നീക്കം ചെയ്തു.",
+    "message": "നിങ്ങൾ $memberName$ എന്നയാളെ നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "ഒരു അംഗം $memberName$-നെ നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം $memberName$ എന്നയാളെ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ നിങ്ങളെ നീക്കംചെയ്‌തു.",
+    "message": "$adminName$ നിങ്ങളെ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4263,11 +4263,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കംചെയ്യുകയും ചെയ്യും:",
+    "message": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കംചെയ്യുകയും ചെയ്യും:",
+    "message": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -4291,7 +4291,7 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.",
+    "message": "$contact$ എന്നയാളെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
@@ -4363,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "അഡ്മിനായി നീക്കംചെയ്യൂ",
+    "message": "അഡ്മിനായി നീക്കം ചെയ്യൂ",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ എന്നയാളെ  ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
+    "message": "$contact$ എന്നയാളെ ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കംചെയ്യുക",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ഫോട്ടോ നീക്കംചെയ്യൂ",
+    "message": "ഫോട്ടോ നീക്കം ചെയ്യൂ",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "കോൺടാക്റ്റ് നീക്കംചെയ്യുക",
+    "message": "കോൺടാക്റ്റ് നീക്കം ചെയ്യൂ",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,11 +4883,11 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കംചെയ്യൂ",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് \"$name$\" നീക്കംചെയ്യുക?",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് \"$name$\" എന്നയാളെ നീക്കം ചെയ്യണോ?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
@@ -4927,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "എല്ലാവർക്കും സന്ദേശം ഇല്ലാതാക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
+    "message": "എല്ലാവർക്കും സന്ദേശം ഇല്ലാതാക്കാനായില്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5227,7 +5227,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5859,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ സ്റ്റോറിയിലേക്ക് പങ്കിട്ട അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
+    "message": "\"$name$\" എന്നത് ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ സ്റ്റോറിയിലേക്ക് പങ്കിട്ട അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6066,6 +6066,10 @@
     "message": "മറുപടി",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} എന്നയാൾക്ക് മറുപടി നൽകുക",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ഗ്രൂപ്പിന് മറുപടി നൽകുക",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "സ്റ്റോറിയോട് പ്രതികരിക്കുക",
+    "message": "(01/25/23-ന് ഇല്ലാതാക്കി) സ്റ്റോറിയോട് പ്രതികരിക്കൂ",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "സൂം ചെയ്യാതെ തന്നെ ഗ്യാലറി കാഴ്ച്ച നിരാകരിക്കാൻ ഒരു ചിത്രത്തിന് പുറത്ത് ക്ലിക്ക് ചെയ്യാൻ ഇപ്പോൾ വളരെ എളുപ്പമാണ്. നിങ്ങൾക്കത് അടയ്ക്കണമെന്ന് തോന്നിയാലും ചിലത് വല്ലാതങ്ങ് പറ്റിച്ചേർന്നിരിക്കുന്നതിനാൽ സാധിച്ചിരുന്നില്ല. ഈ പരിഹാരത്തിന് {jojomatik} എന്നതിന് നന്ദി!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "നിങ്ങളുടെ പ്രതികരണ സമയത്തിന്‍റെ വേഗത കൂട്ടൂ. സ്റ്റോറിക്ക് മറുപടി നൽകുമ്പോൾ ഏതെങ്കിലും ഇമോജിയിൽ ക്ലിക്ക് ചെയ്ത് നിങ്ങൾക്കിപ്പോൾ വേഗത്തിൽ പ്രതികരിക്കാം.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ഇപ്പോൾ ചൈനീസ്, ജാപ്പനീസ് ഭാഷകളിലെ അക്ഷരങ്ങൾക്കായി നിങ്ങളുടെ സന്ദേശ ചരിത്രത്തിൽ തിരയാനാകും.",
+    "description": "Release notes for v6.5"
   }
 }

@@ -6066,6 +6066,10 @@
     "message": "回覆",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "回覆 {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "回覆給群組",
     "description": "Button label to reply to a group story"
@@ -6135,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "對報導做出回應",
+    "message": "(已刪除 01/25/23) 對限時動態傳送心情回應",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6401,5 +6405,13 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "現在用戶只需點擊圖片以外的位置，無需放大畫面，即可輕鬆關閉圖庫檢視模式。有時候，你只希望將畫面關閉，不想將東西放得太大。感謝 {jojomatik} 協助修復此功能！",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "加快您的回應時間。您現在可以點擊任何表情符號來迅速回覆限時動態。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "您現在可以在訊息紀錄中搜尋中文和日文單字。",
+    "description": "Release notes for v6.5"
   }
 }
