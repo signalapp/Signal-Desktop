@@ -3468,12 +3468,14 @@ export async function startApp(): Promise<void> {
 
     const NUMBER_ID_KEY = 'number_id';
     const UUID_ID_KEY = 'uuid_id';
+    const PNI_KEY = 'pni';
     const VERSION_KEY = 'version';
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
     const previousNumberId = window.textsecure.storage.get(NUMBER_ID_KEY);
     const previousUuidId = window.textsecure.storage.get(UUID_ID_KEY);
+    const previousPni = window.textsecure.storage.get(PNI_KEY);
     const lastProcessedIndex = window.textsecure.storage.get(
       LAST_PROCESSED_INDEX_KEY
     );
@@ -3492,13 +3494,16 @@ export async function startApp(): Promise<void> {
         delete conversation.attributes.senderKeyInfo;
       });
 
-      // These two bits of data are important to ensure that the app loads up
+      // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       if (previousNumberId !== undefined) {
         await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
       }
       if (previousUuidId !== undefined) {
         await window.textsecure.storage.put(UUID_ID_KEY, previousUuidId);
+      }
+      if (previousPni !== undefined) {
+        await window.textsecure.storage.put(PNI_KEY, previousPni);
       }
 
       // These two are important to ensure we don't rip through every message
