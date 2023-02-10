@@ -21,7 +21,7 @@ describe('libsession_wrapper', () => {
     const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
-    const conf = new SessionUtilWrapper.UserConfigWrapper(edSecretKey, null);
+    const conf = new SessionUtilWrapper.UserConfigWrapperInsideWorker(edSecretKey, null);
 
     // We don't need to push anything, since this is an empty config
     expect(conf.needsPush()).to.be.eql(false);
@@ -116,9 +116,8 @@ describe('libsession_wrapper', () => {
     // Now we're going to set up a second, competing config object (in the real world this would be
     // another Session client somewhere).
 
-    // Start with an empty config, as above:
-
-    const conf2 = new SessionUtilWrapper.UserConfigWrapper(edSecretKey, null);
+    // Start with an empty config, as abo.setve:
+    const conf2 = new SessionUtilWrapper.UserConfigWrapperInsideWorker(edSecretKey, null);
 
     expect(conf2.needsDump()).to.be.false;
 

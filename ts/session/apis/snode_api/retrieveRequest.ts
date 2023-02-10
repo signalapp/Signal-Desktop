@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
@@ -38,7 +39,7 @@ async function buildRetrieveRequest(
         };
         const retrieveParamsLegacy: RetrieveLegacyClosedGroupSubRequestType = {
           method: 'retrieve',
-          params: { ...retrieveLegacyClosedGroup },
+          params: omit(retrieveLegacyClosedGroup, 'timestamp'), // if we give a timestamp, a signature will be required by the service node, and we don't want to provide one as this is an unauthenticated namespace
         };
 
         return retrieveParamsLegacy;
@@ -65,7 +66,6 @@ async function buildRetrieveRequest(
       return retrieve;
     })
   );
-
   return retrieveRequestsParams;
 }
 

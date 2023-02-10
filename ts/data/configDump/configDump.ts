@@ -16,7 +16,7 @@ export const ConfigDumpData: AsyncObjectWrapper<ConfigDumpDataNode> = {
   },
   saveConfigDump: (dump: ConfigDumpRow) => {
     console.warn('saveConfigDump', dump);
-    if (dump.combinedMessageHashes.some(m => m && m.length < 5)) {
+    if (dump.combinedMessageHashes.some(m => Boolean(m && m.length < 5))) {
       throw new Error('saveConfigDump combinedMessageHashes have invalid size');
     }
     return channels.saveConfigDump(dump);

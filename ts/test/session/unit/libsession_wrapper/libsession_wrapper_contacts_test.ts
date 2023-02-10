@@ -2,7 +2,8 @@ import { expect } from 'chai';
 
 import { from_hex, from_string } from 'libsodium-wrappers-sumo';
 
-// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
+// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
+import * as SessionUtilWrapper from 'session_util_wrapper';
 
 describe('libsession_wrapper_contacts  ', () => {
   // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
@@ -16,10 +17,10 @@ describe('libsession_wrapper_contacts  ', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
-    const SessionUtilWrapper = require('session_util_wrapper');
+    // const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
-    const contacts = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, null);
+    const contacts = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, null);
 
     // We don't need to push anything, since this is an empty config
     expect(contacts.needsPush()).to.be.eql(false);
@@ -40,6 +41,8 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(created.approvedMe).to.be.eq(false);
     expect(created.blocked).to.be.eq(false);
     expect(created.id).to.be.eq(real_id);
+    expect(created.profilePicture?.url).to.be.eq(undefined);
+    expect(created.profilePicture?.key).to.be.eq(undefined);
 
     expect(contacts.needsPush()).to.be.eql(false);
     expect(contacts.needsDump()).to.be.eql(false);
@@ -62,14 +65,15 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(updated?.approved).to.be.true;
     expect(updated?.approvedMe).to.be.true;
     expect(updated?.blocked).to.be.false;
+
     expect(updated?.profilePicture).to.be.undefined;
 
     created.profilePicture = { key: new Uint8Array([1, 2, 3]), url: 'fakeUrl' };
     contacts.set(created);
-    updated = contacts.get(real_id);
+    const updated2 = contacts.get(real_id);
 
-    expect(updated?.profilePicture?.url).to.be.deep.eq('fakeUrl');
-    expect(updated?.profilePicture?.key).to.be.deep.eq(new Uint8Array([1, 2, 3]));
+    expect(updated2?.profilePicture?.url).to.be.deep.eq('fakeUrl');
+    expect(updated2?.profilePicture?.key).to.be.deep.eq(new Uint8Array([1, 2, 3]));
 
     expect(contacts.needsPush()).to.be.eql(true);
     expect(contacts.needsDump()).to.be.eql(true);
@@ -84,7 +88,7 @@ describe('libsession_wrapper_contacts  ', () => {
 
     const dump = contacts.dump();
 
-    const contacts2 = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, dump);
+    const contacts2 = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, dump);
 
     expect(contacts2.needsPush()).to.be.eql(false);
     expect(contacts2.needsDump()).to.be.eql(false);
@@ -101,10 +105,10 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(x?.approvedMe).to.be.true;
     expect(x?.blocked).to.be.false;
 
-    const another_id = '051111111111111111111111111111111111111111111111111111111111111111';
-    contacts2.getOrCreate(another_id);
+    const anotherId = '051111111111111111111111111111111111111111111111111111111111111111';
+    contacts2.getOrCreate(anotherId);
     contacts2.set({
-      id: another_id,
+      id: anotherId,
     });
     // We're not setting any fields, but we should still keep a record of the session id
     expect(contacts2.needsPush()).to.be.true;
@@ -125,7 +129,7 @@ describe('libsession_wrapper_contacts  ', () => {
     const nicknames = allContacts.map((m: any) => m.nickname || '(N/A)');
 
     expect(session_ids.length).to.be.eq(2);
-    expect(session_ids).to.be.deep.eq([real_id, another_id]);
+    expect(session_ids).to.be.deep.eq([real_id, anotherId]);
     expect(nicknames).to.be.deep.eq(['Joey', '(N/A)']);
 
     // Conflict! Oh no!
@@ -173,12 +177,12 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(contacts2.needsPush()).to.be.false;
 
     const allContacts2 = contacts.getAll();
-    const session_ids2 = allContacts2.map((m: any) => m.id);
+    const sessionIds2 = allContacts2.map((m: any) => m.id);
     const nicknames2 = allContacts2.map((m: any) => m.nickname || '(N/A)');
 
-    expect(session_ids2.length).to.be.eq(2);
+    expect(sessionIds2.length).to.be.eq(2);
     expect(nicknames2.length).to.be.eq(2);
-    expect(session_ids2).to.be.deep.eq([another_id, third_id]);
+    expect(sessionIds2).to.be.deep.eq([anotherId, third_id]);
     expect(nicknames2).to.be.deep.eq(['(N/A)', 'Nickname 3']);
   });
 
@@ -189,13 +193,13 @@ describe('libsession_wrapper_contacts  ', () => {
     const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
-    const contacts = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, null);
+    const contacts = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, null);
 
-    const real_id = '050000000000000000000000000000000000000000000000000000000000000000';
+    const realId = '050000000000000000000000000000000000000000000000000000000000000000';
 
-    expect(contacts.get(real_id)).to.be.null;
-    const c = contacts.getOrCreate(real_id);
-    expect(c.id).to.be.eq(real_id);
+    expect(contacts.get(realId)).to.be.null;
+    const c = contacts.getOrCreate(realId);
+    expect(c.id).to.be.eq(realId);
     expect(c.name).to.be.null;
     expect(c.nickname).to.be.null;
     expect(c.approved).to.be.false;
@@ -214,7 +218,7 @@ describe('libsession_wrapper_contacts  ', () => {
     // contacts.setApproved(real_id, c.approved);
     // contacts.setApprovedMe(real_id, c.approvedMe);
 
-    const c2 = contacts.getOrCreate(real_id);
+    const c2 = contacts.getOrCreate(realId);
     expect(c2.name).to.be.eq('Joe');
     expect(c2.nickname).to.be.eq('Joey');
     expect(c2.approved).to.be.true;
@@ -229,14 +233,14 @@ describe('libsession_wrapper_contacts  ', () => {
     let push1 = contacts.push();
     expect(push1.seqno).to.be.equal(1);
 
-    const contacts2 = new SessionUtilWrapper.ContactsConfigWrapper(edSecretKey, null);
+    const contacts2 = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, null);
 
     let accepted = contacts2.merge([push1.data]);
     expect(accepted).to.be.equal(1);
 
     contacts.confirmPushed(push1.seqno);
 
-    let c3 = contacts2.getOrCreate(real_id);
+    let c3 = contacts2.getOrCreate(realId);
     expect(c3.name).to.be.eq('Joe');
     expect(c3.nickname).to.be.eq('Joey');
     expect(c3.approved).to.be.true;
@@ -268,7 +272,7 @@ describe('libsession_wrapper_contacts  ', () => {
 
     expect(session_ids2.length).to.be.eq(2);
     expect(nicknames2.length).to.be.eq(2);
-    expect(session_ids2).to.be.deep.eq([real_id, another_id]);
+    expect(session_ids2).to.be.deep.eq([realId, another_id]);
     expect(nicknames2).to.be.deep.eq(['Joey', '(N/A)']);
 
     // Changing things while iterating:
@@ -278,7 +282,7 @@ describe('libsession_wrapper_contacts  ', () => {
     let deletions = 0;
     let non_deletions = 0;
     allContacts3.forEach((c: any) => {
-      if (c.id !== real_id) {
+      if (c.id !== realId) {
         contacts.erase(c.id);
         deletions++;
       } else {
@@ -288,7 +292,7 @@ describe('libsession_wrapper_contacts  ', () => {
 
     expect(deletions).to.be.eq(1);
     expect(non_deletions).to.be.eq(1);
-    expect(contacts.get(real_id)).to.exist;
+    expect(contacts.get(realId)).to.exist;
     expect(contacts.get(another_id)).to.be.null;
   });
 });

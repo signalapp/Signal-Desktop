@@ -130,6 +130,8 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
       return RunJobResult.PermanentFailure;
     }
 
+    debugger;
+
     let conversation = getConversationController().get(convoId);
     if (!conversation) {
       // return true so we do not retry this task.

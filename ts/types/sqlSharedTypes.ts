@@ -34,7 +34,7 @@ export type ConfigDumpRow = {
   variant: ConfigWrapperObjectTypes; // the variant this entry is about. (user pr, contacts, ...)
   publicKey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
   data: Uint8Array; // the blob returned by libsession.dump() call
-  combinedMessageHashes: Array<string>; // array of lastHashes to keep track of
+  combinedMessageHashes: Array<string>; // set of lastHashes to keep track of
   // we might need to add a `seqno` field here.
 };
 
@@ -62,7 +62,7 @@ export type ConfigDumpDataNode = {
   getCombinedHashesByVariantAndPubkey: (
     variant: ConfigWrapperObjectTypes,
     pubkey: string
-  ) => Set<string>;
+  ) => Array<string>;
 };
 
 // ========== unprocessed

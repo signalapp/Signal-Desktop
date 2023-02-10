@@ -29,7 +29,7 @@ export type OutgoingConfResult = {
   message: SharedConfigMessage;
   namespace: SnodeNamespaces;
   destination: string;
-  oldMessageHashes?: Array<string>;
+  oldMessageHashes: Array<string>;
 };
 
 async function insertUserProfileIntoWrapperIfChanged() {
@@ -149,13 +149,18 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
   if (pubkey === us) {
     LibSessionUtil.requiredUserDumpVariants.forEach(requiredVariant => {
       if (!dumps.find(m => m.publicKey === us && m.variant === requiredVariant)) {
-        dumps.push({ publicKey: us, variant: requiredVariant, combinedMessageHashes: [] });
+        dumps.push({
+          publicKey: us,
+          variant: requiredVariant,
+          combinedMessageHashes: [],
+        });
       }
     });
   }
 
   const results: Array<OutgoingConfResult> = [];
 
+  debugger;
   for (let index = 0; index < dumps.length; index++) {
     const dump = dumps[index];
     const variant = dump.variant;

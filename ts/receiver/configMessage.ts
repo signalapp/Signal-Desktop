@@ -161,16 +161,17 @@ async function processMergingResults(
     const variant = LibSessionUtil.kindToVariant(kind);
     // We need to get the existing message hashes and combine them with the latest from the
     // service node to ensure the next push will properly clean up old messages
-    const oldMessagesHashesSet = await ConfigDumpData.getCombinedHashesByVariantAndPubkey(
+    const oldMessagesHashes = await ConfigDumpData.getCombinedHashesByVariantAndPubkey(
       variant,
       envelope.source
     );
-    const allMessageHashes = new Set([...oldMessagesHashesSet, ...finalResult.messageHashes]);
+
+    const allMessageHashes = [...oldMessagesHashes, ...finalResult.messageHashes];
 
     const finalResultsHashes = new Set(finalResult.messageHashes);
 
     // lodash does deep compare of Sets
-    const messageHashesChanged = !isEqual(oldMessagesHashesSet, finalResultsHashes);
+    const messageHashesChanged = !isEqual(oldMessagesHashes, finalResultsHashes);
 
     if (finalResult.needsDump) {
       // The config data had changes so regenerate the dump and save it
@@ -180,7 +181,7 @@ async function processMergingResults(
         data: dump,
         publicKey: pubkey,
         variant,
-        combinedMessageHashes: [...allMessageHashes],
+        combinedMessageHashes: allMessageHashes,
       });
     } else if (messageHashesChanged) {
       // The config data didn't change but there were different messages on the service node
@@ -188,7 +189,7 @@ async function processMergingResults(
       await ConfigDumpData.saveCombinedMessageHashesForMatching({
         publicKey: pubkey,
         variant,
-        combinedMessageHashes: [...allMessageHashes],
+        combinedMessageHashes: allMessageHashes,
       });
     }
 

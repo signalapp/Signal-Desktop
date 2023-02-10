@@ -183,7 +183,7 @@ async function send(
 async function sendMessagesDataToSnode(
   params: Array<StoreOnNodeParamsNoSig>,
   destination: string,
-  oldMessageHashes: Array<string> | null
+  oldMessageHashes: Set<string> | null
 ): Promise<NotEmptyArrayOfBatchResults> {
   const rightDestination = params.filter(m => m.pubkey === destination);
   const swarm = await getSwarmFor(destination);
@@ -211,14 +211,14 @@ async function sendMessagesDataToSnode(
     })
   );
 
-  debugger;
-  const signedDeleteOldHashesRequest = oldMessageHashes?.length
-    ? await SnodeSignature.getSnodeSignatureByHashesParams({
-        method: 'delete' as const,
-        messages: oldMessageHashes,
-        pubkey: destination,
-      })
-    : null;
+  const signedDeleteOldHashesRequest =
+    oldMessageHashes && oldMessageHashes.size
+      ? await SnodeSignature.getSnodeSignatureByHashesParams({
+          method: 'delete' as const,
+          messages: [...oldMessageHashes],
+          pubkey: destination,
+        })
+      : null;
 
   const snode = sample(swarm);
   if (!snode) {
@@ -351,7 +351,7 @@ async function encryptMessagesAndWrap(
 async function sendMessagesToSnode(
   params: Array<StoreOnNodeMessage>,
   destination: string,
-  oldMessageHashes: Array<string> | null
+  oldMessageHashes: Set<string> | null
 ): Promise<NotEmptyArrayOfBatchResults | null> {
   try {
     const recipient = PubKey.cast(destination);

@@ -2,7 +2,8 @@
  * Config dumps sql calls
  */
 
-import { compact, flatten, isEmpty, uniq } from 'lodash';
+import { compact, isEmpty, uniq } from 'lodash';
+import { uniqFromListOfList } from '../../shared/string_utils';
 import {
   ConfigDumpDataNode,
   ConfigDumpRow,
@@ -36,10 +37,17 @@ function parseRowNoData(
   return toRet;
 }
 
+export function uniqCompacted<T extends string>(list: Array<T>): Array<T> {
+  if (!list || !list.length) {
+    return [];
+  }
+  return uniq(compact(list));
+}
+
 function parseRowMessageHashes(row: CombinedMessageHashes): Array<string> {
   if (!isEmpty(row.combinedMessageHashes) && row.combinedMessageHashes) {
     try {
-      return JSON.parse(row.combinedMessageHashes) || [];
+      return uniqCompacted(JSON.parse(row.combinedMessageHashes));
     } catch (e) {
       console.warn('parseRowMessageHashes row failed');
     }
@@ -65,7 +73,10 @@ export const configDumpData: ConfigDumpDataNode = {
     return compact(rows.map(parseRow));
   },
 
-  getMessageHashesByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, publicKey: string) => {
+  getMessageHashesByVariantAndPubkey: (
+    variant: ConfigWrapperObjectTypes,
+    publicKey: string
+  ): Array<string> => {
     const rows = assertGlobalInstance()
       .prepare(
         'SELECT combinedMessageHashes from configDump WHERE variant = $variant AND publicKey = $publicKey;'
@@ -78,7 +89,10 @@ export const configDumpData: ConfigDumpDataNode = {
     if (!rows) {
       return [];
     }
-    return uniq(flatten(rows.map(parseRowMessageHashes)));
+    const parsedRows: Array<Array<string>> = rows.map(parseRowMessageHashes);
+
+    const unique: Array<string> = uniqFromListOfList(parsedRows);
+    return unique;
   },
 
   getAllDumpsWithData: () => {
@@ -123,7 +137,7 @@ export const configDumpData: ConfigDumpDataNode = {
       .run({
         publicKey,
         variant,
-        combinedMessageHashes: JSON.stringify(combinedMessageHashes || []),
+        combinedMessageHashes: JSON.stringify(uniqCompacted(combinedMessageHashes)),
         data,
       });
   },
@@ -141,7 +155,7 @@ export const configDumpData: ConfigDumpDataNode = {
       .run({
         publicKey,
         variant,
-        combinedMessageHashes: JSON.stringify(combinedMessageHashes || []),
+        combinedMessageHashes: JSON.stringify(uniqCompacted(combinedMessageHashes)),
       });
   },
 
@@ -156,17 +170,8 @@ export const configDumpData: ConfigDumpDataNode = {
       });
 
     if (!rows) {
-      return new Set();
+      return new Array<string>();
     }
-    const asArrays = compact(
-      rows.map(t => {
-        try {
-          return JSON.parse(t.combinedMessageHashes);
-        } catch {
-          return null;
-        }
-      })
-    );
-    return new Set(asArrays.flat(1));
+    return uniqFromListOfList(rows.map(parseRowMessageHashes));
   },
 };

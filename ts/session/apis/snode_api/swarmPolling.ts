@@ -318,8 +318,8 @@ export class SwarmPolling {
     namespaces: Array<SnodeNamespaces>
   ): Promise<RetrieveMessagesResultsBatched | null> {
     const namespaceLength = namespaces.length;
-    if (namespaceLength > 3 || namespaceLength <= 0) {
-      throw new Error('pollNodeForKey needs  1 or 2 namespaces to be given at all times');
+    if (namespaceLength > 5 || namespaceLength <= 0) {
+      throw new Error(`invalid number of retrieve namespace provided: ${namespaceLength}`);
     }
     const edkey = node.pubkey_ed25519;
     const pkStr = pubkey.key;

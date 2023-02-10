@@ -49,11 +49,10 @@ async function retrieveSingleDestinationChanges(): Promise<Array<SingleDestinati
   const singleDestChanges: Array<SingleDestinationChanges> = Object.keys(groupedByDestination).map(
     destination => {
       const messages = groupedByDestination[destination];
-      const uniqHashes = compact(
-        uniq(messages.filter(m => m.oldMessageHashes).map(m => m.oldMessageHashes)).flat()
-      );
+      // the delete hashes sub request can be done accross namespaces, so we can do a single one of it with all the hashes to remove (per pubkey)
+      const hashes = compact(messages.map(m => m.oldMessageHashes)).flat();
 
-      return { allOldHashes: uniqHashes, destination, messages };
+      return { allOldHashes: hashes, destination, messages };
     }
   );
 
@@ -78,7 +77,6 @@ function resultsToSuccessfulChange(
    * As it is a sequence, the delete might have failed but the new config message might still be posted.
    * So we need to check which request failed, and if it is the delete by hashes, we need to add the hash of the posted message to the list of hashes
    */
-  debugger;
 
   try {
     for (let i = 0; i < allResults.length; i++) {
@@ -122,11 +120,12 @@ function resultsToSuccessfulChange(
             `messagePostedHashes for j:${j}; didDeleteOldConfigMessages:${didDeleteOldConfigMessages}: `,
             messagePostedHashes
           );
+          const updatedHashes: Array<string> = didDeleteOldConfigMessages
+            ? [messagePostedHashes]
+            : uniq(compact([...request.allOldHashes, messagePostedHashes]));
           successfulChanges.push({
             publicKey: request.destination,
-            updatedHash: didDeleteOldConfigMessages
-              ? [messagePostedHashes]
-              : [...request.allOldHashes, messagePostedHashes],
+            updatedHash: updatedHashes,
             message: request.messages?.[j].message,
           });
         }
@@ -134,7 +133,6 @@ function resultsToSuccessfulChange(
     }
   } catch (e) {
     console.warn('eeee', e);
-    debugger;
     throw e;
   }
 
@@ -232,7 +230,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
             message: item.message,
           };
         });
-        return MessageSender.sendMessagesToSnode(msgs, dest.destination, dest.allOldHashes);
+        const asSet = new Set(dest.allOldHashes);
+        return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
       })
     );
 
@@ -241,7 +240,6 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
     );
     // we do a sequence call here. If we do not have the right expected number of results, consider it
 
-    debugger;
     if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
       return RunJobResult.RetryJobIfPossible;
     }

@@ -297,6 +297,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       this.deleteJobsByIdentifier([this.currentJob.persistedData.identifier]);
       await this.writeJobsToDB();
     } catch (e) {
+      window.log.warn(`JobRunner current ${this.jobRunnerType} failed with ${e.message}`);
       if (
         success === RunJobResult.PermanentFailure ||
         nextJob.persistedData.currentRetry >= nextJob.persistedData.maxAttempts - 1

@@ -1062,7 +1062,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     options: {
       fromSync?: boolean;
     } = {},
-    shouldCommit = true
+    shouldCommit = true,
   ): Promise<void> {
     let expireTimer = providedExpireTimer;
     let source = providedSource;
