@@ -1124,7 +1124,7 @@
     "description": "Shown for search result items - like 'Jon to Friends Group'"
   },
   "icu:searchResultHeader--sender-to-you": {
-    "messageformat": "{sender} către tine",
+    "messageformat": "{sender} către Tine",
     "description": "Shown for search result items - like 'Jon to You"
   },
   "icu:searchResultHeader--you-to-group": {

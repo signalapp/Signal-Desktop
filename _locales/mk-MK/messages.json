@@ -1124,7 +1124,7 @@
     "description": "Shown for search result items - like 'Jon to Friends Group'"
   },
   "icu:searchResultHeader--sender-to-you": {
-    "messageformat": "{sender} до Вас",
+    "messageformat": "{sender} до вас",
     "description": "Shown for search result items - like 'Jon to You"
   },
   "icu:searchResultHeader--you-to-group": {
@@ -1161,7 +1161,7 @@
     "message": "Види  безбедносен број"
   },
   "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Види  безбедносен број",
+    "messageformat": "Види безбедносен број",
     "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
@@ -6317,11 +6317,11 @@
     "description": "Empty state for the link preview"
   },
   "icu:Stories__failed-send--full": {
-    "messageformat": "Story failed to send",
+    "messageformat": "Испраќањето на приказната е неуспешно",
     "description": "Notification text whenever a story fails to send"
   },
   "icu:Stories__failed-send--partial": {
-    "messageformat": "Story couldn't be sent to all recipients",
+    "messageformat": "Приказната не можеше да се испрати на сите примачи",
     "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
@@ -6461,7 +6461,7 @@
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "messageformat": "Помогнете ни да тестираме неколку подобрувања на сигурноста и перформансот на гласовни и видео повици. Оваа бета верзија исто така вклучува и неколку решени багови и мали ажурирања на интерфејсот (очекувајте ги новите подобрувања на можноста за преглед на линкови!). Ви благодариме што ја тестирате бета верзијата и ве молиме контактирајте нè на форумот на заедницата доколку забележите багови.",
     "description": "Release notes for v6.6"
   }
 }

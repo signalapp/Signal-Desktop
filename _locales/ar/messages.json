@@ -584,7 +584,7 @@
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
   },
   "icu:SafetyNumberViewer__clearVerification": {
-    "messageformat": "محو التحقق",
+    "messageformat": "محو التحقّق",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {

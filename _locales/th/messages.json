@@ -580,11 +580,11 @@
     "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
-    "messageformat": "ทำเครื่องหมายว่าตรวจยืนยันแล้ว",
+    "messageformat": "ทำเครื่องหมายว่ายืนยันแล้ว",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
   },
   "icu:SafetyNumberViewer__clearVerification": {
-    "messageformat": "ล้างการตรวจยืนยัน",
+    "messageformat": "ล้างการยืนยัน",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
@@ -1161,7 +1161,7 @@
     "message": "แสดงหมายเลขความปลอดภัย"
   },
   "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "แสดงหมายเลขความปลอดภัย",
+    "messageformat": "ดูหมายเลขความปลอดภัย",
     "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
@@ -6317,11 +6317,11 @@
     "description": "Empty state for the link preview"
   },
   "icu:Stories__failed-send--full": {
-    "messageformat": "Story failed to send",
+    "messageformat": "ส่งสตอรี่ไม่สำเร็จ",
     "description": "Notification text whenever a story fails to send"
   },
   "icu:Stories__failed-send--partial": {
-    "messageformat": "Story couldn't be sent to all recipients",
+    "messageformat": "ไม่สามารถส่งสตอรี่ให้ผู้รับทุกคนได้",
     "description": "Notification text whenever a story partially fails to send"
   },
   "TextAttachment__placeholder": {
@@ -6461,7 +6461,7 @@
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
+    "messageformat": "ช่วยเราทดสอบการปรับปรุงเสถียรภาพและการพัฒนาประสิทธิภาพการใช้งานของการโทรด้วยเสียงและวิดีโอคอล รุ่นเบต้านี้มีการแก้ไขบั๊กหลายตัวและการปรับโฉมรูปแบบการใช้งาน (UI) เล็กน้อย (อย่างการอัปเดตหน้าตาตัวอย่างลิงก์) Signal ขอขอบคุณที่ร่วมทดสอบรุ่นเบต้ากับเรา กรุณาติดต่อเราทางฟอรั่มชุมชนหากคุณพบบั๊กหรือเจอปัญหาในการใช้งาน",
     "description": "Release notes for v6.6"
   }
 }

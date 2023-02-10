@@ -580,7 +580,7 @@
     "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
-    "messageformat": "Marker som bekræftet",
+    "messageformat": "Markér som bekræftet",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
   },
   "icu:SafetyNumberViewer__clearVerification": {
