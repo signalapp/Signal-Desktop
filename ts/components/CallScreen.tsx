@@ -294,7 +294,9 @@ export function CallScreen({
     }
     case CallMode.Group:
       isRinging =
-        activeCall.outgoingRing && !activeCall.remoteParticipants.length;
+        activeCall.outgoingRing &&
+        !activeCall.remoteParticipants.length &&
+        !(groupMembers?.length === 1 && groupMembers[0].id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
 
