@@ -7,7 +7,7 @@ import { concatUInt8Array } from '../../../../session/crypto';
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
 
 describe('libsession_wrapper', () => {
-  it('[config][user_profile][c]', () => {
+  it('libsession_user', () => {
     // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
     // To do this, you can cd to the node_module/libsession_wrapper folder and do
     // yarn configure && yarn build
@@ -46,7 +46,14 @@ describe('libsession_wrapper', () => {
     expect(picResult.key).to.be.null;
 
     // Now let's go set a profile name and picture:
-    conf.setProfilePicture('http://example.org/omg-pic-123.bmp', stringToUint8Array('secret'));
+    conf.setProfilePicture(
+      'http://example.org/omg-pic-123.bmp',
+      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
+    );
+    expect(conf.getProfilePicture().key).to.be.deep.eq(
+      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
+    );
+
     conf.setName('Kallie');
 
     // Retrieve them just to make sure they set properly:
@@ -58,7 +65,9 @@ describe('libsession_wrapper', () => {
     const picture = conf.getProfilePicture();
 
     expect(picture.url).to.be.eq('http://example.org/omg-pic-123.bmp');
-    expect(picture.key).to.be.deep.eq(stringToUint8Array('secret'));
+    expect(picture.key).to.be.deep.eq(
+      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
+    );
 
     // Since we've made changes, we should need to push new config to the swarm, *and* should need
     // to dump the updated state:

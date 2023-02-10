@@ -60,11 +60,11 @@ async function addAvatarDownloadJobIfNeeded({
   profileKeyHex: string | null | undefined;
 }) {
   if (profileKeyHex && shouldAddAvatarDownloadJob({ pubkey, profileUrl, profileKeyHex })) {
-    debugger;
     const avatarDownloadJob = new AvatarDownloadJob({
       conversationId: pubkey,
       profileKeyHex,
       profilePictureUrl: profileUrl || null,
+      nextAttemptTimestamp: Date.now(),
     });
     window.log.debug(
       `addAvatarDownloadJobIfNeeded: adding job download for ${pubkey}:${profileUrl}:${profileKeyHex} `
@@ -130,8 +130,6 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
       return RunJobResult.PermanentFailure;
     }
 
-    debugger;
-
     let conversation = getConversationController().get(convoId);
     if (!conversation) {
       // return true so we do not retry this task.
@@ -171,12 +169,26 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
           });
           conversation = getConversationController().getOrThrow(convoId);
 
+          if (!downloaded.data.byteLength) {
+            window.log.debug(`[profileupdate] downloaded data is empty for  ${conversation.id}`);
+            return RunJobResult.RetryJobIfPossible; // so we retry this job
+          }
+
           // null => use placeholder with color and first letter
           let path = null;
 
           try {
             const profileKeyArrayBuffer = fromHexToArray(this.persistedData.profileKeyHex);
-            const decryptedData = await decryptProfile(downloaded.data, profileKeyArrayBuffer);
+            let decryptedData: ArrayBuffer;
+            try {
+              decryptedData = await decryptProfile(downloaded.data, profileKeyArrayBuffer);
+            } catch (decryptError) {
+              window.log.info(
+                `[profileupdate] failed to decrypt downloaded data ${conversation.id} with provided profileKey`
+              );
+              // if we cannot decrypt the content, there is no need to keep retrying.
+              return RunJobResult.PermanentFailure;
+            }
 
             window.log.info(
               `[profileupdate] about to auto scale avatar for convo ${conversation.id}`

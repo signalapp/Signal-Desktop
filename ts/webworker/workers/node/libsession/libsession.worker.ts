@@ -95,8 +95,8 @@ onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any]
     }
 
     const wrapper = await getCorrespondingWrapper(config);
-
     const fn = (wrapper as any)[action];
+
     if (!fn) {
       throw new Error(
         `Worker: job "${jobId}" did not find function "${action}" on config "${config}"`

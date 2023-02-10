@@ -21,6 +21,10 @@ export type StartProcessingResult = 'job_in_progress' | 'job_deferred' | 'job_st
 
 export type AddJobResult = 'job_deferred' | 'job_started';
 
+function jobToLogId<T extends TypeOfPersistedData>(jobRunner: JobRunnerType, job: PersistedJob<T>) {
+  return `id: "${job.persistedData.identifier}" (type: "${jobRunner}")`;
+}
+
 /**
  * This class is used to plan jobs and make sure they are retried until the success.
  * By having a specific type, we can find the logic to be run by that type of job.
@@ -79,7 +83,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
     if (this.jobsScheduled.find(j => j.persistedData.identifier === job.persistedData.identifier)) {
       window.log.info(
-        `job runner has already a job with id:"${job.persistedData.identifier}" planned so not adding another one`
+        `job runner (${this.jobRunnerType}) has already a job with id:"${job.persistedData.identifier}" planned so not adding another one`
       );
       return 'identifier_exists';
     }
@@ -168,7 +172,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
   private async writeJobsToDB() {
     const serialized = this.getSerializedJobs();
-    window.log.warn('writing to db', serialized);
+    window.log.warn(`writing to db for "${this.jobRunnerType}": `, serialized);
     await Data.createOrUpdateItem({
       id: this.getJobRunnerItemId(),
       value: JSON.stringify(serialized),
@@ -176,7 +180,6 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   }
 
   private async addJobUnchecked(job: PersistedJob<T>) {
-    console.warn('job', job);
     this.jobsScheduled.push(cloneDeep(job));
     this.sortJobsList();
     await this.writeJobsToDB();
@@ -254,7 +257,12 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private deleteJobsByIdentifier(identifiers: Array<string>) {
     identifiers.forEach(identifier => {
       const jobIndex = this.jobsScheduled.findIndex(f => f.persistedData.identifier === identifier);
-      window.log.info('deleteJobsByIdentifier job', identifier, ' index', jobIndex);
+      window.log.info(
+        `removing job ${jobToLogId(
+          this.jobRunnerType,
+          this.jobsScheduled[jobIndex]
+        )} at ${jobIndex}`
+      );
 
       if (jobIndex >= 0) {
         this.jobsScheduled.splice(jobIndex, 1);
@@ -290,21 +298,40 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       success = await timeout(this.currentJob.runJob(), this.currentJob.getJobTimeoutMs());
 
       if (success !== RunJobResult.Success) {
-        throw new Error(`job ${nextJob.persistedData.identifier} failed`);
+        throw new Error('return result was not "Success"');
       }
 
       // here the job did not throw and didn't return false. Consider it OK then and remove it from the list of jobs to run.
       this.deleteJobsByIdentifier([this.currentJob.persistedData.identifier]);
       await this.writeJobsToDB();
     } catch (e) {
-      window.log.warn(`JobRunner current ${this.jobRunnerType} failed with ${e.message}`);
+      window.log.info(`${jobToLogId(this.jobRunnerType, nextJob)} failed with "${e.message}"`);
       if (
         success === RunJobResult.PermanentFailure ||
         nextJob.persistedData.currentRetry >= nextJob.persistedData.maxAttempts - 1
       ) {
+        if (success === RunJobResult.PermanentFailure) {
+          window.log.info(
+            `${jobToLogId(this.jobRunnerType, nextJob)}:${
+              nextJob.persistedData.currentRetry
+            } permament failure for job`
+          );
+        } else {
+          window.log.info(
+            `Too many failures for ${jobToLogId(
+              this.jobRunnerType,
+              nextJob
+            )} out of nextJob.persistedData.maxAttempts`
+          );
+        }
         // we cannot restart this job anymore. Remove the entry completely
         this.deleteJobsByIdentifier([nextJob.persistedData.identifier]);
       } else {
+        window.log.info(
+          `Rescheduling ${jobToLogId(this.jobRunnerType, nextJob)} in ${
+            nextJob.persistedData.delayBetweenRetries
+          }...`
+        );
         nextJob.persistedData.currentRetry = nextJob.persistedData.currentRetry + 1;
         // that job can be restarted. Plan a retry later with the already defined retry
         nextJob.persistedData.nextAttemptTimestamp =

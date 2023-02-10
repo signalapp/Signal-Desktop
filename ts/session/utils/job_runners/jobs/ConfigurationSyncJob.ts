@@ -1,4 +1,3 @@
-import { from_string } from 'libsodium-wrappers-sumo';
 import { compact, groupBy, isArray, isEmpty, isNumber, isString, uniq } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
@@ -12,6 +11,7 @@ import { getConversationController } from '../../../conversations';
 import { SharedConfigMessage } from '../../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { MessageSender } from '../../../sending/MessageSender';
 import { LibSessionUtil, OutgoingConfResult } from '../../libsession/libsession_utils';
+import { fromHexToArray } from '../../String';
 import { runners } from '../JobRunner';
 import {
   AddJobCheckReturn,
@@ -116,10 +116,6 @@ function resultsToSuccessfulChange(
           request.destination
         ) {
           // a message was posted. We need to add it to the tracked list of hashes
-          console.warn(
-            `messagePostedHashes for j:${j}; didDeleteOldConfigMessages:${didDeleteOldConfigMessages}: `,
-            messagePostedHashes
-          );
           const updatedHashes: Array<string> = didDeleteOldConfigMessages
             ? [messagePostedHashes]
             : uniq(compact([...request.allOldHashes, messagePostedHashes]));
@@ -132,7 +128,6 @@ function resultsToSuccessfulChange(
       }
     }
   } catch (e) {
-    console.warn('eeee', e);
     throw e;
   }
 
@@ -153,7 +148,6 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
       continue;
     }
     const dump = await GenericWrapperActions.dump(variant);
-    console.warn('change.updatedHash', change.updatedHash);
     await ConfigDumpData.saveConfigDump({
       data: dump,
       publicKey: change.publicKey,
@@ -205,7 +199,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
     await UserConfigWrapperActions.setName(name || '');
 
     if (profileKey && pointer) {
-      await UserConfigWrapperActions.setProfilePicture(pointer, from_string(profileKey));
+      const profileKeyArray = fromHexToArray(profileKey);
+      await UserConfigWrapperActions.setProfilePicture(pointer, profileKeyArray);
     } else {
       await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
     }
@@ -235,9 +230,6 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       })
     );
 
-    console.warn(
-      `ConfigurationSyncJob sendToPubKeyNonDurably ${this.persistedData.identifier} returned: "${allResults}"`
-    );
     // we do a sequence call here. If we do not have the right expected number of results, consider it
 
     if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {

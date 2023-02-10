@@ -160,7 +160,6 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
 
   const results: Array<OutgoingConfResult> = [];
 
-  debugger;
   for (let index = 0; index < dumps.length; index++) {
     const dump = dumps[index];
     const variant = dump.variant;

@@ -5,7 +5,7 @@ import { from_hex, from_string } from 'libsodium-wrappers-sumo';
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
 import * as SessionUtilWrapper from 'session_util_wrapper';
 
-describe('libsession_wrapper_contacts  ', () => {
+describe('libsession_contacts', () => {
   // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
   // To do this, you can cd to the node_module/libsession_wrapper folder and do
   // yarn configure && yarn build
@@ -13,7 +13,7 @@ describe('libsession_wrapper_contacts  ', () => {
 
   // We have to disable it by filename as nodejs tries to load the module during the import step above, and fails as it is not compiled for nodejs but for electron.
 
-  it('[config][contacts]', () => {
+  it('libsession_contacts', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
@@ -186,7 +186,7 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(nicknames2).to.be.deep.eq(['(N/A)', 'Nickname 3']);
   });
 
-  it('[config][contacts][c]', () => {
+  it('libsession_contacts_c', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );

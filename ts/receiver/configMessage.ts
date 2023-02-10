@@ -37,6 +37,7 @@ async function mergeConfigsWithIncomingUpdates(
 
   const wrapperId = LibSessionUtil.kindToVariant(kind);
   await GenericWrapperActions.merge(wrapperId, toMerge);
+
   const needsPush = await GenericWrapperActions.needsPush(wrapperId);
   const needsDump = await GenericWrapperActions.needsDump(wrapperId);
   const messageHashes = [incomingConfig.messageHash];
@@ -59,7 +60,6 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   }
 
   const updatedProfilePicture = await UserConfigWrapperActions.getProfilePicture();
-  debugger;
   const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
   await ProfileManager.updateOurProfileSync(
     updatedUserName,
