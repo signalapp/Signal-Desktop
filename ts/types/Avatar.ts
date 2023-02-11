@@ -118,7 +118,9 @@ const personalDefaultAvatars = PersonalAvatarIcons.map((icon, index) => ({
   icon,
 }));
 
-export function getDefaultAvatars(isGroup?: boolean): Array<AvatarDataType> {
+export function getDefaultAvatars(
+  isGroup?: boolean
+): ReadonlyArray<AvatarDataType> {
   if (isGroup) {
     return groupDefaultAvatars;
   }

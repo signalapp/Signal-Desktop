@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -266,7 +266,6 @@ const actions = () => ({
     'clearInvitedUuidsForNewlyCreatedGroup'
   ),
   setIsNearBottom: action('setIsNearBottom'),
-  learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),
   loadNewestMessages: action('loadNewestMessages'),
@@ -278,23 +277,21 @@ const actions = () => ({
   reactToMessage: action('reactToMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
-  retrySend: action('retrySend'),
+  retryMessageSend: action('retryMessageSend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
-  showMessageDetail: action('showMessageDetail'),
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),
+  showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showConversation: action('showConversation'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
   showLightbox: action('showLightbox'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
-  openLink: action('openLink'),
   openGiftBadge: action('openGiftBadge'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showExpiredIncomingTapToViewToast: action(
@@ -307,25 +304,15 @@ const actions = () => ({
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
-  downloadNewVersion: action('downloadNewVersion'),
-
   startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
-
-  contactSupport: action('contactSupport'),
 
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
   reviewGroupMemberNameCollision: action('reviewGroupMemberNameCollision'),
   reviewMessageRequestNameCollision: action(
     'reviewMessageRequestNameCollision'
   ),
-
-  acceptConversation: action('acceptConversation'),
-  blockAndReportSpam: action('blockAndReportSpam'),
-  blockConversation: action('blockConversation'),
-  deleteConversation: action('deleteConversation'),
-  removeMember: action('removeMember'),
 
   unblurAvatar: action('unblurAvatar'),
 
@@ -374,10 +361,23 @@ const renderItem = ({
 const renderContactSpoofingReviewDialog = (
   props: SmartContactSpoofingReviewDialogPropsType
 ) => {
+  const sharedProps = {
+    acceptConversation: action('acceptConversation'),
+    blockAndReportSpam: action('blockAndReportSpam'),
+    blockConversation: action('blockConversation'),
+    deleteConversation: action('deleteConversation'),
+    getPreferredBadge: () => undefined,
+    i18n,
+    removeMember: action('removeMember'),
+    showContactModal: action('showContactModal'),
+    theme: ThemeType.dark,
+  };
+
   if (props.type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
     return (
       <ContactSpoofingReviewDialog
         {...props}
+        {...sharedProps}
         group={{
           ...getDefaultConversation(),
           areWeAdmin: true,
@@ -386,7 +386,7 @@ const renderContactSpoofingReviewDialog = (
     );
   }
 
-  return <ContactSpoofingReviewDialog {...props} />;
+  return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
 };
 
 const getAbout = () => text('about', '👍 Free to chat');

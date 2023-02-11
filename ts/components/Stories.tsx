@@ -42,7 +42,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: () => JSX.Element;
-  retrySend: (messageId: string) => unknown;
+  retryMessageSend: (messageId: string) => unknown;
   setAddStoryData: (data: AddStoryData) => unknown;
   showConversation: ShowConversationType;
   showStoriesSettings: () => unknown;
@@ -70,7 +70,7 @@ export function Stories({
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryCreator,
-  retrySend,
+  retryMessageSend,
   setAddStoryData,
   showConversation,
   showStoriesSettings,
@@ -111,7 +111,7 @@ export function Stories({
             onForward={onForwardStory}
             onSave={onSaveStory}
             queueStoryDownload={queueStoryDownload}
-            retrySend={retrySend}
+            retryMessageSend={retryMessageSend}
             viewStory={viewStory}
           />
         ) : (

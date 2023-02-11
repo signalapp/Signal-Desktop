@@ -11,7 +11,7 @@ import { Bootstrap, debug, stats, RUN_COUNT, DISCARD_COUNT } from './fixtures';
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds
 
-(async () => {
+void (async () => {
   const bootstrap = new Bootstrap({
     benchmark: true,
   });
@@ -69,8 +69,7 @@ const DELAY = 50; // milliseconds
       const openConvo = async (contact: PrimaryDevice): Promise<void> => {
         debug('opening conversation', contact.profileName);
         const item = leftPane.locator(
-          '_react=BaseConversationListItem' +
-            `[title = ${JSON.stringify(contact.profileName)}]`
+          `[data-testid="${contact.toContact().uuid}"]`
         );
 
         await item.click();

@@ -64,6 +64,18 @@
     "message": "成員資格待定",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "送出媒體的品質",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "標準",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "高",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "軟體致謝",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "你無法同時選擇相片、影片以及檔案。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "每次只能選擇一個檔案。",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "你無法在這個訊息中新增更多的附檔。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "抱歉，選擇的檔案大小超過訊息限制"
+    "message": "抱歉，選擇的檔案大小超過訊息限制",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "抱歉，選擇的檔案大小超過訊息限制 {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "無法上傳所選附件。"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "要傳送語音訊息，須授權 Siganl 桌面版可以使用您設備的麥克風。",
+    "message": "如要傳送語音訊息，請允許 Signal 桌面版使用裝置的麥克風。",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "如果對話中的每個人都使用最新版本的Signal，則該訊息將被刪除。 他們將能夠看到你刪除了一則訊息。",
+    "message": "如果對話中的每個人都使用最新版本的Signal，則該訊息將被刪除。他們將能夠看到您刪除了一則訊息。",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "為所有人重試刪除",
+    "message": "重試「為所有人刪除」",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ 變更了他們的電話號碼",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} 及 {conversationTitle} 是相同的帳戶。兩個聊天的訊息紀錄均在此處。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "你與 {conversationTitle} 的訊息紀錄及其號碼 {obsoleteConversationNumber} 已經合併。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "你與 {conversationTitle} 的訊息紀錄和另一個與對方的聊天已經合併。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "了解更多",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "與 {obsoleteConversationTitle} 通訊後，你得知此號碼是屬於 {conversationTitle}。其電話號碼已設定為私人狀態。",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "兩組對話的訊息紀錄已在此處合併。",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} 是屬於 {conversationTitle}。你們都是 {sharedGroup} 的成員。",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} 是屬於 {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "引用訊息的縮圖",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "你將不會收到他們的語音或影片，他們也不會收到你的聲音或影片。",
+    "message": "你們都不會收到對方的語音或視訊通話。",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "你即將刪除所有應用程式已儲存的帳號資訊，包含所有聯絡人及訊息。你通常能再與行動裝置連結，但無法還原被刪除的訊息。",
+    "message": "您即將刪除所有應用程式已儲存的帳號資訊，包含所有聯絡人及訊息。您通常能重新與行動裝置連結，但無法還原被刪除的訊息。",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "你先前安裝的 Signal 桌面版中有過時的資料，如果選擇繼續，它將被刪除，並且將從頭開始。",
+    "message": "您先前安裝的 Signal 桌面版中有過時的資料，如果選擇繼續，它將被刪除，並且將從頭開始。",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "點選重啟 Signal 來套用更新。"
+    "message": "點選重啟 Signal 來套用更新。",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "重啟 Signal"
@@ -2225,91 +2279,179 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "這則訊息已被刪除",
+    "message": "這則訊息已被刪除。",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "giftBadge--missing": {
+    "message": "無法擷取饋贈徽章的詳情",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "無法擷取捐款詳情",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "在手機上查看此訊息以開啟",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "在手機上查看此訊息即可開啟",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "在行動裝置上點選此訊息，即可查看禮物",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "在手機上點按此訊息，即可查看捐款",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "禮品",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} 已代表你向 Signal 捐款",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "檢查你的手機以開啟禮物",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "請檢查手機以開啟捐款",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "檢查看你的手機以查看你的禮物",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "請檢查手機以查看捐款",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "你已收到一份禮物",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} 已為你捐款",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "你已加值了一個禮品徽章",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "你已兌換捐款",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "你已送出一個禮品徽章",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "你已為 {recipient} 捐款",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "禮品徽章",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "捐款",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "禮品",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "捐款",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "剩下 $days$ 天",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "尚餘 {days} 天",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "剩下 $hours$ 小時",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "尚餘 {hours} 小時",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "剩下 $minutes$ 分鐘",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {尚餘 {minutes,number} 分鐘}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "剩下 1 分鐘",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "已過期",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "已過期",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "檢視",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "查看",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "已加值",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "已兌換",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "謝謝您的支持！",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "謝謝你的支持！",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "你已將徽章贈送給 $name$。 當他們接受後，他們可以選擇展示或隱藏他們的徽章。",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "你已代表 {name} 向 Signal 捐款。對方可以選擇在個人檔案上展示。",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "貼圖包無法安裝",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "貼圖",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "可使用",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "已安裝的貼圖",
+    "message": "已安裝",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,11 +2847,19 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "接受含影片的電話",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "接聽並開啟視訊",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "接受含聲音的電話",
+    "message": "接聽並開啟語音",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "接聽並開啟視訊（僅限視訊通話）",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "接聽但不開啟視訊",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "創作貼紙包後，你將不能夠再編輯或刪除。",
+    "message": "創作貼圖包後，您將無法再次編輯或刪除。",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "此對話將從你所有的裝置上被刪除。",
+    "message": "此對話將從您所有的裝置上刪除。",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "你將離開此群組，及它將從你所有的裝置上被刪除。",
+    "message": "您將離開此群組，它也將從您所有的裝置上刪除。",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "接聽",
+    "message": "接聽通話",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "已無視訊的方式回應",
+    "message": "接聽但不開啟視訊",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "你已拒絕一通語音來電",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "你拒絕了一個語音通話",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "你已拒絕一通視訊電話",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "語音電話來電",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "語音通話來電",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "視訊電話來電",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "錯過語音電話",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "未接的語音通話",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "錯過視訊電話",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "撥出語音電話",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "撥打語音通話",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "撥出視訊電話",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "未接的語音電話",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "未接的語音通話",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "未接的視訊電話",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "來電語音通話...",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "語音通話來電…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "來電視訊通話...",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "你無法透過群組連結加入此群組，因為管理員將你刪除了。",
+    "message": "您無法透過群組連結加入此群組，因為管理員將您刪除了。",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3545,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "你移除了群組的名稱。",
+    "message": "您移除了群組的名稱。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3569,7 +3719,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "你移除了群組頭像。",
+    "message": "您移除了群組頭像。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3741,7 +3891,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "你移除了 $memberName$。",
+    "message": "您移除了 $memberName$。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ 移除了你。",
+    "message": "$adminName$ 移除了您。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "你已經被此群組移除。",
+    "message": "您已經被此群組移除。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "你刪除了群組描述。",
+    "message": "您刪除了群組描述。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "該群組已變更為允許所有成員傳送訊息。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "此群組的成員或設定已經變更。",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "升級該群組以啟動新功能，例如@mentions和管理員。 未在此群組中分享姓名或照片的成員將被邀請加入。$learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "這些成員無法加入新版群組，因此將從該群組中刪除：",
+    "message": "這些成員無法加入新群組，因此將從該群組中刪除：",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "該成員無法加入新版群組，因此將從該群組中刪除：",
+    "message": "該成員無法加入新群組，因此將從該群組中刪除：",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "這些成員無法加入新版群組，因此被從群組中刪除：",
+    "message": "這些成員無法加入新群組，因此被從群組中刪除：",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "該成員無法加入新版群組，因此已從該群組中刪除：",
+    "message": "該成員無法加入新群組，因此已從該群組中刪除：",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4137,7 +4291,7 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ 已被從群組中移除。",
+    "message": "$contact$ 已從群組中移除。",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "移除管理員身份",
+    "message": "以管理員身份移除",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ 個共同群組",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "沒有共同的群組",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "新增至群組",
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "從群組中刪除“$name$”？",
+    "message": "從群組中刪除「$name$」？",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "從群組中刪除“$name$”嗎？ 他們將無法透過群組連結重新加入。",
+    "message": "從群組中刪除「$name$」嗎？ 他們將無法透過群組連結重新加入。",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "為所有人刪除訊息失敗。 請稍後重試。",
+    "message": "為所有人刪除訊息失敗。請稍後重試。",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "此自定義顏色用於$num$的聊天。 你要為所有聊天刪除它嗎？",
+    "message": "此自定義顏色用於$num$的聊天。您要為所有聊天刪除它嗎？",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "無法刪除你的使用者名稱。請檢查你的網路連接並重試。",
+    "message": "無法刪除您的使用者名稱。請檢查您的網路連線並重試。",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "這將刪除你的使用者名稱，這將可讓其他使用者使用。你確定嗎？",
+    "message": "這將刪除您的使用者名稱，這將可讓其他使用者使用。您確定嗎？",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "你將無法再分享或瀏覽限時動態。你最近分享的限時動態更新也將會被刪除。",
+    "message": "您將無法再分享或瀏覽限時動態。您最近分享的限時動態更新也將會被刪除。",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "你確定要刪除「$name$」嗎？分享到此限時動態的更新也會被刪除。",
+    "message": "您確定要刪除「$name$」嗎？分享到此限時動態的更新也會被刪除。",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5777,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "你確定要移除「{groupTitle}」嗎？",
+    "messageformat": "您確定要移除「{groupTitle}」嗎？",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5857,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "要移除限時動態嗎？這將從你的清單中移除此限時動態，但你仍可瀏覽此群組中的限時動態。",
+    "message": "要移除限時動態嗎？這將從您的清單中移除此限時動態，但您仍可瀏覽此群組中的限時動態。",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "回覆",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "回覆 {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "對限時動態傳送心情回應",
+    "message": "(已刪除 01/25/23) 對限時動態傳送心情回應",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "這組數字有助將你的用戶名稱保密，以免你受到不必要的訊息騷擾。請僅向你願意與其通訊的聯絡人和群組分享你的用戶名稱。如要更改用戶名稱，你將會收到一組新的數字。",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal 桌面版即將停止支援你的電腦使用的 {OS} 版本。如要繼續使用 Signal，請在 {expirationDate}前更新電腦的作業系統。<learnMoreLink>了解更多</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal 桌面版不再適用於此電腦。如要再次使用 Signal 桌面版，請更新電腦的 {OS} 版本。<learnMoreLink>了解更多</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal 桌面版不再適用於此電腦。如要再次使用 Signal 桌面版，請更新電腦的 {OS} 版本。",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "有甚麼新的",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "當您為小組（最多 16 人）發起群組通話時，您可以選擇發送響鈴通知。如果群組成員使用的是 iOS 測試版、桌面或 Android 裝置，他們將聽到響鈴聲。",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "在聊天內任何一個訊息列上點按兩下，即可開始引用回覆。這猶如接通新舊想法的捷徑。全賴 {whynothugo} 和 Signal 社區積極推動此功能並提供意見。",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "現在用戶只需點擊圖片以外的位置，無需放大畫面，即可輕鬆關閉圖庫檢視模式。有時候，你只希望將畫面關閉，不想將東西放得太大。感謝 {jojomatik} 協助修復此功能！",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "加快您的回應時間。您現在可以點擊任何表情符號來迅速回覆限時動態。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "您現在可以在訊息紀錄中搜尋中文和日文單字。",
+    "description": "Release notes for v6.5"
   }
 }

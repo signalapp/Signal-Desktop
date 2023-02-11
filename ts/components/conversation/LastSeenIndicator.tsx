@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { forwardRef } from 'react';
@@ -19,8 +19,14 @@ export const LastSeenIndicator = forwardRef<HTMLDivElement, Props>(
 
     return (
       <div className="module-last-seen-indicator" ref={ref}>
-        <div className="module-last-seen-indicator__bar" />
-        <div className="module-last-seen-indicator__text">{message}</div>
+        <div className="module-last-seen-indicator__bar" role="separator" />
+        <div
+          aria-level={6}
+          className="module-last-seen-indicator__text"
+          role="heading"
+        >
+          {message}
+        </div>
       </div>
     );
   }

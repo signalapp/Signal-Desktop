@@ -1,4 +1,4 @@
-// Copyright 2015-2022 Signal Messenger, LLC
+// Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert, AssertionError } from 'chai';

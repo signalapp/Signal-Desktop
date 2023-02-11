@@ -1,4 +1,4 @@
-// Copyright 2017-2022 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
@@ -49,14 +49,14 @@ function finalize(
 }
 
 export function load({
-  appLocale,
+  preferredSystemLocales,
   logger,
 }: {
-  appLocale: string;
-  logger: Pick<LoggerType, 'error' | 'warn'>;
+  preferredSystemLocales: Array<string>;
+  logger: Pick<LoggerType, 'error' | 'warn' | 'info'>;
 }): LocaleType {
-  if (!appLocale) {
-    throw new TypeError('`appLocale` is required');
+  if (preferredSystemLocales == null) {
+    throw new TypeError('`preferredSystemLocales` is required');
   }
 
   if (!logger || !logger.error) {
@@ -66,29 +66,34 @@ export function load({
     throw new TypeError('`logger.warn` is required');
   }
 
+  if (preferredSystemLocales.length === 0) {
+    logger.warn('`preferredSystemLocales` was empty');
+  }
+
   const english = getLocaleMessages('en');
 
-  // Load locale - if we can't load messages for the current locale, we
-  // default to 'en'
-  //
-  // possible locales:
-  // https://source.chromium.org/chromium/chromium/src/+/main:ui/base/l10n/l10n_util.cc
-  const languageOnly = removeRegion(appLocale);
+  for (const locale of preferredSystemLocales) {
+    try {
+      logger.info(`Loading preferred system locale: '${locale}'`);
+      return finalize(getLocaleMessages(locale), english, locale);
+    } catch (e) {
+      logger.warn(
+        `Problem loading messages for locale '${locale}', ${e.toString()}`
+      );
+    }
 
-  try {
-    return finalize(getLocaleMessages(appLocale), english, appLocale);
-  } catch (e) {
-    logger.warn(`Problem loading messages for locale ${appLocale}`);
+    const languageOnly = removeRegion(locale);
+    try {
+      logger.warn(`Falling back to parent language: '${languageOnly}'`);
+      // Note: messages are from parent language, but we still keep the region
+      return finalize(getLocaleMessages(languageOnly), english, locale);
+    } catch (e) {
+      logger.error(
+        `Problem loading messages for parent locale '${languageOnly}'`
+      );
+    }
   }
 
-  try {
-    logger.warn(`Falling back to parent language: '${languageOnly}'`);
-    // Note: messages are from parent language, but we still keep the region
-    return finalize(getLocaleMessages(languageOnly), english, appLocale);
-  } catch (e) {
-    logger.error(`Problem loading messages for locale ${languageOnly}`);
-
-    logger.warn("Falling back to 'en' locale");
-    return finalize(english, english, 'en');
-  }
+  logger.warn("Falling back to 'en' locale");
+  return finalize(english, english, 'en');
 }

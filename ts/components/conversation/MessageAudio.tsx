@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useRef, useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { isDownloaded } from '../../types/Attachment';
 import type { DirectionType, MessageStatusType } from './Message';
 
@@ -34,7 +35,6 @@ export type OwnProps = Readonly<{
   id: string;
   conversationId: string;
   played: boolean;
-  showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
@@ -51,6 +51,7 @@ export type DispatchProps = Readonly<{
     position: number,
     isConsecutive: boolean
   ) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   setCurrentTime: (currentTime: number) => void;
   setPlaybackRate: (conversationId: string, rate: number) => void;
   setIsPlaying: (value: boolean) => void;
@@ -122,7 +123,7 @@ const timeToText = (time: number): string => {
 };
 
 /**
- * Handles animations, key events, and stoping event propagation
+ * Handles animations, key events, and stopping event propagation
  * for play button and playback rate button
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -188,6 +189,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           onMouseUp={() => setIsDown(false)}
           onMouseLeave={() => setIsDown(false)}
           tabIndex={0}
+          // eslint-disable-next-line local-rules/valid-i18n-keys
           aria-label={i18n(label)}
         >
           {children}
@@ -263,7 +265,6 @@ export function MessageAudio(props: Props): JSX.Element {
     expirationTimestamp,
     id,
     played,
-    showMessageDetail,
     status,
     textPending,
     timestamp,
@@ -273,6 +274,7 @@ export function MessageAudio(props: Props): JSX.Element {
     computePeaks,
     setPlaybackRate,
     loadAndPlayMessageAudio,
+    pushPanelForConversation,
     setCurrentTime,
     setIsPlaying,
   } = props;
@@ -320,7 +322,7 @@ export function MessageAudio(props: Props): JSX.Element {
 
     let canceled = false;
 
-    (async () => {
+    void (async () => {
       try {
         if (!attachment.url) {
           throw new Error(
@@ -600,7 +602,7 @@ export function MessageAudio(props: Props): JSX.Element {
           isShowingImage={false}
           isSticker={false}
           isTapToViewExpired={false}
-          showMessageDetail={showMessageDetail}
+          pushPanelForConversation={pushPanelForConversation}
           status={status}
           textPending={textPending}
           timestamp={timestamp}

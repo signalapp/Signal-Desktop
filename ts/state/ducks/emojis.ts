@@ -1,8 +1,9 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { take, uniq } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import dataInterface from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -12,18 +13,18 @@ const { updateEmojiUsage } = dataInterface;
 
 // State
 
-export type EmojisStateType = {
-  readonly recents: Array<string>;
-};
+export type EmojisStateType = ReadonlyDeep<{
+  recents: Array<string>;
+}>;
 
 // Actions
 
-type UseEmojiAction = {
+type UseEmojiAction = ReadonlyDeep<{
   type: 'emojis/USE_EMOJI';
   payload: string;
-};
+}>;
 
-type EmojisActionType = UseEmojiAction;
+type EmojisActionType = ReadonlyDeep<UseEmojiAction>;
 
 // Action Creators
 
@@ -64,8 +65,8 @@ function getEmptyState(): EmojisStateType {
 }
 
 export function reducer(
-  state: Readonly<EmojisStateType> = getEmptyState(),
-  action: Readonly<EmojisActionType>
+  state: EmojisStateType = getEmptyState(),
+  action: EmojisActionType
 ): EmojisStateType {
   if (action.type === 'emojis/USE_EMOJI') {
     const { payload } = action;

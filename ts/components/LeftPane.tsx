@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
@@ -22,7 +22,6 @@ import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroup
 import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper';
 import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper';
 
-import * as OS from '../OS';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
@@ -41,9 +40,11 @@ import {
 } from '../util/leftPaneWidth';
 import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
 import type { ShowConversationType } from '../state/ducks/conversations';
+import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
+import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild';
 
 import type {
   DeleteAvatarFromDiskActionType,
@@ -61,6 +62,13 @@ export enum LeftPaneMode {
 }
 
 export type PropsType = {
+  hasExpiredDialog: boolean;
+  hasNetworkDialog: boolean;
+  hasRelinkDialog: boolean;
+  hasUpdateDialog: boolean;
+  isUpdateDownloaded: boolean;
+  unsupportedOSDialogType: 'error' | 'warning' | undefined;
+
   // These help prevent invalid states. For example, we don't need the list of pinned
   //   conversations if we're trying to start a new conversation. Ideally these would be
   //   at the top level, but this is not supported by react-redux + TypeScript.
@@ -85,6 +93,7 @@ export type PropsType = {
       } & LeftPaneSetGroupMetadataPropsType);
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  isMacOS: boolean;
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
@@ -122,13 +131,13 @@ export type PropsType = {
   updateSearchTerm: (_: string) => void;
 
   // Render Props
-  renderExpiredBuildDialog: (
-    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
   renderMainHeader: () => JSX.Element;
   renderMessageSearchResult: (id: string) => JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
+  renderUnsupportedOSDialog: (
+    _: Readonly<UnsupportedOSDialogPropsType>
   ) => JSX.Element;
   renderRelinkDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -138,6 +147,7 @@ export type PropsType = {
   ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
+  renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
 } & LookupConversationWithoutUuidActionsType;
 
 export function LeftPane({
@@ -153,8 +163,14 @@ export function LeftPane({
   crashReportCount,
   createGroup,
   getPreferredBadge,
+  hasExpiredDialog,
+  hasNetworkDialog,
+  hasRelinkDialog,
+  hasUpdateDialog,
   i18n,
   lookupConversationWithoutUuid,
+  isMacOS,
+  isUpdateDownloaded,
   modeSpecificProps,
   preferredWidthFromStorage,
   renderCaptchaDialog,
@@ -163,6 +179,7 @@ export function LeftPane({
   renderMainHeader,
   renderMessageSearchResult,
   renderNetworkStatus,
+  renderUnsupportedOSDialog,
   renderRelinkDialog,
   renderUpdateDialog,
   savePreferredLeftPaneWidth,
@@ -186,6 +203,7 @@ export function LeftPane({
   theme,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
+  unsupportedOSDialogType,
   updateSearchTerm,
 }: PropsType): JSX.Element {
   const [preferredWidth, setPreferredWidth] = useState(
@@ -289,7 +307,7 @@ export function LeftPane({
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const { ctrlKey, shiftKey, altKey, metaKey } = event;
-      const commandOrCtrl = OS.isMacOS() ? metaKey : ctrlKey;
+      const commandOrCtrl = isMacOS ? metaKey : ctrlKey;
       const key = KeyboardLayout.lookup(event);
 
       if (key === 'Escape') {
@@ -383,6 +401,7 @@ export function LeftPane({
   }, [
     clearSearch,
     helper,
+    isMacOS,
     searchInConversation,
     selectedConversationId,
     selectedMessageId,
@@ -527,12 +546,70 @@ export function LeftPane({
 
   const widthBreakpoint = getConversationListWidthBreakpoint(width);
 
+  const commonDialogProps = {
+    i18n,
+    containerWidthBreakpoint: widthBreakpoint,
+  };
+
+  // Yellow dialogs
+  let maybeYellowDialog: JSX.Element | undefined;
+
+  if (unsupportedOSDialogType === 'warning') {
+    maybeYellowDialog = renderUnsupportedOSDialog({
+      type: 'warning',
+      ...commonDialogProps,
+    });
+  } else if (hasNetworkDialog) {
+    maybeYellowDialog = renderNetworkStatus(commonDialogProps);
+  } else if (hasRelinkDialog) {
+    maybeYellowDialog = renderRelinkDialog(commonDialogProps);
+  }
+
+  // Update dialog
+  let maybeUpdateDialog: JSX.Element | undefined;
+  if (hasUpdateDialog && (!hasNetworkDialog || isUpdateDownloaded)) {
+    maybeUpdateDialog = renderUpdateDialog(commonDialogProps);
+  }
+
+  // Red dialogs
+  let maybeRedDialog: JSX.Element | undefined;
+  if (unsupportedOSDialogType === 'error') {
+    maybeRedDialog = renderUnsupportedOSDialog({
+      type: 'error',
+      ...commonDialogProps,
+    });
+  } else if (hasExpiredDialog) {
+    maybeRedDialog = renderExpiredBuildDialog(commonDialogProps);
+  }
+
+  const dialogs = new Array<{ key: string; dialog: JSX.Element }>();
+
+  if (maybeRedDialog) {
+    dialogs.push({ key: 'red', dialog: maybeRedDialog });
+    if (maybeUpdateDialog) {
+      dialogs.push({ key: 'update', dialog: maybeUpdateDialog });
+    } else if (maybeYellowDialog) {
+      dialogs.push({ key: 'yellow', dialog: maybeYellowDialog });
+    }
+  } else {
+    if (maybeUpdateDialog) {
+      dialogs.push({ key: 'update', dialog: maybeUpdateDialog });
+    }
+    if (maybeYellowDialog) {
+      dialogs.push({ key: 'yellow', dialog: maybeYellowDialog });
+    }
+  }
+
   return (
-    <div
+    <nav
       className={classNames(
         'module-left-pane',
         isResizing && 'module-left-pane--is-resizing',
-        `module-left-pane--width-${widthBreakpoint}`
+        `module-left-pane--width-${widthBreakpoint}`,
+        modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers &&
+          'module-left-pane--mode-choose-group-members',
+        modeSpecificProps.mode === LeftPaneMode.Compose &&
+          'module-left-pane--mode-compose'
       )}
       style={{ width }}
     >
@@ -556,12 +633,9 @@ export function LeftPane({
         showConversation,
       })}
       <div className="module-left-pane__dialogs">
-        {renderExpiredBuildDialog({
-          containerWidthBreakpoint: widthBreakpoint,
-        })}
-        {renderRelinkDialog({ containerWidthBreakpoint: widthBreakpoint })}
-        {renderNetworkStatus({ containerWidthBreakpoint: widthBreakpoint })}
-        {renderUpdateDialog({ containerWidthBreakpoint: widthBreakpoint })}
+        {dialogs.map(({ key, dialog }) => (
+          <React.Fragment key={key}>{dialog}</React.Fragment>
+        ))}
       </div>
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
       <Measure bounds>
@@ -636,7 +710,7 @@ export function LeftPane({
           },
         })}
       {crashReportCount > 0 && renderCrashReportDialog()}
-    </div>
+    </nav>
   );
 }
 

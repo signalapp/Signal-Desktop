@@ -57,7 +57,7 @@ export default function updateToSchemaVersion42(
       }
     });
 
-    function deleteReactions(rowids: Array<number>) {
+    function deleteReactions(rowids: ReadonlyArray<number>) {
       db.prepare<ArrayQuery>(
         `
         DELETE FROM reactions

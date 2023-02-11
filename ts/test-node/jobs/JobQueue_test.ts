@@ -13,11 +13,12 @@ import PQueue from 'p-queue';
 import { JobError } from '../../jobs/JobError';
 import { TestJobQueueStore } from './TestJobQueueStore';
 import { missingCaseError } from '../../util/missingCaseError';
+import { drop } from '../../util/drop';
 import type { LoggerType } from '../../types/Logging';
 
 import { JobQueue } from '../../jobs/JobQueue';
 import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
-import { sleep } from '../../util';
+import { sleep } from '../../util/sleep';
 
 describe('JobQueue', () => {
   describe('end-to-end tests', () => {
@@ -51,7 +52,7 @@ describe('JobQueue', () => {
       assert.deepEqual(results, new Set());
       assert.isEmpty(store.storedJobs);
 
-      addQueue.streamJobs();
+      drop(addQueue.streamJobs());
 
       store.pauseStream('test add queue');
       const job1 = await addQueue.add({ a: 1, b: 2 });
@@ -85,7 +86,7 @@ describe('JobQueue', () => {
         async run(): Promise<void> {
           try {
             updateActiveJobCount(1);
-            sleep(1);
+            await sleep(1);
           } finally {
             updateActiveJobCount(-1);
           }
@@ -99,7 +100,7 @@ describe('JobQueue', () => {
         queueType: 'test queue',
         maxAttempts: 100,
       });
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const createPromise1 = queue.add(1);
       const createPromise2 = queue.add(2);
@@ -153,7 +154,7 @@ describe('JobQueue', () => {
         queueType: 'test queue',
         maxAttempts: 100,
       });
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const jobs = await Promise.all([
         queue.add(1),
@@ -193,8 +194,8 @@ describe('JobQueue', () => {
       store.pauseStream('test 1');
       store.pauseStream('test 2');
 
-      queue1.streamJobs();
-      queue2.streamJobs();
+      drop(queue1.streamJobs());
+      drop(queue2.streamJobs());
 
       await queue1.add('one');
       await queue2.add('A');
@@ -253,7 +254,7 @@ describe('JobQueue', () => {
         maxAttempts: 1,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const insert = sinon.stub().resolves();
 
@@ -316,7 +317,7 @@ describe('JobQueue', () => {
         maxAttempts: 5,
       });
 
-      retryQueue.streamJobs();
+      drop(retryQueue.streamJobs());
 
       await (
         await retryQueue.add('foo')
@@ -371,7 +372,7 @@ describe('JobQueue', () => {
         maxAttempts: 6,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       try {
         await (
@@ -418,7 +419,7 @@ describe('JobQueue', () => {
         logger: fakeLogger,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const job = await queue.add(1);
       await job.completion;
@@ -460,7 +461,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const job = await queue.add('this will fail to parse');
 
@@ -504,7 +505,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       (await queue.add('invalid')).completion.catch(noop);
       (await queue.add('invalid')).completion.catch(noop);
@@ -538,7 +539,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       await (await queue.add('invalid 1')).completion.catch(noop);
       await (await queue.add('invalid 2')).completion.catch(noop);
@@ -572,7 +573,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       const addPromise = queue.add(undefined);
       assert.isFalse(inserted);
@@ -606,7 +607,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       await (
         await queue.add(123)
@@ -639,7 +640,7 @@ describe('JobQueue', () => {
         maxAttempts: 999,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
@@ -681,7 +682,7 @@ describe('JobQueue', () => {
         maxAttempts: 5,
       });
 
-      queue.streamJobs();
+      drop(queue.streamJobs());
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
@@ -763,7 +764,7 @@ describe('JobQueue', () => {
 
       sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
 
-      noopQueue.streamJobs();
+      drop(noopQueue.streamJobs());
 
       sinon.assert.calledOnce(fakeStore.stream as sinon.SinonStub);
 
@@ -804,7 +805,7 @@ describe('JobQueue', () => {
         maxAttempts: 99,
       });
 
-      noopQueue.streamJobs();
+      drop(noopQueue.streamJobs());
 
       await assert.isRejected(noopQueue.streamJobs());
       await assert.isRejected(noopQueue.streamJobs());

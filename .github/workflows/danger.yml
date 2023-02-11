@@ -1,4 +1,4 @@
-# Copyright 2020-2022 Signal Messenger, LLC
+# Copyright 2020 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: CI
@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0 # fetch all history
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '16.17.1'
       - run: npm install -g yarn@1.22.10
       - name: Cache danger node_modules
         id: cache-desktop-modules

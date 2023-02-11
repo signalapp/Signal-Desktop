@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -107,4 +107,9 @@ export const getIsMainWindowFullScreen = createSelector(
 export const getMenuOptions = createSelector(
   getUser,
   (state: UserStateType): MenuOptionsType => state.menuOptions
+);
+
+export const getIsMacOS = createSelector(
+  getPlatform,
+  (platform: string): boolean => platform === 'darwin'
 );

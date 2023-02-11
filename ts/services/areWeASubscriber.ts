@@ -19,13 +19,13 @@ export class AreWeASubscriberService {
 
       const subscriberId = storage.get('subscriberId');
       if (!subscriberId || !subscriberId.byteLength) {
-        storage.put('areWeASubscriber', false);
+        await storage.put('areWeASubscriber', false);
         return;
       }
 
       await waitForOnline(navigator, window);
 
-      storage.put(
+      await storage.put(
         'areWeASubscriber',
         await server.getHasSubscription(subscriberId)
       );

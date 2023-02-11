@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild } from 'react';
@@ -188,9 +188,9 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
     case CallMode.Direct:
       ({ isVideoCall } = props);
       headerNode = <ContactName title={title} />;
-      messageNode = i18n(
-        isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
-      );
+      messageNode = isVideoCall
+        ? i18n('incomingVideoCall')
+        : i18n('incomingAudioCall');
       break;
     case CallMode.Group: {
       const { otherMembersRung, ringer } = props;
@@ -224,8 +224,10 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   }, [bounceAppIconStart, bounceAppIconStop]);
 
   const acceptVideoCall = useCallback(() => {
-    acceptCall({ conversationId, asVideoCall: true });
-  }, [acceptCall, conversationId]);
+    if (isVideoCall) {
+      acceptCall({ conversationId, asVideoCall: true });
+    }
+  }, [isVideoCall, acceptCall, conversationId]);
 
   const acceptAudioCall = useCallback(() => {
     acceptCall({ conversationId, asVideoCall: false });

@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -393,7 +393,7 @@ export class Quote extends React.Component<Props, State> {
     let typeLabel;
 
     if (isGiftBadge) {
-      typeLabel = i18n('quote--giftBadge');
+      typeLabel = i18n('icu:quote--donation');
     } else if (attachment) {
       const { contentType, isVoiceMessage } = attachment;
       typeLabel = getTypeLabel({

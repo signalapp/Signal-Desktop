@@ -1,4 +1,4 @@
-// Copyright 2017-2022 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type * as Backbone from 'backbone';
@@ -23,7 +23,7 @@ type InternalBackboneEvent = {
 //   2. added try/catch handlers to triggerEvents with error logging inside
 //      every while loop
 
-// And of course, we update the protoypes of Backbone.Model/Backbone.View as well as
+// And of course, we update the prototypes of Backbone.Model/Backbone.View as well as
 //   Backbone.Events itself
 
 // Regular expression used to split event strings.
@@ -149,7 +149,6 @@ function trigger<
 
 [
   window.Backbone.Model.prototype,
-  window.Backbone.View.prototype,
   window.Backbone.Collection.prototype,
   window.Backbone.Events,
 ].forEach(proto => {

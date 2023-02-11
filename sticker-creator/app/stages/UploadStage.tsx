@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -29,7 +29,7 @@ export function UploadStage(): JSX.Element {
   const [complete, setComplete] = React.useState(0);
 
   React.useEffect(() => {
-    (async () => {
+    void (async () => {
       const onProgress = () => {
         setComplete(i => i + 1);
       };

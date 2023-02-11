@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'buffer';
@@ -455,8 +455,7 @@ export function decryptAttachment(
 
 export function encryptAttachment(
   plaintext: Uint8Array,
-  keys: Uint8Array,
-  iv: Uint8Array
+  keys: Uint8Array
 ): EncryptedAttachment {
   if (!(plaintext instanceof Uint8Array)) {
     throw new TypeError(
@@ -467,9 +466,7 @@ export function encryptAttachment(
   if (keys.byteLength !== 64) {
     throw new Error('Got invalid length attachment keys');
   }
-  if (iv.byteLength !== 16) {
-    throw new Error('Got invalid length attachment iv');
-  }
+  const iv = getRandomBytes(16);
   const aesKey = keys.slice(0, 32);
   const macKey = keys.slice(32, 64);
 

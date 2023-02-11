@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -11,20 +11,14 @@ import { LeftPaneDialog } from './LeftPaneDialog';
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
-  isRegistrationDone: boolean;
   relinkDevice: () => void;
 };
 
 export function DialogRelink({
   containerWidthBreakpoint,
   i18n,
-  isRegistrationDone,
   relinkDevice,
 }: PropsType): JSX.Element | null {
-  if (isRegistrationDone) {
-    return null;
-  }
-
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

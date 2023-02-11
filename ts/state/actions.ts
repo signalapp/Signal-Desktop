@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { actions as accounts } from './ducks/accounts';
@@ -16,6 +16,7 @@ import { actions as globalModals } from './ducks/globalModals';
 import { actions as items } from './ducks/items';
 import { actions as lightbox } from './ducks/lightbox';
 import { actions as linkPreviews } from './ducks/linkPreviews';
+import { actions as mediaGallery } from './ducks/mediaGallery';
 import { actions as network } from './ducks/network';
 import { actions as safetyNumber } from './ducks/safetyNumber';
 import { actions as search } from './ducks/search';
@@ -44,6 +45,7 @@ export const actionCreators: ReduxActions = {
   items,
   lightbox,
   linkPreviews,
+  mediaGallery,
   network,
   safetyNumber,
   search,
@@ -72,6 +74,7 @@ export const mapDispatchToProps = {
   ...items,
   ...lightbox,
   ...linkPreviews,
+  ...mediaGallery,
   ...network,
   ...safetyNumber,
   ...search,

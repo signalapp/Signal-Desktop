@@ -128,7 +128,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
     message.trigger('change');
   });
 
-  window.storage.put(
+  await window.storage.put(
     'existingOnboardingStoryMessageIds',
     storyMessages.map(message => message.id)
   );

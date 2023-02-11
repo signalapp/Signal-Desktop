@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -7,10 +7,9 @@ import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuActionType } from '../../types/menu';
 import { App } from '../../components/App';
+import { getName as getOSName } from '../../OS';
 import { SmartCallManager } from './CallManager';
-import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
-import { SmartLeftPane } from './LeftPane';
 import { SmartLightbox } from './Lightbox';
 import { SmartStories } from './Stories';
 import { SmartStoryViewer } from './StoryViewer';
@@ -28,34 +27,47 @@ import {
   shouldShowStoriesView,
 } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
-import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
+import { SmartInbox } from './Inbox';
+
+function renderInbox(): JSX.Element {
+  return <SmartInbox />;
+}
 
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
+
+  const { osName } = state.user;
+
+  let osClassName = '';
+
+  if (osName === 'windows') {
+    osClassName = 'os-windows';
+  } else if (osName === 'macos') {
+    osClassName = 'os-macos';
+  } else if (osName === 'linux') {
+    osClassName = 'os-linux';
+  }
 
   return {
     ...state.app,
     i18n,
     localeMessages: getLocaleMessages(state),
-    isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
     isMaximized: getIsMainWindowMaximized(state),
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
     hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
+    OS: getOSName(),
+    osClassName,
     hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => (
       <ModalContainer className="module-calling__modal-container">
         <SmartCallManager />
       </ModalContainer>
     ),
-    renderCustomizingPreferredReactionsModal: () => (
-      <SmartCustomizingPreferredReactionsModal />
-    ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
-    renderLeftPane: () => <SmartLeftPane />,
     renderLightbox: () => <SmartLightbox />,
     isShowingStoriesView: shouldShowStoriesView(state),
     renderStories: (closeView: () => unknown) => (
@@ -69,6 +81,7 @@ const mapStateToProps = (state: StateType) => {
         <SmartStoryViewer />
       </ErrorBoundary>
     ),
+    renderInbox,
     requestVerification: (
       type: 'sms' | 'voice',
       number: string,
@@ -85,19 +98,16 @@ const mapStateToProps = (state: StateType) => {
     registerSingleDevice: (number: string, code: string): Promise<void> => {
       return window.getAccountManager().registerSingleDevice(number, code);
     },
-    selectedConversationId: state.conversations.selectedConversationId,
-    selectedMessage: state.conversations.selectedMessage,
-    selectedMessageSource: state.conversations.selectedMessageSource,
     theme: getTheme(state),
 
     executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {
-      window.SignalContext.executeMenuRole(role);
+      void window.SignalContext.executeMenuRole(role);
     },
     executeMenuAction: (action: MenuActionType): void => {
-      window.SignalContext.executeMenuAction(action);
+      void window.SignalContext.executeMenuAction(action);
     },
     titleBarDoubleClick: (): void => {
-      window.titleBarDoubleClick();
+      window.IPC.titleBarDoubleClick();
     },
     toast: state.toast.toast,
   };

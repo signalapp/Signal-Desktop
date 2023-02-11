@@ -138,7 +138,7 @@ export default function updateToSchemaVersion41(
 
     db.exec(
       `
-      DELETE FROM items WHERE id = "identityKey" OR id = "registrationId";
+      DELETE FROM items WHERE id = 'identityKey' OR id = 'registrationId';
       `
     );
   };
@@ -252,7 +252,7 @@ export default function updateToSchemaVersion41(
   };
 
   const updateSessions = (ourUuid: string) => {
-    // Use uuid instead of conversation id in existing sesions and prefix id
+    // Use uuid instead of conversation id in existing sessions and prefix id
     // with ourUuid.
     //
     // Set ourUuid column and field in json

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -154,6 +154,7 @@ function renderMembers({
 
   return (
     <>
+      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
       <GroupDialog.Paragraph>{i18n(key)}</GroupDialog.Paragraph>
       <GroupDialog.Contacts
         contacts={sortByTitle(members)}

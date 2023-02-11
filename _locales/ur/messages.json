@@ -64,6 +64,18 @@
     "message": "ممبر شپ زیر التواء ہے",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "بھیجے گئے میڈیا کی کوالٹی",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "معیار",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "اونچا",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "سافٹ ویئر ایکنالج منٹس",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "آپ فائلز کے ساتھ تصاویر اور ویڈیوز منتخب نہیں کر سکتے۔",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "آپ ایک وقت میں ایک ہی فائل منتخب کر سکتے ہیں۔",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "آپ اس پیغام میں مزید اٹیچمنٹس شامل نہیں کرسکتے ہیں۔ ",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔"
+    "message": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "منتخب کردہ اٹیچمنٹ لوڈ ہونے کے قابل نہیں ہے۔"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "آڈیو پیغامات بھیجنے کے لئے ، Signal Desktop کو اپنے مائیکروفون تک رسائی کی اجازت دیں۔",
+    "message": "وائس پیغامات بھیجنے کے لیے، Signal Desktop کو اپنے مائیکروفون تک رسائی کی اجازت دیں۔",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,7 +1094,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "اس پیغام کو اس آلہ سے حذف کردیا جائے گا۔",
+    "message": "اس پیغام کو اس ڈیوائس سے حذف کردیا جائے گا۔",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ نے اپنا فون نمبر تبدیل کر دیا ہے",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} اور {conversationTitle} یکساں اکاؤنٹ ہیں۔ دونوں چیٹس کے لیے آپ کے پیغام کی ہسٹری یہاں ہیں۔",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} اور ان کے نمبر {obsoleteConversationNumber} کے ساتھ آپ کی میسج ہسٹری ضم کر دی گئی ہے۔",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} اور ایک اور چیٹ کے ساتھ آپ کی میسج ہسٹری کو ضم کر دیا گیا ہے جو ان سے متعلقہ تھی۔",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "مزید پڑھیں",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} سے پیغام رسانی کے بعد آپ جان گئے کہ یہ نمبر {conversationTitle} سے تعلق رکھتا ہے۔ یہ فون نمبر پرائیویٹ ہے۔",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "دونوں گفتگوؤں کے لیے آپ کے پیغام کی ہسٹری یہاں ضم کر دی گئی ہے۔",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} کا تعلق {conversationTitle} سے ہے۔ آپ دونوں {sharedGroup} کے ممبرز ہیں۔",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} کا تعلق {conversationTitle} سے ہے",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "تصویر کے تھمب نیل سے پیغام حوالے کردیا",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "آپ کو ان کا آڈیو یا ویڈیو موصول نہیں ہوگا اور وہ آپ کو وصول نہیں کریں گے۔",
+    "message": "آپ ان کی وائس یا ویڈیو موصول نہیں کریں گے اور نہ ہی وہ آپ کی موصول کریں گے۔",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "اپ ڈیٹ کو لاگو کرنے کے لئے دوبارہ اسٹارٹ Signal دبائیں۔"
+    "message": "اپ ڈیٹ کو لاگو کرنے کے لئے دوبارہ اسٹارٹ Signal دبائیں۔",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal کو دوبارہ شروع کریں"
@@ -2228,88 +2282,176 @@
     "message": "یہ پیغام حذف کردیا گیا تھا۔",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "گفٹ بیج کی تفصیلات حاصل کرنے سے قاصر",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "عطیے کی تفصیلات حاصل کرنے سے قاصر ہیں",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "پیغام کو کھولنے کے لیے اسے موبائل پر دیکھیں",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "میسج کو کھولنے کے لیے اسے موبائل پر دیکھیں",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "اپنا گفٹ ملاحظہ کرنے کے لیے موبائل پر اس پیغام کو ٹیپ کریں",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "اپنے عطیے کو ویو کرنے کے لیے موبائل پر اس میسج پر ٹیپ کریں",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "گفٹ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} نے آپ کی جانب سے Signal کو عطیہ کیا",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "گفٹ کھولنے کے لیے اپنا فون چیک کریں",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "اس عطیے کو کھولنے کے لیے اپنا فون چیک کریں",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "اپنا گفٹ دیکھنے کے لیے اپنا فون چیک کریں",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "اپنا عطیہ ویو کرنے کے لیے اپنا فون چیک کریں",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "آپ نے گفٹ موصول کیا",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} نے آپ کے لیے عطیہ کیا ہے",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "آپ نے گفٹ بیج گروی رکھوایا",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "آپ نے عطیہ ریڈیم کیا ہے",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "آپ نے گفٹ بیج بھیجا تھا",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "آپ نے {recipient} کے لیے عطیہ کیا ہے",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "گفٹ بیج",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "عطیہ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "گفٹ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "عطیہ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ دن بقایا ہیں",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} دن بقایا ہیں",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ گھنٹے بقایا ہیں",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} گھنٹے بقایا ہیں",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ منٹ بقایا ہیں",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 منٹ بقایا ہے} other {{minutes,number} منٹ بقایا ہیں}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 منٹ بقایا ہے",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "زائد المیعاد",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "زائد المیعاد",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "دیکھیں",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ویو",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "گروی رکھ دیا گیا",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ریڈیم کر دیا گیا",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "آپ کی حمایت کا شکریہ",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "آپ کی سپورٹ کا شکریہ!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "آپ نے $name$ کو بیج گفٹ کیا ہے۔ ان کے قبول کرنے پر، انہیں اپنا بیج ظاہر کرنے یا چھپانے کا انتخاب دیا جائے گا۔",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "آپ نے {name} کی جانب سے Signal کو عطیہ کیا ہے۔ انہیں اپنی پروفائل پر سپورٹ ظاہر کرنے کا آپشن دیا جائے گا۔",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "اسٹیکر پیک انسٹال نہیں ہو سکتا",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "اسٹیکرز",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "دستیاب ہے",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "اسٹیکرز انسٹال کریں",
+    "message": "انسٹال ہو گیا",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ویڈیو والی کال قبول کریں",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "ویڈیو کے ساتھ کال کا جواب دیں",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "آڈیو والی کال قبول کریں",
+    "message": "آڈیو کے ساتھ کال کا جواب دیں",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "ویڈیو کے ساتھ کال کا جوب دیں (صرف ویڈیو کالز)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "ویڈیو کے بغیر کال کا جواب دیں",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "آڈیو کال شروع کریں",
+    "message": "وائس کال شروع کریں",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "جواب دیں",
+    "message": "کال کا جواب دیں",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ویڈیو کے بغیر جواب دیں",
+    "message": "ویڈیو کے بغیر کال کا جواب دیں",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "آپ نے آڈیو کال مسترد کردی",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "آپ نے وائس کال مسترد کر دی",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "آپ نے ویڈیو کال مسترد کردی",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "آنے والی آڈیو کال",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "ان کمنگ وائس کال",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "آنے والی ویڈیو کال",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "مس آڈیو کال",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "مسڈ وائس کال",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "مس ویڈیو کال",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "آؤٹ گوئنگ آڈیو کال",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "آؤٹ گوئنگ وائس کال",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "آؤٹ گوئنگ ویڈیو کال",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "غیر جواب شدہ آڈیو کال",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "غیر جواب شدہ وائس کال",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "غیر جواب شدہ ویڈیو کال",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "آنے والی آڈیو کال…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "آنے والی وائس کال...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "آنے والی ویڈیو کال…",
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$ کو ہٹا دیا",
+    "message": "$adminName$ $memberName$ کو ہٹا دیا۔",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -4060,6 +4210,10 @@
     "message": "گروپ کو تبدیل کیا گیا تاکہ تمام ممبروں کو پیغامات بھیج سکیں۔",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "اس گروپ کے ممبرز یا سیٹنگز تبدیل ہو گئی ہیں۔",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "اس گروپ کو اعلی درجے کی خصوصیات جیسے @ ذکر اور منتظمین کو چالو کرنے کے لئے اپ گریڈ کریں۔ جن ممبروں نے اس گروپ میں اپنا نام یا تصویر شیئر نہیں کی ہے ان میں شرکت کی دعوت دی جائے گی۔$learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ مشترکہ گروپس",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} مشترکہ گروپ} other {{count,number} مشترکہ گروپس}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "مشترکہ طور پر کوئی گروپ نہیں",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "کسی گروپ میں شامل کریں",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM دن، YYYY",
+    "message": "MMM D, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -5904,6 +6066,10 @@
     "message": "جواب دیں",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} کو جواب دیں",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "گروپ کو جواب دیں",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "سٹوری پر ردعمل دیں",
+    "message": "(حذف کردہ 01/25/23) سٹوری پر ری ایکٹ کریں",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "یہ ہندسے آپ کا صارفی نام نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ پیغامات سے بچ سکیں۔ اپنے صارفی نام کا اشتراک صرف ان افراد اور گروپس کے ساتھ کریں جن سے آپ چیٹ کرنا چاہتے ہیں۔ صارفی نام تبدیل کرنے کی صورت میں آپ کو ہندسوں کا ایک نیا سیٹ ملے گا۔",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal ڈیسک ٹاپ جلد ہی {OS} کے آپ کے کمپیوٹر ورژن کی مزید معاونت نہیں کرے گا۔ Signal استعمال کرنا جاری رکھنے کے لیے، اپنے کمپیوٹر کے آپریٹنگ سسٹم کو {expirationDate} تک اپ ڈیٹ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal ڈیسک ٹاپ مزید اس کمپیوٹر پر کام نہیں کرتا۔ Signal ڈیسک ٹاپ دوبارہ استعمال کرنے کے لیے، {OS} کے اپنے کمپیوٹر ورژن کو اپ ڈیٹ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal ڈیسک ٹاپ مزید اس کمپیوٹر پر کام نہیں کرتا۔ Signal ڈیسک ٹاپ دوبارہ استعمال کرنے کے لیے، {OS} کے اپنے کمپیوٹر ورژن کو اپ ڈیٹ کریں۔",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "نیا کیا ہے",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "جب آپ چھوٹے گروپ (16 تک افراد) کے لیے گروپ کال شروع کرتے ہیں، تو آپ رنگنگ اطلاعات بھیجنے کا انتخاب کر سکتے ہیں۔ گروپ ممبرز اگر iOS بی ٹا پر ہیں یا Desktop یا Android استعمال کر رہے ہیں تو وہ رنگ سنیں گے۔",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "حوالہ یافتہ جواب شروع کرنے کے لیے چیٹ میں کسی میسج کی قطار پر دو بار کلک کریں۔ یہ پرانے تصورات کے متعلق نئے خیالات کے لیے شارٹ کٹ جیسا ہے۔ اس فیچر کے نفاذ کرنے اور فیڈ بیک دینے کے لیے {whynothugo} اور Signal کمیونٹی کا شکریہ۔",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "اب زوم ان کیے بغیر گیلری ویو کو ختم کرنے کے لیے تصویر کے باہر کلک کرنا مزید آسان ہو گیا ہے۔ کبھی کبھار آپ قریب ہونا چاہتے ہیں، لیکن چیزیں کہیں زیادہ قریب ہو جاتی ہیں۔ درستگی کے لیے {jojomatik} کا شکریہ!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "اپنے رد عمل کے وقت کی رفتار بڑھائیں۔ اب آپ سٹوری کا جواب دیتے وقت کسی ایموجی پر کلک کر کے زیادہ تیزی سے ری ایکٹ کر سکتے ہیں۔",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "اب چینی اور جاپانی زبانوں میں انفرادی حروف کے حوالے سے اپنی میسج ہسٹری تلاش کرنا ممکن ہے۔",
+    "description": "Release notes for v6.5"
   }
 }

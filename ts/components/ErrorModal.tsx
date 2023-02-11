@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -8,7 +8,6 @@ import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';
 
 export type PropsType = {
-  buttonText?: string;
   description?: string;
   title?: string;
 
@@ -23,11 +22,11 @@ function focusRef(el: HTMLElement | null) {
 }
 
 export function ErrorModal(props: PropsType): JSX.Element {
-  const { buttonText, description, i18n, onClose, title } = props;
+  const { description, i18n, onClose, title } = props;
 
   const footer = (
     <Button onClick={onClose} ref={focusRef} variant={ButtonVariant.Secondary}>
-      {buttonText || i18n('Confirmation--confirm')}
+      {i18n('Confirmation--confirm')}
     </Button>
   );
 

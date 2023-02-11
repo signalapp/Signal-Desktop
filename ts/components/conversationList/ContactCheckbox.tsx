@@ -1,18 +1,17 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
+import type { FunctionComponent } from 'react';
 
-import {
-  BaseConversationListItem,
-  HEADER_CONTACT_NAME_CLASS_NAME,
-} from './BaseConversationListItem';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
 
 export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.
@@ -30,6 +29,7 @@ export type PropsDataType = {
   | 'acceptedMessageRequest'
   | 'avatarPath'
   | 'color'
+  | 'groupId'
   | 'id'
   | 'isMe'
   | 'phoneNumber'
@@ -38,6 +38,7 @@ export type PropsDataType = {
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
+  | 'uuid'
 >;
 
 type PropsHousekeepingType = {
@@ -82,13 +83,11 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
-    let messageText: ReactNode;
+    let messageText: undefined | string | JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
       messageText = i18n('alreadyAMember');
     } else if (about) {
       messageText = <About className="" text={about} />;
-    } else {
-      messageText = null;
     }
 
     const onClickItem = () => {
@@ -96,27 +95,33 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     };
 
     return (
-      <BaseConversationListItem
-        acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
-        badge={badge}
-        checked={isChecked}
-        color={color}
-        conversationType={type}
+      <ListTile.checkbox
+        clickable
         disabled={disabled}
-        headerName={headerName}
-        i18n={i18n}
-        id={id}
-        isMe={isMe}
-        isSelected={false}
-        messageText={messageText}
+        isChecked={isChecked}
+        leading={
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPath={avatarPath}
+            color={color}
+            conversationType={type}
+            noteToSelf={Boolean(isMe)}
+            i18n={i18n}
+            isMe={isMe}
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            title={title}
+            sharedGroupNames={sharedGroupNames}
+            size={AvatarSize.THIRTY_TWO}
+            unblurredAvatarPath={unblurredAvatarPath}
+            // appease the type checker.
+            {...(badge ? { badge, theme } : { badge: undefined })}
+          />
+        }
+        title={headerName}
+        subtitle={isMe ? undefined : messageText}
+        subtitleMaxLines={1}
         onClick={onClickItem}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
-        sharedGroupNames={sharedGroupNames}
-        theme={theme}
-        title={title}
-        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }

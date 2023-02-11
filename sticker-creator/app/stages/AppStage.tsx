@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -95,6 +95,7 @@ export function AppStage(props: Props): JSX.Element {
         className={styles.toaster}
         loaf={toasts.map((slice, id) => ({
           id,
+          // eslint-disable-next-line local-rules/valid-i18n-keys
           text: i18n(slice.key, slice.subs),
         }))}
         onDismiss={dismissToast}

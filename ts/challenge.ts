@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // `ChallengeHandler` is responsible for:
@@ -210,7 +210,7 @@ export class ChallengeHandler {
     }
 
     if (challenge.token) {
-      this.solve({ reason, token: challenge.token });
+      void this.solve({ reason, token: challenge.token });
     }
   }
 
@@ -247,7 +247,7 @@ export class ChallengeHandler {
         setTimeout(() => {
           this.startTimers.delete(conversationId);
 
-          this.startQueue(conversationId);
+          void this.startQueue(conversationId);
         }, waitTime)
       );
       log.info(
@@ -269,7 +269,7 @@ export class ChallengeHandler {
       return;
     }
 
-    this.solve({ token: challenge.token, reason });
+    void this.solve({ token: challenge.token, reason });
   }
 
   public onResponse(response: IPCResponse): void {

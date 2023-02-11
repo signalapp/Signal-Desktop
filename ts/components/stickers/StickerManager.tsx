@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,7 +10,7 @@ import { Tabs } from '../Tabs';
 
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
-  readonly closeStickerPackPreview: (packId: string) => unknown;
+  readonly closeStickerPackPreview: () => unknown;
   readonly downloadStickerPack: (packId: string, packKey: string) => unknown;
   readonly i18n: LocalizerType;
   readonly installStickerPack: (packId: string, packKey: string) => unknown;
@@ -82,7 +82,12 @@ export const StickerManager = React.memo(function StickerManagerInner({
           uninstallStickerPack={uninstallStickerPack}
         />
       ) : null}
-      <div className="module-sticker-manager" tabIndex={-1} ref={focusRef}>
+      <div
+        className="module-sticker-manager"
+        data-testid="StickerManager"
+        tabIndex={-1}
+        ref={focusRef}
+      >
         <Tabs
           initialSelectedTab={TabViews.Available}
           tabs={[

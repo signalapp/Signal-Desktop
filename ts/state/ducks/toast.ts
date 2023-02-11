@@ -3,13 +3,16 @@
 
 import { ipcRenderer } from 'electron';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { NoopActionType } from './noop';
 import type { ReplacementValuesType } from '../../types/Util';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ToastType } from '../../types/Toast';
+
 // State
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ToastStateType = {
   toast?: {
     toastType: ToastType;
@@ -22,10 +25,11 @@ export type ToastStateType = {
 const HIDE_TOAST = 'toast/HIDE_TOAST';
 export const SHOW_TOAST = 'toast/SHOW_TOAST';
 
-type HideToastActionType = {
+type HideToastActionType = ReadonlyDeep<{
   type: typeof HIDE_TOAST;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ShowToastActionType = {
   type: typeof SHOW_TOAST;
   payload: {
@@ -34,6 +38,7 @@ export type ShowToastActionType = {
   };
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ToastActionType = HideToastActionType | ShowToastActionType;
 
 // Action Creators
@@ -52,10 +57,12 @@ function openFileInFolder(target: string): NoopActionType {
   };
 }
 
-export type ShowToastActionCreatorType = (
-  toastType: ToastType,
-  parameters?: ReplacementValuesType
-) => ShowToastActionType;
+export type ShowToastActionCreatorType = ReadonlyDeep<
+  (
+    toastType: ToastType,
+    parameters?: ReplacementValuesType
+  ) => ShowToastActionType
+>;
 
 export const showToast: ShowToastActionCreatorType = (
   toastType,

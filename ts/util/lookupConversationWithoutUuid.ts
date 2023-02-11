@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { usernames } from '@signalapp/libsignal-client';
+
 import { ToastFailedToFetchUsername } from '../components/ToastFailedToFetchUsername';
 import { ToastFailedToFetchPhoneNumber } from '../components/ToastFailedToFetchPhoneNumber';
 import type { UserNotFoundModalStateType } from '../state/ducks/globalModals';
@@ -97,7 +99,7 @@ export async function lookupConversationWithoutUuid(
 
         conversationId = convo.id;
 
-        convo.set({ username: foundUsername.username });
+        await convo.updateUsername(foundUsername.username);
       }
     }
 
@@ -145,7 +147,9 @@ async function checkForUsername(
   }
 
   try {
-    const account = await server.getAccountForUsername(username);
+    const account = await server.getAccountForUsername({
+      hash: usernames.hash(username),
+    });
 
     if (!account.uuid) {
       log.error("checkForUsername: Returned account didn't include a uuid");

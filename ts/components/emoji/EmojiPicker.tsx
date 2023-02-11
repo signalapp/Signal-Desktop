@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -36,7 +36,7 @@ export type OwnProps = {
   readonly doSend?: () => unknown;
   readonly skinTone?: number;
   readonly onSetSkinTone?: (tone: number) => unknown;
-  readonly recentEmojis?: Array<string>;
+  readonly recentEmojis?: ReadonlyArray<string>;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
 };

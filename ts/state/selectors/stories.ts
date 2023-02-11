@@ -576,3 +576,16 @@ export const getHasAllStoriesUnmuted = createSelector(
   getStoriesState,
   ({ hasAllStoriesUnmuted }): boolean => hasAllStoriesUnmuted
 );
+
+export const getHasAnyFailedStorySends = createSelector(
+  getStoriesState,
+  ({ lastOpenedAtTimestamp, stories }): boolean => {
+    return stories.some(
+      story =>
+        story.timestamp > (lastOpenedAtTimestamp || 0) &&
+        Object.values(story.sendStateByConversationId || {}).some(
+          ({ status }) => status === SendStatus.Failed
+        )
+    );
+  }
+);

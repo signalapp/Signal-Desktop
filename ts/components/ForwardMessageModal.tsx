@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
@@ -38,14 +38,15 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
+import { Emojify } from './conversation/Emojify';
 
 export type DataPropsType = {
-  attachments?: Array<AttachmentType>;
+  attachments?: ReadonlyArray<AttachmentType>;
   candidateConversations: ReadonlyArray<ConversationType>;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentType>,
+    attachments?: ReadonlyArray<AttachmentType>,
     linkPreview?: LinkPreviewType
   ) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -102,7 +103,7 @@ export function ForwardMessageModal({
     filterAndSortConversationsByRecent(candidateConversations, '', regionCode)
   );
   const [attachmentsToForward, setAttachmentsToForward] = useState<
-    Array<AttachmentType>
+    ReadonlyArray<AttachmentType>
   >(attachments || []);
   const [isEditingMessage, setIsEditingMessage] = useState(false);
   const [messageBodyText, setMessageBodyText] = useState(messageBody || '');
@@ -408,8 +409,13 @@ export function ForwardMessageModal({
           )}
           <div className="module-ForwardMessageModal__footer">
             <div>
-              {Boolean(selectedContacts.length) &&
-                selectedContacts.map(contact => contact.title).join(', ')}
+              {Boolean(selectedContacts.length) && (
+                <Emojify
+                  text={selectedContacts
+                    .map(contact => contact.title)
+                    .join(', ')}
+                />
+              )}
             </div>
             <div>
               {isEditingMessage || !isMessageEditable ? (

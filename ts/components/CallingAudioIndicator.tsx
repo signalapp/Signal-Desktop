@@ -90,7 +90,7 @@ function Bars({ audioLevel }: { audioLevel: number }): ReactElement {
 
   useEffect(() => {
     animatedProps.audioLevel.stop();
-    animatedProps.audioLevel.start(audioLevel);
+    void animatedProps.audioLevel.start(audioLevel);
   }, [audioLevel, animatedProps]);
 
   return (

@@ -1,4 +1,4 @@
-<!-- Copyright 2014-2022 Signal Messenger, LLC -->
+<!-- Copyright 2014 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <!DOCTYPE html>
@@ -94,40 +94,6 @@
       type="text/css"
     />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-
-    <!--
-    When making changes to these templates, be sure to update test/index.html as well
-  -->
-
-    <script type="text/x-tmpl-mustache" id="app-loading-screen">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='content'>
-        <div class="module-splash-screen__logo module-img--150"></div>
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-        <div class='message'>{{ message }}</div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="conversation">
-      <div class="ConversationView__template"></div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="recorder">
-      <button class='close' tabIndex='2'><span class='icon'></span></button>
-      <span class='time'>0:00</span>
-      <button class='finish' tabIndex='1'><span class='icon'></span></button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="group-member-list">
-      <div class='container' tabindex='0'>
-        {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
-      </div>
-    </script>
   </head>
   <body class="overflow-hidden">
     <div id="app-container">
@@ -151,23 +117,6 @@
         .querySelector('.app-loading-screen')
         .addEventListener('dblclick', () => window.showDebugLog());
     </script>
-
-    <script type="text/javascript" src="js/components.js"></script>
-    <script type="text/javascript" src="ts/set_os_class.js"></script>
-    <script
-      type="text/javascript"
-      src="ts/manage_full_screen_class.js"
-    ></script>
-    <script type="text/javascript" src="ts/backbone/backboneJquery.js"></script>
-    <script
-      type="text/javascript"
-      src="ts/backbone/reliable_trigger.js"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="ts/shims/showConfirmationDialog.js"
-    ></script>
 
     <!--
     Note: this inline script cannot be changed without also changing the hash in

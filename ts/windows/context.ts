@@ -37,11 +37,17 @@ activeWindowService.initialize(window.document, ipcRenderer);
 const params = new URLSearchParams(document.location.search);
 const configParam = params.get('config');
 strictAssert(typeof configParam === 'string', 'config is not a string');
-const config = JSON.parse(configParam);
+const config: RendererConfigType = JSON.parse(configParam);
 
-const { locale } = config;
-strictAssert(locale, 'locale could not be parsed from config');
-strictAssert(typeof locale === 'string', 'locale is not a string');
+const { resolvedTranslationsLocale } = config;
+strictAssert(
+  resolvedTranslationsLocale,
+  'locale could not be parsed from config'
+);
+strictAssert(
+  typeof resolvedTranslationsLocale === 'string',
+  'locale is not a string'
+);
 
 const localeMessages = ipcRenderer.sendSync('locale-data');
 setEnvironment(parseEnvironment(config.environment));
@@ -114,7 +120,7 @@ export const SignalContext: SignalContextType = {
   getPath: (name: 'userData' | 'home'): string => {
     return String(config[`${name}Path`]);
   },
-  i18n: setupI18n(locale, localeMessages),
+  i18n: setupI18n(resolvedTranslationsLocale, localeMessages),
   localeMessages,
   log: window.SignalContext.log,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),

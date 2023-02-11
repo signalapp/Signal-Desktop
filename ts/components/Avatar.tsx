@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties, MouseEvent, ReactChild, ReactNode } from 'react';
@@ -49,7 +49,7 @@ export type Props = {
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
-  sharedGroupNames: Array<string>;
+  sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
   unblurredAvatarPath?: string;

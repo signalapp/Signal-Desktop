@@ -6,7 +6,7 @@ import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import { getMaximumAttachmentSize } from './attachments';
+import { getMaximumAttachmentSizeInKb, KIBIBYTE } from './attachments';
 import * as Errors from '../types/errors';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';
@@ -74,11 +74,11 @@ export function getRenderDetailsForLimit(limitKb: number): {
 } {
   const units = ['kB', 'MB', 'GB'];
   let u = -1;
-  let limit = limitKb * 1000;
+  let limit = limitKb * KIBIBYTE;
   do {
-    limit /= 1000;
+    limit /= KIBIBYTE;
     u += 1;
-  } while (limit >= 1000 && u < units.length - 1);
+  } while (limit >= KIBIBYTE && u < units.length - 1);
 
   return {
     limit: limit.toFixed(0),
@@ -87,11 +87,11 @@ export function getRenderDetailsForLimit(limitKb: number): {
 }
 
 function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-  const limitKb = getMaximumAttachmentSize();
+  const limitKb = getMaximumAttachmentSizeInKb();
   // this needs to be cast properly
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  if ((attachment.data.byteLength / 1024).toFixed(4) >= limitKb) {
+  if ((attachment.data.byteLength / KIBIBYTE).toFixed(4) >= limitKb) {
     showToast(ToastFileSize, getRenderDetailsForLimit(limitKb));
     return false;
   }

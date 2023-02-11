@@ -38,7 +38,7 @@ export function QrCode(props: PropsType): ReactElement {
       return;
     }
 
-    navigator.clipboard.writeText(data);
+    void navigator.clipboard.writeText(data);
 
     const el = elRef.current;
     if (!el) {

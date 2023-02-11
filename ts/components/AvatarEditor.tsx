@@ -109,7 +109,7 @@ export function AvatarEditor({
       }
     }
 
-    cacheAvatars();
+    void cacheAvatars();
 
     return () => {
       shouldCancel = true;

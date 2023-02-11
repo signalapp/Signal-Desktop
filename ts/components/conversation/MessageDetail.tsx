@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ReactNode } from 'react';
@@ -68,45 +68,33 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-  markViewed: (messageId: string) => void;
-} & Pick<
-  MessagePropsType,
-  | 'getPreferredBadge'
-  | 'interactionMode'
-  | 'expirationLength'
-  | 'expirationTimestamp'
->;
+} & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
 
-export type PropsBackboneActions = Pick<
-  MessagePropsType,
-  | 'kickOffAttachmentDownload'
-  | 'markAttachmentAsCorrupted'
-  | 'openGiftBadge'
-  | 'openLink'
-  | 'renderAudioAttachment'
-  | 'showExpiredIncomingTapToViewToast'
-  | 'showExpiredOutgoingTapToViewToast'
-  | 'startConversation'
->;
+export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 
 export type PropsReduxActions = Pick<
   MessagePropsType,
   | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
+  | 'kickOffAttachmentDownload'
+  | 'markAttachmentAsCorrupted'
+  | 'openGiftBadge'
   | 'pushPanelForConversation'
   | 'saveAttachment'
   | 'showContactModal'
   | 'showConversation'
+  | 'showExpiredIncomingTapToViewToast'
+  | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
+  | 'startConversation'
   | 'viewStory'
 > & {
   toggleSafetyNumberModal: (contactId: string) => void;
 };
 
-export type ExternalProps = PropsData & PropsBackboneActions;
-export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
+export type Props = PropsData & PropsSmartActions & PropsReduxActions;
 
 const contactSortCollator = new Intl.Collator();
 
@@ -237,6 +225,7 @@ export class MessageDetail extends React.Component<Props> {
               `module-message-detail__contact-group__header--${sendStatus}`
           )}
         >
+          {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
           {i18n(i18nKey)}
         </div>
         {sortedContacts.map(contact => this.renderContact(contact))}
@@ -283,15 +272,12 @@ export class MessageDetail extends React.Component<Props> {
       contactNameColor,
       showLightboxForViewOnceMedia,
       doubleCheckMissingQuoteReference,
-      expirationTimestamp,
       getPreferredBadge,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
-      markViewed,
       openGiftBadge,
-      openLink,
       pushPanelForConversation,
       renderAudioAttachment,
       saveAttachment,
@@ -305,8 +291,8 @@ export class MessageDetail extends React.Component<Props> {
       viewStory,
     } = this.props;
 
-    const timeRemaining = expirationTimestamp
-      ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
+    const timeRemaining = message.expirationTimestamp
+      ? DurationInSeconds.fromMillis(message.expirationTimestamp - Date.now())
       : undefined;
 
     return (
@@ -324,7 +310,7 @@ export class MessageDetail extends React.Component<Props> {
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             containerWidthBreakpoint={WidthBreakpoint.Wide}
-            menu={undefined}
+            renderMenu={undefined}
             disableScroll
             displayLimit={Number.MAX_SAFE_INTEGER}
             showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
@@ -334,11 +320,9 @@ export class MessageDetail extends React.Component<Props> {
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-            markViewed={markViewed}
             messageExpanded={noop}
             showConversation={showConversation}
             openGiftBadge={openGiftBadge}
-            openLink={openLink}
             pushPanelForConversation={pushPanelForConversation}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
@@ -355,9 +339,6 @@ export class MessageDetail extends React.Component<Props> {
             showExpiredOutgoingTapToViewToast={
               showExpiredOutgoingTapToViewToast
             }
-            showMessageDetail={() => {
-              log.warn('MessageDetail: showMessageDetail called!');
-            }}
             showLightbox={showLightbox}
             startConversation={startConversation}
             theme={theme}
@@ -387,7 +368,9 @@ export class MessageDetail extends React.Component<Props> {
                       icon: 'StoryDetailsModal__copy-icon',
                       label: i18n('StoryDetailsModal__copy-timestamp'),
                       onClick: () => {
-                        window.navigator.clipboard.writeText(String(sentAt));
+                        void window.navigator.clipboard.writeText(
+                          String(sentAt)
+                        );
                       },
                     },
                   ]}

@@ -64,6 +64,18 @@
     "message": "അംഗത്വം തീർച്ചപ്പെടുത്തിയിട്ടില്ല",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "അയയ്ക്കുന്ന മീഡിയയുടെ നിലവാരം",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "സ്റ്റാൻഡേർഡ്",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "ഉയർന്ന",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "സോഫ്റ്റ്വെയർ അംഗീകാരം",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -169,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -674,12 +686,21 @@
     "message": "നിങ്ങൾക്ക് ഫയലുകൾക്കൊപ്പം ഫോട്ടോകളും വീഡിയോകളും തിരഞ്ഞെടുക്കാനാകില്ല.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "നിങ്ങൾക്ക് ഒരു സമയം ഒരു ഫയൽ മാത്രമേ തിരഞ്ഞെടുക്കാനാകൂ.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "നിങ്ങൾക്ക് ഈ സന്ദേശം-ത്തിലേക്ക് കൂടുതൽ അറ്റാച്ചുമെന്റുകൾ ചേർക്കാനാവില്ല.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു."
+    "message": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "ശബ്ദ സന്ദേശങ്ങള്‍ അയക്കുന്നതിനു വേണ്ടി Signal Desktop-നെ മൈക്രോഫോൺ ഉപയോഗിക്കാൻ അനുവദിക്കുക",
+    "message": "വോയ്‌സ് സന്ദേശങ്ങള്‍ അയയ്‌ക്കുന്നതിന്, മൈക്രോഫോൺ ആക്‌സസ് ചെയ്യാൻ Signal Desktop-നെ അനുവദിക്കുക.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കപ്പെടും.",
+    "message": "ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "സംഭാഷണത്തിലെ എല്ലാവർ‌ക്കും അവർ‌ Signal(സിഗ്‌നലി)ന്റെ സമീപകാല പതിപ്പിലാണെങ്കിൽ‌ ഈ സന്ദേശം ഇല്ലാതാക്കും. നിങ്ങൾ ഒരു സന്ദേശം ഇല്ലാതാക്കിയത് അവർക്ക് കാണാൻ കഴിയും.",
+    "message": "സംഭാഷണത്തിലെ എല്ലാവർ‌ക്കും അവർ‌ Signal-ന്റെ പുതിയ പതിപ്പിലാണെങ്കിൽ‌ ഈ സന്ദേശം ഇല്ലാതാക്കും. നിങ്ങൾ ഒരു സന്ദേശം ഇല്ലാതാക്കിയെന്ന് അവർക്ക് കാണാൻ കഴിയും.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1156,11 +1177,11 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "ഈ സംഭാഷണം ശാശ്വതമായി ഇല്ലാതാക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടോ?",
+    "message": "ഈ സംഭാഷണം ശാശ്വതമായി ഇല്ലാതാക്കണോ?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ അവരുടെ ഫോൺ നമ്പർ മാറ്റി",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} , {conversationTitle} എന്നിവ ഒരേ അക്കൗണ്ടാണ്. രണ്ട് ചാറ്റുകൾക്കുമുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രം ഇവിടെയുണ്ട്.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} എന്നതുമായുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രവും അവരുടെ {obsoleteConversationNumber} നമ്പറും ലയിപ്പിച്ചു.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} എന്നതുമായുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രവും അവരുടേതായ മറ്റൊരു ചാറ്റും ലയിപ്പിച്ചു.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "കൂടുതൽ അറിയുക",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} എന്നയാളുമായുള്ള സന്ദേശ കൈമാറ്റത്തിന് ശേഷം, ഈ നമ്പർ {conversationTitle} എന്നയാളുടേതാണെന്ന് നിങ്ങൾ മനസ്സിലാക്കി. അവരുടെ ഫോൺ നമ്പർ സ്വകാര്യമാണ്.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "രണ്ട് സംഭാഷണങ്ങൾക്കുമുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രം ഇവിടെ ലയിപ്പിച്ചിരിക്കുന്നു.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} എന്ന ഫോൺ നമ്പർ {conversationTitle} എന്നയാളുടേതാണ്. നിങ്ങൾ രണ്ടുപേരും {sharedGroup} എന്നതിലെ അംഗങ്ങളാണ്.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} എന്നയാളുടെ നമ്പറാണ്",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ഉദ്ധരിച്ച സന്ദേശം-ത്തിൽ നിന്നുള്ള ചിത്രത്തിന്റെ ലഘുചിത്രം",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "നിങ്ങൾക്ക് അവരുടെ ഓഡിയോ വീഡിയോയോ എന്നിവ ലഭിക്കില്ല, അവർക്ക് നിങ്ങളുടേതും .",
+    "message": "നിങ്ങൾക്ക് അവരുടെ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ ലഭിക്കില്ല, അവർക്ക് നിങ്ങളുടേതും.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "എല്ലാ കോൺ‌ടാക്റ്റുകൾ-ളും എല്ലാ സന്ദേശങ്ങള്‍-ളും ഉൾപ്പെടെ, ഈ ആപ്ലിക്കേഷന്റെ സംരക്ഷിച്ച എല്ലാ അക്കൗണ്ട് വിവരങ്ങളും നിങ്ങൾ ഇല്ലാതാക്കാൻ പോവുകയാണ്. നിങ്ങൾക്ക് എല്ലായ്പ്പോഴും നിങ്ങളുടെ മൊബൈൽ ഉപകരണവുമായി വീണ്ടും ലിങ്ക് ചെയ്യാം കഴിയും, പക്ഷേ അത് ഇല്ലാതാക്കിയ സന്ദേശങ്ങള്‍ പുന:സ്ഥാപിക്കില്ല.",
+    "message": "എല്ലാ കോൺ‌ടാക്റ്റുകളും എല്ലാ സന്ദേശങ്ങളും ഉൾപ്പെടെ, ഈ ആപ്ലിക്കേഷന്റെ സംരക്ഷിച്ച എല്ലാ അക്കൗണ്ട് വിവരങ്ങളും നിങ്ങൾ ഇല്ലാതാക്കാൻ പോവുകയാണ്. നിങ്ങൾക്ക് എല്ലായ്‌പ്പോഴും നിങ്ങളുടെ മൊബൈലുമായി വീണ്ടും ലിങ്ക് ചെയ്യാം കഴിയും, പക്ഷേ അത് ഇല്ലാതാക്കിയ സന്ദേശങ്ങള്‍ പുന:സ്ഥാപിക്കില്ല.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1705,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ഇല്ലാതാക്കുന്നത് പരാജയപ്പെട്ടു",
+    "message": "ഇല്ലാതാക്കാനായില്ല",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക."
+    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal പുനരാരംഭിക്കുക"
@@ -2228,88 +2282,176 @@
     "message": "ഈ സന്ദേശം ഇല്ലാതാക്കി.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ് വിശദാംശങ്ങൾ കണ്ടെത്താൻ കഴിയുന്നില്ല",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "സംഭാവനാ വിശദാംശങ്ങൾ ലഭ്യമാക്കാനായില്ല",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "നിങ്ങളുടെ ഗിഫ്റ്റ് കാണാൻ, മൊബൈലിലെ ഈ സന്ദേശത്തിൽ ടാപ്പ് ചെയ്യുക",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ മൊബൈലിൽ ഈ സന്ദേശം ടാപ്പ് ചെയ്യുക",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ഗിഫ്റ്റ്",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} നിങ്ങളുടെ പേരിൽ Signal-ലേക്ക് സംഭാവന നൽകി",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ഗിഫ്റ്റ് തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ഈ സംഭാവന തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ഗിഫ്റ്റ് കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "നിങ്ങൾക്കൊരു ഗിഫ്റ്റ് ലഭിച്ചു",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} നിങ്ങൾക്കായി സംഭാവന ചെയ്‌തു",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "നിങ്ങളൊരു ഗിഫ്റ്റ് ബാഡ്‍ജ് റിഡീം ചെയ്‌തു",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "നിങ്ങളൊരു സംഭാവന റിഡീം ചെയ്‌തു",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "നിങ്ങൾ ഒരു ഗിഫ്റ്റ് ബാഡ്‌ജ് അയച്ചു",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "നിങ്ങൾ {recipient} എന്നയാൾക്ക് സംഭാവന നൽകി",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ്",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "സംഭാവന",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ഗിഫ്റ്റ്",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "സംഭാവന",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ദിവസം ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ദിവസം ശേഷിക്കുന്നു",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ മണിക്കൂർ ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} മണിക്കൂർ ശേഷിക്കുന്നു",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {ഒരു മിനിറ്റ് ശേഷിക്കുന്നു} other {{minutes,number} മിനിറ്റ് ശേഷിക്കുന്നു}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "കാലഹരണപ്പെട്ടു",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "കാലഹരണപ്പെട്ടു",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "കാണുക",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "കാണുക",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "റിഡീം ചെയ്‌തു",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "റിഡീം ചെയ്‌തു",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "നിങ്ങൾ $name$ എന്നയാൾക്ക് ഒരു ബാഡ്‌ജ് സമ്മാനിച്ചു. ബാഡ്‌ജ് സ്വീകരിക്കുമ്പോൾ, അത് പ്രദർശിപ്പിക്കാനോ മറയ്ക്കാനോ അവര്‍ക്ക് തിരഞ്ഞെടുക്കാം.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} എന്നയാൾക്ക് വേണ്ടി നിങ്ങൾ Signal-ലേക്ക് സംഭാവന നൽകി. അവരുടെ പ്രൊഫൈലിൽ പിന്തുണ കാണിക്കാനുള്ള ഓപ്ഷൻ അവർക്ക് നൽകും.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് ഇൻസ്റ്റാൾ ചെയ്യാൻ കഴിഞ്ഞില്ല",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "സ്റ്റിക്കറുകൾ",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "ലഭ്യമാണ്",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "ഇൻസ്റ്റാളുചെയ്‌ത സ്റ്റിക്കറുകൾ",
+    "message": "ഇൻസ്റ്റാൾ ചെയ്‌തു",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ഡ്രാഫ്റ്റ് ലിങ്ക് പ്രിവ്യൂ നീക്കംചെയ്യുക",
+    "message": "ഡ്രാഫ്റ്റ് ലിങ്ക് പ്രിവ്യൂ നീക്കം ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "എല്ലാ ഡ്രാഫ്റ്റ് അറ്റാച്ചുമെന്റുകളും നീക്കംചെയ്യുക",
+    "message": "എല്ലാ ഡ്രാഫ്റ്റ് അറ്റാച്ചുമെന്റുകളും നീക്കം ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "വീഡിയോ സഹിതം കോൾ സ്വീകരിക്കുക",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "വീഡിയോ കോൾ സ്വീകരിക്കുക",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ഓഡിയോ സഹിതം കോൾ സ്വീകരിക്കുക",
+    "message": "ഓഡിയോ കോൾ സ്വീകരിക്കുക",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "വീഡിയോ കോൾ സ്വീകരിക്കുക (വീഡിയോ കോളുകൾ മാത്രം)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "വീഡിയോ ഇല്ലാതെ കോൾ സ്വീകരിക്കുക",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "ഓഡിയോ കോൾ ആരംഭിക്കുക",
+    "message": "വോയ്‌സ് കോൾ ആരംഭിക്കുക",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "അറ്റാച്ച്മെന്റ് നീക്കംചെയ്യുക",
+    "message": "അറ്റാച്ച്മെന്റ് നീക്കം ചെയ്യുക",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ ചെയ്യാനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
+    "message": "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ വരുത്താനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3037,11 +3187,11 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "സംഭാഷണം നീക്കം ചെയ്യുക?",
+    "message": "സംഭാഷണം നീക്കം ചെയ്യണോ?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3049,19 +3199,19 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ഇല്ലാതാക്കി ഉപേക്ഷിക്കണോ?",
+    "message": "$group$ ഇല്ലാതാക്കിയ ശേഷം പുറത്തുകടക്കണോ?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "ഡിലീറ്റ് ചെയ്ത് ലീവ് ചെയ്യുക",
+    "message": "ഇല്ലാതാക്കിയ ശേഷം പുറത്തുകടക്കുക",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "നിങ്ങൾ ഈ ഗ്രൂപ്പ് ഉപേക്ഷിക്കും, അത് നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കപ്പെടും.",
+    "message": "നിങ്ങൾ ഈ ഗ്രൂപ്പിൽ നിന്ന് പുറത്തുകടക്കും, നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കുകയും ചെയ്യും.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "ഉത്തരം",
+    "message": "കോൾ സ്വീകരിക്കുക",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "വീഡിയോ ഇല്ലാതെ ഉത്തരം നൽകുക",
+    "message": "വീഡിയോ ഇല്ലാതെ കോൾ സ്വീകരിക്കുക",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "നിങ്ങൾ ഒരു ഓഡിയോ കോൾ നിരസിച്ചു",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "നിങ്ങൾ ഒരു വോയ്‌സ് കോൾ നിരസിച്ചു",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "നിങ്ങൾ ഒരു വീഡിയോ കോൾ നിരസിച്ചു",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "ഇൻകമിംഗ് ഓഡിയോ കോൾ",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "ഇൻകമിംഗ് വോയ്‌സ് കോൾ",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "ഇൻകമിംഗ് വീഡിയോ കോൾ",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "ഓഡിയോ കോൾ നഷ്‌ടമായി",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "മിസ്‌ഡ് വോയ്‌സ് കോൾ",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "വീഡിയോ കോൾ നഷ്‌ടമായി",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "ഔട്ട്ഗോയിംഗ് ഓഡിയോ കോൾ",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "ഔട്ട്ഗോയിംഗ് വോയ്‌സ് കോൾ",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "ഔട്ട്ഗോയിംഗ് വീഡിയോ കോൾ",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "ഉത്തരം ലഭിക്കാത്ത ഓഡിയോ കോൾ",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "ഉത്തരം ലഭിക്കാത്ത വോയ്‌സ് കോൾ",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ഉത്തരം ലഭിക്കാത്ത വീഡിയോ കോൾ",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ഇൻകമിംഗ് ഓഡിയോ കോൾ...",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "ഇൻകമിംഗ് വോയ്‌സ് കോൾ...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ഇൻകമിംഗ് വീഡിയോ കോൾ...",
@@ -3541,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു ",
+    "message": "$memberName$ ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "നിങ്ങൾ ഗ്രൂപ്പിൻ്റെ പേര് നീക്കം ചെയ്തിരിക്കുന്നു",
+    "message": "നിങ്ങൾ ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "ഒരു അംഗം ഗ്രൂപ്പിന്റെ പേര് നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം ഗ്രൂപ്പിന്റെ പേര് നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു",
+    "message": "$memberName$ ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "നിങ്ങൾ ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു",
+    "message": "നിങ്ങൾ ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "ഒരു അംഗം ഗ്രൂപ്പ് അവതാർ നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം ഗ്രൂപ്പ് അവതാർ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$-യെ നീക്കം ചെയ്തു.",
+    "message": "$adminName$ $memberName$ എന്നയാളെ നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "നിങ്ങൾ $memberName$-നെ നീക്കം ചെയ്തു.",
+    "message": "നിങ്ങൾ $memberName$ എന്നയാളെ നീക്കം ചെയ്തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "ഒരു അംഗം $memberName$-നെ നീക്കംചെയ്‌തു.",
+    "message": "ഒരു അംഗം $memberName$ എന്നയാളെ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ നിങ്ങളെ നീക്കംചെയ്‌തു.",
+    "message": "$adminName$ നിങ്ങളെ നീക്കം ചെയ്‌തു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4060,6 +4210,10 @@
     "message": "എല്ലാ അംഗങ്ങളെയും സന്ദേശങ്ങള്‍ അയയ്ക്കാൻ അനുവദിക്കുന്നതിന് ഗ്രൂപ്പ് മാറ്റി.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "ഈ ഗ്രൂപ്പിലെ അംഗങ്ങളോ ക്രമീകരണങ്ങളോ മാറിയിരിക്കുന്നു.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "@മെൻഷൻസ്, അഡ്മിൻസ് തുടങ്ങിയ പുതിയ സവിശേഷതകൾ സജീവമാക്കാൻ ഈ ഗ്രൂപ്പ് അപ്ഗ്രേഡ് ചെയ്യുക. ഈ ഗ്രൂപ്പിൽ പേരോ ഫോട്ടോയോ പങ്കിടാത്ത അംഗങ്ങളെ ചേരാൻ ക്ഷണിക്കും. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4109,11 +4263,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കംചെയ്യുകയും ചെയ്യും:",
+    "message": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കംചെയ്യുകയും ചെയ്യും:",
+    "message": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -4137,7 +4291,7 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.",
+    "message": "$contact$ എന്നയാളെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "അഡ്മിനായി നീക്കംചെയ്യൂ",
+    "message": "അഡ്മിനായി നീക്കം ചെയ്യൂ",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ എന്നയാളെ  ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
+    "message": "$contact$ എന്നയാളെ ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കംചെയ്യുക",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "പൊതുവായി $number$ ഗ്രൂപ്പുകൾ ഉണ്ട്",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {സാമാന്യമായി {count,number} ഗ്രൂപ്പ് ഉണ്ട്} other {സാമാന്യമായി {count,number} ഗ്രൂപ്പുകൾ ഉണ്ട്}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "സാമാന്യമായി ഗ്രൂപ്പുകളൊന്നുമില്ല",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
@@ -4525,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ഫോട്ടോ നീക്കംചെയ്യൂ",
+    "message": "ഫോട്ടോ നീക്കം ചെയ്യൂ",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "കോൺടാക്റ്റ് നീക്കംചെയ്യുക",
+    "message": "കോൺടാക്റ്റ് നീക്കം ചെയ്യൂ",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4721,11 +4883,11 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കംചെയ്യൂ",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "ഗ്രൂപ്പിൽ നിന്ന് \"$name$\" നീക്കംചെയ്യുക?",
+    "message": "ഗ്രൂപ്പിൽ നിന്ന് \"$name$\" എന്നയാളെ നീക്കം ചെയ്യണോ?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "എല്ലാവർക്കും സന്ദേശം ഇല്ലാതാക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
+    "message": "എല്ലാവർക്കും സന്ദേശം ഇല്ലാതാക്കാനായില്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5065,7 +5227,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "ഇല്ലാതാക്കുക",
+    "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ സ്റ്റോറിയിലേക്ക് പങ്കിട്ട അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
+    "message": "\"$name$\" എന്നത് ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ സ്റ്റോറിയിലേക്ക് പങ്കിട്ട അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5904,6 +6066,10 @@
     "message": "മറുപടി",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} എന്നയാൾക്ക് മറുപടി നൽകുക",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ഗ്രൂപ്പിന് മറുപടി നൽകുക",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "സ്റ്റോറിയോട് പ്രതികരിക്കുക",
+    "message": "(01/25/23-ന് ഇല്ലാതാക്കി) സ്റ്റോറിയോട് പ്രതികരിക്കൂ",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "അനാവശ്യ സന്ദേശങ്ങൾ ഒഴിവാക്കുന്നതിന്, ഈ അക്കങ്ങൾ നിങ്ങളുടെ ഉപയോക്തൃനാമം സ്വകാര്യമായി സൂക്ഷിക്കാൻ സഹായിക്കുന്നു. നിങ്ങൾ ചാറ്റ് ചെയ്യാൻ ആഗ്രഹിക്കുന്ന ആളുകളുമായും ഗ്രൂപ്പുകളുമായും മാത്രം നിങ്ങളുടെ ഉപയോക്തൃനാമം പങ്കിടുക. ഉപയോക്തൃനാമങ്ങൾ മാറ്റുകയാണെങ്കിൽ, നിങ്ങൾക്ക് ഒരു കൂട്ടം പുതിയ അക്കങ്ങൾ ലഭിക്കും.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിലെ {OS} പതിപ്പിനുള്ള പിന്തുണ Signal ഡെസ്‌ക്ടോപ്പിൽ ഉടൻ അവസാനിക്കും. Signal ഉപയോഗിക്കുന്നത് തുടരാൻ {expirationDate}-ന് മുമ്പ് നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പ് ഈ കമ്പ്യൂട്ടറിൽ ഇനി പ്രവർത്തിക്കില്ല. Signal ഡെസ്‌ക്ടോപ്പ് വീണ്ടും ഉപയോഗിക്കാൻ നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ {OS} പതിപ്പ് അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പ് ഈ കമ്പ്യൂട്ടറിൽ ഇനി പ്രവർത്തിക്കില്ല. Signal ഡെസ്‌ക്ടോപ്പ് വീണ്ടും ഉപയോഗിക്കാൻ നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ {OS} പതിപ്പ് അപ്ഡേറ്റ് ചെയ്യുക.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "പുതിയതായി എന്തുണ്ട്",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "നിങ്ങൾ ചെറിയ ഗ്രൂപ്പുകൾക്കായി (16 ആളുകൾ വരെയുള്ളത്) ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിക്കുമ്പോൾ, നിങ്ങൾക്ക് ഒരു റിംഗിംഗ് അറിയിപ്പ് അയയ്ക്കാൻ തീരുമാനിക്കാം. ഗ്രൂപ്പ് അംഗങ്ങൾ iOS ബീറ്റയിലാണെങ്കിലോ അല്ലെങ്കിൽ ഡെസ്‌ക്ടോപ്പ് അല്ലെങ്കിൽ Android ഉപയോഗിക്കുകയാണെങ്കിലോ അവർ ഒരു റിംഗ് കേൾക്കും.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ലഭിച്ച ചാറ്റിനെ ഉദ്ധരിച്ച് മറുപടി നൽകാൻ ഏതെങ്കിലും സന്ദേശത്തിന്‍റെ വരിയിൽ ഡബിൾ ക്ലിക്ക് ചെയ്യുക. പഴയ ആശയങ്ങളിലെ പുതിയൊരു ചിന്തയ്ക്കുള്ള കുറുക്കുവഴി പോലെയാണത്. ഈ ഫീച്ചർ കൊണ്ടുവന്നതിനും ഫീഡ്ബാക്ക് നൽകിയതും {whynothugo} എന്നതിനും Signal കമ്മ്യൂണിറ്റിക്കും നന്ദി.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "സൂം ചെയ്യാതെ തന്നെ ഗ്യാലറി കാഴ്ച്ച നിരാകരിക്കാൻ ഒരു ചിത്രത്തിന് പുറത്ത് ക്ലിക്ക് ചെയ്യാൻ ഇപ്പോൾ വളരെ എളുപ്പമാണ്. നിങ്ങൾക്കത് അടയ്ക്കണമെന്ന് തോന്നിയാലും ചിലത് വല്ലാതങ്ങ് പറ്റിച്ചേർന്നിരിക്കുന്നതിനാൽ സാധിച്ചിരുന്നില്ല. ഈ പരിഹാരത്തിന് {jojomatik} എന്നതിന് നന്ദി!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "നിങ്ങളുടെ പ്രതികരണ സമയത്തിന്‍റെ വേഗത കൂട്ടൂ. സ്റ്റോറിക്ക് മറുപടി നൽകുമ്പോൾ ഏതെങ്കിലും ഇമോജിയിൽ ക്ലിക്ക് ചെയ്ത് നിങ്ങൾക്കിപ്പോൾ വേഗത്തിൽ പ്രതികരിക്കാം.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ഇപ്പോൾ ചൈനീസ്, ജാപ്പനീസ് ഭാഷകളിലെ അക്ഷരങ്ങൾക്കായി നിങ്ങളുടെ സന്ദേശ ചരിത്രത്തിൽ തിരയാനാകും.",
+    "description": "Release notes for v6.5"
   }
 }

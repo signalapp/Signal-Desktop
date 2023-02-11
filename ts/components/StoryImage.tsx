@@ -72,7 +72,7 @@ export function StoryImage({
     if (isPaused) {
       videoRef.current.pause();
     } else {
-      videoRef.current.play();
+      void videoRef.current.play();
     }
   }, [isPaused]);
 

@@ -1,11 +1,10 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, FunctionComponent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
-import { v4 as uuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import type { BadgeType } from '../../badges/types';
@@ -17,6 +16,7 @@ import { Spinner } from '../Spinner';
 import { Time } from '../Time';
 import { formatDateTimeShort } from '../../util/timestamp';
 import * as durations from '../../util/durations';
+import { UUID } from '../../types/UUID';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -30,7 +30,7 @@ const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox--container`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
-const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
+export const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
 
 type PropsType = {
   checked?: boolean;
@@ -52,11 +52,13 @@ type PropsType = {
   shouldShowSpinner?: boolean;
   unreadCount?: number;
   avatarSize?: AvatarSize;
+  testId?: string;
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
   | 'avatarPath'
   | 'color'
+  | 'groupId'
   | 'isMe'
   | 'markedUnread'
   | 'phoneNumber'
@@ -64,6 +66,7 @@ type PropsType = {
   | 'sharedGroupNames'
   | 'title'
   | 'unblurredAvatarPath'
+  | 'uuid'
 > &
   (
     | { badge?: undefined; theme?: ThemeType }
@@ -80,6 +83,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       color,
       conversationType,
       disabled,
+      groupId,
       headerDate,
       headerName,
       i18n,
@@ -97,13 +101,16 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       profileName,
       sharedGroupNames,
       shouldShowSpinner,
+      testId: overrideTestId,
       title,
       unblurredAvatarPath,
       unreadCount,
+      uuid,
     } = props;
 
     const identifier = id ? cleanId(id) : undefined;
-    const htmlId = useMemo(() => uuid(), []);
+    const htmlId = useMemo(() => UUID.generate().toString(), []);
+    const testId = overrideTestId || groupId || uuid;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -222,6 +229,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
           )}
           data-id={identifier}
+          data-testid={testId}
           htmlFor={htmlId}
           // `onClick` is will double-fire if we're enabled. We want it to fire when we're
           //   disabled so we can show any "can't add contact" modals, etc. This won't
@@ -242,6 +250,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             `${BASE_CLASS_NAME}--is-button`
           )}
           data-id={identifier}
+          data-testid={testId}
           disabled={disabled}
           onClick={onClick}
           type="button"
@@ -252,7 +261,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     }
 
     return (
-      <div className={commonClassNames} data-id={identifier}>
+      <div
+        className={commonClassNames}
+        data-id={identifier}
+        data-testid={testId}
+      >
         {contents}
       </div>
     );
@@ -297,22 +310,9 @@ function UnreadIndicator({
     return null;
   }
 
-  let classModifier: undefined | string;
-  if (count > 99) {
-    classModifier = 'many';
-  } else if (count > 9) {
-    classModifier = 'two-digits';
-  }
-
   return (
-    <div
-      className={classNames(
-        `${BASE_CLASS_NAME}__unread-indicator`,
-        classModifier &&
-          `${BASE_CLASS_NAME}__unread-indicator--${classModifier}`
-      )}
-    >
-      {Boolean(count) && Math.min(count, 99)}
+    <div className={classNames(`${BASE_CLASS_NAME}__unread-indicator`)}>
+      {Boolean(count) && count}
     </div>
   );
 }

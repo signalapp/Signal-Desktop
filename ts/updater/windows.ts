@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
@@ -47,8 +47,8 @@ export class WindowsUpdater extends Updater {
   protected async installUpdate(updateFilePath: string): Promise<void> {
     const { logger } = this;
 
-    logger.info('downloadAndInstall: showing dialog...');
     this.setUpdateListener(async () => {
+      logger.info('downloadAndInstall: installing...');
       try {
         await this.install(updateFilePath);
         this.installing = true;
@@ -58,6 +58,7 @@ export class WindowsUpdater extends Updater {
         throw error;
       }
 
+      logger.info('downloadAndInstall: restarting...');
       markShouldQuit();
       app.quit();
     });

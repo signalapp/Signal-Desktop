@@ -64,6 +64,18 @@
     "message": "Tagság függőben",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Elküldött médiafájl minősége",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Normál",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Magas",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Szoftverlicencek",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Nem választhatsz ki képeket és videókat fájlokkal együtt.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Egyszerre csak egy fájlt választhatsz ki.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Ehhez az üzenethez nem adhatsz hozzá több csatolmányt.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét."
+    "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Nem sikerült betölteni a kiválasztott csatolmányt."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen mikrofonodhoz!",
+    "message": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen a mikrofonodhoz!",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ megváltoztatta a telefonszámát",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} és {conversationTitle} ugyanaz a fiók. Itt található mindkét csevegés üzenetelőzménye.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} és számának ({obsoleteConversationNumber}) üzenetelőzményei egyesítésre kerültek.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} és a hozzá tartozó csevegés üzenetelőzményei egyesítésre kerültek.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Tudj meg többet",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} felhasználóval való üzenetváltás után megtudtad, hogy ez a szám {conversationTitle} felhasználóhoz tartozik. A telefonszám privát.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "A két beszélgetéshez tartozó üzenetelőzmények itt kerültek összevonásra.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "A(z) {phoneNumber} telefonszám a(z) {conversationTitle} beszélgetéshez tartozik. Mindketten tagjai vagytok a(z) {sharedGroup} csoportnak.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "A(z) {phoneNumber} telefonszám a(z) {conversationTitle} beszélgetéshez tartozik",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Az idézett üzenetben megjelenített fotó előnézeti képe",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Nem fogod hallani és látni őket, illetve ők sem téged",
+    "message": "Nem fogod hallani és látni, illetve ő sem téged.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Kattints a Signal újraindítására a frissítések alkalmazásához!"
+    "message": "Kattints a Signal újraindítására a frissítések alkalmazásához!",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal újraindítása"
@@ -2228,88 +2282,176 @@
     "message": "Ez az üzenet ki lett törölve.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Nem sikerült lekérni az ajándékjelvény adatait",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Nem sikerült lekérni az adomány részleteit",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "A megtekintéshez nyisd meg ezt az üzenetet mobilon",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "A megtekintéshez nyisd meg ezt az üzenetet mobilon",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Az ajándék megtekintéséhez koppints erre az üzenetre a mobilodon",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Az adomány mobilon való megtekintéséhez koppints erre az üzenetre",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Ajándék",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} adományozott a Signalnak a nevedben",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Használd telefonodat az ajándék megnyitásához",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Az adomány megnyitásához ellenőrizd a telefonod",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Használd telefonodat az ajándék megtekintéséhez",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Az adományod megtekintéséhez ellenőrizd a telefonod",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Ajándékot kaptál",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} adományozott neked",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Beváltottál egy ajándék kitűzőt",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Beváltottál egy adományt",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Elküldtél egy ajándék kitűzőt",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Adományoztál {recipient} számára",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Ajándék kitűző",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Adományozás",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Ajándék",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Adományozás",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ nap van hátra",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} nap van hátra",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ óra van hátra",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} óra van hátra",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ perc van hátra",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {{minutes,number} perc van hátra} other {{minutes,number} perc van hátra}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 perc van hátra",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Lejárt",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Lejárt",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Megtekintés",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Megtekintés",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Beváltva",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Beváltva",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Köszönjük a támogatásodat!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Köszönjük a támogatásodat!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Kitűzőt ajándékoztál $name$ részére. Amikor elfogadja, lehetősége lesz kitűzni vagy elrejteni azt.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Adományoztál a Signal számára {name} nevében. Lehetőséget kap arra, hogy a profilján megjelenítse a támogatást.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "A matricacsomagot nem sikerült telepíteni",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Matricák",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Elérhető",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Telepített matricák",
+    "message": "Telepítve",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,11 +2847,19 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Hívás elfogadása képpel",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Hívás fogadása videóval",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Hívás elfogadása hanggal",
+    "message": "Hívás fogadása hanggal",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Hívás fogadása videóval (csak videohívások esetén)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Hívás fogadása videó nélkül",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Matrica törlése",
+    "message": "Matrica eltávolítása",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3057,7 +3207,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Törlés és kilépés.",
+    "message": "Törlés és kilépés",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Válasz",
+    "message": "Hívás felvétele",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Válasz videó nélkül",
+    "message": "Hívás fogadása videó nélkül",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Elutasítottál egy hívást",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Elutasítottál egy hanghívást",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Elutasítottál egy videóhívást",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Bejövő hívás",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Bejövő hanghívás",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Bejövő videóhívás",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Nem fogadott hívás",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Nem fogadott hanghívás",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Nem fogadott videóhívás",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Kimenő hívás",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Kimenő hanghívás",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Kimenő videóhívás",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Nem fogadott hívás",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Nem fogadott hanghívás",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Nem fogadott videóhívás",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Bejövő hívás…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Bejövő hanghívás...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Bejövő videóhívás…",
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ eltávolította $memberName$-t.",
+    "message": "$adminName$ eltávolította $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,11 +3891,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Eltávolítottad $memberName$-t.",
+    "message": "Eltávolítottad $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Egy tag eltávolította $memberName$-t.",
+    "message": "Egy tag eltávolította $memberName$ felhasználót.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -4060,6 +4210,10 @@
     "message": "Megváltozott csoportbeállítások: mostantól bárki küldhet üzenetet a csoportba.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "A csoport tagjai vagy beállításai megváltoztak.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Frissítsd a csoportot új típusúra, hogy elérhesd az olyan új funkciókat, mint például az @említés és admin szerep használata! Azok a tagok, akik nem osztották meg a nevüket vagy profilképüket ezzel a csoporttal, meghívót fognak kapni. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Az alábbi tagok nem tudnak az új típusú csoportba belépni, ezért eltávolításra kerülnek:",
+    "message": "Az alábbi tagok nem tudnak az Új csoportba belépni, ezért eltávolításra kerülnek:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Az alábbi tag nem tud az új típusú csoportba belépni, ezért eltávolításra kerül:",
+    "message": "Az alábbi tag nem tud az Új csoportba belépni, ezért eltávolításra kerül:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Az alábbi tagok nem tudtak az új típusú csoportba belépni, ezért eltávolításra kerültek:",
+    "message": "Az alábbi tagok nem tudtak az Új csoportba belépni, ezért eltávolításra kerültek:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Az alábbi tag nem tudott az új típusú csoportba belépni, ezért eltávolításra került:",
+    "message": "Az alábbi tag nem tudott az Új csoportba belépni, ezért eltávolításra került:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4141,7 +4295,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ db tag el lett távolítva a csoportból",
+    "message": "$count$ db tag el lett távolítva a csoportból.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ db közös csoport",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} közös csoport} other {{count,number} közös csoport}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Nincsenek közös csoportok",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Hozzáadás egy csoporthoz",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "YYYY. MMM. D.",
+    "message": "YYYY MMM D",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "\"$name$\" eltávolítása a csoportból?",
+    "message": "„$name$\" eltávolítása a csoportból?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Eltávolítod \"$name$\" felhasználót a csoportból? A jövőben nem lesz képes csatlakozni a csoporthivatkozás segítségével.",
+    "message": "Eltávolítod „$name$\" felhasználót a csoportból? A jövőben nem lesz képes csatlakozni a csoporthivatkozás segítségével.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Ezzel törlöd felhasználónevedet, ami így más számára elérhetővé válik. Biztos vagy benne?",
+    "message": "Ezzel eltávolítod a felhasználónevedet, ami így más számára elérhetővé válik. Biztos vagy benne?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5777,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Biztosan törölni szeretnéd a következőt: „{groupTitle}”?",
+    "messageformat": "Biztosan el szeretnéd távolítani a következőt: „{groupTitle}”?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5857,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eltávolítod a Történetet? Ha igen, a Történet törlésre kerül a listádról, azonban továbbra is látni fogod a Történeteket ebből a csoportból.",
+    "message": "Eltávolítod a Történetet? Ha igen, a Történet eltávolításra kerül a listádról, azonban továbbra is látni fogod a Történeteket ebből a csoportból.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Válasz",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Válasz {firstName} számára",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reakció a Történetre",
+    "message": "(törölve: 2023. 01. 25.) Reakció a Történetre",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Ezek a számok segítenek megőrizni a felhasználóneved privát jellegét, hogy elkerüld a nem kívánt üzeneteket. Csak azokkal az emberekkel és csoportokkal oszd meg a felhasználóneved, akikkel csevegni szeretnél. Ha módosítod a felhasználóneved, új számsort kapsz.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "A Signal asztali számítógépen elérhető változata hamarosan nem fogja támogatni a számítógépeden megtalálható {OS} verziót. A Signal asztali számítógépen elérhető változatának folytatásához frissítsd a számítógéped operációs rendszerét eddig: {expirationDate}. <learnMoreLink>Tudj meg többet</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "A Signal már nem működik ezen a készüléken. A Signal asztali számítógépről elérhető változatának ismételt használatához frissítsd a számítógépeden a(z) {OS} verzióját. <learnMoreLink>Tudj meg többet</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "A Signal asztali számítógépről elérhető változata már nem működik ezen a számítógépen. A Signal asztali számítógépről elérhető változatának ismételt használatához frissítsd a számítógépeden a(z) {OS} verzióját.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Újdonságok",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Amikor csoportos hívást indítasz kis csoportok számára (max. 16 fő), eldöntheted, hogy küldesz-e csengő értesítést. A csoport tagjai csengetést fognak hallani, ha iOS bétaverziót, asztali számítógépet vagy Android-eszközt használnak.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Kattints duplán bármelyik üzenetsorra a csevegésben az idézett válasz indításához. Olyan, mint egy parancsikon a régi ötletekkel kapcsolatos új gondolatokhoz. Köszönet {whynothugo} partnerünknek és a Signal-közösségnek a funkció megvalósításáért és a visszajelzésért.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Mostantól egyszerűbb kikattintani egy képből, hogy nagyítás nélkül kilépj a Galérianézetből. Van, hogy csak be akarsz zárni valamit, de helyette ráközelítesz. Köszönjük a javítást, {jojomatik}!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Gyorsítsd fel a válaszidőt. Mostantól gyorsabban reagálhatsz, ha rákattintasz valamely hangulatjelre, amikor válaszolsz egy Történetre.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Mostantól lehetőséged van rákeresni az egyes kínai és japán karakterekre az üzenetelőzményekben.",
+    "description": "Release notes for v6.5"
   }
 }

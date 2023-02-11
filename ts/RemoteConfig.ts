@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get, throttle } from 'lodash';
@@ -122,7 +122,7 @@ export const refreshRemoteConfig = async (
     };
   }, {});
 
-  window.storage.put('remoteConfig', config);
+  await window.storage.put('remoteConfig', config);
 };
 
 export const maybeRefreshRemoteConfig = throttle(

@@ -64,6 +64,18 @@
     "message": "メンバーシップは保留中です",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "送信メディアの画質",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "標準",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "高画質",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "ソフトウェアのライセンス",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "すべてのデータを削除して再起動",
+    "message": "すべてのデータを消去して再起動",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -169,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -674,12 +686,21 @@
     "message": "写真や動画をファイルと一緒に選択することはできません。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "一度に選択できるファイルは1つだけです。",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "メッセージに添付ファイルを追加できませんでした。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "選択されたファイルは大きすぎます。"
+    "message": "選択されたファイルは大きすぎます。",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "選択されたファイルは大きすぎます。 {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "選択された添付ファイルをロードできません。"
@@ -1046,7 +1067,7 @@
     "message": "メッセージの詳細"
   },
   "delete": {
-    "message": "削除する"
+    "message": "消去"
   },
   "accept": {
     "message": "承認する"
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "このメッセージはこの端末から削除されます。",
+    "message": "このメッセージはこの端末から消去されます。",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "このメッセージは、チャットの参加者が最新バージョンの Signal を使っている場合、削除されます。参加者は、あなたがメッセージを削除したことは確認できます。",
+    "message": "このメッセージは、チャットの参加者が最新バージョンの Signal を使っている場合、全員に対して消去されます。参加者は、あなたがメッセージを消去したことが確認できます。",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "全員分の削除を再実行",
+    "message": "全員分の消去を再実行",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1148,15 +1169,15 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "自分だけメッセージを削除",
+    "message": "自分だけメッセージを消去",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "全員でメッセージを削除",
+    "message": "全員分のメッセージを消去",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ は電話番号を変更しました",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} と {conversationTitle} は同じアカウントから発せられています。両方のチャットのメッセージ履歴はこちらです。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} さんと{obsoleteConversationNumber} のメッセージ履歴が統合されました。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} さんとのメッセージ履歴と、同じ人との別のチャットが統合されました。",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "詳しく見る",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} へのメッセージ送信後、この番号は {conversationTitle}に含まれていると確認されました。電話番号は非公開です。",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "両方の会話のメッセージ履歴は統合されました。",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} は {conversationTitle}に所属しています。あなたは{sharedGroup}の両方のメンバーです。",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} は {conversationTitle}に所属しています",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "引用したメッセージの画像のサムネイル",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "音声や映像の送受信を行いません。",
+    "message": "お互いに音声やビデオのやり取りがされることはありません。",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1639,15 +1692,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "すべてのデータを削除しますか？",
+    "message": "すべてのデータを消去しますか？",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "このアプリからすべてのアカウント情報を（連絡先とメッセージも含めて）削除します。また後で再びモバイルデバイスとリンクすることができますが、削除されたメッセージを元に戻すことはできません。",
+    "message": "このアプリからすべてのアカウント情報を（連絡先とメッセージも含めて）消去します。また後で再びモバイルデバイスとリンクすることができますが、消去されたメッセージを元に戻すことはできません。",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "すべてのデータを削除する",
+    "message": "すべてのデータを消去する",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1655,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは削除され、フレッシュな状態で改めて利用を始めることになります。",
+    "message": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは消去され、フレッシュな状態で改めて利用を始めることになります。",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "古いデータを削除",
+    "message": "古いデータを消去",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1705,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "削除できませんでした",
+    "message": "消去できませんでした",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "一部だけ削除済み、クリックして再実行",
+    "message": "一部だけ消去済み、クリックして再実行",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "アップデートを適用するにはSignalを再起動してください。"
+    "message": "アップデートを適用するにはSignalを再起動してください。",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signalを再起動する"
@@ -2161,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "最後のメッセージは削除された可能性があります。",
+    "message": "最後のメッセージは消去された可能性があります。",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2225,91 +2279,179 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "このメッセージは削除されました。",
+    "message": "このメッセージは消去されました。",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "giftBadge--missing": {
+    "message": "ギフトバッジの詳細を取得できません",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "寄付の詳細を取得できません",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "モバイルでこのメッセージを表示して開きます",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "携帯電話を開いてこのメッセージを表示します",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "モバイルでこのメッセージをタップするとギフトが表示されます",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "携帯電話でこのメッセージをタップすると寄付が表示されます",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ギフト",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} さんがあなたに代わってSignalに寄付しました",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ギフトを開けるために携帯電話を確認してください",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "携帯電話でこの寄付を確認してください",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ギフトを表示するために携帯電話を確認してください",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "携帯電話で寄付を見ることができます",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "ギフトを受け取りました",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} があなたに代わって寄付しました",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "ギフトバッジを交換しました",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "寄付を引き換えました",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "ギフトバッジを送りました",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "{recipient} に代わって寄付しました",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ギフトバッジ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "寄付",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ギフト",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "寄付",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "残り$days$日",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "残り{days}日",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "残り$hours$時間",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "残り{hours}時間",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "残り$minutes$分",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {残り{minutes,number}分}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "残り1分",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "期限切れ",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "期限切れ",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "表示する",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "表示",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "交換",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "引換え済",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "ご支援をありがとうございます！",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "ご支援をありがとうございます！",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "$name$にバッジをプレゼントしました。 承認すると、相手はバッジの表示・非表示を選択できるようになります。",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} さんに代わってあなたがSignalに寄付しました。その人のプロフィールには、サポートしていることを表示するオプションが付与されます。",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ステッカーパックをインストールできませんでした",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "ステッカー",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "利用できます",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "インストール済みステッカー",
+    "message": "インストール",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2605,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "選択したメッセージを削除",
+    "message": "選択したメッセージを消去",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ビデオ通話を受ける",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "ビデオありで通話に応答する",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "音声通話を受ける",
+    "message": "音声で通話に応答する",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "ビデオありで通話に応答する(ビデオ通話のみ)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "ビデオなしで通話に応答する",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "音声通話を開始",
+    "message": "音声通話を開始する",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "ステッカーパックは作成後に、編集や削除を行うことができません。",
+    "message": "ステッカーパックは作成後に編集や消去を行うことができません。",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3037,31 +3187,31 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "チャットを削除しますか？",
+    "message": "チャットを消去しますか？",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "このチャットはすべての端末から削除されます。",
+    "message": "このチャットはすべての端末から消去されます。",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "削除して $group$ から抜けますか？",
+    "message": "消去して $group$ から抜けますか？",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "削除して抜ける",
+    "message": "消去して抜ける",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "このグループから抜けて、すべての端末から削除します。",
+    "message": "このグループから抜けて、すべての端末から消去します。",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "応答する",
+    "message": "通話を開始",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ビデオなしで応答する",
+    "message": "ビデオなしで通話に応答する",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,7 +3292,7 @@
   },
   "declinedIncomingAudioCall": {
     "message": "音声通話を拒否しました",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "ビデオ通話を拒否しました",
@@ -3150,7 +3300,7 @@
   },
   "acceptedIncomingAudioCall": {
     "message": "音声通話着信",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "ビデオ通話着信",
@@ -3158,7 +3308,7 @@
   },
   "missedIncomingAudioCall": {
     "message": "音声通話着信あり",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "ビデオ通話着信あり",
@@ -3166,7 +3316,7 @@
   },
   "acceptedOutgoingAudioCall": {
     "message": "音声通話発信",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "ビデオ通話発信",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "音声通話応答なし",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ビデオ通話応答なし",
@@ -3190,7 +3340,7 @@
   },
   "incomingAudioCall": {
     "message": "音声通話着信中…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ビデオ通話着信中…",
@@ -4060,6 +4210,10 @@
     "message": "グループ設定が変更され、すべてのメンバーがメッセージを送信可能になりました。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "このグループのメンバーまたは設定が変更されました。",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "@メンションや管理者などの機能を有効にするため、グループをアップグレードしてください。名前や写真を共有していないグループメンバーは、改めて招待されます。$learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "共通のグループ $number$件",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "共通のグループはありません",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "グループへ追加",
@@ -4721,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "グループから削除する",
+    "message": "グループから削除",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4729,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "\"$name$\"を、グループから削除しますか？このユーザは、グループリンクからもう一度このグループに入ることは、できなくなります。",
+    "message": "「$name$」を、グループから削除しますか？このユーザーは、グループリンクからもう一度このグループに入ることができなくなります。",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,15 +4927,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "全員でのメッセージ削除に失敗しました。あとで再度試してください。",
+    "message": "全員でのメッセージ消去に失敗しました。あとで再度試してください。",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "色を削除",
+    "message": "色を消去",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "この色は$num$件のチャットで使用されています。すべてのチャットで削除しますか？",
+    "message": "この色は$num$件のチャットで使用されています。すべてのチャットで消去しますか？",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4833,7 +4995,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5041,7 +5203,7 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "ユーザー名を削除",
+    "message": "ユーザー名を消去",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
@@ -5049,11 +5211,11 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "ユーザーネームをコピーまたは削除します",
+    "message": "ユーザーネームをコピーまたは消去します",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5065,7 +5227,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "削除する",
+    "message": "消去",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "ストーリーを共有したり閲覧したりできなくなります。最近共有したストーリーの更新情報も削除されます。",
+    "message": "ストーリーを共有したり閲覧したりできなくなります。最近共有したストーリーの更新情報も消去されます。",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5481,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "このストーリーを削除しますか？これを受けとった人も削除されます。",
+    "message": "このストーリーを消去しますか？これを受けとった人も消去されます。",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5693,11 +5855,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "カスタムストーリーを削除する",
+    "message": "カスタムストーリーを消去する",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "本当に「$name$」を削除しますか？ストーリーで共有された更新情報も削除されます。",
+    "message": "本当に「$name$」を消去しますか？ストーリーで共有された更新情報も消去されます。",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5853,7 +6015,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ストーリーを削除する",
+    "message": "ストーリーを消去する",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "返信",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName}へ返信",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ストーリーへのリアクション",
+    "message": "(2023年1月25日消去済み) ストーリーに返信する",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "自分の分だけ削除",
+    "messageformat": "自分の分だけ消去",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "全員分を削除",
+    "messageformat": "全員分を消去",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6013,7 +6179,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "削除",
+    "message": "消去",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6172,6 +6338,18 @@
     "message": "これらの数字は、ユーザーネームを非公開にし、不要なメッセージを避けるのに役立ちます。ユーザーネームは、チャットをしたい人やグループとだけ共有してください。ユーザーネームを変更すると、新しい数字に更新されます。",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktopは、まもなくお使いのコンピュータの{OS}バージョンのサポートを終了します。Signalを引き続き利用するには、{expirationDate}までにコンピュ―タのオペレーティングシステムを更新してください。<learnMoreLink>詳しく見る</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "このコンピュータではSignal desktopは動作しなくなりました。Signal desktopを再びご利用になる場合は、お使いのコンピュータのバージョン{OS}をアップデートしてください。<learnMoreLink>詳しく見る</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "このコンピュータではSignal desktopは動作しなくなりました。Signal desktopを再びご利用になる場合は、お使いのコンピュータのバージョン{OS}をアップデートしてください。",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "更新情報",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "小人数(最大16人)でグル－プ通話を開始する時、呼び出し通知の送信を選択できます。iOSベータ版、デスクトップ、Androidを使用してるグループメンバーには呼び出し音が聞こえます。",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "チャット内のいずれかのメッセージ行をダブルクリックすると、引用返信をすることができます。従来の概念に対して新しい発想をするためのショートカットのようなものです。この機能を搭載し、フィードバックを提供してくれた{whynothugo}とSignalコミュニティにお礼を申し上げます。",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "画像の外側をクリックしてギャラリービューを解除することができるようになりました。画像が拡大されることはありません。画像を閉じたいのにむしろ拡大される、なんて真逆でしたよね。修正してくれた {jojomatik}に感謝します！",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "返信を、より速くストーリーに返信するときに、お好きな絵文字をクリックすることで、より速くリアクションできるようになりました。",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "中国語と日本語で、1文字単位でのメッセージ履歴検索が可能になりました。",
+    "description": "Release notes for v6.5"
   }
 }

@@ -48,11 +48,7 @@ describe('storage service', function needsName() {
 
     debug('wait for first contact to be pinned in the left pane');
     await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          '[isPinned = true] ' +
-          `[title = ${JSON.stringify(firstContact.profileName)}]`
-      )
+      .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
       .waitFor();
 
     {
@@ -83,11 +79,7 @@ describe('storage service', function needsName() {
 
     debug('wait for last contact to be pinned in the left pane');
     await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          '[isPinned = true] ' +
-          `[title = ${JSON.stringify(lastContact.profileName)}]`
-      )
+      .locator(`[data-testid="${lastContact.toContact().uuid}"]`)
       .waitFor({ timeout: durations.MINUTE });
 
     debug('Verifying the final manifest version');

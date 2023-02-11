@@ -6,11 +6,15 @@ import React, { useState } from 'react';
 
 import { ButtonVariant } from '../Button';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { BaseConversationListItem } from './BaseConversationListItem';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import { ListTile } from '../ListTile';
+import { Emojify } from '../conversation/Emojify';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Spinner } from '../Spinner';
 
 export type PropsDataType = {
   phoneNumber: ParsedE164Type;
@@ -31,7 +35,6 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
     phoneNumber,
     isChecked,
     isFetching,
-    theme,
     i18n,
     lookupConversationWithoutUuid,
     showUserNotFoundModal,
@@ -88,24 +91,46 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
       );
     }
 
+    const avatar = (
+      <Avatar
+        acceptedMessageRequest={false}
+        color={AvatarColors[0]}
+        conversationType="direct"
+        i18n={i18n}
+        isMe={false}
+        phoneNumber={phoneNumber.userInput}
+        title={phoneNumber.userInput}
+        sharedGroupNames={[]}
+        size={AvatarSize.THIRTY_TWO}
+        badge={undefined}
+      />
+    );
+
+    const title = <Emojify text={phoneNumber.userInput} />;
+
     return (
       <>
-        <BaseConversationListItem
-          acceptedMessageRequest={false}
-          checked={isChecked}
-          color={AvatarColors[0]}
-          conversationType="direct"
-          headerName={phoneNumber.userInput}
-          i18n={i18n}
-          isMe={false}
-          isSelected={false}
-          onClick={onClickItem}
-          phoneNumber={phoneNumber.userInput}
-          shouldShowSpinner={isFetching}
-          theme={theme}
-          sharedGroupNames={[]}
-          title={phoneNumber.userInput}
-        />
+        {isFetching ? (
+          <ListTile
+            leading={avatar}
+            title={title}
+            trailing={
+              <Spinner
+                size="20px"
+                svgSize="small"
+                moduleClassName={SPINNER_CLASS_NAME}
+                direction="on-progress-dialog"
+              />
+            }
+          />
+        ) : (
+          <ListTile.checkbox
+            isChecked={isChecked}
+            onClick={onClickItem}
+            leading={avatar}
+            title={<Emojify text={phoneNumber.userInput} />}
+          />
+        )}
         {modal}
       </>
     );

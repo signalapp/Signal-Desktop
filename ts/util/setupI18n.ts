@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoize from '@formatjs/fast-memoize';
@@ -145,13 +145,14 @@ export function setupI18n(
       }
 
       const placeholderName = match[1];
-      const value = substitutions[placeholderName];
-      if (!value) {
+      let value = substitutions[placeholderName];
+      if (value == null) {
         log.error(
           `i18n: Value not provided for placeholder ${placeholderName} in key '${key}'`
         );
+        value = '';
       }
-      builder += value || '';
+      builder += value;
 
       lastTextIndex = FIND_REPLACEMENTS.lastIndex;
       match = FIND_REPLACEMENTS.exec(message);

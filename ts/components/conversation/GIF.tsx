@@ -16,6 +16,7 @@ import {
 } from '../../types/Attachment';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 const MAX_GIF_REPEAT = 4;
 const MAX_GIF_TIME = 8;
@@ -27,8 +28,6 @@ export type Props = {
 
   readonly i18n: LocalizerType;
   readonly theme?: ThemeType;
-
-  readonly reducedMotion?: boolean;
 
   onError(): void;
   showVisualAttachment(): void;
@@ -46,16 +45,12 @@ export function GIF(props: Props): JSX.Element {
     i18n,
     theme,
 
-    reducedMotion = Boolean(
-      window.Accessibility && window.Accessibility.reducedMotionSetting
-    ),
-
     onError,
     showVisualAttachment,
     kickOffAttachmentDownload,
   } = props;
 
-  const tapToPlay = reducedMotion;
+  const tapToPlay = useReducedMotion();
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { height, width } = getImageDimensions(attachment, size);

@@ -1,4 +1,4 @@
-# Copyright 2020-2022 Signal Messenger, LLC
+# Copyright 2020 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: CI
@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.16.0'
+        node-version: '16.17.1'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -39,7 +39,7 @@ jobs:
     - run: yarn generate
     - run: yarn lint
     - run: yarn lint-deps
-    # - run: yarn lint-license-comments
+    - run: yarn lint-license-comments
     - run: git diff --exit-code
 
   macos:
@@ -53,7 +53,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.16.0'
+        node-version: '16.17.1'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -81,6 +81,7 @@ jobs:
     - run: yarn test-release
       env:
         NODE_ENV: production
+    - run: yarn test-eslint
 
   linux:
     needs: lint
@@ -93,7 +94,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.16.0'
+        node-version: '16.17.1'
     - run: sudo apt-get install xvfb
     - run: npm install -g yarn@1.22.10
 
@@ -136,7 +137,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '16.16.0'
+        node-version: '16.17.1'
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
@@ -184,7 +185,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16.16.0'
+        node-version: '16.17.1'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10
 
@@ -221,7 +222,7 @@ jobs:
 
     - name: Upload mock server test logs on failure
       if: failure()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: logs
         path: artifacts

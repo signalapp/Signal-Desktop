@@ -1,4 +1,4 @@
-// Copyright 2017-2021 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
@@ -96,7 +96,7 @@ export async function initialize(
     globalLogger = undefined;
 
     if (shouldRestart) {
-      initialize(getMainWindow);
+      void initialize(getMainWindow);
     }
   };
 

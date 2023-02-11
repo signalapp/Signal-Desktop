@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-bitwise */
@@ -97,11 +97,11 @@ export type GroupV2InfoType = {
   groupChange?: Uint8Array;
   masterKey: Uint8Array;
   revision: number;
-  members: Array<string>;
+  members: ReadonlyArray<string>;
 };
 export type GroupV1InfoType = {
   id: string;
-  members: Array<string>;
+  members: ReadonlyArray<string>;
 };
 
 type GroupCallUpdateType = {
@@ -700,9 +700,8 @@ export default class MessageSender {
 
     const padded = this.getPaddedAttachment(data);
     const key = getRandomBytes(64);
-    const iv = getRandomBytes(16);
 
-    const result = encryptAttachment(padded, key, iv);
+    const result = encryptAttachment(padded, key);
     const id = await this.server.putAttachment(result.ciphertext);
 
     const proto = new Proto.AttachmentPointer();
@@ -1247,7 +1246,7 @@ export default class MessageSender {
     });
 
     recipients.forEach(identifier => {
-      this.queueJobForIdentifier(identifier, async () =>
+      void this.queueJobForIdentifier(identifier, async () =>
         outgoing.sendToIdentifier(identifier)
       );
     });
@@ -1898,6 +1897,52 @@ export default class MessageSender {
     };
   }
 
+  static getCallEventSync(
+    peerUuid: string,
+    callId: string,
+    isVideoCall: boolean,
+    isIncoming: boolean,
+    isAccepted: boolean
+  ): SingleProtoJobData {
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
+    const syncMessage = MessageSender.createSyncMessage();
+
+    const type = isVideoCall
+      ? Proto.SyncMessage.CallEvent.Type.VIDEO_CALL
+      : Proto.SyncMessage.CallEvent.Type.AUDIO_CALL;
+    const direction = isIncoming
+      ? Proto.SyncMessage.CallEvent.Direction.INCOMING
+      : Proto.SyncMessage.CallEvent.Direction.OUTGOING;
+    const event = isAccepted
+      ? Proto.SyncMessage.CallEvent.Event.ACCEPTED
+      : Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
+
+    syncMessage.callEvent = new Proto.SyncMessage.CallEvent({
+      peerUuid: uuidToBytes(peerUuid),
+      callId: Long.fromString(callId),
+      type,
+      direction,
+      event,
+      timestamp: Long.fromNumber(Date.now()),
+    });
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      identifier: myUuid.toString(),
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callEventSync',
+      urgent: false,
+    };
+  }
+
   static getVerificationSync(
     destinationE164: string | undefined,
     destinationUuid: string | undefined,
@@ -2187,7 +2232,7 @@ export default class MessageSender {
         return;
       }
 
-      if (!initialSavePromise) {
+      if (initialSavePromise === undefined) {
         initialSavePromise = window.Signal.Data.insertSentProto(
           {
             contentHint,

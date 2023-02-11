@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -35,16 +35,7 @@ import {
 } from '../../groups/limits';
 
 export type SmartConversationDetailsProps = {
-  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
-  showAllMedia: () => void;
-  updateGroupAttributes: (
-    _: Readonly<{
-      avatar?: undefined | Uint8Array;
-      title?: string;
-    }>
-  ) => Promise<void>;
-  onLeave: () => void;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;

@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -37,7 +37,7 @@ const defaultMessage: MessageDataPropsType = {
   direction: 'incoming',
   id: 'my-message',
   renderingContext: 'storybook',
-  menu: undefined,
+  renderMenu: undefined,
   isBlocked: false,
   isMessageRequestAccepted: true,
   previews: [],
@@ -77,10 +77,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  markViewed: action('markViewed'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
-  openLink: action('openLink'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),

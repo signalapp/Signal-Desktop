@@ -35,7 +35,7 @@ export async function deleteStoryForEveryone(
     story.conversationId
   );
   if (sourceConversation && isGroupV2(sourceConversation.attributes)) {
-    sendDeleteForEveryoneMessage(sourceConversation.attributes, {
+    void sendDeleteForEveryoneMessage(sourceConversation.attributes, {
       deleteForEveryoneDuration: DAY,
       id: story.messageId,
       timestamp: story.timestamp,
@@ -175,7 +175,7 @@ export async function deleteStoryForEveryone(
   });
 
   // Send the DOE
-  log.info(`${logId}: enqueing DeleteStoryForEveryone`);
+  log.info(`${logId}: enqueuing DeleteStoryForEveryone`);
 
   try {
     const jobData: ConversationQueueJobData = {
@@ -212,5 +212,5 @@ export async function deleteStoryForEveryone(
     },
     noop
   );
-  onStoryRecipientUpdate(ev);
+  void onStoryRecipientUpdate(ev);
 }

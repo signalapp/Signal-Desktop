@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -14,7 +14,7 @@ import { Button, ButtonVariant } from '../Button';
 
 export type OwnProps = {
   readonly onClose?: () => unknown;
-  readonly closeStickerPackPreview: (packId: string) => unknown;
+  readonly closeStickerPackPreview: () => unknown;
   readonly downloadStickerPack: (
     packId: string,
     packKey: string,
@@ -107,9 +107,18 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  React.useEffect(() => {
+    if (pack) {
+      return;
+    }
+
+    // Pack fully uninstalled, don't keep the modal open
+    closeStickerPackPreview();
+  }, [pack, closeStickerPackPreview]);
+
   const handleClose = React.useCallback(() => {
-    if (pack?.id) {
-      closeStickerPackPreview(pack.id);
+    if (pack) {
+      closeStickerPackPreview();
     }
     onClose?.();
   }, [closeStickerPackPreview, onClose, pack]);

@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
@@ -224,7 +224,7 @@ export default class AccountManager extends EventTarget {
           }
           const url = getProvisioningUrl(uuid, pubKey);
 
-          window.CI?.setProvisioningURL(url);
+          window.SignalCI?.setProvisioningURL(url);
 
           setProvisioningUrl(url);
           request.respond(200, 'OK');
@@ -604,7 +604,7 @@ export default class AccountManager extends EventTarget {
 
     // `setCredentials` needs to be called
     // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
-    // indirectly calls `ConversationController.getConverationId()` which
+    // indirectly calls `ConversationController.getConversationId()` which
     // initializes the conversation for the given number (our number) which
     // calls out to the user storage API to get the stored UUID and number
     // information.
@@ -718,10 +718,10 @@ export default class AccountManager extends EventTarget {
       await storage.protocol.hydrateCaches();
     });
 
-    // Intentionally not awaiting becase `updatePNIIdentity` runs on an
+    // Intentionally not awaiting because `updatePNIIdentity` runs on an
     // Encrypted queue of MessageReceiver and we don't want to await remote
     // endpoints and block message processing.
-    this.queueTask(async () => {
+    void this.queueTask(async () => {
       try {
         const keys = await this.generateKeys(
           SIGNED_KEY_GEN_BATCH_SIZE,
@@ -847,8 +847,8 @@ export default class AccountManager extends EventTarget {
     await Promise.all(promises);
 
     // This is primarily for the signed prekey summary it logs out
-    this.cleanSignedPreKeys(UUIDKind.ACI);
-    this.cleanSignedPreKeys(UUIDKind.PNI);
+    void this.cleanSignedPreKeys(UUIDKind.ACI);
+    void this.cleanSignedPreKeys(UUIDKind.PNI);
 
     return {
       ...result,
@@ -885,7 +885,7 @@ export default class AccountManager extends EventTarget {
 
       // Intentionally not awaiting since this is processed on encrypted queue
       // of MessageReceiver.
-      this.queueTask(async () => {
+      void this.queueTask(async () => {
         try {
           const keys = await this.generateKeys(
             SIGNED_KEY_GEN_BATCH_SIZE,

@@ -1,0 +1,92 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CircleCheckbox {
+  &__checkbox {
+    position: relative;
+    height: 20px;
+    width: 20px;
+
+    input[type='checkbox'] {
+      cursor: pointer;
+      height: 0;
+      position: absolute;
+      width: 0;
+
+      @include keyboard-mode {
+        &:focus {
+          &::before {
+            border-color: $color-ultramarine;
+          }
+          outline: none;
+        }
+      }
+
+      &::before {
+        @include rounded-corners;
+        background: inherit;
+        content: '';
+        display: block;
+        height: 20px;
+        position: absolute;
+        width: 20px;
+
+        @include light-theme {
+          border: 1.5px solid $color-gray-25;
+        }
+        @include dark-theme {
+          border: 1.5px solid $color-gray-65;
+        }
+      }
+
+      &:checked {
+        &::before {
+          background: $color-ultramarine;
+          border: 1.5px solid $color-ultramarine;
+        }
+
+        &::after {
+          border: solid $color-white;
+          border-width: 0 2px 2px 0;
+          content: '';
+          display: block;
+          height: 11px;
+          left: 7px;
+          position: absolute;
+          top: 3px;
+          transform: rotate(45deg);
+          width: 6px;
+        }
+      }
+      &:disabled {
+        cursor: inherit;
+      }
+
+      @include light-theme {
+        &:disabled {
+          &::before {
+            border-color: $color-gray-15;
+          }
+        }
+        &:disabled:checked {
+          &::before {
+            background: $color-gray-15;
+          }
+        }
+      }
+
+      @include dark-theme {
+        &:disabled {
+          &::before {
+            border-color: $color-gray-45;
+          }
+        }
+        &:disabled:checked {
+          &::before {
+            background: $color-gray-45;
+          }
+        }
+      }
+    }
+  }
+}

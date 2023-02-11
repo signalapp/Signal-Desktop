@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -205,11 +205,11 @@ const CALLING_SHORTCUTS: Array<ShortcutType> = [
     keys: [['shift', 'V']],
   },
   {
-    description: 'Keyboard--accept-video-call',
+    description: 'icu:Keyboard--accept-video-call',
     keys: [['ctrlOrAlt', 'shift', 'V']],
   },
   {
-    description: 'Keyboard--accept-audio-call',
+    description: 'icu:Keyboard--accept-call-without-video',
     keys: [['ctrlOrAlt', 'shift', 'A']],
   },
   {
@@ -319,6 +319,7 @@ function renderShortcut(
   return (
     <div key={index} className="module-shortcut-guide__shortcut">
       <div className="module-shortcut-guide__shortcut__description">
+        {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
         {i18n(shortcut.description)}
       </div>
       <div className="module-shortcut-guide__shortcut__key-container">

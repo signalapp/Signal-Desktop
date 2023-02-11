@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -69,7 +69,7 @@ export type PropsDataType = {
   firstName: string;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
-  userAvatarData: Array<AvatarDataType>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   usernameEditState: UsernameEditState;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
@@ -418,6 +418,7 @@ export function ProfileEditor({
                 <Emoji shortName={defaultBio.shortName} size={24} />
               </div>
             }
+            // eslint-disable-next-line local-rules/valid-i18n-keys
             label={i18n(defaultBio.i18nLabel)}
             onClick={() => {
               const emojiData = getEmojiData(defaultBio.shortName, skinTone);
@@ -425,6 +426,7 @@ export function ProfileEditor({
               setStagedProfile(profileData => ({
                 ...profileData,
                 aboutEmoji: unifiedToEmoji(emojiData.unified),
+                // eslint-disable-next-line local-rules/valid-i18n-keys
                 aboutText: i18n(defaultBio.i18nLabel),
               }));
             }}
@@ -504,7 +506,7 @@ export function ProfileEditor({
                 username !== undefined,
                 'Should not be visible without username'
               );
-              window.navigator.clipboard.writeText(username);
+              void window.navigator.clipboard.writeText(username);
               showToast(ToastType.CopiedUsername);
             },
           },
@@ -517,7 +519,7 @@ export function ProfileEditor({
                 username !== undefined,
                 'Should not be visible without username'
               );
-              window.navigator.clipboard.writeText(
+              void window.navigator.clipboard.writeText(
                 generateUsernameLink(username)
               );
               showToast(ToastType.CopiedUsernameLink);

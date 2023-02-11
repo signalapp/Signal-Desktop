@@ -64,6 +64,18 @@
     "message": "Запит на участь розглядається",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Якість відправлених медіа",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Стандартне",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Великий",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Подяки програмному забезпеченню",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Видалити дані та перезапустити",
+    "message": "Видалити усі дані та перезапустити",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -674,12 +686,21 @@
     "message": "Неможливо вибрати фото і відео разом із файлами.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "За раз можна вибрати тільки один файл.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Ви не можете додати більше вкладень до цього повідомлення.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Вибачте, але розмір обраного файлу перевищує обмеження."
+    "message": "Вибачте, але розмір обраного файлу перевищує обмеження.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Вибачте, але розмір обраного файлу перевищує обмеження. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Не вдається завантажити обране вкладення."
@@ -721,7 +742,7 @@
     "description": "View menu item to force the app to update download and install"
   },
   "helpMenuShowKeyboardShortcuts": {
-    "message": "Показати Гарячі Клавіші",
+    "message": "Показати сполучення клавіш",
     "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
   },
   "contactUs": {
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Щоб надсилати аудіо повідомлення, дозвольте Signal Desktop доступ до мікрофона.",
+    "message": "Щоб надсилати голосові повідомлення, потрібно надати програмі Signal доступ до мікрофона.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "У $sender$ змінився номер телефону",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} і {conversationTitle} належить одному акаунту. Ваша історія повідомлень для обох чатів знаходиться тут.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Об’єднано вашу історію повідомлень із користувачем {conversationTitle} і номером {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Об’єднано вашу історію повідомлень із користувачем {conversationTitle} й іншим чатом, який належить йому.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Дізнатися більше",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Після спілкування з {obsoleteConversationTitle} ви дізналися, що цей номер належить {conversationTitle}. Номер телефону користувача приватний.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Вашу історію повідомлень для обох розмов було об'єднано тут.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{conversationTitle} володіє номером {phoneNumber}. Ви є учасниками цієї групи: {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{conversationTitle} володіє номером {phoneNumber}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Мініатюрні зображення з цитованих повідомлень",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Ви не отримаєте аудіо або відео від цього користувача, а користувач не отримає ваші.",
+    "message": "Ви не отримаєте голосові повідомлення чи відео від цього користувача, а користувач не отримає ваші.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Натисніть Перезапустити Signal, щоб застосувати зміни."
+    "message": "Натисніть Перезапустити Signal, щоб застосувати зміни.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Перезапустити Signal"
@@ -2228,88 +2282,176 @@
     "message": "Це повідомлення було видалено.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Не вдалось отримати відомості про подарунковий значок",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Не вдалось отримати відомості про донат",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Переглянути це повідомлення на мобільному пристрої для відкриття подарунку",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Перегляньте це повідомлення на мобільному пристрої, щоб відкрити",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Щоб переглянути подарунок, торкніться цього повідомлення на мобільному пристрої",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Щоб переглянути донат, торкніться цього повідомлення на мобільному пристрої",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Подарунок",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} підтримує Signal донатом від вашого імені",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Перегляньте телефон для відкриття подарунку",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Щоби переглянути донат, відкрийте Signal у телефоні",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Перегляньте телефон для огляду вашого подарунка",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Щоби переглянути донат, відкрийте Signal у телефоні",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Ви отримали подарунок",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} донатить від вашого імені",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Ви придбали емблему у подарунок",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Ви активували донат",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Ви відправили емблему у подарунок",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Ви задонатили від імені користувача {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Емблема у подарунок",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Донат",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Подарунок",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Донат",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Залишилось днів $days$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Лишається {days} дн.",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Залишилось годин $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Лишається {hours} год",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Залишилось хвилин $minutes$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Залишилась {minutes,number} хвилина} few {Залишилось {minutes,number} хвилини} many {Залишилось {minutes,number} хвилин} other {Залишилось {minutes,number} хвилини}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Залишилась 1 хвилина",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Строк дії закінчився",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Термін дії минув",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Переглянути",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Переглянути",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Придбано",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Активовано",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Дякуємо за вашу підтримку!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Дякуємо за вашу підтримку!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Ви придбали емблему у подарунок $name$. Коли користувач її отримає, у нього буде можливість показувати чи приховати її.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Ви підтримали Signal донатом від імені користувача {name}. Користувач зможе розказати іншим про підтримку, відобразивши в профілі значок.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Не вдалося встановити набір стікерів",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Наліпки",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Доступно",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Встановлені наліпки",
+    "message": "Завантажено",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2665,7 +2807,7 @@
     "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
   },
   "Keyboard--header": {
-    "message": "Гарячі Клавіші",
+    "message": "Сполучення клавіш",
     "description": "Title header of the keyboard shortcuts guide"
   },
   "Keyboard--navigation-header": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Прийняти виклик з відео",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Відповісти на дзвінок із відео",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Прийняти виклик з аудіо",
+    "message": "Відповісти на дзвінок з аудіо",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Відповісти на дзвінок із відео (тільки для відеодзвінків)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Відповісти на дзвінок без відео",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Почати аудіо дзвінок",
+    "message": "Почати голосовий дзвінок",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Ця розмова буде видаленf з усіх ваших пристроїв.",
+    "message": "Ця розмова буде видалена з усіх ваших пристроїв.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3057,7 +3207,7 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Видалити і Покинути",
+    "message": "Видалити та покинути",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Відповісти",
+    "message": "Відповісти на виклик",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Відповісти без відео",
+    "message": "Відповісти на дзвінок без відео",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Ви відхилили аудіодзвінок",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Ви відхилили голосовий виклик",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Ви відхилили відеодзвінок",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Вхідний аудіодзвінок",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Вхідний голосовий виклик",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Вхідний відеодзвінок",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Пропущений аудіодзвінок",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Пропущений голосовий виклик",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Пропущений відеодзвінок",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Вихідний аудіодзвінок",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Вихідний голосовий виклик",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Вихідний відеодзвінок",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Аудіодзвінок без відповіді",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Голосовий виклик без відповіді",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Відеодзвінок без відповіді",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Вхідний аудіовиклик…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Вхідний голосовий дзвінок…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Вхідний відеовиклик…",
@@ -4060,6 +4210,10 @@
     "message": "Група була змінена, щоб усі користувачі мали змогу відправляти повідомлення.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "Учасники або налаштування цієї групи змінилися.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Оновіть цю групу, щоб отримати доступ до нових можливостей як-то @згадки та адміністратори. Учасники, які не ділились своїми іменами чи фото в цій групі, будуть запрошені приєднатись. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "Спільні групи: $number$",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} спільна група} few {{count,number} спільні групи} many {{count,number} спільних груп} other {{count,number} спільної групи}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Спільних груп немає",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Додати до групи",
@@ -4525,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Видалати світлину",
+    "message": "Видалити фото",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, YYYY",
+    "message": "D MMM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -5904,6 +6066,10 @@
     "message": "Відповісти",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Відповісти користувачу {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Відповісти на історію групи",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагувати на сторі",
+    "message": "(видалено 25.01.23) Відреагувати на сторі",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватися. Якщо змінити ім'я користувача, цифри також зміняться.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Незабаром Signal припинить підтримувати версію {OS} вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Подробиці</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal більше не працює на цьому комп'ютері. Щоб знову користуватися Signal, оновіть версію {OS} вашого комп'ютера. <learnMoreLink>Подробиці</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal більше не працює на цьому комп'ютері. Щоб знову користуватися Signal, оновіть версію {OS} вашого комп'ютера.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Що нового",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Розпочинаючи виклик для невеликої групи (до 16 людей), ви можете надіслати звукове сповіщення. Учасники групи почують виклик, якщо користуються бета-версією на iOS або комп'ютером чи Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Двічі клацніть будь-який рядок повідомлення в чаті, щоб написати цитовану відповідь. Це короткий шлях до нового погляду на старі ідеї. Дякуємо {whynothugo} і спільноті Signal за цю функцію та відгуки!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Тепер можна просто клацнути за межами зображення, щоб закрити відображення галереї, не збільшуючи випадково масштаб. Дякуємо {jojomatik} за виправлення!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Відповідайте без затримок. Тепер ви можете швидко відреагувати на сторі, натиснувши на емодзі.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Тепер ви можете шукати в історії повідомлень окремі символи китайської та японської мов.",
+    "description": "Release notes for v6.5"
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -311,7 +311,7 @@ const renderPreferences = async () => {
     onHasStoriesDisabledChanged: reRender(async (value: boolean) => {
       await settingHasStoriesDisabled.setValue(value);
       if (!value) {
-        ipcDeleteAllMyStories();
+        void ipcDeleteAllMyStories();
       }
       return value;
     }),
@@ -379,7 +379,7 @@ const renderPreferences = async () => {
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
     return async (value: Value) => {
       await f(value);
-      renderPreferences();
+      void renderPreferences();
     };
   }
 

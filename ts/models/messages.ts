@@ -1,8 +1,7 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
-  groupBy,
   difference,
   isEmpty,
   isEqual,
@@ -14,7 +13,6 @@ import {
   omit,
   partition,
   pick,
-  reject,
   union,
   without,
 } from 'lodash';
@@ -39,13 +37,9 @@ import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { softAssert, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
+import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
-import type {
-  OwnProps as SmartMessageDetailPropsType,
-  Contact as SmartMessageDetailContact,
-} from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
 import type {
   ProcessedDataMessage,
@@ -77,7 +71,6 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 import {
   SendActionType,
   SendStatus,
-  isMessageJustForMe,
   isSent,
   sendStateReducer,
   someSendStatus,
@@ -86,6 +79,7 @@ import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
 import { markRead, markViewed } from '../services/MessageUpdater';
+import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
@@ -97,11 +91,11 @@ import {
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import { findAndFormatContact } from '../util/findAndFormatContact';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import {
   getAttachmentsForMessage,
   getMessagePropStatus,
   getPropsForCallHistory,
-  getPropsForMessage,
   hasErrors,
   isCallHistory,
   isChatSessionRefreshed,
@@ -123,15 +117,12 @@ import {
   isVerifiedChange,
   processBodyRanges,
   isConversationMerge,
-  isPhoneNumberDiscovery,
 } from '../state/selectors/message';
 import {
   isInCall,
   getCallSelector,
   getActiveCall,
 } from '../state/selectors/calling';
-import { getAccountSelector } from '../state/selectors/accounts';
-import { getContactNameColorSelector } from '../state/selectors/conversations';
 import {
   MessageReceipts,
   MessageReceiptType,
@@ -184,9 +175,11 @@ import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { getStringForConversationMerge } from '../util/getStringForConversationMerge';
-import { getStringForPhoneNumberDiscovery } from '../util/getStringForPhoneNumberDiscovery';
-import { getTitle, renderNumber } from '../util/getTitle';
-import { DurationInSeconds } from '../util/durations';
+import {
+  addToAttachmentDownloadQueue,
+  shouldUseAttachmentDownloadQueue,
+} from '../util/attachmentDownloadQueue';
+import { getTitleNoDefault, getNumber } from '../util/getTitle';
 import dataInterface from '../sql/Client';
 
 function isSameUuid(
@@ -265,17 +258,6 @@ async function shouldReplyNotifyUser(
 
 /* eslint-disable more/no-then */
 
-type PropsForMessageDetail = Pick<
-  SmartMessageDetailPropsType,
-  | 'sentAt'
-  | 'receivedAt'
-  | 'message'
-  | 'errors'
-  | 'contacts'
-  | 'expirationLength'
-  | 'expirationTimestamp'
->;
-
 window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
@@ -320,7 +302,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   cachedOutgoingStickerData?: StickerWithHydratedData;
 
-  override initialize(attributes: unknown): void {
+  constructor(attributes: MessageAttributesType) {
+    super(attributes);
+
+    // Note that we intentionally don't use `initialize()` method because it
+    // isn't compatible with esnext output of esbuild.
     if (isObject(attributes)) {
       this.set(
         TypedMessage.initializeSchemaVersion({
@@ -366,10 +352,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   notifyRedux(): void {
+    if (!window.reduxActions) {
+      return;
+    }
+
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
-      const storyData = getStoryDataFromMessageAttributes(this.attributes);
+      const storyData = getStoryDataFromMessageAttributes({
+        ...this.attributes,
+      });
 
       if (!storyData) {
         return;
@@ -427,7 +419,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isGroupV1Migration(attributes) &&
       !isGroupV2Change(attributes) &&
       !isKeyChange(attributes) &&
-      !isPhoneNumberDiscovery(attributes) &&
       !isProfileChange(attributes) &&
       !isUniversalTimerNotification(attributes) &&
       !isUnsupportedMessage(attributes) &&
@@ -436,20 +427,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async hydrateStoryContext(
-    inMemoryMessage?: MessageModel | null
+    inMemoryMessage?: MessageAttributesType
   ): Promise<void> {
     const storyId = this.get('storyId');
     if (!storyId) {
       return;
     }
 
-    if (this.get('storyReplyContext')) {
+    const context = this.get('storyReplyContext');
+    // We'll continue trying to get the attachment as long as the message still exists
+    if (context && (context.attachment?.url || !context.messageId)) {
       return;
     }
 
     const message =
       inMemoryMessage === undefined
-        ? await getMessageById(storyId)
+        ? (await getMessageById(storyId))?.attributes
         : inMemoryMessage;
 
     if (!message) {
@@ -471,156 +464,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const attachments = getAttachmentsForMessage({ ...message.attributes });
+    const attachments = getAttachmentsForMessage({ ...message });
+    let attachment: AttachmentType | undefined = attachments?.[0];
+    if (attachment && !attachment.url) {
+      attachment = undefined;
+    }
 
     this.set({
       storyReplyContext: {
-        attachment: attachments ? attachments[0] : undefined,
-        authorUuid: message.get('sourceUuid'),
-        messageId: message.get('id'),
+        attachment,
+        authorUuid: message.sourceUuid,
+        messageId: message.id,
       },
     });
-  }
-
-  getPropsForMessageDetail(ourConversationId: string): PropsForMessageDetail {
-    const newIdentity = window.i18n('newIdentity');
-    const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
-
-    const sendStateByConversationId =
-      this.get('sendStateByConversationId') || {};
-
-    const unidentifiedDeliveries = this.get('unidentifiedDeliveries') || [];
-    const unidentifiedDeliveriesSet = new Set(
-      map(
-        unidentifiedDeliveries,
-        identifier =>
-          window.ConversationController.getConversationId(identifier) as string
-      )
-    );
-
-    let conversationIds: Array<string>;
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    if (isIncoming(this.attributes)) {
-      conversationIds = [getContactId(this.attributes)!];
-    } else if (!isEmpty(sendStateByConversationId)) {
-      if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
-        conversationIds = [ourConversationId];
-      } else {
-        conversationIds = Object.keys(sendStateByConversationId).filter(
-          id => id !== ourConversationId
-        );
-      }
-    } else {
-      // Older messages don't have the recipients included on the message, so we fall back
-      //   to the conversation's current recipients
-      conversationIds = (this.getConversation()?.getRecipients() || []).map(
-        (id: string) => window.ConversationController.getConversationId(id)!
-      );
-    }
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
-
-    // This will make the error message for outgoing key errors a bit nicer
-    const allErrors = (this.get('errors') || []).map(error => {
-      if (error.name === OUTGOING_KEY_ERROR) {
-        // eslint-disable-next-line no-param-reassign
-        error.message = newIdentity;
-      }
-
-      return error;
-    });
-
-    // If an error has a specific number it's associated with, we'll show it next to
-    //   that contact. Otherwise, it will be a standalone entry.
-    const errors = reject(allErrors, error =>
-      Boolean(error.identifier || error.number)
-    );
-    const errorsGroupedById = groupBy(allErrors, error => {
-      const identifier = error.identifier || error.number;
-      if (!identifier) {
-        return null;
-      }
-
-      return window.ConversationController.getConversationId(identifier);
-    });
-
-    const contacts: ReadonlyArray<SmartMessageDetailContact> =
-      conversationIds.map(id => {
-        const errorsForContact = getOwn(errorsGroupedById, id);
-        const isOutgoingKeyError = Boolean(
-          errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
-        );
-        const isUnidentifiedDelivery =
-          window.storage.get('unidentifiedDeliveryIndicators', false) &&
-          this.isUnidentifiedDelivery(id, unidentifiedDeliveriesSet);
-
-        const sendState = getOwn(sendStateByConversationId, id);
-
-        let status = sendState?.status;
-
-        // If a message was only sent to yourself (Note to Self or a lonely group), it
-        //   is shown read.
-        if (id === ourConversationId && status && isSent(status)) {
-          status = SendStatus.Read;
-        }
-
-        const statusTimestamp = sendState?.updatedAt;
-
-        return {
-          ...findAndFormatContact(id),
-          status,
-          statusTimestamp:
-            statusTimestamp === this.get('sent_at')
-              ? undefined
-              : statusTimestamp,
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-        };
-      });
-
-    const expireTimer = this.get('expireTimer');
-    const expirationStartTimestamp = this.get('expirationStartTimestamp');
-    const expirationLength = isNumber(expireTimer)
-      ? DurationInSeconds.toMillis(expireTimer)
-      : undefined;
-    const expirationTimestamp = expirationTimer.calculateExpirationTimestamp({
-      expireTimer,
-      expirationStartTimestamp,
-    });
-
-    return {
-      sentAt: this.get('sent_at'),
-      receivedAt: this.getReceivedAt(),
-      expirationLength,
-      expirationTimestamp,
-      message: getPropsForMessage(this.attributes, {
-        conversationSelector: findAndFormatContact,
-        ourConversationId,
-        ourNumber: window.textsecure.storage.user.getNumber(),
-        ourACI: window.textsecure.storage.user
-          .getCheckedUuid(UUIDKind.ACI)
-          .toString(),
-        ourPNI: window.textsecure.storage.user
-          .getCheckedUuid(UUIDKind.PNI)
-          .toString(),
-        regionCode: window.storage.get('regionCode', 'ZZ'),
-        accountSelector: (identifier?: string) => {
-          const state = window.reduxStore.getState();
-          const accountSelector = getAccountSelector(state);
-          return accountSelector(identifier);
-        },
-        contactNameColorSelector: (
-          conversationId: string,
-          contactId: string | undefined
-        ) => {
-          const state = window.reduxStore.getState();
-          const contactNameColorSelector = getContactNameColorSelector(state);
-          return contactNameColorSelector(conversationId, contactId);
-        },
-      }),
-      errors,
-      contacts,
-    };
   }
 
   // Dependencies of prop-generation functions
@@ -652,28 +508,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return {
         text: getStringForConversationMerge({
-          obsoleteConversationTitle: getTitle(
+          obsoleteConversationTitle: getTitleNoDefault(
+            attributes.conversationMerge.renderInfo
+          ),
+          obsoleteConversationNumber: getNumber(
             attributes.conversationMerge.renderInfo
           ),
           conversationTitle: conversation.getTitle(),
-          i18n: window.i18n,
-        }),
-      };
-    }
-
-    if (isPhoneNumberDiscovery(attributes)) {
-      const conversation = this.getConversation();
-      strictAssert(conversation, 'getNotificationData/isPhoneNumberDiscovery');
-      strictAssert(
-        attributes.phoneNumberDiscovery,
-        'getNotificationData/isPhoneNumberDiscovery/phoneNumberDiscovery'
-      );
-
-      return {
-        text: getStringForPhoneNumberDiscovery({
-          phoneNumber: renderNumber(attributes.phoneNumberDiscovery.e164),
-          conversationTitle: conversation.getTitle(),
-          sharedGroup: conversation.get('sharedGroupNames')?.[0],
           i18n: window.i18n,
         }),
       };
@@ -975,21 +816,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const giftBadge = this.get('giftBadge');
     if (giftBadge) {
-      const emoji = '🎁';
+      const emoji = '✨';
+      const fromContact = getContact(this.attributes);
 
       if (isOutgoing(this.attributes)) {
+        const recipient =
+          fromContact?.getTitle() ?? window.i18n('unknownContact');
         return {
           emoji,
-          text: window.i18n('message--giftBadge--preview--sent'),
+          text: window.i18n('icu:message--giftBadge--preview--sent', {
+            recipient,
+          }),
         };
       }
 
+      const sender = fromContact?.getTitle() ?? window.i18n('unknownContact');
       return {
         emoji,
         text:
           giftBadge.state === GiftBadgeStates.Unopened
-            ? window.i18n('message--giftBadge--preview--unopened')
-            : window.i18n('message--giftBadge--preview--redeemed'),
+            ? window.i18n('icu:message--giftBadge--preview--unopened', {
+                sender,
+              })
+            : window.i18n('icu:message--giftBadge--preview--redeemed'),
       };
     }
 
@@ -1048,7 +897,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
       }
 
-      if (attributes.type === 'incoming') {
+      const ourUuid = window.textsecure.storage.user
+        .getCheckedUuid()
+        .toString();
+
+      if (
+        attributes.type === 'incoming' &&
+        attributes.storyReaction.targetAuthorUuid === ourUuid
+      ) {
         return window.i18n('Quote__story-reaction-notification--incoming', {
           emoji: attributes.storyReaction.emoji,
         });
@@ -1240,7 +1096,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       if (this.get('storyReplyContext')) {
         this.unset('storyReplyContext');
       }
-      await this.hydrateStoryContext(message);
+      await this.hydrateStoryContext(message.attributes);
       return;
     }
 
@@ -1337,6 +1193,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     await window.Signal.Data.deleteSentProtoByMessageId(this.id);
+
+    scheduleOptimizeFTS();
   }
 
   override isEmpty(): boolean {
@@ -1372,7 +1230,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isUniversalTimerNotificationValue =
       isUniversalTimerNotification(attributes);
     const isConversationMergeValue = isConversationMerge(attributes);
-    const isPhoneNumberDiscoveryValue = isPhoneNumberDiscovery(attributes);
 
     const isPayment = messageHasPaymentEvent(attributes);
 
@@ -1404,8 +1261,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isKeyChangeValue ||
       isProfileChangeValue ||
       isUniversalTimerNotificationValue ||
-      isConversationMergeValue ||
-      isPhoneNumberDiscoveryValue;
+      isConversationMergeValue;
 
     return !hasSomethingToDisplay;
   }
@@ -1545,20 +1401,38 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.set('sendStateByConversationId', newSendStateByConversationId);
 
-    await conversationJobQueue.add(
-      {
-        type: conversationQueueJobEnum.enum.NormalMessage,
-        conversationId: conversation.id,
-        messageId: this.id,
-        revision: conversation.get('revision'),
-      },
-      async jobToInsert => {
-        await window.Signal.Data.saveMessage(this.attributes, {
-          jobToInsert,
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-        });
-      }
-    );
+    if (isStory(this.attributes)) {
+      await conversationJobQueue.add(
+        {
+          type: conversationQueueJobEnum.enum.Story,
+          conversationId: conversation.id,
+          messageIds: [this.id],
+          // using the group timestamp, which will differ from the 1:1 timestamp
+          timestamp: this.attributes.timestamp,
+        },
+        async jobToInsert => {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            jobToInsert,
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          });
+        }
+      );
+    } else {
+      await conversationJobQueue.add(
+        {
+          type: conversationQueueJobEnum.enum.NormalMessage,
+          conversationId: conversation.id,
+          messageId: this.id,
+          revision: conversation.get('revision'),
+        },
+        async jobToInsert => {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            jobToInsert,
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          });
+        }
+      );
+    }
   }
 
   isReplayableError(e: Error): boolean {
@@ -1596,6 +1470,26 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         })
       )
     );
+
+    this.notifyStorySendFailed();
+  }
+
+  public notifyStorySendFailed(): void {
+    if (!isStory(this.attributes)) {
+      return;
+    }
+
+    notificationService.add({
+      conversationId: this.get('conversationId'),
+      storyId: this.id,
+      messageId: this.id,
+      senderTitle:
+        this.getConversation()?.getTitle() ?? window.i18n('Stories__mine'),
+      message: this.hasSuccessfulDelivery()
+        ? window.i18n('icu:Stories__failed-send--partial')
+        : window.i18n('icu:Stories__failed-send--full'),
+      isExpiringMessage: false,
+    });
   }
 
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
@@ -1748,6 +1642,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               updatedAt: Date.now(),
             }
           );
+          this.notifyStorySendFailed();
         }
       }
 
@@ -1810,7 +1705,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       saveErrors(errorsToSave);
     } else {
       // We skip save because we'll save in the next step.
-      this.saveErrors(errorsToSave, { skipSave: true });
+      void this.saveErrors(errorsToSave, { skipSave: true });
     }
 
     if (!this.doNotSave) {
@@ -1872,7 +1767,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         saveErrors(errors);
       } else {
         // We don't save because we're about to save below.
-        this.saveErrors(errors, { skipSave: true });
+        void this.saveErrors(errors, { skipSave: true });
       }
       throw error;
     } finally {
@@ -2160,6 +2055,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return result;
   }
 
+  getQuoteBodyText(): string | undefined {
+    const storyReactionEmoji = this.get('storyReaction')?.emoji;
+    const body = this.get('body');
+    const embeddedContact = this.get('contact');
+    const embeddedContactName =
+      embeddedContact && embeddedContact.length > 0
+        ? EmbeddedContact.getName(embeddedContact[0])
+        : '';
+
+    return body || embeddedContactName || storyReactionEmoji;
+  }
+
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
     quote: QuotedMessageType
@@ -2208,7 +2115,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     quote.isViewOnce = false;
 
     // eslint-disable-next-line no-param-reassign
-    quote.text = originalMessage.get('body');
+    quote.text = originalMessage.getQuoteBodyText();
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
     }
@@ -2602,15 +2509,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // Note: We both queue and batch because we want to wait until we are done
         //   processing incoming messages to start sending outgoing delivery receipts.
         //   The queue can be paused easily.
-        window.Whisper.deliveryReceiptQueue.add(() => {
-          window.Whisper.deliveryReceiptBatcher.add({
-            messageId,
-            senderE164: source,
-            senderUuid: sourceUuid,
-            timestamp: this.get('sent_at'),
-            isDirectConversation: isDirectConversation(conversation.attributes),
-          });
-        });
+        drop(
+          window.Whisper.deliveryReceiptQueue.add(() => {
+            window.Whisper.deliveryReceiptBatcher.add({
+              messageId,
+              conversationId,
+              senderE164: source,
+              senderUuid: sourceUuid,
+              timestamp: this.get('sent_at'),
+              isDirectConversation: isDirectConversation(
+                conversation.attributes
+              ),
+            });
+          })
+        );
       }
 
       const [quote, storyQuote] = await Promise.all([
@@ -2618,16 +2530,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         findStoryMessage(conversation.id, initialMessage.storyContext),
       ]);
 
-      if (
-        initialMessage.storyContext &&
-        !storyQuote &&
-        !isDirectConversation(conversation.attributes)
-      ) {
+      if (initialMessage.storyContext && !storyQuote) {
+        if (!isDirectConversation(conversation.attributes)) {
+          log.warn(
+            `${idLog}: Received storyContext message in group but no matching story. Dropping.`
+          );
+
+          confirm();
+          return;
+        }
         log.warn(
-          `${idLog}: Received storyContext message in group but no matching story. Dropping.`
+          `${idLog}: Received 1:1 storyContext message but no matching story. We'll try processing this message again later.`
         );
 
-        confirm();
         return;
       }
 
@@ -2651,10 +2566,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         if (
           storyQuoteIsFromSelf &&
-          sendState.isAllowedToReplyToStory === false
+          sendState.isAllowedToReplyToStory === false &&
+          isDirectConversation(conversation.attributes)
         ) {
           log.warn(
-            `${idLog}: Received storyContext message but sender is not allowed to reply. Dropping.`
+            `${idLog}: Received 1:1 storyContext message but sender is not allowed to reply. Dropping.`
           );
 
           confirm();
@@ -2698,7 +2614,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         storyId: storyQuote?.id,
       };
 
-      const dataMessage = await upgradeMessageSchema(withQuoteReference);
+      // There are type conflicts between ModelAttributesType and protos passed in here
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
 
       const isGroupStoryReply =
         isGroup(conversation.attributes) && dataMessage.storyId;
@@ -2757,7 +2675,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
 
         if (storyQuote) {
-          await this.hydrateStoryContext(storyQuote);
+          await this.hydrateStoryContext(storyQuote.attributes);
         }
 
         const isSupported = !isUnsupportedMessage(message.attributes);
@@ -2852,7 +2770,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   };
                 }
 
-                attributes.avatar = avatar;
+                if (!avatar) {
+                  attributes.avatar = avatar;
+                } else {
+                  const { url, path } = avatar;
+                  strictAssert(url, 'Avatar needs url');
+                  strictAssert(path, 'Avatar needs path');
+                  attributes.avatar = {
+                    url,
+                    path,
+                    ...avatar,
+                  };
+                }
 
                 pendingGroupUpdate.avatarUpdated = true;
               } else {
@@ -2976,7 +2905,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             //   along with an expireTimer), the conversation will be updated by this
             //   point and these calls will return early.
             if (dataMessage.expireTimer) {
-              conversation.updateExpirationTimer(dataMessage.expireTimer, {
+              void conversation.updateExpirationTimer(dataMessage.expireTimer, {
                 source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
@@ -2989,7 +2918,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               !isGroupUpdate(message.attributes) &&
               !isEndSession(message.attributes)
             ) {
-              conversation.updateExpirationTimer(undefined, {
+              void conversation.updateExpirationTimer(undefined, {
                 source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
@@ -3008,14 +2937,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {
-              conversation.setProfileKey(profileKey);
+              void conversation.setProfileKey(profileKey);
             } else {
               const local = window.ConversationController.lookupOrCreate({
                 e164: source,
                 uuid: sourceUuid,
                 reason: 'handleDataMessage:setProfileKey',
               });
-              local?.setProfileKey(profileKey);
+              void local?.setProfileKey(profileKey);
             }
           }
 
@@ -3074,8 +3003,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             'getProfile: expected updatesUrl to be a defined string'
           );
           const userLanguages = getUserLanguages(
-            navigator.languages,
-            window.getLocale()
+            window.getPreferredSystemLocales(),
+            window.getResolvedMessagesLocale()
           );
           const { messaging } = window.textsecure;
           if (!messaging) {
@@ -3123,12 +3052,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (conversation.getAccepted() || isOutgoing(message.attributes)) &&
           !shouldHoldOffDownload
         ) {
-          if (window.attachmentDownloadQueue) {
-            window.attachmentDownloadQueue.unshift(message);
-            log.info(
-              `${idLog}: Adding to attachmentDownloadQueue`,
-              message.get('sent_at')
-            );
+          if (shouldUseAttachmentDownloadQueue()) {
+            addToAttachmentDownloadQueue(idLog, message);
           } else {
             await message.queueAttachmentDownloads();
           }
@@ -3138,7 +3063,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         await this.modifyTargetMessage(conversation, isFirstRun);
 
         log.info(`${idLog}: Batching save`);
-        this.saveAndNotify(conversation, confirm);
+        void this.saveAndNotify(conversation, confirm);
       } catch (error) {
         const errorForLog = Errors.toLogFormat(error);
         log.error(`${idLog}: error:`, errorForLog);
@@ -3173,7 +3098,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     confirm();
 
     if (!isStory(this.attributes)) {
-      conversation.queueJob('updateUnread', () => conversation.updateUnread());
+      drop(
+        conversation.queueJob('updateUnread', () => conversation.updateUnread())
+      );
     }
   }
 
@@ -3188,10 +3115,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const message = this;
     const type = message.get('type');
     let changed = false;
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const sourceUuid = getSourceUuid(message.attributes);
 
-    if (type === 'outgoing') {
+    if (type === 'outgoing' || (type === 'story' && ourUuid === sourceUuid)) {
       const sendActions = MessageReceipts.getSingleton()
-        .forMessage(conversation, message)
+        .forMessage(message)
         .map(receipt => {
           let sendActionType: SendActionType;
           const receiptType = receipt.get('type');
@@ -3263,11 +3192,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isGroupStoryReply =
         isGroup(conversation.attributes) && message.get('storyId');
 
-      const keepMutedChatsArchived =
-        window.storage.get('keepMutedChatsArchived') ?? false;
-      const keepThisConversationArchived =
-        keepMutedChatsArchived && conversation.isMuted();
-
       if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
         const markReadAt = Math.min(
           Date.now(),
@@ -3310,7 +3234,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } else if (
         isFirstRun &&
         !isGroupStoryReply &&
-        !keepThisConversationArchived
+        canConversationBeUnarchived(conversation.attributes)
       ) {
         conversation.setArchived(false);
       }
@@ -3326,7 +3250,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // We run this when `isFirstRun` is false so that it triggers when the
         // message and the other ones accompanying it in the batch are fully in
         // the database.
-        message.getConversation()?.onReadMessage(message, markReadAt);
+        void message.getConversation()?.onReadMessage(message, markReadAt);
       }
 
       // Check for out-of-order view once open syncs
@@ -3377,8 +3301,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const reactions = Reactions.getSingleton().forMessage(message);
     await Promise.all(
       reactions.map(async reaction => {
-        await message.handleReaction(reaction, false);
-        changed = true;
+        if (isStory(this.attributes)) {
+          // We don't set changed = true here, because we don't modify the original story
+          const generatedMessage = reaction.get('storyReactionMessage');
+          strictAssert(
+            generatedMessage,
+            'Story reactions must provide storyReactionMessage'
+          );
+          await generatedMessage.handleReaction(reaction, {
+            storyMessage: this.attributes,
+          });
+        } else {
+          changed = true;
+          await message.handleReaction(reaction, { shouldPersist: false });
+        }
       })
     );
 
@@ -3404,7 +3340,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   async handleReaction(
     reaction: ReactionModel,
-    shouldPersist = true
+    {
+      storyMessage,
+      shouldPersist = true,
+    }: {
+      storyMessage?: MessageAttributesType;
+      shouldPersist?: boolean;
+    } = {}
   ): Promise<void> {
     const { attributes } = this;
 
@@ -3430,19 +3372,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const previousLength = (this.get('reactions') || []).length;
-    const newReaction: MessageReactionType = {
-      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
-      fromId: reaction.get('fromId'),
-      targetAuthorUuid: reaction.get('targetAuthorUuid'),
-      targetTimestamp: reaction.get('targetTimestamp'),
-      timestamp: reaction.get('timestamp'),
-      isSentByConversationId: zipObject(
-        conversation.getMemberConversationIds(),
-        repeat(false)
-      ),
-    };
-
     const isFromThisDevice =
       reaction.get('source') === ReactionSource.FromThisDevice;
     const isFromSync = reaction.get('source') === ReactionSource.FromSync;
@@ -3453,163 +3382,238 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       'Reaction can only be from this device, from sync, or from someone else'
     );
 
-    if (isStory(this.attributes)) {
+    const newReaction: MessageReactionType = {
+      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
+      fromId: reaction.get('fromId'),
+      targetAuthorUuid: reaction.get('targetAuthorUuid'),
+      targetTimestamp: reaction.get('targetTimestamp'),
+      timestamp: reaction.get('timestamp'),
+      isSentByConversationId: isFromThisDevice
+        ? zipObject(conversation.getMemberConversationIds(), repeat(false))
+        : undefined,
+    };
+
+    // Reactions to stories are saved as separate messages, and so require a totally
+    //   different codepath.
+    if (storyMessage) {
       if (isFromThisDevice) {
         log.info(
           'handleReaction: sending story reaction to ' +
-            `${this.idForLogging()} from this device`
-        );
-      } else if (isFromSync) {
-        log.info(
-          'handleReaction: receiving story reaction to ' +
-            `${this.idForLogging()} from another device`
+            `${getMessageIdForLogging(storyMessage)} from this device`
         );
       } else {
-        log.info(
-          'handleReaction: receiving story reaction to ' +
-            `${this.idForLogging()} from someone else`
-        );
-        conversation.notify(this, reaction);
-      }
-    } else if (isFromThisDevice) {
-      log.info(
-        `handleReaction: sending reaction to ${this.idForLogging()} ` +
-          'from this device'
-      );
-
-      const reactions = reactionUtil.addOutgoingReaction(
-        this.get('reactions') || [],
-        newReaction
-      );
-      this.set({ reactions });
-    } else {
-      const oldReactions = this.get('reactions') || [];
-      let reactions: Array<MessageReactionType>;
-      const oldReaction = oldReactions.find(re =>
-        isNewReactionReplacingPrevious(re, reaction.attributes)
-      );
-      if (oldReaction) {
-        this.clearNotifications(oldReaction);
-      }
-
-      if (reaction.get('remove')) {
-        log.info(
-          'handleReaction: removing reaction for message',
-          this.idForLogging()
-        );
-
-        if (isFromSync) {
-          reactions = oldReactions.filter(
-            re =>
-              !isNewReactionReplacingPrevious(re, reaction.attributes) ||
-              re.timestamp > reaction.get('timestamp')
+        if (isFromSomeoneElse) {
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from someone else`
           );
+        } else if (isFromSync) {
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from another device`
+          );
+        }
+
+        const generatedMessage = reaction.get('storyReactionMessage');
+        strictAssert(
+          generatedMessage,
+          'Story reactions must provide storyReactionMessage'
+        );
+        const targetConversation = window.ConversationController.get(
+          generatedMessage.get('conversationId')
+        );
+        strictAssert(
+          targetConversation,
+          'handleReaction: targetConversation not found'
+        );
+
+        generatedMessage.set({
+          expireTimer: isDirectConversation(targetConversation.attributes)
+            ? targetConversation.get('expireTimer')
+            : undefined,
+          storyId: storyMessage.id,
+          storyReaction: {
+            emoji: reaction.get('emoji'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          },
+        });
+
+        // Note: generatedMessage comes with an id, so we have to force this save
+        await Promise.all([
+          window.Signal.Data.saveMessage(generatedMessage.attributes, {
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            forceSave: true,
+          }),
+          generatedMessage.hydrateStoryContext(storyMessage),
+        ]);
+
+        log.info('Reactions.onReaction adding reaction to story', {
+          reactionMessageId: getMessageIdForLogging(
+            generatedMessage.attributes
+          ),
+          storyId: getMessageIdForLogging(storyMessage),
+          targetTimestamp: reaction.get('targetTimestamp'),
+          timestamp: reaction.get('timestamp'),
+        });
+
+        const messageToAdd = window.MessageController.register(
+          generatedMessage.id,
+          generatedMessage
+        );
+        if (isDirectConversation(targetConversation.attributes)) {
+          await targetConversation.addSingleMessage(messageToAdd);
+          if (!targetConversation.get('active_at')) {
+            targetConversation.set({
+              active_at: messageToAdd.get('timestamp'),
+            });
+            window.Signal.Data.updateConversation(
+              targetConversation.attributes
+            );
+          }
+        }
+
+        if (isFromSomeoneElse) {
+          log.info(
+            'handleReaction: notifying for story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from someone else`
+          );
+          if (await shouldReplyNotifyUser(messageToAdd, targetConversation)) {
+            drop(targetConversation.notify(messageToAdd));
+          }
+        }
+      }
+    } else {
+      // Reactions to all messages other than stories will update the target message
+      const previousLength = (this.get('reactions') || []).length;
+
+      if (isFromThisDevice) {
+        log.info(
+          `handleReaction: sending reaction to ${this.idForLogging()} ` +
+            'from this device'
+        );
+
+        const reactions = reactionUtil.addOutgoingReaction(
+          this.get('reactions') || [],
+          newReaction
+        );
+        this.set({ reactions });
+      } else {
+        const oldReactions = this.get('reactions') || [];
+        let reactions: Array<MessageReactionType>;
+        const oldReaction = oldReactions.find(re =>
+          isNewReactionReplacingPrevious(re, newReaction)
+        );
+        if (oldReaction) {
+          this.clearNotifications(oldReaction);
+        }
+
+        if (reaction.get('remove')) {
+          log.info(
+            'handleReaction: removing reaction for message',
+            this.idForLogging()
+          );
+
+          if (isFromSync) {
+            reactions = oldReactions.filter(
+              re =>
+                !isNewReactionReplacingPrevious(re, newReaction) ||
+                re.timestamp > reaction.get('timestamp')
+            );
+          } else {
+            reactions = oldReactions.filter(
+              re => !isNewReactionReplacingPrevious(re, newReaction)
+            );
+          }
+          this.set({ reactions });
+
+          await window.Signal.Data.removeReactionFromConversation({
+            emoji: reaction.get('emoji'),
+            fromId: reaction.get('fromId'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          });
         } else {
+          log.info(
+            'handleReaction: adding reaction for message',
+            this.idForLogging()
+          );
+
+          let reactionToAdd: MessageReactionType;
+          if (isFromSync) {
+            const ourReactions = [
+              newReaction,
+              ...oldReactions.filter(
+                re => re.fromId === reaction.get('fromId')
+              ),
+            ];
+            reactionToAdd = maxBy(ourReactions, 'timestamp') || newReaction;
+          } else {
+            reactionToAdd = newReaction;
+          }
+
           reactions = oldReactions.filter(
             re => !isNewReactionReplacingPrevious(re, reaction.attributes)
           );
+          reactions.push(reactionToAdd);
+          this.set({ reactions });
+
+          if (isOutgoing(this.attributes) && isFromSomeoneElse) {
+            void conversation.notify(this, reaction);
+          }
+
+          await window.Signal.Data.addReaction({
+            conversationId: this.get('conversationId'),
+            emoji: reaction.get('emoji'),
+            fromId: reaction.get('fromId'),
+            messageId: this.id,
+            messageReceivedAt: this.get('received_at'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          });
         }
-        this.set({ reactions });
-
-        await window.Signal.Data.removeReactionFromConversation({
-          emoji: reaction.get('emoji'),
-          fromId: reaction.get('fromId'),
-          targetAuthorUuid: reaction.get('targetAuthorUuid'),
-          targetTimestamp: reaction.get('targetTimestamp'),
-        });
-      } else {
-        log.info(
-          'handleReaction: adding reaction for message',
-          this.idForLogging()
-        );
-
-        let reactionToAdd: MessageReactionType;
-        if (isFromSync) {
-          const ourReactions = [
-            reaction.toJSON(),
-            ...oldReactions.filter(re => re.fromId === reaction.get('fromId')),
-          ];
-          reactionToAdd = maxBy(ourReactions, 'timestamp');
-        } else {
-          reactionToAdd = reaction.toJSON();
-        }
-
-        reactions = oldReactions.filter(
-          re => !isNewReactionReplacingPrevious(re, reaction.attributes)
-        );
-        reactions.push(reactionToAdd);
-        this.set({ reactions });
-
-        if (isOutgoing(this.attributes) && isFromSomeoneElse) {
-          conversation.notify(this, reaction);
-        }
-
-        await window.Signal.Data.addReaction({
-          conversationId: this.get('conversationId'),
-          emoji: reaction.get('emoji'),
-          fromId: reaction.get('fromId'),
-          messageId: this.id,
-          messageReceivedAt: this.get('received_at'),
-          targetAuthorUuid: reaction.get('targetAuthorUuid'),
-          targetTimestamp: reaction.get('targetTimestamp'),
-        });
       }
-    }
 
-    const currentLength = (this.get('reactions') || []).length;
-    log.info(
-      'handleReaction:',
-      `Done processing reaction for message ${this.idForLogging()}.`,
-      `Went from ${previousLength} to ${currentLength} reactions.`
-    );
+      const currentLength = (this.get('reactions') || []).length;
+      log.info(
+        'handleReaction:',
+        `Done processing reaction for message ${this.idForLogging()}.`,
+        `Went from ${previousLength} to ${currentLength} reactions.`
+      );
+    }
 
     if (isFromThisDevice) {
       let jobData: ConversationQueueJobData;
-      if (isStory(this.attributes)) {
+      if (storyMessage) {
         strictAssert(
           newReaction.emoji !== undefined,
           'New story reaction must have an emoji'
         );
-        const reactionMessage = new window.Whisper.Message({
-          id: UUID.generate().toString(),
-          type: 'outgoing',
-          conversationId: conversation.id,
-          sent_at: newReaction.timestamp,
-          received_at: incrementMessageCounter(),
-          received_at_ms: newReaction.timestamp,
-          timestamp: newReaction.timestamp,
-          expireTimer: conversation.get('expireTimer'),
-          sendStateByConversationId: zipObject(
-            Object.keys(newReaction.isSentByConversationId || {}),
-            repeat({
-              status: SendStatus.Pending,
-              updatedAt: Date.now(),
-            })
-          ),
-          storyId: this.id,
-          storyReaction: {
-            emoji: newReaction.emoji,
-            targetAuthorUuid: newReaction.targetAuthorUuid,
-            targetTimestamp: newReaction.targetTimestamp,
-          },
-        });
 
+        const generatedMessage = reaction.get('storyReactionMessage');
+        strictAssert(
+          generatedMessage,
+          'Story reactions must provide storyReactionmessage'
+        );
         await Promise.all([
-          await window.Signal.Data.saveMessage(reactionMessage.attributes, {
+          await window.Signal.Data.saveMessage(generatedMessage.attributes, {
             ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
             forceSave: true,
           }),
-          reactionMessage.hydrateStoryContext(this),
+          generatedMessage.hydrateStoryContext(this.attributes),
         ]);
 
-        conversation.addSingleMessage(
-          window.MessageController.register(reactionMessage.id, reactionMessage)
+        void conversation.addSingleMessage(
+          window.MessageController.register(
+            generatedMessage.id,
+            generatedMessage
+          )
         );
 
         jobData = {
           type: conversationQueueJobEnum.enum.NormalMessage,
           conversationId: conversation.id,
-          messageId: reactionMessage.id,
+          messageId: generatedMessage.id,
           revision: conversation.get('revision'),
         };
       } else {
@@ -3671,7 +3675,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       // Update the conversation's last message in case this was the last message
-      this.getConversation()?.updateLastMessage();
+      void this.getConversation()?.updateLastMessage();
     } finally {
       this.deletingForEveryone = undefined;
     }

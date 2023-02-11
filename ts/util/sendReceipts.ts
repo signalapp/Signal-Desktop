@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
@@ -137,6 +137,11 @@ export async function sendReceipts({
             }),
             { messageIds, sendType: type }
           );
+
+          window.SignalCI?.handleEvent('receipts', {
+            type,
+            timestamps,
+          });
         })
       );
     })

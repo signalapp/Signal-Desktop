@@ -1,4 +1,4 @@
-<!-- Copyright 2014-2022 Signal Messenger, LLC -->
+<!-- Copyright 2014 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <html>
@@ -11,92 +11,10 @@
   <body>
     <div id="mocha"></div>
     <div id="tests"></div>
-
-    <script type="text/x-tmpl-mustache" id="app-loading-screen">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='content'>
-        <div class="module-splash-screen__logo module-img--150"></div>
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-        <div class='message'>{{ message }}</div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="conversation">
-      <div id="ConversationView__template"></div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="recorder">
-      <button class='finish'><span class='icon'></span></button>
-      <span class='time'>0:00</span>
-      <button class='close'><span class='icon'></span></button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="file-size-modal">
-      {{ file-size-warning }}
-      ({{ limit }}{{ units }})
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="group-member-list">
-      <div class='container'>
-        {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
-      </div>
-    </script>
-
-    <script type="text/javascript" src="../js/components.js"></script>
-    <script
-      type="text/javascript"
-      src="../ts/backbone/backboneJquery.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../ts/backbone/reliable_trigger.js"
-    ></script>
     <script
       type="text/javascript"
       src="../node_modules/mocha/mocha.js"
     ></script>
-    <script type="text/javascript">
-      mocha.setup('bdd');
-    </script>
     <script type="text/javascript" src="test.js"></script>
-
-    <script type="text/javascript">
-      window.Signal.conversationControllerStart();
-
-      window.testUtilities.prepareTests();
-      delete window.testUtilities.prepareTests;
-
-      !(function () {
-        const passed = [];
-        const failed = [];
-
-        class Reporter extends Mocha.reporters.HTML {
-          constructor(runner, options) {
-            super(runner, options);
-
-            runner.on('pass', test => passed.push(test.fullTitle()));
-            runner.on('fail', (test, error) => {
-              failed.push({
-                testName: test.fullTitle(),
-                error: error?.stack || String(error),
-              });
-            });
-
-            runner.on('end', () =>
-              window.testUtilities.onComplete({ passed, failed })
-            );
-          }
-        }
-
-        mocha.reporter(Reporter);
-
-        mocha.run();
-      })();
-    </script>
   </body>
 </html>

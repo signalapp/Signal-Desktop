@@ -64,6 +64,18 @@
     "message": "Tá an bhallraíocht ar feitheamh",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent Media Quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Caighdeánach",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Ard",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Aitheantais Bogearraí",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -457,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {An bhfuil tú cinnte gur mian leat 1 fhaighteoir a bhaint ó scéal {story}?} two {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint ó scéal {story}?} few {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint ó scéal {story}?} many {An bhfuil tú cinnte gur mian leat {count,number} bhfaighteoir a bhaint ó scéal {story}?} other {An bhfuil tú cinnte gur mian leat {count,number} faighteoir a bhaint ó scéal {story}?}}",
+    "messageformat": "{count, plural, one {An bhfuil tú cinnte gur mian leat 1 fhaighteoir a bhaint de scéal {story}?} two {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint de scéal {story}?} few {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint de scéal {story}?} many {An bhfuil tú cinnte gur mian leat {count,number} bhfaighteoir a bhaint de scéal {story}?} other {An bhfuil tú cinnte gur mian leat {count,number} faighteoir a bhaint de scéal {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -469,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Bain ón scéal",
+    "message": "Bain den scéal",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -674,12 +686,21 @@
     "message": "Níl féidir leat grianghraif agus comhaid a roghnú in éineacht le comhaid.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Ní féidir leat ach comhad amháin a roghnú ag am amháin.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Ní féidir leat aon cheangaltán eile a chur leis an teachtaireacht seo.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta."
+    "message": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Ní féidir an ceangaltán roghnaithe a lódáil."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Tabhair cead do Dheasc Signal do mhicreafón a rochtain chun teachtaireachtaí fuaime a sheoladh.",
+    "message": "Tabhair cead do Dheasc Signal do mhicreafón a rochtain chun teachtaireachtaí gutha a sheoladh.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1148,11 +1169,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "Scrios teachtaireacht domsa",
+    "message": "Scrios an teachtaireacht domsa",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "Scrios teachtaireacht do chách",
+    "message": "Scrios an teachtaireacht do chách",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "D'athraigh $sender$ an uimhir ghutháin",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "Baineann {obsoleteConversationTitle} agus {conversationTitle} leis an gcuntas céanna. Tá stair na dteachtaireachtaí don dá chomhrá anseo.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Cumascadh stair do theachtaireachtaí le {conversationTitle} agus uimhir an duine sin {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Cumascadh stair do theachtaireachtaí le {conversationTitle} agus comhrá eile leis an duine sin.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Tuilleadh Faisnéise",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Tar éis teachtaireachtaí a sheoladh chuig {obsoleteConversationTitle} fuair tú amach gur le {conversationTitle} an uimhir seo. Tá uimhir an duine sin príobháideach.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Tá do stair teachtaireachtaí don dá chomhrá cumasctha anseo.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "Is le {conversationTitle} {phoneNumber}. Tá sibh beirt in bhur mball de {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "Is le {conversationTitle} {phoneNumber}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Mionsamhail íomhá ón teachtaireacht luaite",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Ní gheobhaidh tú an fhuaim nó físeán uaidh/uaithi agus ní gheobhaidh sé/sí iad uait",
+    "message": "Ní bhfaighidh tú guthghlaonna ná físghlaonna an duine sin agus a mhalairt de chás.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Tá tú ar tí an fhaisnéis shábháilte faoi chuntas na haipe a scriosadh, gach teagmhálaí agus teachtaireacht san áireamh. Beidh tú in ann nascadh le do ghléas móibíleach arís, ach ní aischuirfear teachtaireachtaí scriosta leis sin.",
+    "message": "Tá tú ar tí an fhaisnéis shábháilte faoi chuntas na haipe a scriosadh, gach teagmhálaí agus teachtaireacht san áireamh. Beidh tú in ann nascadh le do ghléas móibíleach arís, ach ní aischuirfear teachtaireachtaí scriosta leis.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Brúigh Atosaigh Signal chun na nuashonruithe a chur i bhfeidhm."
+    "message": "Brúigh Atosaigh Signal chun na nuashonruithe a chur i bhfeidhm.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Atosaigh Signal"
@@ -2228,88 +2282,176 @@
     "message": "Scriosadh an teachtaireacht seo.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Níorbh fhéidir sonraí an tsuaitheantais bhronntanais a fháil",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Ní féidir sonraí an tabhartais a fháil",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Féach ar an teachtaireacht seo ar an nguthán póca lena hoscailt",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Féach ar an teachtaireacht seo ar ghuthán póca lena hoscailt",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Tapáil an teachtaireacht seo ar an nguthán póca chun do bhronntanas a fheiceáil",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Tapáil an teachtaireacht seo ar ghuthán póca le féachaint ar do thabhartas",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Bronntanas",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "Thug {sender} tabhartas do Signal ar do shon",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Seiceáil do ghuthán chun an bronntanas a oscailt",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Seiceáil do ghuthán chun an tabhartas sin a oscailt",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Seiceáil do ghuthán do bhronntanas a fheiceáil",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Seiceáil do ghuthán le féachaint ar do thabhartas",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Fuair tú bronntanas",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "Thug {sender} tabhartas ar do shon",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "D’fhuascail tú suaitheantas bronntanais",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "D’fhuascail tú tabhartas",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Sheol tú suaitheantas bronntanais",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Thug tú tabhartas ar son {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Suaitheantas Bronntanais",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Tabhartas",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Bronntanas",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Tabhartas",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ lá fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} lá fágtha",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Uaireanta an chloig fágtha: $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Uaireanta an chloig fágtha: {hours}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ nóiméad fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 nóiméad fágtha} two {{minutes,number} nóiméad fágtha} few {{minutes,number} nóiméad fágtha} many {{minutes,number} nóiméad fágtha} other {{minutes,number} nóiméad fágtha}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 nóiméad fágtha",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Expired",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "As feidhm",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Amharc",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Amharc ar",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Fuascailte",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Fuascailte",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Go raibh maith agat as do thacaíocht!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Go raibh maith agat as do thacaíocht!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Thug tú suaitheantas mar bhronntanas do $name$. Nuair a ghlactar leis, tabharfar an rogha an suaitheantas a thaispeáint nó a fholú.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Thug tú tabhartas do Signal ar son {name}. Tabharfar rogha don duine sin tacaíocht a léiriú ar an bpróifíl.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Níorbh fhéidir beart greamán a shuiteáil",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Greamáin",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Ar fáil",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Greamáin Shuiteáilte",
+    "message": "Suiteáilte",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Glac leis an bhfísghlao",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Freagair an glao le físeán",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Glac leis an nglao fuaime",
+    "message": "Freagair an glao le fuaim",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Freagair an glao le físeán (físghlaonna amháin)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Freagair an glao gan an físeán",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Tosaigh guthghlao",
+    "message": "Tosaigh ar ghuthghlao",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3041,7 +3191,7 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Comhrá a Scriosadh?",
+    "message": "Scrios an comhrá?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3049,7 +3199,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Scrios agus Imigh as $group$?",
+    "message": "Scrios agus imigh as $group$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3057,11 +3207,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Scrios ⁊ Fág",
+    "message": "Scrios agus imigh as",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Fágfaidh tú an grúpa seo, agus scriosfar é ó gach gléas atá agat.",
+    "message": "Imeoidh tú as an ngrúpa seo, agus scriosfar é ó gach gléas atá agat.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Freagra",
+    "message": "Freagair an glao",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Freagair gan fís",
+    "message": "Freagair an glao gan an físeán",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Dhiúltaigh tú do ghlao fuaime",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Dhiúltaigh tú do ghuthghlao",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Dhiúltaigh tú d'físghlao",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Glao fuaime isteach",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Guthghlao isteach",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Físghlao isteach",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Glao fuaime caillte",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Guthghlao caillte",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Físghlao caillte",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Glao fuaime amach",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Guthghlao amach",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Físghlao amach",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Glao fuaime nár freagraíodh",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Guthghlao nár freagraíodh",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Físghlao nár freagraíodh",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Glao fuaime isteach…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Guthghlao isteach...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Físghlao isteach…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "You can't join this group via the group link because an admin removed you.",
+    "message": "Ní féidir leat dul isteach sa ghrúpa seo trí nasc an ghrúpa toisc gur bhain riarthóir thú.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,11 +3691,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "Bhain $memberName$ an t-ainm den ghrúpa.",
+    "message": "Bhain $memberName$ ainm an ghrúpa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Bhain tú an t-ainm den ghrúpa.",
+    "message": "Bhain tú ainm an ghrúpa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3741,7 +3891,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Bhain tú $memberName$ den ghrúpa.",
+    "message": "Bhain tú $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "Bhain $adminName$ den ghrúpa thú.",
+    "message": "Bhain $adminName$ thú.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4013,15 +4163,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "You removed the group description.",
+    "message": "Bhain tú an cur síos ar an ngrúpa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ removed the group description.",
+    "message": "Bhain $memberName$ an cur síos ar an ngrúpa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "The group description was removed.",
+    "message": "Baineadh an cur síos ar an ngrúpa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Athraíodh an grúpa chun ceadú do gach ball teachtaireachtaí a sheoladh.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Tá baill nó socruithe an ghrúpa seo athraithe.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Uasghrádaigh an grúpa seo chun gnéithe nua amhail @tráchtanna agus riarthóirí a ghníomhachtú. Baill nár chomhroinn a n-ainm nó a ngrianghraf sa ghrúpa seo, tabharfar cuireadh dóibh déanamh amhlaidh. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+    "message": "Níl na baill seo in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+    "message": "Níl an ball seo in ann páirt a ghlacadh i nGrúpaí Nua, agus bainfear den ghrúpa é:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Ní raibh na baill seo in ann dul isteach i nGrúpaí Nua, agus baineadh ón ngrúpa iad:",
+    "message": "Ní raibh na baill seo in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Ní raibh an ball seo in ann dul isteach i nGrúpaí Nua, agus baineadh ón ngrúpa é/í:",
+    "message": "Ní raibh an ball seo in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa é/í:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4137,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "Baineadh $contact$ ón ngrúpa.",
+    "message": "Baineadh $contact$ den ghrúpa.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "Baineadh an líon seo ball ón ngrúpa: $count$.",
+    "message": "Baineadh an líon seo ball den ghrúpa: $count$.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Bain mar Riarthóir",
+    "message": "Bain mar riarthóir",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "An bhfuil fonn ort $contact$ a bhaint mar riarthóir?",
+    "message": "Bain $contact$ mar riarthóir grúpa?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Bain den Ghrúpa",
+    "message": "Bain den ghrúpa",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ grúpa i bpáirt",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} ghrúpa i bpáirt} two {{count,number} ghrúpa i bpáirt} few {{count,number} ghrúpa i bpáirt} many {{count,number} ngrúpa i bpáirt} other {{count,number} grúpa i bpáirt}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Add to a Group",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "L MMM, BBBB",
+    "message": "D MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,15 +4883,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Bain den Ghrúpa",
+    "message": "Bain den ghrúpa",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Bain \"$name$\" ón ngrúpa?",
+    "message": "Bain \"$name$\" den ghrúpa?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Bain \"$name$\" ón ngrúpa? Ní bheidh an duine sin in ann dul isteach arís tríd an nasc grúpa.",
+    "message": "Bain \"$name$\" den ghrúpa? Ní bheidh an duine sin in ann dul isteach arís tríd an nasc grúpa.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,15 +4927,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Theip ar scriosadh na teachtaireachta do gach duine. Triail arís níos déanaí.",
+    "message": "Theip ar scriosadh na teachtaireachta do chách. Triail arís níos déanaí.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "Scrios an dath",
+    "message": "Scrios dath",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Úsáidtear an dath saincheaptha seo sa líon comhráite seo: $num$. An mian leat é a scriosadh do gach comhrá?",
+    "message": "Úsáidtear an dath saincheaptha seo sa líon comhráite seo: $num$. Scrios do gach comhrá?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5053,7 +5215,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Cóipeáil nó scrios an t-ainm úsáideora",
+    "message": "Cóipeáil nó scrios ainm úsáideora",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5669,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "Bain é",
+    "message": "Bain",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5773,7 +5935,7 @@
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Bain an scéal grúpa",
+    "messageformat": "Bain scéal an ghrúpa",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
@@ -5857,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Bain an scéal? Bainfidh sé seo an scéal ó do liosta ach beidh tú fós in ann féachaint ar scéalta ón ngrúpa seo.",
+    "message": "Bain scéal? Bainfidh sé seo an scéal de do liosta ach beidh tú fós in ann féachaint ar scéalta ón ngrúpa seo.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Freagair",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Freagair {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Tabhair freagairt ar an scéal",
+    "message": "(scriosta 25/01/23) Tabhair freagairt don scéal",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,7 +6151,7 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Scrios Domsa Amháin",
+    "messageformat": "Scrios domsa amháin",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
@@ -6172,6 +6338,18 @@
     "message": "Cabhraíonn na digití seo le d'ainm úsáideora a choimeád príobháideach agus teachtaireachtaí gan iarraidh a sheachaint. Ná comhroinn d'ainm úsáideora ach le daoine agus le grúpaí ar mhaith leat comhrá a dhéanamh leo. Má athraíonn tú d'ainm úsáideora gheobhaidh tú tacar nua digití.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Ní bheidh tacú ag Signal Desktop a thuilleadh don leagan de {OS} ar do ríomhaire. Le leanúint le Signal a úsáid, nuashonraigh córas oibriúcháin do ríomhaire faoin {expirationDate}. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Ní oibríonn Signal Desktop ar an ríomhaire seo a thuilleadh. Le Signal Desktop a úsáid arís, nuashonraigh an leagan de {OS} ar do ríomhaire. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Ní oibríonn Signal Desktop ar an ríomhaire seo a thuilleadh. Le Signal Desktop a úsáid arís, nuashonraigh an leagan de {OS} ar do ríomhaire.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Cad Atá Nua",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Nuair a thosaíonn tú ar ghlao grúpa do ghrúpaí beaga (suas le 16 duine), is féidir leat a roghnú fógra glaoigh a sheoladh. Cluinfidh baill den ghrúpa glaoch má tá siad ar an mbéite iOS nó ag úsáid Ríomhaire deisce nó Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Cliceáil faoi dhó ar aon ró teachtaireachta i gcomhrá chun tús a chur le freagra luaite. Tá sé mar a bheadh aicearra le haghaidh smaointe nua faoi sheanchuimhnimh. Buíochas le {whynothugo} agus le pobal Signal as an ngné seo a chur i bhfeidhm agus aiseolas a thabhairt.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Tá sé níos éasca anois cliceáil ag imeall íomhá le hamharc an ghailearaí a ruaigeadh gan zúmáil isteach. Uaireanta b'fhearr leat rudaí a dhúnadh, in ionad a bheith iomarcach. Buíochas le {jojomatik} as an réiteach!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Luathaigh d'am freagartha. Anois is féidir leat freagairt níos tapa a thabhairt ach cliceáil ar aon emoji ar fhreagairt do scéal.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Is féidir stair do theachtaireachtaí a chuardach anois le haghaidh carachtair aonair sa tSínis agus sa tSeapáinis.",
+    "description": "Release notes for v6.5"
   }
 }

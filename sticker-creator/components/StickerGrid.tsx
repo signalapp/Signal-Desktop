@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -14,6 +14,7 @@ import { DropZone } from '../elements/DropZone';
 import { processStickerImage } from '../util/preload';
 import { useI18n } from '../util/i18n';
 import { MINUTE } from '../../ts/util/durations';
+import { drop } from '../../ts/util/drop';
 import * as Errors from '../../ts/types/errors';
 
 const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
@@ -58,26 +59,28 @@ const InnerGrid = SortableContainer(
       async paths => {
         actions.initializeStickers(paths);
         paths.forEach(path => {
-          queue.add(async () => {
-            try {
-              const stickerImage = await processStickerImage(path);
-              actions.addImageData(stickerImage);
-            } catch (e) {
-              window.SignalContext.log.error(
-                'Error processing image:',
-                Errors.toLogFormat(e)
-              );
-              actions.removeSticker(path);
+          drop(
+            queue.add(async () => {
+              try {
+                const stickerImage = await processStickerImage(path);
+                actions.addImageData(stickerImage);
+              } catch (e) {
+                window.SignalContext.log.error(
+                  'Error processing image:',
+                  Errors.toLogFormat(e)
+                );
+                actions.removeSticker(path);
 
-              const key =
-                e instanceof window.ProcessStickerImageError
-                  ? e.errorMessageI18nKey
-                  : 'StickerCreator--Toasts--errorProcessing';
-              actions.addToast({
-                key,
-              });
-            }
-          });
+                const key =
+                  e instanceof window.ProcessStickerImageError
+                    ? e.errorMessageI18nKey
+                    : 'StickerCreator--Toasts--errorProcessing';
+                actions.addToast({
+                  key,
+                });
+              }
+            })
+          );
         });
       },
       [actions]

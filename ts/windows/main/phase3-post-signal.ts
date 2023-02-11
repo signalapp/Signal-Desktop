@@ -6,6 +6,5 @@
 import '../../models/messages';
 import '../../models/conversations';
 
-import '../../views/conversation_view';
 import '../../SignalProtocolStore';
 import '../../background';

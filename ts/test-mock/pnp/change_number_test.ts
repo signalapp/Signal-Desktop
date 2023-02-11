@@ -64,13 +64,7 @@ describe('pnp/change number', function needsName() {
     ]);
 
     debug('opening conversation with the first contact');
-    await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(first.profileName)}] ` +
-          ' >> "After"'
-      )
-      .click();
+    await leftPane.locator(`[data-testid="${first.toContact().uuid}"]`).click();
 
     debug('done');
   });

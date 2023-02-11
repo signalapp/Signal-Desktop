@@ -62,7 +62,7 @@ $footer-height: 36px;
 
   &__composer {
     flex: 1;
-    margin-right: 16px;
+    margin-top: 6px;
   }
 
   &__emoji-button {
@@ -112,16 +112,6 @@ $footer-height: 36px;
         flex: 1;
       }
     }
-  }
-
-  &__react {
-    @include button-reset;
-    @include color-svg(
-      '../images/icons/v2/add-reaction-outline-24.svg',
-      $color-white
-    );
-    height: 22px;
-    width: 22px;
   }
 
   &__view {
@@ -245,6 +235,19 @@ $footer-height: 36px;
   &__read-receipts-off {
     color: $color-gray-25;
     margin: 160px 16px;
+  }
+
+  .module-ReactionPickerPicker {
+    background: inherit;
+    border: none;
+    box-shadow: none;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .module-emoji-picker {
+    bottom: 55px;
+    position: absolute;
   }
 }
 

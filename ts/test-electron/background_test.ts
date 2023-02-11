@@ -21,34 +21,34 @@ describe('#isOverHourIntoPast', () => {
 });
 
 describe('#cleanupSessionResets', () => {
-  it('leaves empty object alone', () => {
-    window.storage.put('sessionResets', {});
-    cleanupSessionResets();
+  it('leaves empty object alone', async () => {
+    await window.storage.put('sessionResets', {});
+    await cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
     const expected = {};
     assert.deepEqual(actual, expected);
   });
-  it('filters out any timestamp older than one hour', () => {
+  it('filters out any timestamp older than one hour', async () => {
     const startValue = {
       one: Date.now() - 1,
       two: Date.now(),
       three: Date.now() - 65 * 60 * 1000,
     };
-    window.storage.put('sessionResets', startValue);
-    cleanupSessionResets();
+    await window.storage.put('sessionResets', startValue);
+    await cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
     const expected = pick(startValue, ['one', 'two']);
     assert.deepEqual(actual, expected);
   });
-  it('filters out falsey items', () => {
+  it('filters out falsey items', async () => {
     const startValue = {
       one: 0,
       two: Date.now(),
     };
-    window.storage.put('sessionResets', startValue);
-    cleanupSessionResets();
+    await window.storage.put('sessionResets', startValue);
+    await cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
     const expected = pick(startValue, ['two']);

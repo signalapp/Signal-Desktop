@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual, isNumber } from 'lodash';
@@ -19,6 +19,7 @@ import { assertDev } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
+import { isNotNil } from '../util/isNotNil';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
@@ -33,6 +34,7 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import { canHaveUsername } from '../util/getTitle';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
@@ -156,6 +158,11 @@ export async function toContactRecord(
   if (e164) {
     contactRecord.serviceE164 = e164;
   }
+  const username = conversation.get('username');
+  const ourID = window.ConversationController.getOurConversationId();
+  if (username && canHaveUsername(conversation.attributes, ourID)) {
+    contactRecord.username = username;
+  }
   const pni = conversation.get('pni');
   if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
     contactRecord.pni = pni;
@@ -229,6 +236,10 @@ export function toAccountRecord(
   const avatarUrl = window.storage.get('avatarUrl');
   if (avatarUrl !== undefined) {
     accountRecord.avatarUrl = avatarUrl;
+  }
+  const username = conversation.get('username');
+  if (username !== undefined) {
+    accountRecord.username = username;
   }
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
   accountRecord.noteToSelfMarkedUnread = Boolean(
@@ -523,14 +534,14 @@ function applyMessageRequestState(
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   if (record.blocked) {
-    conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
+    void conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
       fromSync: true,
       viaStorageServiceSync: true,
     });
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
-    conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
+    void conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
       fromSync: true,
       viaStorageServiceSync: true,
     });
@@ -893,7 +904,7 @@ export async function mergeGroupV2Record(
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    waitThenRespondToGroupV2Migration({
+    void waitThenRespondToGroupV2Migration({
       conversation,
     });
   } else if (isGroupNewToUs) {
@@ -903,7 +914,7 @@ export async function mergeGroupV2Record(
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    waitThenMaybeUpdateGroup(
+    void waitThenMaybeUpdateGroup(
       {
         conversation,
         dropInitialJoinMessage,
@@ -964,10 +975,6 @@ export async function mergeContactRecord(
     reason: 'mergeContactRecord',
   });
 
-  if (!conversation) {
-    throw new Error(`No conversation for ${storageID}`);
-  }
-
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
   if (conversation.get('uuid') !== uuid) {
     log.warn(
@@ -981,6 +988,10 @@ export async function mergeContactRecord(
       details: [],
     };
   }
+
+  await conversation.updateUsername(dropNull(contactRecord.username), {
+    shouldSave: false,
+  });
 
   let needsProfileFetch = false;
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
@@ -1001,7 +1012,7 @@ export async function mergeContactRecord(
   ) {
     // Local name doesn't match remote name, fetch profile
     if (localName) {
-      conversation.getProfiles();
+      void conversation.getProfiles();
       details.push('refreshing profile');
     } else {
       conversation.set({
@@ -1130,40 +1141,41 @@ export async function mergeAccountRecord(
     hasViewedOnboardingStory,
     storiesDisabled,
     storyViewReceiptsEnabled,
+    username,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
 
-  window.storage.put('read-receipt-setting', Boolean(readReceipts));
+  await window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
   if (typeof sealedSenderIndicators === 'boolean') {
-    window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
+    await window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
   }
 
   if (typeof typingIndicators === 'boolean') {
-    window.storage.put('typingIndicators', typingIndicators);
+    await window.storage.put('typingIndicators', typingIndicators);
   }
 
   if (typeof linkPreviews === 'boolean') {
-    window.storage.put('linkPreviews', linkPreviews);
+    await window.storage.put('linkPreviews', linkPreviews);
   }
 
   if (typeof preferContactAvatars === 'boolean') {
     const previous = window.storage.get('preferContactAvatars');
-    window.storage.put('preferContactAvatars', preferContactAvatars);
+    await window.storage.put('preferContactAvatars', preferContactAvatars);
 
     if (Boolean(previous) !== Boolean(preferContactAvatars)) {
-      window.ConversationController.forceRerender();
+      await window.ConversationController.forceRerender();
     }
   }
 
   if (typeof primarySendsSms === 'boolean') {
-    window.storage.put('primarySendsSms', primarySendsSms);
+    await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
   if (typeof accountE164 === 'string' && accountE164) {
-    window.storage.put('accountE164', accountE164);
-    window.storage.user.setNumber(accountE164);
+    await window.storage.put('accountE164', accountE164);
+    await window.storage.user.setNumber(accountE164);
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
@@ -1176,10 +1188,13 @@ export async function mergeAccountRecord(
         rawPreferredReactionEmoji.length
       );
     }
-    window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
+    await window.storage.put(
+      'preferredReactionEmoji',
+      rawPreferredReactionEmoji
+    );
   }
 
-  setUniversalExpireTimer(
+  void setUniversalExpireTimer(
     DurationInSeconds.fromSeconds(universalExpireTimer || 0)
   );
 
@@ -1206,15 +1221,18 @@ export async function mergeAccountRecord(
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
   }
-  window.storage.put('phoneNumberSharingMode', phoneNumberSharingModeToStore);
+  await window.storage.put(
+    'phoneNumberSharingMode',
+    phoneNumberSharingModeToStore
+  );
 
   const discoverability = notDiscoverableByPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
-  window.storage.put('phoneNumberDiscoverability', discoverability);
+  await window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    ourProfileKeyService.set(profileKey);
+    void ourProfileKeyService.set(profileKey);
   }
 
   if (pinnedConversations) {
@@ -1252,8 +1270,8 @@ export async function mergeAccountRecord(
       `remote pinned=${pinnedConversations.length}`
     );
 
-    const remotelyPinnedConversationPromises = pinnedConversations.map(
-      async ({ contact, legacyGroupId, groupMasterKey }) => {
+    const remotelyPinnedConversations = pinnedConversations
+      .map(({ contact, legacyGroupId, groupMasterKey }) => {
         let conversation: ConversationModel | undefined;
 
         if (contact) {
@@ -1290,15 +1308,8 @@ export async function mergeAccountRecord(
         }
 
         return conversation;
-      }
-    );
-
-    const remotelyPinnedConversations = (
-      await Promise.all(remotelyPinnedConversationPromises)
-    ).filter(
-      (conversation): conversation is ConversationModel =>
-        conversation !== undefined
-    );
+      })
+      .filter(isNotNil);
 
     const remotelyPinnedConversationIds = remotelyPinnedConversations.map(
       ({ id }) => id
@@ -1323,40 +1334,52 @@ export async function mergeAccountRecord(
       updatedConversations.push(conversation);
     });
 
-    window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
+    await window.storage.put(
+      'pinnedConversationIds',
+      remotelyPinnedConversationIds
+    );
   }
 
   if (subscriberId instanceof Uint8Array) {
-    window.storage.put('subscriberId', subscriberId);
+    await window.storage.put('subscriberId', subscriberId);
   }
   if (typeof subscriberCurrencyCode === 'string') {
-    window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+    await window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
   }
-  window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
-  window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
-  window.storage.put('hasSetMyStoriesPrivacy', Boolean(hasSetMyStoriesPrivacy));
+  await window.storage.put(
+    'displayBadgesOnProfile',
+    Boolean(displayBadgesOnProfile)
+  );
+  await window.storage.put(
+    'keepMutedChatsArchived',
+    Boolean(keepMutedChatsArchived)
+  );
+  await window.storage.put(
+    'hasSetMyStoriesPrivacy',
+    Boolean(hasSetMyStoriesPrivacy)
+  );
   {
     const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
-    window.storage.put(
+    await window.storage.put(
       'hasViewedOnboardingStory',
       hasViewedOnboardingStoryBool
     );
     if (hasViewedOnboardingStoryBool) {
-      findAndDeleteOnboardingStoryIfExists();
+      void findAndDeleteOnboardingStoryIfExists();
     }
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
-    window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
+    await window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
     window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
   }
 
   switch (storyViewReceiptsEnabled) {
     case Proto.OptionalBool.ENABLED:
-      window.storage.put('storyViewReceiptsEnabled', true);
+      await window.storage.put('storyViewReceiptsEnabled', true);
       break;
     case Proto.OptionalBool.DISABLED:
-      window.storage.put('storyViewReceiptsEnabled', false);
+      await window.storage.put('storyViewReceiptsEnabled', false);
       break;
     case Proto.OptionalBool.UNSET:
     default:
@@ -1383,6 +1406,7 @@ export async function mergeAccountRecord(
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
     markedUnread: Boolean(noteToSelfMarkedUnread),
+    username: dropNull(username),
     storageID,
     storageVersion,
   });
@@ -1396,7 +1420,7 @@ export async function mergeAccountRecord(
 
     const avatarUrl = dropNull(accountRecord.avatarUrl);
     await conversation.setProfileAvatar(avatarUrl, profileKey);
-    window.storage.put('avatarUrl', avatarUrl);
+    await window.storage.put('avatarUrl', avatarUrl);
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
@@ -1663,7 +1687,7 @@ export async function mergeStickerPackRecord(
         }
       );
     } else {
-      Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
+      void Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
         finalStatus: 'installed',
         fromStorageService: true,
       });

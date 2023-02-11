@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -21,7 +21,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 export type DirectionType = 'incoming' | 'outgoing';
 
 export type Props = {
-  attachments: Array<AttachmentType>;
+  attachments: ReadonlyArray<AttachmentType>;
   bottomOverlay?: boolean;
   direction: DirectionType;
   isSticker?: boolean;

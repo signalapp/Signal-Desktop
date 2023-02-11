@@ -16,7 +16,6 @@ const i18n = setupI18n('en', enMessages);
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   title: text('title', overrideProps.title || ''),
   description: text('description', overrideProps.description || ''),
-  buttonText: text('buttonText', overrideProps.buttonText || ''),
   i18n,
   onClose: action('onClick'),
 });
@@ -35,7 +34,6 @@ export function CustomStrings(): JSX.Element {
       {...createProps({
         title: 'Real bad!',
         description: 'Just avoid that next time, kay?',
-        buttonText: 'Fine',
       })}
     />
   );

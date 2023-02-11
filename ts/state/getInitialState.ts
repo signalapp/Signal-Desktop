@@ -13,6 +13,7 @@ import { getEmptyState as expiration } from './ducks/expiration';
 import { getEmptyState as globalModals } from './ducks/globalModals';
 import { getEmptyState as lightbox } from './ducks/lightbox';
 import { getEmptyState as linkPreviews } from './ducks/linkPreviews';
+import { getEmptyState as mediaGallery } from './ducks/mediaGallery';
 import { getEmptyState as network } from './ducks/network';
 import { getEmptyState as preferredReactions } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
@@ -25,15 +26,15 @@ import { getEmptyState as user } from './ducks/user';
 import { getEmptyState as username } from './ducks/username';
 
 import type { StateType } from './reducer';
-
 import type { BadgesStateType } from './ducks/badges';
+import type { MainWindowStatsType } from '../windows/context';
+import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import { getInitialState as stickers } from '../types/Stickers';
-import type { MenuOptionsType } from '../types/menu';
+import * as OS from '../OS';
 import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
-import type { MainWindowStatsType } from '../windows/context';
+import { getInitialState as stickers } from '../types/Stickers';
 import { getThemeType } from '../util/getThemeType';
 
 export function getInitialState({
@@ -67,6 +68,16 @@ export function getInitialState({
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
 
   const theme = getThemeType();
+
+  let osName: 'windows' | 'macos' | 'linux' | undefined;
+
+  if (OS.isWindows()) {
+    osName = 'windows';
+  } else if (OS.isMacOS()) {
+    osName = 'macos';
+  } else if (OS.isLinux()) {
+    osName = 'linux';
+  }
 
   return {
     accounts: accounts(),
@@ -106,6 +117,7 @@ export function getInitialState({
     items,
     lightbox: lightbox(),
     linkPreviews: linkPreviews(),
+    mediaGallery: mediaGallery(),
     network: network(),
     preferredReactions: preferredReactions(),
     safetyNumber: safetyNumber(),
@@ -123,24 +135,25 @@ export function getInitialState({
     updates: updates(),
     user: {
       ...user(),
-      attachmentsPath: window.baseAttachmentsPath,
-      stickersPath: window.baseStickersPath,
-      tempPath: window.baseTempPath,
-      regionCode: window.storage.get('regionCode'),
+      attachmentsPath: window.BasePaths.attachments,
+      i18n: window.i18n,
+      interactionMode: window.getInteractionMode(),
+      isMainWindowFullScreen: mainWindowStats.isFullScreen,
+      isMainWindowMaximized: mainWindowStats.isMaximized,
+      localeMessages: window.SignalContext.localeMessages,
+      menuOptions,
+      osName,
+      ourACI,
       ourConversationId,
       ourDeviceId,
       ourNumber,
-      ourACI,
       ourPNI,
       platform: window.platform,
-      i18n: window.i18n,
-      localeMessages: window.SignalContext.localeMessages,
-      interactionMode: window.getInteractionMode(),
+      regionCode: window.storage.get('regionCode'),
+      stickersPath: window.BasePaths.stickers,
+      tempPath: window.BasePaths.temp,
       theme,
       version: window.getVersion(),
-      isMainWindowMaximized: mainWindowStats.isMaximized,
-      isMainWindowFullScreen: mainWindowStats.isFullScreen,
-      menuOptions,
     },
     username: username(),
   };

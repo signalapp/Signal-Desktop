@@ -1,0 +1,51 @@
+diff --git a/node_modules/websocket/lib/WebSocketConnection.js b/node_modules/websocket/lib/WebSocketConnection.js
+index 219de63..93d3800 100644
+--- a/node_modules/websocket/lib/WebSocketConnection.js
++++ b/node_modules/websocket/lib/WebSocketConnection.js
+@@ -271,7 +271,7 @@ WebSocketConnection.prototype.handleSocketData = function(data) {
+     this.processReceivedData();
+ };
+ 
+-WebSocketConnection.prototype.processReceivedData = function() {
++WebSocketConnection.prototype.processReceivedData = function(isSync = false) {
+     this._debug('processReceivedData');
+     // If we're not connected, we should ignore any data remaining on the buffer.
+     if (!this.connected) { return; }
+@@ -320,7 +320,11 @@ WebSocketConnection.prototype.processReceivedData = function() {
+         process.nextTick(function() { self.emit('frame', frame); });
+     }
+ 
+-    process.nextTick(function() { self.processFrame(frame); });
++    if (isSync) {
++        self.processFrame(frame);
++    } else {
++        process.nextTick(function() { self.processFrame(frame); });
++    }
+     
+     this.currentFrame = new WebSocketFrame(this.maskBytes, this.frameHeader, this.config);
+ 
+@@ -329,7 +333,11 @@ WebSocketConnection.prototype.processReceivedData = function() {
+     // processed.  We use setImmediate here instead of process.nextTick to
+     // explicitly indicate that we wish for other I/O to be handled first.
+     if (this.bufferList.length > 0) {
+-        setImmediateImpl(this.receivedDataHandler);
++        if (isSync) {
++            this.receivedDataHandler();
++        } else {
++            setImmediateImpl(this.receivedDataHandler);
++        }
+     }
+ };
+ 
+@@ -353,6 +361,11 @@ WebSocketConnection.prototype.handleSocketError = function(error) {
+ };
+ 
+ WebSocketConnection.prototype.handleSocketEnd = function() {
++    // We might have socket data scheduled for a next tick, process it now.
++    if (this.bufferList.length > 0) {
++        this.receivedDataHandler(true);
++    }
++
+     this._debug('handleSocketEnd: received socket end.  state = %s', this.state);
+     this.receivedEnd = true;
+     if (this.state === STATE_CLOSED) {

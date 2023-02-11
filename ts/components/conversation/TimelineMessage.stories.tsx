@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -163,7 +163,7 @@ function MessageAudioContainer({
       setIsActive(true);
     }
     if (!playing) {
-      audio.play();
+      void audio.play();
       setPlaying(true);
       setPlayed(true);
     }
@@ -183,7 +183,7 @@ function MessageAudioContainer({
 
   const setIsPlayingAction = (value: boolean) => {
     if (value) {
-      audio.play();
+      void audio.play();
     } else {
       audio.pause();
     }
@@ -202,15 +202,17 @@ function MessageAudioContainer({
   return (
     <MessageAudio
       {...props}
-      id="storybook"
-      renderingContext="storybook"
-      computePeaks={computePeaks}
+      conversationId="some-conversation-id"
       active={active}
-      played={_played}
+      computePeaks={computePeaks}
+      id="storybook"
       loadAndPlayMessageAudio={loadAndPlayMessageAudio}
+      played={_played}
+      pushPanelForConversation={action('pushPanelForConversation')}
+      renderingContext="storybook"
+      setCurrentTime={setCurrentTimeAction}
       setIsPlaying={setIsPlayingAction}
       setPlaybackRate={setPlaybackRateAction}
-      setCurrentTime={setCurrentTimeAction}
     />
   );
 }
@@ -222,7 +224,6 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || getDefaultConversation(),
-  reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReact: true,
   canReply: true,
@@ -277,11 +278,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isTapToViewExpired: overrideProps.isTapToViewExpired,
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
-  openLink: action('openLink'),
   previews: overrideProps.previews || [],
   quote: overrideProps.quote || undefined,
   reactions: overrideProps.reactions,
@@ -295,7 +294,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderAudioAttachment,
   saveAttachment: action('saveAttachment'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
-  retrySend: action('retrySend'),
+  retryMessageSend: action('retryMessageSend'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
@@ -317,7 +316,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'showExpiredOutgoingTapToViewToast'
   ),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
-  showMessageDetail: action('showMessageDetail'),
   showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),
   status: overrideProps.status || 'sent',

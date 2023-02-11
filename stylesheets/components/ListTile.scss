@@ -1,0 +1,103 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+button.ListTile {
+  width: 100%;
+}
+
+.ListTile {
+  display: flex;
+  align-items: center;
+  padding: 6px 14px;
+  user-select: none;
+
+  // use a transparent border to inset the background
+  border: 2px solid transparent;
+  border-width: 2px 10px;
+  background-clip: padding-box;
+  border-radius: 20px / 12px;
+
+  // reset button styles
+  background-color: transparent;
+  color: inherit;
+  box-sizing: border-box;
+  text-align: inherit;
+
+  &--variant-panelrow {
+    padding: 8px 16px;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-family: $inter;
+
+    .ListTile[aria-disabled='true'] & {
+      opacity: 0.5;
+    }
+  }
+
+  &__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__subtitle {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 12px;
+    color: $color-gray-25;
+    line-height: 17px;
+
+    &--max-lines-1 {
+      -webkit-line-clamp: 1;
+    }
+    &--max-lines-2 {
+      -webkit-line-clamp: 2;
+    }
+    &--max-lines-3 {
+      -webkit-line-clamp: 3;
+    }
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
+  &__leading {
+    margin-right: 12px;
+  }
+  &__trailing {
+    margin-left: 12px;
+  }
+
+  &--clickable {
+    cursor: pointer;
+    &:hover:not([aria-disabled='true']) {
+      @include light-theme {
+        background-color: $color-black-alpha-06;
+      }
+
+      @include dark-theme {
+        background-color: $color-white-alpha-06;
+      }
+
+      & .ConversationDetails-panel-row__actions {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps, ReactElement } from 'react';
@@ -164,8 +164,10 @@ export function SmartInstallScreen(): ReactElement {
       }
       onQrCodeScanned();
 
-      if (window.CI) {
-        chooseDeviceNamePromiseWrapperRef.current.resolve(window.CI.deviceName);
+      if (window.SignalCI) {
+        chooseDeviceNamePromiseWrapperRef.current.resolve(
+          window.SignalCI.deviceName
+        );
       }
 
       const result = await chooseDeviceNamePromiseWrapperRef.current.promise;
@@ -196,14 +198,14 @@ export function SmartInstallScreen(): ReactElement {
       return result;
     };
 
-    (async () => {
+    void (async () => {
       try {
         await accountManager.registerSecondDevice(
           updateProvisioningUrl,
           confirmNumber
         );
 
-        window.removeSetupMenuItems();
+        window.IPC.removeSetupMenuItems();
       } catch (error) {
         log.error(
           'account.registerSecondDevice: got an error',
@@ -233,7 +235,7 @@ export function SmartInstallScreen(): ReactElement {
         screenSpecificProps: {
           i18n,
           error: state.error,
-          quit: () => window.shutdown(),
+          quit: () => window.IPC.shutdown(),
           tryAgain: () => setState(INITIAL_STATE),
         },
       };

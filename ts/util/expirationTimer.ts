@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import humanizeDuration from 'humanize-duration';
@@ -35,7 +35,7 @@ export function format(
 ): string {
   let seconds = Math.abs(dirtySeconds || 0);
   if (!seconds) {
-    return i18n(capitalizeOff ? 'off' : 'disappearingMessages__off');
+    return capitalizeOff ? i18n('off') : i18n('disappearingMessages__off');
   }
   seconds = Math.max(Math.floor(seconds), 1);
 
@@ -66,7 +66,7 @@ export function format(
     seconds % SECONDS_PER_WEEK === 0 ? ['w'] : ['d', 'h', 'm', 's'];
 
   return humanizeDuration(seconds * SECOND, {
-    // if we have an explict `largest` specified,
+    // if we have an explicit `largest` specified,
     // allow it to pick from all the units
     units: largest ? allUnits : defaultUnits,
     largest,
@@ -81,8 +81,8 @@ export function calculateExpirationTimestamp({
   expireTimer,
   expirationStartTimestamp,
 }: {
-  expireTimer: DurationInSeconds | undefined;
-  expirationStartTimestamp: number | undefined | null;
+  expireTimer?: DurationInSeconds | null;
+  expirationStartTimestamp?: number | null;
 }): number | undefined {
   return isNumber(expirationStartTimestamp) && isNumber(expireTimer)
     ? expirationStartTimestamp + DurationInSeconds.toMillis(expireTimer)

@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Signal Messenger, LLC
+// Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MouseEvent } from 'react';
@@ -86,7 +86,7 @@ export function DebugLogWindow({
       setToastType(undefined);
     }
 
-    doFetchLogs();
+    void doFetchLogs();
 
     return () => {
       shouldCancel = true;

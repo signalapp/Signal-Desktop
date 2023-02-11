@@ -1,5 +1,7 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
+/* eslint-disable react/jsx-pascal-case */
 
 import type { ReactNode, RefObject } from 'react';
 import React from 'react';
@@ -78,8 +80,7 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import { createRefMerger } from '../../util/refMerger';
-import { emojiToData, getEmojiCount } from '../emoji/lib';
-import { isEmojiOnlyText } from '../../util/isEmojiOnlyText';
+import { emojiToData, getEmojiCount, hasNonEmojiText } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import type { UUIDStringType } from '../../types/UUID';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
@@ -91,8 +92,9 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
-const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
+const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
 const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
   delivered: 24,
@@ -166,7 +168,7 @@ export type AudioAttachmentProps = {
   id: string;
   conversationId: string;
   played: boolean;
-  showMessageDetail: (id: string) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
@@ -220,9 +222,8 @@ export type PropsData = {
     | 'title'
     | 'unblurredAvatarPath'
   >;
-  reducedMotion?: boolean;
   conversationType: ConversationTypeType;
-  attachments?: Array<AttachmentType>;
+  attachments?: ReadonlyArray<AttachmentType>;
   giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
   quote?: {
@@ -254,7 +255,7 @@ export type PropsData = {
     storyId?: string;
     text: string;
   };
-  previews: Array<LinkPreviewType>;
+  previews: ReadonlyArray<LinkPreviewType>;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
@@ -274,8 +275,10 @@ export type PropsData = {
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
 
-  menu: JSX.Element | undefined;
+  renderMenu?: () => JSX.Element | undefined;
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+
+  item?: never;
 };
 
 export type PropsHousekeeping = {
@@ -299,8 +302,6 @@ export type PropsActions = {
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  showMessageDetail: (id: string) => void;
-
   startConversation: (e164: string, uuid: UUIDStringType) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
@@ -315,7 +316,6 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
-  markViewed(messageId: string): void;
   saveAttachment: SaveAttachmentActionCreatorType;
   showLightbox: (options: {
     attachment: AttachmentType;
@@ -323,9 +323,9 @@ export type PropsActions = {
   }) => void;
   showLightboxForViewOnceMedia: (messageId: string) => unknown;
 
-  openLink: (url: string) => void;
   scrollToQuotedMessage: (options: {
     authorId: string;
+    conversationId: string;
     sentAt: number;
   }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
@@ -521,7 +521,7 @@ export class Message extends React.PureComponent<Props, State> {
         status === 'viewed')
     ) {
       const delta = Date.now() - timestamp;
-      window.CI?.handleEvent('message:send-complete', {
+      window.SignalCI?.handleEvent('message:send-complete', {
         timestamp,
         delta,
       });
@@ -558,7 +558,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge) {
-      const description = i18n(`message--giftBadge--unopened--${direction}`);
+      const description = i18n(`icu:message--donation--unopened--${direction}`);
       const isDescriptionRTL = getDirection(description) === 'rtl';
 
       if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {
@@ -714,7 +714,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return Boolean(
       text &&
-        isEmojiOnlyText(text) &&
+        !hasNonEmojiText(text) &&
         getEmojiCount(text) < 6 &&
         !quote &&
         !storyReplyContext &&
@@ -755,15 +755,15 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       expirationLength,
       expirationTimestamp,
+      i18n,
+      id,
       isSticker,
       isTapToViewExpired,
+      pushPanelForConversation,
       status,
-      i18n,
       text,
       textAttachment,
       timestamp,
-      id,
-      showMessageDetail,
     } = this.props;
 
     const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
@@ -782,7 +782,7 @@ export class Message extends React.PureComponent<Props, State> {
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
-        showMessageDetail={showMessageDetail}
+        pushPanelForConversation={pushPanelForConversation}
         status={status}
         textPending={textAttachment?.pending}
         timestamp={timestamp}
@@ -826,24 +826,23 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAttachment(): JSX.Element | null {
     const {
       attachments,
+      conversationId,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
-      conversationId,
       isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      pushPanelForConversation,
       quote,
       readStatus,
-      reducedMotion,
       renderAudioAttachment,
       renderingContext,
-      showMessageDetail,
-      showLightbox,
       shouldCollapseAbove,
       shouldCollapseBelow,
+      showLightbox,
       status,
       text,
       textAttachment,
@@ -889,7 +888,6 @@ export class Message extends React.PureComponent<Props, State> {
               theme={theme}
               i18n={i18n}
               tabIndex={0}
-              reducedMotion={reducedMotion}
               onError={this.handleImageError}
               showVisualAttachment={() => {
                 showLightbox({
@@ -966,7 +964,7 @@ export class Message extends React.PureComponent<Props, State> {
         id,
         conversationId,
         played,
-        showMessageDetail,
+        pushPanelForConversation,
         status,
         textPending: textAttachment?.pending,
         timestamp,
@@ -1070,7 +1068,6 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       kickOffAttachmentDownload,
-      openLink,
       previews,
       quote,
       shouldCollapseAbove,
@@ -1121,7 +1118,7 @@ export class Message extends React.PureComponent<Props, State> {
             });
             return;
           }
-          openLink(first.url);
+          openLinkInWebBrowser(first.url);
         }
       : noop;
     const contents = (
@@ -1206,14 +1203,14 @@ export class Message extends React.PureComponent<Props, State> {
             event.stopPropagation();
             event.preventDefault();
 
-            openLink(first.url);
+            openLinkInWebBrowser(first.url);
           }
         }}
         onClick={(event: React.MouseEvent) => {
           event.stopPropagation();
           event.preventDefault();
 
-          openLink(first.url);
+          openLinkInWebBrowser(first.url);
         }}
       >
         {contents}
@@ -1232,7 +1229,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge.state === GiftBadgeStates.Unopened) {
-      const description = i18n(`message--giftBadge--unopened--${direction}`);
+      const description = i18n(`icu:message--donation--unopened--${direction}`);
       const isRTL = getDirection(description) === 'rtl';
       const { metadataWidth } = this.state;
 
@@ -1243,7 +1240,9 @@ export class Message extends React.PureComponent<Props, State> {
               'module-message__unopened-gift-badge',
               `module-message__unopened-gift-badge--${direction}`
             )}
-            aria-label={i18n('message--giftBadge--unopened--label')}
+            aria-label={i18n('icu:message--donation--unopened--label', {
+              sender: conversationTitle,
+            })}
           >
             <div
               className="module-message__unopened-gift-badge__ribbon-horizontal"
@@ -1306,26 +1305,24 @@ export class Message extends React.PureComponent<Props, State> {
       const remainingMinutes = Math.floor(duration / MINUTE);
 
       if (remainingDays > 1) {
-        remaining = i18n('message--giftBadge--remaining--days', {
+        remaining = i18n('icu:message--donation--remaining--days', {
           days: remainingDays,
         });
       } else if (remainingHours > 1) {
-        remaining = i18n('message--giftBadge--remaining--hours', {
+        remaining = i18n('icu:message--donation--remaining--hours', {
           hours: remainingHours,
         });
-      } else if (remainingMinutes > 1) {
-        remaining = i18n('message--giftBadge--remaining--minutes', {
+      } else if (remainingMinutes > 0) {
+        remaining = i18n('icu:message--donation--remaining--minutes', {
           minutes: remainingMinutes,
         });
-      } else if (remainingMinutes === 1) {
-        remaining = i18n('message--giftBadge--remaining--one-minute');
       } else {
-        remaining = i18n('message--giftBadge--expired');
+        remaining = i18n('icu:message--donation--expired');
       }
 
       const wasSent = direction === 'outgoing';
       const buttonContents = wasSent ? (
-        i18n('message--giftBadge--view')
+        i18n('icu:message--donation--view')
       ) : (
         <>
           <span
@@ -1334,7 +1331,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__redeemed-gift-badge__icon-check--${direction}`
             )}
           />{' '}
-          {i18n('message--giftBadge--redeemed')}
+          {i18n('icu:message--donation--redeemed')}
         </>
       );
 
@@ -1350,7 +1347,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__redeemed-gift-badge__badge',
             `module-message__redeemed-gift-badge__badge--missing-${direction}`
           )}
-          aria-label={i18n('giftBadge--missing')}
+          aria-label={i18n('icu:donation--missing')}
         />
       );
 
@@ -1360,7 +1357,7 @@ export class Message extends React.PureComponent<Props, State> {
             {badgeElement}
             <div className="module-message__redeemed-gift-badge__text">
               <div className="module-message__redeemed-gift-badge__title">
-                {i18n('message--giftBadge')}
+                {i18n('icu:message--donation')}
               </div>
               <div
                 className={classNames(
@@ -1453,6 +1450,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
+      conversationId,
       conversationTitle,
       customColor,
       direction,
@@ -1475,6 +1473,7 @@ export class Message extends React.PureComponent<Props, State> {
       : () => {
           scrollToQuotedMessage({
             authorId: quote.authorId,
+            conversationId,
             sentAt: quote.sentAt,
           });
         };
@@ -1562,7 +1561,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderEmbeddedContact(): JSX.Element | null {
     const {
       contact,
-      conversationId,
       conversationType,
       direction,
       i18n,
@@ -1598,7 +1596,7 @@ export class Message extends React.PureComponent<Props, State> {
                 }
               : undefined;
 
-          pushPanelForConversation(conversationId, {
+          pushPanelForConversation({
             type: PanelType.ContactDetails,
             args: {
               contact,
@@ -1745,6 +1743,11 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
         dir={isRTL ? 'rtl' : undefined}
+        onDoubleClick={(event: React.MouseEvent) => {
+          // Prevent double-click interefering with interactions _inside_
+          // the bubble.
+          event.stopPropagation();
+        }}
       >
         <MessageBodyReadMore
           bodyRanges={bodyRanges}
@@ -2238,7 +2241,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       contact,
-      conversationId,
       showLightboxForViewOnceMedia,
       direction,
       giftBadge,
@@ -2270,15 +2272,8 @@ export class Message extends React.PureComponent<Props, State> {
         return;
       }
 
-      if (attachments && !isDownloaded(attachments[0])) {
-        event.preventDefault();
-        event.stopPropagation();
-        kickOffAttachmentDownload({
-          attachment: attachments[0],
-          messageId: id,
-        });
-        return;
-      }
+      event.preventDefault();
+      event.stopPropagation();
 
       if (isTapToViewExpired) {
         const action =
@@ -2286,12 +2281,20 @@ export class Message extends React.PureComponent<Props, State> {
             ? showExpiredOutgoingTapToViewToast
             : showExpiredIncomingTapToViewToast;
         action();
-      } else {
-        event.preventDefault();
-        event.stopPropagation();
 
-        showLightboxForViewOnceMedia(id);
+        return;
       }
+
+      if (attachments && !isDownloaded(attachments[0])) {
+        kickOffAttachmentDownload({
+          attachment: attachments[0],
+          messageId: id,
+        });
+
+        return;
+      }
+
+      showLightboxForViewOnceMedia(id);
 
       return;
     }
@@ -2375,7 +2378,7 @@ export class Message extends React.PureComponent<Props, State> {
               uuid: contact.uuid,
             }
           : undefined;
-      pushPanelForConversation(conversationId, {
+      pushPanelForConversation({
         type: PanelType.ContactDetails,
         args: {
           contact,
@@ -2505,6 +2508,10 @@ export class Message extends React.PureComponent<Props, State> {
           role="row"
           onKeyDown={onKeyDown}
           onClick={this.handleClick}
+          onDoubleClick={ev => {
+            // Prevent double click from triggering the replyToMessage action
+            ev.stopPropagation();
+          }}
           tabIndex={-1}
         >
           {this.renderAuthor()}
@@ -2520,10 +2527,11 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       isSticker,
+      onKeyDown,
+      renderMenu,
       shouldCollapseAbove,
       shouldCollapseBelow,
-      menu,
-      onKeyDown,
+      timestamp,
     } = this.props;
     const { expired, expiring, isSelected, imageBroken } = this.state;
 
@@ -2545,6 +2553,7 @@ export class Message extends React.PureComponent<Props, State> {
           isSelected ? 'module-message--selected' : null,
           expiring ? 'module-message--expired' : null
         )}
+        data-testid={timestamp}
         tabIndex={0}
         // We need to have a role because screenreaders need to be able to focus here to
         //   read the message, but we can't be a button; that would break inner buttons.
@@ -2556,7 +2565,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderError()}
         {this.renderAvatar()}
         {this.renderContainer()}
-        {menu}
+        {renderMenu?.()}
       </div>
     );
   }

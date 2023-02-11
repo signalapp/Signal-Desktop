@@ -112,7 +112,7 @@ export function CompositionTextArea({
           // was modifying text in the middle of the editor
           // a better solution would be to prevent the change to begin with, but
           // quill makes this VERY difficult
-          inputEl.setText(newValueSized, true);
+          inputEl.setContents(newValueSized, bodyRanges, true);
         }
       }
       setCharacterCount(newCharacterCount);

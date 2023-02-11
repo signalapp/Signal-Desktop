@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { partition } from 'lodash';
@@ -236,7 +236,7 @@ export async function queueAttachmentDownloads(
     }
     if (!status) {
       // Save the packId/packKey for future download/install
-      savePackMetadata(packId, packKey, { messageId });
+      void savePackMetadata(packId, packKey, { messageId });
     } else {
       await dataInterface.addStickerPackReference(messageId, packId);
     }

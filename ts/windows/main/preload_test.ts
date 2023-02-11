@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -8,6 +8,8 @@ import { sync } from 'fast-glob';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { assert } from 'chai';
+
+import { getSignalProtocolStore } from '../../SignalProtocolStore';
 
 window.assert = assert;
 
@@ -26,3 +28,5 @@ window.testUtilities = {
     }).forEach(require);
   },
 };
+
+window.getSignalProtocolStore = getSignalProtocolStore;

@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LocalizerType } from './types/Util';
@@ -269,9 +269,8 @@ export function renderChangeDetail<T>(
     const { uuid, inviter } = detail;
     const weAreJoiner = isOurUuid(uuid);
     const weAreInviter = isOurUuid(inviter);
-    const pniPromotedToACI = weAreJoiner && from === ourPNI;
 
-    if (!from || (from !== uuid && !pniPromotedToACI)) {
+    if (!from || from !== uuid) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {

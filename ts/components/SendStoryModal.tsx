@@ -251,17 +251,8 @@ export function SendStoryModal({
     [i18n, ogMyStories]
   );
 
-  const initialMyStoriesMemberUuids = useMemo(
-    () => (ogMyStories?.members || []).map(({ uuid }) => uuid).filter(isNotNil),
-    [ogMyStories]
-  );
-
   const [stagedMyStories, setStagedMyStories] =
     useState<StoryDistributionListWithMembersDataType>(initialMyStories);
-
-  const [stagedMyStoriesMemberUuids, setStagedMyStoriesMemberUuids] = useState<
-    Array<UUIDStringType>
-  >(initialMyStoriesMemberUuids);
 
   let selectedNames: string | undefined;
   if (page === Page.ChooseGroups) {
@@ -309,14 +300,18 @@ export function SendStoryModal({
           </Button>
           <Button
             onClick={() => {
+              const uuids = stagedMyStories.members
+                .map(convo => convo.uuid)
+                .filter(isNotNil);
+
               if (stagedMyStories.isBlockList) {
                 if (stagedMyStories.members.length) {
-                  onHideMyStoriesFrom(stagedMyStoriesMemberUuids);
+                  onHideMyStoriesFrom(uuids);
                 } else {
                   setMyStoriesToAllSignalConnections();
                 }
               } else {
-                onViewersUpdated(MY_STORY_ID, stagedMyStoriesMemberUuids);
+                onViewersUpdated(MY_STORY_ID, uuids);
               }
 
               setSelectedContacts([]);
@@ -442,7 +437,14 @@ export function SendStoryModal({
             onHideMyStoriesFrom(uuids);
             setPage(Page.SendStory);
           } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
-            setStagedMyStoriesMemberUuids(uuids);
+            const uuidsSet = new Set(uuids);
+            const members = candidateConversations.filter(convo =>
+              convo.uuid ? uuidsSet.has(convo.uuid) : false
+            );
+            setStagedMyStories(myStories => ({
+              ...myStories,
+              members,
+            }));
             setPage(Page.SetMyStoriesPrivacy);
           } else {
             setPage(Page.SendStory);
@@ -465,7 +467,6 @@ export function SendStoryModal({
             } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
               setSelectedContacts([]);
               setStagedMyStories(initialMyStories);
-              setStagedMyStoriesMemberUuids(initialMyStoriesMemberUuids);
               setPage(Page.SetMyStoriesPrivacy);
             } else if (page === Page.ChooseViewers) {
               setSelectedContacts([]);
@@ -954,7 +955,7 @@ export function SendStoryModal({
           actions={[
             {
               action: () => {
-                toggleGroupsForStorySend([confirmRemoveGroupId]);
+                void toggleGroupsForStorySend([confirmRemoveGroupId]);
                 setConfirmRemoveGroupId(undefined);
               },
               style: 'negative',

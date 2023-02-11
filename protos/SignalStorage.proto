@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 package signalservice;
@@ -173,6 +173,9 @@ message AccountRecord {
   reserved 28; // deprecatedStoriesDisabled
   optional bool storiesDisabled = 29;
   optional OptionalBool storyViewReceiptsEnabled = 30;
+  reserved 31; // hasReadOnboardingStory
+  reserved 32; // hasSeenGroupStoryEducationSheet
+  optional string username = 33;
 }
 
 message StoryDistributionListRecord {

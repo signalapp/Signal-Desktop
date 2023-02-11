@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import * as log from '../../logging/log';
 
@@ -14,10 +15,10 @@ export enum AppViewType {
   Standalone = 'Standalone',
 }
 
-export type AppStateType = {
+export type AppStateType = ReadonlyDeep<{
   appView: AppViewType;
   hasInitialLoadCompleted: boolean;
-};
+}>;
 
 // Actions
 
@@ -26,27 +27,28 @@ const OPEN_INBOX = 'app/OPEN_INBOX';
 const OPEN_INSTALLER = 'app/OPEN_INSTALLER';
 const OPEN_STANDALONE = 'app/OPEN_STANDALONE';
 
-type InitialLoadCompleteActionType = {
+type InitialLoadCompleteActionType = ReadonlyDeep<{
   type: typeof INITIAL_LOAD_COMPLETE;
-};
+}>;
 
-type OpenInboxActionType = {
+type OpenInboxActionType = ReadonlyDeep<{
   type: typeof OPEN_INBOX;
-};
+}>;
 
-type OpenInstallerActionType = {
+type OpenInstallerActionType = ReadonlyDeep<{
   type: typeof OPEN_INSTALLER;
-};
+}>;
 
-type OpenStandaloneActionType = {
+type OpenStandaloneActionType = ReadonlyDeep<{
   type: typeof OPEN_STANDALONE;
-};
+}>;
 
-export type AppActionType =
+export type AppActionType = ReadonlyDeep<
   | InitialLoadCompleteActionType
   | OpenInboxActionType
   | OpenInstallerActionType
-  | OpenStandaloneActionType;
+  | OpenStandaloneActionType
+>;
 
 export const actions = {
   initialLoadComplete,
@@ -85,7 +87,7 @@ function openInstaller(): ThunkAction<
   OpenInstallerActionType
 > {
   return dispatch => {
-    window.addSetupMenuItems();
+    window.IPC.addSetupMenuItems();
 
     dispatch({
       type: OPEN_INSTALLER,
@@ -104,7 +106,7 @@ function openStandalone(): ThunkAction<
       return;
     }
 
-    window.addSetupMenuItems();
+    window.IPC.addSetupMenuItems();
     dispatch({
       type: OPEN_STANDALONE,
     });

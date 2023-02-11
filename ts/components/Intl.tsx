@@ -1,7 +1,8 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import type { ReactNode } from 'react';
 
 import type { FormatXMLElementFn } from 'intl-messageformat';
 import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
@@ -12,6 +13,7 @@ import { strictAssert } from '../util/assert';
 export type FullJSXType =
   | FormatXMLElementFn<JSX.Element | string>
   | Array<JSX.Element | string>
+  | ReactNode
   | JSX.Element
   | string;
 export type IntlComponentsType =
@@ -88,6 +90,7 @@ export class Intl extends React.Component<Props> {
       return intl.formatMessage({ id }, components);
     }
 
+    // eslint-disable-next-line local-rules/valid-i18n-keys
     const text = i18n(id);
     const results: Array<
       string | JSX.Element | Array<string | JSX.Element> | null

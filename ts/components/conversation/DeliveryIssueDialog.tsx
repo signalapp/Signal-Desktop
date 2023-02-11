@@ -12,21 +12,17 @@ import { Emojify } from './Emojify';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 import type { LocalizerType } from '../../types/Util';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type PropsType = {
   i18n: LocalizerType;
   sender: ConversationType;
   inGroup: boolean;
-  learnMoreAboutDeliveryIssue: () => unknown;
   onClose: () => unknown;
 };
 
 export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
-  const { i18n, inGroup, learnMoreAboutDeliveryIssue, sender, onClose } = props;
-
-  const key = inGroup
-    ? 'DeliveryIssue--summary--group'
-    : 'DeliveryIssue--summary';
+  const { i18n, inGroup, sender, onClose } = props;
 
   // Focus first button after initial render, restore focus on teardown
   const [focusRef] = useRestoreFocus();
@@ -34,7 +30,11 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
   const footer = (
     <>
       <Button
-        onClick={learnMoreAboutDeliveryIssue}
+        onClick={() =>
+          openLinkInWebBrowser(
+            'https://support.signal.org/hc/articles/4404859745690'
+          )
+        }
         size={ButtonSize.Medium}
         variant={ButtonVariant.Secondary}
       >
@@ -51,6 +51,10 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
       </Button>
     </>
   );
+
+  const intlComponents = {
+    sender: <Emojify text={sender.title} />,
+  };
 
   return (
     <Modal
@@ -73,13 +77,19 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
           {i18n('DeliveryIssue--title')}
         </div>
         <div className="module-delivery-issue-dialog__description">
-          <Intl
-            id={key}
-            components={{
-              sender: <Emojify text={sender.title} />,
-            }}
-            i18n={i18n}
-          />
+          {inGroup ? (
+            <Intl
+              id="DeliveryIssue--summary--group"
+              components={intlComponents}
+              i18n={i18n}
+            />
+          ) : (
+            <Intl
+              id="DeliveryIssue--summary"
+              components={intlComponents}
+              i18n={i18n}
+            />
+          )}
         </div>
       </section>
     </Modal>

@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -332,7 +332,7 @@ export class Linkify extends React.Component<Props> {
     const { text, renderNonLink = defaultRenderNonLink } = this.props;
 
     if (!shouldLinkifyMessage(text)) {
-      return text;
+      return renderNonLink({ text, key: 1 });
     }
 
     const chunkData: Array<{

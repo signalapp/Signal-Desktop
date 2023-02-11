@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, pick, uniq, without } from 'lodash';
@@ -20,6 +20,7 @@ import * as Errors from './types/errors';
 import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
+import { drop } from './util/drop';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import { UUID, isValidUuid, UUIDKind } from './types/UUID';
@@ -48,8 +49,7 @@ function applyChangeToConversation(
   conversation: ConversationModel,
   suggestedChange: Partial<
     Pick<ConversationAttributesType, 'uuid' | 'e164' | 'pni'>
-  >,
-  disableDiscoveryNotification?: boolean
+  >
 ) {
   const change = { ...suggestedChange };
 
@@ -83,9 +83,7 @@ function applyChangeToConversation(
     conversation.updateUuid(change.uuid);
   }
   if (hasOwnProperty.call(change, 'e164')) {
-    conversation.updateE164(change.e164, {
-      disableDiscoveryNotification,
-    });
+    conversation.updateE164(change.e164);
   }
   if (hasOwnProperty.call(change, 'pni')) {
     conversation.updatePni(change.pni);
@@ -193,16 +191,16 @@ export class ConversationController {
         ),
       0
     );
-    window.storage.put('unreadCount', newUnreadCount);
+    drop(window.storage.put('unreadCount', newUnreadCount));
 
     if (newUnreadCount > 0) {
-      window.setBadgeCount(newUnreadCount);
+      window.IPC.setBadgeCount(newUnreadCount);
       window.document.title = `${window.getTitle()} (${newUnreadCount})`;
     } else {
-      window.setBadgeCount(0);
+      window.IPC.setBadgeCount(0);
       window.document.title = window.getTitle();
     }
-    window.updateTrayIcon(newUnreadCount);
+    window.IPC.updateTrayIcon(newUnreadCount);
   }
 
   onEmpty(): void {
@@ -383,7 +381,7 @@ export class ConversationController {
       reason: 'getOurConversationId',
     });
 
-    return conversation?.id;
+    return conversation.id;
   }
 
   getOurConversationIdOrThrow(): string {
@@ -467,7 +465,7 @@ export class ConversationController {
     fromPniSignature?: boolean;
     mergeOldAndNew?: (options: SafeCombineConversationsParams) => Promise<void>;
   }): {
-    conversation: ConversationModel | undefined;
+    conversation: ConversationModel;
     mergePromises: Array<Promise<void>>;
   } {
     const dataProvided = [];
@@ -484,7 +482,6 @@ export class ConversationController {
 
     const aci = providedAci ? UUID.cast(providedAci) : undefined;
     const pni = providedPni ? UUID.cast(providedPni) : undefined;
-    let targetConversationWasCreated = false;
     const mergePromises: Array<Promise<void>> = [];
 
     if (!aci && !e164 && !pni) {
@@ -523,13 +520,9 @@ export class ConversationController {
             `${logId}: No match for ${key}, applying to target conversation`
           );
           // Note: This line might erase a known e164 or PNI
-          applyChangeToConversation(
-            targetConversation,
-            {
-              [key]: value,
-            },
-            targetConversationWasCreated
-          );
+          applyChangeToConversation(targetConversation, {
+            [key]: value,
+          });
         } else {
           unusedMatches.push(item);
         }
@@ -577,7 +570,6 @@ export class ConversationController {
         // If PNI match already has an ACI, then we need to create a new one
         if (!targetConversation) {
           targetConversation = this.getOrCreate(unused.value, 'private');
-          targetConversationWasCreated = true;
           log.info(
             `${logId}: Match on ${key} already had ${unused.key}, ` +
               `so created new target conversation - ${targetConversation.idForLogging()}`
@@ -587,13 +579,9 @@ export class ConversationController {
         log.info(
           `${logId}: Applying new value for ${unused.key} to target conversation`
         );
-        applyChangeToConversation(
-          targetConversation,
-          {
-            [unused.key]: unused.value,
-          },
-          targetConversationWasCreated
-        );
+        applyChangeToConversation(targetConversation, {
+          [unused.key]: unused.value,
+        });
       });
 
       unusedMatches = [];
@@ -632,20 +620,16 @@ export class ConversationController {
         if ((key === 'pni' || key === 'e164') && match.get('uuid') === pni) {
           change.uuid = undefined;
         }
-        applyChangeToConversation(match, change, targetConversationWasCreated);
+        applyChangeToConversation(match, change);
 
         // Note: The PNI check here is just to be bulletproof; if we know a UUID is a PNI,
         //   then that should be put in the UUID field as well!
         const willMerge =
           !match.get('uuid') && !match.get('e164') && !match.get('pni');
 
-        applyChangeToConversation(
-          targetConversation,
-          {
-            [key]: value,
-          },
-          willMerge || targetConversationWasCreated
-        );
+        applyChangeToConversation(targetConversation, {
+          [key]: value,
+        });
 
         if (willMerge) {
           log.warn(
@@ -665,13 +649,9 @@ export class ConversationController {
       } else if (targetConversation && !targetConversation?.get(key)) {
         // This is mostly for the situation where PNI was erased when updating e164
         log.debug(`${logId}: Re-adding ${key} on target conversation`);
-        applyChangeToConversation(
-          targetConversation,
-          {
-            [key]: value,
-          },
-          targetConversationWasCreated
-        );
+        applyChangeToConversation(targetConversation, {
+          [key]: value,
+        });
       }
 
       if (!targetConversation) {
@@ -738,7 +718,7 @@ export class ConversationController {
 
       // `identifier` would resolve to uuid if we had both, so fix up e164
       if (normalizedUuid && e164) {
-        newConvo.updateE164(e164, { disableDiscoveryNotification: true });
+        newConvo.updateE164(e164);
       }
 
       return newConvo;
@@ -1119,13 +1099,19 @@ export class ConversationController {
     this._conversations.resetLookups();
 
     current.captureChange('combineConversations');
-    current.updateLastMessage();
+    drop(current.updateLastMessage());
+
+    const state = window.reduxStore.getState();
+    if (state.conversations.selectedConversationId === current.id) {
+      // TODO: DESKTOP-4807
+      drop(current.loadNewestMessages(undefined, undefined));
+    }
 
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
-    if (!fromPniSignature && obsoleteTitleInfo && titleIsUseful) {
-      current.addConversationMerge(obsoleteTitleInfo);
+    if (obsoleteTitleInfo && titleIsUseful && !fromPniSignature) {
+      drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 
     log.warn(`${logId}: Complete!`);
@@ -1305,10 +1291,12 @@ export class ConversationController {
         timeout: MINUTE * 30,
         throwOnTimeout: true,
       });
-      queue.addAll(
-        temporaryConversations.map(item => async () => {
-          await removeConversation(item.id);
-        })
+      drop(
+        queue.addAll(
+          temporaryConversations.map(item => async () => {
+            await removeConversation(item.id);
+          })
+        )
       );
       await queue.onIdle();
 

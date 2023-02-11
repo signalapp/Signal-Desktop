@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { KeyboardEvent } from 'react';
@@ -12,12 +12,14 @@ import { useRefMerger } from '../hooks/useRefMerger';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type PropsType = {
+  conversationId: string;
   i18n: LocalizerType;
   isHighQuality: boolean;
-  onSelectQuality: (isHQ: boolean) => unknown;
+  onSelectQuality: (conversationId: string, isHQ: boolean) => unknown;
 };
 
 export function MediaQualitySelector({
+  conversationId,
   i18n,
   isHighQuality,
   onSelectQuality,
@@ -50,7 +52,7 @@ export function MediaQualitySelector({
     }
 
     if (ev.key === 'Enter') {
-      onSelectQuality(Boolean(focusedOption));
+      onSelectQuality(conversationId, Boolean(focusedOption));
       setMenuShowing(false);
       ev.stopPropagation();
       ev.preventDefault();
@@ -136,7 +138,7 @@ export function MediaQualitySelector({
                     })}
                     type="button"
                     onClick={() => {
-                      onSelectQuality(false);
+                      onSelectQuality(conversationId, false);
                       setMenuShowing(false);
                     }}
                   >
@@ -169,7 +171,7 @@ export function MediaQualitySelector({
                     })}
                     type="button"
                     onClick={() => {
-                      onSelectQuality(true);
+                      onSelectQuality(conversationId, true);
                       setMenuShowing(false);
                     }}
                   >

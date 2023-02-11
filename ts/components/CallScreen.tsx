@@ -1,11 +1,11 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
   SetLocalAudioType,

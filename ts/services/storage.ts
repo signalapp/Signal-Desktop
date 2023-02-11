@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, isNumber, chunk } from 'lodash';
@@ -361,7 +361,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.modifyStoryDistribution({
+        void dataInterface.modifyStoryDistribution({
           ...storyDistributionList,
           storageID,
           storageVersion: version,
@@ -394,7 +394,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.addUninstalledStickerPack({
+        void dataInterface.addUninstalledStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -436,7 +436,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.createOrUpdateStickerPack({
+        void dataInterface.createOrUpdateStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -784,7 +784,7 @@ async function uploadManifest(
   }
 
   log.info(`storageService.upload(${version}): setting new manifestVersion`);
-  window.storage.put('manifestVersion', version);
+  await window.storage.put('manifestVersion', version);
   conflictBackOff.reset();
   backOff.reset();
 
@@ -883,7 +883,7 @@ async function fetchManifest(
   try {
     const credentials =
       await window.textsecure.messaging.getStorageCredentials();
-    window.storage.put('storageCredentials', credentials);
+    await window.storage.put('storageCredentials', credentials);
 
     const manifestBinary = await window.textsecure.messaging.getStorageManifest(
       {
@@ -1247,7 +1247,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.addUninstalledStickerPack({
+      void dataInterface.addUninstalledStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1265,7 +1265,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.createOrUpdateStickerPack({
+      void dataInterface.createOrUpdateStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1283,7 +1283,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.modifyStoryDistribution({
+      void dataInterface.modifyStoryDistribution({
         ...storyDistributionList,
         storageID: undefined,
         storageVersion: undefined,
@@ -1469,7 +1469,7 @@ async function processRemoteRecords(
 
   let accountItem: MergeableItemType | undefined;
 
-  const prunedStorageItems = decryptedItems.filter(item => {
+  let prunedStorageItems = decryptedItems.filter(item => {
     const { itemType, storageID, storageRecord } = item;
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (accountItem !== undefined) {
@@ -1506,6 +1506,36 @@ async function processRemoteRecords(
     return false;
   });
 
+  // Find remote contact records that:
+  // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
+  // - Match local contact that has `local.serviceUuid != remote.pni`.
+  const splitPNIContacts = new Array<MergeableItemType>();
+  prunedStorageItems = prunedStorageItems.filter(item => {
+    const { itemType, storageRecord } = item;
+    const { contact } = storageRecord;
+    if (itemType !== ITEM_TYPE.CONTACT || !contact) {
+      return true;
+    }
+
+    if (
+      !contact.serviceE164 ||
+      !contact.pni ||
+      contact.pni !== contact.serviceUuid
+    ) {
+      return true;
+    }
+
+    const localUuid = window.ConversationController.get(contact.pni)?.get(
+      'uuid'
+    );
+    if (!localUuid || localUuid === contact.pni) {
+      return true;
+    }
+
+    splitPNIContacts.push(item);
+    return false;
+  });
+
   try {
     log.info(
       `storageService.process(${storageVersion}): ` +
@@ -1517,13 +1547,31 @@ async function processRemoteRecords(
           `record=${redactStorageID(accountItem.storageID, storageVersion)}`
       );
     }
+    if (splitPNIContacts.length !== 0) {
+      log.info(
+        `storageService.process(${storageVersion}): ` +
+          `split pni contacts=${splitPNIContacts.length}`
+      );
+    }
 
-    const mergedRecords = [
-      ...(await pMap(
-        prunedStorageItems,
+    const mergeWithConcurrency = (
+      items: ReadonlyArray<MergeableItemType>
+    ): Promise<Array<MergedRecordType>> => {
+      return pMap(
+        items,
         (item: MergeableItemType) => mergeRecord(storageVersion, item),
         { concurrency: 32 }
-      )),
+      );
+    };
+
+    const mergedRecords = [
+      ...(await mergeWithConcurrency(prunedStorageItems)),
+
+      // Merge split PNI contacts after processing remote records. If original
+      // e164+ACI+PNI contact is unregistered - it is going to be split so we
+      // have to make that happen first. Otherwise we will ignore ContactRecord
+      // changes on these since there is already a parent "merged" contact.
+      ...(await mergeWithConcurrency(splitPNIContacts)),
 
       // Merge Account records last since it contains the pinned conversations
       // and we need all other records merged first before we can find the pinned
@@ -1684,11 +1732,11 @@ async function sync(
 
   let manifest: Proto.ManifestRecord | undefined;
   try {
-    // If we've previously interacted with strage service, update 'fetchComplete' record
+    // If we've previously interacted with storage service, update 'fetchComplete' record
     const previousFetchComplete = window.storage.get('storageFetchComplete');
     const manifestFromStorage = window.storage.get('manifestVersion');
     if (!previousFetchComplete && isNumber(manifestFromStorage)) {
-      window.storage.put('storageFetchComplete', true);
+      await window.storage.put('storageFetchComplete', true);
     }
 
     const localManifestVersion = manifestFromStorage || 0;
@@ -1733,8 +1781,8 @@ async function sync(
     // We now know that we've successfully completed a storage service fetch
     await window.storage.put('storageFetchComplete', true);
 
-    if (window.CI) {
-      window.CI.handleEvent('storageServiceComplete', {
+    if (window.SignalCI) {
+      window.SignalCI.handleEvent('storageServiceComplete', {
         manifestVersion: version,
       });
     }
@@ -1931,7 +1979,7 @@ export const storageServiceUploadJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(async () => {
+  void storageJobQueue(async () => {
     await upload();
   }, `upload v${window.storage.get('manifestVersion')}`);
 }, 500);

@@ -64,6 +64,18 @@
     "message": "ಸದಸ್ಯತ್ವ ಬಾಕಿಯಿದೆ",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "ಮಾಧ್ಯಮ ಗುಣಮಟ್ಟವನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "ಪ್ರಮಾಣಿತ",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "ಹೆಚ್ಚು",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "ಸಾಫ್ಟ್‌ವೇರ್ ಸ್ವೀಕೃತಿಗಳು",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸು",
+    "message": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಿ",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -169,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -674,12 +686,21 @@
     "message": "ಫೈಲ್ ಗಳ ಜೊತೆಗೆ ಫೊಟೋ ಮತ್ತು ವಿಡಿಯೋಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಲಾಗುವುದಿಲ್ಲ.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "ಒಂದು ಬಾರಿಗೆ ನೀವು ಒಂದು ಫೈಲ್ ಮಾತ್ರ ಆಯ್ಕೆ ಮಾಡಬಹುದು.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "ಈ ಸಂದೇಶಕ್ಕೆ ನೀವು ಇನ್ನಷ್ಟು ಲಗತ್ತುಗಳನ್ನು ಸೇರಿಸಲಾಗದು.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ."
+    "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "ಆಡಿಯೋ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು, ನಿಮ್ಮ ಮೈಕ್ರೋಫೋನ್‌ ಪ್ರವೇಶಿಸಲು Signal Desktop ಗೆ ಅನುಮತಿ ನೀಡಿ.",
+    "message": "ಧ್ವನಿ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು, ನಿಮ್ಮ ಮೈಕ್ರೋಫೋನ್‌ ಪ್ರವೇಶಿಸಲು Signal Desktop ಗೆ ಅನುಮತಿ ನೀಡಿ.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1046,7 +1067,7 @@
     "message": "ಸಂದೇಶದ ವಿವರಗಳು"
   },
   "delete": {
-    "message": "ಅಳಿಸು"
+    "message": "ಅಳಿಸಿ"
   },
   "accept": {
     "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ"
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ ತಮ್ಮ ಫೋನ್ ನಂಬರ್ ಬದಲಾಯಿಸಿದ್ದಾರೆ",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} ಮತ್ತು {conversationTitle} ಒಂದೇ ಖಾತೆಯಾಗಿದೆ. ಎರಡೂ ಚಾಟ್‌ಗಳ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸ ಇಲ್ಲಿದೆ.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸ ಮತ್ತು ಅವರ ನಂಬರ್ {obsoleteConversationNumber} ಅನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸ ಮತ್ತು ಅವರಿಗೆ ಸೇರಿದ ಬೇರೊಂದು ಚಾಟ್ ಅನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} ಅವರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿದ ಬಳಿಕ ಈ ಸಂಖ್ಯೆಯು {conversationTitle} ಅವರಿಗೆ ಸೇರಿದ್ದು ಎಂಬುದಾಗಿ ನಿಮಗೆ ತಿಳಿಯುತ್ತದೆ. ಅವರ ಫೋನ್ ಸಂಖ್ಯೆ ಖಾಸಗಿಯಾಗಿದೆ.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "ಎರಡೂ ಸಂಭಾಷಣೆಗಳ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಇಲ್ಲಿ ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ. ನೀವಿಬ್ಬರೂ {sharedGroup} ನ ಸದಸ್ಯರಾಗಿದ್ದೀರಿ.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ಕೋಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ನಿಂದ ಥಂಬ್‌ನೇಲ್ ಇಮೇಜ್",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "ನೀವು ಅವರ ಆಡಿಯೋ ಅಥವಾ ವೀಡಿಯೋ ಅನ್ನು ಪಡೆಯುವುದಿಲ್ಲ ಮತ್ತು ಅವರಿಗೂ ನೀವು ಕಾಣಿಸುವುದಿಲ್ಲ.",
+    "message": "ನೀವು ಅವರ ಮತ್ತು ಅವರು ನಿಮ್ಮ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೋ ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Signal Desktop ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.",
+    "message": "Signal Desktop ನ ಹಿಂದಿನ ಇನ್‌ಸ್ಟಾಲೇಶನ್‌ನಿಂದ ಹಳೆಯ ಡೇಟಾವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ಮುಂದುವರಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿಕೊಂಡರೆ, ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಶೂನ್ಯದಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1705,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ",
+    "message": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ"
+    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
@@ -2228,88 +2282,176 @@
     "message": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "ಗಿಫ್ಟ್ ಬ್ಯಾಡ್ಜ್ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "ದೇಣಿಗೆ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ನೋಡಿ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಟ್ಯಾಪ್ ಮಾಡಿ",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ಉಡುಗೊರೆ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ಅವರು ನಿಮ್ಮ ಪರವಾಗಿ Signal‌ಗೆ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "ಉಡುಗೊರೆ ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ಈ ದೇಣಿಗೆಯನ್ನು ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} ಅವರು ನಿಮಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಅನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "ನೀವು ದೇಣಿಗೆಯನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಕಳುಹಿಸಿದ್ದೀರಿ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "ನೀವು {recipient} ಅವರಿಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ದೇಣಿಗೆ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ಉಡುಗೊರೆ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ದೇಣಿಗೆ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ದಿನಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ದಿನಗಳು ಬಾಕಿಯಿವೆ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ} other {{minutes,number} ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "ಅವಧಿ ಮುಗಿದಿದೆ",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "ಅವಧಿ ಮುಗಿದಿದೆ",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "ತೋರಿಸು",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ವೀಕ್ಷಿಸಿ",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "ನೀವು $name$ ಅವರಿಗೆ ಬ್ಯಾಡ್ಜ್ ಉಡುಗೊರೆ ನೀಡಿದ್ದೀರಿ. ಅವರು ಸ್ವೀಕರಿಸಿದಾಗ, ತಮ್ಮ ಬ್ಯಾಡ್ಜ್ ತೋರಿಸಲು ಅಥವಾ ಮರೆಮಾಡಲು ಅವರಿಗೊಂಡು ಅವಕಾಶ ನೀಡಲಾಗುತ್ತದೆ.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "{name} ಅವರ ಪರವಾಗಿ Signal ಗೆ ನೀವು ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ. ತಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ತಮ್ಮ ಬೆಂಬಲವನ್ನು ಪ್ರದರ್ಶಿಸಲು ಅವರಿಗೆ ಆಯ್ಕೆಯನ್ನು ನೀಡಲಾಗುತ್ತದೆ.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗದು",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "ಸ್ಟಿಕ್ಕರುಗಳು",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "ಲಭ್ಯವಿದೆ",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "ಸ್ಥಾಪಿಸಲಾಗಿದೆ ಸ್ಟಿಕ್ಕರ್‌ಗಳು",
+    "message": "ಸ್ಥಾಪಿಸಲಾಗಿದೆ",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,7 +2767,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ಡ್ರಾಫ್ಟ್‌ ಲಿಂಕ್ ಪೂರ್ವವೀಕ್ಷಣೆ ತೆಗೆದುಹಾಕಿ",
+    "message": "ಡ್ರಾಫ್ಟ್‌ ಲಿಂಕ್ ಪೂರ್ವನೋಟವನ್ನು ತೆಗೆದುಹಾಕಿ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ವಿಡಿಯೋದೊಂದಿಗೆ ಕರೆ ಸ್ವೀಕರಿಸಿ",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "ವೀಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ಆಡಿಯೋದೊಂದಿಗೆ ಕರೆ ಸ್ವೀಕರಿಸಿ",
+    "message": "ಆಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "ವೀಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ (ವೀಡಿಯೋ ಕರೆಗಳು ಮಾತ್ರ)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "ವೀಡಿಯೋ ಇಲ್ಲದೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "ಆಡಿಯೊ ಕಾಲ್‌ ಆರಂಭಿಸಿ",
+    "message": "ಧ್ವನಿ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3049,7 +3199,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "ಅಳಿಸುವುದೇ ಮತ್ತು $group$ ಬಿಡುವುದೇ?",
+    "message": "$group$ ಅನ್ನು ಅಳಿಸುವುದೇ ಮತ್ತು ತೊರೆಯುವುದೇ?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "ಉತ್ತರಿಸಿ",
+    "message": "ಕರೆಗೆ ಉತ್ತರಿಸಿ",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ವೀಡಿಯೊ ಇಲ್ಲದೇ ಉತ್ತರಿಸಿ",
+    "message": "ವೀಡಿಯೋ ಇಲ್ಲದೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "ನೀವು ಒಂದು ಆಡಿಯೋ ಕಾಲ್ ನಿರಾಕರಿಸಿದ್ದೀರಿ",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "ನೀವು ವಾಯ್ಸ್ ಕಾಲ್ ಅನ್ನು ನಿರಾಕರಿಸಿದ್ದೀರಿ",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "ನೀವು ಒಂದು ವೀಡಿಯೊ ಕಾಲ್ ನಿರಾಕರಿಸಿದ್ದೀರಿ",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "ಒಳಬರುವ ವಾಯ್ಸ್ ಕಾಲ್",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "ಮಿಸ್ಡ್ ಆಡಿಯೊ ಕರೆ",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "ಮಿಸ್ಡ್ ವಾಯ್ಸ್ ಕಾಲ್",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "ಮಿಸ್ಡ್ ವೀಡಿಯೊ ಕಾಲ್",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "ಹೊರಹೋಗುವ ಆಡಿಯೊ ಕರೆ",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "ಹೊರಹೋಗುವ ವಾಯ್ಸ್ ಕಾಲ್",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "ಹೊರಹೋಗುವ ವೀಡಿಯೊ ಕಾಲ್",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "ಉತ್ತರಿಸದ ಆಡಿಯೊ ಕರೆ",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "ಉತ್ತರಿಸದ ವಾಯ್ಸ್ ಕಾಲ್",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ಉತ್ತರಿಸದ ವೀಡಿಯೊ ಕಾಲ್",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "ಒಳಬರುವ ಧ್ವನಿ ಕರೆ...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕರೆ…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂ್ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ.",
+    "message": "ಅಡ್ಮಿನ್ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿರುವ ಕಾರಣದಿಂದ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ನೀವು ಈ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಸಾಧ್ಯವಿಲ್ಲ.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3545,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "ನೀವು ಗುಂಪಿನ ಹೆಸರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
+    "message": "ನೀವು ಗ್ರೂಪಿನ ಹೆಸರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ ಅವರು $memberName$ ಅವರನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
+    "message": "$adminName$, $memberName$ ನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ ಅವರು ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
+    "message": "$adminName$ ನಿಮ್ಮನ್ನು ತೆಗೆದುಹಾಕಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "ನಿಮ್ಮನ್ನು ಗುಂಪಿನಿಂದ ತೆಗೆಯಲಾಗಿದೆ.",
+    "message": "ನಿಮ್ಮನ್ನು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆಯಲಾಗಿದೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ನೀವು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ",
+    "message": "ಗ್ರೂಪ್ ವಿವರಣೆಯನ್ನು ನೀವು ತೆಗೆದುಹಾಕಿದ್ದೀರಿ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4021,7 +4171,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ತೆಗೆಯಲಾಗಿದೆ.",
+    "message": "ಗುಂಪು ವಿವರಣೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "ಎಲ್ಲಾ ಸದಸ್ಯರು ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಅನುಮತಿಸುವಂತೆ ಗ್ರೂಪ್ ಅನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "ಈ ಗ್ರೂಪ್‌ನ ಸದಸ್ಯರು ಅಥವಾ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಬದಲಾಗಿವೆ.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "@ಮೆನ್ಷನ್‌ಗಳು ಮತ್ತು ಅಡ್ಮಿನ್‌ಗಳಂತಹ ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಈ ಗ್ರೂಪ್ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ. ಈ ಗ್ರೂಪ್‌ನಲ್ಲಿ ತಮ್ಮ ಹೆಸರು ಅಥವಾ ಫೋಟೋ ಹಂಚಿಕೊಂಡಿಲ್ಲದ ಸದಸ್ಯರನ್ನು ಸೇರಲು ಆಹ್ವಾನಿಸಲಾಗುತ್ತದೆ. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ . ಆದ್ದರಿಂದ ಈ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆಯಲಾಗುವುದು",
+    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗ್ರೂಪ್‌ಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ, ಆದ್ದರಿಂದ ಈ ಗ್ರೂಪ್‌ನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳಿಗೆ ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
+    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಅರ್ಹರಾಗಿಲ್ಲ, ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ಅವರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುವುದು:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಮತ್ತು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
+    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗಳಿಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ, ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಮತ್ತು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
+    "message": "ಹೊಸ ಗ್ರೂಪ್‌ಗೆ ಸೇರಲು ಈ ಸದಸ್ಯರು ಅರ್ಹರಲ್ಲ ಆದ್ದರಿಂದ ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "ಅಡ್ಮಿನ್ ಆಗಿ ತೆಗೆಯಿರಿ",
+    "message": "ಅಡ್ಮಿನ್ ಆಗಿ ತೆಗೆದುಹಾಕಿ",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4225,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "ಗುಂಪಿನಿಂದ ತೆಗೆಯಿರಿ",
+    "message": "ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಿ",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {ಸಾಮಾನ್ಯ ಗುಂಪು {count,number}} other {{count,number} ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "ನೀವಿಬ್ಬರೂ ಒಂದೇ ಗುಂಪುಗಳಲ್ಲಿಲ್ಲ",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, YYYY",
+    "message": "ತಿತಿತಿ ದಿ, ವವವವ",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "ಗುಂಪಿನಿಂದ ತೆಗೆಯಿರಿ",
+    "message": "ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಿ",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4729,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": ".\"$name$\" ಅವರನ್ನು ಗುಂಪಿನಿಂದ ತೆಗೆದುಹಾಕುವುದೇ? ಅವರಿಗೆ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ಮತ್ತೆ ಸೇರಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
+    "message": ".\"$name$\" ಅವರನ್ನು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕುವುದೇ? ಅವರಿಗೆ ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ಮತ್ತೆ ಸೇರಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ಎಲ್ಲರಿಗೂ ಮೆಸೇಜ್ ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
+    "message": "ಎಲ್ಲರಿಗೂ ಮೆಸೇಜ್ ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "ಈ ಕಸ್ಟಮ್ ಬಣ್ಣವನ್ನು $num$ ಚಾಟ್‌ಗಳಲ್ಲಿ ಬಳಸಲಾಗಿದೆ. ಎಲ್ಲ ಚಾಟ್‌ಗಳಿಗೆ ಅಳಿಸಲು ನೀವು ಬಯಸಿದ್ದೀರಾ?",
+    "message": "ಈ ಕಸ್ಟಮ್ ಬಣ್ಣವನ್ನು $num$ ಚಾಟ್‌ಗಳಲ್ಲಿ ಬಳಸಲಾಗಿದೆ. ಎಲ್ಲ ಚಾಟ್‌ಗಳಿಗೆ ಅಳಿಸಲು ನೀವು ಬಯಸುತ್ತೀರಾ",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4833,7 +4995,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5049,7 +5211,7 @@
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "ಅಳಿಸು",
+    "message": "ಅಳಿಸಿ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "ಸ್ಟೋರೀಸ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5481,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5693,11 +5855,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿರಿ",
+    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ ಅಳಿಸಿ",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" ಅನ್ನು ಅಳಿಸಲು ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಿಹಾಕಲು ಬಯಸುತ್ತೀರಾ? ಈ ಸ್ಟೋರಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾದ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "message": "\"$name$\" ಅನ್ನು ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ? ಈ ಸ್ಟೋರಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾದ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡ ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5853,7 +6015,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿ",
+    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿ",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "ಉತ್ತರಿಸಿ",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} ಅವರಿಗೆ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
+    "message": "(01/25/23 ರಂದು ಅಳಿಸಲಾಗಿದೆ) ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸು",
+    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸಿ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸು",
+    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸಿ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6172,6 +6338,18 @@
     "message": "ಈ ಅಂಕಿಗಳು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಗೌಪ್ಯವಾಗಿರಿಸಲು ನೆರವಾಗುತ್ತವೆ, ಹಾಗಾಗಿ ನೀವು ಅನಪೇಕ್ಷಿತ ಮೆಸೇಜ್‌ಗಳನ್ನು ತಪ್ಪಿಸಬಹುದು. ನೀವು ಚಾಟ್ ಮಾಡಲು ಬಯಸುವ ಜನರು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಮಾತ್ರ ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಹಂಚಿಕೊಳ್ಳಿ. ಯೂಸರ್‌ನೇಮ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ ಅಂಕಿಗಳ ಹೊಸ ಸೆಟ್ ಅನ್ನು ನೀವು ಪಡೆಯುತ್ತೀರಿ.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು Signal desktop ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು {expirationDate} ನ ಒಳಗೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal desktop ಇನ್ನು ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ. Signal desktop ಅನ್ನು ಮತ್ತೆ ಬಳಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal desktop ಇನ್ನು ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ. Signal desktop ಅನ್ನು ಮತ್ತೆ ಬಳಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿ.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "ಹೊಸತೇನಿದೆ",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "ನೀವು ಸಣ್ಣ ಗ್ರೂಪ್‌ಗಳಿಗೆ (16 ಜನರ ತನಕ) ಗ್ರೂಪ್ ಕಾಲ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸುವಾಗ, ರಿಂಗಣಿಸುವ ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಬಹುದು. ಗ್ರೂಪ್ ಸದಸ್ಯರು iOS ಬೀಟಾದಲ್ಲಿದ್ದರೆ ಅಥವಾ Desktop ಅಥವಾ Android ಬಳಸುತ್ತಿದ್ದರೆ ರಿಂಗ್ ಆಲಿಸುತ್ತಾರೆ.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ಉಲ್ಲೇಖಿತ ಉತ್ತರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಚಾಟ್‌ನಲ್ಲಿ ಯಾವುದೇ ಮೆಸೇಜ್ ಸಾಲಿನ ಮೇಲೆ ಡಬಲ್ ಕ್ಲಿಕ್ ಮಾಡಿ. ಇದೊಂಥರಾ ಹಳೇ ಐಡಿಯಾಗಳ ಕುರಿತಾದ ಹೊಸ ಆಲೋಚನೆಗಳಿಗೆ ಶಾರ್ಟ್‌ಕಟ್ ಇದ್ದಂತೆ. ಈ ಫೀಚರ್ ಅನ್ನು ಅನುಷ್ಠಾನಗೊಳಿಸಿದ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಒದಗಿಸಿದ {whynothugo} ಮತ್ತು Signal ಸಮುದಾಯಕ್ಕೆ ಧನ್ಯವಾದಗಳು.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ಝೂಮ್ ಇನ್ ಮಾಡದೆಯೇ ಗ್ಯಾಲರಿ ವೀಕ್ಷಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಲು ಇಮೇಜ್‌ನ ಹೊರಗಡೆ ಕ್ಲಿಕ್ ಮಾಡುವುದು ಈಗ ಸುಲಭ. ಕೆಲವೊಮ್ಮೆ ಸಂಗತಿಗಳನ್ನು ತೀರಾ ಝೂಮ್ ಮಾಡುವುದು ಹಿತವಾಗದೆ ಮುಚ್ಚಲು ಬಯಸುತ್ತೀರಿ. ಸರಿಪಡಿಸಿದ್ದಕ್ಕಾಗಿ {jojomatik} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ನಿಮ್ಮ ಪ್ರತ್ಯುತ್ತರ ಸಮಯವನ್ನು ವೇಗಗೊಳಿಸಿ. ನೀವೀಗ ಸ್ಟೋರಿಗೆ ಉತ್ತರಿಸುವಾಗ ಯಾವುದೇ ಎಮೋಜಿ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ತ್ವರಿತವಾಗಿ ಪ್ರತಿಕ್ರಿಯಿಸಬಹುದು.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ಇದೀಗ ಚೈನೀಸ್ ಮತ್ತು ಜಪಾನೀಸ್‌ ಭಾಷೆಯ ಪ್ರತಿ ಕ್ಯಾರೆಕ್ಟರ್‌ಗಾಗಿ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಸರ್ಚ್ ಮಾಡಲು ಸಾಧ್ಯ.",
+    "description": "Release notes for v6.5"
   }
 }

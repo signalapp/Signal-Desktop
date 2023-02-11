@@ -8,6 +8,7 @@ import EventEmitter, { once } from 'events';
 
 import type { JobQueueStore, StoredJob } from '../../jobs/types';
 import { sleep } from '../../util/sleep';
+import { drop } from '../../util/drop';
 
 export class TestJobQueueStore implements JobQueueStore {
   events = new EventEmitter();
@@ -20,7 +21,7 @@ export class TestJobQueueStore implements JobQueueStore {
 
   constructor(jobs: ReadonlyArray<StoredJob> = []) {
     jobs.forEach(job => {
-      this.insert(job);
+      drop(this.insert(job));
     });
   }
 

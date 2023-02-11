@@ -149,7 +149,7 @@ export function StoryCreator({
       }
     }
 
-    loadAttachment();
+    void loadAttachment();
 
     return () => {
       unmounted = true;

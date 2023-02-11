@@ -24,7 +24,7 @@ export function queueUpdateMessage(messageAttr: MessageAttributesType): void {
   if (shouldBatch) {
     updateMessageBatcher.add(messageAttr);
   } else {
-    window.Signal.Data.saveMessage(messageAttr, {
+    void window.Signal.Data.saveMessage(messageAttr, {
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
     });
   }

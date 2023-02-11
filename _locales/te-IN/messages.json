@@ -64,6 +64,18 @@
     "message": "సభ్యత్వం పెండింగ్‌లో ఉంది",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "పంపిన మీడియా నాణ్యత",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "ప్రామాణికం",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "అధికం",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "సాఫ్ట్వేర్ అంగీకారములు",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "సమాచార మొత్తని తీసివేసి పునఃప్రారంబించు",
+    "message": "మొత్తం సమాచారమును తొలగించి పునఃప్రారంభించండి",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -469,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "స్టోరీ నుంచి తొలగించండి",
+    "message": "కథ నుంచి తొలగించండి",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -674,12 +686,21 @@
     "message": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "మీరు ఒకే సమయంలో ఒక్క ఫైలును మాత్రమే ఎంచుకోగలరు.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "మీరు ఈ సందేశానికి ఎక్కువ జోడింపులను జోడించలేరు.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది."
+    "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "ఆడియో సందేశాలను పంపడానికి, మీ మైక్రోఫోన్‌ను యాక్సెస్ చేయడానికి Signal Desktop ను అనుమతించండి.",
+    "message": "వాయిస్ సందేశాలను పంపడానికి, మీ మైక్రోఫోన్‌ను యాక్సెస్ చేయడానికి Signal డెస్క్‌టాప్‌ను అనుమతించండి.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ఈ సందేశం ఈ పరికరం నుండి తొలగించబడుతుంది.",
+    "message": "ఈ పరికరం నుండి ఈ సందేశం తొలగించబడుతుంది.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "సంభాషణలోని ప్రతిఒక్కరూ సిగ్నల్ యొక్క ఇటీవలి వెర్షన్ లో ఉంటే ఈ సందేశం తొలగించబడుతుంది. మీరు సందేశాన్ని తొలగించారని వారు చూడగలరు.",
+    "message": "సంభాషణలోని ప్రతిఒక్కరూ ఒకవేళ వారు Signal యొక్క ఇటీవలి వెర్షన్‌లో ఉంటే ఈ సందేశం తొలగించబడుతుంది. మీరు ఒక సందేశాన్ని తొలగించారని వారు చూడగలగుతారు.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "ప్రతిఒక్కరికి డిలీట్ చేయడాన్ని మళ్లీ ప్రయత్నించండి",
+    "message": "ప్రతిఒక్కరి కోసం తొలగించడాన్ని మళ్ళీ ప్రయత్నించండి",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1148,11 +1169,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "నాకు మాత్రమే ఈ సందేశాన్ని తొలగించండి",
+    "message": "నా కోసం సందేశాన్ని తొలగించండి",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "అందరికీ సందేశాన్ని తొలగించండి",
+    "message": "ప్రతిఒక్కరి కోసం సందేశాన్ని తొలగించండి",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1160,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "ఈ సంభాషణను శాశ్వతంగా తొలగించాలా?",
+    "message": "ఈ సంభాషణను శాశ్వతంగా తొలగించేదా?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1204,12 +1225,44 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ఈ చాట్‌లో $sender$ నుంచి సందేశం, స్టిక్కర్, రియాక్షన్, రీడ్ రిసిప్ట్ లేదా మీడియా డెలివరీ చేయబడదు.",
+    "message": "ఈ చాట్‌లో $sender$ నుంచి సందేశం, స్టిక్కర్, ప్రతిస్పందన, రీడ్ రిసిప్ట్ లేదా మీడియా డెలివరీ చేయబడదు.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
     "message": "$sender$వారి ఫోన్ నెంబర్‌ని మార్చారు",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} మరియు {conversationTitle} లు ఒకే అకౌంట్. రెండు చాట్‌ల కొరకు మీ సందేశం చరిత్ర ఇక్కడ ఉంది.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} తో మీ సందేశ చరిత్ర మరియు వాటి {obsoleteConversationNumber} నంబరు కలిపేయబడ్డాయి.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} తో మీ సందేశ చరిత్ర మరియు వాటికి సంబంధించిన మరో చాట్ కలిపేయబడ్డాయి.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "మరింత తెలుసుకోండి",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} కు సందేశాన్ని పంపిన తరువాత, ఈ నెంబర్‌ {conversationTitle} కు చెందిందని మీరు తెెలుసుకున్నారు. ఈ ఫోన్ నంబర్ ప్రైవేట్.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "రెండు సంభాషణల కొరకు మీ సందేశ చరిత్ర ఇక్కడ కలపబడింది.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది. మీరు {sharedGroup} రెండింటి సభ్యులు.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "కోట్ చేసిన సందేశం నుండి చిత్రం యొక్క సూక్ష్మచిత్రం",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "మీరు వారి ఆడియో లేదా వీడియోను స్వీకరించరు మరియు వారు మీది స్వీకరించరు.",
+    "message": "మీరు వారి వాయిస్ లేదా వీడియోని పొందరు లేదా వారు మీకు చెందినది స్వీకరించరు.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1639,15 +1692,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "సమాచార మొత్తని  తొలగించండి?",
+    "message": "మొత్తం సమాచారమును తొలగించేదా?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "మీరు అన్ని పరిచయాలు మరియు అన్ని సందేశాలతో సహా ఈ అనువర్తనం యొక్క సేవ్ చేసిన ఖాతా సమాచారాన్ని తొలగించబోతున్నారు. మీరు ఎప్పుడైనా మీ మొబైల్ పరికరంతో మళ్లీ లింక్ చేయవచ్చు, కానీ అది తొలగించిన సందేశాలను పునరుద్ధరించదు.",
+    "message": "అన్ని పరిచయాలు మరియు అన్ని సందేశాలతో సహా ఈ అప్లికేషన్ యొక్క భద్రపరచబడిన ఖాతా సమాచారాన్నంతటిని మీరు తొలగించబోతున్నారు. మీ మొబైల్ పరికరంతో మీరు ఎల్లప్పుడూ మళ్ళీ లింక్ చేయవచ్చు, కానీ అది తొలగించబడిన సందేశాలను పునరుద్ధరించదు.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "సమాచార మొత్తని తొలగించండి",
+    "message": "మొత్తం సమాచారమును తొలగించండి",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1655,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Signal Desktop యొక్క ముందు ఇన్‌స్టాలేషన్ నుండి మీకు వాడుకలో లేని డేటా ఉంది. మీరు కొనసాగించాలని ఎంచుకుంటే, అది తొలగించబడుతుంది మరియు మీరు మొదటి నుండి ప్రారంభిస్తారు.",
+    "message": "Signal Desktop యొక్క మునుపటి ఇన్‌స్టాలేషన్ నుండి మీరు వాడుకలో లేని డేటా కలిగి ఉన్నారు. ఒకవేళ మీరు కొనసాగించాలని ఎంచుకుంటే, అది తొలగించబడుతుంది మరియు మీరు మొదటి నుండి ప్రారంభిస్తారు.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "పాత దత్తాంశాలును తొలగించండి",
+    "message": "పాత డేటాను తొలగించండి",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1705,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "డిలీట్ చేయడం విఫలమైంది",
+    "message": "తొలగించడం విఫలమైంది",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "పాక్షికంగా డిలీట్ చేయబడింది, మళ్లీ ప్రయత్నించడానికి క్లిక్ చేయండి",
+    "message": "పాక్షికంగా తొలగించబడింది, మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1749,7 +1802,7 @@
     "description": "Error message displayed when sending to an unregistered user."
   },
   "sync": {
-    "message": "కాంటాక్ట్‌ల ఇంపోర్ట్",
+    "message": "కాంటాక్ట్‌లను దిగుమతి చేయండి",
     "description": "Label for contact and group sync settings"
   },
   "syncExplanation": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి."
+    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal పున ప్రారంభించండి"
@@ -2161,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "చివరి సందేశం డిలీట్ చేయబడవచ్చు.",
+    "message": "చివరి సందేశం తొలగించబడి ఉండవచ్చు.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2228,88 +2282,176 @@
     "message": "ఈ సందేశం తొలగించబడింది.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "గిఫ్ట్ బ్యాడ్జీ వివరాలను పొందలేకపోయారు",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "విరాళం వివరాలను పొందలేకపోయింది",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "దీనిని ఓపెన్ చేయడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "దీనిని తెరవడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "మీ గిఫ్ట్‌ని చూడటానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "బహుమతి",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "మీ తరఫున Signal కు {sender} విరాళం ఇచ్చారు",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "బహుమతిని ఓపెన్ చేయడానికి మీ ఫోన్‌ని చెక్ చేయండి",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ఈ విరాళాన్ని తెరవడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "మీ బహుమతిని వీక్షించడానికి మీ ఫోన్ చెక్ చేయండి",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "మీరు ఒక బహుమతిని అందుకున్నారు",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "మీ కొరకు {sender} విరాళం ఇచ్చారు",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "మీరు ఒక బహుమతి బ్యాడ్జిని రీడిమ్ చేసుకున్నారు",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "మీరు ఒక విరాళాన్ని రీడిమ్ చేసుకున్నారు",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "మీరు ఒక బహుమతి బ్యాడ్జిని పంపారు",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "మీరు {recipient} కొరకు విరాళం ఇచ్చారు",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "బహుమతి బ్యాడ్జి",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "విరాళం",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "బహుమతి",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "విరాళం",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ రోజులు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} రోజులు మిగిలి ఉన్నాయి",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ గంటలు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} గంటలు మిగిలి ఉన్నాయి",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ నిమిషాలు మిగిలి ఉన్నాయి",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {{minutes,number} నిమిషం మిగిలి ఉంది} other {{minutes,number} నిమిషాలు మిగిలి ఉన్నాయి}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 నిమిషం మిగిలి ఉంది",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "గడువు తీరింది",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "గడువు తీరింది",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "వీక్షణ",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "వీక్షించండి",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "రీడిమ్ చేయబడింది",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "రీడిమ్ చేయబడింది",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "మీ సపోర్ట్‌కు ధన్యవాదాలు!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "మీ మద్దతుకు ధన్యవాదాలు!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "మీరు $name$కు బ్యాడ్జిని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జిని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "మీరు {name} తరఫున Signal కు విరాళం ఇచ్చారు. వారి ప్రొఫైల్‌లో తమ మద్దతును చూపించేందుకు ఎంపిక వారికి ఇవ్వబడుతుంది.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "స్టిక్కర్ ప్యాక్ వ్యవస్థాపించబడలేదు",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "స్టిక్కర్లు",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "లభ్యం",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "ఇన్‌స్టాల్ చేసిన స్టిక్కర్లు",
+    "message": "ఇన్‌స్టాల్ చేయబడింది",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2605,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "ఎంచుకున్న సందేశాలు తొలగించాలా",
+    "message": "ఎంచుకున్న సందేశాలను తొలగించండి",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "చిత్తుప్రతి లింక్ పరిదృశ్యాన్ని తొలగించండి",
+    "message": "ముసాయిదా లింక్ ప్రివ్యూను తొలగించండి",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "అన్ని చిత్తుప్రతి జోడింపులను తొలగించండి",
+    "message": "అన్ని ముసాయిదా జోడింపులను తొలగించండి",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "వీడియోతో కాల్‌ని ఆమోదించండి",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ఆడియోతో కాల్‌ని ఆమోదించండి",
+    "message": "ఆడియోతో కాల్‌కు సమాధానం ఇవ్వండి",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "వీడియో లేకుండా కాల్‌కు సమాధానం ఇవ్వండి",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "ఆడియో కాల్ ప్రారంభించండి",
+    "message": "వాయిస్ కాల్ ప్రారంభించండి",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "అటాచ్మెంట్ తొలగించండి",
+    "message": "జోడింపును తొలగించండి",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "స్టిక్కర్‌ని తొలగించండి",
+    "message": "స్టిక్కర్‌ను తొలగించండి",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "స్టిక్కర్ ప్యాక్‌ని సృష్టించిన తర్వాత మీరు ఇకపై సవరణలు చేయలేరు లేదా తొలగించలేరు.",
+    "message": "స్టిక్కర్ ప్యాక్‌ను సృష్టించిన తర్వాత మీరు ఇకపై సవరణలు చేయలేరు లేదా తొలగించలేరు.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -2961,7 +3111,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "రియాక్షన్ తొలగించండి",
+    "message": "ప్రతిస్పందనను తొలగించండి",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3041,15 +3191,15 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "సందేశాలను తొలగించాలా?",
+    "message": "సంభాషణను తొలగించేదా?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "ఈ సంభాషణ మీ పరికరాల నుండి తొలగింపబడుద్ది.",
+    "message": "ఈ సంభాషణ మీ పరికరాలు అన్నింటి నుండి తొలగించబడుతుంది.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ను తొలగించి వదిలేయాలా?",
+    "message": "తొలగించి మరియు $group$ను వదిలేసేదా?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3057,11 +3207,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "తొలగించి వదిలివేయండి",
+    "message": "తొలగించండి మరియు వదిలివేయండి",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "మీరు ఈ సమూహాన్ని వదిలి వెళతారు మరియు ఇది మీ పరికరాల నుండి తొలగింపబడుతుంది.",
+    "message": "మీరు ఈ గ్రూపును వదిలి వెళతారు మరియు ఇది మీ పరికరాలు అన్నింటి నుండి తొలగించబడుతుంది.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "సమాధానం",
+    "message": "కాల్ ఆన్సర్ చేయండి",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "వీడియో లేకుండా సమాధానం ఇవ్వండి",
+    "message": "వీడియో లేకుండా కాల్‌కు సమాధానం ఇవ్వండి",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "మీరు ఆడియో కాల్‌ను తిరస్కరించారు",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "మీరు ఒక వాయిస్ కాల్‌ను నిరాకరించారు",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "మీరు వీడియో కాల్‌ను తిరస్కరించారు",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "కొత్తగా వచ్చిన ఆడియో కాల్",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "ఇన్‌కమింగ్ వాయిస్ కాల్",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "కొత్తగా వచ్చిన వీడియో కాల్",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "తప్పిన ఆడియో కాల్",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "మిస్డ్ వాయిస్ కాల్",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "తప్పిన వీడియో కాల్",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "అవుట్గోయింగ్ ఆడియో కాల్",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "అవుట్‌గోయింగ్ వాయిస్ కాల్",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "అవుట్గోయింగ్ వీడియో కాల్",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "సమాధానం లేని ఆడియో కాల్",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "సమాధానం ఇవ్వని వాయిస్ కాల్",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "సమాధానం లేని వీడియో కాల్",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ఇన్‌కమింగ్ ఆడియో కాల్...",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "ఇన్‌కమింగ్ వాయిస్ కాల్...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ఇన్‌కమింగ్ వీడియో కాల్…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "అడ్మిన్ మిమ్మల్ని తొలగించడం వల్ల మీరు గ్రూపు లింక్ ద్వారా ఈ గ్రూపులో చేరలేరు.",
+    "message": "అడ్మిన్ మిమ్మల్ని తొలగించడం వల్ల గ్రూప్ లింక్ ద్వారా ఈ గ్రూపులో మీరు చేరలేరు.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ సమూహం పేరు తొలగించబడింది.",
+    "message": "$memberName$ గ్రూప్ పేరును తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "మీరు గుంపు పేరును తొలగించారు.",
+    "message": "గ్రూప్ పేరును మీరు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "సభ్యుడు గుంపు పేరును తొలగించారు.",
+    "message": "గ్రూప్ పేరును ఒక సభ్యుడు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "గ్రూప్ అవతార్‌ను $memberName$ తొలగించాడు.",
+    "message": "గ్రూప్ అవతార్‌ను $memberName$ తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "మీరు సమూహ అవతార్‌ను తొలగించారు.",
+    "message": "గ్రూప్ అవతార్‌ను మీరు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "ఒక సభ్యుడు సమూహ అవతార్‌ను తొలగించారు.",
+    "message": "గ్రూప్ అవతార్‌ను ఒక సభ్యుడు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$ను తొలిగించారు",
+    "message": "$memberName$ను $adminName$ తొలిగించారు",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,11 +3891,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "మీరు $memberName$ ను తొలగించారు.",
+    "message": "$memberName$ను మీరు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "ఒక సభ్యుడు $memberName$ ని తొలగించారు.",
+    "message": "$memberName$ను ఒక సభ్యుడు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "మీరు గుంపు నుండి తొలగించబడ్డారు.",
+    "message": "గ్రుప్ నుండి మీరు తొలగించబడ్డారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,15 +4163,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "v",
+    "message": "గ్రుప్ వివరణను మీరు తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ సమూహ వివరణను తొలగించారు.",
+    "message": "గ్రూప్ వివరణను $memberName$ తొలగించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "సమూహ వివరణ తొలగించబడింది.",
+    "message": "గ్రూప్ వివరణ తొలగించబడింది.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "సభ్యులందరూ సందేశాలను పంపేందుకు అనుమతించడానికి గ్రూపు మార్చబడింది.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "ఈ గ్రూపు సభ్యులు లేదా సెట్టింగ్‌లు మార్చబడింది.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "@ప్రస్తావనలు మరియు నిర్వాహకులు వంటి క్రొత్త లక్షణాలను చైతన్యవంతం చేయడానికి ఈ సమూహాన్ని అప్‌గ్రేడ్ చేయండి. ఈ గుంపులో తమ పేరు లేదా ఛాయాచిత్రంను పంచుకోని సభ్యులను చేరడానికి ఆహ్వానించబడతారు. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ఈ సభ్యులు క్రొత్త సమూహాలలో చేరడానికి సామర్థ్యం కలిగి లేరు మరియు సమూహం నుండి తొలగించబడతారు:",
+    "message": "ఈ సభ్యులు క్రొత్త గ్రూపులలో చేరడానికి సామర్థ్యం లేదు మరియు గ్రూప్ నుండి తొలగించబడతారు:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ఈ సభ్యుడు క్రొత్త సమూహాలలో చేరగల సామర్థ్యం లేదు మరియు సమూహం నుండి తీసివేయబడతారు:",
+    "message": "ఈ సభ్యుడు క్రొత్త గ్రూపులలో చేరడానికి సామర్థ్యం లేదు మరియు గ్రూప్ నుండి తొలగించబడతాడు:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "ఈ సభ్యులు క్రొత్త సమూహాలలో చేరడానికి సామర్థ్యం కలిగి లేరు మరియు సమూహం నుండి తొలగించబడ్డారు:",
+    "message": "ఈ సభ్యులు క్రొత్త గ్రూపులలో చేరడానికి సామర్థ్యం కలిగి ఉండలేదు మరియు గ్రూప్ నుండి తొలగించబడ్డారు:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "ఈ సభ్యుడు క్రొత్త సమూహాలలో చేరగల సామర్థ్యం కలిగి లేడు మరియు సమూహం నుండి తొలగించబడ్డాడు:",
+    "message": "ఈ సభ్యుడు క్రొత్త గ్రూపులలో చేరడానికి సామర్థ్యం కలిగి ఉండలేదు మరియు గ్రూప్ నుండి తొలగించబడ్డాడు:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4137,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ ని గుంపు నుండి తొలగించారు.",
+    "message": "గ్రూప్ నుండి $contact$ తొలగించబడినారు.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "గుంపు నుండి $count$ మంది సభ్యులను తొలగించారు.",
+    "message": "గ్రూప్ నుండి $count$ మంది సభ్యులు తొలగించబడినారు.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ను గ్రూపు అడ్మిన్ వలే తొలగించాలా?",
+    "message": "$contact$ను గ్రూప్ అడ్మిన్ లాగా తొలగించేదా?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "సమూహం నుండి తొలగించండి",
+    "message": "గ్రూప్ నుండి తొలగించండి",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ గ్రూప్‌లు ఉమ్మడిగా ఉన్నాయి",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} సమూహం ఉమ్మడిగా ఉన్నాయి} other {{count,number} సమూహాలు ఉమ్మడిగా ఉన్నాయి}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "సాధారణమైన సమూహాలు లేవు",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "సమూహంకి కలపండి",
@@ -4525,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "చిత్రం  తీసివేయండి",
+    "message": "చిత్రంను తొలగించండి",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, YYYY",
+    "message": "MMM D YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,15 +4883,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "సమూహం నుండి తొలగించండి",
+    "message": "గ్రూప్ నుండి తొలగించండి",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "సమూహం నుండి \"$name$\" ను తొలగించాలా?",
+    "message": "గ్రూప్ నుండి \"$name$\" ను తొలగించేదా?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "గ్రూపు నుంచి $name$ని తొలగించాలా? వారు గ్రూపు లింక్ ద్వారా తిరిగి చేరలేకపోతారు.",
+    "message": "గ్రూప్ నుంచి \"$name$\" ను తొలగించేదా? వారు గ్రూప్ లింక్ ద్వారా తిరిగి చేరలేరు.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ప్రతిఒక్కరికీ సందేశాన్ని తొలగించడంలో విఫలమైంది. దయచేసి తరువాత మళ్లీ ప్రయత్నించండి.",
+    "message": "ప్రతిఒక్కరికి సందేశాన్ని తొలగించడంలో విఫలమైంది. దయచేసి తరువాత మళ్ళీ ప్రయత్నించండి.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "ఈ అనుకూల రంగు $num$ మాటామంతిలలో ఉపయోగించబడుతుంది. మీరు అన్ని మాటామంతిల కోసం దీన్ని తొలగించాలనుకుంటున్నారా?",
+    "message": "ఈ అనుకూల రంగు $num$ చాట్స్‌లో ఉపయోగించబడింది. మీరు అన్ని చాట్స్ కోసం దీన్ని తొలగించాలనుకుంటున్నారా?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "మీ యూజర్‌నేమ్‌ని తొలగించలేం. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
+    "message": "మీ యూజర్‌నేమ్‌ను తొలగించడం వీలుకాలేదు. మీ కనెక్షన్ సరిచూసుకొని, మళ్ళీ ప్రయత్నించండి.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5041,11 +5203,11 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "యూజర్‌నేమ్‌ని డిలీట్ చేయండి",
+    "message": "యూజర్‌నేమ్‌ను తొలగించండి",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "ఇది మీ యూజర్‌నేమ్‌ని తొలగిస్తుంది, ఇతర యూజర్‌లు దానికి క్లెయిం చేయడానికి అనుమతిస్తుంది. మీరు ఖచ్చితంగా అనుకుంటున్నారా?",
+    "message": "ఇది మీ యూజర్‌నేమ్‌ను తొలగిస్తుంది, ఇతర యూజర్‌లు దానికి క్లెయిం చేయడానికి అనుమతిస్తుంది. మీరు ఖచ్చితంగా అనుకుంటున్నారా?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5185,7 +5347,7 @@
     "description": "Button to switch the settings view"
   },
   "Preferences--lastSynced": {
-    "message": "$date$ $time$ వద్ద చివరిగా ఇంపోర్ట్ చేయబడింది",
+    "message": "$date$ $time$ వద్ద చివరిగా దిగుమతి చేయబడింది",
     "description": "Label for date and time of last sync operation"
   },
   "Preferences--system": {
@@ -5473,7 +5635,7 @@
     "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
-    "message": "$num$ రిప్లై",
+    "message": "$num$ ప్రత్యుత్తరము",
     "description": "Number of replies your story has"
   },
   "MyStories__replies--plural": {
@@ -5601,7 +5763,7 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "రిప్లై పంపుతోంది..",
+    "message": "ప్రత్యుత్తరము పంపుతోంది..",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
@@ -5669,11 +5831,11 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "తొలగించు",
+    "message": "తొలగించండి",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$ని తొలగించండి",
+    "message": "$title$ను తొలగించండి",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5773,11 +5935,11 @@
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "గ్రూప్ స్టోరీను తొలగించండి",
+    "messageformat": "గ్రూప్ కథను తొలగించండి",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "మీరు ఖచ్చితంగా “{groupTitle}”ను తొలగించాలని అనుకుంటున్నారా?",
+    "messageformat": "“{groupTitle}”ను మీరు ఖచ్చితంగా తొలగించాలని అనుకుంటున్నారా?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5904,6 +6066,10 @@
     "message": "స్పంధించు",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} కు ప్రత్యుత్తరం ఇవ్వండి",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "గ్రూపుకు బదులివ్వడం",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "కథకు ప్రతిస్పందించండి",
+    "message": "(01/25/23 నాడు తొలగించబడింది) కథకు ప్రతిస్పందించండి",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "నాకు మాత్రమే తొలగించు",
+    "messageformat": "నాకు తొలగించండి",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "అందరికి తొలగించు",
+    "messageformat": "అందరికీ తొలగించండి",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6013,7 +6179,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "డిలీట్ చేయండి",
+    "message": "తొలగించండి",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6172,6 +6338,18 @@
     "message": "ఈ అంకెలు మీ యూజర్‌నేమ్‌ను గోప్యంగా ఉంచడానికి సహాయపడతాయి, కాబట్టి మీరు అవాంఛిత సందేశాలను నివారించవచ్చు. మీరు చాట్ చేయడానికి ఇష్టపడే వ్యక్తులు మరియు గ్రూపులతో మాత్రమే మీ యూజర్‌నేమ్‌ను పంచుకోండి. ఒకవేళ మీరు యూజర్‌నేమ్‌లను మార్చితే, మీరు కొత్త అంకెల అమరికను పొందుతారు.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "త్వరలో {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌కు Signal డెస్క్‌టాప్ ఇక ఏమాత్రం మద్దతు ఇవ్వదు. Signal ఉపయోగించడాన్నికొనసాగించేందుకు, {expirationDate} లోపు మీ కంప్యూటర్ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేసుకోండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal డెస్క్‌టాప్ ఈ కంప్యూటర్‌పై ఇక ఏమాత్రం పనిచేయదు. Signal డెస్క్‌టాప్‌ను మళ్ళీ ఉపయోగించడానికి, {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌ను అప్‌డేట్ చేయండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal డెస్క్‌టాప్ ఈ కంప్యూటర్‌పై ఇక ఏమాత్రం పనిచేయదు. Signal డెస్క్‌టాప్‌ను మళ్ళీ ఉపయోగించడానికి, {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌ను అప్‌డేట్ చేయండి.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "కొత్తది ఏమిటి",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "చిన్న గ్రూపుల కోసం (16 మంది వరకు) మీరు గ్రూప్ కాల్‌ను ప్రారంభించినప్పుడు, మీరు రింగింగ్ నోటిఫికేషన్‌ను పంపేందుకు ఎంచుకోవచ్చు. ఒకవేళ వారు iOS బీటాలో ఉన్నా లేదా డెస్క్‌టాప్ లేదా ఆండ్రాయిడ్ ఉపయోగిస్తున్నా గ్రూప్ సభ్యులు రింగ్ వింటారు.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "కోట్ చేసిన ప్రత్యుత్తరాన్ని ప్రారంభించడానికి చాట్‌లోని ఏదైనా సందేశం వరుసపై డబుల్ క్లిక్ చేయండి. పాత ఆలోచనల గురించి కొత్త ఆలోచనల కొరకు ఇది షార్ట్‌కట్ వంటిది. ఈ ఫీచర్ అమలు చేసినందుకు మరియు అభిప్రాయాన్ని అందించినందుకు {whynothugo} కు మరియు Signal కమ్యూనిటీకి ధన్యవాదాలు.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "జూమ్ ఇన్ చేయకుండానే గ్యాలరీ వీక్షణను రద్దు చేయడానికి చిత్రం వెలుపల క్లిక్ చేయడం ఇప్పుడు సులభం. కొన్నిసార్లు మీరు కేవలం మూసివేయాలని అనుకుంటారు మరియు బదులుగా విషయాలు చాలా దగ్గరగా అవుతాయి. పరిష్కరించినందుకు {jojomatik} కు ధన్యవాదాలు!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "మీ ప్రతిస్పందన సమయాన్ని వేగవంతం చేయండి. ఒక కథకు ప్రత్యుత్తరము ఇచ్చేటప్పుడు ఏదైనా ఎమోజీపై క్లిక్ చేయడం ద్వారా ఇప్పుడు మీరు వేగంగా ప్రతిస్పందించవచ్చు.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "చైనీస్ మరియు జపనీస్ భాషల్లో వ్యక్తిగత క్యారెక్టర్ల కొరకు మీ సందేశ చరిత్రను వెతకడం ఇప్పుడు సాధ్యం.",
+    "description": "Release notes for v6.5"
   }
 }

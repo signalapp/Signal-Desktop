@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -359,7 +359,13 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
         };
-        const action = showConversation({ conversationId: 'abc123' });
+        const dispatch = sinon.spy();
+        showConversation({ conversationId: 'abc123' })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+        const action = dispatch.getCall(0).args[0];
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -370,10 +376,12 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
         };
-        const action = showConversation({
+        const dispatch = sinon.spy();
+        showConversation({
           conversationId: 'abc123',
           messageId: 'xyz987',
-        });
+        })(dispatch, getEmptyRootState, null);
+        const action = dispatch.getCall(0).args[0];
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -384,10 +392,12 @@ describe('both/state/ducks/conversations', () => {
         let action: SelectedConversationChangedActionType;
 
         beforeEach(() => {
-          action = showConversation({
+          const dispatch = sinon.spy();
+          showConversation({
             conversationId: 'fake-conversation-id',
             switchToAssociatedView: true,
-          });
+          })(dispatch, getEmptyRootState, null);
+          [action] = dispatch.getCall(0).args;
         });
 
         it('shows the inbox if the conversation is not archived', () => {
@@ -741,7 +751,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledWith(dispatch, {
           type: SELECTED_CONVERSATION_CHANGED,
           payload: {
-            id: '9876',
+            conversationId: '9876',
             messageId: undefined,
             switchToAssociatedView: true,
           },
@@ -1539,7 +1549,7 @@ describe('both/state/ducks/conversations', () => {
           ...changedMessage,
           reactions: [
             {
-              emoji: '🎁',
+              emoji: '✨',
               fromId: 'some-other-id',
               timestamp: 2222,
               targetTimestamp: 1111,
@@ -1570,7 +1580,7 @@ describe('both/state/ducks/conversations', () => {
               ...startState.messagesLookup[messageId],
               reactions: [
                 {
-                  emoji: '🎁',
+                  emoji: '✨',
                   fromId: 'some-other-id',
                   timestamp: 2222,
                   targetTimestamp: 1111,
@@ -2172,7 +2182,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isUndefined(
           nextState.conversationsByGroupId.jkl.conversationColor
         );
-        window.storage.remove('defaultConversationColor');
+        await window.storage.remove('defaultConversationColor');
       });
     });
 

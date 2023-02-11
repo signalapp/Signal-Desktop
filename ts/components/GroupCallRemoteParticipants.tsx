@@ -1,10 +1,10 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, clamp, chunk, maxBy, flatten, noop } from 'lodash';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
   GroupCallOverflowArea,

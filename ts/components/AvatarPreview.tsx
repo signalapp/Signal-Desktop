@@ -62,7 +62,7 @@ export function AvatarPreview({
 
     let shouldCancel = false;
 
-    (async () => {
+    void (async () => {
       try {
         const buffer = await imagePathToBytes(avatarPath);
         if (shouldCancel) {

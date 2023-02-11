@@ -64,6 +64,18 @@
     "message": "Jäsenyys odottaa",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Lähetettävän median laatu",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Vakio",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Korkea",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Ohjelmistokiitokset",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -457,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Haluatko varmasti poistaa {count,number} vastaanottajan tarinasta {story}?} other {Haluatko varmasti poistaa {count,number} vastaanottajaa tarinasta {story}?}}",
+    "messageformat": "{count, plural, one {Haluatko varmasti poistaa yhden vastaanottajan tarinasta {story}?} other {Haluatko varmasti poistaa {count,number} vastaanottajaa tarinasta {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -674,12 +686,21 @@
     "message": "Valokuvia ja videoita ei voi valita yhdessä tiedostojen kanssa.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Voit valita vain yhden tiedoston kerrallaan.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Tähän viestiin ei voida liittää enempää liitetiedostoja.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Tiedosto ylittää viestin kokorajoituksen."
+    "message": "Tiedosto ylittää viestin kokorajoituksen.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Valittua liitettä ei voitu ladata."
@@ -1211,6 +1232,38 @@
     "message": "$sender$ on vaihtanut puhelinnumeronsa",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "Keskusteluissa {obsoleteConversationTitle} ja {conversationTitle} on kyse samasta tilistä. Molempien keskusteluiden viestihistoria on täällä.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Viestihistoriasi keskustelussa {conversationTitle} ja numero {obsoleteConversationNumber} on yhdistetty.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Viestihistoriasi keskustelussa {conversationTitle} ja toinen siihen kuulunut keskustelu on yhdistetty.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Lue lisää",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Lähetettyäsi viestin keskusteluun {obsoleteConversationTitle} sinulle selvisi, että tämä numero kuuluu keskusteluun {conversationTitle}. Puhelinnumero on yksityinen.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Molempien keskusteluiden viestihistoria on yhdistetty tähän.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} kuuluu keskusteluun {conversationTitle}. Olette molemmat ryhmän {sharedGroup} jäseniä.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} kuuluu keskusteluun {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+  },
   "quoteThumbnailAlt": {
     "message": "Lainatun kuvaviestin pikkukuva",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Et voi enää käydä ääni- tai videoviestinvaihtoa tämän käyttäjän kanssa.",
+    "message": "Et voi enää käydä ääni- tai videoviestinvaihtoa estettyjen käyttäjien kanssa.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Asenna päivitykset napsauttamalla Käynnistä Signal uudelleen."
+    "message": "Asenna päivitykset napsauttamalla Käynnistä Signal uudelleen.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Käynnistä Signal uudelleen"
@@ -2228,88 +2282,176 @@
     "message": "Tämä viesti poistettiin.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Lahjamerkin tietoja ei voitu noutaa",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Lahjoituksen tietoja ei voitu noutaa",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Avaa tämä viesti puhelimellasi",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Avaa tämä viesti puhelimellasi",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Katso saamasi lahja avaamalla tämä viesti puhelimellasi",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Katso lahjoituksen tiedot napauttamalla tätä viestiä puhelimellasi",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Lahja",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} lahjoitti Signalille puolestasi",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Tarkista puhelimesi avataksesi lahjasi",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Tarkista puhelimesi avataksesi tämän lahjoituksen",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Tarkista puhelimesi nähdäksesi lahjasi",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Tarkista puhelimesi nähdäksesi lahjoituksesi",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Olet saanut lahjan",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} lahjoitti puolestasi",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Lunastit lahjaksi saadun kunniamerkin",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Lunastit lahjoituksen",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Lähetit kunniamerkin lahjaksi",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Lahjoitit henkilön {recipient} puolesta",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Lahjaksi saatu kunniamerkki",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Lahjoitus",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Lahja",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Lahjoitus",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ päivää jäljellä",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} päivää jäljellä",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ tunti jäljellä",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} tuntia jäljellä",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ minuuttia jäljellä",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {{minutes,number} minuutti jäljellä} other {{minutes,number} minuuttia jäljellä}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 minuutti jäljellä",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Vanhentunut",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Vanhentunut",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Näytä",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Näytä",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Lunastettu",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Lunastettu",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Kiitämme tuestasi!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Kiitos tuestasi!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Olet lahjoittanut kunniamerkin käyttäjälle $name$. Kun hän vastaanottaa sen, hän voi itse valita lisääkö hän merkin profiilikuvaansa.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Olet tehnyt lahjoituksen Signalille henkilön {name} puolesta. Hän saa mahdollisuuden näyttää omassa profiilissaan, että hän tukee Signalia.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Tarrapakettia ei voitu asentaa",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Tarrat",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Käytettävissä",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Asennetut tarrat",
+    "message": "Asennettu",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,11 +2847,19 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Hyväksy videopuhelu",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Vastaa puheluun videolla",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Hyväksy äänipuhelu",
+    "message": "Vastaa puheluun äänellä",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Vastaa puheluun videolla (vain videopuhelut)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Vastaa puheluun ilman videota",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Vastaa",
+    "message": "Vastaa puheluun",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Vastaa ilman videota",
+    "message": "Vastaa puheluun ilman videota",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,15 +3292,15 @@
   },
   "declinedIncomingAudioCall": {
     "message": "Hylkäsit äänipuhelun",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Hylkäsit videopuhelun",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Vastattu äänipuhelu",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Saapuva äänipuhelu",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Vastattu videopuhelu",
@@ -3158,15 +3308,15 @@
   },
   "missedIncomingAudioCall": {
     "message": "Vastaamaton äänipuhelu",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Vastaamaton videopuhelu",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Soitettu äänipuhelu",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Lähtevä äänipuhelu",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Soitettu videopuhelu",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "Vastaamaton äänipuhelu",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Vastaamaton videopuhelu",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Saapuva äänipuhelu…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Saapuva äänipuhelu...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Saapuva videopuhelu…",
@@ -4060,6 +4210,10 @@
     "message": "Ryhmän asetuksia muutettiin ja nyt kaikki jäsenet voivat lähettää viestejä.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "Tämän ryhmän jäsenet tai asetukset ovat muuttuneet.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Päivitä tämä ryhmä ottaaksesi käyttöön uudet ominaisuudet kuten @maininnat ja ylläpitäjät. Jäsenille, jotka eivät ole jakaneet nimeään tai kuvaansa tässä ryhmässä, lähetetään kutsu. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ yhteistä ryhmää",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} yhteinen ryhmä} other {{count,number} yhteistä ryhmää}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Ei yhteisiä ryhmiä",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Lisää ryhmään",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "ddd D. MMMM[ta] YYYY",
+    "message": "D MMM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -5904,6 +6066,10 @@
     "message": "Vastaa",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Vastaa henkilölle {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Vastaa ryhmälle",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagoi tarinaan",
+    "message": "(poistettu 25/1/23) Reagoi tarinaan",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Nämä numerot auttavat suojaamaan yksityisyyttäsi, jotta voit välttää ei-toivottuja viestejä. Jaa käyttäjänimesi vain niille henkilöille ja ryhmille, joiden kanssa haluat keskustella. Jos vaihdat käyttäjänimeä, saat uuden numerosarjan.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signalin työpöytäsovelluksen tuki tietokoneesi {OS}-versiolle päättyy pian. Jos haluat jatkaa Signalin käyttöä, päivitä tietokoneesi käyttöjärjestelmä {expirationDate} mennessä. <learnMoreLink>Lue lisää</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signalin työpöytäsovellus ei enää toimi tässä tietokoneessa. Jos haluat käyttää Signalin työpöytäsovellusta uudelleen, päivitä tietokoneesi {OS}-versio. <learnMoreLink>Lue lisää</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signalin työpöytäsovellus ei enää toimi tässä tietokoneessa. Jos haluat käyttää Signalin työpöytäsovellusta uudelleen, päivitä tietokoneesi {OS}-versio.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Uudet ominaisuudet",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Kun aloitat ryhmäpuhelun pienelle ryhmälle (enintään 16 henkilöä), voit halutessasi lähettää soittoilmoituksen. Ryhmän jäsenet kuulevat soittoäänen, jos he käyttävät iOS-beetaversiota, työpöytäversiota tai Androidia.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Aloita lainattu vastaus kaksoisnapsauttamalla keskustelussa mitä tahansa viestiriviä. Se toimii kuin oikotie: vanhoista ideoista syntyy uusia ajatuksia. Kiitos {whynothugo} ja Signal-yhteisö tämän ominaisuuden toteuttamisesta ja palautteesta.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Nyt voit helpommin poistua gallerianäkymästä napsauttamalla kuvan ulkopuolella, sillä napsautus ei enää lähennä kuvaa. Joskus ehkä halusit vain sulkea kuvan etkä suurentaa sitä entisestään. Kiitos {jojomatik}, että korjasit ongelman!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Reagoi nopeammin. Voit nyt reagoida nopeammin napsauttamalla mitä tahansa emojia tarinaan vastatessasi.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Viestihistoriasta voi nyt hakea yksittäisiä kiinan- ja japaninkielisiä merkkejä.",
+    "description": "Release notes for v6.5"
   }
 }

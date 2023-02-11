@@ -22,7 +22,7 @@ export default function updateToSchemaVersion71(
       DROP INDEX messages_activity;
       DROP INDEX message_user_initiated;
 
-      --- Thse will also be re-added below
+      --- These will also be re-added below
       ALTER TABLE messages DROP COLUMN shouldAffectActivity;
       ALTER TABLE messages DROP COLUMN shouldAffectPreview;
       ALTER TABLE messages DROP COLUMN isUserInitiatedMessage;

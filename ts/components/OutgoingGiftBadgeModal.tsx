@@ -48,7 +48,7 @@ export function OutgoingGiftBadgeModal({
         `${CLASS_NAME}__badge`,
         `${CLASS_NAME}__badge--missing`
       )}
-      aria-label={i18n('giftBadge--missing')}
+      aria-label={i18n('icu:donation--missing')}
     />
   );
 
@@ -63,14 +63,14 @@ export function OutgoingGiftBadgeModal({
     >
       <div className={CLASS_NAME}>
         <div className={`${CLASS_NAME}__title`}>
-          {i18n('modal--giftBadge--title')}
+          {i18n('icu:modal--donation--title')}
         </div>
         <div className={`${CLASS_NAME}__description`}>
-          {i18n('modal--giftBadge--description', { name: recipientTitle })}
+          {i18n('icu:modal--donation--description', { name: recipientTitle })}
         </div>
         {badgeElement}
         <div className={`${CLASS_NAME}__badge-summary`}>
-          {i18n('message--giftBadge')}
+          {i18n('icu:message--donation')}
         </div>
       </div>
     </Modal>

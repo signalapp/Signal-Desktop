@@ -64,6 +64,18 @@
     "message": "Afiliació pendent",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Qualitat dels mitjans enviats",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Estàndard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Alta",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Reconeixements de programari",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -457,11 +469,11 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Segur que vols eliminar 1 contacte de la teva història «{story}»?} other {Segur que vols eliminar {count,number} contactes de la teva història «{story}»?}}",
+    "messageformat": "{count, plural, one {Segur que vols suprimir 1 contacte de la teva història «{story}»?} other {Segur que vols suprimir {count,number} contactes de la teva història «{story}»?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Eliminar tot",
+    "message": "Suprimir-ho tot",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -469,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Eliminar de la història",
+    "message": "Suprimir de la història",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -674,12 +686,21 @@
     "message": "No pots seleccionar fotos i vídeos juntament amb arxius.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Només pots seleccionar un fitxer a la vegada.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "No podeu afegir cap altre adjunt a aquest missatge.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges."
+    "message": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "No s'ha pogut carregar l'adjunt seleccionat"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Per a enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
+    "message": "Per a enviar missatges d'àudio, permet que el Signal Desktop tingui accés al teu micròfon.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1160,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Voleu suprimir aquesta conversa de forma permanent?",
+    "message": "Vols suprimir aquesta conversa de forma permanent?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ ha canviat el número de telèfon.",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} i {conversationTitle} són el mateix compte. El teu historial de missatges per als dos xats és aquí.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "El teu historial de missatges amb {conversationTitle} i el teu número {obsoleteConversationNumber} s'han combinat.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "El teu historial de missatges amb {conversationTitle} i un altre xat amb la mateixa persona s'han combinat.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Més informació",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Després d'enviar un missatge a{obsoleteConversationTitle}, has sabut que aquest número pertany a {conversationTitle}. El seu número de telèfon és privat.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "El teu historial de missatges per a les dues conversacions s'ha combinat aquí.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} pertany a {conversationTitle}. Tots dos sou membres de {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} pertany a {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Miniatura d'una imatge d'un missatge citat",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "No en rebreu àudio ni vídeo ni rebran el vostre.",
+    "message": "No rebràs àudio ni vídeo d'aquesta persona, ni ella en rebrà els teus.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1639,7 +1692,7 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Voleu suprimir totes les dades?",
+    "message": "Vols suprimir totes les dades?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Teniu dades obsoletes d'una instal·lació anterior del Signal Desktop. Si trieu continuar, se suprimiran i començareu de zero.",
+    "message": "Tens dades obsoletes d'una instal·lació anterior del Signal Desktop. Si tries continuar, se suprimiran i començareu de zero.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1705,7 +1758,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "Ha fallat la supressió.",
+    "message": "No s'ha pogut suprimir",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions."
+    "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Reinicia el Signal"
@@ -2161,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "L'últim missatge podria haver estat eliminat.",
+    "message": "Pot ser que l'últim missatge hagi estat suprimit.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2228,88 +2282,176 @@
     "message": "Aquest missatge s'ha suprimit.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "No s'han pogut obtenir els detalls de la insígnia regal",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "No s'han pogut obtenir els detalls de la donació",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Mostra aquest missatge al mòbil per obrir-lo",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Mostra aquest missatge al mòbil per obrir-lo",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Toca sobre aquest missatge des del mòbil per veure el teu regal",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Toca sobre aquest missatge des del mòbil per veure la teva donació",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Regal",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ha fet una donació a Signal en nom teu",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Mireu el teu telèfon per obrir el regal",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Mira el teu telèfon per obrir la donació",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Mireu telèfon per veure el regal",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Mira el teu telèfon per veure la teva donació",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Heu rebut un regal.",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} ha fet una donació per tu",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Heu bescanviat una insígnia de regal.",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Has bescanviat una donació",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Heu enviat una insígnia de regal",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Has fet una donació per {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Insígnia de regal",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Donació",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Regal",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Donació",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ dies restants",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} dies restants",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ hores restants",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} hores restants",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ minuts restants",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 minut restant} other {{minutes,number} minuts restants}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Falta 1 minut",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Ha vençut",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Ha vençut",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Vista",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Mostra",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Bescanviat",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Bescanviat",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Gràcies pel vostre suport!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Gràcies pel vostre suport!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Heu regalat una insígnia a $name$. Quan l'accepti, tindrà l'opció de mostrar-la o amagar-la.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Has fet una donació a Signal en nom de {name}. Se'ls donarà l'opció de mostrar el seu suport al seu perfil.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "No s'ha pogut instal·lar el paquet d'adhesius.",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Adhesius",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Disponible",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Adhesius instal·lats",
+    "message": "Instal·lat",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Accepta la trucada amb vídeo",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Respon la trucada amb vídeo",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Accepta la trucada amb àudio",
+    "message": "Respon la trucada amb àudio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Respon la trucada amb vídeo (només videotrucades)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Respon la trucada sense vídeo",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Inicia una trucada d'àudio",
+    "message": "Iniciar trucada de veu",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Elimina l'adhesiu",
+    "message": "Suprimeix l'adhesiu",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3057,11 +3207,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Suprimeix-lo i abandona'l",
+    "message": "Esborrar i sortir",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Abandonareu aquest grup i se suprimirà de tots els dispositius.",
+    "message": "Sortiràs d'aquest grup i s'esborrarà de tots els dispositius.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Respon",
+    "message": "Respon la trucada",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Respon sense vídeo",
+    "message": "Respon la trucada sense vídeo",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Heu rebutjat una trucada d'àudio",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Has rebutjat una trucada",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Heu rebutjat una trucada de vídeo",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Trucada d'àudio entrant",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Trucada entrant",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Trucada de vídeo entrant",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Trucada d'àudio perduda",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Trucada perduda",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Trucada de vídeo perduda",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Trucada d'àudio sortint",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Trucada sortint",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Trucada de vídeo sortint",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Trucada d'àudio sense contestar",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Trucada sense contestar",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Trucada de vídeo sense contestar",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Trucada d'àudio entrant…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Trucada entrant…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Trucada de vídeo entrant…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "No podeu afegir-vos-hi mitjançant l'enllaç de grup perquè un administrador us n'ha suprimit.",
+    "message": "No pots afegir-t'hi mitjançant l'enllaç de grup perquè un administrador t'ha esborrat.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3569,7 +3719,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Heu suprimit l'avatar del grup.",
+    "message": "Has suprimit l'avatar del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3741,7 +3891,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Heu suprimit $memberName$.",
+    "message": "Has suprimit $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Se us ha suprimit del grup.",
+    "message": "T'han esborrat del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Heu suprimit la descripció del grup.",
+    "message": "Has suprimit la descripció del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "El grup s'ha canviat per a permetre enviar missatges a tots els membres.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Els membres o la configuració d'aquest grup han canviat.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Actualitzeu aquest grup i activeu-ne les funcions noves com ara les @mencions i els administradors. Els membres que no hi han compartit el nom o la fotografia es convidaran a afegir-s'hi. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Aquests membres no són capaços d'afegir-se als grups nous i se suprimiran del grup:",
+    "message": "Aquests membres no són capaços d'afegir-se als grups nous i han estat esborrats del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Aquest membre no és capaç d'afegir-se als grups nous i se suprimirà del grup:",
+    "message": "Aquest membre no és capaç d'afegir-se als grups nous i serà esborrat del grup.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Aquests membres no eren capaços d'afegir-se als grups nous i s'han suprimit del grup:",
+    "message": "Aquests membres no eren capaços d'afegir-se als grups nous i han estat esborrats del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Aquest membre no era capaços d'afegir-se als grups nous i s'ha suprimit del grup:",
+    "message": "Aquest membre no podia afegir-se als grups nous i ha estat esborrat del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4137,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ s'ha suprimit del grup.",
+    "message": "$contact$ ha estat esborrat del grup.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ membres s'han suprimit del grup.",
+    "message": "S'han esborrat $count$ membres del grup.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Suprimeix com a administrador",
+    "message": "Esborra com a administrador",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Voleu suprimir $contact$ com a administrador del grup?",
+    "message": "Vols suprimir a $contact$ com a administrador del grup?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Suprimeix del grup",
+    "message": "Esborra del grup",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ grups en comú",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} grup en comú} other {{count,number} grups en comú}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No hi ha grups en comú.",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Afegeix-lo a un grup",
@@ -4525,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Suprimeix la foto",
+    "message": "Esborrar la foto",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Suprimeix el contacte",
+    "message": "Esborrar el contacte",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "D MMM, YYYY",
+    "message": "D MMM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,15 +4883,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Suprimeix del grup",
+    "message": "Esborrar del grup",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Voleu suprimir $name$ del grup?",
+    "message": "Vols esborrar a $name$ del grup?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Voleu suprimir $name$ del grup? No s'hi podran tornar a afegir mitjançant l'enllaç del grup.",
+    "message": "Vols esborrar a $name$ del grup? No s'hi podran tornar a afegir mitjançant l'enllaç del grup.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Ha fallat suprimir el missatge per a tothom. Proveu-ho més tard.",
+    "message": "No s'ha pogut esborrar el missatge per a tots. Torna-ho a intentar més tard.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "No s'ha pogut suprimir el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
+    "message": "No s'ha pogut suprimir el nom d'usuari. Comprova la connexió i torna-ho a provar.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Això suprimirà el vostre nom d'usuari i permetrà que altres usuaris el reclamin. N'esteu segur?",
+    "message": "Això suprimirà el vostre nom d'usuari i permetrà que altres usuaris el reclamin. Estàs segur?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Ja no podràs compartir o veure històries. Les històries que hagis compartit recentment també seran eliminades.",
+    "message": "Ja no podràs compartir o veure històries. Les històries que hagis compartit recentment també seran esborrades.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5481,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Voleu suprimir aquesta història? També s'eliminarà per a tothom que l'hagi rebuda.",
+    "message": "Vols suprimir aquesta història? També s'esborrarà per a tothom que l'hagi rebuda.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5673,7 +5835,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Eliminar $title$",
+    "message": "Esborrar $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5693,11 +5855,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Eliminar història personalitzada",
+    "message": "Esborrar història personalitzada",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Segur que vols eliminar a \"$name$\"? També s'eliminaran les actualitzacions compartides en aquesta història.",
+    "message": "Segur que vols esborrar \"$name$\"? També s'esborraran les actualitzacions compartides en aquesta història.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5773,11 +5935,11 @@
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Eliminar història de grup",
+    "messageformat": "Esborrar història de grup",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Segur que vols eliminar \"{groupTitle}\"?",
+    "messageformat": "Segur que vols esborrar \"{groupTitle}\"?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5853,11 +6015,11 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Eliminar història",
+    "message": "Esborrar història",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eliminar història? Aquesta acció eliminarà la història de la teva llista, però podràs continuar veient les històries d'aquest grup.",
+    "message": "Esborrar història? Aquesta acció esborrarà la història de la teva llista, però podràs continuar veient les històries d'aquest grup.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Respon",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Respondre a {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reacció a la història",
+    "message": "(esborrat el 25/01/23) Reaccionar a la història",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Aquests dígits ajudaran a mantenir el teu nom d'usuari en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu nom d'usuari només amb aquelles persones i grups amb les que desitges parlar. Si canvies el teu nom d'usuari, rebràs una nova sèrie de dígits.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal per a Escriptori aviat deixarà de ser compatible amb la versió de {OS} del teu ordinador. Per continuar utilitzant Signal, actualitza el sistema operatiu de l'ordinador abans de {expirationDate}. <learnMoreLink>Més informació</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal per a Escriptori ja no funciona en aquest ordinador. Per tornar a utilitzar Signal per a Escriptori, actualitza la versió de l'ordinador de {OS}. <learnMoreLink>Més informació</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal per a Escriptori ja no funciona en aquest ordinador. Per tornar a utilitzar Signal per a Escriptori, actualitza la versió de l'ordinador de {OS}.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Què hi ha de nou",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "A l'inici d'una trucada de grup per a grups petits (fins a 16 persones), tindràs l'opció d'enviar una notificació de trucada. Els membres del grup sentiran un timbre si tenen la versió beta d'iOS o si utilitzen les versions d'escriptori o Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Fes doble clic a qualsevol missatge d'un xat per iniciar una resposta citada. És com una drecera per afegir nous pensaments sobre idees velles. Gràcies a {whynothugo} i a la comunitat de Signal per implementar aquesta funció i enviar comentaris.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Ara és més fàcil fer clic fora d'una imatge per sortit de la visualització de la galeria sense fer zoom. De vegades només volies tancar i, en canvi, augmentaves el contingut. Gràcies a {jojomatik} per la correcció!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Accelera el teu temps de resposta. Ara pots reaccionar més ràpidament fent clic a qualsevol emoji quan responguis a una història.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Ara és possible cercar caràcters individuals a l'historial de missatges en xinès i japonès.",
+    "description": "Release notes for v6.5"
   }
 }

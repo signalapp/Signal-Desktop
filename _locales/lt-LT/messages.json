@@ -64,6 +64,18 @@
     "message": "Narystės laukiama",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Siunčiamos medijos kokybė",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standartinė",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Aukšta",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Programinės įrangos talkininkai ir padėkos",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Nuotraukų ir vaizdo įrašų negalima pasirinkti kartu su failais.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Vienu metu gali pasirinkti tik vieną failą.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Daugiau nebegalite į šią žinutę pridėti priedų.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus."
+    "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Nepavyko įkelti pasirinkto priedo."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Norėdami siųsti garso žinutes, suteikite Signal Desktop prieigą prie savo mikrofono.",
+    "message": "Jei nori siųsti balso žinutes, suteik „Signal Desktop“ prieigą prie savo mikrofono.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Ši žinutė šiame pokalbyje bus ištrinta visiems žmonėms tuo atveju, jeigu jie naudoja paskiausią Signal versiją. Jie galės matyti, kad ištrynėte žinutę.",
+    "message": "Ši žinutė šiame pokalbyje bus ištrinta visiems žmonėms tuo atveju, jeigu jie naudoja naujausią „Signal“ versiją. Jie galės matyti, kad ištrynei žinutę.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ pasikeitė telefono numerį",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} ir {conversationTitle} yra ta pati paskyra. Abiejų pokalbių žinučių istorija yra čia.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Tavo ir {conversationTitle} žinučių istorija susieta su šio žmogaus numeriu {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Tavo ir {conversationTitle} žinučių istorija susieta su kitu šiam žmogui priklausiusiu pokalbiu.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Sužinoti daugiau",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Po susirašinėjimo su {obsoleteConversationTitle} paaiškėjo, kad šis numeris priklauso {conversationTitle}. Šio žmogaus telefono numeris privatus.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Abiejų pokalbių žinučių istorija buvo sujungta čia.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} priklauso {conversationTitle}. Abu esate šioje grupėje: {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} priklauso {conversationTitle}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Paveikslo iš cituotos žinutės miniatiūra",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Jūs nematysite ir negirdėsite naudotojo, o jis nematys ir negirdės jūsų.",
+    "message": "Tu negirdėsi ir nematysi naudotojo, o šis negirdės ir nematys tavęs.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Jūs ketinate ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Jūs visada ir vėl galite susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
+    "message": "Tu ketini ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Visada ir vėl galėsi susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Turite nebenaudojamų duomenų, likusių iš ankstesnio Signal Desktop diegimo. Jei pasirinksite tęsti, jie bus ištrinti ir pradėsite viską nuo nulio.",
+    "message": "Turi nebenaudojamų duomenų, likusių iš ankstesnio „Signal Desktop“ diegimo. Jei pasirinksi tęsti, jie bus ištrinti ir pradėsi viską nuo nulio.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Dalinai ištrinta, spustelėkite norėdami bandyti dar kartą",
+    "message": "Dalinai ištrinta, spustelėk, kad bandytum dar kartą",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\"."
+    "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\".",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Paleisti Signal iš naujo"
@@ -2228,88 +2282,176 @@
     "message": "Ši žinutė buvo ištrinta.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Nepavyko gauti dovanos ženklelio informacijos",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Nepavyko gauti paramos informacijos",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Norėdami peržiūrėti šią žinutę, atverkite ją mobiliajame įrenginyje",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Jei nori peržiūrėti, atverk šią žinutę telefone",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Bakstelėk šią žinutę telefone ir pažiūrėk savo dovaną",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Bakstelėk šią žinutę telefone ir peržiūrėk savo skirtą paramą",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Dovana",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} skyrė „Signal“ paramą tavo vardu",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Norėdami atverti dovaną, patikrinkite savo telefoną",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Atverk šios paramos informaciją telefone",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Norėdami pamatyti dovaną, patikrinkite savo telefoną",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Peržiūrėk savo paramos informaciją telefone",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Jūs gavote dovaną",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} skyrė paramą tavo vardu",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Jūs atsiėmėte dovanos ženkliuką",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Tu pasiėmei paramos ženklelį",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Jūs išsiuntėte dovanos ženkliuką",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Tu skyrei paramą {recipient} vardu",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Dovanos ženkliukas",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Parama",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Dovana",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Parama",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Liko dienų: $days$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Liko dienų: {days}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Liko valandų: $hours$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Liko valandų: {hours}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Liko minučių: $minutes$",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Liko 1 minutė} few {Liko {minutes,number} minutės} many {Liko {minutes,number} minutės} other {Liko {minutes,number} minučių}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Liko 1 minutė",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Nebegalioja",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Nebegalioja",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Rodyti",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Žiūrėti",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Atsiimtas",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Atsiimtas",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Ačiū už jūsų palaikymą!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Ačiū tau už palaikymą!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Jūs padovanojote ženkliuką naudotojui $name$. Kai naudotojas jį priims, jam bus leista pasirinkti ar rodyti, ar slėpti ženkliuką.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Tu skyrei „Signal“ paramą {name} vardu. Šis žmogus turės galimybę parodyti palaikymą savo profilyje.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Nepavyko įdiegti lipdukų paketo",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Lipdukai",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Galimas",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Įdiegti lipdukai",
+    "message": "Įdiegtas",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Atsiliepti su vaizdu",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Atsiliepti į skambutį su vaizdu",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Atsiliepti su garsu",
+    "message": "Atsiliepti į skambutį su garsu",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Atsiliepti su vaizdu (tik vaizdo skambučiams)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Atsiliepti į skambutį be vaizdo",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Pradėti garso skambutį",
+    "message": "Pradėti balso skambutį",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Sukūrę lipdukų paketą, daugiau nebegalėsite jo taisyti ar ištrinti.",
+    "message": "Sukūręs lipdukų paketą daugiau nebegalėsi jo taisyti ar ištrinti.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Šis pokalbis bus ištrintas iš visų jūsų įrenginių.",
+    "message": "Šis pokalbis bus ištrintas iš visų tavo įrenginių.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Jūs išeisite iš šios grupės ir ji bus ištrinta iš visų jūsų įrenginių.",
+    "message": "Tu išeisi iš šios grupės ir ji bus ištrinta iš visų tavo įrenginių.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Atsakyti",
+    "message": "Atsiliepti į skambutį",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Atsiliepti be vaizdo",
+    "message": "Atsiliepti į skambutį be vaizdo",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Jūs atmetėte garso skambutį",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Tu atmetei balso skambutį",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Jūs atmetėte vaizdo skambutį",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Gaunamasis garso skambutis",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Gaunamasis balso skambutis",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Gaunamasis vaizdo skambutis",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Praleistas garso skambutis",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Praleistas balso skambutis",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Praleistas vaizdo skambutis",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Išsiunčiamasis garso skambutis",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Išsiunčiamasis balso skambutis",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Išsiunčiamasis vaizdo skambutis",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Neatsakytas garso skambutis",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Neatsakytas balso skambutis",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neatsakytas vaizdo skambutis",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Gaunamasis garso skambutis…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Gaunamasis balso skambutis…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Gaunamasis vaizdo skambutis…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Jūs negalite prisijungti prie grupės per šią grupės nuorodą, nes administratorius jus pašalino.",
+    "message": "Tu negali prisijungti prie grupės per šią grupės nuorodą, nes administratorius tave pašalino.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3545,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Jūs pašalinote grupės pavadinimą.",
+    "message": "Tu pašalinai grupės pavadinimą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3569,7 +3719,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Jūs pašalinote grupės avatarą.",
+    "message": "Tu pašalinai grupės avatarą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3741,7 +3891,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Jūs pašalinote naudotoją $memberName$.",
+    "message": "Tu pašalinai naudotoją $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ jus pašalino.",
+    "message": "$adminName$ pašalino tave.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Jūs buvote pašalinti iš grupės.",
+    "message": "Tave pašalino iš grupės.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Jūs pašalinote grupės aprašą.",
+    "message": "Tu pašalinai grupės aprašą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Grupė buvo pakeista taip, kad visiems nariams būtų leista siųsti žinutes.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Pasikeitė šios grupės nariai arba nustatymai.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Naujinkite šią grupę, norėdami aktyvuoti tokias naujas ypatybes kaip @paminėjimai ir administratoriai. Nariai, kurie šioje grupėje nebendrino savo vardo ar nuotraukos, bus pakviesti prie jos prisijungti. $learnMore$",
@@ -4113,7 +4267,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Šis narys negali prisijungti prie naujosios grupės ir todėl, bus iš jos pašalintas:",
+    "message": "Šis narys negali prisijungti prie naujosios grupės ir todėl bus iš jos pašalintas:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -4121,7 +4275,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Šis narys negalėjo prisijungti prie naujosios grupės ir todėl, buvo iš jos pašalintas:",
+    "message": "Šis narys negalėjo prisijungti prie naujosios grupės ir todėl buvo iš jos pašalintas:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4141,7 +4295,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ nariai(-ių) buvo pašalinti iš grupės.",
+    "message": "$count$ nariai (-ių) buvo pašalinti iš grupės.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "Bendrų grupių: $number$",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} bendra grupė} few {{count,number} bendros grupės} many {{count,number} bendrų grupių} other {{count,number} bendra grupė}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Nėra bendrų grupių",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Pridėti į grupę",
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Nepavyko ištrinti žinutės visiems. Vėliau bandykite dar kartą.",
+    "message": "Nepavyko ištrinti žinutės visiems. Vėliau bandyk dar kartą.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Ši tinkinta spalva yra naudojama $num$ pokalbiuose(-ių). Ar norite ją ištrinti visuose pokalbiuose?",
+    "message": "Ši tinkinta spalva yra naudojama $num$ pokalbiuose (-ių). Ar nori ją ištrinti visuose pokalbiuose?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Nepavyko pašalinti jūsų naudotojo vardo. Patikrinkite ryšį ir bandykite dar kartą.",
+    "message": "Nepavyko pašalinti tavo naudotojo vardo. Patikrink ryšį ir bandyk dar kartą.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Tai pašalins jūsų naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esate tikri?",
+    "message": "Tai pašalins tavo naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esi tikras?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5904,6 +6066,10 @@
     "message": "Atsakyti",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Atsakyti {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Atsakyti grupei",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reaguoti į istoriją",
+    "message": "(deleted 01/25/23) Reaguoti į istoriją",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Šie skaitmenys padeda užtikrinti tavo naudotojo vardo privatumą, kad išvengtum nepageidaujamų žinučių. Savo naudotojo vardą pasakyk tik tiems žmonėms ir grupėms, su kuriais (-iomis) nori bendrauti. Pakeitus naudotojo vardą suteikiama nauja skaitmenų kombinacija.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Netrukus „Signal“ nebepalaikys tavo kompiuteryje esančios {OS} versijos. Jei nori toliau naudoti „Signal“, atnaujink kompiuterio operacinę sistemą iki {expirationDate}. <learnMoreLink>Sužinok daugiau</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "„Signal“ nebeveikia šiame kompiuteryje. Jei vėl nori naudoti „Signal“, atnaujink savo kompiuteryje esančią {OS} versiją. <learnMoreLink>Sužinok daugiau</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "„Signal“ nebeveikia šiame kompiuteryje. Jei vėl nori naudoti „Signal“, atnaujink savo kompiuteryje esančią {OS} versiją.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Kas naujo",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Kai inicijuoji grupės skambutį mažai grupei (iki 16 žmonių), gali pasirinkti siųsti skambėjimo pranešimą. Grupės nariai išgirs skambėjimą, jeigu turi „iOS“ beta versiją arba naudoja kompiuterį ar „Android“.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Dukart spustelėk bet kurią pranešimo eilutę pokalbyje, jei nori pradėti atsakymą citata. Tai tarsi nuoroda į naujas mintis apie senas idėjas. Dėkojame {whynothugo} ir „Signal“ bendruomenei už šios funkcijos įdiegimą ir atsiliepimus.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Dabar lengviau spustelėti už vaizdo ribų ir išjungti galerijos rodinį nepriartinant. Juk kartais norėdavai nebematyti, o vietoj to pamatydavai iš arčiau. Dėkojame {jojomatik} už pataisymą!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Pagreitink atsakymų laiką. Dabar gali sureaguoti greičiau – tereikia spustelėti bet kurį jaustuką atsakant į istoriją.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Dabar pranešimų istorijoje galima ieškoti atskirų simbolių kinų ir japonų kalbomis.",
+    "description": "Release notes for v6.5"
   }
 }

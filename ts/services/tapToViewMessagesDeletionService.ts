@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce } from 'lodash';
@@ -24,9 +24,7 @@ async function eraseTapToViewMessages() {
 
         // We do this to update the UI, if this message is being displayed somewhere
         message.trigger('expired');
-        window.reduxActions.lightbox.closeLightboxIfViewingExpiredMessage(
-          message.id
-        );
+        window.reduxActions.conversations.messageExpired(message.id);
 
         await message.eraseContents();
       })
@@ -78,7 +76,7 @@ class TapToViewMessagesDeletionService {
     clearTimeoutIfNecessary(this.timeout);
     this.timeout = setTimeout(async () => {
       await eraseTapToViewMessages();
-      this.update();
+      void this.update();
     }, wait);
   }
 }

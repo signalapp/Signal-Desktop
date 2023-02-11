@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -9,6 +9,7 @@ import { getContactId } from '../messages/helpers';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
+import { drop } from '../util/drop';
 
 export type DeleteAttributesType = {
   targetSentTimestamp: number;
@@ -67,36 +68,38 @@ export class Deletes extends Collection<DeleteModel> {
       }
 
       // Do not await, since this can deadlock the queue
-      targetConversation.queueJob('Deletes.onDelete', async () => {
-        log.info('Handling DOE for', del.get('targetSentTimestamp'));
+      drop(
+        targetConversation.queueJob('Deletes.onDelete', async () => {
+          log.info('Handling DOE for', del.get('targetSentTimestamp'));
 
-        const messages = await window.Signal.Data.getMessagesBySentAt(
-          del.get('targetSentTimestamp')
-        );
-
-        const targetMessage = messages.find(
-          m => del.get('fromId') === getContactId(m) && !m.deletedForEveryone
-        );
-
-        if (!targetMessage) {
-          log.info(
-            'No message for DOE',
-            del.get('fromId'),
+          const messages = await window.Signal.Data.getMessagesBySentAt(
             del.get('targetSentTimestamp')
           );
 
-          return;
-        }
+          const targetMessage = messages.find(
+            m => del.get('fromId') === getContactId(m) && !m.deletedForEveryone
+          );
 
-        const message = window.MessageController.register(
-          targetMessage.id,
-          targetMessage
-        );
+          if (!targetMessage) {
+            log.info(
+              'No message for DOE',
+              del.get('fromId'),
+              del.get('targetSentTimestamp')
+            );
 
-        await deleteForEveryone(message, del);
+            return;
+          }
 
-        this.remove(del);
-      });
+          const message = window.MessageController.register(
+            targetMessage.id,
+            targetMessage
+          );
+
+          await deleteForEveryone(message, del);
+
+          this.remove(del);
+        })
+      );
     } catch (error) {
       log.error('Deletes.onDelete error:', Errors.toLogFormat(error));
     }

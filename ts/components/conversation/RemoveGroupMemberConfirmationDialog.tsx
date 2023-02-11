@@ -26,11 +26,13 @@ export function RemoveGroupMemberConfirmationDialog({
   onClose,
   onRemove,
 }: PropsType): JSX.Element {
-  const descriptionKey = isAccessControlEnabled(
+  const accessControlEnabled = isAccessControlEnabled(
     group.accessControlAddFromInviteLink
-  )
-    ? 'RemoveGroupMemberConfirmation__description__with-link'
-    : 'RemoveGroupMemberConfirmation__description';
+  );
+
+  const intlComponents = {
+    name: <ContactName title={conversation.title} />,
+  };
 
   return (
     <ConfirmationDialog
@@ -45,13 +47,19 @@ export function RemoveGroupMemberConfirmationDialog({
       i18n={i18n}
       onClose={onClose}
       title={
-        <Intl
-          i18n={i18n}
-          id={descriptionKey}
-          components={{
-            name: <ContactName title={conversation.title} />,
-          }}
-        />
+        accessControlEnabled ? (
+          <Intl
+            i18n={i18n}
+            id="RemoveGroupMemberConfirmation__description__with-link"
+            components={intlComponents}
+          />
+        ) : (
+          <Intl
+            i18n={i18n}
+            id="RemoveGroupMemberConfirmation__description"
+            components={intlComponents}
+          />
+        )
       }
     />
   );

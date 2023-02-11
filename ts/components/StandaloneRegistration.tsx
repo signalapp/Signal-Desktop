@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ChangeEvent } from 'react';
@@ -106,7 +106,7 @@ export function StandaloneRegistration({
   registerSingleDevice: (number: string, code: string) => Promise<void>;
 }): JSX.Element {
   useEffect(() => {
-    window.readyForUpdates();
+    window.IPC.readyForUpdates();
   }, []);
 
   const [isValidNumber, setIsValidNumber] = useState(false);
@@ -138,7 +138,7 @@ export function StandaloneRegistration({
       });
 
       try {
-        requestVerification(type, number, token);
+        void requestVerification(type, number, token);
         setError(undefined);
       } catch (err) {
         setError(err.message);
@@ -152,7 +152,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      onRequestCode('sms');
+      void onRequestCode('sms');
     },
     [onRequestCode]
   );
@@ -162,7 +162,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      onRequestCode('voice');
+      void onRequestCode('voice');
     },
     [onRequestCode]
   );

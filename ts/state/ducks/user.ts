@@ -1,41 +1,45 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import { trigger } from '../../shims/events';
 
-import type { NoopActionType } from './noop';
-import type { LocalizerType } from '../../types/Util';
 import type { LocaleMessagesType } from '../../types/I18N';
-import { ThemeType } from '../../types/Util';
-import type { UUIDStringType } from '../../types/UUID';
+import type { LocalizerType } from '../../types/Util';
 import type { MenuOptionsType } from '../../types/menu';
+import type { NoopActionType } from './noop';
+import type { UUIDStringType } from '../../types/UUID';
+import * as OS from '../../OS';
+import { ThemeType } from '../../types/Util';
 
 // State
 
-export type UserStateType = {
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+export type UserStateType = Readonly<{
   attachmentsPath: string;
-  stickersPath: string;
-  tempPath: string;
+  i18n: LocalizerType;
+  interactionMode: 'mouse' | 'keyboard';
+  isMainWindowFullScreen: boolean;
+  isMainWindowMaximized: boolean;
+  localeMessages: LocaleMessagesType;
+  menuOptions: MenuOptionsType;
+  osName: 'linux' | 'macos' | 'windows' | undefined;
+  ourACI: UUIDStringType | undefined;
   ourConversationId: string | undefined;
   ourDeviceId: number | undefined;
-  ourACI: UUIDStringType | undefined;
-  ourPNI: UUIDStringType | undefined;
   ourNumber: string | undefined;
+  ourPNI: UUIDStringType | undefined;
   platform: string;
   regionCode: string | undefined;
-  i18n: LocalizerType;
-  localeMessages: LocaleMessagesType;
-  interactionMode: 'mouse' | 'keyboard';
-  isMainWindowMaximized: boolean;
-  isMainWindowFullScreen: boolean;
-  menuOptions: MenuOptionsType;
+  stickersPath: string;
+  tempPath: string;
   theme: ThemeType;
   version: string;
-};
+}>;
 
 // Actions
 
-type UserChangedActionType = {
+type UserChangedActionType = ReadonlyDeep<{
   type: 'USER_CHANGED';
   payload: {
     ourConversationId?: string;
@@ -50,9 +54,9 @@ type UserChangedActionType = {
     isMainWindowFullScreen?: boolean;
     menuOptions?: MenuOptionsType;
   };
-};
+}>;
 
-export type UserActionType = UserChangedActionType;
+export type UserActionType = ReadonlyDeep<UserChangedActionType>;
 
 // Action Creators
 
@@ -96,20 +100,27 @@ const intlNotSetup = () => {
 // Reducer
 
 export function getEmptyState(): UserStateType {
+  let osName: 'windows' | 'macos' | 'linux' | undefined;
+
+  if (OS.isWindows()) {
+    osName = 'windows';
+  } else if (OS.isMacOS()) {
+    osName = 'macos';
+  } else if (OS.isLinux()) {
+    osName = 'linux';
+  }
+
   return {
     attachmentsPath: 'missing',
-    stickersPath: 'missing',
-    tempPath: 'missing',
-    ourConversationId: 'missing',
-    ourDeviceId: 0,
-    ourACI: undefined,
-    ourPNI: undefined,
-    ourNumber: 'missing',
-    regionCode: 'missing',
-    platform: 'missing',
+    i18n: Object.assign(intlNotSetup, {
+      getLocale: intlNotSetup,
+      getIntl: intlNotSetup,
+      isLegacyFormat: intlNotSetup,
+    }),
     interactionMode: 'mouse',
     isMainWindowMaximized: false,
     isMainWindowFullScreen: false,
+    localeMessages: {},
     menuOptions: {
       development: false,
       devTools: false,
@@ -117,13 +128,17 @@ export function getEmptyState(): UserStateType {
       isProduction: true,
       platform: 'unknown',
     },
+    osName,
+    ourACI: undefined,
+    ourConversationId: 'missing',
+    ourDeviceId: 0,
+    ourNumber: 'missing',
+    ourPNI: undefined,
+    platform: 'missing',
+    regionCode: 'missing',
+    stickersPath: 'missing',
+    tempPath: 'missing',
     theme: ThemeType.light,
-    i18n: Object.assign(intlNotSetup, {
-      getLocale: intlNotSetup,
-      getIntl: intlNotSetup,
-      isLegacyFormat: intlNotSetup,
-    }),
-    localeMessages: {},
     version: '0.0.0',
   };
 }

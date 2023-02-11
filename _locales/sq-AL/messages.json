@@ -64,6 +64,18 @@
     "message": "Anëtarësimi është në pritje",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Cilësi medie të dërguar",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Lartësi",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Falënderime për Software-in",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Fshiji krejt të dhënat dhe rifillo",
+    "message": "Fshiji të gjitha të dhënat dhe rifillo",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -457,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Je i sigurt që dëshiron që të heqësh 1 kontakt nga postimi i përkohshëm {story}?} other {Je i sigurt që dëshiron që të heqësh {count,number} kontakte nga postimi i përkohshëm {story}?}}",
+    "messageformat": "{count, plural, one {Je i sigurt që dëshiron të heqësh 1 kontakt nga postimi i përkohshëm {story}?} other {Je i sigurt që dëshiron të heqësh {count,number} kontakte nga postimi i përkohshëm {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -674,12 +686,21 @@
     "message": "Nuk mund të zgjedhësh foto dhe video bashkë me skedarë.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Mund të zgjedhësh vetëm një skedar njëkohësisht.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "S’mund të shtoni më tepër bashkëngjitje te ky mesazh.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh."
+    "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Për të dërguar mesazhe audio, lejojeni Signal-in për Desktop të përdorë mikrofonin tuaj.",
+    "message": "Për të dërguar mesazhe audio, autorizo Signal Desktop të përdorë mikrofonin tënd.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Ky mesazh do të fshihet për këdo te biseda, nëse gjenden në një version të freskët të Signal-it. Ata do të jenë në gjendje të shohin se fshitë një mesazh.",
+    "message": "Ky mesazh do të fshihet për këdo te biseda, nëse kanë një version të fundit të Signal. Ata do të jenë në gjendje të shohin se fshive një mesazh.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Riprovo Fshirjen për Këdo",
+    "message": "Riprovo Fshije për të gjithë",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1152,7 +1173,7 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "Fshije mesazhin për këdo",
+    "message": "Fshije mesazhin për të gjithë",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ ndryshoi numrin e vet të telefonit",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} dhe {conversationTitle} janë e njëjta llogari. Historiku yt i mesazheve për të dyja bisedat është këtu.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Historiku i mesazheve të tua me {conversationTitle} dhe numrin e tyre {obsoleteConversationNumber} është bashkuar.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Historiku i mesazheve të tua me {conversationTitle} dhe një bisedë tjetër që i përkiste atyre është bashkuar.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Mësoni më tepër",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Pas mesazheve me {obsoleteConversationTitle} mësove se ky numër i përket {conversationTitle}. Numri i tyre i telefonit është privat.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Historiku yt i mesazheve për të dyja bisedat është bashkuar këtu.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} i përket {conversationTitle}. Të dy ju jeni anëtarë të {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} i përket {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Miniaturë e figurës nga mesazhi i cituar",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "S’do të merrni audio ose video prej tyre dhe as ata prej jush.",
+    "message": "Ti nuk do të marrësh thirrje zanore apo me video dhe ata nuk do të marrin të tuat.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,11 +1696,11 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Ju ndan një hap nga fshirja e krejt të dhënave të llogarisë të ruajtura për këtë aplikacion, përfshi krejt kontaktet dhe krejt mesazhet. Mundeni përherë ta rilidhni pajisjen tuaj celulare, por kjo nuk do të sjellë rikthim të mesazheve të fshirë.",
+    "message": "Je një hap larg fshirjes së të gjitha të dhënave të llogarisë, të ruajtura për këtë aplikacion, përfshirë edhe gjithë kontaktet dhe mesazhet. Mundesh përherë ta rilidhësh pajisjen, por kjo nuk do të sjellë rikthim të mesazheve të fshira.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "Fshiji krejt të dhënat",
+    "message": "Fshiji të gjitha të dhënat",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1655,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Keni të dhëna të vjetra prej një instalimi të mëparshëm të Signal-it për Desktop. Nëse vendosni të vazhdohet, do të fshihen dhe do t’ia filloni nga e para.",
+    "message": "Ke të dhëna të vjetra prej një instalimi të mëparshëm të Signal-it për Desktop. Nëse vendos të vazhdosh, do të fshihen dhe do t’ia filloni nga e para.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Fshiji të Dhënat e Vjetra",
+    "message": "Fshiji të Dhënat e vjetra",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Fshirë pjesërisht, klikoni që të riprovohet",
+    "message": "Fshirë pjesërisht, kliko për ta provuar sërish",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet."
+    "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Riniseni Signal-in"
@@ -2228,88 +2282,176 @@
     "message": "Ky mesazh u fshi.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Detajet e distinktivit të dhuratës nuk mund të merren",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Detajet e dhurimit nuk mund të shfaqen",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Shiheni këtë mesazh në celular, që ta hapni",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Shikoje këtë mesazh në celular, që ta hapësh",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Prek mesazhin në telefon që të shohësh dhuratën",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Kliko këtë mesazh në celular për të parë dhurimin tënd",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Dhuratë",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} dhuroi për Signal në emrin tënd",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Shihni te telefoni juaj që ta hapni dhuratën",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Kontrollo telefonin për të hapur këtë dhurim",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Shihni te telefoni juaj për të parë dhuratën",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Kontrollo telefonin për të parë dhurimin tënd",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Morët një dhuratë",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} dhuroi për ty",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Ju përdorët një distinktiv dhuratë",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Ti përdore një dhurim",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Dërguat një stemë dhuratë",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Ti dhurove për {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Stemë Dhuratë",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Dhurim",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Dhuratë",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Dhurim",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Edhe $days$ ditë",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Edhe {days} ditë",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Edhe $hours$ orë",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Edhe {hours} orë",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Edhe $minutes$ minuta",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Edhe 1 minutë ka mbetur} other {{minutes,number} minuta të mbetura}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Edhe 1 minutë",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Ka skaduar",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Ka skaduar",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Shihni",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Shih",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "U përdor",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "U përdor",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Faleminderit për përkrahjen tuaj!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Faleminderit për përkrahjen tënde!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Dhuruat një stemë për $name$. Kur ta pranojë, do t’i jepet mundësia ta shfaqë ose fshehë stemën e vet.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Ti ke bërë një dhurim për Signal në emër të {name}. Atyre do t'u jepet mundësia të shfaqin mbështetjen në profilin e tyre.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Paketa e ngjitësve s’u instalua dot",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Ngjitës",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Në dispozicion",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Ngjitës të Instaluar",
+    "message": "Instaluar",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2605,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Fshini mesazhin e përzgjedhur",
+    "message": "Fshi mesazhin e përzgjedhur",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Hiqni paraparje lidhjeje skice",
+    "message": "Hiq lidhjen e paraparjes së skicës",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Hiqni krejt bashkëngjitjet e skicës",
+    "message": "Hiq krejt bashkëngjitjet e skicës",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Pranoni thirrje me video",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Përgjigjju thirrjes me video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Pranoni thirrje me audio",
+    "message": "Përgjigjju thirrjes me zë",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Përgjigjju thirrjes me video (vetëm thirrjet me video)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Përgjigjju thirrjes pa video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Nisni thirrje audio",
+    "message": "Fillo thirrjen zanore",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "Hiqeni bashkëngjitjen",
+    "message": "Hiq bashkëngjitjen",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Hiqe ngjitësin",
+    "message": "Hiq ngjitësin",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "S’do të jeni më në gjendje të bëni përpunime apo ta fshini, pas krijimit të një pakete ngjitësish.",
+    "message": "S’do të mund të bësh përpunime apo ta fshish, pas krijimit të një pakete ngjitësish.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Kjo bisedë do të fshihet prej krejt pajisjeve tuaja.",
+    "message": "Kjo bisedë do të fshihet prej krejt të gjitha pajisjeve të tua.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3057,11 +3207,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Fshije dhe Braktise",
+    "message": "Fshije dhe Dil",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Do ta braktisni këtë grup dhe do të fshihet prej krejt pajisjeve tuaja.",
+    "message": "Do të dalësh nga ky grup dhe do të fshihet prej të gjitha pajisjeve të tua.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Përgjigjuni",
+    "message": "Përgjigju thirrjes",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Përgjigjuni pa video",
+    "message": "Përgjigjju thirrjes pa video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Nuk pranuat një thirrje audio",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Refuzove thirrjen zanore",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Nuk pranuat një thirrje video",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Thirrje audio ardhëse",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Thirrje zanore hyrëse",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Thirrje video ardhëse",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Humbët thirrje audio",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Thirrje zanore e humbur",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Humbët thirrje video",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Thirrje audio nga ju",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Thirrje zanore dalëse",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Thirrje video nga ju",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Thirrje audio pa përgjigje",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Thirrje zanore pa përgjigje",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Thirrje video pa përgjigje",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Thirrje audio ardhëse…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Thirrje zanore hyrëse...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Thirrje video ardhëse…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "S’mund të bëheni pjesë e këtij grupi përmes lidhjes së grupit, ngaqë ju ka hequr një përgjegjës.",
+    "message": "S’mund të bëhesh pjesë e këtij grupi përmes lidhjes së grupit, ngaqë ju ka hequr një përgjegjës.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3545,7 +3695,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Hoqët emrin e grupit.",
+    "message": "Hoqe emrin e grupit.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3569,7 +3719,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Hoqët avatarin e grupit.",
+    "message": "Hoqe avatarin e grupit.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3741,7 +3891,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Hoqët $memberName$.",
+    "message": "Hoqe $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ ju hoqi.",
+    "message": "$adminName$ të hoqi.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "U hoqët prej grupit.",
+    "message": "U hoqe prej grupit.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Hoqët përshkrimin e grupit.",
+    "message": "Hoqe përshkrimin e grupit.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Grupi u ndryshua për të lejuar krejt anëtarët të dërgojnë mesazhe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Anëtarët ose parametrat e këtij grupi kanë ndryshuar.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Përmirësojeni këtë grup që të aktivizohen veçori të reja, të tilla si @përmendje dhe përgjegjës. Anëtarët që nuk kanë dhënë emrin ose foton e tyre në këtë grup do të ftohen të marrin pjesë. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Këta anëtarë s’janë të aftë të bëhen pjesë Grupesh të Rinj, dhe do të hiqen prej grupit:",
+    "message": "Këta anëtarë s’mund të bëhen pjesë e Grupeve të reja dhe do të hiqen prej grupit:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Ky anëtar s’është në gjendje të bëhet pjesë Grupesh të Rinj, dhe do të hiqet prej grupit:",
+    "message": "Ky anëtar s’mund të bëhet pjesë e Grupeve të reja, dhe do të hiqet prej grupit:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Këta anëtarë s’qenë në gjendje të bëhen pjesë Grupesh të Rinj, dhe u hoqën nga grupi:",
+    "message": "Këta anëtarë s’mund të bëheshin pjesë e Grupeve të reja dhe u hoqën nga grupi:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Ky anëtar s’qe në gjendje të bëhej pjesë e Grupeve të Rinj, dhe u hoq nga grupi:",
+    "message": "Ky anëtar s’mund të bëhej pjesë e Grupeve të reja dhe u hoq nga grupi:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ grupe të përbashkët",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} grup i përbashkët} other {{count,number} grupe të përbashkët}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "S’ka grupe të përbashkët",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Shtoje në grup",
@@ -4729,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Të hiqet “$name$” prej grupit? S’do të jetë në gjendje të rihyjë përmes lidhjes së grupit.",
+    "message": "Të hiqet “$name$” prej grupit? S’do të mund të rihyjë përmes lidhjes së grupit.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "S’u arri të fshihet mesazhi për këdo. Ju lutemi, riprovoni më vonë.",
+    "message": "S’u arrit të fshihej mesazhi për këdo. Të lutem, riprovoje më vonë.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Kjo ngjyrë vetjake përdoret në $num$ fjalosje. Doni të fshihet për krejt fjalosjet?",
+    "message": "Kjo ngjyrë vetjake përdoret në $num$ biseda. Do të fshihet për të gjitha bisedat?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Emri juaj i përdoruesit s’u hoq dot. Kontrolloni lidhjen tuaj dhe riprovoni.",
+    "message": "Emri yt i përdoruesit s’u hoq dot. Kontrollo lidhjen dhe riprovo.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Kjo do të heqë emrin tuaj të përdoruesit, duke u lejuar përdoruesve të tjerë ta marrin. Jeni i sigurt?",
+    "message": "Kjo do të heqë emrin e përdoruesit, duke u lejuar përdoruesve të tjerë ta përdorin. Je i sigurt?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5904,6 +6066,10 @@
     "message": "Përgjigju",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Përgjigjju {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Përgjigjuni Grupit",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reago ndaj një postimi të përkohshëm",
+    "message": "(fshirë më 25/01/23) Reago ndaj postimit të përkohshëm",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Këto shifra ndihmojnë të ruash fshehtësinë e emrit të përdoruesit, që të shmangësh mesazhet e padëshiruara. Ndaj emrin e përdoruesit vetëm me personat dhe grupet me të cilat dëshiron të bisedosh. Nëse ndryshon emrin e përdoruesit, atëherë do të marrësh një bashkësi të re shifrash.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop së shpejti nuk do të mbështesë më versionin e {OS} të kompjuterit tënd. Për të vazhduar përdorimin e Signal, përditëso sistemin operativ të kompjuterit tënd deri më {expirationDate}. <learnMoreLink>Mëso më tepër</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop nuk funksionon më në këtë kompjuter. Për të përdorur sërish Signal desktop, përditëso versionin e {OS} të kompjuterit tënd. <learnMoreLink>Mëso më tepër</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop nuk funksionon më në këtë kompjuter. Për të përdorur sërish Signal desktop, përditëso versionin e {OS} të kompjuterit tënd.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Ç’ka të Re",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Kur nis një telefonatë në grup për grupe të vogla (deri në 16 persona), mund të zgjedhësh të dërgosh një njoftim me zile. Anëtarët e grupit do të dëgjojnë një zile nëse kanë versionin beta të iOS ose nëse përdorin Desktop ose Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Kliko dy herë në çdo rresht mesazhi në një bisedë për të filluar një përgjigje të cituar. Është si një lidhje e shkurtër për mendime të reja rreth ideve të vjetra. Faleminderit {whynothugo} dhe komunitetit Signal për zbatimin e kësaj veçorie dhe mundësimin e komenteve.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Tani është më e lehtë të klikosh jashtë një imazhi për të hequr pamjen e galerisë pa e zmadhuar. Ndonjëherë thjesht doje ta mbyllje, por në vend të kësaj gjërat zmadhoheshin. Faleminderit {jojomatik} për rregullimin!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Përshpejto kohën e përgjigjes. Tani mund të reagosh më shpejt duke klikuar në çdo emoji, kur i përgjigjesh një postimi të përkohshëm.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Tani është e mundur të kërkosh historikun e mesazheve për karaktere individuale në gjuhën kineze dhe japoneze.",
+    "description": "Release notes for v6.5"
   }
 }

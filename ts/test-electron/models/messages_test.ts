@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -51,21 +51,22 @@ describe('Message', () => {
     STORAGE_KEYS_TO_RESTORE.forEach(key => {
       oldStorageValues.set(key, window.textsecure.storage.get(key));
     });
-    window.textsecure.storage.put('number_id', `${me}.2`);
-    window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
+    await window.textsecure.storage.put('number_id', `${me}.2`);
+    await window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
   });
 
   after(async () => {
     await window.Signal.Data.removeAll();
     await window.storage.fetch();
 
-    oldStorageValues.forEach((oldValue, key) => {
-      if (oldValue) {
-        window.textsecure.storage.put(key, oldValue);
-      } else {
-        window.textsecure.storage.remove(key);
-      }
-    });
+    await Promise.all(
+      Array.from(oldStorageValues.entries()).map(([key, oldValue]) => {
+        if (oldValue) {
+          return window.textsecure.storage.put(key, oldValue);
+        }
+        return window.textsecure.storage.remove(key);
+      })
+    );
   });
 
   beforeEach(function beforeEach() {

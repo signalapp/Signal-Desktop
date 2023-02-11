@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { differenceWith, omit, partition } from 'lodash';
@@ -34,8 +34,10 @@ import type {
 } from '../textsecure/SendMessage';
 import {
   ConnectTimeoutError,
+  IncorrectSenderKeyAuthError,
   OutgoingIdentityKeyError,
   SendMessageProtoError,
+  UnknownRecipientError,
   UnregisteredUserError,
 } from '../textsecure/Errors';
 import type { HTTPError } from '../textsecure/Errors';
@@ -63,6 +65,8 @@ import * as log from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
 
+const UNKNOWN_RECIPIENT = 404;
+const INCORRECT_AUTH_KEY = 401;
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
 
@@ -167,7 +171,7 @@ export async function sendContentMessageToGroup({
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
@@ -254,7 +258,7 @@ export async function sendToGroupViaSenderKey(options: {
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
   recursionCount: number;
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
@@ -564,6 +568,13 @@ export async function sendToGroupViaSenderKey(options: {
       );
     }
   } catch (error) {
+    if (error.code === UNKNOWN_RECIPIENT) {
+      throw new UnknownRecipientError();
+    }
+    if (error.code === INCORRECT_AUTH_KEY) {
+      throw new IncorrectSenderKeyAuthError();
+    }
+
     if (error.code === ERROR_EXPIRED_OR_MISSING_DEVICES) {
       await handle409Response(logId, error);
 
@@ -758,6 +769,14 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     log.error(`_shouldFailSend/${logId}: ${message}`);
   };
 
+  // We need to fail over to a normal send if multi_recipient/ endpoint returns 404 or 401
+  if (error instanceof UnknownRecipientError) {
+    return false;
+  }
+  if (error instanceof IncorrectSenderKeyAuthError) {
+    return false;
+  }
+
   if (
     error instanceof LibSignalErrorBase &&
     error.code === ErrorCode.UntrustedIdentity
@@ -794,7 +813,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     }
 
     if (error.code === 404) {
-      logError('Missing user or endpoint error, failing.');
+      logError('Failed to fetch metadata before send, failing.');
       return true;
     }
 
@@ -836,7 +855,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
   return false;
 }
 
-function getRecipients(options: GroupSendOptionsType): Array<string> {
+function getRecipients(options: GroupSendOptionsType): ReadonlyArray<string> {
   if (options.groupV2) {
     return options.groupV2.members;
   }
@@ -1305,7 +1324,7 @@ async function fetchKeysForIdentifier(
   );
 
   try {
-    // Note: we have no way to make an unrestricted unathenticated key fetch as part of a
+    // Note: we have no way to make an unrestricted unauthenticated key fetch as part of a
     //   story send, so we hardcode story=false.
     const { accessKeyFailed } = await getKeysForIdentifier(
       identifier,

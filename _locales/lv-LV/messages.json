@@ -64,6 +64,18 @@
     "message": "Tiek gaidīts dalības apstiprinājums",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Nosūtītās multivides kvalitāte",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standarta",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Augsta",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Programmatūras apliecinājumi",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Jūs nevarat kopā ar failiem atlasīt attēlus un video.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Vienlaikus var atlasīt tikai vienu failu.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Šai ziņai vairs nevar pievienot citus pielikumus.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus."
+    "message": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Neizdevās ielādēt atlasīto pielikumu."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Lai nosūtītu audio ziņas, ļaujiet lietotnes Signal Desktop versijai piekļūt ierīces mikrofonam.",
+    "message": "Lai nosūtītu balss ziņas, ļaujiet lietotnes Signal Desktop versijai piekļūt ierīces mikrofonam.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Šī ziņa tiks dzēsta no šīs ierīces.",
+    "message": "Šī ziņa tiks izdzēsta no šīs ierīces.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Šī ziņa tiks izdzēsta visiem sarunas dalībniekiem, ja viņi izmanto nesenu Signāla versiju. Viņi varēs redzēt, ka esat izdzēsis ziņojumu.",
+    "message": "Šī ziņa tiks izdzēsta visiem sarunas dalībniekiem, ja viņi izmanto nesenu Signal versiju. Viņi varēs redzēt, ka esat izdzēsis ziņojumu.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ nomainīja savu tālruņa numuru",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} un {conversationTitle} ir viens un tas pats konts. Šeit ir pieejama abu sarunu ziņu vēsture.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Jūsu ziņu vēsture ar lietotāju {conversationTitle} un šī lietotāja numuru {obsoleteConversationNumber} ir apvienota.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Jūsu ziņu vēsture ar lietotāju {conversationTitle} un citu šī lietotāja sarunu ir apvienota.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Uzzināt vairāk",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Pēc sarakstes ar {obsoleteConversationTitle} jūs uzzinājāt, ka šis numurs pieder kontaktam {conversationTitle}. Attiecīgais tālruņa numurs ir privāts.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Šeit ir apvienota abu sarunu ziņu vēsture.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ir kontakta {conversationTitle} tālruņa numurs. Jūs abi esat grupas {sharedGroup} dalībnieki.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ir kontakta {conversationTitle} tālruņa numurs",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Attēla sīktēls no citētās ziņas",
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Jūs gatavojaties dzēst visu šīs lietojumprogrammas saglabāto konta informāciju, tostarp visas kontaktpersonas un visas ziņas. Jūs vienmēr varat veikt saistīšanu ar savu mobilo ierīci, taču izdzēstās ziņas netiks atjaunotas.",
+    "message": "Jūs gatavojaties dzēst visu šīs lietotnes saglabāto konta informāciju, tostarp visas kontaktpersonas un visas ziņas. Jūs vienmēr varat veikt saistīšanu ar savu mobilo ierīci, taču izdzēstās ziņas netiks atjaunotas.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Nospiediet Restartēt Signal, lai lietotu atjauninājumus."
+    "message": "Nospiediet Restartēt Signal, lai lietotu atjauninājumus.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Pārstartēt Signālu"
@@ -2228,88 +2282,176 @@
     "message": "Ziņojums ir izdzēsts.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Nevar iegūt informāciju par dāvanas nozīmīti",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Nevar iegūt informāciju par ziedojumu",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Lai atvērtu šo ziņu, skatiet to mobilajā ierīcē",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Lai atvērtu šo ziņu, skatiet to mobilajā ierīcē",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Pieskarieties šai ziņai mobilajā ierīcē, lai skatītu savu dāvanu",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Pieskarieties šai ziņai mobilajā ierīcē, lai skatītu savu ziedojumu",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Dāvana",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} ziedoja Signal jūsu vārdā",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Lai atvērtu dāvanu, skatiet šo ziņu tālrunī",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Lai atvērtu šo ziedojumu, skatiet šo ziņu tālrunī",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Lai skatītu dāvanu, atveriet ziņu tālrunī",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Lai skatītu ziedojumu, atveriet ziņu tālrunī",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Jūs saņēmāt dāvanu",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} ziedoja jūsu vārdā",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Jūs izpirkāt dāvanas nozīmīti",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Jūs izmantojāt ziedojumu",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Jūs nosūtījāt nozīmīti kā dāvanu",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Jūs ziedojāt lietotāja {recipient} vārdā",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Dāvināta nozīmīte",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Ziedojums",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Dāvana",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Ziedojums",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Atlikušas $days$ dienas",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Atlikušas {days} dienas",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Atlikušas $hours$ stundas",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Atlikušas {hours} stundas",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Atlikušas $minutes$ minūtes",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, zero {Atlikušas {minutes,number} minūtes} one {Atlikusi {minutes,number} minūte} other {Atlikušas {minutes,number} minūtes}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Atlikusi 1 minūte",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Beidzies termiņš",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Beidzies termiņš",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Skatīt",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Skatīt",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Izpirkts",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Izpirkts",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Paldies par jūsu atbalstu!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Paldies par jūsu atbalstu!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Jūs uzdāvinājāt nozīmīti lietotājam $name$. Pieņemot dāvanu, lietotājs varēs izvēlēties, vai parādīt nozīmīti.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Jūs atbalstījāt Signal ar ziedojumu lietotāja {name} vārdā. Lietotājam būs iespēja parādīt savu atbalstu profilā.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Uzlīmju komplektu nevarēja instalēt",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Uzlīmes",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Pieejams(-i)",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Instalētās uzlīmes",
+    "message": "Instalēts(-i)",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Noņemt saites priekšskatījuma uzmetumu",
+    "message": "Noņemt saites priekšskatījuma melnrakstu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Noņemt visus izveidotos pielikumus",
+    "message": "Noņemt visus pielikumu melnrakstus",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Pieņemt zvanu ar video",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Atbildēt uz zvanu ar video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Pieņemt zvanu ar audio",
+    "message": "Atbildēt uz zvanu ar audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Atbildēt uz zvanu ar video (tikai video zvaniem)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Atbildēt uz zvanu bez video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Sākt audiozvanu",
+    "message": "Sākt balss zvanu",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3133,7 +3283,7 @@
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Atbildēt bez video",
+    "message": "Atbildēt uz zvanu bez video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Jūs noraidījāt audiozvanu",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Jūs noraidījāt balss zvanu",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Jūs noraidījāt videozvanu",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Ienākošs audiozvans",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Ienākošs balss zvans",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Ienākošs videozvans",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Neatbildēts audiozvans",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Neatbildēts balss zvans",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Neatbildēts videozvans",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Izejošs audiozvans",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Izejošs balss zvans",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Izejošs videozvans",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Neatbildēts audiozvans",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Neatbildēts balss zvans",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neatbildēts videozvans",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Ienākošs audiozvans…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Ienākošs balss zvans…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Ienākošs videozvans…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Jūs nevarat pievienoties grupai caur grupas saiti, jo adminstrators jums to ir liedzis.",
+    "message": "Jūs nevarat pievienoties šai grupai, izmantojot grupas saiti, jo administrators jums to ir liedzis.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ dzēsa grupas nosaukumu.",
+    "message": "$memberName$ noņēma grupas nosaukumu.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Jūs dzēsāt grupas nosaukumu.",
+    "message": "Jūs noņēmāt grupas nosaukumu.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Dalībnieks dzēsa grupas nosaukumu.",
+    "message": "Dalībnieks noņēma grupas nosaukumu.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ dzēsa $memberName$.",
+    "message": "$adminName$ noņēma $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Jūs dzēsāt $memberName$.",
+    "message": "Jūs noņēmāt $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Dalībnieks dzēsa $memberName$.",
+    "message": "Dalībnieks noņēma $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ dzēsa jūs.",
+    "message": "$adminName$ noņēma jūs.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Jūs tikāt dzēsts no šīs grupas.",
+    "message": "Jūs tikāt noņemts no šīs grupas.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,11 +4163,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Jūs dzēsāt grupas aprakstu.",
+    "message": "Jūs noņēmāt grupas aprakstu.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ dzēsa grupas aprakstu.",
+    "message": "$memberName$ noņēma grupas aprakstu.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Grupa tika mainīta, lai visiem dalībniekiem ļautu sūtīt ziņas.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Šīs grupas dalībnieki vai iestatījumi ir mainīti.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Jauniniet šo grupu, lai aktivizētu jaunas funkcijas, piemēram, @pieminējumi un administratori. Dalībnieki, kuri šajā grupā nav kopīgojuši savu vārdu vai fotoattēlu, tiks uzaicināti pievienoties. $learnMore$",
@@ -4137,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ tika dzēsts no šīs grupas.",
+    "message": "$contact$ tika noņemts no šīs grupas.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ dalībnieki tika dzēsti no šīs grupas.",
+    "message": "$count$ dalībnieki tika noņemti no šīs grupas.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4221,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Noņemt lietotāju $contact$ kā grupas administratoru?",
+    "message": "Vai noņemt lietotāju $contact$ kā grupas administratoru?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ kopīgas grupas",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, zero {{count,number} kopīga grupa} one {{count,number} kopīga grupa} other {{count,number} kopīgas grupas}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Nav kopēju grupu",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Pievienot grupai",
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Vai dzēst \"$name$\" no šīs grupas?",
+    "message": "Vai noņemt \"$name$\" no šīs grupas?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Noņemt lietotāju \"$name$\" no grupas? Lietotājs nevarēs no jauna pievienoties grupai ar saiti.",
+    "message": "Vai noņemt lietotāju \"$name$\" no grupas? Lietotājs nevarēs no jauna pievienoties grupai ar saiti.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Šī pielāgotā krāsa tiek izmantota $num$ tērzēšanās. Vai vēlaties to dzēst visām tērzēšanām?",
+    "message": "Šī pielāgotā krāsa tiek izmantota $num$ sarunās. Vai vēlaties to dzēst visām sarunām?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Neizdevās izdzēst jūsu lietotājvārdu. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
+    "message": "Neizdevās noņemt jūsu lietotājvārdu. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Šī darbība izdzēsīs jūsu lietotājvārdu, un to varēs izmantot citi lietotāji. Vai esat pārliecināts(-a)?",
+    "message": "Ar šo darbību tiks noņemts jūsu lietotājvārds, un to varēs izmantot citi lietotāji. Vai esat pārliecināts(-a)?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5481,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Vai dzēst šo stāstu? Tas tiks dzēsts arī visiem lietotājiem, kuri to saņēma.",
+    "message": "Vai dzēst šo stāstu? Tas tiks dzēsts arī tiem lietotājiem, kuri to saņēma.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5777,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Vai tiešām vēlaties dzēst “{groupTitle}”?",
+    "messageformat": "Vai tiešām vēlaties noņemt “{groupTitle}”?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5904,6 +6066,10 @@
     "message": "Atbildēt",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Atbildēt lietotājam {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Atbildēt grupai",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reaģēt uz stāstu",
+    "message": "(dzēsts 25/01/23) Reaģēt uz stāstu",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Šie cipari palīdz saglabāt jūsu lietotājvārdu slepenībā un izvairīties no nevēlamām ziņām. Izpaudiet savu lietotājvārdu tikai lietotājiem un grupām, ar kurām vēlaties čatot. Ja mainīsiet lietotājvārdu, saņemsiet jaunu ciparu virkni.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Drīzumā Signal Desktop vairs neatbalstīs jūsu datora {OS} versiju. Lai turpinātu lietot Signal, atjauniniet datora operētājsistēmu līdz {expirationDate}. <learnMoreLink>Lasīt vairāk</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal Desktop vairs nedarbojas šajā datorā. Lai atkal izmantotu Signal Desktop, atjauniniet sava datora {OS} versiju. <learnMoreLink>Lasīt vairāk</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal Desktop vairs nedarbojas šajā datorā. Lai atkal izmantotu Signal Desktop, atjauniniet sava datora {OS} versiju.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Jaunumi",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Kad sākat grupas zvanu nelielā grupā (līdz 16 personām), varat izvēlēties nosūtīt zvana paziņojumu. Grupas dalībnieki dzirdēs zvana signālu, ja viņi izmanto iOS beta, Desktop vai Android versiju.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Veiciet dubultklikšķi uz jebkuras ziņas rindas sarunā, lai sāktu citēto atbildi. Tas ir ātrs veids, kā dalīties ar jaunām domām par vecajām idejām. Paldies {whynothugo} un Signal kopienai par šīs funkcijas ieviešanu un atsauksmju sniegšanu.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Tagad ir vieglāk noklikšķināt ārpus attēla, lai aizvērtu galerijas skatu bez tuvināšanas. Iepriekš varēja gadīties, ka jūs vienkārši gribējāt aizvērt skatu, bet tā vietā pietuvinājāt attēlu. Paldies {jojomatik} par labojumu!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Atbildiet ātrāk. Kad atbildat uz stāstu, varat reaģēt ātrāk, pieskaroties pie jebkuras emocijzīmes.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Tagad ziņu vēsturē ir iespējams meklēt atsevišķas rakstzīmes ķīniešu un japāņu valodā.",
+    "description": "Release notes for v6.5"
   }
 }

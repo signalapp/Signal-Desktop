@@ -4,8 +4,13 @@
 import { ReactionModel } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { getMessageById } from '../messages/getMessageById';
-import { getSourceUuid } from '../messages/helpers';
+import { getSourceUuid, isStory } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
+import { isDirectConversation } from '../util/whatTypeOfConversation';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { repeat, zipObject } from '../util/iterables';
+import { SendStatus } from '../messages/MessageSendState';
+import { UUID } from '../types/UUID';
 
 export async function enqueueReactionForSend({
   emoji,
@@ -31,15 +36,64 @@ export async function enqueueReactionForSend({
     `enqueueReactionForSend: message ${message.idForLogging()} had no timestamp`
   );
 
+  const timestamp = Date.now();
+  const messageConversation = message.getConversation();
+  strictAssert(
+    messageConversation,
+    'enqueueReactionForSend: No conversation extracted from target message'
+  );
+
+  const targetConversation =
+    isStory(message.attributes) &&
+    isDirectConversation(messageConversation.attributes)
+      ? window.ConversationController.get(targetAuthorUuid)
+      : messageConversation;
+  strictAssert(
+    targetConversation,
+    'enqueueReactionForSend: Did not find a targetConversation'
+  );
+
+  const storyMessage = isStory(message.attributes)
+    ? message.attributes
+    : undefined;
+
+  // Only used in story scenarios, where we use a whole message to represent the reaction
+  const storyReactionMessage = storyMessage
+    ? new window.Whisper.Message({
+        id: UUID.generate().toString(),
+        type: 'outgoing',
+        conversationId: targetConversation.id,
+        sent_at: timestamp,
+        received_at: incrementMessageCounter(),
+        received_at_ms: timestamp,
+        timestamp,
+        expireTimer: targetConversation.get('expireTimer'),
+        sendStateByConversationId: zipObject(
+          targetConversation.getMemberConversationIds(),
+          repeat({
+            status: SendStatus.Pending,
+            updatedAt: Date.now(),
+          })
+        ),
+        storyId: message.id,
+        storyReaction: {
+          emoji,
+          targetAuthorUuid,
+          targetTimestamp,
+        },
+      })
+    : undefined;
+
   const reaction = new ReactionModel({
     emoji,
+    fromId: window.ConversationController.getOurConversationIdOrThrow(),
     remove,
+    source: ReactionSource.FromThisDevice,
+    storyReactionMessage,
     targetAuthorUuid,
     targetTimestamp,
-    fromId: window.ConversationController.getOurConversationIdOrThrow(),
-    timestamp: Date.now(),
-    source: ReactionSource.FromThisDevice,
+    timestamp,
   });
 
-  await message.handleReaction(reaction);
+  await message.handleReaction(reaction, { storyMessage });
 }

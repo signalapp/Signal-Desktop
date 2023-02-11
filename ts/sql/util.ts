@@ -5,7 +5,7 @@ import type { Database } from '@signalapp/better-sqlite3';
 import { isNumber, last } from 'lodash';
 
 export type EmptyQuery = [];
-export type ArrayQuery = Array<Array<null | number | bigint | string>>;
+export type ArrayQuery = Array<ReadonlyArray<null | number | bigint | string>>;
 export type Query = {
   [key: string]: null | number | bigint | string | Uint8Array;
 };
@@ -72,21 +72,21 @@ export function getSQLCipherVersion(db: Database): string | undefined {
 
 export function batchMultiVarQuery<ValueT>(
   db: Database,
-  values: Array<ValueT>,
-  query: (batch: Array<ValueT>) => void
+  values: ReadonlyArray<ValueT>,
+  query: (batch: ReadonlyArray<ValueT>) => void
 ): [];
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: Database,
-  values: Array<ValueT>,
-  query: (batch: Array<ValueT>) => Array<ResultT>
+  values: ReadonlyArray<ValueT>,
+  query: (batch: ReadonlyArray<ValueT>) => Array<ResultT>
 ): Array<ResultT>;
 
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: Database,
-  values: Array<ValueT>,
+  values: ReadonlyArray<ValueT>,
   query:
-    | ((batch: Array<ValueT>) => void)
-    | ((batch: Array<ValueT>) => Array<ResultT>)
+    | ((batch: ReadonlyArray<ValueT>) => void)
+    | ((batch: ReadonlyArray<ValueT>) => Array<ResultT>)
 ): Array<ResultT> {
   if (values.length > MAX_VARIABLE_COUNT) {
     const result: Array<ResultT> = [];
@@ -187,7 +187,7 @@ export function removeById<Key extends string | number>(
     throw new Error('removeById: No ids to delete!');
   }
 
-  const removeByIdsSync = (ids: Array<string | number>): void => {
+  const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
     db.prepare<ArrayQuery>(
       `
       DELETE FROM ${table}

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -30,6 +30,7 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { getComposerStateForConversationIdSelector } from '../selectors/composer';
 
 type ExternalProps = {
   id: string;
@@ -67,6 +68,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       receivedPacks.length > 0
   );
 
+  const composerStateForConversationIdSelector =
+    getComposerStateForConversationIdSelector(state);
+
   const {
     attachments: draftAttachments,
     focusCounter,
@@ -76,7 +80,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     messageCompositionId,
     quotedMessage,
     shouldSendHighQualityAttachments,
-  } = state.composer;
+  } = composerStateForConversationIdSelector(id);
 
   const recentEmojis = selectRecentEmojis(state);
 

@@ -10,7 +10,7 @@ function isGitDeletedError(error: unknown) {
   return (
     typeof error === 'object' &&
     error != null &&
-    error['code'] === 128 &&
+    error['exitCode'] === 128 &&
     error['command']?.startsWith('git show ')
   );
 }

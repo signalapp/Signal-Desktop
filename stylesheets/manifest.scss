@@ -1,4 +1,4 @@
-// Copyright 2014-2022 Signal Messenger, LLC
+// Copyright 2014 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Global Settings, Variables, and Mixins
@@ -49,7 +49,9 @@
 @import './components/CallingToast.scss';
 @import './components/ChatColorPicker.scss';
 @import './components/Checkbox.scss';
+@import './components/CircleCheckbox.scss';
 @import './components/CompositionArea.scss';
+@import './components/CompositionInput.scss';
 @import './components/CompositionTextArea.scss';
 @import './components/ContactModal.scss';
 @import './components/ContactName.scss';
@@ -87,6 +89,7 @@
 @import './components/LeftPaneDialog.scss';
 @import './components/LeftPaneSearchInput.scss';
 @import './components/Lightbox.scss';
+@import './components/ListTile.scss';
 @import './components/MediaEditor.scss';
 @import './components/MediaQualitySelector.scss';
 @import './components/MessageAudio.scss';

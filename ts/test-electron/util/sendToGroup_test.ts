@@ -15,12 +15,14 @@ import type { DeviceType } from '../../textsecure/Types.d';
 import {
   ConnectTimeoutError,
   HTTPError,
+  IncorrectSenderKeyAuthError,
   MessageError,
   OutgoingIdentityKeyError,
   OutgoingMessageError,
   SendMessageChallengeError,
   SendMessageNetworkError,
   SendMessageProtoError,
+  UnknownRecipientError,
   UnregisteredUserError,
 } from '../../textsecure/Errors';
 
@@ -217,6 +219,16 @@ describe('sendToGroup', () => {
 
       error.code = 204;
       assert.isFalse(_shouldFailSend(error, 'testing generic 204'));
+    });
+
+    it('returns false for specific errors', () => {
+      const unknownRecipient = new UnknownRecipientError();
+      assert.isFalse(
+        _shouldFailSend(unknownRecipient, 'testing unknown recipient')
+      );
+
+      const incorrectAuth = new IncorrectSenderKeyAuthError();
+      assert.isFalse(_shouldFailSend(incorrectAuth, 'testing incorrect auth'));
     });
 
     it('returns true for a specified error codes', () => {

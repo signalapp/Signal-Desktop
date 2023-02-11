@@ -24,10 +24,13 @@ export default {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  onItemClick: action('onItemClick'),
+  conversationId: '123',
   documents: overrideProps.documents || [],
+  i18n,
+  loadMediaItems: action('loadMediaItems'),
   media: overrideProps.media || [],
+  saveAttachment: action('saveAttachment'),
+  showLightboxWithMedia: action('showLightboxWithMedia'),
 });
 
 export function Populated(): JSX.Element {

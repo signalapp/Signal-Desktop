@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, compact, isEmpty, range } from 'lodash';
@@ -34,10 +34,12 @@ export enum LinkPreviewSourceType {
 
 export type MaybeGrabLinkPreviewOptionsType = Readonly<{
   caretLocation?: number;
+  conversationId?: string;
   mode?: 'conversation' | 'story';
 }>;
 
 export type AddLinkPreviewOptionsType = Readonly<{
+  conversationId?: string;
   disableFetch?: boolean;
 }>;
 

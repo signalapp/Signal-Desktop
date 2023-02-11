@@ -8,6 +8,7 @@ import type {
   IPCRequest as ChallengeRequestType,
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
+import type { ReceiptType } from '../types/Receipt';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -21,6 +22,11 @@ export type MessageSendInfoType = Readonly<{
 
 export type ConversationOpenInfoType = Readonly<{
   delta: number;
+}>;
+
+export type ReceiptsInfoType = Readonly<{
+  type: ReceiptType;
+  timestamps: Array<number>;
 }>;
 
 export type StorageServiceInfoType = Readonly<{
@@ -70,6 +76,10 @@ export class App {
     return this.waitForEvent('challenge');
   }
 
+  public async waitForReceipts(): Promise<ReceiptsInfoType> {
+    return this.waitForEvent('receipts');
+  }
+
   public async waitForStorageService(): Promise<StorageServiceInfoType> {
     return this.waitForEvent('storageServiceComplete');
   }
@@ -89,7 +99,7 @@ export class App {
     const window = await this.getWindow();
 
     await window.evaluate(
-      `window.CI.solveChallenge(${JSON.stringify(response)})`
+      `window.SignalCI.solveChallenge(${JSON.stringify(response)})`
     );
   }
 
@@ -105,7 +115,7 @@ export class App {
     const window = await this.getWindow();
 
     const result = await window.evaluate(
-      `window.CI.waitForEvent(${JSON.stringify(event)})`
+      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`
     );
 
     return result as T;

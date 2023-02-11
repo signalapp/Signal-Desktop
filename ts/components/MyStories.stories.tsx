@@ -49,7 +49,7 @@ export default {
     queueStoryDownload: {
       action: true,
     },
-    retrySend: {
+    retryMessageSend: {
       action: true,
     },
     viewStory: { action: true },

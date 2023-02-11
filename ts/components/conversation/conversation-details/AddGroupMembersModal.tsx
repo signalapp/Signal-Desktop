@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useReducer } from 'react';
@@ -48,7 +48,7 @@ type StateType = {
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   searchTerm: string;
-  selectedConversationIds: Array<string>;
+  selectedConversationIds: ReadonlyArray<string>;
   stage: Stage;
 };
 
@@ -249,7 +249,7 @@ export function AddGroupMembersModal({
       return renderConfirmAdditionsModal({
         groupTitle,
         makeRequest: () => {
-          makeRequest(selectedConversationIds);
+          void makeRequest(selectedConversationIds);
         },
         onClose: onCloseConfirmationDialog,
         requestState,

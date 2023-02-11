@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 module.exports = {
+  typescript: {
+    reactDocgen: false,
+  },
   stories: [
     '../ts/components/**/*.stories.tsx',
     '../sticker-creator/**/*.stories.tsx',
@@ -20,6 +23,9 @@ module.exports = {
     // Deprecated! Please remove when all uses have been migrated to controls.
     '@storybook/addon-knobs',
   ],
+  core: {
+    builder: 'webpack5',
+  },
   features: {
     storyStoreV7: true,
   },

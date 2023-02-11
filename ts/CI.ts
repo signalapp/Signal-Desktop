@@ -10,28 +10,30 @@ import type { IPCResponse as ChallengeResponseType } from './challenge';
 
 type ResolveType = (data: unknown) => void;
 
-export class CI {
-  private readonly eventListeners = new Map<string, Array<ResolveType>>();
+export type CIType = {
+  deviceName: string;
+  handleEvent: (event: string, data: unknown) => unknown;
+  setProvisioningURL: (url: string) => unknown;
+  solveChallenge: (response: ChallengeResponseType) => unknown;
+  waitForEvent: (event: string, timeout?: number) => unknown;
+};
 
-  private readonly completedEvents = new Map<string, Array<unknown>>();
+export function getCI(deviceName: string): CIType {
+  const eventListeners = new Map<string, Array<ResolveType>>();
+  const completedEvents = new Map<string, Array<unknown>>();
 
-  constructor(public readonly deviceName: string) {
-    ipcRenderer.on('ci:event', (_, event, data) => {
-      this.handleEvent(event, data);
-    });
-  }
+  ipcRenderer.on('ci:event', (_, event, data) => {
+    handleEvent(event, data);
+  });
 
-  public async waitForEvent(
-    event: string,
-    timeout = 60 * SECOND
-  ): Promise<unknown> {
-    const pendingCompleted = this.completedEvents.get(event) || [];
+  function waitForEvent(event: string, timeout = 60 * SECOND) {
+    const pendingCompleted = completedEvents.get(event) || [];
     const pending = pendingCompleted.shift();
     if (pending) {
       log.info(`CI: resolving pending result for ${event}`, pending);
 
       if (pendingCompleted.length === 0) {
-        this.completedEvents.delete(event);
+        completedEvents.delete(event);
       }
 
       return pending;
@@ -44,10 +46,10 @@ export class CI {
       reject(new Error('Timed out'));
     }, timeout);
 
-    let list = this.eventListeners.get(event);
+    let list = eventListeners.get(event);
     if (!list) {
       list = [];
-      this.eventListeners.set(event, list);
+      eventListeners.set(event, list);
     }
 
     list.push((value: unknown) => {
@@ -58,17 +60,17 @@ export class CI {
     return promise;
   }
 
-  public setProvisioningURL(url: string): void {
-    this.handleEvent('provisioning-url', url);
+  function setProvisioningURL(url: string): void {
+    handleEvent('provisioning-url', url);
   }
 
-  public handleEvent(event: string, data: unknown): void {
-    const list = this.eventListeners.get(event) || [];
+  function handleEvent(event: string, data: unknown): void {
+    const list = eventListeners.get(event) || [];
     const resolve = list.shift();
 
     if (resolve) {
       if (list.length === 0) {
-        this.eventListeners.delete(event);
+        eventListeners.delete(event);
       }
 
       log.info(`CI: got event ${event} with data`, data);
@@ -78,15 +80,23 @@ export class CI {
 
     log.info(`CI: postponing event ${event}`);
 
-    let resultList = this.completedEvents.get(event);
+    let resultList = completedEvents.get(event);
     if (!resultList) {
       resultList = [];
-      this.completedEvents.set(event, resultList);
+      completedEvents.set(event, resultList);
     }
     resultList.push(data);
   }
 
-  public solveChallenge(response: ChallengeResponseType): void {
+  function solveChallenge(response: ChallengeResponseType): void {
     window.Signal.challengeHandler?.onResponse(response);
   }
+
+  return {
+    deviceName,
+    handleEvent,
+    setProvisioningURL,
+    solveChallenge,
+    waitForEvent,
+  };
 }

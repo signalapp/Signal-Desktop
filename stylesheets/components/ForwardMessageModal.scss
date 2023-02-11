@@ -22,6 +22,11 @@
     color: $color-gray-05;
   }
 
+  .module-conversation-list {
+    // remove horizontal padding so ListTiles extend to the edges
+    padding: 0;
+  }
+
   &--link-preview {
     border-bottom: 1px solid $color-gray-15;
     padding: 12px 16px;

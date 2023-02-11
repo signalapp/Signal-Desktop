@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { connection as WebSocket } from 'websocket';
@@ -81,7 +81,7 @@ export abstract class CDSSocketManagerBase<
       throw error;
     } finally {
       log.info('CDSSocketManager: closing socket');
-      socket.close(3000, 'Normal');
+      void socket.close(3000, 'Normal');
     }
   }
 

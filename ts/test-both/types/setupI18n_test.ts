@@ -1,4 +1,4 @@
-// Copyright 2017-2022 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -15,6 +15,7 @@ describe('setupI18n', () => {
 
   describe('i18n', () => {
     it('returns empty string for unknown string', () => {
+      // eslint-disable-next-line local-rules/valid-i18n-keys
       assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', () => {

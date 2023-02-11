@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import * as updateIpc from '../../shims/updateIpc';
 import { DialogType } from '../../types/Dialogs';
 import { DAY } from '../../util/durations';
@@ -9,14 +10,14 @@ import type { StateType as RootStateType } from '../reducer';
 
 // State
 
-export type UpdatesStateType = {
+export type UpdatesStateType = ReadonlyDeep<{
   dialogType: DialogType;
   didSnooze: boolean;
   downloadSize?: number;
   downloadedSize?: number;
   showEventsCount: number;
   version?: string;
-};
+}>;
 
 // Actions
 
@@ -26,43 +27,44 @@ const SNOOZE_UPDATE = 'updates/SNOOZE_UPDATE';
 const START_UPDATE = 'updates/START_UPDATE';
 const UNSNOOZE_UPDATE = 'updates/UNSNOOZE_UPDATE';
 
-export type UpdateDialogOptionsType = {
+export type UpdateDialogOptionsType = ReadonlyDeep<{
   downloadSize?: number;
   downloadedSize?: number;
   version?: string;
-};
+}>;
 
-type DismissDialogActionType = {
+type DismissDialogActionType = ReadonlyDeep<{
   type: typeof DISMISS_DIALOG;
-};
+}>;
 
-export type ShowUpdateDialogActionType = {
+export type ShowUpdateDialogActionType = ReadonlyDeep<{
   type: typeof SHOW_UPDATE_DIALOG;
   payload: {
     dialogType: DialogType;
     otherState: UpdateDialogOptionsType;
   };
-};
+}>;
 
-type SnoozeUpdateActionType = {
+type SnoozeUpdateActionType = ReadonlyDeep<{
   type: typeof SNOOZE_UPDATE;
-};
+}>;
 
-type StartUpdateActionType = {
+type StartUpdateActionType = ReadonlyDeep<{
   type: typeof START_UPDATE;
-};
+}>;
 
-type UnsnoozeUpdateActionType = {
+type UnsnoozeUpdateActionType = ReadonlyDeep<{
   type: typeof UNSNOOZE_UPDATE;
   payload: DialogType;
-};
+}>;
 
-export type UpdatesActionType =
+export type UpdatesActionType = ReadonlyDeep<
   | DismissDialogActionType
   | ShowUpdateDialogActionType
   | SnoozeUpdateActionType
   | StartUpdateActionType
-  | UnsnoozeUpdateActionType;
+  | UnsnoozeUpdateActionType
+>;
 
 // Action Creators
 

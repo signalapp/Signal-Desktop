@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -55,6 +55,7 @@ export function TimerNotification(props: Props): JSX.Element {
   switch (type) {
     case 'fromOther':
       message = (
+        // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           i18n={i18n}
           id={changeKey}

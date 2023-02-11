@@ -3,8 +3,9 @@
 
 import { ipcRenderer as ipc } from 'electron';
 import * as semver from 'semver';
-import { mapValues, noop } from 'lodash';
+import { mapValues } from 'lodash';
 
+import type { IPCType } from '../../window.d';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
 import { UUIDKind } from '../../types/UUID';
 import { ThemeType } from '../../types/Util';
@@ -22,42 +23,28 @@ window.i18n = SignalContext.i18n;
 const { config } = window.SignalContext;
 
 // Flags for testing
-window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING = true;
-window.GV2_ENABLE_CHANGE_PROCESSING = true;
-window.GV2_ENABLE_STATE_PROCESSING = true;
-window.GV2_ENABLE_PRE_JOIN_FETCH = true;
+const Flags = {
+  GV2_ENABLE_CHANGE_PROCESSING: true,
+  GV2_ENABLE_PRE_JOIN_FETCH: true,
+  GV2_ENABLE_SINGLE_CHANGE_PROCESSING: true,
+  GV2_ENABLE_STATE_PROCESSING: true,
+  GV2_MIGRATION_DISABLE_ADD: false,
+  GV2_MIGRATION_DISABLE_INVITE: false,
+};
 
-window.GV2_MIGRATION_DISABLE_ADD = false;
-window.GV2_MIGRATION_DISABLE_INVITE = false;
+window.Flags = Flags;
 
 window.RETRY_DELAY = false;
 
 window.platform = process.platform;
 window.getTitle = () => title;
-window.getLocale = () => config.locale;
+window.getResolvedMessagesLocale = () => config.resolvedTranslationsLocale;
+window.getPreferredSystemLocales = () => config.preferredSystemLocales;
 window.getEnvironment = getEnvironment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
-window.getExpiration = () => {
-  const sixtyDays = 60 * 86400 * 1000;
-  const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
-  const { buildExpiration } = config;
-
-  const localBuildExpiration = window.Events.getAutoDownloadUpdate()
-    ? buildExpiration
-    : buildExpiration - sixtyDays;
-
-  if (remoteBuildExpiration) {
-    return remoteBuildExpiration < localBuildExpiration
-      ? remoteBuildExpiration
-      : localBuildExpiration;
-  }
-  return localBuildExpiration;
-};
-window.Accessibility = {
-  reducedMotionSetting: Boolean(config.reducedMotionSetting),
-};
+window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;
@@ -78,12 +65,77 @@ if (config.theme === 'light') {
   window.initialTheme = ThemeType.dark;
 }
 
-window.getAutoLaunch = () => {
-  return ipc.invoke('get-auto-launch');
+const IPC: IPCType = {
+  addSetupMenuItems: () => ipc.send('add-setup-menu-items'),
+  closeAbout: () => ipc.send('close-about'),
+  crashReports: {
+    getCount: () => ipc.invoke('crash-reports:get-count'),
+    upload: () => ipc.invoke('crash-reports:upload'),
+    erase: () => ipc.invoke('crash-reports:erase'),
+  },
+  drawAttention: () => {
+    log.info('draw attention');
+    ipc.send('draw-attention');
+  },
+  getAutoLaunch: () => ipc.invoke('get-auto-launch'),
+  getBuiltInImages: () =>
+    new Promise((resolve, reject) => {
+      ipc.once('get-success-built-in-images', (_event, error, value) => {
+        if (error) {
+          return reject(new Error(error));
+        }
+
+        return resolve(value);
+      });
+      ipc.send('get-built-in-images');
+    }),
+  getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
+  getMediaCameraPermissions: () =>
+    ipc.invoke('settings:get:mediaCameraPermissions'),
+  logAppLoadedEvent: ({ processedCount }) =>
+    ipc.send('signal-app-loaded', {
+      preloadTime: window.preloadEndTime - window.preloadStartTime,
+      connectTime: preloadConnectTime - window.preloadEndTime,
+      processedCount,
+    }),
+  readyForUpdates: () => ipc.send('ready-for-updates'),
+  removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
+  restart: () => {
+    log.info('restart');
+    ipc.send('restart');
+  },
+  setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
+  setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
+  setBadgeCount: count => ipc.send('set-badge-count', count),
+  setMenuBarVisibility: visibility =>
+    ipc.send('set-menu-bar-visibility', visibility),
+  showDebugLog: () => {
+    log.info('showDebugLog');
+    ipc.send('show-debug-log');
+  },
+  showPermissionsPopup: (forCalling, forCamera) =>
+    ipc.invoke('show-permissions-popup', forCalling, forCamera),
+  showSettings: () => ipc.send('show-settings'),
+  showWindow: () => {
+    log.info('show window');
+    ipc.send('show-window');
+  },
+  shutdown: () => {
+    log.info('shutdown');
+    ipc.send('shutdown');
+  },
+  titleBarDoubleClick: () => {
+    ipc.send('title-bar-double-click');
+  },
+  updateSystemTraySetting: (
+    systemTraySetting /* : Readonly<SystemTraySetting> */
+  ) => {
+    void ipc.invoke('update-system-tray-setting', systemTraySetting);
+  },
+  updateTrayIcon: unreadCount => ipc.send('update-tray-icon', unreadCount),
 };
-window.setAutoLaunch = value => {
-  return ipc.invoke('set-auto-launch', value);
-};
+
+window.IPC = IPC;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -108,21 +160,12 @@ window.isAfterVersion = (toCheck, baseVersion) => {
   }
 };
 
-window.setBadgeCount = count => ipc.send('set-badge-count', count);
-
 let preloadConnectTime = 0;
 window.logAuthenticatedConnect = () => {
   if (preloadConnectTime === 0) {
     preloadConnectTime = Date.now();
   }
 };
-
-window.logAppLoadedEvent = ({ processedCount }) =>
-  ipc.send('signal-app-loaded', {
-    preloadTime: window.preloadEndTime - window.preloadStartTime,
-    connectTime: preloadConnectTime - window.preloadEndTime,
-    processedCount,
-  });
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -132,50 +175,6 @@ if (!config.enableCI && config.environment !== 'test') {
   // eslint-disable-next-line no-eval, no-multi-assign
   window.eval = global.eval = () => null;
 }
-
-window.drawAttention = () => {
-  log.info('draw attention');
-  ipc.send('draw-attention');
-};
-window.showWindow = () => {
-  log.info('show window');
-  ipc.send('show-window');
-};
-
-window.titleBarDoubleClick = () => {
-  ipc.send('title-bar-double-click');
-};
-
-window.setAutoHideMenuBar = autoHide =>
-  ipc.send('set-auto-hide-menu-bar', autoHide);
-
-window.setMenuBarVisibility = visibility =>
-  ipc.send('set-menu-bar-visibility', visibility);
-
-window.updateSystemTraySetting = (
-  systemTraySetting /* : Readonly<SystemTraySetting> */
-) => {
-  ipc.invoke('update-system-tray-setting', systemTraySetting);
-};
-
-window.restart = () => {
-  log.info('restart');
-  ipc.send('restart');
-};
-window.shutdown = () => {
-  log.info('shutdown');
-  ipc.send('shutdown');
-};
-window.showDebugLog = () => {
-  log.info('showDebugLog');
-  ipc.send('show-debug-log');
-};
-
-window.closeAbout = () => ipc.send('close-about');
-window.readyForUpdates = () => ipc.send('ready-for-updates');
-
-window.updateTrayIcon = unreadCount =>
-  ipc.send('update-tray-icon', unreadCount);
 
 ipc.on('additional-log-data-request', async event => {
   const ourConversation = window.ConversationController.getOurConversation();
@@ -238,10 +237,14 @@ ipc.on('power-channel:lock-screen', () => {
 });
 
 ipc.on('window:set-window-stats', (_event, stats) => {
-  if (!window.Whisper.events) {
+  if (!window.reduxActions) {
     return;
   }
-  window.Whisper.events.trigger('setWindowStats', stats);
+
+  window.reduxActions.user.userChanged({
+    isMainWindowMaximized: stats.isMaximized,
+    isMainWindowFullScreen: stats.isFullScreen,
+  });
 });
 
 ipc.on('window:set-menu-options', (_event, options) => {
@@ -253,27 +256,7 @@ ipc.on('window:set-menu-options', (_event, options) => {
 
 window.sendChallengeRequest = request => ipc.send('challenge:request', request);
 
-{
-  let isFullScreen = Boolean(config.isMainWindowFullScreen);
-  let isMaximized = Boolean(config.isMainWindowMaximized);
-
-  window.isFullScreen = () => isFullScreen;
-  window.isMaximized = () => isMaximized;
-  // This is later overwritten.
-  window.onFullScreenChange = noop;
-
-  ipc.on('window:set-window-stats', (_event, stats) => {
-    isFullScreen = Boolean(stats.isFullScreen);
-    isMaximized = Boolean(stats.isMaximized);
-    window.onFullScreenChange(isFullScreen, isMaximized);
-  });
-}
-
 // Settings-related events
-
-window.showSettings = () => ipc.send('show-settings');
-window.showPermissionsPopup = (forCalling, forCamera) =>
-  ipc.invoke('show-permissions-popup', forCalling, forCamera);
 
 ipc.on('show-keyboard-shortcuts', () => {
   window.Events.showKeyboardShortcuts();
@@ -284,18 +267,6 @@ ipc.on('add-dark-overlay', () => {
 ipc.on('remove-dark-overlay', () => {
   window.Events.removeDarkOverlay();
 });
-
-window.getBuiltInImages = () =>
-  new Promise((resolve, reject) => {
-    ipc.once('get-success-built-in-images', (_event, error, value) => {
-      if (error) {
-        return reject(new Error(error));
-      }
-
-      return resolve(value);
-    });
-    ipc.send('get-built-in-images');
-  });
 
 ipc.on('delete-all-data', async () => {
   const { deleteAllData } = window.Events;
@@ -322,7 +293,7 @@ ipc.on('show-group-via-link', (_event, info) => {
   const { hash } = info;
   const { showGroupViaLink } = window.Events;
   if (showGroupViaLink) {
-    showGroupViaLink(hash);
+    void showGroupViaLink(hash);
   }
 });
 
@@ -332,7 +303,7 @@ ipc.on('show-conversation-via-signal.me', (_event, info) => {
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(hash);
   }
 });
 
@@ -347,7 +318,7 @@ ipc.on('install-sticker-pack', (_event, info) => {
   const { packId, packKey } = info;
   const { installStickerPack } = window.Events;
   if (installStickerPack) {
-    installStickerPack(packId, packKey);
+    void installStickerPack(packId, packKey);
   }
 });
 
@@ -373,6 +344,3 @@ ipc.on('show-release-notes', () => {
     showReleaseNotes();
   }
 });
-
-window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
-window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');

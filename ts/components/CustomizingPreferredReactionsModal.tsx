@@ -20,12 +20,12 @@ import { offsetDistanceModifier } from '../util/popperUtil';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 
 type PropsType = {
-  draftPreferredReactions: Array<string>;
+  draftPreferredReactions: ReadonlyArray<string>;
   hadSaveError: boolean;
   i18n: LocalizerType;
   isSaving: boolean;
-  originalPreferredReactions: Array<string>;
-  recentEmojis: Array<string>;
+  originalPreferredReactions: ReadonlyArray<string>;
+  recentEmojis: ReadonlyArray<string>;
   selectedDraftEmojiIndex: undefined | number;
   skinTone: number;
 

@@ -191,7 +191,7 @@ export async function maybeFetchNewCredentials(): Promise<void> {
 
   log.info(`${logId}: Saving new credentials...`);
   // Note: we don't wait for this to finish
-  window.storage.put('groupCredentials', finalCredentials);
+  await window.storage.put('groupCredentials', finalCredentials);
   log.info(`${logId}: Save complete.`);
 }
 
@@ -201,8 +201,11 @@ export function getDatesForRequest(
   const today = toDayMillis(Date.now());
   const sixDaysOut = today + 6 * durations.DAY;
 
+  const haveToday = data?.some(
+    ({ redemptionTime }) => redemptionTime === today
+  );
   const lastCredential = last(data);
-  if (!lastCredential || lastCredential.redemptionTime < today) {
+  if (!haveToday || !lastCredential || lastCredential.redemptionTime < today) {
     return {
       startDayInMs: today,
       endDayInMs: sixDaysOut,

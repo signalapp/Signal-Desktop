@@ -64,6 +64,18 @@
     "message": "L’adhésion est en cours",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Qualité des médias envoyés",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Élevée",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Reconnaissance de logiciels",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -457,11 +469,11 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} destinataire de la story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} destinataires de la story {story} ?}}",
+    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} destinataire de la Story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} destinataires de la Story {story} ?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Tout supprimer",
+    "message": "Retirer tous",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -469,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Supprimer de la story",
+    "message": "Retirer de la Story",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -477,7 +489,7 @@
     "description": "Label for button that opens context menu for contact"
   },
   "safetyNumberChangeDialog__actions-story": {
-    "message": "Menu pour la story $story$",
+    "message": "Menu pour la Story $story$",
     "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
@@ -674,12 +686,21 @@
     "message": "Vous ne pouvez pas sélectionner de photos ni de vidéos avec les fichiers.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Vous ne pouvez sélectionner qu'un seul fichier à la fois.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Vous ne pouvez pas joindre d’autres fichiers à ce message.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Désolé, le fichier sélectionné dépasse la limite de taille des messages."
+    "message": "Désolé, le fichier sélectionné dépasse la limite de taille des messages.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Désolé, le fichier sélectionné dépasse la limite de taille des messages. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Impossible de charger le fichier joint sélectionné."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Afin d’envoyer des messages audio, autorisez l’accès de Signal Desktop pour ordinateur à votre micro.",
+    "message": "Pour envoyer des messages vocaux, autorisez Signal Desktop à accéder à votre microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ a changé de numéro de téléphone",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} et {conversationTitle} appartiennent au même compte. L'historique de vos messages est ici.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "L’historique de vos messages dans {conversationTitle} et son numéro {obsoleteConversationNumber} ont été fusionnés.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "L’historique de vos messages dans {conversationTitle} et une autre conversation appartenant à ce groupe ont été fusionnés.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "En apprendre davantage",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Après avoir envoyé un message à {obsoleteConversationTitle}, vous avez découvert que ce numéro appartenait en fait à {conversationTitle}. Leur numéro de téléphone est privé.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "L'historique de vos messages est ici.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} appartient à {conversationTitle}. Vous êtes tous deux membres du groupe {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} appartient à {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Imagette du message cité",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Vous ne recevrez ni leur son ni leur vidéo et ils ne recevront pas les vôtres.",
+    "message": "Vous ne recevrez ni leur message vocal ni leur vidéo et ils ne recevront pas les vôtres.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous commencerez à zéro.",
+    "message": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous recommencerez à zéro.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Supprimé partiellement, cliquez pour réessayer",
+    "message": "Suppression partielle, cliquez pour réessayer",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Appuyez sur « Redémarrer Signal » pour appliquer les mises à jour."
+    "message": "Appuyez sur « Redémarrer Signal » pour appliquer les mises à jour.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Redémarrer Signal"
@@ -2228,88 +2282,176 @@
     "message": "Ce message a été supprimé.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Impossible de récupérer le code du macaron cadeau",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Impossible de récupérer les détails du don",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Afficher ce message sur un téléphone pour l'ouvrir",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Afficher ce message sur un téléphone portable pour l’ouvrir",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Depuis votre téléphone, appuyez sur ce message pour découvrir votre cadeau",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Appuyez sur ce message sur un téléphone portable pour voir votre don",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Cadeau",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} a effectué un don de votre part",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Consultez votre téléphone pour ouvrir le cadeau",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Consultez votre téléphone portable pour ouvrir ce don",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Consultez votre téléphone pour afficher votre cadeau",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Consultez votre téléphone portable pour voir ce don",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Vous avez reçu un cadeau",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} a effectué un don de votre part",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Vous avez utilisé un macaron cadeau",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Vous avez récupéré un macaron",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Vous avez envoyé un macaron",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Vous avez effectué un don de la part de {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Macaron cadeau",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Don",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "cadeau",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Don",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ jours restants",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} jours restants",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ heures restantes",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} heures restantes",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ minutes restantes",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 minute restante} other {{minutes,number} minutes restantes}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 minute restante",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Expiré",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Expiré",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Afficher",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Afficher",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Échangé",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Récupéré",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Merci pour votre soutien !",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Merci pour votre soutien !",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Vous avez offert un macaron à $name$. Une fois votre cadeau accepté, votre destinataire pourra choisir d'afficher ou de masquer son macaron.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Vous avez effectué un don à Signal de la part de {name}. Il/elle aura la possibilité d’afficher son soutien sur son profil.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Le paquet d’autocollants n’a pas pu être installé",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Autocollants",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Disponible",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Autocollants installés",
+    "message": "Installé",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Accepter un appel vidéo",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Répondre à un appel vidéo",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Accepter un appel audio",
+    "message": "Répondre à un appel audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Répondre à un appel vidéo (appels vidéo uniquement)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Répondre à un appel sans vidéo",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Lancer un appel audio",
+    "message": "Démarrer un appel vocal",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Répondre",
+    "message": "Répondre à l’appel",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Répondre sans vidéo",
+    "message": "Répondre à un appel sans vidéo",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,39 +3292,39 @@
   },
   "declinedIncomingAudioCall": {
     "message": "Vous avez refusé un appel vocal",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Vous avez refusé un appel vidéo",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Appel audio entrant",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Appel vocal entrant",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Appel vidéo entrant",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Appel audio manqué",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Appel vocal manqué",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Appel vidéo manqué",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Appel audio sortant",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Appel vocal sortant",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Appel vidéo sortant",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Appel audio sans réponse",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Appel vocal sans réponse",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Appel vidéo sans réponse",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Appel audio entrant…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Appel vocal entrant...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Appel vidéo entrant…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Vous ne pouvez pas vous joindre au groupe avec le lien du groupe car un administrateur vous a supprimé.",
+    "message": "Vous ne pouvez pas vous joindre au groupe avec le lien du groupe car un administrateur vous a retiré.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ a supprimé l’avatar du groupe.",
+    "message": "$memberName$ a retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Vous avez supprimé l’avatar du groupe.",
+    "message": "Vous avez retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "Un membre a supprimé l’avatar du groupe.",
+    "message": "Un membre a retiré l’avatar du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ a supprimé $memberName$.",
+    "message": "$adminName$ a retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Vous avez supprimé $memberName$.",
+    "message": "Vous avez retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Un membre a supprimé $memberName$.",
+    "message": "Un membre a retiré $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ vous a supprimé.",
+    "message": "$adminName$ vous a retiré.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Vous avez été supprimé du groupe.",
+    "message": "Vous avez été retiré(e) du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,15 +4163,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Vous avez supprimé la description du groupe.",
+    "message": "Vous avez effacé la description du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ a supprimé la description du groupe.",
+    "message": "$memberName$ a effacé la description du groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "La description du groupe a été supprimée.",
+    "message": "La description du groupe a été effacée.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Le groupe a été changé afin d’autoriser tous les membres à envoyer des messages.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Les membres ou les paramètres de ce groupe ont changé.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Convertissez ce groupe pour activer de nouvelles fonctions telles que les @mentions et l’administration. Les membres qui n’ont pas partagé leur nom ou leur photo dans ce groupe seront invités à s’y joindre. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Ces membres ne peuvent pas se joindre aux Nouveaux groupes et seront supprimés du groupe :",
+    "message": "Ces membres ne peuvent pas se joindre aux Nouveaux groupes et seront retirés du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Ce membre ne peut pas se joindre aux Nouveaux groupes et sera supprimé du groupe :",
+    "message": "Ce membre ne peut pas se joindre aux nouveaux groupes et sera retiré du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Ces membres ne pouvaient pas se joindre à de Nouveaux groupes et ont été supprimés du groupe :",
+    "message": "Ces membres ne pouvaient pas se joindre à de nouveaux groupes et ont été retirés du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Ce membre ne pouvait pas se joindre à de Nouveaux groupes et a été supprimé du groupe :",
+    "message": "Ce membre ne pouvait pas se joindre à de nouveaux groupes et a été retiré du groupe :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4137,11 +4291,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ a été supprimé du groupe.",
+    "message": "$contact$ a été retiré du groupe.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ membres ont été supprimés du groupe.",
+    "message": "$count$ membres ont été retirés du groupe.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4225,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Supprimer du groupe",
+    "message": "Retirer du groupe",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ groupes en commun",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} groupe en commun} other {{count,number} groupes en commun}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Aucun groupe en commun",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Ajouter à un groupe",
@@ -4525,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Supprimer la photo",
+    "message": "Retirer la photo",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Supprimer le contact",
+    "message": "Retirer le contact",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM J, YYYY",
+    "message": "D MMM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,15 +4883,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Supprimer du groupe",
+    "message": "Retirer du groupe",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Supprimer « $name$ » du groupe ?",
+    "message": "Retirer « $name$ » du groupe ?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Supprimer « $name$ » du groupe ? Cette personne ne pourra plus se joindre au groupe grâce au lien de groupe.",
+    "message": "Retirer « $name$ » du groupe ? Cette personne ne pourra plus se joindre au groupe grâce au lien de groupe.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -5053,7 +5215,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copier ou supprimer le pseudo",
+    "message": "Copier ou supprimer le nom d'utilisateur",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Vous ne pourrez plus partager ou voir de stories. Les nouveaux contenus récemment ajoutés à vos stories seront également supprimés.",
+    "message": "Vous ne pourrez plus partager ou voir de Stories. Les nouveaux contenus récemment ajoutés à vos Stories seront également supprimés.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5613,7 +5775,7 @@
     "description": "Toast message"
   },
   "Stories__failed-send": {
-    "message": "Cette story n’a pas pu être envoyée à certaines personnes. Vérifiez votre connexion et réessayez.",
+    "message": "Cette Story n’a pas pu être envoyée à certaines personnes. Vérifiez votre connexion et réessayez.",
     "description": "Alert error message when unable to send a story"
   },
   "StoriesSettings__title": {
@@ -5621,7 +5783,7 @@
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Les stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre story ou créez de nouvelles stories en identifiant des spectateurs ou des groupes spécifiques.",
+    "messageformat": "Les Stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre Story ou créez de nouvelles Stories en identifiant des spectateurs ou des groupes spécifiques.",
     "description": "Description for story settings modal"
   },
   "icu:StoriesSettings__my_stories": {
@@ -5669,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "Supprimer",
+    "message": "Retirer",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5693,7 +5855,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Effacer la Story personnalisée",
+    "message": "Supprimer la Story personnalisée",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5769,11 +5931,11 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Les membres du groupe de la discussion “{groupTitle}” peuvent consulter et interagir avec cette story. Vous pouvez paramétrer les spectateurs depuis la discussion du groupe.",
+    "messageformat": "Les membres du groupe de la discussion “{groupTitle}” peuvent consulter et interagir avec cette Story. Vous pouvez paramétrer les spectateurs depuis la discussion du groupe.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Supprimer la story du groupe",
+    "messageformat": "Supprimer la Story du groupe",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
@@ -5853,7 +6015,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Effacer la Story",
+    "message": "Supprimer la Story",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -5885,7 +6047,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Si vous décidez de quitter la fonction stories, vous ne pourrez plus en partager ni en consulter.",
+    "message": "Si vous décidez de quitter la fonction Stories, vous ne pourrez plus en partager ni en consulter.",
     "description": "Select box description for the stories on/off toggle"
   },
   "Stories__settings-toggle--button": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Répondre",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Répondre à {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Réagir à la Story",
+    "message": "(supprimé le 24/01/23) Réagir à une Story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5981,7 +6147,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Vous ne pouvez pas interagir sur cette story, car vous n'êtes plus membre de ce groupe.",
+    "messageformat": "Vous ne pouvez pas interagir sur cette Story, car vous n'êtes plus membre de ce groupe.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
@@ -6172,6 +6338,18 @@
     "message": "Ces chiffres servent à préserver la confidentialité de votre nom d’utilisateur et ainsi d’éviter les messages indésirables. Ne partagez votre nom d’utilisateur qu’avec les personnes et les groupes avec lesquels vous souhaitez échanger. Si vous changez votre nom d’utilisateur, un nouvel ensemble de chiffres vous sera attribué.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "La version Desktop de Signal ne prendra bientôt plus en charge la version {OS} de votre ordinateur. Pour continuer d’utiliser Signal, veuillez mettre à jour le système d’exploitation de votre ordinateur avant le {expirationDate}. <learnMoreLink>En savoir plus</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "La version Desktop de Signal ne fonctionne plus sur cet ordinateur. Pour continuer d’utiliser la version Desktop de Signal, veuillez mettre à jour la version {OS} de votre ordinateur. <learnMoreLink>En savoir plus</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "La version Desktop de Signal ne fonctionne plus sur cet ordinateur. Pour continuer d’utiliser la version Desktop de Signal, veuillez mettre à jour la version {OS} de votre ordinateur.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Les nouveautés",
     "description": "Title for the whats new modal"
@@ -6213,11 +6391,27 @@
     "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
-    "message": "Les stories sont disponibles sur Signal ! Partagez du texte, des images et des vidéos éphémères qui disparaissent automatiquement après 24 heures avec une sélection d’amis ou de groupes. Pour tous ceux qui aiment partager des stories, voici un moyen de le faire en privé et sans voir de publicité. Si vous ne souhaitez pas voir ou partager des stories, vous pouvez les désactiver dans Préférences > Réglages.",
+    "message": "Les stories sont disponibles sur Signal ! Partagez du texte, des images et des vidéos éphémères qui disparaissent automatiquement après 24 heures avec une sélection d’amis ou de groupes. Pour tous ceux qui aiment partager des Stories, voici un moyen de le faire en privé et sans voir de publicité. Si vous ne souhaitez pas voir ou partager des Stories, vous pouvez les désactiver dans Préférences > Réglages.",
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
     "message": "Lorsque vous organisez un appel de groupe pour un petit groupe (jusqu'à 16 participants), vous avez la possibilité d'envoyer une notification sonore. Les membres du groupe entendront une sonnerie s'ils utilisent la version Desktop, la version Android ou la version bêta d'iOS.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Double-cliquez sur n’importe quel message pour y répondre. Il s’agit en gros d’une fonction vous permettant de partager vos idées à propos d’anciens sujets. Nous souhaitons remercier {whynothugo} et la communauté Signal pour avoir mis en œuvre cette fonctionnalité et partagé leurs retours.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Cliquer en dehors de l’image vous permettra désormais de quitter la vue galerie au lieu de zoomer dessus. En fermant une page, vous vous retrouviez avec tout en grand. Nous souhaitons remercier {jojomatik} pour avoir corrigé ce bug !",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Accélérez votre temps de réponse. Vous pouvez désormais réagir plus rapidement en appuyant sur l'émoji de votre choix pour répondre à une Story.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Il vous est désormais possible de rechercher des caractères individuels dans l'historique des messages en chinois et en japonais.",
+    "description": "Release notes for v6.5"
   }
 }

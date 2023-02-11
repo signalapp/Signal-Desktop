@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -255,6 +255,23 @@ export function reduce<T, TResult>(
 
 export function repeat<T>(value: T): Iterable<T> {
   return new RepeatIterable(value);
+}
+
+export function* chunk<A>(
+  iterable: Iterable<A>,
+  chunkSize: number
+): Iterable<Array<A>> {
+  let aChunk: Array<A> = [];
+  for (const item of iterable) {
+    aChunk.push(item);
+    if (aChunk.length === chunkSize) {
+      yield aChunk;
+      aChunk = [];
+    }
+  }
+  if (aChunk.length > 0) {
+    yield aChunk;
+  }
 }
 
 class RepeatIterable<T> implements Iterable<T> {

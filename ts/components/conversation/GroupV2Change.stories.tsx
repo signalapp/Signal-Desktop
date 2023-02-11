@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -43,11 +43,11 @@ const renderChange = (
     groupName,
     areWeAdmin = true,
   }: {
-    groupMemberships?: Array<{
+    groupMemberships?: ReadonlyArray<{
       uuid: UUIDStringType;
       isAdmin: boolean;
     }>;
-    groupBannedMemberships?: Array<UUIDStringType>;
+    groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
     groupName?: string;
     areWeAdmin?: boolean;
   } = {}
@@ -55,6 +55,7 @@ const renderChange = (
   <GroupV2Change
     areWeAdmin={areWeAdmin ?? true}
     blockGroupLinkRequests={action('blockGroupLinkRequests')}
+    conversationId="some-conversation-id"
     change={change}
     groupBannedMemberships={groupBannedMemberships}
     groupMemberships={groupMemberships}

@@ -64,6 +64,18 @@
     "message": "សមាជិកភាពកំពុងរង់ចាំ",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "មេឌៀគុណភាពល្អត្រូវបានផ្ញើចេញ",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "ស្ដង់ដារ",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "ខ្ពស់",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "សេចក្តីថ្លែងអំណរគុណ​ចំពោះ​សូហ្វវែរ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "លុបទិន្នន័យទាំងអស់ និងបើកឡើងវិញ",
+    "message": "លុបទិន្នន័យទាំងអស់ និងចាប់ផ្តើមឡើងវិញ",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -457,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, other {តើអ្នកប្រាកដជាចង់ដកអ្នកទទួលចំនួន {count,number} ចេញពីរឿងរ៉ាវ {story} ឬ?}}",
+    "messageformat": "{count, plural, other {តើអ្នកប្រាកដជាចង់ដកអ្នកទទួល {count,number} នាក់ចេញពីរឿងរ៉ាវ {story} ឬ?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -674,12 +686,21 @@
     "message": "អ្នកមិនអាចជ្រើសរើសរូបថត និងវីដេអូរួមជាមួយឯកសារបានទេ។",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "អ្នកអាចជ្រើសរើសឯកសារបានតែមួយប៉ុណ្ណោះម្តងៗ។",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "អ្នកមិនអាចបន្ថែមឯកសារភ្ជាប់ទៅកាន់សារនេះទេ។",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។"
+    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។ {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យSignal Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។",
+    "message": "ដើម្បីផ្ញើសារជាសំឡេង សូមអនុញ្ញាតឲ្យ Signal Desktop ចូលប្រើមីក្រូហ្វូនរបស់អ្នក។",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "សារនេះ នឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នា នៅក្នុងការសន្ទនា បើសិនពួកគេកំពុងប្រើប្រាស់ Signal ជំនាន់ថ្មីៗ។ ពួកគេនឹងអាចឃើញថា អ្នកបានលុបសារមួយ។",
+    "message": "សារនេះនឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នានៅក្នុងការសន្ទនា ប្រសិនបើពួកគេកំពុងប្រើប្រាស់កំណែថ្មីៗនេះរបស់ Signal។ ពួកគេនឹងអាចមើលឃើញថា អ្នកបានលុបសារ។",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ បានផ្លាស់ប្តូរលេខទូរសព្ទរបស់ពួកគេ",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} និង {conversationTitle} គឺជាគណនីតែមួយ។ ប្រវត្តិសាររបស់អ្នកសម្រាប់ការជជែកទាំងពីរមាននៅទីនេះ។",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកជាមួយ {conversationTitle} និងលេខ {obsoleteConversationNumber} របស់គេត្រូវបានបញ្ចូលគ្នា។",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកជាមួយ {conversationTitle} និងការជជែកមួយផ្សេងទៀតដែលមានគេនៅក្នុងនោះដែរត្រូវបានបញ្ចូលគ្នា។",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "ស្វែងយល់បន្ថែម",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "បន្ទាប់ពីផ្ញើសារជាមួយ {obsoleteConversationTitle} អ្នកបានដឹងថាលេខនេះជាលេខរបស់ {conversationTitle}។ លេខទូរសព្ទរបស់គេគឺជាលេខឯកជន។",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកសម្រាប់ការសន្ទនាទាំងពីរត្រូវបានបញ្ចូលគ្នានៅទីនេះ។",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}។ អ្នកទាំងពីរជាសមាជិកនៃ {sharedGroup}។",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "អ្នកនឹងមិនទទួលបានសំឡេងឬវីដេអូរបស់ពួកគេទេ ហើយពួកគេនឹងមិនទទួលបានរបស់អ្នកដែរ។",
+    "message": "អ្នកនឹងមិនទទួលបានសំឡេងឬវីដេអូរបស់ពួកគេទេ ហើយពួកគេក៏មិនទទួលបានសំឡេងឬវីដេអូរបស់អ្នកដែរ។",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1639,15 +1692,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "លុបចោលទិន្នន័យទាំងអស់?",
+    "message": "លុបទិន្នន័យទាំងអស់?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "អ្នករៀបនឹងលុបព័ត៌មានគណនី ដែលបានរក្សាទុកទាំងអស់​របស់កម្មវិធីនេះ រួមទាំង បញ្ជីទំនាក់ទំនងនិងសារទាំងអស់។ អ្នកតែងតែអាចភ្ជាប់ជាមួយឧបករណ៍ចល័តរបស់អ្នកម្ដងទៀត ប៉ុន្តែវានឹងមិនអាចស្តារសារដែលបានលុបនោះទេ។",
+    "message": "អ្នករៀបនឹងលុបព័ត៌មានគណនី ដែលបានរក្សាទុកទាំងអស់របស់កម្មវិធីនេះ រួមទាំងឈ្មោះទំនាក់ទំនងនិងសារទាំងអស់ ទៅហើយ។ អ្នកអាចភ្ជាប់ជាមួយឧបករណ៍ចល័តរបស់អ្នកម្ដងទៀតបានជានិច្ច ប៉ុន្តែវានឹងមិនអាចស្តារសារដែលបានលុបនោះមកវិញបានទេ។",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "លុបចោលទិន្នន័យទាំងអស់",
+    "message": "លុបទិន្នន័យទាំងអស់",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "អ្នកមានទិន្នន័យដែលលែងប្រើពីការតំឡើង Signal Desktop ពីមុន។ ប្រសិនបើអ្នកជ្រើសរើសបន្តវានឹងត្រូវលុបចោល ហើយអ្នកនឹងចាប់ផ្តើមពីដំបូង។",
+    "message": "អ្នកមានទិន្នន័យដែលលែងប្រើ ពីការដំឡើង Signal Desktop ពីមុន។ ប្រសិនបើអ្នកជ្រើសរើសបន្ត វានឹងត្រូវលុបចោល ហើយអ្នកនឹងចាប់ផ្តើមសាឡើងវិញទាំងអស់។",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។"
+    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "បើកSignal ឡើងវិញ"
@@ -2228,88 +2282,176 @@
     "message": "សារនេះត្រូវបានលុប។",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "មិនអាចបើកព័ត៌មានលម្អិតអំពីស្លាកកាដូបានទេ",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "មិនអាចបើកព័ត៌មានលម្អិតអំពីការបរិច្ចាគបានទេ",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "ចុចសារនេះនៅលើទូរសព្ទដើម្បីមើលកាដូរបស់អ្នក",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "ចុចលើសារនេះនៅលើទូរសព្ទដៃ ដើម្បីមើលការបរិច្ចាគរបស់អ្នក",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "កាដូ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} បានបរិច្ចាគទៅ Signal ជំនួសឲ្យអ្នក",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីបើកមើលកាដូ",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីបើកមើលការបរិច្ចាគនេះ",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីមើលកាដូសម្រាប់អ្នក",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីមើលការបរិច្ចាគនេះ",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "អ្នកទទួលបានកាដូមួយ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} បានបរិច្ចាគសម្រាប់អ្នក",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "អ្នកបានប្តូរយកស្លាកកាដូ",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "អ្នកបានប្តូរយកការបរិច្ចាគមួយ",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "អ្នកបានផ្ញើស្លាកកាដូ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "អ្នកបានបរិច្ចាគសម្រាប់ {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "ស្លាកកាដូ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "ការបរិច្ចាគ",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "កាដូ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "ការបរិច្ចាគ",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "នៅសល់ $days$ ថ្ងៃទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "នៅសល់ {days} ថ្ងៃទៀត",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "នៅសល់ $hours$ ម៉ោងទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "នៅសល់ {hours} ម៉ោងទៀត",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "នៅសល់ $minutes$ នាទីទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {នៅសល់ {minutes,number} នាទីទៀត}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "នៅសល់ 1 នាទីទៀត",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "បានផុតកំណត់",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "បានផុតកំណត់",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "បង្ហាញ",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "មើល",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "បានប្តូរ",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "បានប្តូរយក",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "អរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "អរគុណចំពោះការគាំទ្ររបស់អ្នក!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "អ្នកបានផ្តល់ស្លាកមួយទៅ $name$។ ពេលគេទទួលយករួច គេនឹងមានជម្រើសបង្ហាញ ឬលាក់ស្លាករបស់គេ។",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "អ្នកបានធ្វើការបរិច្ចាគទៅ Signal ជំនួសឲ្យ {name}។ គេនឹងត្រូវបានផ្តល់ជម្រើសដើម្បីបង្ហាញការគាំទ្ររបស់គេនៅលើប្រូហ្វាល់របស់គេ។",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "កញ្ចប់ស្ទីកគ័រមិនអាចដំឡើងបាន",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "ស្ទីកគ័រ",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "មាន",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "ស្ទីកគ័របានដំឡើង",
+    "message": "បានដំឡើង",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "យកការមើលតំណភ្ជាប់ព្រាងចេញ",
+    "message": "ដកចេញនូវការមើលតំណភ្ជាប់ព្រាងជាមុន",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "លុបចោលឯកសារភ្ជាប់ព្រាងទាំងអស់",
+    "message": "ដកចេញឯកសារភ្ជាប់ព្រាងទាំងអស់",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ទទួលការហៅជាវីដេអូ",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "ទទួលការហៅទូរសព្ទជាវីដេអូ",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ទទួល​ការ​ហៅ​ជាសំឡេង",
+    "message": "ទទួលការហៅទូរសព្ទជាសំឡេង",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "ទទួលការហៅទូរសព្ទជាវីដេអូ (ការហៅជាវីដេអូតែប៉ុណ្ណោះ)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "ទទួលការហៅទូរសព្ទដោយគ្មានវីដេអូ",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "ចាប់ផ្ដើមការហៅជាសំឡេង",
+    "message": "ចាប់ផ្តើមការហៅជាសំឡេង",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "លុបចោលឯកសារភ្ជាប់",
+    "message": "ដកចេញឯកសារភ្ជាប់",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "អ្នកនឹងមិនអាចកែប្រែ ឬលុបចោល បន្ទាប់ពីបង្កើតកញ្ចប់ស្ទីកគ័រហើយ។",
+    "message": "អ្នកនឹងមិនអាចកែ ឬលុបបានទៀតទេ បន្ទាប់ពីបង្កើតកញ្ចប់ស្ទីគ័រហើយ។",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "ការសន្ទនានេះនឹងត្រូវលុបពីឧបករណ៍របស់អ្នកទាំងអស់។",
+    "message": "ការសន្ទនានេះនឹងត្រូវលុបចេញពីឧបករណ៍របស់អ្នកទាំងអស់។",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3057,11 +3207,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "លុបចោល និង​ចាកចេញ",
+    "message": "លុប និងចាកចេញ",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "អ្នកនឹងចាកចេញពីក្រុមនេះ និងលុបចេញពីឧបករណ៍របស់អ្នកទាំងអស់។",
+    "message": "អ្នកនឹងចាកចេញពីក្រុមនេះ ហើយវានឹងត្រូវបានលុបចេញពីឧបករណ៍របស់អ្នកទាំងអស់។",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "ឆ្លើយតប",
+    "message": "ទទួលការហៅ",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ឆ្លើយដោយគ្មានវីដេអូ",
+    "message": "ទទួលការហៅទូរសព្ទដោយគ្មានវីដេអូ",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,8 +3291,8 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "អ្នកបានបដិសេធការហៅជាសំឡេង",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "អ្នកមិនព្រមទទួលការហៅជាសំឡេង",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "អ្នកបានបដិសេធការហៅជាវីដេអូ",
@@ -3150,15 +3300,15 @@
   },
   "acceptedIncomingAudioCall": {
     "message": "ការហៅចូលជាសំឡេង",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "ការហៅចូលជាវីដេអូ",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "ខកខានការហៅជាសំឡេង",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "ការហៅជាសំឡេងខកមិនបានទទួល",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "ខកខានការហៅជាវីដេអូ",
@@ -3166,7 +3316,7 @@
   },
   "acceptedOutgoingAudioCall": {
     "message": "ការហៅចេញជាសំឡេង",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "ការហៅចេញជាវីដេអូ",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "ការហៅជាសំឡេងដែលមិនបានឆ្លើយតប",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ការហៅជាវីដេអូដែលមិនបានឆ្លើយតប",
@@ -3190,7 +3340,7 @@
   },
   "incomingAudioCall": {
     "message": "ការហៅចូលជាសំឡេង…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ការហៅចូលជាវីដេអូ…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "អ្នកមិនអាចចូលរួមក្រុមនេះ​តាម​រយៈ​តំណ​ក្រុម​បាន​ទេ ព្រោះ​អ្នក​គ្រប់គ្រង​បាន​ដក​អ្នក​ចេញ។",
+    "message": "អ្នកមិនអាចចូលក្រុមនេះតាមរយៈតំណក្រុមបានទេ ព្រោះអ្នកគ្រប់គ្រងបានដកអ្នកចេញ។",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,7 +3691,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ បានដកឈ្មោះក្រុមចេញ។",
+    "message": "$memberName$ បានលុបឈ្មោះក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -3549,7 +3699,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "សមាជិកម្នាក់បានដកឈ្មោះក្រុមចេញ។",
+    "message": "សមាជិកម្នាក់បានលុបឈ្មោះក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ បានដករូបតំណាងក្រុមចេញ។",
+    "message": "$memberName$ បានដកចេញរូបតំណាងក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "អ្នកបានដករូបតំណាងក្រុមចេញ។",
+    "message": "អ្នកបានដកចេញរូបតំណាងក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "សមាជិកម្នាក់បានដករូបតំណាងក្រុមចេញ។",
+    "message": "សមាជិកម្នាក់បានដកចេញរូបតំណាងក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "អ្នកត្រូវបានលុបចេញពីក្រុម។",
+    "message": "អ្នកត្រូវបានដកចេញពីក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4013,7 +4163,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "អ្នកបានដកការពណ៌នាក្រុម។",
+    "message": "អ្នកបានលុបការពណ៌នាអំពីក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4021,7 +4171,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "ការពណ៌នាក្រុមនេះត្រូវបានដកចេញ។",
+    "message": "ការពណ៌នាអំពីក្រុមនេះត្រូវបានលុបចេញ។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "ក្រុមត្រូវបានផ្លាស់ប្តូរទៅជាអនុញ្ញាតឲ្យសមាជិកទាំងអស់ផ្ញើសារ។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "សមាជិក ឬការកំណត់របស់ក្រុមនេះបានផ្លាស់ប្តូរ។",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "ដំឡើងកម្រិតរបស់ក្រុមនេះ ដើម្បីបើកដំណើរការមុខងារថ្មីៗដូចជា @លើកឈ្មោះ និងអ្នកគ្រប់គ្រង។ សមាជិកដែលមិនបានចែករំលែកឈ្មោះ ឬរូបថតរបស់ពួកគេនៅក្នុងក្រុមនេះនឹងត្រូវបានបបួលឲ្យចូលរួម។ $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "សមាជិកក្រុមទាំងនេះ មិនអាចចូលរួមក្រុមថ្មី ហើយនឹងត្រូវលុបចេញពីក្រុម៖",
+    "message": "សមាជិកទាំងនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយនឹងត្រូវដកចេញពីក្រុម៖",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "សមាជិកក្រុមទាំងនេះ មិនអាចចូលរួមក្រុមថ្មី ហើយនឹងត្រូវលុបចេញពីក្រុម៖",
+    "message": "សមាជិកនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយនឹងត្រូវដកចេញពីក្រុម៖",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "សមាជិកទាំងនេះមិនអាចចូលរួមក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖",
+    "message": "សមាជិកទាំងនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "សមាជិកនេះមិនអាចចូលរួមក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖",
+    "message": "សមាជិកនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "លុបអ្នកគ្រប់គ្រង",
+    "message": "ដកចេញពីសិទ្ធិជាអ្នកគ្រប់គ្រង",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "ដក $contact$ ចេញ លែងឲ្យធ្វើជាអ្នកគ្រប់គ្រងក្រុម?",
+    "message": "ដក $contact$ ចេញពីសិទ្ធិជាអ្នកគ្រប់គ្រងក្រុម?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "លុបចេញពីក្រុម",
+    "message": "ដកចេញពីក្រុម",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ ក្រុមរួមគ្នា",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "គ្មានក្រុមរួម",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "បន្ថែមទៅក្រុមមួយ",
@@ -4525,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "លុបរូបថតចេញ",
+    "message": "ដករូបថតចេញ",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4721,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "លុបចេញពីក្រុម",
+    "message": "ដកចេញពីក្រុម",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4729,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "ដក \"$name$\" ចេញពីក្រុមឬ? គេនឹងមិនអាចចូលរួមឡើងវិញតាមរយៈតំណក្រុមទេ។",
+    "message": "ដក \"$name$\" ចេញពីក្រុមឬ? គេនឹងមិនអាចចូលក្រុមឡើងវិញតាមរយៈតំណក្រុមទេ។",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចដកចេញបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
+    "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចលុបបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "ការធ្វើបែបនេះនឹងលុប​ឈ្មោះ​អ្នក​ប្រើ​របស់​អ្នក​ចេញ ហើយធ្វើឲ្យអ្នក​ប្រើ​ផ្សេង​ទៀតយក​វាទៅប្រើបាន។ តើអ្នក​ច្បាស់អត់?",
+    "message": "ការធ្វើបែបនេះនឹងលុបឈ្មោះអ្នកប្រើរបស់អ្នក ហើយធ្វើឲ្យអ្នកប្រើផ្សេងទៀតយកវាទៅប្រើបាន។ តើអ្នកច្បាស់អត់?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5481,7 +5643,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "លុបរឿងរ៉ាវនេះឬ? វាក៏នឹងត្រូវបានលុបផងដែរសម្រាប់អ្នកគ្រប់គ្នាដែលបានទទួលវា។",
+    "message": "លុបរឿងរ៉ាវនេះឬ? វាក៏នឹងត្រូវបានលុបផងដែរសម្រាប់អ្នករាល់គ្នាដែលបានទទួលវា។",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5669,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "លុបចេញ",
+    "message": "ដកចេញ",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5773,11 +5935,11 @@
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "ដករឿងរ៉ាវក្រុម",
+    "messageformat": "លុបរឿងរ៉ាវក្រុម",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "តើអ្នកប្រាកដជាចង់ដក “{groupTitle}” ចេញឬ?",
+    "messageformat": "តើអ្នកច្បាស់ថាចង់ដក “{groupTitle}” ចេញឬ?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5904,6 +6066,10 @@
     "message": "ឆ្លើយតប",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "ឆ្លើយតបទៅ {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ឆ្លើយតបទៅក្រុម",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
+    "message": "(បានលុបនៅថ្ងៃទី 25 មករា 2023) ប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5989,7 +6155,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "លុបសម្រាប់ទាំងអស់គ្នា",
+    "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6172,6 +6338,18 @@
     "message": "លេខទាំងនេះជួយរក្សាឲ្យឈ្មោះអ្នកប្រើរបស់អ្នកស្ថិតក្នុងភាពឯកជន ដើម្បីឲ្យអ្នកអាចជៀសវាងនូវការទទួលសារដែលមិនចង់បាន។ សូមចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នកតែជាមួយមនុស្ស និងក្រុមដែលអ្នកចង់ជជែកជាមួយប៉ុណ្ណោះ។ ប្រសិនបើអ្នកប្តូរឈ្មោះអ្នកប្រើ អ្នកនឹងទទួលបានសំណុំលេខថ្មី។",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop នឹងប្រើលែងបាននៅលើកំណែ {OS} របស់កុំព្យូទ័រអ្នកទៀតហើយក្នុងពេលឆាប់ៗនេះ។ ដើម្បីបន្តប្រើប្រាស់ Signal សូមដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការកុំព្យូទ័ររបស់អ្នកត្រឹម {expirationDate}។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "អ្វីដែលថ្មី",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "នៅពេលអ្នកចាប់ផ្តើមការហៅទូរសព្ទជាក្រុមសម្រាប់ក្រុមត្រូចៗ (រហូតដល់ទៅ 16 នាក់) អ្នកអាចជ្រើសរើសផ្ញើការជូនដំណឹងភ្ជាប់ជាមួយសំឡេងរោទ៍បាន។ សមាជិកក្រុមនឹងឮសំឡេងរោទ៍ប្រសិនបើពួកគេប្រើ iOS បេតា ឬកំពុងប្រើកម្មវិធីសម្រាប់កុំព្យូទ័រ ឬ Android។",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ចុចពីរដងលើជួរសារណាមួយនៅក្នុងការជជែក ដើម្បីចាប់ផ្តើមការឆ្លើយតបចំពោះសារដកស្រង់ណាមួយ។ វាដូចជាផ្លូវកាត់សម្រាប់គំនិតថ្មីៗអំពីគំនិតចាស់ៗ។ សូមអរគុណដល់ {whynothugo} និងសហគមន៍ Signal ចំពោះការប្រើប្រាស់មុខងារនេះ និងផ្តល់ជាមតិកែលម្អ។",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ឥឡូវនេះកាន់តែងាយស្រួលក្នុងការចុចនៅខាងក្រៅរូបភាពដើម្បីបិទទិដ្ឋភាពសាលរូបភាពដោយមិនបាច់ពង្រីក។ កាលពីមុន ពេលខ្លះអ្នកគ្រាន់តែចង់បិទវាទេ ប៉ុន្តែវាបែរជាពង្រីកមកជិតខ្លាំងពេកទៅវិញ។ សូមអរគុណដល់ {jojomatik} ចំពោះការកែលម្អនេះ!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ផ្តល់ការឆ្លើយតបរបស់អ្នកបានលឿនជាងមុន។ ឥឡូវនេះ អ្នកអាចប្រតិកម្មបានកាន់តែលឿនជាងមុន ដោយចុចលើរូបអារម្មណ៍ណាមួយនៅពេលឆ្លើយតបទៅនឹងរឿងរ៉ាវ។",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ឥឡូវនេះ អ្នកអាចស្វែងរកប្រវត្តិសាររបស់អ្នកសម្រាប់តួអក្សរនីមួយៗជាភាសាចិន និងជប៉ុន។",
+    "description": "Release notes for v6.5"
   }
 }

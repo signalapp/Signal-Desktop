@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assertDev } from '../../util/assert';
+import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import * as log from '../../logging/log';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationAttributesType } from '../../model-types.d';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
 
 export async function addReportSpamJob({
@@ -11,14 +12,16 @@ export async function addReportSpamJob({
   getMessageServerGuidsForSpam,
   jobQueue,
 }: Readonly<{
-  conversation: Readonly<ConversationType>;
+  conversation: Readonly<
+    Pick<ConversationAttributesType, 'id' | 'type' | 'uuid' | 'reportingToken'>
+  >;
   getMessageServerGuidsForSpam: (
     conversationId: string
   ) => Promise<Array<string>>;
   jobQueue: Pick<typeof reportSpamJobQueue, 'add'>;
 }>): Promise<void> {
   assertDev(
-    conversation.type === 'direct',
+    isDirectConversation(conversation),
     'addReportSpamJob: cannot report spam for non-direct conversations'
   );
 
@@ -41,5 +44,5 @@ export async function addReportSpamJob({
     return;
   }
 
-  await jobQueue.add({ uuid, serverGuids });
+  await jobQueue.add({ uuid, serverGuids, token: conversation.reportingToken });
 }

@@ -4,12 +4,12 @@
 export async function requestMicrophonePermissions(
   forCalling: boolean
 ): Promise<boolean> {
-  const microphonePermission = await window.getMediaPermissions();
+  const microphonePermission = await window.IPC.getMediaPermissions();
   if (!microphonePermission) {
-    await window.showPermissionsPopup(forCalling, false);
+    await window.IPC.showPermissionsPopup(forCalling, false);
 
     // Check the setting again (from the source of truth).
-    return window.getMediaPermissions();
+    return window.IPC.getMediaPermissions();
   }
 
   return true;

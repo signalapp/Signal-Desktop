@@ -1,9 +1,10 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { debounce, omit, reject } from 'lodash';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
@@ -31,7 +32,10 @@ import {
   getUserConversationId,
 } from '../selectors/user';
 import { strictAssert } from '../../util/assert';
-import { SELECTED_CONVERSATION_CHANGED } from './conversations';
+import {
+  CONVERSATION_UNLOADED,
+  SELECTED_CONVERSATION_CHANGED,
+} from './conversations';
 
 const {
   searchMessages: dataSearchMessages,
@@ -40,15 +44,17 @@ const {
 
 // State
 
-export type MessageSearchResultType = MessageType & {
-  snippet?: string;
-};
+export type MessageSearchResultType = ReadonlyDeep<
+  MessageType & {
+    snippet?: string;
+  }
+>;
 
-export type MessageSearchResultLookupType = {
+export type MessageSearchResultLookupType = ReadonlyDeep<{
   [id: string]: MessageSearchResultType;
-};
+}>;
 
-export type SearchStateType = {
+export type SearchStateType = ReadonlyDeep<{
   startSearchCounter: number;
   searchConversationId?: string;
   contactIds: Array<string>;
@@ -61,49 +67,49 @@ export type SearchStateType = {
   // Loading state
   discussionsLoading: boolean;
   messagesLoading: boolean;
-};
+}>;
 
 // Actions
 
-type SearchMessagesResultsFulfilledActionType = {
+type SearchMessagesResultsFulfilledActionType = ReadonlyDeep<{
   type: 'SEARCH_MESSAGES_RESULTS_FULFILLED';
   payload: {
     messages: Array<MessageSearchResultType>;
     query: string;
   };
-};
-type SearchDiscussionsResultsFulfilledActionType = {
+}>;
+type SearchDiscussionsResultsFulfilledActionType = ReadonlyDeep<{
   type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED';
   payload: {
     conversationIds: Array<string>;
     contactIds: Array<string>;
     query: string;
   };
-};
-type UpdateSearchTermActionType = {
+}>;
+type UpdateSearchTermActionType = ReadonlyDeep<{
   type: 'SEARCH_UPDATE';
   payload: {
     query: string;
   };
-};
-type StartSearchActionType = {
+}>;
+type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
   payload: null;
-};
-type ClearSearchActionType = {
+}>;
+type ClearSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_CLEAR';
   payload: null;
-};
-type ClearConversationSearchActionType = {
+}>;
+type ClearConversationSearchActionType = ReadonlyDeep<{
   type: 'CLEAR_CONVERSATION_SEARCH';
   payload: null;
-};
-type SearchInConversationActionType = {
+}>;
+type SearchInConversationActionType = ReadonlyDeep<{
   type: 'SEARCH_IN_CONVERSATION';
   payload: { searchConversationId: string };
-};
+}>;
 
-export type SearchActionType =
+export type SearchActionType = ReadonlyDeep<
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
@@ -115,7 +121,8 @@ export type SearchActionType =
   | RemoveAllConversationsActionType
   | SelectedConversationChangedActionType
   | ShowArchivedConversationsActionType
-  | ConversationUnloadedActionType;
+  | ConversationUnloadedActionType
+>;
 
 // Action Creators
 
@@ -209,7 +216,7 @@ const doSearch = debounce(
       return;
     }
 
-    (async () => {
+    void (async () => {
       dispatch({
         type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
         payload: {
@@ -220,7 +227,7 @@ const doSearch = debounce(
     })();
 
     if (!searchConversationId) {
-      (async () => {
+      void (async () => {
         const { conversationIds, contactIds } =
           await queryConversationsAndContacts(query, {
             ourConversationId,
@@ -437,10 +444,10 @@ export function reducer(
 
   if (action.type === SELECTED_CONVERSATION_CHANGED) {
     const { payload } = action;
-    const { id, messageId } = payload;
+    const { conversationId, messageId } = payload;
     const { searchConversationId } = state;
 
-    if (searchConversationId && searchConversationId !== id) {
+    if (searchConversationId && searchConversationId !== conversationId) {
       return getEmptyState();
     }
 
@@ -450,12 +457,12 @@ export function reducer(
     };
   }
 
-  if (action.type === 'CONVERSATION_UNLOADED') {
+  if (action.type === CONVERSATION_UNLOADED) {
     const { payload } = action;
-    const { id } = payload;
+    const { conversationId } = payload;
     const { searchConversationId } = state;
 
-    if (searchConversationId && searchConversationId === id) {
+    if (searchConversationId && searchConversationId === conversationId) {
       return getEmptyState();
     }
 

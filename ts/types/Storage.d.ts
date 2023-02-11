@@ -1,7 +1,7 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AudioDevice } from 'ringrtc';
+import type { AudioDevice } from '@signalapp/ringrtc';
 import type {
   CustomColorsItemType,
   DefaultConversationColorType,
@@ -49,8 +49,8 @@ export type StorageAccessType = {
   'audio-notification': boolean;
   'auto-download-update': boolean;
   'badge-count-muted-conversations': boolean;
-  'blocked-groups': Array<string>;
-  'blocked-uuids': Array<string>;
+  'blocked-groups': ReadonlyArray<string>;
+  'blocked-uuids': ReadonlyArray<string>;
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
@@ -64,11 +64,11 @@ export type StorageAccessType = {
   'theme-setting': ThemeSettingType;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
-  blocked: Array<string>;
+  blocked: ReadonlyArray<string>;
   defaultConversationColor: DefaultConversationColorType;
   customColors: CustomColorsItemType;
   device_name: string;
-  existingOnboardingStoryMessageIds: Array<string> | undefined;
+  existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasViewedOnboardingStory: boolean;
@@ -98,12 +98,12 @@ export type StorageAccessType = {
   version: string;
   linkPreviews: boolean;
   universalExpireTimer: number;
-  retryPlaceholders: Array<RetryItemType>;
+  retryPlaceholders: ReadonlyArray<RetryItemType>;
   chromiumRegistrationDoneEver: '';
   chromiumRegistrationDone: '';
   phoneNumberSharingMode: PhoneNumberSharingMode;
   phoneNumberDiscoverability: PhoneNumberDiscoverability;
-  pinnedConversationIds: Array<string>;
+  pinnedConversationIds: ReadonlyArray<string>;
   preferContactAvatars: boolean;
   primarySendsSms: boolean;
   // Unlike `number_id` (which also includes device id) this field is only
@@ -115,18 +115,18 @@ export type StorageAccessType = {
   avatarUrl: string | undefined;
   manifestVersion: number;
   storageCredentials: StorageServiceCredentials;
-  'storage-service-error-records': Array<UnknownRecord>;
-  'storage-service-unknown-records': Array<UnknownRecord>;
-  'storage-service-pending-deletes': Array<ExtendedStorageID>;
+  'storage-service-error-records': ReadonlyArray<UnknownRecord>;
+  'storage-service-unknown-records': ReadonlyArray<UnknownRecord>;
+  'storage-service-pending-deletes': ReadonlyArray<ExtendedStorageID>;
   'preferred-video-input-device': string;
   'preferred-audio-input-device': AudioDevice;
   'preferred-audio-output-device': AudioDevice;
   previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
   unidentifiedDeliveryIndicators: boolean;
-  groupCredentials: Array<GroupCredentialType>;
+  groupCredentials: ReadonlyArray<GroupCredentialType>;
   lastReceivedAtCounter: number;
-  preferredReactionEmoji: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
   skinTone: number;
   unreadCount: number;
   'challenge:conversations': ReadonlyArray<RegisteredChallengeType>;

@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as GoogleChrome from './GoogleChrome';
@@ -14,7 +14,6 @@ import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUuidsForE164s } from './getUuidsForE164s';
 import { getUserAgent } from './getUserAgent';
-import { hasExpired } from './hasExpired';
 import {
   initializeMessageCounter,
   incrementMessageCounter,
@@ -38,7 +37,6 @@ import {
   sessionStructureToBytes,
 } from './sessionTranslation';
 import * as zkgroup from './zkgroup';
-import { StartupQueue } from './StartupQueue';
 import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
 import { RetryPlaceholders } from './retryPlaceholders';
 import * as expirationTimer from './expirationTimer';
@@ -47,7 +45,6 @@ import { MessageController } from './MessageController';
 export {
   GoogleChrome,
   Registration,
-  StartupQueue,
   arrayBufferToObjectURL,
   combineNames,
   createBatcher,
@@ -60,7 +57,6 @@ export {
   getStringForProfileChange,
   getTextWithMentions,
   getUserAgent,
-  hasExpired,
   incrementMessageCounter,
   initializeMessageCounter,
   isFileDangerous,

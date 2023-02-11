@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
@@ -80,6 +80,10 @@ export function Modal({
       clearTimeout(timer);
     };
   }, [modalName, isClosed]);
+
+  if (isClosed) {
+    return null;
+  }
 
   return (
     <ModalHost

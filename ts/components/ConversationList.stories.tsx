@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useContext } from 'react';
@@ -398,7 +398,7 @@ ConversationMessageRequest.story = {
 export function ConversationsUnreadCount(): JSX.Element {
   return (
     <Wrapper
-      rows={[4, 10, 34, 250].map(unreadCount => ({
+      rows={[4, 10, 34, 250, 2048].map(unreadCount => ({
         type: RowType.Conversation,
         conversation: createConversation({
           lastMessage: {

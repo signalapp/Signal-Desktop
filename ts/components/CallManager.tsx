@@ -1,9 +1,9 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect } from 'react';
 import { noop } from 'lodash';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
 import { CallingLobby } from './CallingLobby';
@@ -99,6 +99,7 @@ export type PropsType = {
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
   toggleSpeakerView: () => void;
+  isConversationTooBigToRing: boolean;
 };
 
 type ActiveCallManagerPropsType = PropsType & {
@@ -197,7 +198,7 @@ function ActiveCallManager({
   let groupMembers:
     | undefined
     | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
-  let isConversationTooBigToRing = false;
+  let isConvoTooBigToRing = false;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -223,7 +224,7 @@ function ActiveCallManager({
     case CallMode.Group: {
       showCallLobby = activeCall.joinState !== GroupCallJoinState.Joined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
-      isConversationTooBigToRing = activeCall.isConversationTooBigToRing;
+      isConvoTooBigToRing = activeCall.isConversationTooBigToRing;
       ({ groupMembers } = activeCall);
       break;
     }
@@ -244,7 +245,7 @@ function ActiveCallManager({
           isGroupCall={activeCall.callMode === CallMode.Group}
           isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
-          isConversationTooBigToRing={isConversationTooBigToRing}
+          isConversationTooBigToRing={isConvoTooBigToRing}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
@@ -454,8 +455,16 @@ export function CallManager(props: PropsType): JSX.Element | null {
 function getShouldRing({
   activeCall,
   incomingCall,
-}: Readonly<Pick<PropsType, 'activeCall' | 'incomingCall'>>): boolean {
+  isConversationTooBigToRing,
+}: Readonly<
+  Pick<PropsType, 'activeCall' | 'incomingCall' | 'isConversationTooBigToRing'>
+>): boolean {
   if (incomingCall) {
+    // don't ring a large group
+    if (isConversationTooBigToRing) {
+      return false;
+    }
+
     return !activeCall;
   }
 

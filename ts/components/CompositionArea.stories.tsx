@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { DecoratorFunction } from '@storybook/addons';
@@ -16,7 +16,7 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
-import { RecordingState } from '../state/ducks/audioRecorder';
+import { RecordingState } from '../types/AudioRecorder';
 import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
@@ -68,7 +68,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   // MediaEditor
   imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
   // MediaQualitySelector
-  onSelectMediaQuality: action('onSelectMediaQuality'),
+  setMediaQualitySetting: action('setMediaQualitySetting'),
   shouldSendHighQualityAttachments: Boolean(
     overrideProps.shouldSendHighQualityAttachments
   ),
@@ -116,8 +116,12 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
     Boolean(overrideProps.announcementsOnly)
   ),
   areWeAdmin: boolean('areWeAdmin', Boolean(overrideProps.areWeAdmin)),
+  areWePendingApproval: boolean(
+    'areWePendingApproval',
+    Boolean(overrideProps.areWePendingApproval)
+  ),
   groupAdmins: [],
-  onCancelJoinRequest: action('onCancelJoinRequest'),
+  cancelJoinRequest: action('cancelJoinRequest'),
   showConversation: action('showConversation'),
   // SMS-only
   isSMSOnly: overrideProps.isSMSOnly || false,
@@ -192,6 +196,20 @@ export function Attachments(): JSX.Element {
 
   return <CompositionArea {...props} />;
 }
+
+export function PendingApproval(): JSX.Element {
+  return (
+    <CompositionArea
+      {...useProps({
+        areWePendingApproval: true,
+      })}
+    />
+  );
+}
+
+AnnouncementsOnlyGroup.story = {
+  name: 'Announcements Only group',
+};
 
 export function AnnouncementsOnlyGroup(): JSX.Element {
   return (

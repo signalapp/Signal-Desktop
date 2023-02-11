@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -7,7 +7,7 @@ import Delta from 'quill-delta';
 import ReactQuill from 'react-quill';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
-import type { KeyboardStatic, RangeStatic } from 'quill';
+import type { DeltaStatic, KeyboardStatic, RangeStatic } from 'quill';
 import Quill from 'quill';
 
 import { MentionCompletion } from '../quill/mentions/completion';
@@ -44,6 +44,8 @@ import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import * as log from '../logging/log';
 import { useRefMerger } from '../hooks/useRefMerger';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -60,7 +62,11 @@ type HistoryStatic = {
 export type InputApi = {
   focus: () => void;
   insertEmoji: (e: EmojiPickDataType) => void;
-  setText: (text: string, cursorToEnd?: boolean) => void;
+  setContents: (
+    text: string,
+    draftBodyRanges?: DraftBodyRangesType,
+    cursorToEnd?: boolean
+  ) => void;
   reset: () => void;
   submit: () => void;
 };
@@ -79,7 +85,7 @@ export type Props = Readonly<{
   moduleClassName?: string;
   theme: ThemeType;
   placeholder?: string;
-  sortedGroupMembers?: Array<ConversationType>;
+  sortedGroupMembers?: ReadonlyArray<ConversationType>;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
@@ -98,6 +104,9 @@ export type Props = Readonly<{
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
+  linkPreviewLoading?: boolean;
+  linkPreviewResult?: LinkPreviewType;
+  onCloseLinkPreview?(conversationId: string): unknown;
 }>;
 
 const MAX_LENGTH = 64 * 1024;
@@ -106,22 +115,25 @@ const BASE_CLASS_NAME = 'module-composition-input';
 export function CompositionInput(props: Props): React.ReactElement {
   const {
     children,
+    clearQuotedMessage,
     conversationId,
-    i18n,
     disabled,
-    large,
-    inputApi,
-    moduleClassName,
-    onPickEmoji,
-    onSubmit,
-    onScroll,
-    placeholder,
-    skinTone,
-    draftText,
     draftBodyRanges,
+    draftText,
     getPreferredBadge,
     getQuotedMessage,
-    clearQuotedMessage,
+    i18n,
+    inputApi,
+    large,
+    linkPreviewLoading,
+    linkPreviewResult,
+    moduleClassName,
+    onCloseLinkPreview,
+    onPickEmoji,
+    onScroll,
+    onSubmit,
+    placeholder,
+    skinTone,
     sortedGroupMembers,
     theme,
   } = props;
@@ -234,15 +246,25 @@ export function CompositionInput(props: Props): React.ReactElement {
     historyModule.clear();
   };
 
-  const setText = (text: string, cursorToEnd?: boolean) => {
+  const setContents = (
+    text: string,
+    bodyRanges?: DraftBodyRangesType,
+    cursorToEnd?: boolean
+  ) => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
       return;
     }
 
+    const delta = generateDelta(text || '', bodyRanges || []);
+
     canSendRef.current = true;
-    quill.setText(text);
+    // We need to cast here because we use @types/quill@1.3.10 which has types
+    // for quill-delta even though quill-delta is written in TS and has its own
+    // types. @types/quill@2.0.0 fixes the issue but react-quill has a peer-dep
+    // on the older quill types.
+    quill.setContents(delta as unknown as DeltaStatic);
     if (cursorToEnd) {
       quill.setSelection(quill.getLength(), 0);
     }
@@ -276,7 +298,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     inputApi.current = {
       focus,
       insertEmoji,
-      setText,
+      setContents,
       reset,
       submit,
     };
@@ -488,7 +510,9 @@ export function CompositionInput(props: Props): React.ReactElement {
     []
   );
 
-  const removeStaleMentions = (currentMembers: Array<ConversationType>) => {
+  const removeStaleMentions = (
+    currentMembers: ReadonlyArray<ConversationType>
+  ) => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -666,7 +690,19 @@ export function CompositionInput(props: Props): React.ReactElement {
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div className={getClassName('__input')} ref={ref}>
+          <div
+            className={getClassName('__input')}
+            ref={ref}
+            data-testid="CompositionInput"
+          >
+            {conversationId && linkPreviewLoading && linkPreviewResult && (
+              <StagedLinkPreview
+                {...linkPreviewResult}
+                moduleClassName="CompositionInput__link-preview"
+                i18n={i18n}
+                onClose={() => onCloseLinkPreview?.(conversationId)}
+              />
+            )}
             {children}
             <div
               ref={
@@ -678,6 +714,9 @@ export function CompositionInput(props: Props): React.ReactElement {
               onScroll={onScroll}
               className={classNames(
                 getClassName('__input__scroller'),
+                !large && linkPreviewResult
+                  ? getClassName('__input__scroller--link-preview')
+                  : null,
                 large ? getClassName('__input__scroller--large') : null,
                 children ? getClassName('__input--with-children') : null
               )}

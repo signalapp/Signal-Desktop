@@ -1,7 +1,5 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import is from '@sindresorhus/is';
 
 import type { MIMEType } from '../types/MIME';
 
@@ -12,7 +10,7 @@ export const arrayBufferToObjectURL = ({
   data: ArrayBuffer;
   type: MIMEType;
 }): string => {
-  if (!is.arrayBuffer(data)) {
+  if (!(data instanceof ArrayBuffer)) {
     throw new TypeError('`data` must be an ArrayBuffer');
   }
 

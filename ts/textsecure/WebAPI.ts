@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
@@ -10,8 +10,7 @@ import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
-import { escapeRegExp, isNumber } from 'lodash';
-import is from '@sindresorhus/is';
+import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -25,8 +24,9 @@ import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
-import { toWebSafeBase64 } from '../util/webSafeBase64';
+import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
+import { isPnpEnabled } from '../util/isPnpEnabled';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -54,7 +54,7 @@ import type {
 } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
-import { maybeParseUrl } from '../util/url';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -505,9 +505,9 @@ const URL_CALLS = {
   subscriptions: 'v1/subscription',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
-  username: 'v1/accounts/username',
-  reservedUsername: 'v1/accounts/username/reserved',
-  confirmUsername: 'v1/accounts/username/confirm',
+  username: 'v1/accounts/username_hash',
+  reserveUsername: 'v1/accounts/username_hash/reserve',
+  confirmUsername: 'v1/accounts/username_hash/confirm',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -612,6 +612,7 @@ export type CapabilitiesType = {
   senderKey: boolean;
   changeNumber: boolean;
   stories: boolean;
+  pni: boolean;
 };
 export type CapabilitiesUploadType = {
   announcementGroup: true;
@@ -620,6 +621,9 @@ export type CapabilitiesUploadType = {
   senderKey: true;
   changeNumber: true;
   stories: true;
+
+  // true in staging, false in production
+  pni: boolean;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -683,9 +687,17 @@ export type ProfileType = Readonly<{
   badges?: unknown;
 }>;
 
-export type AccountType = Readonly<{
-  uuid?: string;
+export type GetAccountForUsernameOptionsType = Readonly<{
+  hash: Uint8Array;
 }>;
+
+const getAccountForUsernameResultZod = z.object({
+  uuid: z.string(),
+});
+
+export type GetAccountForUsernameResultType = z.infer<
+  typeof getAccountForUsernameResultZod
+>;
 
 export type GetIceServersResultType = Readonly<{
   username: string;
@@ -780,19 +792,20 @@ export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
 export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
 
 export type ReserveUsernameOptionsType = Readonly<{
-  nickname: string;
+  hashes: ReadonlyArray<Uint8Array>;
   abortSignal?: AbortSignal;
 }>;
 
 export type ConfirmUsernameOptionsType = Readonly<{
-  usernameToConfirm: string;
-  reservationToken: string;
+  hash: Uint8Array;
+  proof: Uint8Array;
   abortSignal?: AbortSignal;
 }>;
 
 const reserveUsernameResultZod = z.object({
-  username: z.string(),
-  reservationToken: z.string(),
+  usernameHash: z
+    .string()
+    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
 });
 export type ReserveUsernameResultType = z.infer<
   typeof reserveUsernameResultZod
@@ -808,9 +821,16 @@ export type ConfirmCodeOptionsType = Readonly<{
   accessKey?: Uint8Array;
 }>;
 
+export type ReportMessageOptionsType = Readonly<{
+  senderUuid: string;
+  serverGuid: string;
+  token?: string;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
+  cancelInflightRequests: (reason: string) => void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   confirmCode: (
     options: ConfirmCodeOptionsType
@@ -863,7 +883,9 @@ export type WebAPIType = {
     identifier: string,
     options: GetProfileOptionsType
   ) => Promise<ProfileType>;
-  getAccountForUsername: (username: string) => Promise<AccountType>;
+  getAccountForUsername: (
+    options: GetAccountForUsernameOptionsType
+  ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
     identifier: string,
     options: GetProfileUnauthOptionsType
@@ -926,7 +948,7 @@ export type WebAPIType = {
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   registerKeys: (genKeys: KeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
-  reportMessage: (senderUuid: string, serverGuid: string) => Promise<void>;
+  reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
   requestVerificationVoice: (number: string, token: string) => Promise<void>;
   checkAccountExistence: (uuid: UUID) => Promise<boolean>;
@@ -1038,6 +1060,8 @@ export type TopLevelType = {
   initialize: (options: InitializeOptionsType) => WebAPIConnectType;
 };
 
+type InflightCallback = (error: Error) => unknown;
+
 // We first set up the data that won't change during this session of the app
 export function initialize({
   url,
@@ -1051,37 +1075,37 @@ export function initialize({
   proxyUrl,
   version,
 }: InitializeOptionsType): WebAPIConnectType {
-  if (!is.string(url)) {
+  if (!isString(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
   }
-  if (!is.string(storageUrl)) {
+  if (!isString(storageUrl)) {
     throw new Error('WebAPI.initialize: Invalid storageUrl');
   }
-  if (!is.string(updatesUrl)) {
+  if (!isString(updatesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl');
   }
-  if (!is.string(resourcesUrl)) {
+  if (!isString(resourcesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl (general)');
   }
-  if (!is.object(cdnUrlObject)) {
+  if (!isObject(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
   }
-  if (!is.string(cdnUrlObject['0'])) {
+  if (!isString(cdnUrlObject['0'])) {
     throw new Error('WebAPI.initialize: Missing CDN 0 configuration');
   }
-  if (!is.string(cdnUrlObject['2'])) {
+  if (!isString(cdnUrlObject['2'])) {
     throw new Error('WebAPI.initialize: Missing CDN 2 configuration');
   }
-  if (!is.string(certificateAuthority)) {
+  if (!isString(certificateAuthority)) {
     throw new Error('WebAPI.initialize: Invalid certificateAuthority');
   }
-  if (!is.string(contentProxyUrl)) {
+  if (!isString(contentProxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid contentProxyUrl');
   }
-  if (proxyUrl && !is.string(proxyUrl)) {
+  if (proxyUrl && !isString(proxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid proxyUrl');
   }
-  if (!is.string(version)) {
+  if (!isString(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
   }
 
@@ -1125,7 +1149,7 @@ export function initialize({
     });
 
     if (useWebSocket) {
-      socketManager.authenticate({ username, password });
+      void socketManager.authenticate({ username, password });
     }
 
     const { directoryUrl, directoryMRENCLAVE } = directoryConfig;
@@ -1148,6 +1172,29 @@ export function initialize({
       },
     });
 
+    const inflightRequests = new Set<(error: Error) => unknown>();
+    function registerInflightRequest(request: InflightCallback) {
+      inflightRequests.add(request);
+    }
+    function unregisterInFlightRequest(request: InflightCallback) {
+      inflightRequests.delete(request);
+    }
+    function cancelInflightRequests(reason: string) {
+      const logId = `cancelInflightRequests/${reason}`;
+      log.warn(`${logId}: Cancelling ${inflightRequests.size} requests`);
+      for (const request of inflightRequests) {
+        try {
+          request(new Error(`${logId}: Cancelled!`));
+        } catch (error: unknown) {
+          log.error(
+            `${logId}: Failed to cancel request: ${toLogFormat(error)}`
+          );
+        }
+      }
+      inflightRequests.clear();
+      log.warn(`${logId}: Done`);
+    }
+
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
       const agent = new ProxyAgent(proxyUrl);
@@ -1159,6 +1206,7 @@ export function initialize({
     // Thanks, function hoisting!
     return {
       authenticate,
+      cancelInflightRequests,
       cdsLookup,
       checkAccountExistence,
       checkSockets,
@@ -1363,7 +1411,7 @@ export function initialize({
 
     function checkSockets(): void {
       // Intentionally not awaiting
-      socketManager.check();
+      void socketManager.check();
     }
 
     async function onOnline(): Promise<void> {
@@ -1387,7 +1435,7 @@ export function initialize({
     }
 
     function onHasStoriesDisabledChange(newValue: boolean): void {
-      socketManager.onHasStoriesDisabledChange(newValue);
+      void socketManager.onHasStoriesDisabledChange(newValue);
     }
 
     async function getConfig() {
@@ -1591,16 +1639,21 @@ export function initialize({
       })) as ProfileType;
     }
 
-    async function getAccountForUsername(usernameToFetch: string) {
-      return (await _ajax({
-        call: 'username',
-        httpType: 'GET',
-        urlParameters: `/${encodeURIComponent(usernameToFetch)}`,
-        responseType: 'json',
-        redactUrl: _createRedactor(usernameToFetch),
-        unauthenticated: true,
-        accessKey: undefined,
-      })) as ProfileType;
+    async function getAccountForUsername({
+      hash,
+    }: GetAccountForUsernameOptionsType) {
+      const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
+      return getAccountForUsernameResultZod.parse(
+        await _ajax({
+          call: 'username',
+          httpType: 'GET',
+          urlParameters: `/${hashBase64}`,
+          responseType: 'json',
+          redactUrl: _createRedactor(hashBase64),
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
     }
 
     async function putProfile(
@@ -1737,15 +1790,18 @@ export function initialize({
         abortSignal,
       });
     }
+
     async function reserveUsername({
-      nickname,
+      hashes,
       abortSignal,
     }: ReserveUsernameOptionsType) {
       const response = await _ajax({
-        call: 'reservedUsername',
+        call: 'reserveUsername',
         httpType: 'PUT',
         jsonData: {
-          nickname,
+          usernameHashes: hashes.map(hash =>
+            toWebSafeBase64(Bytes.toBase64(hash))
+          ),
         },
         responseType: 'json',
         abortSignal,
@@ -1754,30 +1810,34 @@ export function initialize({
       return reserveUsernameResultZod.parse(response);
     }
     async function confirmUsername({
-      usernameToConfirm,
-      reservationToken,
+      hash,
+      proof,
       abortSignal,
     }: ConfirmUsernameOptionsType) {
       await _ajax({
         call: 'confirmUsername',
         httpType: 'PUT',
         jsonData: {
-          usernameToConfirm,
-          reservationToken,
+          usernameHash: toWebSafeBase64(Bytes.toBase64(hash)),
+          zkProof: toWebSafeBase64(Bytes.toBase64(proof)),
         },
         abortSignal,
       });
     }
 
-    async function reportMessage(
-      senderUuid: string,
-      serverGuid: string
-    ): Promise<void> {
+    async function reportMessage({
+      senderUuid,
+      serverGuid,
+      token,
+    }: ReportMessageOptionsType): Promise<void> {
+      const jsonData = { token };
+
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: `/${senderUuid}/${serverGuid}`,
+        urlParameters: urlPathFromComponents([senderUuid, serverGuid]),
         responseType: 'bytes',
+        jsonData,
       });
     }
 
@@ -1857,6 +1917,7 @@ export function initialize({
         senderKey: true,
         changeNumber: true,
         stories: true,
+        pni: isPnpEnabled(),
       };
 
       const jsonData = {
@@ -2386,11 +2447,25 @@ export function initialize({
         abortSignal: abortController.signal,
       });
 
-      return getStreamWithTimeout(stream, {
+      const streamPromise = getStreamWithTimeout(stream, {
         name: `getAttachment(${cdnKey})`,
         timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
         abortController,
       });
+
+      // Add callback to central store that would reject a promise
+      const { promise: cancelPromise, reject } = explodePromise<Uint8Array>();
+      const inflightRequest = (error: Error) => {
+        reject(error);
+        abortController.abort();
+      };
+      registerInflightRequest(inflightRequest);
+
+      try {
+        return Promise.race([streamPromise, cancelPromise]);
+      } finally {
+        unregisterInFlightRequest(inflightRequest);
+      }
     }
 
     type PutAttachmentResponseType = ServerAttachmentType & {
@@ -2463,7 +2538,7 @@ export function initialize({
         'X-SignalPadding': getHeaderPadding(),
       };
 
-      if (is.number(start) && is.number(end)) {
+      if (isNumber(start) && isNumber(end)) {
         headers.Range = `bytes=${start}-${end}`;
       }
 
@@ -2846,9 +2921,9 @@ export function initialize({
 
         if (
           match &&
-          is.number(start) &&
-          is.number(end) &&
-          is.number(currentRevision)
+          isNumber(start) &&
+          isNumber(end) &&
+          isNumber(currentRevision)
         ) {
           return {
             changes,

@@ -46,7 +46,7 @@ export const useTheme = (): ThemeType => {
     }
 
     SignalContext.nativeThemeListener.subscribe(applyTheme);
-    loop();
+    void loop();
 
     return () => {
       abortController.abort();

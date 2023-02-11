@@ -1,10 +1,11 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { HTTPError } from '../../../textsecure/Errors';
 import * as durations from '../../../util/durations';
+import { drop } from '../../../util/drop';
 
 import { sleepForRateLimitRetryAfterTime } from '../../../jobs/helpers/sleepForRateLimitRetryAfterTime';
 
@@ -42,7 +43,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
   it('waits for 1 minute if the error lacks Retry-After info', async () => {
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err: {},
         log: createLogger(),
@@ -67,7 +68,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err,
         log: createLogger(),
@@ -92,7 +93,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err,
         log: createLogger(),
@@ -117,7 +118,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err: { httpError },
         log: createLogger(),
@@ -142,7 +143,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err: { httpError },
         log: createLogger(),
@@ -167,7 +168,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err,
         log: createLogger(),
@@ -189,7 +190,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
 
     let done = false;
 
-    (async () => {
+    void (async () => {
       await sleepForRateLimitRetryAfterTime({
         err,
         log: createLogger(),
@@ -210,7 +211,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
       response: {},
     });
 
-    sleepForRateLimitRetryAfterTime({ err, log, timeRemaining: 9999999 });
+    drop(sleepForRateLimitRetryAfterTime({ err, log, timeRemaining: 9999999 }));
     await clock.nextAsync();
 
     sinon.assert.calledOnce(log.info);
@@ -225,7 +226,7 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
       response: {},
     });
 
-    sleepForRateLimitRetryAfterTime({ err, log, timeRemaining: 9999999 });
+    drop(sleepForRateLimitRetryAfterTime({ err, log, timeRemaining: 9999999 }));
     await clock.nextAsync();
 
     sinon.assert.calledOnce(log.info);

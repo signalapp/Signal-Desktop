@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
@@ -2232,42 +2232,6 @@ button.ConversationDetails__action-button {
   outline: none;
 }
 
-.module-media-gallery__tab-container {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-  cursor: pointer;
-  width: 100%;
-}
-
-.module-media-gallery__tab {
-  width: 100%;
-  padding: 20px;
-  text-align: center;
-
-  @include light-theme {
-    background-color: $color-gray-02;
-  }
-  @include dark-theme {
-    background-color: $color-gray-90;
-  }
-
-  outline: none;
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $color-gray-15;
-    }
-    @include dark-keyboard-mode {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-media-gallery__tab--active {
-  border-bottom: 2px solid $color-ultramarine;
-}
-
 .module-media-gallery__content {
   display: flex;
   flex-grow: 1;
@@ -2517,6 +2481,8 @@ button.ConversationDetails__action-button {
   align-items: center;
 
   .module-left-pane--width-narrow & {
+    flex-direction: column;
+    height: auto;
     justify-content: center;
   }
 
@@ -2535,7 +2501,9 @@ button.ConversationDetails__action-button {
       position: relative;
 
       .module-left-pane--width-narrow & {
-        display: none;
+        margin-bottom: 28px;
+        margin-right: 0;
+        margin-top: 16px;
       }
     }
 
@@ -2553,6 +2521,10 @@ button.ConversationDetails__action-button {
 
   &__icon-container {
     display: flex;
+
+    .module-left-pane--width-narrow & {
+      flex-direction: column-reverse;
+    }
   }
 
   &__compose-icon {
@@ -2652,7 +2624,9 @@ button.ConversationDetails__action-button {
     width: 32px;
 
     .module-left-pane--width-narrow & {
-      display: none;
+      margin-right: 0;
+      margin-top: 28px;
+      margin-bottom: 28px;
     }
 
     @include light-theme {
@@ -4431,6 +4405,13 @@ button.module-image__border-overlay:focus {
   padding-left: 10px;
   padding-right: 10px;
 
+  // list tiles in choose-group-members and compose extend to the edge
+  .module-left-pane--mode-choose-group-members &,
+  .module-left-pane--mode-compose & {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   &--width-narrow {
     padding-left: 10px;
     padding-right: 10px;
@@ -4633,17 +4614,13 @@ button.module-image__border-overlay:focus {
           @include dark-theme {
             border-color: $color-gray-80;
           }
-
-          &--two-digits,
-          &--many {
-            right: -(7px + $border-width);
-          }
         }
       }
 
       // We want this to just be the unread indicator selector, not a child of the parent.
       @at-root #{$unread-indicator-selector} {
         $size: 18px;
+        flex-shrink: 0;
 
         @include font-caption-bold;
         border-radius: 10px;
@@ -4654,8 +4631,8 @@ button.module-image__border-overlay:focus {
         margin-left: 10px;
         margin-top: 1px;
         min-width: $size;
-        padding-left: 3px;
-        padding-right: 3px;
+        padding-left: 4px;
+        padding-right: 4px;
         text-align: center;
         word-break: normal;
         display: flex;
@@ -4671,22 +4648,6 @@ button.module-image__border-overlay:focus {
         }
         @include dark-theme {
           background-color: $color-ultramarine-dawn;
-        }
-
-        &--two-digits,
-        &--many {
-          padding-left: 4px;
-          padding-right: 4px;
-        }
-
-        &--many {
-          font-size: 10px;
-
-          &::after {
-            content: '+';
-            display: inline-block;
-            font-size: 9px;
-          }
         }
       }
 
@@ -6378,198 +6339,6 @@ button.module-image__border-overlay:focus {
   @include emoji-size(48px);
   @include emoji-size(64px);
   @include emoji-size(66px);
-}
-
-// Module: CompositionInput
-.module-composition-input {
-  &__quill {
-    height: 100%;
-
-    .ql-editor {
-      caret-color: transparent;
-      padding: 0;
-      text-align: start;
-      white-space: break-spaces;
-      line-height: inherit;
-
-      &--loaded {
-        caret-color: auto;
-      }
-
-      &.ql-blank::before {
-        left: 0;
-        right: 0;
-        font-style: normal;
-      }
-
-      .emoji-blot {
-        width: 20px;
-        height: 20px;
-        vertical-align: text-bottom;
-      }
-    }
-  }
-
-  &__at-mention {
-    background-color: $color-gray-20;
-    border-radius: 4px;
-    display: inline;
-    padding-left: 4px;
-    padding-right: 4px;
-    height: 22px;
-    line-height: 22px;
-
-    @include dark-theme {
-      background-color: $color-gray-60;
-    }
-  }
-
-  &__input {
-    $border-size: 1px;
-
-    border-radius: 18px;
-    overflow: hidden;
-    word-break: break-word;
-
-    // Override Quill styles
-    .ql-container {
-      @include font-body-1;
-    }
-
-    .ql-blank::before {
-      @include light-theme() {
-        color: $color-gray-45;
-      }
-
-      @include dark-theme() {
-        color: $color-gray-25;
-      }
-    }
-
-    @include light-theme() {
-      // Same as background color
-      background-color: $color-gray-05;
-      color: $color-gray-90;
-    }
-
-    @include dark-theme() {
-      // Same as background color
-      background-color: $color-gray-75;
-      color: $color-gray-05;
-    }
-
-    &__scroller {
-      $padding-top: 5px;
-      padding: $padding-top 10px $padding-top 10px;
-
-      min-height: calc(32px - 2 * $border-size);
-      max-height: calc(72px - 2 * $border-size);
-      overflow: auto;
-
-      &::-webkit-scrollbar-thumb {
-        @include light-theme {
-          border: 2px solid $color-gray-05;
-        }
-        @include dark-theme {
-          border: 2px solid $color-gray-75;
-        }
-      }
-
-      &--large {
-        max-height: calc(212px - 2 * $border-size);
-        min-height: calc(212px - 2 * $border-size);
-
-        .DraftEditor-root {
-          height: calc(212px - 2 * $padding-top - 2 * $border-size);
-        }
-      }
-    }
-
-    border: $border-size solid transparent;
-
-    &:focus-within {
-      outline: 0;
-      @include keyboard-mode {
-        border: $border-size solid $color-ultramarine;
-      }
-    }
-  }
-
-  &__suggestions {
-    padding: 0;
-    margin-bottom: 6px;
-    border-radius: 8px;
-    z-index: $z-index-above-popup;
-    overflow: hidden;
-
-    &--scroller {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    @include popper-shadow();
-
-    @include light-theme() {
-      background: $color-white;
-    }
-
-    @include dark-theme() {
-      background: $color-gray-75;
-    }
-
-    &__row {
-      height: 34px;
-      padding: 0 12px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      background: none;
-      border: none;
-      width: 100%;
-
-      &--mention {
-        height: 40px;
-      }
-
-      &:focus {
-        outline: 0;
-      }
-
-      @include font-body-2;
-
-      @include light-theme() {
-        color: $color-gray-60;
-      }
-
-      @include dark-theme() {
-        color: $color-gray-25;
-      }
-
-      &__short-name {
-        margin-left: 4px;
-      }
-
-      &--selected,
-      &:hover {
-        @include light-theme() {
-          background: $color-gray-05;
-          color: $color-gray-90;
-        }
-
-        @include dark-theme() {
-          background: $color-gray-60;
-          color: $color-gray-05;
-        }
-      }
-    }
-
-    &__title {
-      padding-left: 8px;
-    }
-
-    stroke: $color-white;
-  }
 }
 
 // Module: Last Seen Indicator

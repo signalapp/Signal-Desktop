@@ -64,6 +64,18 @@
     "message": "Čaká sa na členstvo",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Kvalita odoslaných médií",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Štandardná",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Vysoká",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Použitý softvér",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Fotografie a videá nie je možné vybrať spolu so súbormi.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Naraz môžete vybrať len jeden súbor.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "K tejto správe nie je možné pridať ďalšie prílohy.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy."
+    "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Ospravedlňujeme sa, vybraný súbor prekročil limit pre veľkosť správy. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Zvolenú prílohu sa nepodarilo načítať."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Pre posielanie zvukových správ, povoľte aplikácii Signal Desktop prístup k mikrofónu.",
+    "message": "Pre odosielanie hlasových správ povoľte aplikácii Signal Desktop prístup k mikrofónu.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1046,7 +1067,7 @@
     "message": "Podrobnosti správy"
   },
   "delete": {
-    "message": "Zmazať"
+    "message": "Vymazať"
   },
   "accept": {
     "message": "Potvrdiť"
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Táto správa bude z tohto zariadenia zmazaná.",
+    "message": "Táto správa bude odstránená z tohto zariadenia.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Táto správa sa vymaže všetkým v konverzácií, čo používajú modernú verziu aplikácie Signal. Členovia budú vidieť, že ste vymazali správu.",
+    "message": "Táto správa sa vymaže v konverzácii každému, kto používa aktuálnu verziu aplikácie Signal. Členovia budú vidieť, že ste vymazali správu.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ zmenili svoje telefónne číslo",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} a {conversationTitle} patria tomu istému účtu. Históriu správ pre oba čety nájdete tu.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Vaša história správ s používateľom {conversationTitle} a jeho číslom {obsoleteConversationNumber} bola zlúčená.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Vaša história správ s používateľom {conversationTitle} a ďalším četom, ktorého bol súčasťou, bola zlúčená.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Zistiť viac",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Po odoslaní správy používateľovi {obsoleteConversationTitle} ste zistili, že toto číslo patrí používateľovi {conversationTitle}. Ich telefónne číslo je súkromné.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "História správ pre obe konverzácie bola zlúčená tu.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} patrí používateľovi {conversationTitle}. Obaja ste členmi skupiny {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} patrí používateľovi {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Náhľad obrázku z citovanej správy.",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Od tohto používateľa nebudete prijímať zvuk a video a ani on neprijme od vás.",
+    "message": "Od tohto používateľa nebudete počas hovoru prijímať hlas ani video a ani on neprijme tie vaše.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Čiastočne odstránené, kliknutím to skúste znova",
+    "message": "Čiastočne odstránená, kliknutím to skúsite znova",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Reštartujte Signal pre dokončenie aktualizácie."
+    "message": "Reštartujte Signal pre dokončenie aktualizácie.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Reštartovať Signal"
@@ -2225,91 +2279,179 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Táto správa bola zmazaná.",
+    "message": "Táto správa bola odstránená.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "giftBadge--missing": {
+    "message": "Nepodarilo sa získať podrobnosti o darčekovom odznaku",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Nepodarilo sa získať podrobnosti príspevku",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "Ak chcete túto správu otvoriť, zobrazte ju v mobile",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Ak chcete túto správu otvoriť, zobrazte ju v mobile",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Ťuknutím na túto správu v mobile zobrazíte svoj darček",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Ťuknutím na túto správu v mobile zobrazíte svoj príspevok",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Dar",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "Používateľ {sender} prispel na Signal vo vašom mene",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Ak chcete otvoriť darček, skontrolujte svoj telefón",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Ak chcete otvoriť príspevok, skontrolujte svoj telefón",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Ak chcete zobraziť darček, skontrolujte svoj telefón",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Ak chcete zobraziť príspevok, skontrolujte svoj telefón",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Dostali ste darček",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "Používateľ {sender} za vás poslal príspevok",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Uplatnili ste darčekový odznak",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Uplatnili ste príspevok",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Poslali ste darčekový odznak",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Poslali ste príspevok za používateľa {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Darčekový odznak",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Príspevok",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Dar",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Príspevok",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Ostáva ešte $days$ dní",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Počet zostávajúcich dní: {days}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Ostáva ešte $hours$ hodín",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Počet zostávajúcich hodín: {hours}",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Ostáva ešte $minutes$ minút",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {{minutes,number} zostávajúca minúta} few {{minutes,number} zostávajúce minúty} many {{minutes,number} zostávajúcej minúty} other {{minutes,number} zostávajúcich minút}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Zostáva 1 minúta",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Platnosť vypršala",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Platnosť vypršala",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Zobraziť",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Zobraziť",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Uplatnené",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Uplatnené",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Ďakujem za tvoju podporu!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Ďakujeme za vašu podporu!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Darovali ste odznak $name$. Keď to prijme, dostane na výber, či svoj odznak ukáže, alebo skryje.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Prispeli ste na Signal v mene používateľa {name}. Svoju podporu bude môcť zobraziť na svojom profile.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Nepodarilo sa nainštalovať balík nálepiek",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Nálepky",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Dostupné",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Nainštalované nálepky",
+    "message": "Nainštalované",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Odstráni náhľad odkazu z rozpísanej správy",
+    "message": "Odstrániť náhľad odkazu z rozpísanej správy",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Odstráni všetky prílohy z rozpísanej správy",
+    "message": "Odstrániť všetky prílohy z rozpísanej správy",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Prijať video hovor",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Prijať hovor s videom",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Prijať audio hovor",
+    "message": "Prijať hovor so zvukom",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Prijať hovor s videom (iba videohovory)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Prijať hovor bez videa",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Začať audiohovor",
+    "message": "Začať hlasový hovor",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Táto konverzácia sa vymaže zo všetkých vašich zariadení.",
+    "message": "Táto konverzácia bude odstránená zo všetkých vašich zariadení.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Opustíte túto skupinu a vymažete ju zo všetkých vašich zariadení.",
+    "message": "Opustíte túto skupinu a odstránite ju zo všetkých vašich zariadení.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Odpovedať",
+    "message": "Prijať hovor",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Prijať bez videa",
+    "message": "Prijať hovor bez videa",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,7 +3292,7 @@
   },
   "declinedIncomingAudioCall": {
     "message": "Odmietli ste hlasový hovor",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Odmietli ste videohovor",
@@ -3150,15 +3300,15 @@
   },
   "acceptedIncomingAudioCall": {
     "message": "Prichádzajúci hlasový hovor",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Prichádzajúci videohovor",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Prichádzajúci hlasový hovor",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Zmeškaný hlasový hovor",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Prichádzajúci videohovor",
@@ -3166,7 +3316,7 @@
   },
   "acceptedOutgoingAudioCall": {
     "message": "Odchádzajúci hlasový hovor",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Odchádzajúci videohovor",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "Neprijatý hlasový hovor",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neprijatý videohovor",
@@ -3190,7 +3340,7 @@
   },
   "incomingAudioCall": {
     "message": "Prichádzajúci hlasový hovor…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Prichádzajúci videohovor…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "K tejto skupine sa nemôžete pripojiť prostredníctvom odkazu na skupinu, pretože vás odstránil správca.",
+    "message": "K tejto skupine sa nemôžete pripojiť prostredníctvom odkazu na skupinu, pretože vás odstránil jej správca.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,7 +3691,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ odstránil/a názov skupiny.",
+    "message": "Používateľ $memberName$ odstránil názov skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -3549,7 +3699,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Člen odstránil názov skupiny",
+    "message": "Člen odstránil názov skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,7 +3715,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ odstránil/a avatara skupiny.",
+    "message": "Používateľ $memberName$ odstránil avatara skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ odstránil/a $memberName$.",
+    "message": "$adminName$ odstránil/a používateľa $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Odstránili ste $memberName$.",
+    "message": "Odstránili ste používateľa $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "Člen odstránil $memberName$.",
+    "message": "Člen odstránil používateľa $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ vás odstránil/a.",
+    "message": "Používateľ $adminName$ vás odstránil.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4017,7 +4167,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ odstránil popis skupiny.",
+    "message": "Používateľ $memberName$ odstránil popis skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Skupina bola zmenená tak, aby umožňovala všetkým členom posielať správy.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Členovia alebo nastavenia tejto skupiny sa zmenili.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Inovujte túto skupinu pre sprístupnenie nových funkcií, ako @zmienky a administrátorov. Členovia, ktorí nezdieľali svoje meno alebo fotku v tejto skupine budú do nej pozvaní. $learnMore$",
@@ -4137,7 +4291,7 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ bol odstránený zo skupiny.",
+    "message": "Používateľ $contact$ bol odstránený zo skupiny.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
@@ -4221,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Chcete odstrániť $contact$ ako správcu skupiny?",
+    "message": "Chcete odstrániť používateľa $contact$ ako správcu skupiny?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "Počet spoločných skupín: $number$",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} spoločná skupina} few {{count,number} spoločné skupiny} many {{count,number} spoločnej skupiny} other {{count,number} spoločných skupín}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Žiadne spoločné skupiny",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Pridať do skupiny",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, RRRR",
+    "message": "DD MM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Odstrániť \"$name$\" zo skupiny?",
+    "message": "Odstrániť používateľa \"$name$\" zo skupiny?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Odstrániť „$name$“ zo skupiny? Nebudú sa môcť znova pripojiť prostredníctvom odkazu na skupinu.",
+    "message": "Odstrániť používateľa „$name$“ zo skupiny? Nebude sa môcť znova pripojiť prostredníctvom odkazu na skupinu.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Nepodarilo sa odstrániť správu pre všetkých. Skúste to znova neskôr.",
+    "message": "Správu sa nepodarilo odstrániť pre všetkých. Skúste to znova neskôr.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Táto vlastná farba sa používa v $num$ konverzáciach. Chcete ju odstrániť pre všetky konverzácie?",
+    "message": "Táto vlastná farba sa používa v $num$ četoch. Chcete ju odstrániť pre všetky čety?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5045,11 +5207,11 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Týmto sa odstráni vaše používateľské meno a ostatní používatelia si ho budú môcť nárokovať. Si si istý?",
+    "message": "Týmto sa odstráni vaše používateľské meno a ostatní používatelia ho budú môcť použiť. Ste si istý?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "Odstrániť",
+    "message": "Vymazať",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5065,7 +5227,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "Odstrániť",
+    "message": "Vymazať",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5693,7 +5855,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Odstrániť prispôsobený príbeh",
+    "message": "Vymazať prispôsobený príbeh",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5904,6 +6066,10 @@
     "message": "Odpovedať",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Odpovedať používateľovi {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Odpovedať v skupine",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagovať na príbeh",
+    "message": "(vymazané 25. 1. 2023) Reagovať na príbeh",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6013,7 +6179,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "Odstrániť",
+    "message": "Vymazať",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6172,6 +6338,18 @@
     "message": "Tieto číslice pomáhajú zachovať súkromie vášho používateľského mena, vďaka čomu sa vyhnete neželaným správam. Svoje používateľské meno zdieľajte iba s ľuďmi a skupinami, s ktorými chcete četovať. Ak si používateľské meno zmeníte, bude vám priradená nová sada číslic.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop už čoskoro nebude podporovať verziu {OS} na vašom počítači. Ak chcete naďalej používať Signal, aktualizujte operačný systém svojho počítača do {expirationDate}. <learnMoreLink>Zistiť viac</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal desktop už na tomto počítači nefunguje. Ak chcete znova používať Signal desktop, aktualizujte verziu {OS} na svojom počítači. <learnMoreLink>Zistiť viac</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal desktop už na tomto počítači nefunguje. Ak chcete znova používať Signal desktop, aktualizujte verziu {OS} na svojom počítači.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Čo je nové",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Po spustení skupinového hovoru pre malé skupiny (do 16 ľudí), môžete odoslať upozornenie so zvonením. Členovia skupiny budú počuť zvonenie, ak používajú beta verziu iOS, počítač alebo Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Dvojitým kliknutím na ľubovoľný riadok správy v čete začnete citovanú odpoveď. Je to priama cesta vyjadrenia nových postrehov k predošlým nápadom. Sme vďační {whynothugo} a komunite Signal za implementáciu tejto funkcie a poskytnutie spätnej väzby.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Teraz je jednoduchšie kliknúť mimo fotografie a zrušiť plný náhľad bez približovania. Možno sa vám stalo, že ste fotku chceli len zavrieť, no namiesto toho sa vám zobrazila v tých najmenších detailoch. Ďakujeme {jojomatik} za opravu!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Zrýchlite svoje reakcie. Teraz môžete reagovať rýchlejšie kliknutím na ľubovoľné emotikony pri odpovedaní na príbeh.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Teraz je možné vyhľadávať v histórii správ jednotlivé znaky v čínštine a japončine.",
+    "description": "Release notes for v6.5"
   }
 }

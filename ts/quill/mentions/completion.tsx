@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import _ from 'lodash';
@@ -31,7 +31,7 @@ export type MentionCompletionOptions = {
 const MENTION_REGEX = /(?:^|\W)@([-+\w]*)$/;
 
 export class MentionCompletion {
-  results: Array<ConversationType>;
+  results: ReadonlyArray<ConversationType>;
 
   index: number;
 
@@ -105,7 +105,7 @@ export class MentionCompletion {
     this.clearResults();
   }
 
-  possiblyShowMemberResults(): Array<ConversationType> {
+  possiblyShowMemberResults(): ReadonlyArray<ConversationType> {
     const range = this.quill.getSelection();
 
     if (range) {
@@ -120,7 +120,7 @@ export class MentionCompletion {
       if (leftTokenTextMatch) {
         const [, leftTokenText] = leftTokenTextMatch;
 
-        let results: Array<ConversationType> = [];
+        let results: ReadonlyArray<ConversationType> = [];
 
         const memberRepository = this.options.memberRepositoryRef.current;
 

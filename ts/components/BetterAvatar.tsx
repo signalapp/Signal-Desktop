@@ -50,7 +50,7 @@ export function BetterAvatar({
       return noop;
     }
 
-    makeAvatar();
+    void makeAvatar();
 
     return () => {
       shouldCancel = true;

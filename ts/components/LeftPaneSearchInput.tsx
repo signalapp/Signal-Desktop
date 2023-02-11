@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef } from 'react';
@@ -87,7 +87,7 @@ export function LeftPaneSearchInput({
     inputRef.current?.focus();
   };
 
-  const label = i18n(searchConversation ? 'searchIn' : 'search');
+  const label = searchConversation ? i18n('searchIn') : i18n('search');
 
   return (
     <SearchInput

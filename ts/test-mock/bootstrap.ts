@@ -110,7 +110,7 @@ export class Bootstrap {
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
-  private timestamp: number = Date.now() - durations.MONTH;
+  private timestamp: number = Date.now() - durations.WEEK;
 
   constructor(options: BootstrapOptions = {}) {
     this.server = new Server({

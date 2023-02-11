@@ -64,6 +64,18 @@
     "message": "Εκκρεμεί η συμμετοχή στην ομάδα",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Ποιότητα απεσταλμένων πολυμέσων",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Κανονική",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Υψηλή",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Λογισμικό τρίτων",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Δεν μπορείς να επιλέξεις φωτογραφίες και βίντεο μαζί με αρχεία.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Μπορείς να επιλέξεις μόνο ένα αρχείο κάθε φορά.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Δεν μπορείς να προσθέσεις άλλα συνημμένα σε αυτό το μήνυμα.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων."
+    "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Για να στείλεις μηνύματα ήχου, δώσε στο Signal Desktop πρόσβαση στο μικρόφωνό σου.",
+    "message": "Για να στείλεις ηχητικά μηνύματα, δώσε στη Signal Desktop πρόσβαση στο μικρόφωνό σου.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Αυτό το μήνυμα θα διαγραφτεί από αυτή τη συσκευή.",
+    "message": "Αυτό το μήνυμα θα διαγραφεί από αυτή τη συσκευή.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Αυτό το μήνυμα θα διαγραφεί για όλους/ες στη συνομιλία, αν έχουν μια πρόσφατη έκδοση του Signal. Θα μπορούν να δούν ότι διέγραψες ένα μήνυμα.",
+    "message": "Αυτό το μήνυμα θα διαγραφεί για όλους/ες στη συνομιλία, αν έχουν μια πρόσφατη έκδοση του Signal. Θα μπορούν να δουν ότι διέγραψες ένα μήνυμα.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Επανάληψη Διαγραφής για όλους",
+    "message": "Επανάληψη διαγραφής για όλους",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1148,7 +1169,7 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "Διαγραφή μηνύματος για εμένα",
+    "message": "Διαγραφή μηνύματος για μένα",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "Ο/Η $sender$ άλλαξε τον αριθμό τηλεφώνου του/της",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "Οι συνομιλίες {obsoleteConversationTitle} και {conversationTitle} ανήκουν στον ίδιο λογαριασμό. Το ιστορικό των μηνυμάτων σου και για τις δύο συνομιλίες είναι εδώ.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Συγχωνεύτηκαν το ιστορικό μηνυμάτων σου με τον χρήστη {conversationTitle} και τον αριθμό του, {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Το ιστορικό μηνυμάτων σου με τον χρήστη {conversationTitle} και μια άλλη συνομιλία που του άνηκε συγχωνεύτηκε.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Μάθε περισσότερα",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Μετά από μήνυμα με τον χρήστη {obsoleteConversationTitle} έμαθες ότι αυτός ο αριθμός ανήκει στον χρήστη {conversationTitle}. Ο αριθμός τηλεφώνου τους είναι ιδιωτικός.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Το ιστορικό των μηνυμάτων σου και για τις δύο συνομιλίες έχει συγχωνευθεί εδώ.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "Ο αριθμός {phoneNumber} ανήκει στον χρήστη {conversationTitle}. Είστε και οι δύο μέλη της ομάδας {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "Ο αριθμός {phoneNumber} ανήκει στον χρήστη {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
@@ -1603,7 +1656,7 @@
     "description": "Header for general options on the settings screen"
   },
   "spellCheckDescription": {
-    "message": "Ορθογραφικός έλεγχς κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
+    "message": "Ορθογραφικός έλεγχος κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων",
     "description": "Description of the spell check setting"
   },
   "spellCheckWillBeEnabled": {
@@ -1655,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφτούν και θα ξεκινήσεις απ' την αρχή.",
+    "message": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφούν και θα ξεκινήσεις από την αρχή.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Διαγραφή παλιών δεδομένων",
+    "message": "Διαγραφή παλαιών δεδομένων",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Διαγράφτηκε εν μέρει, πάτα για επανάληψη",
+    "message": "Διαγράφηκε εν μέρει, πάτα για επανάληψη",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Πάτα Επανεκκίνηση για να εφαρμοστούν οι αναβαθμίσεις."
+    "message": "Πάτα Επανεκκίνηση για να εφαρμοστούν οι αναβαθμίσεις.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Επανεκκίνηση του Signal"
@@ -2161,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Το τελευταίο μήνυμα ίσως να έχει διαγραφτεί.",
+    "message": "Το τελευταίο μήνυμα ίσως να έχει διαγραφεί.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2225,91 +2279,179 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Αυτο το μήνυμα διαγράφτηκε.",
+    "message": "Αυτό το μήνυμα διαγράφτηκε.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "giftBadge--missing": {
+    "message": "Αδυναμία ανάκτησης στοιχείων σήματος δώρου",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Αδυναμία ανάκτησης στοιχείων δωρεάς",
+    "description": "Aria label for donation when we can't fetch the details."
   },
   "message--giftBadge--unopened--incoming": {
     "message": "Δες αυτό το μήνυμα στο κινητό για να το ανοίξεις",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Δες αυτό το μήνυμα στο κινητό για να το ανοίξεις",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Πάτα αυτό το μήνυμα σε κινητό για να δεις το δώρο σου",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Πάτα αυτό το μήνυμα σε κινητό για να δεις τη δωρεά σου",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Δώρο",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "Ο/Η {sender} έκανε δωρεά στη Signal εκ μέρους σου",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Δες το τηλέφωνό σου για να ανοίξεις το δώρο",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Δες το τηλέφωνό σου για να ανοίξεις αυτήν τη δωρεά",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Δες το τηλέφωνό σου για να δεις το δώρο",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Δες το τηλέφωνό σου για να δεις τη δωρεά",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Έλαβες ένα δώρο",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "Ο/Η {sender} έκανε δωρεά για σένα",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Εξαργύρωσες ένα έμβλημα δώρο",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Εξαργύρωσες μια δωρεά",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Έστειλες ένα έμβλημα δώρο",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Έκανες δωρεά για τον/την {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Έμβλημα δώρο",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Δωρεά",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Δώρο",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Δωρεά",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "Απομένουν $days$ ημέρες",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Απομένουν {days} ημέρες",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "Απομένουν $hours$ ώρες",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Απομένουν {hours} ώρες",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "Απομένουν $minutes$ λεπτά",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Απομένει 1 λεπτό} other {Απομένουν {minutes,number} λεπτά}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "Απομένει 1 λεπτό",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Έληξε",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Έληξε",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Εμφάνιση",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Εμφάνιση",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Εξαργυρώθηκε",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Εξαργυρώθηκε",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Ευχαριστούμε για την υποστήριξη!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Ευχαριστούμε για την υποστήριξη!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Έκανες δώρο ένα έμβλημα στον/στην $name$. Όταν το αποδεχτεί, θα έχει την επιλογή να το εμφανίσει ή να το αποκρύψει.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Έκανες δωρεά στη Signal εκ μέρους του/της {name}. Θα τους δοθεί η επιλογή να δείξουν την υποστήριξή τους στο προφίλ τους.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Το πακέτο αυτοκολλήτων δεν μπόρεσε να εγκατασταθεί",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Αυτοκόλλητα",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Διαθέσιμο",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Εγκατεστημένα αυτοκόλλητα",
+    "message": "Έχει εγκατασταθεί",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Αποδοχή κλήσης με βίντεο",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Απάντηση κλήσης με βίντεο",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Αποδοχή κλήσης με ήχο",
+    "message": "Απάντηση κλήσης με ήχο",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Απάντηση κλήσης με βίντεο (μόνο βιντεοκλήσεις)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Απάντηση κλήσης χωρίς βίντεο",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Έναρξη κλήσης ήχου",
+    "message": "Έναρξη φωνητικής κλήσης",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Αφαίρεση αυτοκολλήτου",
+    "message": "Αφαίρεση αυτοκόλλητου",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Δεν θα μπορείς πλέον να επεξεργαστείς ή να διαγράψεις στοιχεία, αφού δημιουργήσεις το πακέτο αυτοκολλήτων.",
+    "message": "Δεν θα μπορείς πλέον να επεξεργαστείς ή να διαγράψεις στοιχεία, αφού δημιουργήσεις το πακέτο αυτοκόλλητων.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3049,7 +3199,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Διαγραφή και αποχώρηση από $group$;",
+    "message": "Διαγραφή και αποχώρηση από την ομάδα $group$;",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Θα φύγεις απ'την ομάδα, και αυτή θα διαγραφτεί απ' όλες τις συσκευές σου.",
+    "message": "Θα φύγεις από την ομάδα και αυτή θα διαγραφεί από όλες τις συσκευές σου.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3133,7 +3283,7 @@
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Απάντηση χωρίς βίντεο",
+    "message": "Απάντηση κλήσης χωρίς βίντεο",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Απέρριψες μια κλήση φωνής",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Απέρριψες μια βιντεοκλήση",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Απέρριψες μια βιντεοκλήση",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Εισερχόμενη κλήση φωνής",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Εισερχόμενη βιντεοκλήση",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Εισερχόμενη βιντεοκλήση",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Αναπάντητη κλήση φωνής",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Αναπάντητη βιντεοκλήση",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Αναπάντητη βιντεοκλήση",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Εξερχόμενη κλήση φωνής",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Εξερχόμενη βιντεοκλήση",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Εξερχόμενη βιντεοκλήση",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Αναπάντητη κλήση φωνής",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Αναπάντητη βιντεοκλήση",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Αναπάντητη βιντεοκλήση",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Εισερχόμενη κλήση φωνής…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Εισερχόμενη φωνητική κλήση...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Εισερχόμενη βιντεοκλήση…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή ένας/μια διαχειριστής σε αφαίρεσε.",
+    "message": "Δεν μπορείς να μπεις στην ομάδα μέσω του συνδέσμου της ομάδας, επειδή κάποιος διαχειριστής σε αφαίρεσε.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "Ο/Η$adminName$ αφαίρεσε τον/την $memberName$.",
+    "message": "Ο/Η $adminName$ αφαίρεσε τον/την $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Αφαιρέθηκες από την ομάδα.",
+    "message": "Σε αφαίρεσαν από την ομάδα.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4021,7 +4171,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "Η περιγραφή ομάδας αφαιρέθηκε.",
+    "message": "Η περιγραφή της ομάδας αφαιρέθηκε.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "Οι ρυθμίσεις της ομάδας άλλαξαν για να επιτρέπεται σε όλα τα μέλη να στέλνουν μηνύματα.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "Τα μέλη ή οι ρυθμίσεις αυτής της ομάδας έχουν αλλάξει.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Αναβάθμισε αυτή την ομάδα για να ενεργοποιήσεις νέες δυνατότητες όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί το όνομα ή τη φωτογραφία τους με την ομάδα θα προσκληθούν να ξαναμπούν. $learnMore$",
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και θα αφαιρεθούν από την ομάδα:",
+    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Νέες Ομάδες και θα αφαιρεθούν από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και θα αφαιρεθεί από την ομάδα:",
+    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Νέες Ομάδες και θα αφαιρεθεί από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Ομάδες νέου τύπου, και αφαιρέθηκαν από την ομάδα:",
+    "message": "Αυτά τα μέλη δεν μπορούν να μπουν σε Νέες Ομάδες και αφαιρέθηκαν από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Ομάδες νέου τύπου, και αφαιρέθηκε από την ομάδα:",
+    "message": "Αυτό το μέλος δεν μπορεί να μπει σε Νέες Ομάδες και αφαιρέθηκε από την ομάδα:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4225,7 +4379,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Αφαίρεση απ' την ομάδα",
+    "message": "Αφαίρεση από την ομάδα",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ κοινές ομάδες",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} κοινή ομάδα} other {{count,number} κοινές ομάδες}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Καμία κοινή ομάδα",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Προσθήκη σε μια ομάδα",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "D/M/YYYY",
+    "message": "D MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Αφαίρεση απ' την ομάδα",
+    "message": "Αφαίρεση από την ομάδα",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Παρακαλώ προσπάθησε ξανά αργότερα.",
+    "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Προσπάθησε ξανά αργότερα.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Αυτό το προσαρμοσμένο χρώμα χρησιμοποιείται σε $num$ συνομιλίες. Θέλεις να το διαγράψεις για όλες τις συνομιλίες;",
+    "message": "Αυτό το εξατομικευμένο χρώμα χρησιμοποιείται σε $num$ συνομιλίες. Θέλεις να το διαγράψεις από όλες τις συνομιλίες;",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Το όνομα χρήστη σου δεν μπόρεσε να αφαιρεθεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
+    "message": "Δεν ήταν δυνατή η αφαίρεση του ονόματος χρήστη σου. Έλεγξε τη σύνδεσή σου και προσπάθησε ξανά.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Αυτό θα αφαιρέσει το όνομα χρήστη σου, και άλλοι χρήστες θα μπορέσουν να το χρησιμοποιήσουν. Είσαι σίγουρος/η;",
+    "message": "Αυτή η ενέργεια θα αφαιρέσει το όνομα χρήστη σου και άλλοι χρήστες θα μπορούν να το χρησιμοποιήσουν. Είσαι σίγουρος/η;",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5693,11 +5855,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Διαγραφή προσαρμοσμένης ιστορίας",
+    "message": "Διαγραφή εξατομικευμένης ιστορίας",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"$name$\"; Οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία θα διαγραφούν επίσης.",
+    "message": "Θέλεις σίγουρα να διαγράψεις την ιστορία \"$name$\"; Θα διαγραφούν και οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5777,7 +5939,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"{groupTitle}\";",
+    "messageformat": "Θέλεις σίγουρα να διαγράψεις την ιστορία \"{groupTitle}\";",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5904,6 +6066,10 @@
     "message": "Απάντηση",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Απάντηση προς {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Απάντηση στην ομάδα",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Αντίδραση στην ιστορία",
+    "message": "(διαγράφηκε στις 25/01/23) Αντίδραση σε ιστορία",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,7 +6151,7 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Διαγραφή για εμένα",
+    "messageformat": "Διαγραφή για μένα",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
@@ -6172,6 +6338,18 @@
     "message": "Αυτά τα ψηφία διατηρούν απόρρητο το δικό σου όνομα χρήστη, ώστε να μη λαμβάνεις ανεπιθύμητα μηνύματα. Να μοιράζεσαι το όνομα χρήστη σου μόνο με άτομα και ομάδες που θέλεις να συνομιλείς. Εάν θέλεις να αλλάξεις όνομα χρήστη, θα λάβεις έναν νέο σετ ψηφίων.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Το Signal desktop δεν θα υποστηρίζει πλέον την έκδοση του υπολογιστή σου {OS} σύντομα. Για να συνεχίσεις να χρησιμοποιείς τη Signal, ενημέρωσε το λειτουργικό σύστημα του υπολογιστή σου έως τις {expirationDate}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Το Signal desktop δεν λειτουργεί πλέον σε αυτόν τον υπολογιστή. Για να χρησιμοποιήσεις ξανά το Signal desktop, ενημέρωσε την έκδοση του υπολογιστή σου {OS}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Το Signal desktop δεν λειτουργεί πλέον σε αυτόν τον υπολογιστή. Για να χρησιμοποιήσεις ξανά το Signal desktop, ενημέρωσε την έκδοση του υπολογιστή σου {OS}.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Νέες δυνατότητες",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Όταν ξεκινάς μια ομαδική κλήση για μικρές ομάδες (έως 16 άτομα), μπορείς να επιλέξεις να στείλεις μια ειδοποίηση κλήσης. Τα μέλη της ομάδας θα ακούσουν ένα κουδούνισμα εάν έχουν iOS beta ή χρησιμοποιούν σταθερό υπολογιστή ή λογισμικό Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Κάνε διπλό κλικ σε οποιαδήποτε σειρά μηνυμάτων σε μια συνομιλία για να ξεκινήσεις μια απάντηση σε εισαγωγικά. Είναι σαν μια συντόμευση για νέες σκέψεις σχετικά με παλιές ιδέες. Ευχαριστούμε τον χρήστη {whynothugo} και την κοινότητα Signal για την εφαρμογή αυτής της δυνατότητας και την παροχή σχολίων.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Τώρα είναι πιο εύκολο να κάνεις κλικ έξω από μια εικόνα για να απορρίψεις την προβολή της συλλογής χωρίς να κάνεις ζουμ. Μερικές φορές ήθελες απλώς να κλείσεις, και αντί αυτού τα πράγματα μεγάλωναν πολύ. Ευχαριστούμε τον χρήστη {jojomatik} για τη διόρθωση!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Επιτάχυνε τον χρόνο απόκρισής σου. Τώρα μπορείς να αντιδράς πιο γρήγορα κάνοντας κλικ σε οποιοδήποτε emoji όταν απαντάς σε μια ιστορία.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Πλέον μπορείς να κάνεις αναζήτηση στο ιστορικό μηνυμάτων σου για μεμονωμένους χαρακτήρες στα κινεζικά και τα ιαπωνικά.",
+    "description": "Release notes for v6.5"
   }
 }

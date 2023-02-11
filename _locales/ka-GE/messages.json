@@ -64,6 +64,18 @@
     "message": "წევრობა განხილვაშია",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "გაგზავნილი მედია-ფაილების ხარისხი",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "სტანდარტული",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "მაღალი",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "პროგრამული უზრუნველყოფის გააზრება",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -457,11 +469,11 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {დარწმუნებული ხარ, რომ 1 მიმღების {story} Story-დან ამოშლა გსურს?} other {დარწმუნებული ხარ, რომ {count,number} მიმღების {story} Story-დან ამოშლა გსურს?}}",
+    "messageformat": "{count, plural, one {დარწმუნებული ხარ, რომ 1 მიმღების {story} Story-დან წაშლა გსურს?} other {დარწმუნებული ხარ, რომ {count,number} მიმღების {story} Story-დან წაშლა გსურს?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "ყველას ამოშლა",
+    "message": "ყველას წაშლა",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -674,12 +686,21 @@
     "message": "ფოტოებსა და ვიდეოებს ფაილებთან ერთად ვერ აირჩევ.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "ერთ ჯერზე მხოლოდ ერთი ფაილის არჩევა შეგიძლია.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "ამ შეტყობინებაზე მეტი დანართის მიმაგრება შეუძლებელია.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions."
+    "message": "Sorry, the selected file exceeds message size restrictions.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "ეს შეტყობინება წაიშლება ყველასთვის ამ მიმოწერაში, თუ მათ Signal-ის უახლესი ვერსია აქვთ. ისინი დაინახავენ, რომ თქვენ წაშალეთ შეტყობინება.",
+    "message": "ეს შეტყობინება ყველასთვის წაიშლება ამ მიმოწერაში ვინც Signal-ის უახლეს ვერსიაზეა. ისინი დაინახავენ, რომ შენ წაშალე შეტყობინება.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1148,11 +1169,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "შეტყობინების წაშლა ჩემთვის",
+    "message": "შეტყობინების ჩემთან წაშლა",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "შეტყობინების წაშლა ყველასთვის",
+    "message": "შეტყობინების ყველასთან წაშლა",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1160,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Permanently delete this conversation?",
+    "message": "გსურს ამ მიმოწერის სამუდამოდ წაშლა?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$-მა თავისი ტელეფონის ნომერი გამოცვალა",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} და {conversationTitle} ერთი და იგივე ანგარიშია. ორივე ჩატში შენი მიმოწერის ისტორია აქაა.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle}-სთან შენი მიმოწერის ისტორია და მისი ნომერი {obsoleteConversationNumber} გაერთიანდა.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle}-სთან შენი მიმოწერის ისტორია და სხვა ჩატი, რომელიც მას ეკუთვნოდა, გაერთიანდა.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "გაიგე მეტი",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle}-თან მიმოწერის შემდეგ შეიტყვე, რომ ეს ნომერი {conversationTitle}-ს ეკუთვნის. ეს მობილურის ნომერი კონფიდენციალურია.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "ორივე ჩატში შენი მიმოწერის ისტორია აქ გაერთიანდა.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle}-ს ეკუთვნის. ორივე {sharedGroup}-ის წევრები ხართ.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle}-ს ეკუთვნის",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "სურათის მინიატურა ციტირებული შეტყობინებიდან",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "მათ აუდიოს ან ვიდეოს არ მიიღებ და ის არ მიიღებს შენსას.",
+    "message": "შენ არ მიიღებ მათ ხმოვან ან ვიდეო შეტყობინებებს და არც ისინი მიიღებენ შენსას.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1659,7 +1712,7 @@
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "ძველ მონაცემთა წაშლა",
+    "message": "ძველი მონაცემების წაშლა",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "დააჭირე Signal-ის გადატვირთვას, რომ განახლებები გააქტიურო."
+    "message": "დააჭირე Signal-ის გადატვირთვას, რომ განახლებები გააქტიურო.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Restart Signal"
@@ -2228,88 +2282,176 @@
     "message": "ეს შეტყობინება იქნა წაშლილი.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "საჩუქრის ემბლემის დეტალების მოძიება შეუძლებელია",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "დონაციის დეტალების მიღება ვერ მოხერხდა",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "იხილე ეს შეტყობინება მობილურზე, რომ გახსნა",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "გასახსნელად, ეს წერილი მობილურში ნახე",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "შეეხე ამ შეტყობინებას მობილურზე, რათა შენი საჩუქრი ნახო",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "შენი დონაციის სანახავად, დააჭირე ამ წერილს მობილურზე",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "საჩუქარი",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender}-მა Signal-ს დონაცია შენს სახელზე გაუკეთა",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "საჩუქრის გასახსნელად შეამოწმე შენი მობილური",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "ამ დონაციის გასახსნელად, შეამოწმე შენი ტელეფონი",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "შენი საჩუქრის სანახავად შეამოწმე მობილური",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "შენი დონაციის გასახსნელად, შეამოწმე შენი ტელეფონი",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "შენ მიიღე საჩუქარი",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender}-მა დონაცია გაგიკეთა",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "შენ გამოიყენე სასაჩუქრე ემბლემა",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "შენ გაანაღდე დონაცია",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "შენ საჩუქრად გააგზავნე ემბლემა",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "{recipient}-ს დონაცია გაუკეთე",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "სასაჩუქრე ემბლემა",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "დონაცია",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "საჩუქარი",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "დონაცია",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "დარჩა $days$ დღე",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "დარჩა {days} დღე",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "დარჩა $hours$ საათი",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "დარჩა {hours} საათი",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "დარჩა $minutes$ წუთი",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {დარჩა {minutes,number} წუთი} other {დარჩა {minutes,number} წუთი}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "დარჩა 1 წუთი",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "ვადა ამოიწურა",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "ვადა ამოიწურა",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "View",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ნახვა",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "მიღებულია",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "მიღებულია",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "მადლობა მხარდაჭერისთვის!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "მადლობა მხარდაჭერისთვის!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "$name$ -ს ემბლემა აჩუქე. როცა ის ამას დაეთანხმება, მას მიეცემა არჩევანი, აჩვენოს ან დამალოს ემბლემა.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "შენ Signal-ს დონაცია {name}-ის სახელზე გაუკეთე. მას საშუალება მიეცემა მხარდაჭერა საკუთარ პროფილზე გამოხატოს.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "სტიკერების ნაკრების გადმოწერა ვერ მოხერხდა",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "სტიკერები",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "ხელმისაწვდომი",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "გადმოწერილი სტიკერები",
+    "message": "დაყენებული",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ბმულის მონახაზის წინასწარი ნხავის წაშლა",
+    "message": "ბმულის მონახაზის წინასწარი ნახვის წაშლა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "ყველა დანართის მონახაზების წაშლა",
+    "message": "ყველა დანართი მონახაზების წაშლა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ზარზე პასუხი ვიდეოთი",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "უპასუხე ზარს ვიდეოთი",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ზარზე პასუხი აუდიოთი",
+    "message": "უპასუხე ზარს აუდიოთი",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "უპასუხე ზარს ვიდეოთი (მხოლოდ ვიდეო ზარები)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "უპასუხე ზარს ვიდეოს გარეშე",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "აუდიო ზარის დაწყება",
+    "message": "დაიწყე ხმოვანი ხარი",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "დანართის ამოშლა",
+    "message": "დანართის წაშლა",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3041,7 +3191,7 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "წავშალო დიალოგი?",
+    "message": "წავშალოთ მიმოწერა?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -3133,7 +3283,7 @@
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ზარის მიღება ვიდეოს გარეშე",
+    "message": "უპასუხე ზარს ვიდეოს გარეშე",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "აუდიო ზარი უარყავი",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "შენ უარყავი ხმოვანი ზარი",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "ვიდეო ზარი უარყავი",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "შემომავალი აუდიო ზარი",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "შემომავალი ხმოვანი ზარი",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "შემომავალი ვიდეო ზარი",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "გამოტოვებული აუდიო ზარი",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "გამოტოვებული ხმოვანი ზარი",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "გამოტოვებული ვიდეო ზარი",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "გამავალი აუდიო ზარი",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "გამავალი ხმოვანი ზარი",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "გამავალი ვიდეო ზარი",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "უპასუხო აუდიო ზარი",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "უპასუხო ხმოვანი ზარი",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "უპასუხო ვიდეო ზარი",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "შემომავალი აუდიო ზარი…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "შემომავალი ხმოვანი ზარი...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "შემომავალი ვიდეო ზარი…",
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ -მა $memberName$ ამოშალა.",
+    "message": "$adminName$ -მა $memberName$ წაშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "შენ $memberName$ ამოშალე.",
+    "message": "შენ $memberName$ წაშალე.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "ჯგუფის წევრმა $memberName$ ამოშალა.",
+    "message": "ჯგუფის წევრმა $memberName$ წაშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ -მა ამოგშალა.",
+    "message": "$adminName$ -მა წაგშალა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3757,7 +3907,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "ჯგუფიდან ამოგშალეს.",
+    "message": "ჯგუფიდან წაგშალეს.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4059,6 +4209,10 @@
   "GroupV2--announcements--member--unknown": {
     "message": "ჯგუფი შეიცვალა, რათა ყველა წევრს შეეძლოს შეტყობინებების გაგზავნა.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--summary": {
+    "messageformat": "ამ ჯგუფის წევრები ან პარამეტრები შეიცვალა.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "განაახლე ეს ჯგუფი ისეთი ახალი ფუნქციების გასააქტიურებლად, როგორიცაა @მონიშვნები და ადმინები. ჯგუფის წევრები, რომლებსაც არ გაუზიარებიათ თავიანთი სახელი ან ფოტო ამ ჯგუფში, მოწვეულნი იქნებიან გასაწევრიანებლად. $learnMore$",
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ საერთო ჯგუფი",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} საერთო ჯგუფი} other {{count,number} საერთო ჯგუფი}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "საერთო ჯგუფები ვერ მოიძებნა",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "ჯგუფში დამატება",
@@ -4529,7 +4691,7 @@
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "კონტაქტის ამოშლა",
+    "message": "კონტაქტის წაშლა",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM დ, YYYY",
+    "message": "D MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ყველასთვის შეტყობინების წაშლა ვერ მოხერხდა. გთხოვთ მოგვიანებით კიდევ სცადო.",
+    "message": "შეტყობინების წაშლა ყველასთვის ვერ მოხერხდა. გთხოვთ მოგვიანებით კიდევ სცადო.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "დარწმუნებული ხარ, რომ \"$name$\"-ის წაშლა გსურს? ასევე წაიშლება ამ Story-იზე გაზიარებული განახლებები.",
+    "message": "დარწმუნებული ხარ, რომ \"$name$\"-ის წაშლა გსურს? ამ Story-იზე გაზიარებული განახლებები ასევე წაიშლება.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5904,6 +6066,10 @@
     "message": "პასუხი",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "უპასუხე {firstName}-ს",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ჯგუფისთვის პასუხის მიწერა",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Story-ზე გამოხმაურება",
+    "message": "(წაიშალა 01/25/23) გამოეხმაურე Story-ის",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ჩემთვის წაშლა",
+    "messageformat": "ჩემთან წაშლა",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "ყველასთვის წაშლა",
+    "messageformat": "ყველასთან წაშლა",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6172,6 +6338,18 @@
     "message": "ეს ციფრები შენი მომხმარებლის სახელის კონფიდენციალურობის შენარჩუნებაში დაგეხმარება, რათა არასასურველი შეტყობინებები თავიდან აიცილო. შენი მომხმარებლის სახელი მხოლოდ იმ ადამიანებსა და ჯგუფებს გაუზიარე, რომლებთანაც მიმოწერა გსურს. თუ მომხმარებლის სახელს შეცვლი, ციფრთა ახალ კომბინაციას მიიღებ.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal desktop-ს მალე აღარ ექნება შენი კომპიუტერის {OS} ვერსიის მხარდაჭერა. Signal-ის გამოყენების გასაგრძელებლად, განაახლე შენი კომპიუტერის ოპერაციული სისტემა {expirationDate}-მდე. <learnMoreLink>გაიგე მეტი</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal Desktop-ი ამ კომპიუტერზე აღარ მუშაობს. იმისათვის, რომ Signal Desktop-ის გამოყენება ისევ შეძლო, შენი კომპიუტერის {OS}-ის ვერსია განაახლე. <learnMoreLink>გაიგე მეტი</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal Desktop-ი ამ კომპიუტერზე აღარ მუშაობს. იმისათვის, რომ Signal Desktop-ის გამოყენება ისევ შეძლო, შენი კომპიუტერის {OS}-ის ვერსია განაახლე.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "რა არის ახალი",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "როცა მცირე ზომის ჯგუფში (16 პერსონამდე) ჯგუფურ ზარს ახორციელებ, შეგიძლია წევრებს ზარის მრეკავი შეტყობინება გაუგზავნო. ჯგუფის წევრები ზარის ხმას გაიგებენ თუ iOS ბეტაზე არიან ან Desktop-ს თუ Android-ს იყენებენ.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ციტირებული პასუხის დასაწყებად, ჩატში შეტყობინებების ნებისმიერ სტრიქონზე ორჯერ დააწკაპუნე. ეს ძველი იდეების შესახებ ახალი აზრების მალსახმობივითაა. მადლობა {whynothugo}-ს და Signal-ის საზოგადოებას ამ ფუნქციის დანერგვისა და მასზე უკუკავშირის მოწოდებისთვის.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ახლა გალერიის ხედის გაუქმება უფრო მარტივად, მისი გადიდების გარეშე, სურათის გარეთ დაწკაპუნებით შეგიძლია. ხანდახან უბრალოდ დახურვა გინდოდა, მაგრამ პირიქით, მიახლოება გამოდიოდა. მადლობა {jojomatik}-ს ამის გამოსწორებისთვის!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "შეამცირე პასუხის დაბრუნების დრო. ახლა უკვე შეგიძლია Story-იზე პასუხისას ნებისმიერ emoji-ზე დაჭერით უფრო სწრაფად გამოეხმაურო.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ახლა უკვე შესაძლებელია შენი შეტყობინებების ისტორიაში ჩინურ და იაპონურ ენებზე ცალკეული სიმბოლოები მოძებნო.",
+    "description": "Release notes for v6.5"
   }
 }

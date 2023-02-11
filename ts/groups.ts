@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -357,6 +357,12 @@ export async function getPreJoinGroupInfo(
 
 export function buildGroupLink(conversation: ConversationModel): string {
   const { masterKey, groupInviteLinkPassword } = conversation.attributes;
+
+  strictAssert(masterKey, 'buildGroupLink requires the master key!');
+  strictAssert(
+    groupInviteLinkPassword,
+    'buildGroupLink requires the groupInviteLinkPassword!'
+  );
 
   const bytes = Proto.GroupInviteLink.encode({
     v1Contents: {
@@ -1193,7 +1199,7 @@ export function buildDeletePendingMemberChange({
   uuids,
   group,
 }: {
-  uuids: Array<UUID>;
+  uuids: ReadonlyArray<UUID>;
   group: ConversationAttributesType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -1452,7 +1458,7 @@ export async function modifyGroupV2({
   conversation: ConversationModel;
   usingCredentialsFrom: ReadonlyArray<ConversationModel>;
   createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
-  extraConversationsForSend?: Array<string>;
+  extraConversationsForSend?: ReadonlyArray<string>;
   inviteLinkPassword?: string;
   name: string;
 }): Promise<void> {
@@ -1554,7 +1560,7 @@ export async function modifyGroupV2({
           type: conversationQueueJobEnum.enum.GroupUpdate,
           conversationId: conversation.id,
           groupChangeBase64,
-          recipients: groupV2Info.members,
+          recipients: groupV2Info.members.slice(),
           revision: groupV2Info.revision,
         });
       });
@@ -1602,7 +1608,7 @@ export async function modifyGroupV2({
           `modifyGroupV2/${logId}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.
-        conversation.fetchLatestGroupV2Data({ force: true });
+        void conversation.fetchLatestGroupV2Data({ force: true });
         throw error;
       } else {
         const errorString = Errors.toLogFormat(error);
@@ -1733,8 +1739,8 @@ export async function createGroupV2(
     name: string;
     avatar: undefined | Uint8Array;
     expireTimer: undefined | DurationInSeconds;
-    conversationIds: Array<string>;
-    avatars?: Array<AvatarDataType>;
+    conversationIds: ReadonlyArray<string>;
+    avatars?: ReadonlyArray<AvatarDataType>;
     refreshedCredentials?: boolean;
   }>
 ): Promise<ConversationModel> {
@@ -1953,7 +1959,7 @@ export async function createGroupV2(
   await conversationJobQueue.add({
     type: conversationQueueJobEnum.enum.GroupUpdate,
     conversationId: conversation.id,
-    recipients: groupV2Info.members,
+    recipients: groupV2Info.members.slice(),
     revision: groupV2Info.revision,
   });
 
@@ -2131,7 +2137,10 @@ export async function getGroupMigrationMembers(
             `getGroupMigrationMembers/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
           );
         }
-        if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_ADD) {
+        if (
+          !isMe(contact.attributes) &&
+          window.Flags.GV2_MIGRATION_DISABLE_ADD
+        ) {
           log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_ADD flag`
           );
@@ -2199,7 +2208,10 @@ export async function getGroupMigrationMembers(
         return null;
       }
 
-      if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_INVITE) {
+      if (
+        !isMe(contact.attributes) &&
+        window.Flags.GV2_MIGRATION_DISABLE_INVITE
+      ) {
         log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_INVITE flag`
         );
@@ -2403,7 +2415,7 @@ export async function initiateMigrationToGroupV2(
       });
 
       if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-        window.storage.blocked.addBlockedGroup(groupId);
+        await window.storage.blocked.addBlockedGroup(groupId);
       }
 
       // Save these most recent updates to conversation
@@ -2438,7 +2450,7 @@ export async function initiateMigrationToGroupV2(
   await conversationJobQueue.add({
     type: conversationQueueJobEnum.enum.GroupUpdate,
     conversationId: conversation.id,
-    recipients: groupV2Info.members,
+    recipients: groupV2Info.members.slice(),
     revision: groupV2Info.revision,
   });
 }
@@ -2466,7 +2478,7 @@ export async function waitThenRespondToGroupV2Migration(
 }
 
 export function buildMigrationBubble(
-  previousGroupV1MembersIds: Array<string>,
+  previousGroupV1MembersIds: ReadonlyArray<string>,
   newAttributes: ConversationAttributesType
 ): GroupChangeMessageType {
   const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
@@ -2721,7 +2733,7 @@ export async function respondToGroupV2Migration({
           );
 
           if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-            window.storage.blocked.addBlockedGroup(groupId);
+            await window.storage.blocked.addBlockedGroup(groupId);
           }
 
           if (wereWePreviouslyAMember) {
@@ -2862,7 +2874,7 @@ export async function respondToGroupV2Migration({
   });
 
   if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-    window.storage.blocked.addBlockedGroup(groupId);
+    await window.storage.blocked.addBlockedGroup(groupId);
   }
 
   // Save these most recent updates to conversation
@@ -3034,7 +3046,7 @@ async function updateGroup(
   // By updating activeAt we force this conversation into the left pane if this is the
   //   first time we've fetched data about it, and we were able to fetch its name. Nobody
   //   likes to see Unknown Group in the left pane. After first fetch, we rely on normal
-  //   message activity (including group change messsages) to set the timestamp properly.
+  //   message activity (including group change messages) to set the timestamp properly.
   let activeAt = conversation.get('active_at') || null;
   if (
     !viaFirstStorageSync &&
@@ -3080,7 +3092,7 @@ async function updateGroup(
       contact.get('profileKey') !== member.profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
-      contact.setProfileKey(member.profileKey);
+      void contact.setProfileKey(member.profileKey);
     }
   });
 
@@ -3155,7 +3167,7 @@ async function updateGroup(
       };
 
       // Cannot await here, would infinitely block queue
-      waitThenLeave();
+      void waitThenLeave();
     }
   }
 }
@@ -3359,7 +3371,7 @@ async function appendChangeMessages(
   // We updated the message, but didn't add new ones - refresh left pane
   if (!newMessages && mergedMessages.length > 0) {
     await conversation.updateLastMessage();
-    conversation.updateUnread();
+    void conversation.updateUnread();
   }
 }
 
@@ -3396,7 +3408,7 @@ async function getGroupUpdates({
     newRevision === currentRevision + 1;
 
   if (
-    window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
+    window.Flags.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
     wrappedGroupChange &&
     isNumber(newRevision) &&
     (isInitialCreationMessage || weAreAwaitingApproval || isOneVersionUp)
@@ -3449,7 +3461,7 @@ async function getGroupUpdates({
 
   if (
     (!isFirstFetch || isNumber(newRevision)) &&
-    window.GV2_ENABLE_CHANGE_PROCESSING
+    window.Flags.GV2_ENABLE_CHANGE_PROCESSING
   ) {
     try {
       return await updateGroupViaLogs({
@@ -3477,7 +3489,7 @@ async function getGroupUpdates({
     }
   }
 
-  if (window.GV2_ENABLE_STATE_PROCESSING) {
+  if (window.Flags.GV2_ENABLE_STATE_PROCESSING) {
     try {
       return await updateGroupViaState({
         dropInitialJoinMessage,
@@ -3500,7 +3512,7 @@ async function getGroupUpdates({
     }
   }
 
-  if (window.GV2_ENABLE_PRE_JOIN_FETCH) {
+  if (window.Flags.GV2_ENABLE_PRE_JOIN_FETCH) {
     try {
       return await updateGroupViaPreJoinInfo({
         group,
@@ -3880,7 +3892,7 @@ async function integrateGroupChanges({
 }: {
   group: ConversationAttributesType;
   newRevision: number | undefined;
-  changes: Array<Proto.IGroupChanges>;
+  changes: ReadonlyArray<Proto.IGroupChanges>;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   let attributes = group;
@@ -4096,16 +4108,18 @@ async function integrateGroupChange({
         `from version ${group.revision} to ${groupChangeActions.version}`
     );
 
-    const { newAttributes, newProfileKeys } = await applyGroupChange({
-      group,
-      actions: decryptedChangeActions,
-      sourceUuid,
-    });
+    const { newAttributes, newProfileKeys, promotedAciToPniMap } =
+      await applyGroupChange({
+        group,
+        actions: decryptedChangeActions,
+        sourceUuid,
+      });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
       current: newAttributes,
       sourceUuid,
+      promotedAciToPniMap,
     });
 
     attributes = newAttributes;
@@ -4187,11 +4201,13 @@ function extractDiffs({
   dropInitialJoinMessage,
   old,
   sourceUuid,
+  promotedAciToPniMap,
 }: {
   current: ConversationAttributesType;
   dropInitialJoinMessage?: boolean;
   old: ConversationAttributesType;
   sourceUuid?: UUIDStringType;
+  promotedAciToPniMap?: ReadonlyMap<UUIDStringType, UUIDStringType>;
 }): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
@@ -4339,6 +4355,16 @@ function extractDiffs({
     (current.pendingMembersV2 || []).map(member => member.uuid)
   );
 
+  const aciToPniMap = new Map(promotedAciToPniMap?.entries());
+  if (ourACI && ourPNI) {
+    aciToPniMap.set(ourACI.toString(), ourPNI.toString());
+  }
+
+  const pniToAciMap = new Map<UUIDStringType, UUIDStringType>();
+  for (const [aci, pni] of aciToPniMap) {
+    pniToAciMap.set(pni, aci);
+  }
+
   (current.membersV2 || []).forEach(currentMember => {
     const { uuid } = currentMember;
     const uuidIsUs = isUs(uuid);
@@ -4350,9 +4376,19 @@ function extractDiffs({
     const oldMember = oldMemberLookup.get(uuid);
     if (!oldMember) {
       let pendingMember = oldPendingMemberLookup.get(uuid);
-      if (uuidIsUs && ourPNI && !pendingMember) {
-        pendingMember = oldPendingMemberLookup.get(ourPNI.toString());
+      const pni = aciToPniMap.get(uuid);
+      if (!pendingMember && pni) {
+        pendingMember = oldPendingMemberLookup.get(pni);
+
+        // Someone's ACI just joined (wasn't a member before) and their PNI
+        // disappeared from the invite list. Treat this as a promotion from PNI
+        // to ACI and pretend that the PNI wasn't pending so that we won't
+        // generate a pending-add-one notification below.
+        if (pendingMember && !currentPendingMemberSet.has(pni)) {
+          oldPendingMemberLookup.delete(pni);
+        }
       }
+
       if (pendingMember) {
         details.push({
           type: 'member-add-from-invite',
@@ -4394,20 +4430,6 @@ function extractDiffs({
 
     // This deletion makes it easier to capture removals
     oldMemberLookup.delete(uuid);
-
-    // Our ACI just joined (wasn't a member before) and our PNI disappeared
-    // from the invite list. Treat this as a promotion from PNI to ACI and
-    // pretend that the PNI wasn't pending so that we won't generate a
-    // pending-add-one notification below.
-    if (
-      uuidIsUs &&
-      ourPNI &&
-      !oldMember &&
-      oldPendingMemberLookup.has(ourPNI.toString()) &&
-      !currentPendingMemberSet.has(ourPNI.toString())
-    ) {
-      oldPendingMemberLookup.delete(ourPNI.toString());
-    }
   });
 
   const removedMemberIds = Array.from(oldMemberLookup.keys());
@@ -4549,6 +4571,8 @@ function extractDiffs({
   const isFromUs = ourACI.toString() === sourceUuid;
   const justJoinedGroup = !firstUpdate && !didWeStartInGroup && areWeInGroup;
 
+  const from = (sourceUuid && pniToAciMap.get(sourceUuid)) ?? sourceUuid;
+
   // Here we hardcode initial messages if this is our first time processing data for this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
   //   'you were invited', or 'you created.'
@@ -4558,7 +4582,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: whoInvitedUsUserId || sourceUuid,
+        from: whoInvitedUsUserId || from,
         details: [
           {
             type: 'pending-add-one',
@@ -4597,7 +4621,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: [
           {
             type: 'create',
@@ -4619,7 +4643,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
@@ -4630,7 +4654,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: [
           {
             type: 'create',
@@ -4660,7 +4684,7 @@ function extractDiffs({
       type: 'group-v2-change',
       sourceUuid,
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
@@ -4672,7 +4696,7 @@ function extractDiffs({
       type: 'group-v2-change',
       sourceUuid,
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details,
       },
       readStatus: ReadStatus.Read,
@@ -4692,7 +4716,7 @@ function extractDiffs({
   ) {
     const expireTimer = current.expireTimer || DurationInSeconds.ZERO;
     log.info(
-      `extractDiffs/${logId}: generating change notifcation for new ${expireTimer} timer`
+      `extractDiffs/${logId}: generating change notification for new ${expireTimer} timer`
     );
     timerNotification = {
       ...generateBasicMessage(),
@@ -4715,7 +4739,7 @@ function extractDiffs({
   return result;
 }
 
-function profileKeysToMembers(items: Array<GroupChangeMemberType>) {
+function profileKeysToMembers(items: ReadonlyArray<GroupChangeMemberType>) {
   return items.map(item => ({
     profileKey: Bytes.toBase64(item.profileKey),
     uuid: item.uuid,
@@ -4731,6 +4755,10 @@ type GroupApplyResultType = {
   newProfileKeys: Array<GroupChangeMemberType>;
 };
 
+type GroupApplyChangeResultType = GroupApplyResultType & {
+  promotedAciToPniMap: Map<UUIDStringType, UUIDStringType>;
+};
+
 async function applyGroupChange({
   actions,
   group,
@@ -4739,7 +4767,7 @@ async function applyGroupChange({
   actions: DecryptedGroupChangeActions;
   group: ConversationAttributesType;
   sourceUuid: UUIDStringType;
-}): Promise<GroupApplyResultType> {
+}): Promise<GroupApplyChangeResultType> {
   const logId = idForLogging(group.groupId);
   const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
 
@@ -4749,6 +4777,7 @@ async function applyGroupChange({
   const version = actions.version || 0;
   const result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
+  const promotedAciToPniMap = new Map<UUIDStringType, UUIDStringType>();
 
   const members: Record<UUIDStringType, GroupV2MemberType> = fromPairs(
     (result.membersV2 || []).map(member => [member.uuid, member])
@@ -4985,6 +5014,8 @@ async function applyGroupChange({
       }
 
       const previousRecord = pendingMembers[pni];
+
+      promotedAciToPniMap.set(aci, pni);
 
       if (pendingMembers[pni]) {
         delete pendingMembers[pni];
@@ -5272,6 +5303,7 @@ async function applyGroupChange({
   return {
     newAttributes: result,
     newProfileKeys,
+    promotedAciToPniMap,
   };
 }
 
@@ -5304,7 +5336,7 @@ export async function decryptGroupAvatar(
   return avatar;
 }
 
-// Ovewriting result.avatar as part of functionality
+// Overwriting result.avatar as part of functionality
 /* eslint-disable no-param-reassign */
 export async function applyNewAvatar(
   newAvatar: string | undefined,

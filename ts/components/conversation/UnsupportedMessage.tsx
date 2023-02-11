@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,6 +8,7 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import type { LocalizerType } from '../../types/Util';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type ContactType = {
   id: string;
@@ -23,21 +24,16 @@ export type PropsData = {
   contact: ContactType;
 };
 
-export type PropsActions = {
-  downloadNewVersion: () => unknown;
-};
-
 type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-export type Props = PropsData & PropsHousekeeping & PropsActions;
+export type Props = PropsData & PropsHousekeeping;
 
 export function UnsupportedMessage({
   canProcessNow,
   contact,
   i18n,
-  downloadNewVersion,
 }: Props): JSX.Element {
   const { isMe } = contact;
 
@@ -54,6 +50,7 @@ export function UnsupportedMessage({
     <SystemMessage
       icon={icon}
       contents={
+        // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           id={stringId}
           components={[
@@ -75,7 +72,7 @@ export function UnsupportedMessage({
           <div className="SystemMessage__line">
             <Button
               onClick={() => {
-                downloadNewVersion();
+                openLinkInWebBrowser('https://signal.org/download');
               }}
               size={ButtonSize.Small}
               variant={ButtonVariant.SystemMessage}

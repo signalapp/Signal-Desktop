@@ -1,29 +1,34 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 // State
 
-export type ExpirationStateType = {
-  hasExpired: boolean;
-};
+export type ExpirationStateType = ReadonlyDeep<{
+  buildExpiration: number;
+}>;
 
 // Actions
 
 const HYDRATE_EXPIRATION_STATUS = 'expiration/HYDRATE_EXPIRATION_STATUS';
 
-type HyrdateExpirationStatusActionType = {
+type HyrdateExpirationStatusActionType = ReadonlyDeep<{
   type: 'expiration/HYDRATE_EXPIRATION_STATUS';
-  payload: boolean;
-};
+  payload: { buildExpiration: number };
+}>;
 
-export type ExpirationActionType = HyrdateExpirationStatusActionType;
+export type ExpirationActionType =
+  ReadonlyDeep<HyrdateExpirationStatusActionType>;
 
 // Action Creators
 
-function hydrateExpirationStatus(hasExpired: boolean): ExpirationActionType {
+function hydrateExpirationStatus(
+  buildExpiration: number
+): ExpirationActionType {
   return {
     type: HYDRATE_EXPIRATION_STATUS,
-    payload: hasExpired,
+    payload: { buildExpiration },
   };
 }
 
@@ -35,7 +40,7 @@ export const actions = {
 
 export function getEmptyState(): ExpirationStateType {
   return {
-    hasExpired: false,
+    buildExpiration: 0,
   };
 }
 
@@ -45,7 +50,7 @@ export function reducer(
 ): ExpirationStateType {
   if (action.type === HYDRATE_EXPIRATION_STATUS) {
     return {
-      hasExpired: action.payload,
+      buildExpiration: action.payload.buildExpiration,
     };
   }
 

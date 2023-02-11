@@ -1,11 +1,11 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
 import React from 'react';
 import { noop } from 'lodash';
 
-import { SystemMessage } from './SystemMessage';
+import { SystemMessage, SystemMessageKind } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { MessageTimestamp } from './MessageTimestamp';
 import type { LocalizerType } from '../../types/Util';
@@ -18,6 +18,7 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import * as log from '../../logging/log';
+import { assertDev } from '../../util/assert';
 
 export type PropsActionsType = {
   returnToActiveCall: () => void;
@@ -42,11 +43,14 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
     let timestamp: number;
     let wasMissed = false;
     switch (props.callMode) {
-      case CallMode.Direct:
-        timestamp = props.acceptedTime || props.endedTime;
+      case CallMode.Direct: {
+        const resolvedTime = props.acceptedTime ?? props.endedTime;
+        assertDev(resolvedTime, 'Direct call must have accepted or ended time');
+        timestamp = resolvedTime;
         wasMissed =
           props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
         break;
+      }
       case CallMode.Group:
         timestamp = props.startedTime;
         break;
@@ -76,7 +80,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           </>
         }
         icon={icon}
-        isError={wasMissed}
+        kind={wasMissed ? SystemMessageKind.Danger : SystemMessageKind.Normal}
       />
     );
   }

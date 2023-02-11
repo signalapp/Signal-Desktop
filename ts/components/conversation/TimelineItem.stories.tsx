@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -65,19 +65,15 @@ const getDefaultProps = () => ({
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
-  contactSupport: action('contactSupport'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
-  retrySend: action('retrySend'),
+  retryMessageSend: action('retryMessageSend'),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
-  learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
-  showMessageDetail: action('showMessageDetail'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
@@ -93,9 +89,7 @@ const getDefaultProps = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
-  openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
-  downloadNewVersion: action('downloadNewVersion'),
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),

@@ -9,7 +9,7 @@ import { select } from '@storybook/addon-knobs';
 import {
   ErrorDialogAudioRecorderType,
   RecordingState,
-} from '../../state/ducks/audioRecorder';
+} from '../../types/AudioRecorder';
 import type { PropsType } from './AudioCapture';
 import { AudioCapture } from './AudioCapture';
 import { setupI18n } from '../../util/setupI18n';

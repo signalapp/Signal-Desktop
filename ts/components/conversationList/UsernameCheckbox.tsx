@@ -1,13 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React from 'react';
+import type { FunctionComponent } from 'react';
 
-import { BaseConversationListItem } from './BaseConversationListItem';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Spinner } from '../Spinner';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
 
 export type PropsDataType = {
   username: string;
@@ -28,7 +31,6 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
     username,
     isChecked,
     isFetching,
-    theme,
     i18n,
     lookupConversationWithoutUuid,
     showUserNotFoundModal,
@@ -60,24 +62,43 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
       username,
     ]);
 
-    const title = i18n('at-username', { username });
+    const title = username;
 
-    return (
-      <BaseConversationListItem
+    const avatar = (
+      <Avatar
         acceptedMessageRequest={false}
-        checked={isChecked}
         color={AvatarColors[0]}
         conversationType="direct"
-        headerName={title}
+        searchResult
         i18n={i18n}
         isMe={false}
-        isSelected={false}
-        isUsernameSearchResult
-        onClick={onClickItem}
-        shouldShowSpinner={isFetching}
-        theme={theme}
-        sharedGroupNames={[]}
         title={title}
+        sharedGroupNames={[]}
+        size={AvatarSize.THIRTY_TWO}
+        badge={undefined}
+      />
+    );
+
+    return isFetching ? (
+      <ListTile
+        leading={avatar}
+        title={title}
+        trailing={
+          <Spinner
+            size="20px"
+            svgSize="small"
+            moduleClassName={SPINNER_CLASS_NAME}
+            direction="on-progress-dialog"
+          />
+        }
+      />
+    ) : (
+      <ListTile.checkbox
+        leading={avatar}
+        title={title}
+        isChecked={isChecked}
+        onClick={onClickItem}
+        clickable
       />
     );
   }

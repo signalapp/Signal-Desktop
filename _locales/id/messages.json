@@ -64,6 +64,18 @@
     "message": "Keanggotaan tertunda",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Kualitas media terkirim",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standar",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Tinggi",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Pernyataan Resmi Perangkat Lunak",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Anda tidak dapat memilih foto dan video disertai file.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Anda hanya dapat memilih satu file dalam satu waktu.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Anda tidak bisa lagi menambahkan lampiran untuk pesan ini.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Maaf, berkas tersebut melebihi batas ukuran pesan."
+    "message": "Maaf, berkas tersebut melebihi batas ukuran pesan.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Maaf, berkas tersebut melebihi batas ukuran pesan. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Tidak dapat memuat lampiran yang dipilih."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Untuk mengirimkan pesan suara, izinkan Signal Desktop untuk mengakses mikrofon Anda.",
+    "message": "Untuk mengirimkan pesan suara, izinkan Signal Desktop mengakses mikrofon Anda.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Pesan ini akan dihapus untuk setiap orang dalam percakapan ini jika mereka menggunakan versi terbaru Signal. Mereka dapat melihat ketika Anda menghapus sebuah pesan.",
+    "message": "Pesan ini akan dihapus untuk semua orang yang ada dalam percakapan jika mereka menggunakan versi terbaru Signal. Mereka akan bisa melihat ketika Anda menghapus sebuah pesan.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1160,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Hapus obrolan ini selamanya?",
+    "message": "Hapus obrolan ini secara permanen?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ mengubah nomornya",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} dan {conversationTitle} adalah milik akun yang sama. Riwayat pesan Anda untuk kedua obrolan ada di sini.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Riwayat pesan Anda dengan {conversationTitle} dan nomor {obsoleteConversationNumber} telah digabungkan.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Riwayat pesan Anda dengan {conversationTitle} dan satu obrolan lain milik mereka telah digabungkan.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Pelajari Lebih Lanjut",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "Setelah berkirim pesan dengan {obsoleteConversationTitle}, Anda mengetahui nomor ini milik {conversationTitle}. Nomor telepon mereka bersifat pribadi.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Riwayat pesan Anda untuk kedua percakapan telah digabungkan di sini.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} milik dari {conversationTitle}. Kalian berdua adalah anggota dari {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} milik dari {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Cuplikan gambar dari pesan yang dikutip",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Anda tidak akan bisa menerima panggilan suara atau video dan mereka tidak bisa menerima panggilan Anda.",
+    "message": "Anda tidak akan bisa menerima panggilan suara atau video mereka dan mereka tidak bisa menerima panggilan Anda.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Anda akan menghapus semua informasi dari akun Anda dalam aplikasi ini, termasuk semua kontak dan pesan. Anda selalu dapat menghubungkan dengan perangkat seluler Anda lagi, tetapi itu tidak akan memulihkan pesan yang dihapus.",
+    "message": "Anda akan menghapus semua informasi akun yang tersimpan dalam aplikasi ini, termasuk semua kontak dan pesan. Anda selalu dapat menghubungkan lagi dengan perangkat seluler Anda, tetapi itu tidak akan memulihkan pesan yang telah dihapus.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru."
+    "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Mulai ulang Signal"
@@ -2228,88 +2282,176 @@
     "message": "Pesan ini telah dihapus.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Tidak bisa mengambil detail lencana hadiah",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Tidak dapat mengambil detail donasi",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Lihat pesan ini di perangkat seluler untuk membukanya",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Lihat pesan ini di perangkat seluler untuk membukanya",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Ketuk pesan ini di perangkat seluler untuk melihat hadiah Anda",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Ketuk pesan ini di perangkat seluler untuk melihat donasi Anda",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Hadiah",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} berdonasi ke Signal atas nama Anda",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Periksa ponsel Anda untuk membuka hadiah",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Periksa ponsel Anda untuk membuka donasi ini",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Periksa ponsel Anda untuk melihat hadiah",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Periksa ponsel Anda untuk melihat donasi",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Anda mendapatkan hadiah",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} berdonasi untuk Anda",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Anda telah menebus lencana hadiah",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Anda menebus donasi",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Anda mengirimkan lencana hadiah",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Anda berdonasi untuk {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Lencana Hadiah",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Donasi",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Hadiah",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Donasi",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ hadiah tersisa",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "Sisa {days} hari",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ jam tersisa",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "Sisa {hours} jam",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ menit tersisa",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {Sisa {minutes,number} menit}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 menit tersisa",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Kadaluwarsa",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Kedaluwarsa",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Lihat",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Lihat",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Tertukar",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Ditebus",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Terima kasih untuk dukungan Anda!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Terima kasih untuk dukungan Anda!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Anda menghadiahkan lencana ke $name$. Saat menerimanya, mereka akan diberi pilihan untuk menampilkan atau menyembunyikan lencana.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Anda memberikan donasi ke Signal atas nama {name}. Dia akan diberi opsi untuk menunjukkan dukungan di profilnya.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Paket stiker tidak dapat dipasang",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stiker",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Tersedia",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Stiker Terpasang",
+    "message": "Terinstal",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2625,7 +2767,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Hapus draf pratinjau tautan",
+    "message": "Hapus pratinjau tautan pada draf",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Terima panggilan dengan video",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Jawab panggilan dengan video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Terima panggilan dengan audio",
+    "message": "Jawab panggilan dengan audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Jawab panggilan dengan video (hanya panggilan video)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Jawab panggilan tanpa video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Mulai panggilan audio",
+    "message": "Mulai panggilan suara",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Anda tidak dapat menyunting atau menghapus setelah selesai membuat paket stiker.",
+    "message": "Anda tidak akan bisa lagi mengedit atau menghapus setelah selesai membuat paket stiker.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Anda akan keluar dari grup ini, dan akan dihapus dari semua perangkat Anda.",
+    "message": "Anda akan keluar dari grup ini, dan grup akan dihapus dari semua perangkat Anda.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Jawab",
+    "message": "Terima panggilan",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Jawab tanpa video",
+    "message": "Jawab panggilan tanpa video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,7 +3292,7 @@
   },
   "declinedIncomingAudioCall": {
     "message": "Anda menolak panggilan suara",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Anda menolak panggilan video",
@@ -3150,7 +3300,7 @@
   },
   "acceptedIncomingAudioCall": {
     "message": "Panggilan suara masuk",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Panggilan video masuk",
@@ -3158,7 +3308,7 @@
   },
   "missedIncomingAudioCall": {
     "message": "Panggilan suara tidak terjawab",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Panggilan video tidak terjawab",
@@ -3166,7 +3316,7 @@
   },
   "acceptedOutgoingAudioCall": {
     "message": "Panggilan suara keluar",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Panggilan video keluar",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "Panggilan suara tidak terjawab",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Panggilan video tidak terjawab",
@@ -3190,7 +3340,7 @@
   },
   "incomingAudioCall": {
     "message": "Panggilan suara masuk…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Panggilan video masuk…",
@@ -4060,6 +4210,10 @@
     "message": "Pengaturan grup telah diubah mengizinkan semua anggota untuk mengirimkan pesan.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "Anggota atau pengaturan grup ini telah berubah.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Perbarui grup ini untuk mengaktifkan fitur-fitur baru seperti @mention dan admin. Anggota yang tidak membagikan nama atau fotonya di grup ini akan diundang untuk bergabung. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4109,7 +4263,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:",
+    "message": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
@@ -4121,7 +4275,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluargkan dari grup:",
+    "message": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Cabut dari admin",
+    "message": "Hapus dari peran admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ grup yang sama",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Tidak ada grup yang sama",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Tambahkan ke grup",
@@ -4525,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Buang foto",
+    "message": "Hapus foto",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "BBB H, TTTT",
+    "message": "D MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4729,7 +4891,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Hapus \"$name$\" dari grup? Mereka tidak akan bisa gabung lagi via tautan grup.",
+    "message": "Keluarkan \"$name$\" dari grup? Mereka tidak akan bisa gabung lagi melalui tautan grup.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Gagal menghapus pesan untuk semuanya. Mohon coba lagi nanti.",
+    "message": "Gagal menghapus pesan untuk semua orang. Silakan coba lagi nanti.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Ini akan menghapus nama pengguna Anda, memungkinkan pengguna lain untuk memakainya. Apakah Anda yakin?",
+    "message": "Ini akan menghapus nama pengguna Anda, dan memungkinkan pengguna lain untuk memakainya. Apakah Anda yakin?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Yakin Anda mau menghapus \"$name$\"? Pembaruan yang dibagikan ke cerita ini juga akan dihapus.",
+    "message": "Anda yakin ingin menghapus \"$name$\"? Pembaruan yang dibagikan ke cerita ini juga akan dihapus.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5857,7 +6019,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Hapus cerita? Ini akan menghapus cerita dari daftar Anda, tetapi Anda masih dapat melihat cerita dari grup ini.",
+    "message": "Hapus cerita? Ini akan menghapus cerita dari daftar Anda, tetapi Anda masih bisa melihat cerita dari grup ini.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5902,6 +6064,10 @@
   },
   "StoryViewer__reply": {
     "message": "Balas",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Balas ke {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Tanggapi cerita",
+    "message": "(dihapus 25/01/23) Menanggapi cerita",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Nomor ini membantu memastikan nama pengguna Anda tetap privat sehingga Anda terhindar dari pesan yang tidak diinginkan. Bagikan nama pengguna Anda hanya dengan orang dan grup yang diinginkan. Jika mengganti nama pengguna, Anda akan mendapatkan serangkaian nomor baru.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal Desktop tidak lagi mendukung versi {OS} di komputer Anda dalam waktu dekat. Untuk terus menggunakan Signal, perbarui sistem operasi komputer Anda paling lambat {expirationDate}. <learnMoreLink>Selengkapnya</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal Desktop sudah tidak berfungsi di komputer ini. Untuk menggunakan Signal Desktop lagi, perbarui versi {OS} komputer Anda. <learnMoreLink>Selengkapnya</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal Desktop sudah tidak berfungsi di komputer ini. Untuk menggunakan Signal Desktop lagi, perbarui versi {OS} komputer Anda.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Yang Baru",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Saat Anda memulai panggilan grup untuk grup kecil (maksimal 16 orang), Anda dapat memilih untuk mengirimkan notifikasi dering. Anggota grup akan mendengar dering jika mereka menggunakan iOS beta atau menggunakan Desktop atau Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Klik dua kali baris pesan apa pun dalam obrolan untuk memulai balasan yang dikutip. Ini seperti jalan pintas untuk pemikiran baru tentang ide lama. Terima kasih kepada {whynothugo} dan komunitas Signal telah menerapkan fitur ini dan memberikan masukan.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Sekarang lebih mudah mengeklik di luar gambar untuk menutup tampilan galeri tanpa memperbesar. Terkadang Anda hanya ingin menutup, tetapi justru jadi terlalu dekat. Terima kasih kepada {jojomatik} untuk perbaikannya!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Percepat waktu respons Anda. Sekarang Anda dapat menanggapi lebih cepat dengan mengeklik emoji apa pun saat membalas cerita.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Kini Anda dapat mencari riwayat pesan untuk tiap karakter dalam bahasa Mandarin dan Jepang.",
+    "description": "Release notes for v6.5"
   }
 }

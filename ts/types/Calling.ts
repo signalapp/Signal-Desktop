@@ -1,7 +1,7 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AudioDevice } from 'ringrtc';
+import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
 
 // These are strings (1) for the database (2) for Storybook.
@@ -167,12 +167,13 @@ export type MediaDeviceSettings = AvailableIODevicesType & {
 };
 
 type DirectCallHistoryDetailsType = {
+  callId: string;
   callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
-  endedTime: number;
+  endedTime?: number;
 };
 
 type GroupCallHistoryDetailsType = {

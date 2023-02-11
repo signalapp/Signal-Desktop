@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -9,14 +9,15 @@ import { ShortcutGuide } from './ShortcutGuide';
 export type PropsType = {
   hasInstalledStickers: boolean;
   platform: string;
-  readonly close: () => unknown;
+  readonly closeShortcutGuideModal: () => unknown;
   readonly i18n: LocalizerType;
 };
 
 export const ShortcutGuideModal = React.memo(function ShortcutGuideModalInner(
   props: PropsType
 ) {
-  const { i18n, close, hasInstalledStickers, platform } = props;
+  const { i18n, closeShortcutGuideModal, hasInstalledStickers, platform } =
+    props;
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
@@ -34,10 +35,10 @@ export const ShortcutGuideModal = React.memo(function ShortcutGuideModalInner(
         <div className="module-shortcut-guide-modal">
           <div className="module-shortcut-guide-container">
             <ShortcutGuide
+              close={closeShortcutGuideModal}
               hasInstalledStickers={hasInstalledStickers}
-              platform={platform}
-              close={close}
               i18n={i18n}
+              platform={platform}
             />
           </div>
         </div>,

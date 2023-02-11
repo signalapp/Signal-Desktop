@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, pick, reject, groupBy, values } from 'lodash';
@@ -180,7 +180,10 @@ export function downloadQueuedPacks(): void {
     const { key, status } = packsToDownload[id];
 
     // The queuing is done inside this function, no need to await here
-    downloadStickerPack(id, key, { finalStatus: status, suppressError: true });
+    void downloadStickerPack(id, key, {
+      finalStatus: status,
+      suppressError: true,
+    });
   }
 
   packsToDownload = {};
@@ -217,7 +220,7 @@ function capturePacksToDownload(
 
     // These packs should never end up in the database, but if they do we'll delete them
     if (existing.status === 'ephemeral') {
-      deletePack(id);
+      void deletePack(id);
       return;
     }
 

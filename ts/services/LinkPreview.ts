@@ -24,8 +24,10 @@ import { SECOND } from '../util/durations';
 import { autoScale } from '../util/handleImageAttachment';
 import { dropNull } from '../util/dropNull';
 import { fileToBytes } from '../util/fileToBytes';
+import { imageToBlurHash } from '../util/imageToBlurHash';
 import { maybeParseUrl } from '../util/url';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
+import { drop } from '../util/drop';
 
 const LINK_PREVIEW_TIMEOUT = 60 * SECOND;
 
@@ -48,7 +50,11 @@ export const maybeGrabLinkPreview = debounce(_maybeGrabLinkPreview, 200);
 function _maybeGrabLinkPreview(
   message: string,
   source: LinkPreviewSourceType,
-  { caretLocation, mode = 'conversation' }: MaybeGrabLinkPreviewOptionsType = {}
+  {
+    caretLocation,
+    conversationId,
+    mode = 'conversation',
+  }: MaybeGrabLinkPreviewOptionsType = {}
 ): void {
   // Don't generate link previews if user has turned them off. When posting a
   // story we should return minimal (url-only) link previews.
@@ -67,7 +73,7 @@ function _maybeGrabLinkPreview(
   }
 
   if (!message) {
-    resetLinkPreview();
+    resetLinkPreview(conversationId);
     return;
   }
 
@@ -88,22 +94,25 @@ function _maybeGrabLinkPreview(
       LinkPreview.shouldPreviewHref(item) && !excludedPreviewUrls.includes(item)
   );
   if (!link) {
-    removeLinkPreview();
+    removeLinkPreview(conversationId);
     return;
   }
 
-  addLinkPreview(link, source, {
-    disableFetch: !window.Events.getLinkPreviewSetting(),
-  });
+  drop(
+    addLinkPreview(link, source, {
+      conversationId,
+      disableFetch: !window.Events.getLinkPreviewSetting(),
+    })
+  );
 }
 
-export function resetLinkPreview(): void {
+export function resetLinkPreview(conversationId?: string): void {
   disableLinkPreviews = false;
   excludedPreviewUrls = [];
-  removeLinkPreview();
+  removeLinkPreview(conversationId);
 }
 
-export function removeLinkPreview(): void {
+export function removeLinkPreview(conversationId?: string): void {
   (linkPreviewResult || []).forEach((item: LinkPreviewResult) => {
     if (item.url) {
       URL.revokeObjectURL(item.url);
@@ -114,13 +123,13 @@ export function removeLinkPreview(): void {
   linkPreviewAbortController?.abort();
   linkPreviewAbortController = undefined;
 
-  window.reduxActions.linkPreviews.removeLinkPreview();
+  window.reduxActions.linkPreviews.removeLinkPreview(conversationId);
 }
 
 export async function addLinkPreview(
   url: string,
   source: LinkPreviewSourceType,
-  { disableFetch }: AddLinkPreviewOptionsType = {}
+  { conversationId, disableFetch }: AddLinkPreviewOptionsType = {}
 ): Promise<void> {
   if (currentlyMatchedLink === url) {
     log.warn('addLinkPreview should not be called with the same URL like this');
@@ -132,7 +141,7 @@ export async function addLinkPreview(
       URL.revokeObjectURL(item.url);
     }
   });
-  window.reduxActions.linkPreviews.removeLinkPreview();
+  window.reduxActions.linkPreviews.removeLinkPreview(conversationId);
   linkPreviewResult = undefined;
 
   // Cancel other in-flight link preview requests.
@@ -156,7 +165,8 @@ export async function addLinkPreview(
     {
       url,
     },
-    source
+    source,
+    conversationId
   );
 
   try {
@@ -186,7 +196,7 @@ export async function addLinkPreview(
       const failedToFetch = currentlyMatchedLink === url;
       if (failedToFetch) {
         excludedPreviewUrls.push(url);
-        removeLinkPreview();
+        removeLinkPreview(conversationId);
       }
       return;
     }
@@ -198,7 +208,7 @@ export async function addLinkPreview(
       result.image.url = URL.createObjectURL(blob);
     } else if (!result.title && !disableFetch) {
       // A link preview isn't worth showing unless we have either a title or an image
-      removeLinkPreview();
+      removeLinkPreview(conversationId);
       return;
     }
 
@@ -211,7 +221,8 @@ export async function addLinkPreview(
         domain: LinkPreview.getDomain(result.url),
         isStickerPack: LinkPreview.isStickerPack(result.url),
       },
-      source
+      source,
+      conversationId
     );
     linkPreviewResult = [result];
   } catch (error) {
@@ -220,7 +231,7 @@ export async function addLinkPreview(
       Errors.toLogFormat(error)
     );
     disableLinkPreviews = true;
-    removeLinkPreview();
+    removeLinkPreview(conversationId);
   } finally {
     clearTimeout(timeout);
   }
@@ -244,30 +255,34 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
       //   the message. This can happen if you have a link preview, then quickly delete
       //   the link and send the message.
       .filter(({ url }: Readonly<{ url: string }>) => urlsInMessage.has(url))
-      .map((item: LinkPreviewResult) => {
-        if (item.image) {
-          // We eliminate the ObjectURL here, unneeded for send or save
-          return {
-            ...item,
-            image: omit(item.image, 'url'),
-            title: dropNull(item.title),
-            description: dropNull(item.description),
-            date: dropNull(item.date),
-            domain: LinkPreview.getDomain(item.url),
-            isStickerPack: LinkPreview.isStickerPack(item.url),
-          };
-        }
-
-        return {
-          ...item,
-          title: dropNull(item.title),
-          description: dropNull(item.description),
-          date: dropNull(item.date),
-          domain: LinkPreview.getDomain(item.url),
-          isStickerPack: LinkPreview.isStickerPack(item.url),
-        };
-      })
+      .map(sanitizeLinkPreview)
   );
+}
+
+export function sanitizeLinkPreview(
+  item: LinkPreviewResult | LinkPreviewType
+): LinkPreviewType {
+  if (item.image) {
+    // We eliminate the ObjectURL here, unneeded for send or save
+    return {
+      ...item,
+      image: omit(item.image, 'url'),
+      title: dropNull(item.title),
+      description: dropNull(item.description),
+      date: dropNull(item.date),
+      domain: LinkPreview.getDomain(item.url),
+      isStickerPack: LinkPreview.isStickerPack(item.url),
+    };
+  }
+
+  return {
+    ...item,
+    title: dropNull(item.title),
+    description: dropNull(item.description),
+    date: dropNull(item.date),
+    domain: LinkPreview.getDomain(item.url),
+    isStickerPack: LinkPreview.isStickerPack(item.url),
+  };
 }
 
 async function getPreview(
@@ -329,7 +344,7 @@ async function getPreview(
       const data = await fileToBytes(withBlob.file);
       objectUrl = URL.createObjectURL(withBlob.file);
 
-      const blurHash = await window.imageToBlurHash(withBlob.file);
+      const blurHash = await imageToBlurHash(withBlob.file);
 
       const dimensions = await VisualAttachment.getImageDimensions({
         objectUrl,
@@ -521,7 +536,7 @@ async function getGroupPreview(
         data,
         size: data.byteLength,
         contentType: IMAGE_JPEG,
-        blurHash: await window.imageToBlurHash(
+        blurHash: await imageToBlurHash(
           new Blob([data], {
             type: IMAGE_JPEG,
           })

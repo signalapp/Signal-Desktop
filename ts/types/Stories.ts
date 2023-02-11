@@ -122,7 +122,7 @@ export enum StoryViewTargetType {
 
 // Type of stories to view before closing the viewer
 // All = All the stories in order
-// Single = A single story. Like when clicking on a qouted story
+// Single = A single story. Like when clicking on a quoted story
 // Unread = View only unread stories
 // User = All of a user's stories
 export enum StoryViewModeType {

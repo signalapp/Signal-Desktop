@@ -1,4 +1,4 @@
-// Copyright 2017-2021 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -11,6 +11,7 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import { StartupQueue } from '../util/StartupQueue';
 
 export type ReadSyncAttributesType = {
   senderId: string;
@@ -116,13 +117,13 @@ export class ReadSyncs extends Collection {
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
           //   start time as this one, so we pass the readAt value through.
-          message.getConversation()?.onReadMessage(message, readAt);
+          void message.getConversation()?.onReadMessage(message, readAt);
         };
 
-        if (window.startupProcessingQueue) {
+        if (StartupQueue.isReady()) {
           const conversation = message.getConversation();
           if (conversation) {
-            window.startupProcessingQueue.add(
+            StartupQueue.add(
               conversation.get('id'),
               message.get('sent_at'),
               updateConversation

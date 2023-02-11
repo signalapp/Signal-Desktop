@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -91,19 +91,19 @@ export function CallingHeader({
         {isGroupCall && participantCount > 2 && toggleSpeakerView && (
           <div className="module-calling-tools__button">
             <Tooltip
-              content={i18n(
+              content={
                 isInSpeakerView
-                  ? 'calling__switch-view--to-grid'
-                  : 'calling__switch-view--to-speaker'
-              )}
+                  ? i18n('calling__switch-view--to-grid')
+                  : i18n('calling__switch-view--to-speaker')
+              }
               theme={Theme.Dark}
             >
               <button
-                aria-label={i18n(
+                aria-label={
                   isInSpeakerView
-                    ? 'calling__switch-view--to-grid'
-                    : 'calling__switch-view--to-speaker'
-                )}
+                    ? i18n('calling__switch-view--to-grid')
+                    : i18n('calling__switch-view--to-speaker')
+                }
                 className={
                   isInSpeakerView
                     ? 'CallingButton__grid-view'

@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // The idea with this file is to make it webpackable for the style guide
@@ -13,40 +13,13 @@ import * as RemoteConfig from './RemoteConfig';
 import * as Util from './util';
 
 // Components
-import { AttachmentList } from './components/conversation/AttachmentList';
-import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
-import { ContactModal } from './components/conversation/ContactModal';
-import { Emojify } from './components/conversation/Emojify';
-import { MessageDetail } from './components/conversation/MessageDetail';
-import { Quote } from './components/conversation/Quote';
-import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
-import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 
 // State
-import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
-import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
-import { createMessageDetail } from './state/roots/createMessageDetail';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 
 import { createStore } from './state/createStore';
-import * as appDuck from './state/ducks/app';
-import * as callingDuck from './state/ducks/calling';
-import * as conversationsDuck from './state/ducks/conversations';
-import * as emojisDuck from './state/ducks/emojis';
-import * as expirationDuck from './state/ducks/expiration';
-import * as itemsDuck from './state/ducks/items';
-import * as linkPreviewsDuck from './state/ducks/linkPreviews';
-import * as networkDuck from './state/ducks/network';
-import * as searchDuck from './state/ducks/search';
-import * as stickersDuck from './state/ducks/stickers';
-import * as updatesDuck from './state/ducks/updates';
-import * as userDuck from './state/ducks/user';
-
-import * as conversationsSelectors from './state/selectors/conversations';
-import * as searchSelectors from './state/selectors/search';
 
 // Types
 import * as TypesAttachment from './types/Attachment';
@@ -382,44 +355,12 @@ export const setup = (options: {
   });
 
   const Components = {
-    AttachmentList,
-    ChatColorPicker,
     ConfirmationDialog,
-    ContactModal,
-    Emojify,
-    MessageDetail,
-    Quote,
-    StagedLinkPreview,
-    DisappearingTimeDialog,
   };
 
   const Roots = {
     createApp,
-    createConversationDetails,
-    createGroupV2JoinModal,
-    createMessageDetail,
     createSafetyNumberViewer,
-    createShortcutGuideModal,
-  };
-
-  const Ducks = {
-    app: appDuck,
-    calling: callingDuck,
-    conversations: conversationsDuck,
-    emojis: emojisDuck,
-    expiration: expirationDuck,
-    items: itemsDuck,
-    linkPreviews: linkPreviewsDuck,
-    network: networkDuck,
-    updates: updatesDuck,
-    user: userDuck,
-    search: searchDuck,
-    stickers: stickersDuck,
-  };
-
-  const Selectors = {
-    conversations: conversationsSelectors,
-    search: searchSelectors,
   };
 
   const Services = {
@@ -435,8 +376,6 @@ export const setup = (options: {
   const State = {
     createStore,
     Roots,
-    Ducks,
-    Selectors,
   };
 
   const Types = {

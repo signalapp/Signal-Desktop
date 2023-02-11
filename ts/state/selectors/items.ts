@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -188,4 +188,18 @@ export const getHasStoryViewReceiptSetting = createSelector(
     Boolean(
       state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
     )
+);
+
+export const getRemoteBuildExpiration = createSelector(
+  getItems,
+  (state: ItemsStateType): number | undefined =>
+    state.remoteBuildExpiration === undefined
+      ? undefined
+      : Number(state.remoteBuildExpiration)
+);
+
+export const getAutoDownloadUpdate = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state['auto-download-update'] ?? true)
 );

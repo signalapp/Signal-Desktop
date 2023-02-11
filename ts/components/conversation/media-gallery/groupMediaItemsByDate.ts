@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
@@ -15,7 +15,7 @@ type YearMonthSectionType = 'yearMonth';
 
 type GenericSection<T> = {
   type: T;
-  mediaItems: Array<MediaItemType>;
+  mediaItems: ReadonlyArray<MediaItemType>;
 };
 type StaticSection = GenericSection<StaticSectionType>;
 type YearMonthSection = GenericSection<YearMonthSectionType> & {
@@ -25,7 +25,7 @@ type YearMonthSection = GenericSection<YearMonthSectionType> & {
 export type Section = StaticSection | YearMonthSection;
 export const groupMediaItemsByDate = (
   timestamp: number,
-  mediaItems: Array<MediaItemType>
+  mediaItems: ReadonlyArray<MediaItemType>
 ): Array<Section> => {
   const referenceDateTime = moment.utc(timestamp);
 

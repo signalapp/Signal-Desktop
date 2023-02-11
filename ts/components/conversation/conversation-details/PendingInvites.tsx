@@ -34,7 +34,7 @@ type PropsActionType = {
   ) => void;
   readonly revokePendingMembershipsFromGroupV2: (
     conversationId: string,
-    memberIds: Array<string>
+    memberIds: ReadonlyArray<string>
   ) => void;
 };
 
@@ -193,14 +193,14 @@ function MembershipActionConfirmation({
   ) => void;
   conversation: ConversationType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members: ReadonlyArray<ConversationType>;
   onClose: () => void;
   ourUuid: string;
   revokePendingMembershipsFromGroupV2: (
     conversationId: string,
-    memberIds: Array<string>
+    memberIds: ReadonlyArray<string>
   ) => void;
-  stagedMemberships: Array<StagedMembershipType>;
+  stagedMemberships: ReadonlyArray<StagedMembershipType>;
 }) {
   const revokeStagedMemberships = () => {
     if (!stagedMemberships) {
@@ -285,14 +285,12 @@ function getConfirmationMessage({
 
   // Requesting a membership since they weren't added by anyone
   if (membershipType === StageType.DENY_REQUEST) {
-    const key = isAccessControlEnabled(
-      conversation.accessControlAddFromInviteLink
-    )
-      ? 'PendingRequests--deny-for--with-link'
-      : 'PendingRequests--deny-for';
-    return i18n(key, {
+    const params = {
       name: firstMembership.member.title,
-    });
+    };
+    return isAccessControlEnabled(conversation.accessControlAddFromInviteLink)
+      ? i18n('PendingRequests--deny-for--with-link', params)
+      : i18n('PendingRequests--deny-for', params);
   }
 
   if (membershipType === StageType.APPROVE_REQUEST) {
@@ -424,7 +422,7 @@ function MembersPendingProfileKey({
   conversation: ConversationType;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members: ReadonlyArray<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
   ourUuid: string;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;

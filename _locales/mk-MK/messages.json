@@ -64,6 +64,18 @@
     "message": "Се чека одобрение за членство",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Квалитет на испратена медиумска датотека",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Стандардно",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Високо",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Признанија за софтверот",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -409,35 +421,35 @@
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
-    "message": "Го обележавте Вашиот сигурносен број со$name$ како проверен",
+    "message": "Го обележавте вашиот безбедносен број со$name$ како проверен",
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "youMarkedAsNotVerified": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како непроверен",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како непроверен",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "youMarkedAsVerifiedOtherDevice": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како проверен од друг уред.",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како проверен од друг уред.",
     "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
   },
   "youMarkedAsNotVerifiedOtherDevice": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како непроверен од друг уред",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како непроверен од друг уред",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "membersNeedingVerification": {
-    "message": "Вашите сигурносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите Вашиот сигурносен број со нив.",
+    "message": "Вашите безбедносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите вашиот безбедносен број со нив.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedRightAfterVerify": {
-    "message": "Сигурносниот број што сакате да го проверите е променет. Ве молиме проверете го Вашиот нов сигурносен број со $name1$. Запомнете, оваа промена може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека $name2$ го има реинсталирано Signal.",
+    "message": "Безбедносниот број што сакате да го проверите е променет. Ве молиме проверете го вашиот нов безбедносен број со $name1$. Запомнете, оваа промена може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека $name2$ го има реинсталирано Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "changedVerificationWarning": {
-    "message": "Следниве луѓе можно е да ги преинсталирале или промениле уредите. Проверете го Вашиот сигурносен број со нив за да ја осигурате приватноста.",
+    "message": "Следниве луѓе можно е да ги преинсталирале или промениле уредите. Проверете го вашиот безбедносен број со нив за да ја осигурате приватноста.",
     "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__message": {
-    "message": "Лицата подолу можно е да реинсталирале Signal или да ги смениле уредите. Кликнете на одреден примач за да го потврдите нивниот нов сигурносен број. Ова дејство е незадолжително.",
+    "message": "Лицата подолу можно е да реинсталирале Signal или да ги смениле уредите. Кликнете на одреден примач за да го потврдите нивниот нов  безбедносен број. Ова дејство е незадолжително.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
@@ -457,7 +469,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Дали сте сигурни дека сакате да отстраните {count,number} примач од приказната {story}?} other {Дали сте сигурни дека сакате да отстраните {count,number} примачи од приказната {story}?}}",
+    "messageformat": "{count, plural, one {Дали сте сигурни дека сакате да отстраните 1 примач од приказната {story}?} other {Дали сте сигурни дека сакате да отстраните {count,number} примачи од приказната {story}?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -465,7 +477,7 @@
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
-    "message": "Проверка на сигурносен број",
+    "message": "Проверка на  безбедносен број",
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
@@ -481,7 +493,7 @@
     "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
-    "message": "Вашиот сигурносен број со $name1$ е променет. Оваа може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека$name2$ го има реинсталирано Signal. Не е лошо да го проверите проверите сигурносниот број со овој контакт.",
+    "message": "Вашиот безбедносен број со $name1$ е променет. Оваа може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека$name2$ го има реинсталирано Signal. Не е лошо да го проверите проверите безбедносниот број со овој контакт.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
@@ -505,7 +517,7 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "noLongerVerified": {
-    "message": "Вашиот сигурносен број со $name$ е променет и повеќе не може да се провери. Кликнете за да се покаже.",
+    "message": "Вашиот безбедносен број со $name$ е променет и повеќе не може да се провери. Кликнете за да се покаже.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
@@ -566,36 +578,36 @@
     "message": "Означи како непроверено"
   },
   "isVerified": {
-    "message": "Успешна проверка на сигурносниот број со $name$.",
+    "message": "Успешна проверка на безбедносниот број со $name$.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "isNotVerified": {
-    "message": "Неуспешна проверка на сигурносниот број со $name$.",
+    "message": "Неуспешна проверка на безбедносниот број со $name$.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
     "message": "Проверено"
   },
   "newIdentity": {
-    "message": "Нов сигурносен број",
+    "message": "Нов  безбедносен број",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Вашиот сигурносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите сигурносниот број подолу."
+    "message": "Вашиот безбедносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите безбедносниот број подолу."
   },
   "incomingError": {
     "message": "Грешка при справување со дојдовна порака"
   },
   "media": {
-    "message": "Медија",
+    "message": "Медиумски датотеки",
     "description": "Header of the default pane in the media gallery, showing images and videos"
   },
   "mediaEmptyState": {
-    "message": "Немате медија во овој разговор",
+    "message": "Немате медиумска датотека во овој разговор",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
-    "message": "Цела медија",
+    "message": "Сите медиумски датотеки",
     "description": "Header for the media gallery"
   },
   "documents": {
@@ -674,12 +686,21 @@
     "message": "Не можете да изберете слики и видеа заедно со датотеки.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Можете да одберете само една датотека.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Не можете да додавате повеќе прилози за оваа порака.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Извинете, избраната датотека ги надминува рестрикциите за големина."
+    "message": "Извинете, избраната датотека ги надминува рестрикциите за големина.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Извинете, избраната датотека ги надминува рестрикциите за големина. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Не успеав да го вчитам избраниот прилог."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "За испраќање на аудио пораки, дозволете му на Signal Desktop пристап до Вашиот микрофон.",
+    "message": "За да испраќате гласовни пораки, овозможете пристап до вашиот микрофон на Signal за десктоп.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1111,17 +1132,17 @@
     "message": "Прикажи членови"
   },
   "showSafetyNumber": {
-    "message": "Види сигурносен број"
+    "message": "Види  безбедносен број"
   },
   "viewRecentMedia": {
-    "message": "Погледни скорешна медија",
+    "message": "Погледни скорешна медиумска датотека",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
     "message": "За да ја проверите безбедноста на целосното шифрирање со $name$, споредете ги бројките горе со нивниот уред."
   },
   "theirIdentityUnknown": {
-    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот сигурносен број за овој контакт ќе стане достапен по испраќањето на првата порака."
+    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот безбедносен број за овој контакт ќе стане достапен по испраќањето на првата порака."
   },
   "back": {
     "message": "Назад",
@@ -1160,7 +1181,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Перманетно да го избришам разговорот?",
+    "message": "Трајно да се избрише разговорот?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1200,16 +1221,48 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медија од $sender$. Или се обиделе да ви ја испратат директно, или во група.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$. Или се обиделе да ви ја испратат директно, или во група.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медија од $sender$во овој разговор.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$во овој разговор.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
     "message": "$sender$го смени телефонскиот број",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} и {conversationTitle} се истата сметка. Историјата за двата разговори е тука.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "Историјата на вашиот разговор со {conversationTitle} и нивниот број {obsoleteConversationNumber} се споени.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "Историјата на вашиот разговор со {conversationTitle} и друг разговор со нив се споени.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Дознајте повеќе",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "По допишување со {obsoleteConversationTitle} дознавте дека бројот припаѓа на {conversationTitle}. Нивниот телефонски број е приватен.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Историјата на двата разговора е споена тука.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} припаѓа на {conversationTitle}. И двајцата сте членови на {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} припаѓа на {conversationTitle}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Мала сликичка од сликата од цитираната порака",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Нема да добивате аудио и видео и тие нема да го добиваат Вашето аудио и видео.",
+    "message": "Нема да го добивате нивниот гласовен и видео пренос, ни тие вашиот.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Ќе ги избришете сите информации за сметката за оваа апликација, вклучувајќи ги контактите и сите пораки. Секогаш можете да го поврзете Вашиот мобилен уред повторно, но тоа нема да ги врати избришаните пораки.",
+    "message": "Ќе ги избришете сите информации за сметката за оваа апликација, вклучувајќи ги контактите и сите пораки. Секогаш можете да го поврзете вашиот мобилен уред повторно, но тоа нема да ги врати избришаните пораки.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Имате стари податоци од претходна инсталација на Signal Desktop. Ако изберете да продолжите тие ќе бидат избришани и ќе почнете од почеток.",
+    "message": "Имате стари податоци од претходна инсталација на Signal Desktop. Ако изберете да продолжите, тие ќе бидат избришани и ќе почнете од почеток.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1741,7 +1794,7 @@
     "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
-    "message": "Порака со медија",
+    "message": "Порака со медиумски датотеки",
     "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
   "unregisteredUser": {
@@ -1893,15 +1946,15 @@
     "description": "Title for the modal for safety number verification"
   },
   "safetyNumberChanged": {
-    "message": "Сигурносниот број е променет",
+    "message": "Безбедносниот број е променет",
     "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "safetyNumberChanges": {
-    "message": "Промени на сигурносниот број",
+    "message": "Промени на безбедносниот број",
     "description": "Title for safety number changed modal"
   },
   "safetyNumberChangedGroup": {
-    "message": "Сигурносниот број за $name$ е променет",
+    "message": "Безбедносниот број за $name$ е променет",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "verifyNewNumber": {
@@ -1913,7 +1966,7 @@
     "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
   },
   "yourSafetyNumberWith": {
-    "message": "Вашиот сигурносен број со $name1$:",
+    "message": "Вашиот безбедносен број со $name1$:",
     "description": "Heading for safety number view"
   },
   "themeLight": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Притиснете на „Рестартирај го Signal“ за да ја примените надградбата."
+    "message": "Притиснете на „Рестартирај го Signal“ за да ја примените надградбата.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Рестартирај го Signal"
@@ -2161,7 +2215,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Можно е последната порака да е избришана",
+    "message": "Можно е последната порака да е избришана.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2213,7 +2267,7 @@
     "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
   "message--getDescription--disappearing-media": {
-    "message": "Медија за брз преглед",
+    "message": "Еднократно видлива медиумска датотека",
     "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
   },
   "message--getDescription--disappearing-photo": {
@@ -2228,88 +2282,176 @@
     "message": "Оваа порака беше избришана.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Не е можно да се добијат деталите за подарок беџот",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Не е можно да се добијат деталите за донацијата",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Видете ја оваа порака на мобилен за да ја отворите",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Погледнете ја оваа порака на мобилен за да ја отворите",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Допри ја оваа порака на мобилниот за да го видиш твојот подарок",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Допрете ја оваа порака на мобилен за да ја видите вашата донација",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Подарок",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} донираше на Signal во ваше име",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Проверете го телефонот за да го отворите подарокот",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Отворете ја апликацијата на телефонот за да ја отворите оваа донација",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Проверете го телефонот за да го видите подарокот",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Отворете ја апликацијата на телефонот за да ја видите вашата донација",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Добивте подарок",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} донираше за вас",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Искористивте подарок беџ.",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Прифативте донација",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Испративте подарок беџ",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Дониравте за {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Подарок беџ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Донација",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Подарок",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Донација",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ преостанати денови",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} преостанати денови",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ преостанати часови",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} преостанати часови",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ преостанати минути",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {Преостанува уште 1 минута} other {Преостануваат уште {minutes,number} минути}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 преостаната минута",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Истечен",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Истечен",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Прегледај",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Прегледај",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Прифатено",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Прифатено",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Ви благодариме за Вашата поддршка!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Ви благодариме за поддршката!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "Подаривте беџ на $name$. Кога ќе прифатат, ќе имаат можност да го прикажат или скријат беџот.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Дониравте до Signal во име на {name}. Ќе имаат можност да ја покажат поддршката на нивниот профил.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Пакетот со стикер не може да се инсталира",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Стикери",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Достапни",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Инсталирани стикери",
+    "message": "Инсталирани",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2485,7 +2627,7 @@
     "description": "Text shown on messages with with individual timers, after user has viewed it"
   },
   "Message--tap-to-view--outgoing": {
-    "message": "Медија",
+    "message": "Медиумски датотеки",
     "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
   },
   "Message--tap-to-view--incoming--expired-toast": {
@@ -2569,7 +2711,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--open-all-media-view": {
-    "message": "Отвори поглед за медија",
+    "message": "Отвори преглед на сите медиумски датотеки",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--open-emoji-chooser": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Отстрани го нацрт прегледот за линкот",
+    "message": "Отстрани го нацрт-прегледот за линкот",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Отстрани ги сите нацрт прилози",
+    "message": "Отстрани ги сите нацрт-прилози",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Прифатете повик со видео",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Одговорете на повикот со видео",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Прифатете повик со аудио",
+    "message": "Одговорете на повикот со аудио",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Одговорете на повикот со видео (само за видео повици)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Одговорете на повикот без видео",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Започни аудио повик",
+    "message": "Започнете гласовен повик",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Нема да бидете во можност да ги уредувате или бришете стикерите откако ќе создадете пакет со стикери.",
+    "message": "Нема да можете да ги уредувате или бришете стикерите откако ќе создадете пакет со стикери.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3045,7 +3195,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Овој разговор ќе биде избришан од сите Ваши уреди.",
+    "message": "Овој разговор ќе биде избришан од сите ваши уреди.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Одговори",
+    "message": "Одговори на повикот",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Одговори без видео",
+    "message": "Одговорете на повикот без видео",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Одбивет аудио повик",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Одбивте гласовен повик",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Одбивте видео повик",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Дојдовен аудио повик",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Дојдовен гласовен повик",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Дојдовен видео повик",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Испуштен аудио повик",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Пропуштен гласовен повик",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Испуштен видео повик",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Појдовен аудио повик",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Појдовен гласовен повик",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Појдовен видео повик",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Неодоговорен аудио повик",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Неодговорен гласовен повик",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Неодоговорен видео повик",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Дојдовен аудио-повик…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Дојдовен гласовен повик…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Дојдовен видео-повик…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор Ве отстрани.",
+    "message": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор ве отстрани.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3749,7 +3899,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ Ве отстрани.",
+    "message": "$adminName$ ве отстрани.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4060,6 +4210,10 @@
     "message": "Сменета е групата, за да овозможува сите членови да испраќаат пораки.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "Членовите или поставувањата на оваа група се променети.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Надградете ја оваа група за да активирате нови опции како @спомнувања и администратори. Членови кои што не го споделиле нивното име и слика со оваа група, ќе бидат поканети да се приклучат. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4089,11 +4243,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--keep-history": {
-    "message": "Цела историја на пораки и медија од пред надградбата беа зачувани.",
+    "message": "Цела историја на пораки и медиумски датотеки од пред надградбата беа зачувани.",
     "description": "Shown on Learn More popup after GV1 migration"
   },
   "GroupV1--Migration--migrate--keep-history": {
-    "message": "Цела историја на пораки и медија од пред надградбата ќе бидат зачувани.",
+    "message": "Цела историја на пораки и медиумска датотеки од пред надградбата ќе бидат зачувани.",
     "description": "Shown on Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--invited--you": {
@@ -4117,7 +4271,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Овие членови не се во можност да се приклучат на „Нови групи“ и затоа беа отстранети од групата:",
+    "message": "Овие членови не се во можност да се приклучат на „Нови групи“ и беа отстранети од групата:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
@@ -4349,7 +4503,7 @@
     "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
-    "message": "Споделена медија",
+    "message": "Споделена медиумска датотека",
     "description": "Title for the media thumbnails in the conversation details screen"
   },
   "ConversationDetailsMediaList--show-all": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ заеднички групи",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} заедничка група} other {{count,number} заеднички групи}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Немате заеднички групи",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Додај во група",
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Неуспешно е бришењето на пораката за сите. Ве молиме обидете се одново подоцна.",
+    "message": "Бришењето на пораката за сите беше неуспешно. Ве молиме обидете се одново подоцна.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4933,7 +5095,7 @@
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
-    "message": "Одбери квалитет на медија",
+    "message": "Одбери квалитет на медиумска датотека",
     "description": "aria-label for the media quality selector button"
   },
   "MediaQualitySelector--title": {
@@ -5904,6 +6066,10 @@
     "message": "Одговори",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Одговорете на {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Одговорете на групата",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагирајте на приказната",
+    "message": "(избришано на 25/01/23) Реагирајте на приказната",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Со помош на овие бројки вашето корисничко име останува приватно, со што можете да избегнете непосакувани пораки. Споделувајте го вашето корисничко име само со луѓето и групите со кои сакате да разговарате. Ако го смените корисничкото име, ќе добиете нови низа бројки.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal за десктоп наскоро ќе престане да ја поддржува верзијата на {OS} на вашиот компјутер. За да продолжите да користите Signal, ажурирајте го оперативниот систем на вашиот компјутер до {expirationDate}. <learnMoreLink>Дознајте повеќе</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal за десктоп повеќе не функционира на овој компјутер. За повторно да користите Signal за десктоп, ажурирајте ја верзијата на {OS} на вашиот компјутер. <learnMoreLink>Дознајте повеќе</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal за десктоп повеќе не функционира на овој компјутер. За повторно да користите Signal за десктоп, ажурирајте ја верзијата на {OS} на вашиот компјутер.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Што е ново",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Кога почнувате групен повик со помали групи (до 16 лица), можете да одберете да испратите известување со ѕвонење. Членовите на групата ќе слушнат ѕвонење ако ја користат iOS бета верзијата или ако ja користат десктоп или Android верзијата.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Кликнете двапати на која било порака во разговорот за да ја цитирате во одговор. Тоа е пократок начин за изразување нови мисли за стари идеи. Благодарност до {whynothugo} и Signal заедницата за воведување на оваа функција и давање фидбек.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Сега е лесно да кликнете надвор од сликата за да не биде прикажана на цел екран, без истата да се зумира. Некогаш сакавте само да излезете од прозорецот, а не да го зголемите. Благодарност до {jojomatik} што го среди ова!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Одговарајте побрзо. Сега можете побрзо да реагирате со кликање на кој било емотикон кога одговарате на приказна.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Сега можете да пребарувате индивидуални знаци на кинески и јапонски во вашата историја на разговори.",
+    "description": "Release notes for v6.5"
   }
 }

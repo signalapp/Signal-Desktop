@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, RefObject } from 'react';
@@ -15,21 +15,14 @@ import type {
 } from './TimelineMessage';
 import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification';
 import { CallingNotification } from './CallingNotification';
-import type { PropsActionsType as PropsChatSessionRefreshedActionsType } from './ChatSessionRefreshedNotification';
 import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
-import type {
-  PropsActionsType as DeliveryIssueActionProps,
-  PropsDataType as DeliveryIssueProps,
-} from './DeliveryIssueNotification';
+import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
-import type {
-  PropsActions as UnsupportedMessageActionsType,
-  PropsData as UnsupportedMessageProps,
-} from './UnsupportedMessage';
+import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
 import { UnsupportedMessage } from './UnsupportedMessage';
 import type { PropsData as TimerNotificationProps } from './TimerNotification';
 import { TimerNotification } from './TimerNotification';
@@ -57,8 +50,6 @@ import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEv
 import { PaymentEventNotification } from './PaymentEventNotification';
 import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
 import { ConversationMergeNotification } from './ConversationMergeNotification';
-import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
-import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
 
@@ -126,10 +117,6 @@ type ConversationMergeNotificationType = {
   type: 'conversationMerge';
   data: ConversationMergeNotificationPropsType;
 };
-type PhoneNumberDiscoveryNotificationType = {
-  type: 'phoneNumberDiscovery';
-  data: PhoneNumberDiscoveryNotificationPropsType;
-};
 type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
@@ -145,7 +132,6 @@ export type TimelineItemType = (
   | GroupV1MigrationType
   | GroupV2ChangeType
   | MessageType
-  | PhoneNumberDiscoveryNotificationType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
@@ -174,10 +160,7 @@ type PropsLocalType = {
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
-  DeliveryIssueActionProps &
   GroupV2ChangeActionsType &
-  PropsChatSessionRefreshedActionsType &
-  UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
 export type PropsType = PropsLocalType &
@@ -214,6 +197,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       shouldRenderDateHeader,
       startCallingLobby,
       theme,
+      ...reducedProps
     } = this.props;
 
     if (!item) {
@@ -230,9 +214,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     if (item.type === 'message') {
       itemContents = (
         <TimelineMessage
-          {...this.props}
+          {...reducedProps}
           {...item.data}
           isSelected={isSelected}
+          selectMessage={selectMessage}
           shouldCollapseAbove={shouldCollapseAbove}
           shouldCollapseBelow={shouldCollapseBelow}
           shouldHideMetadata={shouldHideMetadata}
@@ -247,7 +232,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
 
       if (item.type === 'unsupportedMessage') {
         notification = (
-          <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
+          <UnsupportedMessage {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'callHistory') {
         notification = (
@@ -262,26 +247,26 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         );
       } else if (item.type === 'chatSessionRefreshed') {
         notification = (
-          <ChatSessionRefreshedNotification {...this.props} i18n={i18n} />
+          <ChatSessionRefreshedNotification {...reducedProps} i18n={i18n} />
         );
       } else if (item.type === 'deliveryIssue') {
         notification = (
           <DeliveryIssueNotification
             {...item.data}
-            {...this.props}
+            {...reducedProps}
             i18n={i18n}
           />
         );
       } else if (item.type === 'timerNotification') {
         notification = (
-          <TimerNotification {...this.props} {...item.data} i18n={i18n} />
+          <TimerNotification {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'universalTimerNotification') {
         notification = renderUniversalTimerNotification();
       } else if (item.type === 'changeNumberNotification') {
         notification = (
           <ChangeNumberNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -289,7 +274,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'safetyNumberNotification') {
         notification = (
           <SafetyNumberNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -297,45 +282,45 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'verificationNotification') {
         notification = (
           <VerificationNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
         );
       } else if (item.type === 'groupNotification') {
         notification = (
-          <GroupNotification {...this.props} {...item.data} i18n={i18n} />
+          <GroupNotification {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'groupV2Change') {
         notification = (
-          <GroupV2Change {...this.props} {...item.data} i18n={i18n} />
+          <GroupV2Change {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'groupV1Migration') {
         notification = (
-          <GroupV1Migration {...this.props} {...item.data} i18n={i18n} />
+          <GroupV1Migration
+            {...reducedProps}
+            {...item.data}
+            i18n={i18n}
+            getPreferredBadge={getPreferredBadge}
+            theme={theme}
+          />
         );
       } else if (item.type === 'conversationMerge') {
         notification = (
           <ConversationMergeNotification
-            {...this.props}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'phoneNumberDiscovery') {
-        notification = (
-          <PhoneNumberDiscoveryNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
         );
       } else if (item.type === 'resetSessionNotification') {
-        notification = <ResetSessionNotification {...this.props} i18n={i18n} />;
+        notification = (
+          <ResetSessionNotification {...reducedProps} i18n={i18n} />
+        );
       } else if (item.type === 'profileChange') {
         notification = (
           <ProfileChangeNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -343,7 +328,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'paymentEvent') {
         notification = (
           <PaymentEventNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />

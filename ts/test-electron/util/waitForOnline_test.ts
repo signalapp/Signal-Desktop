@@ -92,7 +92,7 @@ describe('waitForOnline', () => {
       });
 
     let done = false;
-    (async () => {
+    void (async () => {
       await waitForOnline(fakeNavigator, fakeWindow, { timeout: 9999 });
       done = true;
     })();

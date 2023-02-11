@@ -64,6 +64,18 @@
     "message": "Мүше болуға рұқсат күтілуде",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Жіберілген мультимедиа сапасы",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Стандарт",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "Жоғары",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Бағдарламалық құрал растамалары",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Бұл файлдармен бірге фотосуреттерді және видеоларды таңдай алмайсыз.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "Бір уақытта тек бір файл таңдай аласыз.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Бұл хатқа басқа тіркеме қоса алмайсыз.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті."
+    "message": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Таңдалған тіркемені жүктеу мүмкін болмады."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Аудио хаттарды жіберу үшін Signal-дың компьютерлік нұсқасына микрофонды пайдалануға рұқсат етіңіз.",
+    "message": "Дауыстық хаттарды жіберу үшін Signal-дың компьютерлік нұсқасына микрофонды пайдалануға рұқсат етіңіз.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ өзінің телефон нөмірін өзгертті",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} және {conversationTitle} екеуі – бір аккаунт. Екі чат үшін де хаттар тарихын осы жерден таба аласыз.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "{conversationTitle} деген кісімен жазған хаттарыңыз және оның {obsoleteConversationNumber} деген нөмірі біріктірілді.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "{conversationTitle} чаты бар хаттар тарихы мен оған тиесілі тағы бір чат біріктірілді.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Толығырақ мәлімет",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "{obsoleteConversationTitle} деген кісімен хат алмасқан соң, бұл нөмірдің {conversationTitle} деген кісіге тиесілі екенін білдіңіз. Оның телефон нөмірі құпия.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Екі әңгіменің де хаттар тарихы осы жерге біріктірілді.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} нөмірі {conversationTitle} деген кісіге тиесілі. Екеуіңіз де {sharedGroup} тобына мүше болып келесіздер.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} нөмірі {conversationTitle} деген кісіге тиесілі",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Сілтеме жасалған хаттағы суреттің нобайы",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Сіз олардың, ал олар сіздің аудио немесе видеоларыңызды ала алмайды.",
+    "message": "Сіз олардың, ал олар сіздің дауыстық хаттарыңызды немесе видеоларыңызды ала алмайды.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Жаңа нұсқаны қолдану үшін \"Signal-ды өшіріп, қайта қосу\" түймесін басыңыз."
+    "message": "Жаңа нұсқаны қолдану үшін \"Signal-ды өшіріп, қайта қосу\" түймесін басыңыз.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal-ды қайта іске қосу"
@@ -2228,88 +2282,176 @@
     "message": "Бұл хат жойылды.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Сыйлық таңбасы туралы мәліметті алу мүмкін емес",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "Демеушілік туралы мәліметті алу мүмкін болмады",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "Оны ашу үшін бұл хатты мобильдік құрылғыдан көру",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "Бұл хатты мобильдік құрылғы арқылы ашыңыз",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "Сыйлығыңызды көру үшін мобильдік құрылғыда мына хатты басыңыз",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "Демеуіңізді көру үшін мобильдік құрылғыда осы хатты түртіңіз",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "Сыйлық",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} сіздің атыңыздан Signal-ға демеу берді",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "Сыйлықты ашу үшін телефоныңызды тексеріңіз",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "Бұл демеуді ашу үшін телефоныңызды тексеріңіз",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "Сыйлығыңызды көру үшін телефоныңызды тексеріңіз",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "Демеуіңізді көру үшін телефоныңызды тексеріңіз",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "Сыйлық алдыңыз",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} сізге демеу берді",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "Сыйлық таңбасын белсендірдіңіз",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "Демеуді іске қостыңыз",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "Сыйлық таңбасын жібердіңіз",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "Сіз {recipient} деген кісіге демеу бердіңіз",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "Сыйлық таңбасы",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "Демеушілік",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "Сыйлық",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "Демеушілік",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ күн қалды",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} күн қалды",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ сағат қалды",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} сағат қалды",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ минут қалды",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {1 минут қалды} other {{minutes,number} минут қалды}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 минут қалды",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "Мерзімі өтіп кетті",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "Мерзімі өтіп кетті",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "Көру",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "Көру",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "Белсендірілді",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "Белсендірілді",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "Қолдау көрсеткеніңіз үшін рақмет!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "Қолдау көрсеткеніңіз үшін рақмет!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "$name$ деген кісіге таңба сыйладыңыз. Ол қабылдағанда, ол таңбаны көрсетіп немесе жасырып қоя алады.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "Сіз {name} деген кісінің атынан Signal-ға демеу жасадыңыз. Ол өз профилінен демеу бергенін көрсете алады.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Стикерлер жинағын орнату мүмкін болмады",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Жапсырмалар",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Қолжетімді",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Орнатылған стикерлер",
+    "message": "Орнатылды",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Видеоқоңырауды қабылдау",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Қоңырауға видео арқылы жауап беру",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Аудиоқоңырауды қабылдау",
+    "message": "Қоңырауға аудио қоңырау арқылы жауап беру",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Қоңырауға видео арқылы жауап беру (видео қоңырауларда ғана)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Қоңырауға видеосыз жауап беру",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Аудиоқоңырауды бастау",
+    "message": "Дауыстық қоңырауды бастау",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Жауап беру",
+    "message": "Қоңырауға жауап беру",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Видеосыз жауап беру",
+    "message": "Қоңырауға видеосыз жауап беру",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Сіз аудиоқоңырауды қабылдамадыңыз",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "Дауыстық қоңырауды көтермедіңіз",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Сіз видеоқоңырауды қабылдамадыңыз",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Кіріс аудиоқоңырау",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Кіріс дауыстық қоңырау",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Кіріс видеоқоңырау",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Аудио қоңырауды өткізіп алдыңыз",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Қабылданбаған дауыстық қоңырау",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Видео қоңырауды өткізіп алдыңыз",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Шығыс аудиоқоңырау",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Шығыс дауыстық қоңырау",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Шығыс видеоқоңырау",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Жауап берілмеген аудиоқоңырау",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Жауап берілмеген дауыстық қоңырау",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Жауап берілмеген видеоқоңырау",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Кіріс аудиоқоңырау...",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Кіріс дауыстық қоңырау...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Кіріс видеоқоңырау...",
@@ -3541,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ топтың атын өшіріп тастады.",
+    "message": "$memberName$ топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Сіз топ атауын алып тастадыңыз.",
+    "message": "Сіз топ атауын өшіріп тастадыңыз.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Мүше топтың атын өшіріп тастады.",
+    "message": "Мүше топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -4060,6 +4210,10 @@
     "message": "Топ параметрлері өзгертілді, енді барлық топ мүшесі хат жібере алады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "Бұл топтың мүшелері немесе параметрлері өзгертілді.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "Бұл топты жаңартыңыз, сонда @атап өту және админдер сияқты жаңа функцияларі ске қосылады. Осы топта аты-жөнін немесе фотосуретін бөліспеген топ мүшелері топқа қосылуға шақырылады. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4117,11 +4271,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4221,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ топ админінен өшіру керек пе?",
+    "message": "$contact$ топ әкімшісінен өшіру керек пе?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ ортақ топ бар",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {{count,number} ортақ топ бар} other {{count,number} ортақ топ бар}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "Ортақ топ жоқ",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "Топқа қосу",
@@ -4525,7 +4687,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Фотосуретті жою",
+    "message": "Фотосуретті өшіру",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM к, YYYY",
+    "message": "ААА К, ЖЖЖЖ",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -5673,7 +5835,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$ деген пайдаланушыны өшіру",
+    "message": "$title$ өшіру",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" деген стористі шынымен де жойып тастағыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
+    "message": "\"$name$\" шынымен де жойғыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5904,6 +6066,10 @@
     "message": "Жауап беру",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} деген кісіге жауап беру",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Топқа жауап беру",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Сториске реакция қалдыру",
+    "message": "(25/01/23 күні жойылды) Сториске реакция қалдыру",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "Бұл цифрлар пайдаланушы атыңызды құпия сақтайды, соның арқасында қажетсіз хаттар алмайсыз. Пайдаланушы атыңызды тек сөйлескіңіз келетін адамдармен және топтармен бөлісіңіз. Пайдаланушы атыңызды өзгертсеңіз, сізге жаңа цифрлар жинағы беріледі.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal-дың компьютерлік нұсқасы жақында компьютеріңіздегі {OS} нұсқасымен жұмыс істемейтін болады. Signal-ды пайдалана беру үшін {expirationDate} күніне дейін компьютеріңіздің операциялық жүйесін жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal-дың компьютерлік нұсқасы бұдан былай бұл компьютерде жұмыс істемейді. Signal-дың компьютерлік нұсқасын қайта пайдалану үшін компьютеріңіздегі {OS} нұсқасын жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal-дың компьютерлік нұсқасы бұдан былай бұл компьютерде жұмыс істемейді. Signal-дың компьютерлік нұсқасын қайта пайдалану үшін компьютеріңіздегі {OS} нұсқасын жаңартыңыз.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "Жаңалықтар",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "Шағын топтарға (16 адамға дейін) топтық қоңырау шалғанда, шырылдайтын хабарландыру жіберу опциясын таңдай аласыз. Топ мүшелері iOS бета нұсқасын пайдаланып жатса немесе компьютер немесе Android жүйесін пайдаланып жатса, шырылдаған дауыс естиді.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Біреудің жіберген хатына жауап беру үшін чаттағы хат жолын екі рет басыңыз. Осылайша жауап арқылы алдыңғы жіберілген хаттарды тез табуға да болады. Осы функцияны енгізіп, кері байланыс білдіргені үшін {whynothugo} және Signal қауымдастығына рақмет.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Енді суреттен тыс жерді басып қалып, суретті ұлғайтпай-ақ галерея көрінісін жабуға болады. Кейде жай ғана суретті жабайын дегенде, ол үлкейіп кететін. Осыны түзеткені үшін {jojomatik} ұжымына рақмет!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Барынша тез жауап беріңіз. Енді стористерге жауап бергенде, кез келген эмодзиді түртіп, жылдам реакция қалдыра аласыз.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Енді хаттар тарихынан қытай немесе жапон тілдерінде жекелекен иероглифтерді іздеуіңізге болады.",
+    "description": "Release notes for v6.5"
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type {
@@ -264,6 +264,7 @@ export type UnprocessedType = {
   decrypted?: string;
   urgent?: boolean;
   story?: boolean;
+  reportingToken?: string;
 };
 
 export type UnprocessedUpdateType = {
@@ -359,6 +360,12 @@ export type GetAllStoriesResultType = ReadonlyArray<
     hasRepliesFromSelf: boolean;
   }
 >;
+
+export type FTSOptimizationStateType = Readonly<{
+  changes: number;
+  steps: number;
+  done?: boolean;
+}>;
 
 export type DataInterface = {
   close: () => Promise<void>;
@@ -471,7 +478,7 @@ export type DataInterface = {
     options: { forceSave?: boolean; ourUuid: UUIDStringType }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
-  removeMessages: (ids: Array<string>) => Promise<void>;
+  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
     options: {
@@ -506,9 +513,9 @@ export type DataInterface = {
   _getAllReactions: () => Promise<Array<ReactionType>>;
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
-    source: string;
-    sourceUuid: UUIDStringType;
-    sourceDevice: number;
+    source?: string;
+    sourceUuid?: UUIDStringType;
+    sourceDevice?: number;
     sent_at: number;
   }) => Promise<MessageType | undefined>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;
@@ -546,6 +553,10 @@ export type DataInterface = {
   getLastConversationMessage(options: {
     conversationId: string;
   }): Promise<MessageType | undefined>;
+  getCallHistoryMessageByCallId(
+    conversationId: string,
+    callId: string
+  ): Promise<string | void>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string
@@ -556,7 +567,10 @@ export type DataInterface = {
   ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
-  getAllUnprocessedAndIncrementAttempts: () => Promise<Array<UnprocessedType>>;
+  getUnprocessedByIdsAndIncrementAttempts: (
+    ids: ReadonlyArray<string>
+  ) => Promise<Array<UnprocessedType>>;
+  getAllUnprocessedIds: () => Promise<Array<string>>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedUpdateType
@@ -566,6 +580,8 @@ export type DataInterface = {
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
+
+  /** only for testing */
   removeAllUnprocessed: () => Promise<void>;
 
   getAttachmentDownloadJobById: (
@@ -700,6 +716,10 @@ export type DataInterface = {
   getMaxMessageCounter(): Promise<number | undefined>;
 
   getStatisticsForLogging(): Promise<Record<string, string>>;
+
+  optimizeFTS: (
+    state?: FTSOptimizationStateType
+  ) => Promise<FTSOptimizationStateType | undefined>;
 };
 
 export type ServerInterface = DataInterface & {

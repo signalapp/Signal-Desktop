@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
@@ -24,11 +24,12 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 
 export type PropsDataType = {
   areWeAdmin: boolean;
-  groupMemberships?: Array<{
+  conversationId: string;
+  groupMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: Array<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
   groupName?: string;
   ourACI?: UUIDStringType;
   ourPNI?: UUIDStringType;
@@ -36,7 +37,10 @@ export type PropsDataType = {
 };
 
 export type PropsActionsType = {
-  blockGroupLinkRequests: (uuid: UUIDStringType) => unknown;
+  blockGroupLinkRequests: (
+    conversationId: string,
+    uuid: UUIDStringType
+  ) => unknown;
 };
 
 export type PropsHousekeepingType = {
@@ -53,6 +57,7 @@ function renderStringToIntl(
   i18n: LocalizerType,
   components?: Array<FullJSXType> | ReplacementValuesType<FullJSXType>
 ): FullJSXType {
+  // eslint-disable-next-line local-rules/valid-i18n-keys
   return <Intl id={id} i18n={i18n} components={components} />;
 }
 
@@ -130,6 +135,7 @@ function getIcon(
 function GroupV2Detail({
   areWeAdmin,
   blockGroupLinkRequests,
+  conversationId,
   detail,
   isLastText,
   fromId,
@@ -143,14 +149,18 @@ function GroupV2Detail({
   text,
 }: {
   areWeAdmin: boolean;
-  blockGroupLinkRequests: (uuid: UUIDStringType) => unknown;
+  blockGroupLinkRequests: (
+    conversationId: string,
+    uuid: UUIDStringType
+  ) => unknown;
+  conversationId: string;
   detail: GroupV2ChangeDetailType;
   isLastText: boolean;
-  groupMemberships?: Array<{
+  groupMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: Array<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
   groupName?: string;
   i18n: LocalizerType;
   fromId?: UUIDStringType;
@@ -209,7 +219,7 @@ function GroupV2Detail({
           title={i18n('PendingRequests--block--title')}
           actions={[
             {
-              action: () => blockGroupLinkRequests(detail.uuid),
+              action: () => blockGroupLinkRequests(conversationId, detail.uuid),
               text: i18n('PendingRequests--block--confirm'),
               style: 'affirmative',
             },
@@ -282,6 +292,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
     areWeAdmin,
     blockGroupLinkRequests,
     change,
+    conversationId,
     groupBannedMemberships,
     groupMemberships,
     groupName,
@@ -304,6 +315,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
           <GroupV2Detail
             areWeAdmin={areWeAdmin}
             blockGroupLinkRequests={blockGroupLinkRequests}
+            conversationId={conversationId}
             detail={detail}
             isLastText={isLastText}
             fromId={change.from}

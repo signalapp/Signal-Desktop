@@ -31,7 +31,7 @@ export async function deleteGroupStoryReplyForEveryone(
     return;
   }
 
-  sendDeleteForEveryoneMessage(group.attributes, {
+  void sendDeleteForEveryoneMessage(group.attributes, {
     deleteForEveryoneDuration: DAY,
     id: replyMessageId,
     timestamp,

@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps } from 'react';
@@ -37,10 +37,8 @@ const commonProps = {
 
   i18n,
 
-  onShowConversationDetails: action('onShowConversationDetails'),
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
-  onSearchInConversation: action('onSearchInConversation'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -48,13 +46,12 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
-  onShowAllMedia: action('onShowAllMedia'),
-  onGoBack: action('onGoBack'),
-
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   pushPanelForConversation: action('pushPanelForConversation'),
+  popPanelForConversation: action('popPanelForConversation'),
+  searchInConversation: action('searchInConversation'),
   setMuteExpiration: action('onSetMuteNotifications'),
   setPinned: action('setPinned'),
   viewUserStories: action('viewUserStories'),

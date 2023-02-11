@@ -17,11 +17,16 @@ export default {
   component: ToastManager,
   argTypes: {
     hideToast: { action: true },
+    openFileInFolder: { action: true },
+    onUndoArchive: { action: true },
     i18n: {
       defaultValue: i18n,
     },
     toast: {
       defaultValue: undefined,
+    },
+    OS: {
+      defaultValue: 'macOS',
     },
   },
 } as Meta;
@@ -49,6 +54,20 @@ AddingUserToGroup.args = {
   },
 };
 
+export const AlreadyGroupMember = Template.bind({});
+AlreadyGroupMember.args = {
+  toast: {
+    toastType: ToastType.AlreadyGroupMember,
+  },
+};
+
+export const AlreadyRequestedToJoin = Template.bind({});
+AlreadyRequestedToJoin.args = {
+  toast: {
+    toastType: ToastType.AlreadyRequestedToJoin,
+  },
+};
+
 export const Blocked = Template.bind({});
 Blocked.args = {
   toast: {
@@ -70,10 +89,48 @@ CannotMixMultiAndNonMultiAttachments.args = {
   },
 };
 
+export const CannotOpenGiftBadgeIncoming = Template.bind({});
+CannotOpenGiftBadgeIncoming.args = {
+  toast: {
+    toastType: ToastType.CannotOpenGiftBadgeIncoming,
+  },
+};
+
+export const CannotOpenGiftBadgeOutgoing = Template.bind({});
+CannotOpenGiftBadgeOutgoing.args = {
+  toast: {
+    toastType: ToastType.CannotOpenGiftBadgeOutgoing,
+  },
+};
+
 export const CannotStartGroupCall = Template.bind({});
 CannotStartGroupCall.args = {
   toast: {
     toastType: ToastType.CannotStartGroupCall,
+  },
+};
+
+export const ConversationArchived = Template.bind({});
+ConversationArchived.args = {
+  toast: {
+    toastType: ToastType.ConversationArchived,
+    parameters: {
+      conversationId: 'some-conversation-id',
+    },
+  },
+};
+
+export const ConversationMarkedUnread = Template.bind({});
+ConversationMarkedUnread.args = {
+  toast: {
+    toastType: ToastType.ConversationMarkedUnread,
+  },
+};
+
+export const ConversationUnarchived = Template.bind({});
+ConversationUnarchived.args = {
+  toast: {
+    toastType: ToastType.ConversationUnarchived,
   },
 };
 
@@ -168,6 +225,13 @@ MaxAttachments.args = {
   },
 };
 
+export const OriginalMessageNotFound = Template.bind({});
+OriginalMessageNotFound.args = {
+  toast: {
+    toastType: ToastType.OriginalMessageNotFound,
+  },
+};
+
 export const MessageBodyTooLong = Template.bind({});
 MessageBodyTooLong.args = {
   toast: {
@@ -179,6 +243,13 @@ export const PinnedConversationsFull = Template.bind({});
 PinnedConversationsFull.args = {
   toast: {
     toastType: ToastType.PinnedConversationsFull,
+  },
+};
+
+export const ReactionFailed = Template.bind({});
+ReactionFailed.args = {
+  toast: {
+    toastType: ToastType.ReactionFailed,
   },
 };
 
@@ -231,6 +302,20 @@ StoryVideoUnsupported.args = {
   },
 };
 
+export const TapToViewExpiredIncoming = Template.bind({});
+TapToViewExpiredIncoming.args = {
+  toast: {
+    toastType: ToastType.TapToViewExpiredIncoming,
+  },
+};
+
+export const TapToViewExpiredOutgoing = Template.bind({});
+TapToViewExpiredOutgoing.args = {
+  toast: {
+    toastType: ToastType.TapToViewExpiredOutgoing,
+  },
+};
+
 export const UnableToLoadAttachment = Template.bind({});
 UnableToLoadAttachment.args = {
   toast: {
@@ -242,6 +327,13 @@ export const UnsupportedMultiAttachment = Template.bind({});
 UnsupportedMultiAttachment.args = {
   toast: {
     toastType: ToastType.UnsupportedMultiAttachment,
+  },
+};
+
+export const UnsupportedOS = Template.bind({});
+UnsupportedOS.args = {
+  toast: {
+    toastType: ToastType.UnsupportedOS,
   },
 };
 

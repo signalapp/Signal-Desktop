@@ -4,15 +4,14 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import {
-  BaseConversationListItem,
-  HEADER_CONTACT_NAME_CLASS_NAME,
-} from './BaseConversationListItem';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
 import { isSignalConversation } from '../../util/isSignalConversation';
 
 export type ContactListItemConversationType = Pick<
@@ -22,6 +21,7 @@ export type ContactListItemConversationType = Pick<
   | 'avatarPath'
   | 'badges'
   | 'color'
+  | 'groupId'
   | 'id'
   | 'isMe'
   | 'phoneNumber'
@@ -80,28 +80,33 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     );
 
     const messageText =
-      about && !isMe ? <About className="" text={about} /> : null;
+      about && !isMe ? <About className="" text={about} /> : undefined;
 
     return (
-      <BaseConversationListItem
-        acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
-        badge={badge}
-        color={color}
-        conversationType={type}
-        headerName={headerName}
-        i18n={i18n}
-        id={id}
-        isMe={isMe}
-        isSelected={false}
-        messageText={messageText}
+      <ListTile
+        leading={
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPath={avatarPath}
+            color={color}
+            conversationType={type}
+            noteToSelf={Boolean(isMe)}
+            i18n={i18n}
+            isMe={isMe}
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            title={title}
+            sharedGroupNames={sharedGroupNames}
+            size={AvatarSize.THIRTY_TWO}
+            unblurredAvatarPath={unblurredAvatarPath}
+            // This is here to appease the type checker.
+            {...(badge ? { badge, theme } : { badge: undefined })}
+          />
+        }
+        title={headerName}
+        subtitle={messageText}
+        subtitleMaxLines={1}
         onClick={onClick ? () => onClick(id) : undefined}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
-        sharedGroupNames={sharedGroupNames}
-        theme={theme}
-        title={title}
-        unblurredAvatarPath={unblurredAvatarPath}
       />
     );
   }

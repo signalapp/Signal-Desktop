@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild } from 'react';
@@ -31,7 +31,7 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'WhatsNew__bugfixes--3',
+      key: 'icu:WhatsNew__v6.6--0',
       components: undefined,
     },
   ],
@@ -47,6 +47,7 @@ export function WhatsNewModal({
     const { key, components } = releaseNotes.features[0];
     contentNode = (
       <p>
+        {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
         <Intl
           i18n={i18n}
           id={key}
@@ -60,6 +61,7 @@ export function WhatsNewModal({
       <ul>
         {releaseNotes.features.map(({ key, components }) => (
           <li key={key}>
+            {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
             <Intl
               i18n={i18n}
               id={key}

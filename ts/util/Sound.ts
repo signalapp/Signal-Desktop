@@ -11,7 +11,7 @@ export type SoundOpts = {
 export class Sound {
   static sounds = new Map();
 
-  private readonly context = new AudioContext();
+  private static context: AudioContext | undefined;
 
   private readonly loop: boolean;
 
@@ -57,6 +57,13 @@ export class Sound {
       this.node.stop(0);
       this.node = undefined;
     }
+  }
+
+  private get context(): AudioContext {
+    if (!Sound.context) {
+      Sound.context = new AudioContext();
+    }
+    return Sound.context;
   }
 
   static async loadSoundFile(src: string): Promise<ArrayBuffer> {

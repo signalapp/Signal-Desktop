@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -113,6 +113,7 @@ export const StickerManagerPackRow = React.memo(
           onKeyDown={handleKeyDown}
           onClick={handleClickPreview}
           className="module-sticker-manager__pack-row"
+          data-testid={id}
         >
           {pack.cover ? (
             <img

@@ -1,12 +1,12 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import { ReactWrapperView } from '../views/ReactWrapperView';
-import { ErrorModal } from '../components/ErrorModal';
-import { ProgressModal } from '../components/ProgressModal';
-import * as log from '../logging/log';
+import React from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+
 import * as Errors from '../types/errors';
+import * as log from '../logging/log';
+import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 export async function longRunningTaskWrapper<T>({
@@ -24,17 +24,13 @@ export async function longRunningTaskWrapper<T>({
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
 
-  let progressView: Backbone.View | undefined;
+  let progressNode: HTMLDivElement | undefined;
   let spinnerStart;
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-    log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
+    progressNode = document.createElement('div');
 
-    // Note: this component uses a portal to render itself into the top-level DOM. No
-    //   need to attach it to the DOM here.
-    progressView = new ReactWrapperView({
-      className: 'progress-modal-wrapper',
-      JSX: <ProgressModal i18n={window.i18n} />,
-    });
+    log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
+    render(<ProgressModal i18n={window.i18n} />, progressNode);
     spinnerStart = Date.now();
   }, TWO_SECONDS);
 
@@ -47,7 +43,7 @@ export async function longRunningTaskWrapper<T>({
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
-    if (progressView) {
+    if (progressNode) {
       const now = Date.now();
       if (spinnerStart && now - spinnerStart < ONE_SECOND) {
         log.info(
@@ -55,8 +51,8 @@ export async function longRunningTaskWrapper<T>({
         );
         await window.Signal.Util.sleep(ONE_SECOND);
       }
-      progressView.remove();
-      progressView = undefined;
+      unmountComponentAtNode(progressNode);
+      progressNode = undefined;
     }
 
     return result;
@@ -68,27 +64,14 @@ export async function longRunningTaskWrapper<T>({
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
-    if (progressView) {
-      progressView.remove();
-      progressView = undefined;
+    if (progressNode) {
+      unmountComponentAtNode(progressNode);
+      progressNode = undefined;
     }
 
     if (!suppressErrorDialog) {
       log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
-
-      // Note: this component uses a portal to render itself into the top-level DOM. No
-      //   need to attach it to the DOM here.
-      const errorView: Backbone.View = new ReactWrapperView({
-        className: 'error-modal-wrapper',
-        JSX: (
-          <ErrorModal
-            i18n={window.i18n}
-            onClose={() => {
-              errorView.remove();
-            }}
-          />
-        ),
-      });
+      window.reduxActions.globalModals.showErrorModal({});
     }
 
     throw error;

@@ -34,9 +34,9 @@ describe('maybeExpandErrors', () => {
 });
 
 describe('handleMultipleSendErrors', () => {
-  const make413 = (retryAfter: number): HTTPError =>
+  const makeSlowDown = (code: 413 | 429, retryAfter: number): HTTPError =>
     new HTTPError('Slow down', {
-      code: 413,
+      code,
       headers: { 'retry-after': retryAfter.toString() },
       response: {},
     });
@@ -101,76 +101,84 @@ describe('handleMultipleSendErrors', () => {
     );
   });
 
-  describe('413 handling', () => {
-    it('sleeps for the longest 413 Retry-After time', async () => {
-      let done = false;
+  for (const code of [413, 429] as const) {
+    // eslint-disable-next-line no-loop-func
+    describe(`${code} handling`, () => {
+      it(`sleeps for the longest ${code} Retry-After time`, async () => {
+        let done = false;
 
-      (async () => {
-        try {
-          await handleMultipleSendErrors({
+        void (async () => {
+          try {
+            await handleMultipleSendErrors({
+              ...defaultOptions,
+              errors: [
+                new Error('Other'),
+                makeSlowDown(code, 10),
+                makeSlowDown(code, 999),
+                makeSlowDown(code, 20),
+              ],
+              timeRemaining: 99999999,
+              toThrow: new Error('to throw'),
+            });
+          } catch (err) {
+            // No-op
+          } finally {
+            done = true;
+          }
+        })();
+
+        await clock.tickAsync(900 * SECOND);
+        assert.isFalse(done, "Didn't sleep for long enough");
+        await clock.tickAsync(100 * SECOND);
+        assert.isTrue(done, 'Slept for too long');
+      });
+
+      it("doesn't sleep longer than the remaining time", async () => {
+        let done = false;
+
+        void (async () => {
+          try {
+            await handleMultipleSendErrors({
+              ...defaultOptions,
+              errors: [makeSlowDown(code, 9999)],
+              timeRemaining: 99,
+              toThrow: new Error('to throw'),
+            });
+          } catch (err) {
+            // No-op
+          } finally {
+            done = true;
+          }
+        })();
+
+        await clock.tickAsync(100);
+        assert.isTrue(done);
+      });
+
+      it("doesn't sleep if it's the final attempt", async () => {
+        await assert.isRejected(
+          handleMultipleSendErrors({
             ...defaultOptions,
-            errors: [
-              new Error('Other'),
-              make413(10),
-              make413(999),
-              make413(20),
-            ],
-            timeRemaining: 99999999,
+            errors: [new Error('uh oh')],
+            isFinalAttempt: true,
             toThrow: new Error('to throw'),
-          });
-        } catch (err) {
-          // No-op
-        } finally {
-          done = true;
-        }
-      })();
-
-      await clock.tickAsync(900 * SECOND);
-      assert.isFalse(done, "Didn't sleep for long enough");
-      await clock.tickAsync(100 * SECOND);
-      assert.isTrue(done, 'Slept for too long');
+          })
+        );
+      });
     });
-
-    it("doesn't sleep longer than the remaining time", async () => {
-      let done = false;
-
-      (async () => {
-        try {
-          await handleMultipleSendErrors({
-            ...defaultOptions,
-            errors: [make413(9999)],
-            timeRemaining: 99,
-            toThrow: new Error('to throw'),
-          });
-        } catch (err) {
-          // No-op
-        } finally {
-          done = true;
-        }
-      })();
-
-      await clock.tickAsync(100);
-      assert.isTrue(done);
-    });
-
-    it("doesn't sleep if it's the final attempt", async () => {
-      await assert.isRejected(
-        handleMultipleSendErrors({
-          ...defaultOptions,
-          errors: [new Error('uh oh')],
-          isFinalAttempt: true,
-          toThrow: new Error('to throw'),
-        })
-      );
-    });
-  });
+  }
 
   describe('508 handling', () => {
     it('resolves with no error if any 508 is received', async () => {
       await assert.isFulfilled(
         handleMultipleSendErrors({
           ...defaultOptions,
-          errors: [new Error('uh oh'), { code: 508 }, make413(99999)],
+          errors: [
+            new Error('uh oh'),
+            { code: 508 },
+            makeSlowDown(413, 99999),
+            makeSlowDown(429, 99999),
+          ],
           markFailed: noop,
           toThrow: new Error('to throw'),
         })

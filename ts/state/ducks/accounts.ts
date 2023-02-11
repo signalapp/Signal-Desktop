@@ -3,38 +3,45 @@
 
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
 
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
 import { getUuidsForE164s } from '../../util/getUuidsForE164s';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
 
 // State
 
-export type AccountsStateType = {
+export type AccountsStateType = ReadonlyDeep<{
   accounts: Record<string, UUIDStringType | undefined>;
-};
+}>;
 
 // Actions
 
-type AccountUpdateActionType = {
+type AccountUpdateActionType = ReadonlyDeep<{
   type: 'accounts/UPDATE';
   payload: {
     phoneNumber: string;
     uuid?: UUIDStringType;
   };
-};
+}>;
 
-export type AccountsActionType = AccountUpdateActionType;
+export type AccountsActionType = ReadonlyDeep<AccountUpdateActionType>;
 
 // Action Creators
 
 export const actions = {
   checkForAccount,
 };
+
+export const useAccountsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function checkForAccount(
   phoneNumber: string
@@ -97,7 +104,7 @@ function checkForAccount(
             e164: phoneNumber,
             reason: 'checkForAccount',
           });
-        uuid = maybeMerged?.get('uuid');
+        uuid = maybeMerged.get('uuid');
       }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));

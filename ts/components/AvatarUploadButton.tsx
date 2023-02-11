@@ -30,7 +30,7 @@ export function AvatarUploadButton({
 
     let shouldCancel = false;
 
-    (async () => {
+    void (async () => {
       let newAvatar: Uint8Array;
       try {
         newAvatar = await processImageFile(processingFile);

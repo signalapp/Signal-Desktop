@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import type { GroupV2PendingMemberType } from '../../model-types.d';
 import type { PropsForMessage } from '../selectors/message';
@@ -21,30 +22,34 @@ import { getGroupMigrationMembers } from '../../groups';
 
 // State
 
-export type ForwardMessagePropsType = Omit<
-  PropsForMessage,
-  'renderingContext' | 'menu' | 'contextMenu'
+export type ForwardMessagePropsType = ReadonlyDeep<
+  Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'>
 >;
-export type SafetyNumberChangedBlockingDataType = Readonly<{
+export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: UUIDStringType;
   source?: SafetyNumberChangeSource;
 }>;
 
-type MigrateToGV2PropsType = {
+type MigrateToGV2PropsType = ReadonlyDeep<{
   areWeInvited: boolean;
   conversationId: string;
-  droppedMemberIds: ReadonlyArray<string>;
+  droppedMemberIds: Array<string>;
   hasMigrated: boolean;
-  invitedMemberIds: ReadonlyArray<string>;
-};
+  invitedMemberIds: Array<string>;
+}>;
 
-export type GlobalModalsStateType = Readonly<{
+export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   contactModalState?: ContactModalStateType;
+  errorModalProps?: {
+    description?: string;
+    title?: string;
+  };
   forwardMessageProps?: ForwardMessagePropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   isProfileEditorVisible: boolean;
   isSignalConnectionsVisible: boolean;
+  isShortcutGuideModalVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
   profileEditorHasError: boolean;
@@ -80,13 +85,17 @@ const SHOW_GV2_MIGRATION_DIALOG = 'globalModals/SHOW_GV2_MIGRATION_DIALOG';
 const CLOSE_GV2_MIGRATION_DIALOG = 'globalModals/CLOSE_GV2_MIGRATION_DIALOG';
 const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
+const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
+const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
+const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 
-export type ContactModalStateType = {
+export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
   conversationId?: string;
-};
+}>;
 
-export type UserNotFoundModalStateType =
+export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
       type: 'phoneNumber';
       phoneNumber: string;
@@ -94,99 +103,120 @@ export type UserNotFoundModalStateType =
   | {
       type: 'username';
       username: string;
-    };
+    }
+>;
 
-type HideContactModalActionType = {
+type HideContactModalActionType = ReadonlyDeep<{
   type: typeof HIDE_CONTACT_MODAL;
-};
+}>;
 
-type ShowContactModalActionType = {
+type ShowContactModalActionType = ReadonlyDeep<{
   type: typeof SHOW_CONTACT_MODAL;
   payload: ContactModalStateType;
-};
+}>;
 
-type HideWhatsNewModalActionType = {
+type HideWhatsNewModalActionType = ReadonlyDeep<{
   type: typeof HIDE_WHATS_NEW_MODAL;
-};
+}>;
 
-type ShowWhatsNewModalActionType = {
+type ShowWhatsNewModalActionType = ReadonlyDeep<{
   type: typeof SHOW_WHATS_NEW_MODAL;
-};
+}>;
 
-type HideUserNotFoundModalActionType = {
+type HideUserNotFoundModalActionType = ReadonlyDeep<{
   type: typeof HIDE_UUID_NOT_FOUND_MODAL;
-};
+}>;
 
-export type ShowUserNotFoundModalActionType = {
+export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
   type: typeof SHOW_UUID_NOT_FOUND_MODAL;
   payload: UserNotFoundModalStateType;
-};
+}>;
 
-type ToggleForwardMessageModalActionType = {
+type ToggleForwardMessageModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_FORWARD_MESSAGE_MODAL;
   payload: ForwardMessagePropsType | undefined;
-};
+}>;
 
-type ToggleProfileEditorActionType = {
+type ToggleProfileEditorActionType = ReadonlyDeep<{
   type: typeof TOGGLE_PROFILE_EDITOR;
-};
+}>;
 
-export type ToggleProfileEditorErrorActionType = {
+export type ToggleProfileEditorErrorActionType = ReadonlyDeep<{
   type: typeof TOGGLE_PROFILE_EDITOR_ERROR;
-};
+}>;
 
-type ToggleSafetyNumberModalActionType = {
+type ToggleSafetyNumberModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_SAFETY_NUMBER_MODAL;
   payload: string | undefined;
-};
+}>;
 
-type ToggleAddUserToAnotherGroupModalActionType = {
+type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL;
   payload: string | undefined;
-};
+}>;
 
-type ToggleSignalConnectionsModalActionType = {
+type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_SIGNAL_CONNECTIONS_MODAL;
-};
+}>;
 
-type ShowStoriesSettingsActionType = {
+type ShowStoriesSettingsActionType = ReadonlyDeep<{
   type: typeof SHOW_STORIES_SETTINGS;
-};
+}>;
 
-type HideStoriesSettingsActionType = {
+type HideStoriesSettingsActionType = ReadonlyDeep<{
   type: typeof HIDE_STORIES_SETTINGS;
-};
+}>;
 
-type StartMigrationToGV2ActionType = {
+type StartMigrationToGV2ActionType = ReadonlyDeep<{
   type: typeof SHOW_GV2_MIGRATION_DIALOG;
   payload: MigrateToGV2PropsType;
-};
+}>;
 
-type CloseGV2MigrationDialogActionType = {
+type CloseGV2MigrationDialogActionType = ReadonlyDeep<{
   type: typeof CLOSE_GV2_MIGRATION_DIALOG;
-};
+}>;
 
-export type ShowSendAnywayDialogActionType = {
+export type ShowSendAnywayDialogActionType = ReadonlyDeep<{
   type: typeof SHOW_SEND_ANYWAY_DIALOG;
   payload: SafetyNumberChangedBlockingDataType & {
     untrustedByConversation: RecipientsByConversation;
   };
-};
+}>;
 
-type HideSendAnywayDialogActiontype = {
+type HideSendAnywayDialogActiontype = ReadonlyDeep<{
   type: typeof HIDE_SEND_ANYWAY_DIALOG;
-};
+}>;
 
-export type ShowStickerPackPreviewActionType = {
+export type ShowStickerPackPreviewActionType = ReadonlyDeep<{
   type: typeof SHOW_STICKER_PACK_PREVIEW;
   payload: string;
-};
+}>;
 
-type CloseStickerPackPreviewActionType = {
+type CloseStickerPackPreviewActionType = ReadonlyDeep<{
   type: typeof CLOSE_STICKER_PACK_PREVIEW;
-};
+}>;
 
-export type GlobalModalsActionType =
+type CloseErrorModalActionType = ReadonlyDeep<{
+  type: typeof CLOSE_ERROR_MODAL;
+}>;
+
+type ShowErrorModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_ERROR_MODAL;
+  payload: {
+    description?: string;
+    title?: string;
+  };
+}>;
+
+type CloseShortcutGuideModalActionType = ReadonlyDeep<{
+  type: typeof CLOSE_SHORTCUT_GUIDE_MODAL;
+}>;
+
+type ShowShortcutGuideModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_SHORTCUT_GUIDE_MODAL;
+}>;
+
+export type GlobalModalsActionType = ReadonlyDeep<
   | StartMigrationToGV2ActionType
   | CloseGV2MigrationDialogActionType
   | HideContactModalActionType
@@ -201,12 +231,17 @@ export type GlobalModalsActionType =
   | ShowSendAnywayDialogActionType
   | CloseStickerPackPreviewActionType
   | ShowStickerPackPreviewActionType
+  | CloseErrorModalActionType
+  | ShowErrorModalActionType
+  | CloseShortcutGuideModalActionType
+  | ShowShortcutGuideModalActionType
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
   | ToggleAddUserToAnotherGroupModalActionType
-  | ToggleSignalConnectionsModalActionType;
+  | ToggleSignalConnectionsModalActionType
+>;
 
 // Action Creators
 
@@ -231,6 +266,10 @@ export const actions = {
   closeGV2MigrationDialog,
   showStickerPackPreview,
   closeStickerPackPreview,
+  closeErrorModal,
+  showErrorModal,
+  closeShortcutGuideModal,
+  showShortcutGuideModal,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -443,11 +482,10 @@ function closeStickerPackPreview(): ThunkAction<
   return async (dispatch, getState) => {
     const packId = getState().globalModals.stickerPackPreviewId;
 
-    if (!packId) {
-      return;
+    if (packId && Stickers.getStickerPack(packId) !== undefined) {
+      await Stickers.removeEphemeralPack(packId);
     }
 
-    await Stickers.removeEphemeralPack(packId);
     dispatch({
       type: CLOSE_STICKER_PACK_PREVIEW,
     });
@@ -460,11 +498,45 @@ export function showStickerPackPreview(
 ): ShowStickerPackPreviewActionType {
   // Intentionally not awaiting this so that we can show the modal right away.
   // The modal has a loading spinner on it.
-  Stickers.downloadEphemeralPack(packId, packKey);
+  void Stickers.downloadEphemeralPack(packId, packKey);
 
   return {
     type: SHOW_STICKER_PACK_PREVIEW,
     payload: packId,
+  };
+}
+
+function closeErrorModal(): CloseErrorModalActionType {
+  return {
+    type: CLOSE_ERROR_MODAL,
+  };
+}
+
+function showErrorModal({
+  description,
+  title,
+}: {
+  title?: string;
+  description?: string;
+}): ShowErrorModalActionType {
+  return {
+    type: SHOW_ERROR_MODAL,
+    payload: {
+      description,
+      title,
+    },
+  };
+}
+
+function closeShortcutGuideModal(): CloseShortcutGuideModalActionType {
+  return {
+    type: CLOSE_SHORTCUT_GUIDE_MODAL,
+  };
+}
+
+function showShortcutGuideModal(): ShowShortcutGuideModalActionType {
+  return {
+    type: SHOW_SHORTCUT_GUIDE_MODAL,
   };
 }
 
@@ -473,6 +545,7 @@ export function showStickerPackPreview(
 export function getEmptyState(): GlobalModalsStateType {
   return {
     isProfileEditorVisible: false,
+    isShortcutGuideModalVisible: false,
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
@@ -614,6 +687,34 @@ export function reducer(
     return {
       ...state,
       stickerPackPreviewId: action.payload,
+    };
+  }
+
+  if (action.type === CLOSE_ERROR_MODAL) {
+    return {
+      ...state,
+      errorModalProps: undefined,
+    };
+  }
+
+  if (action.type === SHOW_ERROR_MODAL) {
+    return {
+      ...state,
+      errorModalProps: action.payload,
+    };
+  }
+
+  if (action.type === CLOSE_SHORTCUT_GUIDE_MODAL) {
+    return {
+      ...state,
+      isShortcutGuideModalVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_SHORTCUT_GUIDE_MODAL) {
+    return {
+      ...state,
+      isShortcutGuideModalVisible: true,
     };
   }
 

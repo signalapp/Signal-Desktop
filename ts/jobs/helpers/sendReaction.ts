@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
@@ -319,10 +319,10 @@ export async function sendReaction(
             ourUuid,
             forceSave: true,
           }),
-          reactionMessage.hydrateStoryContext(message),
+          reactionMessage.hydrateStoryContext(message.attributes),
         ]);
 
-        conversation.addSingleMessage(
+        void conversation.addSingleMessage(
           window.MessageController.register(reactionMessage.id, reactionMessage)
         );
       }
@@ -414,6 +414,9 @@ function getRecipients(
       continue;
     }
     if (recipient.isUnregistered()) {
+      continue;
+    }
+    if (recipient.isBlocked()) {
       continue;
     }
 

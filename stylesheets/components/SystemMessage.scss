@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @mixin system-message-icon($light, $dark) {
@@ -281,13 +281,41 @@
         '../images/icons/v2/credit-card-16.svg'
       );
     }
+
+    &--icon-merge::before {
+      @include system-message-icon(
+        '../images/icons/v2/merge-16.svg',
+        '../images/icons/v2/merge-16.svg'
+      );
+    }
   }
 
   &--error {
-    color: $color-accent-red;
+    .SystemMessage__contents::before {
+      @include light-theme {
+        background-color: $color-accent-red;
+      }
+      @include dark-theme {
+        background-color: $color-accent-red;
+      }
+    }
+  }
+
+  &--danger {
+    @include light-theme {
+      color: $color-accent-red;
+    }
+    @include dark-theme {
+      color: $color-accent-red;
+    }
 
     .SystemMessage__contents::before {
-      background: $color-accent-red;
+      @include light-theme {
+        background-color: $color-accent-red;
+      }
+      @include dark-theme {
+        background-color: $color-accent-red;
+      }
     }
   }
 

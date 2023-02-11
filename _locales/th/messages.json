@@ -64,6 +64,18 @@
     "message": "สถานะสมาชิกยังไม่สมบูรณ์",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "ส่งคุณภาพสื่อแล้ว",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "มาตรฐาน",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "สูง",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "คำขอบคุณสำหรับซอฟต์แวร์",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "ลบข้อมูลทั้งหมดและเริ่มใหม่",
+    "message": "ลบข้อมูลทั้งหมดและรีสตาร์ท",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -674,12 +686,21 @@
     "message": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "เลือกได้ครั้งละหนึ่งไฟล์เท่านั้น",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "คุณไม่สามารถแนบแฟ้มเพิ่มในข้อความนี้ได้อีกแล้ว",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด"
+    "message": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "เพื่อจะส่งข้อความเสียง ต้องอนุญาตให้ Signal Desktop ใช้งานไมโครโฟนของคุณ",
+    "message": "สำหรับการส่งข้อความเสียง ต้องอนุญาตให้ Signal สำหรับเดสก์ท็อปเข้าถึงไมโครโฟนของคุณ",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1073,11 +1094,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ข้อความนี้จะถูกลบออกจากอุปกรณ์นี้",
+    "message": "ระบบจะลบข้อความนี้ออกจากอุปกรณ์เครื่องนี้",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "หากพวกเขากำลังใช้ Signal รุ่นที่เพิ่งปรับปรุงไม่นานนี้ ข้อความนี้จะถูกลบจากทุกคนที่อยู่ในบทสนทนา พวกเขาจะเห็นว่าคุณลบข้อความ",
+    "message": "ระบบจะลบข้อความนี้สำหรับทุกคนในการสนทนาที่ใช้ Signal เวอร์ชันล่าสุด และผู้ใช้จะเห็นว่าคุณลบข้อความ",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "ลองลบสำหรับทุกคนใหม่อีกครั้ง",
+    "message": "ลองลบสำหรับทุกคนอีกครั้ง",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ เปลี่ยนหมายเลขโทรศัพท์แล้ว",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} และ {conversationTitle} เป็นบัญชีเดียวกัน ประวัติการส่งข้อความสำหรับแชททั้งสองรายการอยู่ในนี้",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "ประวัติการส่งข้อความของคุณกับ {conversationTitle} รวมถึงหมายเลขโทรศัพท์ {obsoleteConversationNumber} ถูกรวมเข้าด้วยกันเรียบร้อยแล้ว",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "ประวัติการส่งข้อความของคุณกับ {conversationTitle} และอีกแชทของผู้ติดต่อถูกรวมเข้าด้วยกันเรียบร้อยแล้ว",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "เรียนรู้เพิ่มเติม",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "หลังจากที่ส่งข้อความกับ {obsoleteConversationTitle} คุณได้ทราบว่าหมายเลขนี้เป็นของ {conversationTitle} หมายเลขโทรศัพท์นี้เป็นข้อมูลส่วนตัว",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "ประวัติการส่งข้อความสำหรับการสนทนาทั้งสองรายการถูกรวมไว้ในนี้",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} เป็นหมายเลขโทรศัพท์ของ {conversationTitle} คุณทั้งคู่เป็นสมาชิกของ {sharedGroup}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} เป็นหมายเลขโทรศัพท์ของ {conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "รูปย่อของภาพในข้อความที่ยกมา",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "คุณจะไม่ได้รับเสียงและวิดีโอ และพวกเขาจะไม่ได้รับเสียงและวิดีโอของคุณ",
+    "message": "คุณจะไม่ได้รับสายโทรเสียงหรือวิดีโอคอลจากผู้ติดต่อคนนี้ และเขาก็จะไม่ได้รับสายจากคุณเช่นกัน",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "คุณกำลังจะลบข้อมูลบัญชีที่บันทึกไว้ของโปรแกรมนี้ทั้งหมด ซึ่งรวมถึงรายชื่อผู้ติดต่อและข้อความทั้งหมด คุณสามารถเชื่อมต่อกับอุปกรณ์เคลื่อนที่ของคุณใหม่ได้เสมอแต่จะไม่สามารถเรียกคืนข้อความที่ถูกลบไปแล้ว",
+    "message": "คุณกำลังจะลบข้อมูลบัญชีที่บันทึกไว้ทั้งหมดของแอปพลิเคชันนี้ ซึ่งรวมถึงรายชื่อผู้ติดต่อและข้อความทั้งหมด คุณสามารถเชื่อมต่อกับอุปกรณ์เคลื่อนที่ใหม่ได้เสมอแต่จะไม่สามารถกู้คืนข้อความที่ถูกลบไปแล้ว",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "คุณมีข้อมูลที่ล้าสมัยแล้วจากการติดตั้ง Signal Desktop ครั้งก่อนหน้า ถ้าคุณเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและคุณจะเริ่มต้นใหม่จากศูนย์",
+    "message": "คุณมีข้อมูลที่ล้าสมัยจากการติดตั้ง Signal เดสก์ท็อปครั้งก่อนหน้า หากเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและทุกอย่างจะเริ่มต้นใหม่ทั้งหมด",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "กด เริ่ม Signal ใหม่ เพื่อเริ่มการปรับปรุง"
+    "message": "กด เริ่ม Signal ใหม่ เพื่อเริ่มการปรับปรุง",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "เริ่ม Signal ใหม่"
@@ -2228,88 +2282,176 @@
     "message": "ข้อความนี้ถูกลบ",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "ไม่สามารถเรียกดูข้อมูลโล่ของขวัญได้",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "ไม่สามารถเรียกดูรายละเอียดการบริจาคได้",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "เปิดได้ด้วยการดูข้อความนี้บนมือถือ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "เปิดดูข้อความนี้บนมือถือ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "แตะที่ข้อความนี้บนมือถือเพื่อดูของขวัญของคุณ",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "แตะที่ข้อความนี้บนมือถือเพื่อดูการบริจาคของคุณ",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "ของขวัญ",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} บริจาคให้ Signal ในนามของคุณ",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "เปิดของขวัญด้วยการตรวจสอบบนโทรศัพท์",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "เปิดดูการบริจาคนี้ได้บนโทรศัพท์",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "ดูของขวัญของคุณด้วยการตรวจสอบบนโทรศัพท์",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "ดูการบริจาคของคุณได้บนโทรศัพท์",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "คุณได้รับของขวัญ",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} บริจาคในนามของคุณ",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "คุณแลกเครื่องหมายของขวัญแล้ว",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "คุณแลกโล่บริจาคแล้ว",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "คุณส่งโล่ของขวัญแล้ว",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "คุณบริจาคในนามของ {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "โล่ของขวัญ",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "การบริจาค",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "ของขวัญ",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "การบริจาค",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "เหลือ $days$ วัน",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "เหลืออีก {days} วัน",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "เหลือ $hours$ ชั่วโมง",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "เหลืออีก {hours} ชั่วโมง",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "เหลือ $minutes$ นาที",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, other {เหลืออีก {minutes,number} นาที}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "เหลือ 1 นาที",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "หมดอายุ",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "หมดอายุ",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "ดู",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "ดู",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "แลกเปลี่ยนแล้ว",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "แลกรับแล้ว",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "ขอบคุณสำหรับการสนับสนุน!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "ขอบคุณสำหรับการสนับสนุน!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "คุณได้ให้โล่ของขวัญกับ $name$ โดยผู้รับสามารถเลือกได้ว่าจะแสดงหรือซ่อนโล่",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "คุณบริจาคให้ Signal ในนามของ {name} ผู้ใช้คนดังกล่าวสามารถเลือกได้ว่าจะแสดงการสนับสนุนครั้งนี้บนโปรไฟล์หรือไม่",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "ไม่สามารถติดตั้งชุดสติกเกอร์ได้",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "สติกเกอร์",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "พร้อมใช้งาน",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "สติกเกอร์ที่ติดตั้งแล้ว",
+    "message": "ติดตั้งแล้ว",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2605,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "ลบข้อความที่ถูกเลือก",
+    "message": "ลบข้อความที่เลือกไว้",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ลบร่างภาพตัวอย่างลิงก์",
+    "message": "ลบตัวอย่างลิงก์ฉบับร่าง",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "เอาร่างแฟ้มแนบออกทั้งหมด",
+    "message": "ลบไฟล์แนบฉบับร่างออกทั้งหมด",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "รับสายด้วยวิดีโอ",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "รับสายโดยเปิดวิดีโอ",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "รับสายด้วยเสียงเท่านั้น",
+    "message": "รับสายและไม่เปิดวิดีโอ",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "รับสายโดยเปิดวิดีโอ (เฉพาะวิดีโอคอล)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "รับสายโดยไม่เปิดวิดีโอ",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "เริ่มโทรเสียง",
+    "message": "เริ่มการโทรด้วยเสียง",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "เอาแฟ้มแนบออก",
+    "message": "ลบไฟล์แนบออก",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2961,7 +3111,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ลบการตอบสนอง",
+    "message": "ลบการแสดงความรู้สึก",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3041,15 +3191,15 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "ลบการสนทนาหรือไม่?",
+    "message": "ลบการสนทนาหรือไม่",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "การสนทนานี้จะถูกลบออกจากทุกอุปกรณ์ของคุณ",
+    "message": "การสนทนานี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "ลบและออกจากกลุ่ม $group$ หรือไม่?",
+    "message": "ลบและออกจากกลุ่ม $group$ หรือไม่",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "คุณจะออกจากกลุ่มนี้และมันจะถูกลบออกจากทุกอุปกรณ์ของคุณ",
+    "message": "คุณจะออกจากกลุ่มนี้และระบบจะลบกลุ่มออกจากอุปกรณ์ทุกเครื่องของคุณ",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3133,7 +3283,7 @@
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ตอบรับโดยไม่ใช้วิดีโอ",
+    "message": "รับสายโดยไม่เปิดวิดีโอ",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "คุณได้ปฏิเสธการโทรเสียง",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "คุณปฏิเสธการโทรด้วยเสียง",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "คุณได้ปฏิเสธการโทรวิดีโอ",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "สายเรียกเข้า",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "การโทรด้วยเสียงขาเข้า",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "สายวิดีโอเรียกเข้า",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "โทรเสียงที่พลาด",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "การโทรด้วยเสียงที่ไม่ได้รับ",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "โทรวิดีโอที่พลาด",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "สายโทรออก",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "การโทรด้วยเสียงขาออก",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "สายวิดีโอโทรออก",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "โทรเสียงที่ไม่ได้รับ",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "การโทรด้วยเสียงที่ปลายสายไม่ได้รับ",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "โทรวิดีโอที่ไม่ได้รับ",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "สายเรียกเข้า…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "การโทรด้วยเสียงขาเข้า...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "วิดีโอคอลเรียกเข้า…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "คุณเข้าร่วมกลุ่มนี้ด้วยลิงก์กลุ่มนี้ไม่ได้เพราะผู้ดูแลลบคุณออกไปแล้ว",
+    "message": "คุณเข้าร่วมกลุ่มนี้ด้วยลิงก์กลุ่มไม่ได้เพราะผู้ดูแลลบคุณออกไปแล้ว",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3541,15 +3691,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ ได้ลบชื่อกลุ่มออก",
+    "message": "$memberName$ ลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "คุณได้ลบชื่อกลุ่ม",
+    "message": "คุณลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "สมาชิกได้ลบชื่อกลุ่มออก",
+    "message": "สมาชิกลบชื่อกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ ได้ลบภาพประจำตัวกลุ่ม",
+    "message": "$memberName$ ลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "คุณได้ลบภาพประจำตัวกลุ่ม",
+    "message": "คุณลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "สมาชิกได้ลบภาพประจำตัวกลุ่ม",
+    "message": "สมาชิกลบภาพประจำตัวกลุ่ม",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3733,7 +3883,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ ได้ลบ $memberName$ ออก",
+    "message": "$adminName$ ลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -3741,15 +3891,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "คุณได้ลบ $memberName$ ออก",
+    "message": "คุณลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "สมาชิกได้ลบ $memberName$ ออก",
+    "message": "สมาชิกลบ $memberName$ ออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ ได้ลบคุณออก",
+    "message": "$adminName$ ลบคุณออก",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -4060,6 +4210,10 @@
     "message": "กลุ่มเปลี่ยนเป็นอนุญาตให้สมาชิกทุกคนส่งข้อความได้",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "มีการเปลี่ยนแปลงสมาชิกหรือการตั้งค่าในกลุ่มนี้",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "ปรับรุ่นกลุ่มนี้เพื่อเปิดใช้ความสามารถใหม่ เช่น @กล่าวถึง และระบบผู้ดูแล สมาชิกที่ไม่ได้เปิดเผยชื่อหรือรูปภาพในกลุ่มนี้จะได้รับคำเชิญให้เข้าร่วม $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "สมาชิกเหล่านี้ไม่สามารถร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
+    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกลบออกจากกลุ่ม:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกนำออกจากกลุ่ม:",
+    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และจะถูกลบออกจากกลุ่ม:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
+    "message": "สมาชิกเหล่านี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกลบออกจากกลุ่มแล้ว:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกนำออกจากกลุ่มแล้ว:",
+    "message": "สมาชิกรายนี้ไม่สามารถเข้าร่วมกลุ่มแบบใหม่ได้ และถูกลบออกจากกลุ่มแล้ว:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4221,7 +4375,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "ปลด $contact$ จากการเป็นผู้ดูแลกลุ่มหรือไม่?",
+    "message": "ปลด $contact$ จากการเป็นผู้ดูแลกลุ่มหรือไม่",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "มี $number$ กลุ่มร่วมกัน",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "ไม่มีกลุ่มร่วมกัน",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "เพิ่มเข้ากลุ่ม",
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่?",
+    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่ เขาจะไม่สามารถกลับเข้ากลุ่มใหม่ได้ผ่านลิงก์กลุ่มนี้",
+    "message": "ลบ \"$name$\" ออกจากกลุ่มหรือไม่ ผู้ใช้รายนี้จะไม่สามารถกลับเข้ากลุ่มอีกครั้งผ่านลิงก์กลุ่มนี้",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4765,7 +4927,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "การลบข้อความสำหรับทุกคนไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
+    "message": "ลบข้อความสำหรับทุกคนไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "สีกำหนดเองนี้มีการใช้งานใน $num$ แชต คุณต้องการลบสีนี้จากแชตทั้งหมดหรือไม่?",
+    "message": "สีที่กำหนดเองนี้มีการใช้งานในแชท $num$ รายการ คุณต้องการลบสีนี้จากแชททั้งหมดหรือไม่",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "ไม่สามารถลบชื่อผู้ใช้ของคุณได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง",
+    "message": "ไม่สามารถลบชื่อผู้ใช้ของคุณได้ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "นี่จะเป็นการลบชื่อผู้ใช้ของคุณและทำให้ผู้ใช้รายอื่นนำไปใช้ได้ คุณแน่ใจหรือไม่",
+    "message": "การดำเนินการนี้จะลบชื่อผู้ใช้ของคุณและทำให้ผู้ใช้รายอื่นนำไปใช้ได้ คุณแน่ใจหรือไม่",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5904,6 +6066,10 @@
     "message": "ตอบกลับ",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "ตอบกลับหา {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "ตอบกลับกลุ่ม",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "แสดงความรู้สึกต่อสตอรี่",
+    "message": "(ลบแล้วเมื่อ 25/01/2023) แสดงความรู้สึกต่อสตอรี่",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "ตัวเลขนี้จะช่วยรักษาความเป็นส่วนตัวให้ชื่อผู้ใช้ของคุณ ป้องกันไม่ให้คุณได้รับข้อความที่ไม่พึงประสงค์ เราขอแนะนำให้แชร์ชื่อผู้ใช้ของคุณเฉพาะกับคนและกลุ่มที่คุณอยากติดต่อด้วยเท่านั้น โดยหากเปลี่ยนชื่อผู้ใช้ คุณก็จะได้รับชุดตัวเลขใหม่",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal เดสก์ท็อปกำลังจะหยุดรองรับเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่ เพื่อการใช้งานอย่างต่อเนื่อง กรุณาอัปเดตระบบปฏิบัติการของคอมพิวเตอร์ภายใน {expirationDate} <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "คอมพิวเตอร์เครื่องนี้ไม่รองรับการใช้งาน Signal เดสก์ท็อปอีกต่อไป หากต้องการใช้งาน Signal เดสก์ท็อปต่อ กรุณาอัปเดตเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "คอมพิวเตอร์เครื่องนี้ไม่รองรับการใช้งาน Signal เดสก์ท็อปอีกต่อไป หากต้องการใช้งาน Signal เดสก์ท็อปต่อ กรุณาอัปเดตเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "ฟีเจอร์และบริการใหม่ๆ",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "เมื่อคุณเริ่มการโทรแบบกลุ่มกับกลุ่มขนาดเล็ก (สมาชิกไม่เกิน 16 คน) คุณสามารถเลือกได้ว่าจะส่งเสียงแจ้งเตือนหรือไม่ สมาชิกในกลุ่มที่ใช้ iOS รุ่นเบต้า หรือใช้แอปบนเดสก์ท็อปหรือ Android จะได้ยินเสียงโทรเข้า",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "ดับเบิลคลิกที่ข้อความฝั่งใดก็ได้ในแชทเพื่อตอบกลับข้อความนั้นๆ นี่เป็นเหมือนทางลัดที่เชื่อมโยงความคิดใหม่กลับไปยังคำพูดก่อนหน้านี้ เราขอขอบคุณ {whynothugo} และชุมชน Signal ที่นำฟีเจอร์นี้เข้ามาใช้และคอยให้ข้อเสนอแนะ",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "ปิดหน้าต่างที่แสดงรูปภาพแบบเต็มจอได้ง่ายขึ้น เพียงคลิกนอกขอบเขตรูป แอปจะพาคุณกลับมายังหน้าเดิม และไม่ซูมเข้าอีกต่อไป เพราะบางครั้งคุณแค่อยากกลับไปหน้าเก่า แต่รูปบนจอดันขยายหลายเท่าจนตกใจ ต้องขอบคุณ {jojomatik} ที่ช่วยแก้ไขปัญหานี้!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ตอบกลับทันใจ ถ่ายทอดความรู้สึกได้ทันที ตอบกลับสตอรี่ได้รวดเร็วยิ่งกว่าเดิม แค่คลิกอีโมจิที่ตอบโจทย์เพื่อแสดงความรู้สึกของคุณ",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ตอนนี้คุณสามารถใช้ตัวอักษรภาษาจีนและภาษาญี่ปุ่นตัวหนึ่งตัวใดในการค้นหาประวัติการส่งข้อความได้แล้ว",
+    "description": "Release notes for v6.5"
   }
 }

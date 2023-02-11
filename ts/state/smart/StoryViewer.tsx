@@ -29,7 +29,6 @@ import {
 import { isInFullScreenCall } from '../selectors/calling';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
-import { retryMessageSend } from '../../util/retryMessageSend';
 import { strictAssert } from '../../util/assert';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 import { useActions as useEmojisActions } from '../ducks/emojis';
@@ -42,8 +41,12 @@ import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { onUseEmoji } = useEmojisActions();
-  const { saveAttachment, showConversation, toggleHideStories } =
-    useConversationsActions();
+  const {
+    retryMessageSend,
+    saveAttachment,
+    showConversation,
+    toggleHideStories,
+  } = useConversationsActions();
   const { onSetSkinTone } = useItemsActions();
   const { showToast } = useToastActions();
 
@@ -51,7 +54,7 @@ export function SmartStoryViewer(): JSX.Element | null {
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const preferredReactionEmoji = useSelector<StateType, Array<string>>(
+  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
     getPreferredReactionEmoji
   );
 
@@ -135,7 +138,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
-      retrySend={retryMessageSend}
+      retryMessageSend={retryMessageSend}
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}

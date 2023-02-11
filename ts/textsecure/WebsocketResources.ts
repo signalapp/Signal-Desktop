@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -227,11 +227,12 @@ export default class WebSocketResource extends EventTarget {
     if (!this.keepalive) {
       return;
     }
-    this.keepalive.send();
+    void this.keepalive.send();
   }
 
   public close(code = 3000, reason?: string): void {
     if (this.closed) {
+      log.info(`WebSocketResource.close: Already closed! ${code}/${reason}`);
       return;
     }
 

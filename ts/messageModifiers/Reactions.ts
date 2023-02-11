@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -15,7 +15,7 @@ import * as log from '../logging/log';
 import { getContactId, getContact } from '../messages/helpers';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import { isOutgoing, isStory } from '../state/selectors/message';
-import { getMessageIdForLogging } from '../util/idForLogging';
+import { strictAssert } from '../util/assert';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
 
@@ -83,10 +83,7 @@ export class Reactions extends Collection<ReactionModel> {
     });
   }
 
-  async onReaction(
-    reaction: ReactionModel,
-    generatedMessage: MessageModel
-  ): Promise<void> {
+  async onReaction(reaction: ReactionModel): Promise<void> {
     try {
       // The conversation the target message was in; we have to find it in the database
       //   to to figure that out.
@@ -102,6 +99,11 @@ export class Reactions extends Collection<ReactionModel> {
         );
       }
 
+      const generatedMessage = reaction.get('storyReactionMessage');
+      strictAssert(
+        generatedMessage,
+        'Story reactions must provide storyReactionMessage'
+      );
       const fromConversation = window.ConversationController.get(
         generatedMessage.get('conversationId')
       );
@@ -115,6 +117,8 @@ export class Reactions extends Collection<ReactionModel> {
       if (!targetMessageCheck) {
         log.info(
           'No message for reaction',
+          reaction.get('timestamp'),
+          'targeting',
           reaction.get('targetAuthorUuid'),
           reaction.get('targetTimestamp')
         );
@@ -172,46 +176,14 @@ export class Reactions extends Collection<ReactionModel> {
         );
 
         // Use the generated message in ts/background.ts to create a message
-        // if the reaction is targetted at a story.
-        if (isStory(targetMessage)) {
-          generatedMessage.set({
-            expireTimer: targetConversation.get('expireTimer'),
-            storyId: targetMessage.id,
-            storyReaction: {
-              emoji: reaction.get('emoji'),
-              targetAuthorUuid: reaction.get('targetAuthorUuid'),
-              targetTimestamp: reaction.get('targetTimestamp'),
-            },
+        // if the reaction is targeted at a story.
+        if (!isStory(targetMessage)) {
+          await message.handleReaction(reaction);
+        } else {
+          await generatedMessage.handleReaction(reaction, {
+            storyMessage: targetMessage,
           });
-
-          // Note: generatedMessage comes with an id, so we have to force this save
-          await Promise.all([
-            window.Signal.Data.saveMessage(generatedMessage.attributes, {
-              ourUuid: window.textsecure.storage.user
-                .getCheckedUuid()
-                .toString(),
-              forceSave: true,
-            }),
-            generatedMessage.hydrateStoryContext(message),
-          ]);
-
-          log.info('Reactions.onReaction adding reaction to story', {
-            reactionMessageId: getMessageIdForLogging(
-              generatedMessage.attributes
-            ),
-            storyId: getMessageIdForLogging(targetMessage),
-            targetTimestamp: reaction.get('targetTimestamp'),
-            timestamp: reaction.get('timestamp'),
-          });
-
-          const messageToAdd = window.MessageController.register(
-            generatedMessage.id,
-            generatedMessage
-          );
-          targetConversation.addSingleMessage(messageToAdd);
         }
-
-        await message.handleReaction(reaction);
 
         this.remove(reaction);
       });

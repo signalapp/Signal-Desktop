@@ -1,4 +1,4 @@
-// Copyright 2017-2022 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -13,6 +13,6 @@ if (config.environment === 'test') {
 }
 if (config.enableCI) {
   console.log('Importing CI infrastructure...');
-  const { CI } = require('../../CI');
-  window.CI = new CI(window.getTitle());
+  const { getCI } = require('../../CI');
+  window.SignalCI = getCI(window.getTitle());
 }

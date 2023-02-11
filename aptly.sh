@@ -1,8 +1,8 @@
 #!/bin/bash
-# Copyright 2017-2021 Signal Messenger, LLC
+# Copyright 2017 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
-# First run on a machine - uncomment the two 'first run' sections below, comment out the 'later runs' section. 
+# First run on a machine - uncomment the two 'first run' sections below, comment out the 'later runs' section.
 #
 # Release:
 #   NAME=signal-desktop(-beta) VERSION=X.X.X ./aptly.sh

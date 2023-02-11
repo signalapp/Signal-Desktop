@@ -8,11 +8,9 @@ import { useArgs } from '@storybook/addons';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
-import { IMAGE_JPEG } from '../types/MIME';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { UUID } from '../types/UUID';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StoryViewTargetType } from '../types/Stories';
@@ -53,17 +51,6 @@ export default {
     renderEmojiPicker: { action: true },
     replies: {
       defaultValue: [],
-    },
-    storyPreviewAttachment: {
-      defaultValue: fakeAttachment({
-        thumbnail: {
-          contentType: IMAGE_JPEG,
-          height: 64,
-          objectUrl: '/fixtures/nathan-anderson-316188-unsplash.jpg',
-          path: '',
-          width: 40,
-        },
-      }),
     },
     views: {
       defaultValue: [],

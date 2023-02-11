@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { select, text } from '@storybook/addon-knobs';
 import { random, range, sample, sortBy } from 'lodash';
+import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
@@ -106,6 +107,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.type || 'media'
   ),
   mediaItems: overrideProps.mediaItems || [],
+  onItemClick: action('onItemClick'),
 });
 
 export function Documents() {

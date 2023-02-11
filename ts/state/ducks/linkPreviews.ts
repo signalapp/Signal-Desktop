@@ -3,45 +3,49 @@
 
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type {
-  LinkPreviewSourceType,
-  MaybeGrabLinkPreviewOptionsType,
-} from '../../types/LinkPreview';
+import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 import { maybeGrabLinkPreview } from '../../services/LinkPreview';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { strictAssert } from '../../util/assert';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
-export type LinkPreviewsStateType = {
-  readonly linkPreview?: LinkPreviewType;
-  readonly source?: LinkPreviewSourceType;
-};
+export type LinkPreviewsStateType = ReadonlyDeep<{
+  linkPreview?: LinkPreviewType;
+  source?: LinkPreviewSourceType;
+}>;
 
 // Actions
 
 export const ADD_PREVIEW = 'linkPreviews/ADD_PREVIEW';
 export const REMOVE_PREVIEW = 'linkPreviews/REMOVE_PREVIEW';
 
-export type AddLinkPreviewActionType = {
+export type AddLinkPreviewActionType = ReadonlyDeep<{
   type: 'linkPreviews/ADD_PREVIEW';
   payload: {
+    conversationId?: string;
     linkPreview: LinkPreviewType;
     source: LinkPreviewSourceType;
   };
-};
+}>;
 
-export type RemoveLinkPreviewActionType = {
+export type RemoveLinkPreviewActionType = ReadonlyDeep<{
   type: 'linkPreviews/REMOVE_PREVIEW';
-};
+  payload: {
+    conversationId?: string;
+  };
+}>;
 
-type LinkPreviewsActionType =
-  | AddLinkPreviewActionType
-  | RemoveLinkPreviewActionType;
+type LinkPreviewsActionType = ReadonlyDeep<
+  AddLinkPreviewActionType | RemoveLinkPreviewActionType
+>;
 
 // Action Creators
 
@@ -62,20 +66,31 @@ function debouncedMaybeGrabLinkPreview(
 
 function addLinkPreview(
   linkPreview: LinkPreviewType,
-  source: LinkPreviewSourceType
+  source: LinkPreviewSourceType,
+  conversationId?: string
 ): AddLinkPreviewActionType {
+  if (source === LinkPreviewSourceType.Composer) {
+    strictAssert(conversationId, 'no conversationId provided');
+  }
+
   return {
     type: ADD_PREVIEW,
     payload: {
+      conversationId,
       linkPreview,
       source,
     },
   };
 }
 
-function removeLinkPreview(): RemoveLinkPreviewActionType {
+function removeLinkPreview(
+  conversationId?: string
+): RemoveLinkPreviewActionType {
   return {
     type: REMOVE_PREVIEW,
+    payload: {
+      conversationId,
+    },
   };
 }
 

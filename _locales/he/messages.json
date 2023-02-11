@@ -64,6 +64,18 @@
     "message": "החברוּת ממתינה",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "הגדר איכות מדיה",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "תקנית",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "גבוה",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "הוקרות התוכנה",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -93,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "מחק את כל הנתונים והפעל מחדש",
+    "message": "מחיקת כל הנתונים והפעלה מחדש",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -169,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -674,12 +686,21 @@
     "message": "אי אפשר לבחור תמונות וסרטונים יחד עם קבצים.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "אפשר לבחור רק קובץ אחד בכל פעם.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "אינך יכול להוסיף צרופות כלשהן אל הודעה זו.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "הקובץ עובר את מגבלת הגודל המקסימלי."
+    "message": "הקובץ עובר את מגבלת הגודל המקסימלי.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "הקובץ עובר את מגבלת הגודל המקסימלי. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "לא היה ניתן לטעון את הצרופה הנבחרת."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "כדי לשלוח הודעות שמע, התר אל Signal Desktop לקבל גישה אל המיקרופון שלך.",
+    "message": "כדי לשלוח הודעות קוליות, צריך לאפשר ל–Signal Desktop גישה למיקרופון שלך.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1046,7 +1067,7 @@
     "message": "פרטי הודעה"
   },
   "delete": {
-    "message": "מחק"
+    "message": "מחיקה"
   },
   "accept": {
     "message": "אשר"
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "הודעה זו תימחק עבור כל אחד שנמצא בשיחה אם הוא משתמש בגרסה מאוחרת של Signal. חברי קבוצה יוכלו לראות שמחקת הודעה.",
+    "message": "הודעה זו תימחק עבור כל מי שנמצא בצ'אט אם הם משתמשים בגרסה עדכנית של Signal. הם יוכלו לראות שמחקת הודעה.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1140,7 +1161,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "נסה מחדש מחיקה עבור כולם",
+    "message": "נסיון נוסף למחיקה עבור כולם",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1148,19 +1169,19 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "מחק הודעה עבורי",
+    "message": "מחיקת הודעה עבורי",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "מחק הודעה עבור כולם",
+    "message": "מחיקת הודעה עבור כולם",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "האם למחוק לצמיתות שיחה זו?",
+    "message": "האם למחוק שיחה זו לצמיתות?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "$sender$ שינה/שינתה את המספר שלו/שלה",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} ו{conversationTitle} שייכים לאותו חשבון. היסטוריית ההודעות שלך לשני הצ׳אטים נמצאת כאן.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "היסטוריית ההודעות שלך עם {conversationTitle} והמספר שלו או שלה {obsoleteConversationNumber} מוזגו יחד.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "היסטוריית ההודעות שלך עם {conversationTitle} וצ׳אט נוסף ששייך אליו או אליה מוזגו יחד.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "למידע נוסף",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "לאחר התכתבות עם {obsoleteConversationTitle} גילית שהמספר הזה שייך ל{conversationTitle}. מספר הטלפון שלו או שלה הוא פרטי.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "היסטוריית ההודעות שלך לשני הצ׳אטים מוזגה כאן.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} שייך ל{conversationTitle}. שניכם חברים ב{sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} שייך ל{conversationTitle}",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "תמונה ממוזערת מהודעה מצוטטת",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "לא תקבל את השמע או הוידאו שלהם עד שהם לא יקבלו את שלך.",
+    "message": "הוא או היא לא יוכלו לקבל ממך או לשלוח לך אודיו או וידאו.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,11 +1696,11 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "אתה עומד למחוק את כל המידע השמור של חשבון של יישום זה, כולל כל אנשי הקשר וההודעות. אתה תמיד יכול לקשר עם המכשיר הנייד שלך שוב, אבל לא תוכל לשחזר הודעות מחוקות.",
+    "message": "אתם עומדים למחוק את כל המידע השמור של חשבון של אפליקציה זו, כולל כל אנשי הקשר וההודעות. תמיד אפשר לקשר אותה עם המכשיר הנייד שוב, אבל לא ניתן לשחזר הודעות מחוקות.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "מחק את כל הנתונים",
+    "message": "מחיקת כל הנתונים",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1655,11 +1708,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם תבחר להמשיך, הם יימחקו ותתחיל מאפס.",
+    "message": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם בא לך להמשיך, הם יימחקו ו–Signal תתחיל מאפס.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "מחק נתונים ישנים",
+    "message": "מחיקת נתונים ישנים",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1717,7 +1770,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "נמחק חלקית, לחץ כדי לנסות שוב",
+    "message": "נמחקה חלקית, אפשר ללחוץ כדי לנסות שוב",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים."
+    "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים.",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "הפעל מחדש את Signal"
@@ -2228,88 +2282,176 @@
     "message": "הודעה זו נמחקה.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "לא ניתן למשוך פרטי תג מתנה",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "לא ניתן למשוך פרטי תרומה",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "הצג הודעה זו בנייד כדי לפתוח אותה",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "צריך להציג את ההודעה זו בנייד כדי לפתוח אותה",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "יש ללחוץ על הודעה זו בנייד כדי לראות את המתנה שלך",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "צריך ללחוץ על ההודעה הזו בנייד כדי לראות את התרומה שלך",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "שי",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "{sender} תרם/ה ל–Signal בשמך",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "בדוק את הטלפון שלך כדי לפתוח שי",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "צריך לבדוק את הטלפון שלך כדי לפתוח את התרומה",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "בדוק את הטלפון שלך כדי להציג את השי שלך",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "צריך לבדוק את הטלפון שלך כדי לראות את התרומה שלך",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "קיבלת שי",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "{sender} תרם/ה בשבילך",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "מימשת תג שי",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "מימשת תרומה",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "שלחת תג שי",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "תרמת בשביל {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "תג שי",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "תרומה",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "שי",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "תרומה",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ ימים נותרו",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} ימים נותרו",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ שעות נותרו",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} שעות נותרו",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ דקות נותרו",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, one {דקה 1 נותרה} two {{minutes,number} דקות נותרו} many {{minutes,number} דקות נותרו} other {{minutes,number} דקות נותרו}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "דקה 1 נותרה",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "פג",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "פג תוקף",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "הצג",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "צפיה",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "מומש",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "מומש",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "תודה על התמיכה שלך!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "תודה על התמיכה שלך!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "נתת תג כשי אל $name$. כשהוא/היא יסכים/תסכים, תינתן לו/לה בחירה להראות או להסתיר את התג שלו/שלה.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "ביצעת תרומה ל–Signal בשם {name}. הוא או היא יקבלו את האפשרות להשוויץ בתמיכה שלהם בפרופיל.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "חבילת מדבקות לא יכלה להיות מותקנת",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "מדבקות",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "זמין",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "מדבקות מותקנות",
+    "message": "הותקן",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2605,7 +2747,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "מחק שיחה נבחרת",
+    "message": "מחיקת שיחה נבחרת",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2625,11 +2767,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "הסר טיוטת קדם־תצוגה של קישור",
+    "message": "הסרת תצוגה מקדימה של קישור מטיוטה",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "הסר את כל צרופות הטיוטה",
+    "message": "הסרת כל הקבצים המצורפים מטיוטה",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2705,15 +2847,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "קבל שיחה עם וידאו",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "מענה לשיחה עם וידאו",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "קבל שיחה עם שמע",
+    "message": "מענה לשיחה עם אודיו",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "מענה לשיחה עם וידאו (שיחות וידאו בלבד)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "מענה לשיחה בלי וידאו",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "התחל שיחת שמע",
+    "message": "התחלת שיחה קולית",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -2737,7 +2887,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "הסר צרופה",
+    "message": "הסרת קובץ מצורף",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2813,7 +2963,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "הסר מדבקה",
+    "message": "הסרת סטיקר",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -2869,7 +3019,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "לא תוכל יותר לערוך או למחוק לאחר יצירת חבילת מדבקות.",
+    "message": "לא תהיה לך יותר אפשרות לערוך או למחוק לאחר יצירת חבילת סטיקרים.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -2961,7 +3111,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "הסר תגובה",
+    "message": "הסרת תגובה",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3037,7 +3187,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
@@ -3053,15 +3203,15 @@
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "מחק ועזוב",
+    "message": "מחיקה ועזיבה",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "תעזוב קבוצה זו, והיא תימחק מכל המכשירים שלך.",
+    "message": "אתם תעזבו קבוצה זו, והיא תימחק מכל המכשירים שלכם.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "ענה",
+    "message": "ענה לשיחה",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ענה בלי וידאו",
+    "message": "מענה לשיחה בלי וידאו",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3291,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "דחית שיחת שמע",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "דחית שיחה קולית",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "דחית שיחת וידאו",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "שיחת שמע נכנסת",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "שיחה קולית נכנסת",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "שיחת וידאו נכנסת",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "שיחת שמע שלא נענתה",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "שיחה קולית שלא נענתה",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "שיחת וידאו שלא נענתה",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "שיחת שמע יוצאת",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "שיחה קולית יוצאת",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "שיחת וידאו יוצאת",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "שיחת שמע שלא נענתה",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "שיחה קולית שלא נענתה",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "שיחת וידאו שלא נענתה",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "שיחת שמע נכנסת…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "שיחה קולית נכנסת…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "שיחת וידאו נכנסת…",
@@ -3445,7 +3595,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "אתה לא יכול להצטרף אל הקבוצה הזאת באמצעות קישור קבוצה מאחר שמנהלן הסיר אותך.",
+    "message": "אי אפשר להצטרף אל הקבוצה הזאת באמצעות קישור קבוצה מאחר שמנהל/ת הסיר/ה אותך.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3549,7 +3699,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "חבר קבוצה הסיר את שם הקבוצה.",
+    "message": "חבר/ת קבוצה הסיר/ה את שם הקבוצה.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -3565,15 +3715,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--other": {
-    "message": "$memberName$ הסיר/ה את יצגן הקבוצה.",
+    "message": "$memberName$ הסיר/ה את אווטאר הקבוצה.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "הסרת את יצגן הקבוצה.",
+    "message": "הסרת את אווטאר הקבוצה.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
-    "message": "חבר קבוצה הסיר את יצגן הקבוצה.",
+    "message": "חבר/ת קבוצה הסיר/ה את אווטאר הקבוצה.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--other": {
@@ -3745,7 +3895,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
-    "message": "חבר קבוצה הסיר את $memberName$.",
+    "message": "חבר/ת קבוצה הסיר/ה את $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
@@ -4060,6 +4210,10 @@
     "message": "הקבוצה השתנתה אל התרה לכל חברי הקבוצה לשלוח הודעות.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "החברים או ההגדרות של קבוצה זו השתנו.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "שדרג קבוצה זו כדי להפעיל מאפיינים חדשים כמו @אזכורים ומנהלנים. חברי קבוצה שלא שיתפו את השם או התמונה שלהם בקבוצה זו יוזמנו להצטרף. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4113,7 +4267,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "חבר קבוצה זה אינו מסוגל להצטרף אל קבוצות חדשות, והוא יוסר מהקבוצה:",
+    "message": "חבר/ת קבוצה זה/זו אינם מסוגלים להצטרף אל קבוצות חדשות, והם יוסרו מהקבוצה:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -4121,7 +4275,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "חבר קבוצה זה לא היה מסוגל להצטרף אל קבוצות חדשות, והוא הוסר מהקבוצה:",
+    "message": "חבר/ת קבוצה זה/זו לא היו מסוגלים להצטרף אל קבוצות חדשות, והם הוסרו מהקבוצה:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4209,7 +4363,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "הסר תפקיד מנהלן",
+    "message": "הסרת תפקיד מנהל/ת",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4221,11 +4375,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "להסיר את $contact$ כמנהלן קבוצה?",
+    "message": "להסיר את $contact$ כמנהל/ת קבוצה?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "הסר מהקבוצה",
+    "message": "הסרה מהקבוצה",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ קבוצות במשותף",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {קבוצה {count,number} במשותף} two {{count,number} קבוצות במשותף} many {{count,number} קבוצות במשותף} other {{count,number} קבוצות במשותף}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "אין קבוצות במשותף",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "הוסף אל קבוצה",
@@ -4525,11 +4687,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "הסר תמונה",
+    "message": "הסרת תמונה",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "הסר איש קשר",
+    "message": "הסרת איש קשר",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM D, YYYY",
+    "message": "D MMM, YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4721,7 +4883,7 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "הסר מהקבוצה",
+    "message": "הסרה מהקבוצה",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
@@ -4765,15 +4927,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "נכשל במחיקת הודעה עבור כולם. אנא נסה שוב מאוחר יותר.",
+    "message": "מחיקת הודעה עבור כולם נכשלה. אפשר לנסות שוב מאוחר יותר.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "מחק צבע",
+    "message": "מחיקת צבע",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "צבע מותאם אישית זה נמצא בשימוש ב־$num$ התכתבויות. האם אתה רוצה למחוק אותו עבור כל ההתכתבויות?",
+    "message": "צבע מותאם אישית זה נמצא בשימוש ב־$num$ צ'אטים. למחוק אותו עבור כל הצ'אטים?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4833,7 +4995,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5025,7 +5187,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "ProfileEditor--username--delete-general-error": {
-    "message": "שם המשתמש שלך לא היה יכול להיות מוסר. בדוק את החיבור שלך ונסה שוב.",
+    "message": "לא ניתן היה להסיר את שם המשתמש שלך. יש לבדוק את החיבור שלך ולנסות שוב.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5041,15 +5203,15 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "מחק שם משתמש",
+    "message": "מחיקת שם משתמש",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "זה יסיר את שם המשתמש שלך ויאפשר אל משתמשים אחרים לתפוס אותו. האם אתה בטוח?",
+    "message": "זה יסיר את שם המשתמש שלך ויאפשר אל משתמשים אחרים לתפוס אותו. בטוח שזה מה שבא לך?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5293,7 +5455,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז. עדכוני סטורי ששיתפת לאחרונה ימחקו גם הם.",
+    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז. עדכוני סטורי ששיתפת לאחרונה יימחקו גם הם.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5669,7 +5831,7 @@
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
-    "message": "הסר",
+    "message": "הסרה",
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
@@ -5697,7 +5859,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "בטוח שבא לך למחוק את ״$name$״? עדכונים שישותפו לסטורי הזה ימחקו גם הם.",
+    "message": "בטוח שבא לך למחוק את ״$name$״? עדכונים שישותפו לסטורי הזה יימחקו גם הם.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5904,6 +6066,10 @@
     "message": "השב",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "שליחת תשובה ל{firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "השב אל קבוצה",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "שליחת תגובה לסטורי",
+    "message": "(נמחק 25/01/23) שליחת תגובה לסטורי",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5985,11 +6151,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "מחק עבורי",
+    "messageformat": "מחיקה עבורי",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "מחק עבור כולם",
+    "messageformat": "מחיקה עבור כולם",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6013,7 +6179,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "מחק",
+    "message": "מחיקה",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6172,6 +6338,18 @@
     "message": "הספרות האלה עוזרות לשמור על שם המשתמש שלך פרטי כדי להימנע מהודעות לא רצויות. ניתן לשתף את שם המשתמש שלך רק עם אנשים וקבוצות שמתחשק לך לשוחח איתם. אם משנים את שם המשתמש, מקבלים סט חדש של ספרות.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "Signal לשולחן עבודה בקרוב תפסיק לתמוך בגרסת {OS} של המחשב שלך. כדי להמשיך להשתמש ב–Signal, צריך לעדכן את מערכת ההפעלה של המחשב שלך עד {expirationDate}. <learnMoreLink>למידע נוסף</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "Signal לשולחן עבודה כבר לא פועלת על המחשב הזה. כדי לחזור להשתמש ב–Signal לשולחן עבודה, צריך לעדכן את גרסת {OS} של המחשב שלך. <learnMoreLink>למידע נוסף</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "Signal לשולחן עבודה כבר לא פועלת על המחשב הזה. כדי לחזור להשתמש ב–Signal לשולחן עבודה, צריך לעדכן את גרסת {OS} של המחשב שלך.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "מה חדש",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "כשמתחילים שיחה קבוצתית לקבוצות קטנות (עד 16 אנשים), אפשר לבחור לשלוח התראת צלצול. חברי הקבוצה ישמעו צלצול אם הם משתמשים ב–iOS beta או בגרסאות שולחן העבודה או Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "אפשר ללחוץ פעמיים על כל שורת טקסט בצ׳אט כדי ליצור תשובה מצוטטת. זה כמו קיצור דרך למחשבות חדשות על רעיונות ישנים. תודה ל–{whynothugo} ולקהילת Signal על יישום הפיצ׳ר הזה ומתן פידבק.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "עכשיו קל יותר ללחוץ מחוץ לתמונה כדי לסגור את תצוגת הגלריה בלי לעשות זום אין. לפעמים פשוט בא לסגור עניין וזהו. תודה ל–{jojomatik} על התיקון!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "מאיצים את זמן התגובה שלך. עכשיו אפשר להגיב מהר יותר באמצעות לחיצה על כל אימוג׳י שהוא בזמן שליחת תגובה לסטורי.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "עכשיו אפשר לחפש בהיסטוריית ההודעות שלך תווים בודדים בסינית ויפנית.",
+    "description": "Release notes for v6.5"
   }
 }

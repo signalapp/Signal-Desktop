@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/better-sqlite3';
@@ -47,6 +47,13 @@ import updateToSchemaVersion68 from './68-drop-deprecated-columns';
 import updateToSchemaVersion69 from './69-group-call-ring-cancellations';
 import updateToSchemaVersion70 from './70-story-reply-index';
 import updateToSchemaVersion71 from './71-merge-notifications';
+import updateToSchemaVersion72 from './72-optimize-call-id-message-lookup';
+import updateToSchemaVersion73 from './73-remove-phone-number-discovery';
+import updateToSchemaVersion74 from './74-optimize-convo-open';
+import updateToSchemaVersion75 from './75-noop';
+import updateToSchemaVersion76 from './76-optimize-convo-open-2';
+import updateToSchemaVersion77 from './77-signal-tokenizer';
+import updateToSchemaVersion78 from './78-merge-receipt-jobs';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -321,7 +328,7 @@ function updateToSchemaVersion7(
         number
       ) WHERE number IS NOT NULL;
       INSERT INTO sessions(id, number, json)
-        SELECT "+" || id, number, json FROM sessions_old;
+        SELECT '+' || id, number, json FROM sessions_old;
       DROP TABLE sessions_old;
     `);
 
@@ -896,7 +903,7 @@ function updateToSchemaVersion20(
     // Drop triggers
     const triggers = db
       .prepare<EmptyQuery>(
-        'SELECT * FROM sqlite_master WHERE type = "trigger" AND tbl_name = "messages"'
+        "SELECT * FROM sqlite_master WHERE type = 'trigger' AND tbl_name = 'messages'"
       )
       .all();
 
@@ -1032,7 +1039,7 @@ function updateToSchemaVersion20(
             SET
               json = $json,
               e164 = $e164,
-              type = $type,
+              type = $type
             WHERE
               id = $id;
             `
@@ -1963,6 +1970,13 @@ export const SCHEMA_VERSIONS = [
 
   updateToSchemaVersion70,
   updateToSchemaVersion71,
+  updateToSchemaVersion72,
+  updateToSchemaVersion73,
+  updateToSchemaVersion74,
+  updateToSchemaVersion75,
+  updateToSchemaVersion76,
+  updateToSchemaVersion77,
+  updateToSchemaVersion78,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
@@ -1995,6 +2009,9 @@ export function updateSchema(db: Database, logger: LoggerType): void {
   }
 
   if (userVersion !== maxUserVersion) {
+    const start = Date.now();
     db.pragma('optimize');
+    const duration = Date.now() - start;
+    logger.info(`updateSchema: optimize took ${duration}ms`);
   }
 }

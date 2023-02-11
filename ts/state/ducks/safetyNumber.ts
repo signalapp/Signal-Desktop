@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import { generateSecurityNumberBlock } from '../../util/safetyNumber';
 import type { ConversationType } from './conversations';
 import {
@@ -10,17 +11,17 @@ import {
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 
-export type SafetyNumberContactType = {
+export type SafetyNumberContactType = ReadonlyDeep<{
   safetyNumber: string;
   safetyNumberChanged?: boolean;
   verificationDisabled: boolean;
-};
+}>;
 
-export type SafetyNumberStateType = {
+export type SafetyNumberStateType = ReadonlyDeep<{
   contacts: {
     [key: string]: SafetyNumberContactType;
   };
-};
+}>;
 
 const GENERATE = 'safetyNumber/GENERATE';
 const GENERATE_FULFILLED = 'safetyNumber/GENERATE_FULFILLED';
@@ -28,51 +29,52 @@ const TOGGLE_VERIFIED = 'safetyNumber/TOGGLE_VERIFIED';
 const TOGGLE_VERIFIED_FULFILLED = 'safetyNumber/TOGGLE_VERIFIED_FULFILLED';
 const TOGGLE_VERIFIED_PENDING = 'safetyNumber/TOGGLE_VERIFIED_PENDING';
 
-type GenerateAsyncActionType = {
+type GenerateAsyncActionType = ReadonlyDeep<{
   contact: ConversationType;
   safetyNumber: string;
-};
+}>;
 
-type GenerateActionType = {
+type GenerateActionType = ReadonlyDeep<{
   type: 'safetyNumber/GENERATE';
   payload: Promise<GenerateAsyncActionType>;
-};
+}>;
 
-type GenerateFulfilledActionType = {
+type GenerateFulfilledActionType = ReadonlyDeep<{
   type: 'safetyNumber/GENERATE_FULFILLED';
   payload: GenerateAsyncActionType;
-};
+}>;
 
-type ToggleVerifiedAsyncActionType = {
+type ToggleVerifiedAsyncActionType = ReadonlyDeep<{
   contact: ConversationType;
   safetyNumber?: string;
   safetyNumberChanged?: boolean;
-};
+}>;
 
-type ToggleVerifiedActionType = {
+type ToggleVerifiedActionType = ReadonlyDeep<{
   type: 'safetyNumber/TOGGLE_VERIFIED';
   payload: {
     data: { contact: ConversationType };
     promise: Promise<ToggleVerifiedAsyncActionType>;
   };
-};
+}>;
 
-type ToggleVerifiedPendingActionType = {
+type ToggleVerifiedPendingActionType = ReadonlyDeep<{
   type: 'safetyNumber/TOGGLE_VERIFIED_PENDING';
   payload: ToggleVerifiedAsyncActionType;
-};
+}>;
 
-type ToggleVerifiedFulfilledActionType = {
+type ToggleVerifiedFulfilledActionType = ReadonlyDeep<{
   type: 'safetyNumber/TOGGLE_VERIFIED_FULFILLED';
   payload: ToggleVerifiedAsyncActionType;
-};
+}>;
 
-export type SafetyNumberActionType =
+export type SafetyNumberActionType = ReadonlyDeep<
   | GenerateActionType
   | GenerateFulfilledActionType
   | ToggleVerifiedActionType
   | ToggleVerifiedPendingActionType
-  | ToggleVerifiedFulfilledActionType;
+  | ToggleVerifiedFulfilledActionType
+>;
 
 function generate(contact: ConversationType): GenerateActionType {
   return {

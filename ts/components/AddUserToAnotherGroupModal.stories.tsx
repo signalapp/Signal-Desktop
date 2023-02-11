@@ -3,7 +3,6 @@
 
 import React from 'react';
 import type { Meta, Story } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 
 import type { Props } from './AddUserToAnotherGroupModal';
 import enMessages from '../../_locales/en/messages.json';
@@ -30,12 +29,8 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
-    addMemberToGroup: {
-      defaultValue: action('addMemberToGroup'),
-    },
-    toggleAddUserToAnotherGroupModal: {
-      defaultValue: action('toggleAddUserToAnotherGroupModal'),
-    },
+    addMembersToGroup: { action: true },
+    toggleAddUserToAnotherGroupModal: { action: true },
   },
 } as Meta;
 

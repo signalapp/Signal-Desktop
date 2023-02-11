@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -87,7 +87,7 @@ async function notifyForCall(
       isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
     ),
     onNotificationClick: () => {
-      window.showWindow();
+      window.IPC.showWindow();
     },
     silent: false,
   });
@@ -318,24 +318,31 @@ const mapStateToIncomingCallProp = (state: StateType) => {
   }
 };
 
-const mapStateToProps = (state: StateType) => ({
-  activeCall: mapStateToActiveCallProp(state),
-  bounceAppIconStart,
-  bounceAppIconStop,
-  availableCameras: state.calling.availableCameras,
-  getGroupCallVideoFrameSource,
-  getPreferredBadge: getPreferredBadgeSelector(state),
-  i18n: getIntl(state),
-  isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
-  incomingCall: mapStateToIncomingCallProp(state),
-  me: getMe(state),
-  notifyForCall,
-  playRingtone,
-  stopRingtone,
-  renderDeviceSelection,
-  renderSafetyNumberViewer,
-  theme: getTheme(state),
-});
+const mapStateToProps = (state: StateType) => {
+  const incomingCall = mapStateToIncomingCallProp(state);
+
+  return {
+    activeCall: mapStateToActiveCallProp(state),
+    bounceAppIconStart,
+    bounceAppIconStop,
+    availableCameras: state.calling.availableCameras,
+    getGroupCallVideoFrameSource,
+    getPreferredBadge: getPreferredBadgeSelector(state),
+    i18n: getIntl(state),
+    isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
+    incomingCall,
+    me: getMe(state),
+    notifyForCall,
+    playRingtone,
+    stopRingtone,
+    renderDeviceSelection,
+    renderSafetyNumberViewer,
+    theme: getTheme(state),
+    isConversationTooBigToRing: incomingCall
+      ? isConversationTooBigToRing(incomingCall.conversation)
+      : false,
+  };
+};
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 

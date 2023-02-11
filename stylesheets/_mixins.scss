@@ -1,14 +1,20 @@
-// Copyright 2016-2022 Signal Messenger, LLC
+// Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Fonts
 
 @mixin font-family {
   font-family: $inter;
+  /* Japanese */
   &:lang(ja) {
     font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
       メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
       sans-serif;
+  }
+  /* Farsi (Persian) */
+  &:lang(fa) {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+      Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
 }
 

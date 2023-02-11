@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-await-in-loop, no-console */
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState } from '@signalapp/mock-server';
 
 import type { App } from './fixtures';
@@ -9,7 +10,7 @@ import { Bootstrap } from './fixtures';
 
 const CONTACT_COUNT = 1000;
 
-(async () => {
+void (async () => {
   const contactNames = new Array<string>();
   for (let i = 0; i < CONTACT_COUNT; i += 1) {
     contactNames.push(`Contact ${i}`);
@@ -23,6 +24,7 @@ const CONTACT_COUNT = 1000;
   const { phone, server } = bootstrap;
 
   let state = StorageState.getEmpty();
+  let lastContact: PrimaryDevice | undefined;
   for (const [i, profileName] of contactNames.entries()) {
     const contact = await server.createPrimaryDevice({
       profileName,
@@ -39,6 +41,10 @@ const CONTACT_COUNT = 1000;
     if (i >= contactNames.length - 4) {
       state = state.pin(contact);
     }
+
+    if (i === contactNames.length - 1) {
+      lastContact = contact;
+    }
   }
 
   await phone.setStorageState(state);
@@ -52,8 +58,7 @@ const CONTACT_COUNT = 1000;
     const leftPane = window.locator('.left-pane-wrapper');
 
     const item = leftPane.locator(
-      '_react=BaseConversationListItem' +
-        `[title = ${JSON.stringify(contactNames[contactNames.length - 1])}]`
+      `[data-testid="${lastContact?.toContact().uuid}"]`
     );
     await item.waitFor();
 

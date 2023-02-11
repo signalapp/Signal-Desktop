@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { KeyboardEvent, ReactNode } from 'react';
@@ -54,17 +54,7 @@ let closeCurrentOpenContextMenu: undefined | (() => unknown);
 // right under the mouse cursor.
 function generateVirtualElement(x: number, y: number): VirtualElement {
   return {
-    getBoundingClientRect: () => ({
-      bottom: y,
-      height: 0,
-      left: x,
-      right: x,
-      toJSON: () => ({ x, y }),
-      top: y,
-      width: 0,
-      x,
-      y,
-    }),
+    getBoundingClientRect: () => new DOMRect(x, y),
   };
 }
 

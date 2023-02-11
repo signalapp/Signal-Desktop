@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last } from 'lodash';
@@ -245,11 +245,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       !this.conversations.length &&
       !this.pinnedConversations.length &&
       !this.archivedConversations.length;
-    return (
-      hasNoConversations ||
-      this.isAboutToSearchInAConversation ||
-      Boolean(this.startSearchCounter)
-    );
+    return hasNoConversations || this.isAboutToSearchInAConversation;
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneInboxPropsType>): boolean {

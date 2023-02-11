@@ -5,6 +5,7 @@ import type { MessageAttributesType } from '../model-types.d';
 import { deletePackReference } from '../types/Stickers';
 import { isStory } from '../messages/helpers';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { drop } from './drop';
 
 export async function cleanupMessage(
   message: MessageAttributesType
@@ -78,7 +79,7 @@ async function cleanupStoryReplies(
     replies.forEach(reply => {
       const model = window.MessageController.register(reply.id, reply);
       model.unset('storyReplyContext');
-      model.hydrateStoryContext(null);
+      drop(model.hydrateStoryContext());
     });
   }
 

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { hot } from 'react-hot-loader/root';
@@ -16,7 +16,10 @@ function ColdRoot() {
   return (
     <ReduxProvider store={store}>
       <Router history={history}>
-        <I18n messages={localeMessages} locale={SignalContext.config.locale}>
+        <I18n
+          messages={localeMessages}
+          locale={SignalContext.config.resolvedTranslationsLocale}
+        >
           <App
             executeMenuRole={SignalContext.executeMenuRole}
             hasCustomTitleBar={SignalContext.OS.hasCustomTitleBar()}

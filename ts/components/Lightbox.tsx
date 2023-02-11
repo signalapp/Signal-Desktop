@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import { noop } from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
@@ -29,7 +30,7 @@ export type PropsType = {
   getConversation?: (id: string) => ConversationType;
   i18n: LocalizerType;
   isViewOnce?: boolean;
-  media: Array<MediaItemType>;
+  media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex?: number;
   toggleForwardMessageModal: (messageId: string) => unknown;
@@ -203,7 +204,7 @@ export function Lightbox({
     }
 
     if (videoElement.paused) {
-      videoElement.play();
+      void videoElement.play();
     } else {
       videoElement.pause();
     }
@@ -682,7 +683,7 @@ function LightboxHeader({
 }: {
   getConversation: (id: string) => ConversationType;
   i18n: LocalizerType;
-  message: MediaItemMessageType;
+  message: ReadonlyDeep<MediaItemMessageType>;
 }): JSX.Element {
   const conversation = getConversation(message.conversationId);
 

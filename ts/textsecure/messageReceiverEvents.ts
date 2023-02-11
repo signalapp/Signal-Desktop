@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
@@ -401,6 +401,27 @@ export class ViewSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('viewSync', confirm);
+  }
+}
+
+export type CallEventSyncEventData = Readonly<{
+  timestamp: number;
+  peerUuid: string;
+  callId: string;
+  wasVideoCall: boolean;
+  wasIncoming: boolean;
+  wasDeclined: boolean;
+  acceptedTime: number | undefined;
+  endedTime: number | undefined;
+  receivedAtCounter: number;
+}>;
+
+export class CallEventSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly callEvent: CallEventSyncEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('callEventSync', confirm);
   }
 }
 

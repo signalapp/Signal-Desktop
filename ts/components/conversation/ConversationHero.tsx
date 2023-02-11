@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
@@ -29,10 +29,10 @@ export type Props = {
   membersCount?: number;
   name?: string;
   phoneNumber?: string;
-  sharedGroupNames?: Array<string>;
-  unblurAvatar: () => void;
+  sharedGroupNames?: ReadonlyArray<string>;
+  unblurAvatar: (conversationId: string) => void;
   unblurredAvatarPath?: string;
-  updateSharedGroups: () => unknown;
+  updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
@@ -133,8 +133,8 @@ export function ConversationHero({
 
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups();
-  }, [updateSharedGroups]);
+    updateSharedGroups(id);
+  }, [id, updateSharedGroups]);
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
   let avatarOnClick: undefined | (() => void);
@@ -148,7 +148,7 @@ export function ConversationHero({
     })
   ) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
-    avatarOnClick = unblurAvatar;
+    avatarOnClick = () => unblurAvatar(id);
   } else if (hasStories) {
     avatarOnClick = () => {
       viewUserStories({

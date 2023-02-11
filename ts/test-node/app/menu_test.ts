@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -197,8 +197,11 @@ const PLATFORMS = [
 
 describe('createTemplate', () => {
   const { i18n } = loadLocale({
-    appLocale: 'en',
+    preferredSystemLocales: ['en'],
     logger: {
+      info(_arg: unknown) {
+        // noop
+      },
       error(arg: unknown) {
         throw new Error(String(arg));
       },

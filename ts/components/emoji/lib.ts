@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Camelcase disabled due to emoji-datasource using snake_case
@@ -19,10 +19,10 @@ import {
 } from 'lodash';
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
-import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
 import * as log from '../../logging/log';
 import { MINUTE } from '../../util/durations';
+import { drop } from '../../util/drop';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -124,11 +124,11 @@ export const preloadImages = async (): Promise<void> => {
   const start = Date.now();
 
   data.forEach(emoji => {
-    imageQueue.add(() => preload(makeImagePath(emoji.image)));
+    drop(imageQueue.add(() => preload(makeImagePath(emoji.image))));
 
     if (emoji.skin_variations) {
       Object.values(emoji.skin_variations).forEach(variation => {
-        imageQueue.add(() => preload(makeImagePath(variation.image)));
+        drop(imageQueue.add(() => preload(makeImagePath(variation.image))));
       });
     }
   });
@@ -274,7 +274,7 @@ export function convertShortNameToData(
     return undefined;
   }
 
-  const toneKey = is.number(skinTone) ? skinTones[skinTone - 1] : skinTone;
+  const toneKey = isNumber(skinTone) ? skinTones[skinTone - 1] : skinTone;
 
   if (skinTone && base.skin_variations) {
     const variation = base.skin_variations[toneKey];
@@ -328,9 +328,13 @@ export function getEmojiCount(str: string): number {
   return count;
 }
 
+export function hasNonEmojiText(str: string): boolean {
+  return str.replace(emojiRegex(), '').trim().length > 0;
+}
+
 export function getSizeClass(str: string): SizeClassType {
   // Do we have non-emoji characters?
-  if (str.replace(emojiRegex(), '').trim().length > 0) {
+  if (hasNonEmojiText(str)) {
     return '';
   }
 

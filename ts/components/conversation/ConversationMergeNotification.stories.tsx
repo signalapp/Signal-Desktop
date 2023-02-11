@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -17,12 +17,23 @@ export default {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   conversationTitle: overrideProps.conversationTitle || 'John Fire',
+  obsoleteConversationNumber:
+    overrideProps.obsoleteConversationNumber || '(555) 333-1111',
   obsoleteConversationTitle:
-    overrideProps.obsoleteConversationTitle || '(555) 333-1111',
+    overrideProps.obsoleteConversationTitle || 'John Obsolete',
 });
 
 export function Basic(): JSX.Element {
   return <ConversationMergeNotification {...createProps()} />;
+}
+
+export function WithNoObsoleteNumber(): JSX.Element {
+  return (
+    <ConversationMergeNotification
+      {...createProps()}
+      obsoleteConversationNumber={undefined}
+    />
+  );
 }
 
 export function WithNoObsoleteTitle(): JSX.Element {

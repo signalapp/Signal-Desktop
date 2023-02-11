@@ -9,10 +9,8 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { usePopper } from 'react-popper';
 import { noop } from 'lodash';
 
-import type { AttachmentType } from '../types/Attachment';
 import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -29,14 +27,12 @@ import { Emojify } from './conversation/Emojify';
 import { Message, TextDirection } from './conversation/Message';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { Modal } from './Modal';
-import { Quote } from './conversation/Quote';
 import { ReactionPicker } from './conversation/ReactionPicker';
 import { Tabs } from './Tabs';
 import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { WidthBreakpoint } from './_util';
 import { getAvatarColor } from '../types/Colors';
-import { getStoryReplyText } from '../util/getStoryReplyText';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -54,7 +50,6 @@ const MESSAGE_DEFAULT_PROPS = {
   isMessageRequestAccepted: true,
   kickOffAttachmentDownload: shouldNeverBeCalled,
   markAttachmentAsCorrupted: shouldNeverBeCalled,
-  markViewed: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,
@@ -69,7 +64,6 @@ const MESSAGE_DEFAULT_PROPS = {
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightbox: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
-  showMessageDetail: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   theme: ThemeType.dark,
   viewStory: shouldNeverBeCalled,
@@ -81,7 +75,6 @@ export enum StoryViewsNRepliesTab {
 }
 
 export type PropsType = {
-  conversationTitle: string;
   authorTitle: string;
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -100,14 +93,13 @@ export type PropsType = {
   onSetSkinTone: (tone: number) => unknown;
   onTextTooLong: () => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
-  preferredReactionEmoji: Array<string>;
-  recentEmojis?: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
+  recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
   skinTone?: number;
-  sortedGroupMembers?: Array<ConversationType>;
-  storyPreviewAttachment?: AttachmentType;
-  views: Array<StorySendStateType>;
+  sortedGroupMembers?: ReadonlyArray<ConversationType>;
+  views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   deleteGroupStoryReply: (id: string) => void;
@@ -115,7 +107,6 @@ export type PropsType = {
 };
 
 export function StoryViewsNRepliesModal({
-  conversationTitle,
   authorTitle,
   canReply,
   getPreferredBadge,
@@ -136,7 +127,6 @@ export function StoryViewsNRepliesModal({
   replies,
   skinTone,
   sortedGroupMembers,
-  storyPreviewAttachment,
   views,
   viewTarget,
   onChangeViewTarget,
@@ -155,7 +145,6 @@ export function StoryViewsNRepliesModal({
   const shouldScrollToBottomRef = useRef(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
-  const [showReactionPicker, setShowReactionPicker] = useState(false);
 
   const currentTab = useMemo<StoryViewsNRepliesTab>(() => {
     return viewTarget === StoryViewTargetType.Replies
@@ -187,17 +176,6 @@ export function StoryViewsNRepliesModal({
     [inputApiRef, onUseEmoji]
   );
 
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  );
-
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'top-start',
-    strategy: 'fixed',
-  });
-
   let composerElement: JSX.Element | undefined;
 
   useLayoutEffect(() => {
@@ -220,22 +198,18 @@ export function StoryViewsNRepliesModal({
   } else if (canReply) {
     composerElement = (
       <>
-        {!group && (
-          <Quote
-            authorTitle={authorTitle}
-            conversationColor="ultramarine"
-            conversationTitle={conversationTitle}
-            i18n={i18n}
-            isFromMe={false}
-            isGiftBadge={false}
-            isStoryReply
-            isViewOnce={false}
-            moduleClassName="StoryViewsNRepliesModal__quote"
-            rawAttachment={storyPreviewAttachment}
-            referencedMessageNotFound={false}
-            text={getStoryReplyText(i18n, storyPreviewAttachment)}
-          />
-        )}
+        <ReactionPicker
+          i18n={i18n}
+          onPick={emoji => {
+            if (!group) {
+              onClose();
+            }
+            onReact(emoji);
+          }}
+          onSetSkinTone={onSetSkinTone}
+          preferredReactionEmoji={preferredReactionEmoji}
+          renderEmojiPicker={renderEmojiPicker}
+        />
         <div className="StoryViewsNRepliesModal__compose-container">
           <div className="StoryViewsNRepliesModal__composer">
             <CompositionInput
@@ -257,7 +231,9 @@ export function StoryViewsNRepliesModal({
               placeholder={
                 group
                   ? i18n('StoryViewer__reply-group')
-                  : i18n('StoryViewer__reply')
+                  : i18n('icu:StoryViewer__reply-placeholder', {
+                      firstName: authorTitle,
+                    })
               }
               sortedGroupMembers={sortedGroupMembers}
               theme={ThemeType.dark}
@@ -273,36 +249,6 @@ export function StoryViewsNRepliesModal({
               />
             </CompositionInput>
           </div>
-          <button
-            aria-label={i18n('StoryViewsNRepliesModal__react')}
-            className="StoryViewsNRepliesModal__react"
-            onClick={() => {
-              setShowReactionPicker(!showReactionPicker);
-            }}
-            ref={setReferenceElement}
-            type="button"
-          />
-          {showReactionPicker && (
-            <div
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              <ReactionPicker
-                i18n={i18n}
-                onClose={() => {
-                  setShowReactionPicker(false);
-                }}
-                onPick={emoji => {
-                  setShowReactionPicker(false);
-                  onReact(emoji);
-                }}
-                onSetSkinTone={onSetSkinTone}
-                preferredReactionEmoji={preferredReactionEmoji}
-                renderEmojiPicker={renderEmojiPicker}
-              />
-            </div>
-          )}
         </div>
       </>
     );
@@ -328,6 +274,7 @@ export function StoryViewsNRepliesModal({
           return (
             <ReplyOrReactionMessage
               key={reply.id}
+              id={reply.id}
               i18n={i18n}
               isInternalUser={isInternalUser}
               reply={reply}
@@ -506,6 +453,7 @@ export function StoryViewsNRepliesModal({
 
 type ReplyOrReactionMessageProps = {
   i18n: LocalizerType;
+  id: string;
   isInternalUser?: boolean;
   reply: ReplyType;
   deleteGroupStoryReply: (replyId: string) => void;
@@ -519,6 +467,7 @@ type ReplyOrReactionMessageProps = {
 
 function ReplyOrReactionMessage({
   i18n,
+  id,
   isInternalUser,
   reply,
   deleteGroupStoryReply,
@@ -534,6 +483,7 @@ function ReplyOrReactionMessage({
         <div
           className="StoryViewsNRepliesModal__reaction"
           onContextMenu={onContextMenu}
+          data-id={id}
         >
           <div className="StoryViewsNRepliesModal__reaction--container">
             <Avatar
@@ -572,33 +522,35 @@ function ReplyOrReactionMessage({
     }
 
     return (
-      <Message
-        {...MESSAGE_DEFAULT_PROPS}
-        author={reply.author}
-        bodyRanges={reply.bodyRanges}
-        contactNameColor={reply.contactNameColor}
-        containerElementRef={containerElementRef}
-        conversationColor="ultramarine"
-        conversationId={reply.conversationId}
-        conversationTitle={reply.author.title}
-        conversationType="group"
-        direction="incoming"
-        deletedForEveryone={reply.deletedForEveryone}
-        menu={undefined}
-        onContextMenu={onContextMenu}
-        getPreferredBadge={getPreferredBadge}
-        i18n={i18n}
-        id={reply.id}
-        interactionMode="mouse"
-        readStatus={reply.readStatus}
-        renderingContext="StoryViewsNRepliesModal"
-        shouldCollapseAbove={shouldCollapseAbove}
-        shouldCollapseBelow={shouldCollapseBelow}
-        shouldHideMetadata={false}
-        text={reply.body}
-        textDirection={TextDirection.Default}
-        timestamp={reply.timestamp}
-      />
+      <div className="StoryViewsNRepliesModal__reply" data-id={id}>
+        <Message
+          {...MESSAGE_DEFAULT_PROPS}
+          author={reply.author}
+          bodyRanges={reply.bodyRanges}
+          contactNameColor={reply.contactNameColor}
+          containerElementRef={containerElementRef}
+          conversationColor="ultramarine"
+          conversationId={reply.conversationId}
+          conversationTitle={reply.author.title}
+          conversationType="group"
+          direction="incoming"
+          deletedForEveryone={reply.deletedForEveryone}
+          renderMenu={undefined}
+          onContextMenu={onContextMenu}
+          getPreferredBadge={getPreferredBadge}
+          i18n={i18n}
+          id={reply.id}
+          interactionMode="mouse"
+          readStatus={reply.readStatus}
+          renderingContext="StoryViewsNRepliesModal"
+          shouldCollapseAbove={shouldCollapseAbove}
+          shouldCollapseBelow={shouldCollapseBelow}
+          shouldHideMetadata={false}
+          text={reply.body}
+          textDirection={TextDirection.Default}
+          timestamp={reply.timestamp}
+        />
+      </div>
     );
   };
 
@@ -620,7 +572,7 @@ function ReplyOrReactionMessage({
       icon: 'module-message__context--icon module-message__context__copy-timestamp',
       label: i18n('icu:StoryViewsNRepliesModal__copy-reply-timestamp'),
       onClick: () => {
-        window.navigator.clipboard.writeText(String(reply.timestamp));
+        void window.navigator.clipboard.writeText(String(reply.timestamp));
       },
     });
   }

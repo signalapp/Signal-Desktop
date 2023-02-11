@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
@@ -132,14 +132,14 @@ export function createWaitBatcher<ItemType>(
       // time is bounded by `options.wait` and not extended by further pushes.
       timeout = setTimeout(() => {
         timeout = null;
-        _kickBatchOff();
+        void _kickBatchOff();
       }, options.wait);
     }
     if (items.length >= options.maxSize) {
       clearTimeoutIfNecessary(timeout);
       timeout = null;
 
-      _kickBatchOff();
+      void _kickBatchOff();
     }
 
     await promise;

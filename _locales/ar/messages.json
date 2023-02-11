@@ -64,6 +64,18 @@
     "message": "العضوية مُعلّقة",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "جودة الوسائط المرسلة",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "قياسي",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "بالغ الأهميّة",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "شكر وتقدير لفريق البرنامج",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "لا يُمكنك تحديد الصور ومقاطع الفيديو مع الملفات.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "يُمكنك تحديد ملف واحد في كل مرة.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "لا يمكنك إضافة المزيد من المرفقات لهذه الرسالة",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "معذرةً، حجم الملف المختار يتجاوز الحجم الأقصى للرسالة."
+    "message": "معذرةً، حجم الملف المختار يتجاوز الحجم الأقصى للرسالة.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "معذرةً، حجم الملف المختار يتجاوز الحجم الأقصى للرسالة. {limit} {units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "فشل تنزيل المرفقات المحددة"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "لإرسال الرسائل الصوتية، يرجى السماح لـ Signal Desktop بالوصول إلى الميكروفون.",
+    "message": "لإرسال رسائل صوتية، يُرجى السماح لـ Signal Desktop بالوصول إلى الميكروفون.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1077,7 +1098,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "سوف تُحذَف هذه الرسالة لأي كان في هذه المحادثة إن كان أحد يستخدم إصدار Signal حديث. لن يكون بإمكان أحد رؤية الرسالة التي قمت بحذفها.",
+    "message": "سَتُحذَف هذه الرسالة لأي كان في هذه المحادثة إن كان أحد يستخدم إصدار Signal حديث. لن يكون بإمكان أحد رؤية الرسالة التي قمت بحذفها.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1210,6 +1231,38 @@
   "ChangeNumber--notification": {
     "message": "‫‏لقد تغير رقم هاتف $sender$",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} و {conversationTitle} هما نفس الحساب. سَتجد سِجل رسائلك مع الدردشتين هنا.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--with-e164": {
+    "messageformat": "تمّ دمج سِجّل رسائلك مع {conversationTitle} ورقمه {obsoleteConversationNumber}.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--notification--no-title": {
+    "messageformat": "تمّ دمج سِجّل رسائلك مع {conversationTitle} ودردشة أخرى تخصه.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "معرفة المزيد",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "بعد تبادل الرسائل مع {obsoleteConversationTitle}، أدركت أن هذا الرقم يعود إلى {conversationTitle}. رقم هاتفهم خاص.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "تم دمج سِجل رسائلك مع الدردشتين هنا.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} يعود إلى {conversationTitle}. كلاكُما عضو في {sharedGroup}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} يعود إلى {conversationTitle}.",
+    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "صورة مصغّرة للصورة من الرسالة المقتبسة",
@@ -1511,7 +1564,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "كلاكما لن يتلقى صوت الآخر ولا صورته.",
+    "message": "كلاكما لن يتلقّى مكالمة صوتية أو فيديو من الآخر.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -1643,7 +1696,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "أنت على وشك حذف جميع معلومات الحساب المحفوظة في التطبيق، والتي تشمل جهات الاتصال وجميع الرسائل. يمكن دوما إعادة ربط جهازك المحمول، لكن لن تُستعاد الرسائل المحذوفة.",
+    "message": "أنت على وشك حذف جميع معلومات الحساب المحفوظة في التطبيق، والتي تشمل جهات الاتصال وجميع الرسائل. يمكن دومًا إعادة ربط جهازك المحمول، لكن لن تُستعاد الرسائل المحذوفة.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1655,7 +1708,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب بعدها البداية من الصفر.",
+    "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب البداية بعدها من الصفر.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -2109,7 +2162,8 @@
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬"
+    "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬",
+    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "‫إعادة تشغيل Signal‬"
@@ -2228,88 +2282,176 @@
     "message": "لقد حُذفَت هذه الرسالة.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "تعذّر البحث عن رمز الشارة المُهداة",
+    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
+  },
+  "icu:donation--missing": {
+    "messageformat": "تعذّر البحث عن معلومات التبرّع",
+    "description": "Aria label for donation when we can't fetch the details."
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "اعرض هذه الرسالة على الجوال لفتحها",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--incoming": {
+    "messageformat": "اعرض هذه الرسالة على الجوال لفتحها",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
     "message": "انقر على هذه الرسالة على الهاتف المحمول لِعرض هديتك",
-    "description": "Shown in a message's bubble when you've sent a gift badge to a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
+  },
+  "icu:message--donation--unopened--outgoing": {
+    "messageformat": "انقر على هذه الرسالة على الهاتف المحمول لِعرض تبرّعك",
+    "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
     "message": "هدية",
-    "description": "Shown in a message's bubble when you've received a gift badge from a contact"
+    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
+  },
+  "icu:message--donation--unopened--label": {
+    "messageformat": "قدّم {sender} تبرّعًا لـ Signal نيابة عنك",
+    "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "message--giftBadge--unopened--toast--incoming": {
     "message": "تحقّق من هاتفك لفتح الهدية",
-    "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
+  },
+  "icu:message--donation--unopened--toast--incoming": {
+    "messageformat": "تحقّق من هاتفك لفتح هذا التبرّع",
+    "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
   },
   "message--giftBadge--unopened--toast--outgoing": {
     "message": "تحقّق من هاتفك لإلقاء نظرة على الهدية",
-    "description": "Shown when you've clicked on an outgoing gift badge"
+    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
+  },
+  "icu:message--donation--unopened--toast--outgoing": {
+    "messageformat": "تحقّق من هاتفك لعرض هذا التبرّع",
+    "description": "Shown when you've clicked on an outgoing donation badge."
   },
   "message--giftBadge--preview--unopened": {
     "message": "لقد تلقيت هدية",
-    "description": "Shown to label the gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--unopened": {
+    "messageformat": "تبرّع {sender} لك",
+    "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
     "message": "لقد قبلت شارة هدية",
-    "description": "Shown to label the redeemed gift badge in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
+  },
+  "icu:message--donation--preview--redeemed": {
+    "messageformat": "لقد استردَدت تبرّعًا",
+    "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--sent": {
     "message": "لقد أرسلت شارة مُهداة",
-    "description": "Shown to label a gift badge you've sent in notifications and the left pane"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
+  },
+  "icu:message--donation--preview--sent": {
+    "messageformat": "تبرّعت لـ {recipient}",
+    "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
     "message": "شارة مُهداة",
-    "description": "Shown to label the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
+  },
+  "icu:message--donation": {
+    "messageformat": "تبرُّع",
+    "description": "Shown to label the donation badge you've redeemed on another device."
   },
   "quote--giftBadge": {
     "message": "هدية",
-    "description": "Shown to label a gift badge you've replied to"
+    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
+  },
+  "icu:quote--donation": {
+    "messageformat": "تبرُّع",
+    "description": "Shown to label a donation badge you've replied to."
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ أيام مُتبقيّة",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
+  },
+  "icu:message--donation--remaining--days": {
+    "messageformat": "{days} أيام مُتبقيّة",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ ساعات مُتبقيّة",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
+  },
+  "icu:message--donation--remaining--hours": {
+    "messageformat": "{hours} ساعات مُتبقيّة",
+    "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ دقائق مُتبقيّة",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
+  },
+  "icu:message--donation--remaining--minutes": {
+    "messageformat": "{minutes, plural, zero {{minutes,number} دقائق مُتبقيّة} one {1 دقيقة مُتبقيّة} two {{minutes,number} دقائق مُتبقيّة} few {{minutes,number} دقائق مُتبقيّة} many {{minutes,number} دقيقة مُتبقيّة} other {{minutes,number} دقيقة مُتبقيّة}}",
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 دقيقة متبقية",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device"
+    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
   },
   "message--giftBadge--expired": {
     "message": "انتهت الصلاحية",
-    "description": "Shows that a gift badge is expired"
+    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+  },
+  "icu:message--donation--expired": {
+    "messageformat": "انتهت الصلاحية",
+    "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
     "message": "إظهار",
     "description": "Shown when you've sent a gift badge to someone then opened it"
   },
+  "icu:message--donation--view": {
+    "messageformat": "عرض",
+    "description": "Shown when you've sent a donation badge to someone then opened it"
+  },
   "message--giftBadge--redeemed": {
     "message": "تمّ قبول الهدية",
-    "description": "Shown when you've redeemed the gift badge on another device"
+    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
+  },
+  "icu:message--donation--redeemed": {
+    "messageformat": "تمّ القبول",
+    "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
     "message": "شكراً لدعمك!",
-    "description": "The title of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--title": {
+    "messageformat": "شكراً لدعمك!",
+    "description": "The title of the outgoing donation badge detail dialog"
   },
   "modal--giftBadge--description": {
     "message": "لقد أهديت شارة لـ $name$. عندما يقبلونها، سيتم منحهم خيار إظهار أو إخفاء شارتهم.",
-    "description": "The description of the outgoing gift badge detail dialog"
+    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
+  },
+  "icu:modal--donation--description": {
+    "messageformat": "قدّمت تبرّعًا لـ Signal نيابة عن {name}. سَيتم منحهم خيار إظهار دعمهم على حسابهم الشخصي.",
+    "description": "The description of the outgoing donation badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "لم يتم تثبيت حزمة الملصقات",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "المُلصقات",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "متاح",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "الملصقات المثبتة",
+    "message": "تم التثبيت",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,11 +2847,19 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "قبول مكالمة فيديو",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "الرد على المكالمة بالفيديو",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "قبول مكالمة صوتية",
+    "message": "الرد على المكالمة بالصوت",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "الرد على المكالمة بالفيديو (مكالمات الفيديو فقط)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "الرد على المكالمة بدون فيديو",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
@@ -3061,7 +3211,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "سوف تغادر هذه المجموعة، ثم ستُحذَف من كل أجهزتك.",
+    "message": "ستُغادر هذه المجموعة، ثم ستُحذَف من كل أجهزتك.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3129,11 +3279,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "اﻹجابة",
+    "message": "الرد على المكالمة",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "الإجابة بدون صورة",
+    "message": "الرد على المكالمة بدون فيديو",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3142,7 +3292,7 @@
   },
   "declinedIncomingAudioCall": {
     "message": "لقد رفضت مكالمة صوتية",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "لقد رفضت مكالمة فيديو",
@@ -3150,7 +3300,7 @@
   },
   "acceptedIncomingAudioCall": {
     "message": "مكالمة صوتية واردة",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "مكالمة فيديو واردة",
@@ -3158,7 +3308,7 @@
   },
   "missedIncomingAudioCall": {
     "message": "مكالمة صوتية فائتة",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "مكالمة فيديو فائتة",
@@ -3166,7 +3316,7 @@
   },
   "acceptedOutgoingAudioCall": {
     "message": "مكالمة صوتية صادرة",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "مكالمة فيديو صادرة",
@@ -3174,7 +3324,7 @@
   },
   "missedOrDeclinedOutgoingAudioCall": {
     "message": "مكالمة صوتية لم يتم الرد عليها",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "مكالمة فيديو لم يتم الرد عليها",
@@ -3189,8 +3339,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "مكالمة بالصوت واردة…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "مكالمة صوتية واردة…",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "مكالمة بالصورة واردة…",
@@ -4060,6 +4210,10 @@
     "message": "لقد تغيرت إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "تم تغيير أعضاء هذه المجموعة أو إعداداتِها.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "يجب القيام بترقية هذه المجموعة لتفعيل ميزات جديدة مثل ‎@mention والمشرفين عليها. ستتم دعوة اﻷعضاء الذين لم يشاركوا أسمائهم ولا صورهم مع هذه المجموعة للانضمام إليها. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4109,19 +4263,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "لا يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالتهم من المجموعة :",
+    "message": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالته من المجموعة :",
+    "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالته من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "لا يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة :",
+    "message": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
+    "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4141,7 +4295,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "أُزيل$count$عضوا من المجموعة.",
+    "message": "أُزيل $count$ عضوا من المجموعة.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4370,7 +4524,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ مجموعات مشتركة",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, zero {{count,number} مجموعات مشتركة} one {{count,number} مجموعة مشتركة} two {{count,number} مجموعتان مشتركتان} few {{count,number} مجموعات مشتركة} many {{count,number} مجموعة مشتركة} other {{count,number} مجموعة مشتركة}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "لا توجد مجموعات مُشتركة",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "إضافة إلى مجموعة",
@@ -4657,7 +4819,7 @@
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
-    "message": "MMM يوم، YYYY",
+    "message": "D MMM YYYY",
     "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
@@ -4725,11 +4887,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "إزالة \"$name$\" من المجموعة ؟",
+    "message": "إزالة \"$name$\" من المجموعة؟",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "‫إزالة « $name$ » من المجموعة ؟ لن يتمكن هذا المستخدم من إعادة الانضمام بواسطة وصلة المجموعة.",
+    "message": "‫إزالة \"$name$\" من المجموعة؟ لن يتمكن هذا المستخدم من إعادة الانضمام بواسطة وصلة المجموعة.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4773,7 +4935,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "إن هذا اللون المخصص يُستخدَم في $num$ محادثة. أ لديك الرغبة في حذفه من جميع المحادثات ؟",
+    "message": "إن هذا اللون المخصص يُستخدَم في $num$ محادثة. هل لديك الرغبة في حذفه من جميع المحادثات؟",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5045,7 +5207,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "سيحذف ذلك اسم المستخدم الخاص بك، مما يسمح للمستخدمين الآخرين باستخدامه. هل أنت متأكد؟",
+    "message": "سَيحذف ذلك اسم المستخدم الخاص بك، مما يسمح للمُستخدمين الآخرين باستخدامه. هل أنت متأكد؟",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5904,6 +6066,10 @@
     "message": "الرَّدّ",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "الردّ على {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "الردّ على المجموعة",
     "description": "Button label to reply to a group story"
@@ -5973,7 +6139,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "التفاعل مع القصة",
+    "message": "(تاريخ الحذف 25/01/23) التفاعل مع قصة",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6172,6 +6338,18 @@
     "message": "تُساعد هذه الأرقام في الحفاظ على خصوصية اسم المستخدم الخاص بك حتى تتجنب الرسائل غير المرغوب فيها. شارك اسم المستخدم الخاص بك فقط مع الأشخاص والمجموعات الذين ترغب في الدردشة معهم. إذا غيّرتَ أسماء المُستخدم الخاص بك، فسَتحصل على مجموعة جديدة من الأرقام.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:UnsupportedOSWarningDialog__body": {
+    "messageformat": "سيتوقف تطبيق Signal الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام Signal، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorDialog__body": {
+    "messageformat": "لم يعُد تطبيق Signal يَعمل على هذا الحاسوب. لاستخدام تطبيق Signal الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار حاسوبك {OS}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
+  "icu:UnsupportedOSErrorToast": {
+    "messageformat": "لم يعُد تطبيق Signal يَعمل على هذا الحاسوب. لاستخدام تطبيق Signal الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار {OS} لحاسوبك.",
+    "description": "Body of a dialog displayed on unsupported operating systems"
+  },
   "WhatsNew__modal-title": {
     "message": "ما الجديد",
     "description": "Title for the whats new modal"
@@ -6219,5 +6397,21 @@
   "WhatsNew__v6.1--1": {
     "message": "عندما تقوم ببدء مُكالمة مجموعة لمجموعات صغيرة (حتى 16 شخصًا)، يمكنك اختيار إرسال إشعار رنّان. سيسمع أعضاء المجموعة رنينًا إذا كانوا يستخدمون iOS beta أو Desktop أو Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "انقر مرتين على أي صف رسائل في دردشة لِبدء رد مقتبس. إنه بمثابة اختصار للخواطر الجديدة عن الأفكار القديمة. شكرًا لـ {whynothugo} ومجتمع Signal على تفعيل هذه الميزة وتقديم الملاحظات.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "أصبح من السهل الآن النقر خارج صورة لتجاهل العرض الكامل دون تكبير الصورة. أحيانًا كنت تودّ فقط أن تغلق الصورة لكن بدلا من ذلك تقترب. شكرًا لـ {jojomatik} على التصليح!",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "سرّع وقت استجابتك. يُمكنك الآن التفاعل بسرعة عبر النقر على أيٍ من الرموز التعبيرية عند الردّ على قصة.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "يُمكنك الآن البحث في سِجل رسائلك عن أحرف فردية باللغتين الصينية واليابانية.",
+    "description": "Release notes for v6.5"
   }
 }

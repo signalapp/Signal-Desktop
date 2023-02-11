@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Captures the globals put in place by preload.js, background.js and others
@@ -7,10 +7,8 @@ import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
-import type * as Mustache from 'mustache';
 
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
-import type { imageToBlurHash } from './util/imageToBlurHash';
 import type * as Util from './util';
 import type {
   ConversationModelCollectionType,
@@ -22,6 +20,7 @@ import type {
   ChallengeHandler,
   IPCRequest as IPCChallengeRequest,
 } from './challenge';
+import type AccountManager from './textsecure/AccountManager';
 import type { WebAPIConnectType } from './textsecure/WebAPI';
 import type { CallingClass } from './services/calling';
 import type * as StorageService from './services/storage';
@@ -37,40 +36,12 @@ import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
 import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
-import type { createConversationDetails } from './state/roots/createConversationDetails';
-import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
-import type { createMessageDetail } from './state/roots/createMessageDetail';
-import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
-import type * as appDuck from './state/ducks/app';
-import type * as callingDuck from './state/ducks/calling';
-import type * as conversationsDuck from './state/ducks/conversations';
-import type * as emojisDuck from './state/ducks/emojis';
-import type * as expirationDuck from './state/ducks/expiration';
-import type * as itemsDuck from './state/ducks/items';
-import type * as linkPreviewsDuck from './state/ducks/linkPreviews';
-import type * as networkDuck from './state/ducks/network';
-import type * as updatesDuck from './state/ducks/updates';
-import type * as userDuck from './state/ducks/user';
-import type * as searchDuck from './state/ducks/search';
-import type * as stickersDuck from './state/ducks/stickers';
-import type * as conversationsSelectors from './state/selectors/conversations';
-import type * as searchSelectors from './state/selectors/search';
-import type AccountManager from './textsecure/AccountManager';
 import type Data from './sql/Client';
 import type { MessageModel } from './models/messages';
 import type { ConversationModel } from './models/conversations';
 import type { BatcherType } from './util/batcher';
-import type { AttachmentList } from './components/conversation/AttachmentList';
-import type { ChatColorPicker } from './components/ChatColorPicker';
 import type { ConfirmationDialog } from './components/ConfirmationDialog';
-import type { ContactModal } from './components/conversation/ContactModal';
-import type { MessageDetail } from './components/conversation/MessageDetail';
-import type { Quote } from './components/conversation/Quote';
-import type { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
-import type { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 import type { SignalProtocolStore } from './SignalProtocolStore';
-import type { StartupQueue } from './util/StartupQueue';
 import type { SocketStatus } from './types/SocketStatus';
 import type SyncRequest from './textsecure/SyncRequest';
 import type { MessageController } from './util/MessageController';
@@ -79,49 +50,56 @@ import type { SystemTraySetting } from './types/SystemTraySetting';
 import type { UUID } from './types/UUID';
 import type { Address } from './types/Address';
 import type { QualifiedAddress } from './types/QualifiedAddress';
-import type { CI } from './CI';
+import type { CIType } from './CI';
 import type { IPCEventsType } from './util/createIPCEvents';
-import type { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
 
 export { Long } from 'long';
 
-// Synced with the type in ts/shims/showConfirmationDialog
-// we are duplicating it here because that file cannot import/export.
-type ConfirmationDialogViewProps = {
-  dialogName: string;
-  cancelText?: string;
-  confirmStyle?: 'affirmative' | 'negative';
-  message: string;
-  okText: string;
-  reject?: (error: Error) => void;
-  resolve: () => void;
+export type IPCType = {
+  addSetupMenuItems: () => void;
+  closeAbout: () => void;
+  crashReports: {
+    getCount: () => Promise<number>;
+    upload: () => Promise<void>;
+    erase: () => Promise<void>;
+  };
+  drawAttention: () => void;
+  getAutoLaunch: () => Promise<boolean>;
+  getBuiltInImages: () => Promise<Array<string>>;
+  getMediaCameraPermissions: () => Promise<boolean>;
+  getMediaPermissions: () => Promise<boolean>;
+  logAppLoadedEvent?: (options: { processedCount?: number }) => void;
+  readyForUpdates: () => void;
+  removeSetupMenuItems: () => unknown;
+  restart: () => void;
+  setAutoHideMenuBar: (value: boolean) => void;
+  setAutoLaunch: (value: boolean) => Promise<void>;
+  setBadgeCount: (count: number) => void;
+  setMenuBarVisibility: (value: boolean) => void;
+  showDebugLog: () => void;
+  showPermissionsPopup: (
+    forCalling: boolean,
+    forCamera: boolean
+  ) => Promise<void>;
+  showSettings: () => void;
+  showWindow: () => void;
+  shutdown: () => void;
+  titleBarDoubleClick: () => void;
+  updateSystemTraySetting: (value: SystemTraySetting) => void;
+  updateTrayIcon: (count: number) => void;
 };
 
-export declare class WebAudioRecorderClass {
-  constructor(
-    node: GainNode,
-    options: {
-      encoding: string;
-      workerDir: string;
-      options?: { timeLimit?: number };
-    }
-  );
-
-  // Callbacks
-  onComplete?: (recorder: WebAudioRecorderClass, blob: Blob) => unknown;
-  onError?: (recorder: WebAudioRecorderClass, error: Error) => unknown;
-  onTimeout?: () => unknown;
-
-  // Class properties
-  startRecording: () => unknown;
-  finishRecording: () => unknown;
-  isRecording: () => boolean;
-  cancelRecording: () => unknown;
-  worker: Worker;
-}
+export type FeatureFlagType = {
+  GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
+  GV2_ENABLE_CHANGE_PROCESSING: boolean;
+  GV2_ENABLE_STATE_PROCESSING: boolean;
+  GV2_ENABLE_PRE_JOIN_FETCH: boolean;
+  GV2_MIGRATION_DISABLE_ADD: boolean;
+  GV2_MIGRATION_DISABLE_INVITE: boolean;
+};
 
 export type SignalCoreType = {
   Crypto: typeof Crypto;
@@ -147,43 +125,13 @@ export type SignalCoreType = {
   };
   Util: typeof Util;
   Components: {
-    AttachmentList: typeof AttachmentList;
-    ChatColorPicker: typeof ChatColorPicker;
     ConfirmationDialog: typeof ConfirmationDialog;
-    ContactModal: typeof ContactModal;
-    DisappearingTimeDialog: typeof DisappearingTimeDialog;
-    MessageDetail: typeof MessageDetail;
-    Quote: typeof Quote;
-    StagedLinkPreview: typeof StagedLinkPreview;
   };
   OS: typeof OS;
   State: {
     createStore: typeof createStore;
     Roots: {
       createApp: typeof createApp;
-      createConversationDetails: typeof createConversationDetails;
-      createGroupV2JoinModal: typeof createGroupV2JoinModal;
-      createMessageDetail: typeof createMessageDetail;
-      createSafetyNumberViewer: typeof createSafetyNumberViewer;
-      createShortcutGuideModal: typeof createShortcutGuideModal;
-    };
-    Ducks: {
-      app: typeof appDuck;
-      calling: typeof callingDuck;
-      conversations: typeof conversationsDuck;
-      emojis: typeof emojisDuck;
-      expiration: typeof expirationDuck;
-      items: typeof itemsDuck;
-      linkPreviews: typeof linkPreviewsDuck;
-      network: typeof networkDuck;
-      updates: typeof updatesDuck;
-      user: typeof userDuck;
-      search: typeof searchDuck;
-      stickers: typeof stickersDuck;
-    };
-    Selectors: {
-      conversations: typeof conversationsSelectors;
-      search: typeof searchSelectors;
     };
   };
   conversationControllerStart: () => void;
@@ -199,57 +147,20 @@ declare global {
     // Used for sticker creator localization
     localeMessages: { [key: string]: { message: string } };
 
-    // Note: used in background.html, and not type-checked
-    startApp: () => void;
-
-    preloadStartTime: number;
-    preloadEndTime: number;
-
-    removeSetupMenuItems: () => unknown;
-    showPermissionsPopup: (
-      forCalling: boolean,
-      forCamera: boolean
-    ) => Promise<void>;
-
-    FontFace: typeof FontFace;
-    $: typeof jQuery;
-
-    imageToBlurHash: typeof imageToBlurHash;
     isBehindProxy: () => boolean;
-    getAutoLaunch: () => Promise<boolean>;
-    setAutoLaunch: (value: boolean) => Promise<void>;
 
-    Mustache: typeof Mustache;
-    WebAudioRecorder: typeof WebAudioRecorderClass;
-
-    addSetupMenuItems: () => void;
-    attachmentDownloadQueue: Array<MessageModel> | undefined;
-    startupProcessingQueue: StartupQueue | undefined;
-    baseAttachmentsPath: string;
-    baseStickersPath: string;
-    baseTempPath: string;
-    baseDraftPath: string;
-    closeAbout: () => void;
-    crashReports: {
-      getCount: () => Promise<number>;
-      upload: () => Promise<void>;
-      erase: () => Promise<void>;
-    };
-    drawAttention: () => void;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
     getAccountManager: () => AccountManager;
     getAppInstance: () => string | undefined;
-    getBuiltInImages: () => Promise<Array<string>>;
     getConversations: () => ConversationModelCollectionType;
     getBuildCreation: () => number;
+    getBuildExpiration: () => number;
     getEnvironment: typeof getEnvironment;
-    getExpiration: () => number;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
-    getLocale: () => string;
-    getMediaCameraPermissions: () => Promise<boolean>;
-    getMediaPermissions: () => Promise<boolean>;
+    getResolvedMessagesLocale: () => string;
+    getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;
@@ -257,11 +168,8 @@ declare global {
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
     getVersion: () => string;
-    i18n: LocalizerType;
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
-    isFullScreen: () => boolean;
-    isMaximized: () => boolean;
     initialTheme?: ThemeType;
     libphonenumberInstance: {
       parse: (number: string) => PhoneNumber;
@@ -270,66 +178,69 @@ declare global {
     };
     libphonenumberFormat: typeof PhoneNumberFormat;
     nodeSetImmediate: typeof setImmediate;
-    onFullScreenChange: (fullScreen: boolean, maximized: boolean) => void;
     platform: string;
     preloadedImages: Array<HTMLImageElement>;
-    reduxActions: ReduxActions;
-    reduxStore: Store<StateType>;
-    restart: () => void;
     setImmediate: typeof setImmediate;
-    showWindow: () => void;
-    showSettings: () => void;
-    shutdown: () => void;
-    showDebugLog: () => void;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
-    setAutoHideMenuBar: (value: boolean) => void;
-    setBadgeCount: (count: number) => void;
-    setMenuBarVisibility: (value: boolean) => void;
-    updateSystemTraySetting: (value: SystemTraySetting) => void;
-    showConfirmationDialog: (options: ConfirmationDialogViewProps) => void;
     showKeyboardShortcuts: () => void;
     storage: Storage;
     systemTheme: ThemeType;
-    textsecure: typeof textsecure;
-    titleBarDoubleClick: () => void;
-    updateTrayIcon: (count: number) => void;
-    Backbone: typeof Backbone;
-    CI?: CI;
 
-    Accessibility: {
-      reducedMotionSetting: boolean;
-    };
     Signal: SignalCoreType;
+
+    getServerTrustRoot: () => string;
+    logAuthenticatedConnect?: () => void;
+
+    // ========================================================================
+    // The types below have been somewhat organized. See DESKTOP-4801
+    // ========================================================================
+
+    // Backbone
+    Backbone: typeof Backbone;
 
     ConversationController: ConversationController;
     Events: IPCEventsType;
+    FontFace: typeof FontFace;
     MessageController: MessageController;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
+    getSignalProtocolStore: () => SignalProtocolStore;
+    i18n: LocalizerType;
+    // Note: used in background.html, and not type-checked
+    startApp: () => void;
+    textsecure: typeof textsecure;
 
-    getServerTrustRoot: () => string;
-    readyForUpdates: () => void;
-    logAppLoadedEvent?: (options: { processedCount?: number }) => void;
-    logAuthenticatedConnect?: () => void;
+    // IPC
+    IPC: IPCType;
 
-    // Runtime Flags
-    isShowingModal?: boolean;
+    // State
+    reduxActions: ReduxActions;
+    reduxStore: Store<StateType>;
 
     // Feature Flags
-    GV2_ENABLE_SINGLE_CHANGE_PROCESSING: boolean;
-    GV2_ENABLE_CHANGE_PROCESSING: boolean;
-    GV2_ENABLE_STATE_PROCESSING: boolean;
-    GV2_ENABLE_PRE_JOIN_FETCH: boolean;
-    GV2_MIGRATION_DISABLE_ADD: boolean;
-    GV2_MIGRATION_DISABLE_INVITE: boolean;
+    Flags: FeatureFlagType;
 
-    RETRY_DELAY: boolean;
-
-    // Context Isolation
-    SignalContext: SignalContextType;
+    // Paths
+    BasePaths: {
+      attachments: string;
+      draft: string;
+      stickers: string;
+      temp: string;
+    };
 
     // Test only
+    SignalCI?: CIType;
+
+    // TODO DESKTOP-4801
+    SignalContext: SignalContextType;
+
+    // Used only in preload to calculate load time
+    preloadStartTime: number;
+    preloadEndTime: number;
+
+    // Test only
+    RETRY_DELAY: boolean;
     assert: typeof assert;
     testUtilities: {
       onComplete: (info: unknown) => void;
@@ -366,13 +277,4 @@ export type WhisperType = {
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;
   events: Backbone.Events;
-
-  // Backbone views
-
-  ConversationView: typeof ConversationView;
-
-  // Note: we can no longer use 'View.extend' once we've moved to Typescript's preferred
-  //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
-
-  InboxView: typeof Backbone.View;
 };

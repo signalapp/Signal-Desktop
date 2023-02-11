@@ -1,14 +1,15 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { CallEndedReason } from 'ringrtc';
+import { CallEndedReason } from '@signalapp/ringrtc';
 import {
   hasScreenCapturePermission,
   openSystemPreferences,
 } from 'mac-screen-capture-permissions';
 import { has, omit } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 import { getOwn } from '../../util/getOwn';
 import * as Errors from '../../types/errors';
 import { getPlatform } from '../selectors/user';
@@ -52,17 +53,22 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import MessageSender from '../../textsecure/SendMessage';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
-export type GroupCallPeekInfoType = {
+export type GroupCallPeekInfoType = ReadonlyDeep<{
   uuids: Array<UUIDStringType>;
   creatorUuid?: UUIDStringType;
   eraId?: string;
   maxDevices: number;
   deviceCount: number;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type GroupCallParticipantInfoType = {
   uuid: UUIDStringType;
   demuxId: number;
@@ -74,6 +80,7 @@ export type GroupCallParticipantInfoType = {
   videoAspectRatio: number;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type DirectCallStateType = {
   callMode: CallMode.Direct;
   conversationId: string;
@@ -85,7 +92,7 @@ export type DirectCallStateType = {
   hasRemoteVideo?: boolean;
 };
 
-type GroupCallRingStateType =
+type GroupCallRingStateType = ReadonlyDeep<
   | {
       ringId?: undefined;
       ringerUuid?: undefined;
@@ -93,8 +100,10 @@ type GroupCallRingStateType =
   | {
       ringId: bigint;
       ringerUuid: UUIDStringType;
-    };
+    }
+>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type GroupCallStateType = {
   callMode: CallMode.Group;
   conversationId: string;
@@ -105,6 +114,7 @@ export type GroupCallStateType = {
   remoteAudioLevels?: Map<number, number>;
 } & GroupCallRingStateType;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ActiveCallStateType = {
   conversationId: string;
   hasLocalAudio: boolean;
@@ -122,21 +132,25 @@ export type ActiveCallStateType = {
   showParticipantsList: boolean;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallsByConversationType = {
   [conversationId: string]: DirectCallStateType | GroupCallStateType;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
   activeCallState?: ActiveCallStateType;
 };
 
-export type AcceptCallType = {
+export type AcceptCallType = ReadonlyDeep<{
   conversationId: string;
   asVideoCall: boolean;
-};
+}>;
 
-export type CallStateChangeType = {
+export type CallStateChangeType = ReadonlyDeep<{
+  remoteUserId: string; // TODO: Remove
+  callId: string; // TODO: Remove
   conversationId: string;
   acceptedTime?: number;
   callState: CallState;
@@ -144,21 +158,22 @@ export type CallStateChangeType = {
   isIncoming: boolean;
   isVideoCall: boolean;
   title: string;
-};
+}>;
 
-export type CancelCallType = {
+export type CancelCallType = ReadonlyDeep<{
   conversationId: string;
-};
+}>;
 
-type CancelIncomingGroupCallRingType = {
+type CancelIncomingGroupCallRingType = ReadonlyDeep<{
   conversationId: string;
   ringId: bigint;
-};
+}>;
 
-export type DeclineCallType = {
+export type DeclineCallType = ReadonlyDeep<{
   conversationId: string;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type GroupCallStateChangeArgumentType = {
   connectionState: GroupCallConnectionState;
   conversationId: string;
@@ -169,77 +184,81 @@ type GroupCallStateChangeArgumentType = {
   remoteParticipants: Array<GroupCallParticipantInfoType>;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type GroupCallStateChangeActionPayloadType =
   GroupCallStateChangeArgumentType & {
     ourUuid: UUIDStringType;
   };
 
-type HangUpActionPayloadType = {
+type HangUpActionPayloadType = ReadonlyDeep<{
   conversationId: string;
-};
+}>;
 
-type KeyChangedType = {
+type KeyChangedType = ReadonlyDeep<{
   uuid: UUIDStringType;
-};
+}>;
 
-export type KeyChangeOkType = {
+export type KeyChangeOkType = ReadonlyDeep<{
   conversationId: string;
-};
+}>;
 
-export type IncomingDirectCallType = {
+export type IncomingDirectCallType = ReadonlyDeep<{
   conversationId: string;
   isVideoCall: boolean;
-};
+}>;
 
-type IncomingGroupCallType = {
+type IncomingGroupCallType = ReadonlyDeep<{
   conversationId: string;
   ringId: bigint;
   ringerUuid: UUIDStringType;
-};
+}>;
 
-type PeekNotConnectedGroupCallType = {
+type PeekNotConnectedGroupCallType = ReadonlyDeep<{
   conversationId: string;
-};
+}>;
 
-type StartDirectCallType = {
+type StartDirectCallType = ReadonlyDeep<{
   conversationId: string;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
-};
+}>;
 
-export type StartCallType = StartDirectCallType & {
-  callMode: CallMode.Direct | CallMode.Group;
-};
+export type StartCallType = ReadonlyDeep<
+  StartDirectCallType & {
+    callMode: CallMode.Direct | CallMode.Group;
+  }
+>;
 
-export type RemoteVideoChangeType = {
+export type RemoteVideoChangeType = ReadonlyDeep<{
   conversationId: string;
   hasVideo: boolean;
-};
+}>;
 
-type RemoteSharingScreenChangeType = {
+type RemoteSharingScreenChangeType = ReadonlyDeep<{
   conversationId: string;
   isSharingScreen: boolean;
-};
+}>;
 
-export type SetLocalAudioType = {
+export type SetLocalAudioType = ReadonlyDeep<{
   enabled: boolean;
-};
+}>;
 
-export type SetLocalVideoType = {
+export type SetLocalVideoType = ReadonlyDeep<{
   enabled: boolean;
-};
+}>;
 
-export type SetGroupCallVideoRequestType = {
+export type SetGroupCallVideoRequestType = ReadonlyDeep<{
   conversationId: string;
   resolutions: Array<GroupCallVideoRequest>;
   speakerHeight: number;
-};
+}>;
 
-export type StartCallingLobbyType = {
+export type StartCallingLobbyType = ReadonlyDeep<{
   conversationId: string;
   isVideoCall: boolean;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type StartCallingLobbyPayloadType =
   | {
       callMode: CallMode.Direct;
@@ -259,10 +278,12 @@ type StartCallingLobbyPayloadType =
       remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetLocalPreviewType = {
   element: React.RefObject<HTMLVideoElement> | undefined;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement> | undefined;
 };
@@ -437,76 +458,79 @@ const TOGGLE_SPEAKER_VIEW = 'calling/TOGGLE_SPEAKER_VIEW';
 const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
 const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
 
-type AcceptCallPendingActionType = {
+type AcceptCallPendingActionType = ReadonlyDeep<{
   type: 'calling/ACCEPT_CALL_PENDING';
   payload: AcceptCallType;
-};
+}>;
 
-type CancelCallActionType = {
+type CancelCallActionType = ReadonlyDeep<{
   type: 'calling/CANCEL_CALL';
-};
+}>;
 
-type CancelIncomingGroupCallRingActionType = {
+type CancelIncomingGroupCallRingActionType = ReadonlyDeep<{
   type: 'calling/CANCEL_INCOMING_GROUP_CALL_RING';
   payload: CancelIncomingGroupCallRingType;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type StartCallingLobbyActionType = {
   type: 'calling/START_CALLING_LOBBY';
   payload: StartCallingLobbyPayloadType;
 };
 
-type CallStateChangeFulfilledActionType = {
+type CallStateChangeFulfilledActionType = ReadonlyDeep<{
   type: 'calling/CALL_STATE_CHANGE_FULFILLED';
   payload: CallStateChangeType;
-};
+}>;
 
-type ChangeIODeviceFulfilledActionType = {
+type ChangeIODeviceFulfilledActionType = ReadonlyDeep<{
   type: 'calling/CHANGE_IO_DEVICE_FULFILLED';
   payload: ChangeIODevicePayloadType;
-};
+}>;
 
-type CloseNeedPermissionScreenActionType = {
+type CloseNeedPermissionScreenActionType = ReadonlyDeep<{
   type: 'calling/CLOSE_NEED_PERMISSION_SCREEN';
   payload: null;
-};
+}>;
 
-type DeclineCallActionType = {
+type DeclineCallActionType = ReadonlyDeep<{
   type: 'calling/DECLINE_DIRECT_CALL';
   payload: DeclineCallType;
-};
+}>;
 
-type GroupCallAudioLevelsChangeActionPayloadType = Readonly<{
+type GroupCallAudioLevelsChangeActionPayloadType = ReadonlyDeep<{
   conversationId: string;
   localAudioLevel: number;
   remoteDeviceStates: ReadonlyArray<{ audioLevel: number; demuxId: number }>;
 }>;
 
-type GroupCallAudioLevelsChangeActionType = {
+type GroupCallAudioLevelsChangeActionType = ReadonlyDeep<{
   type: 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
   payload: GroupCallAudioLevelsChangeActionPayloadType;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type GroupCallStateChangeActionType = {
   type: 'calling/GROUP_CALL_STATE_CHANGE';
   payload: GroupCallStateChangeActionPayloadType;
 };
 
-type HangUpActionType = {
+type HangUpActionType = ReadonlyDeep<{
   type: 'calling/HANG_UP';
   payload: HangUpActionPayloadType;
-};
+}>;
 
-type IncomingDirectCallActionType = {
+type IncomingDirectCallActionType = ReadonlyDeep<{
   type: 'calling/INCOMING_DIRECT_CALL';
   payload: IncomingDirectCallType;
-};
+}>;
 
-type IncomingGroupCallActionType = {
+type IncomingGroupCallActionType = ReadonlyDeep<{
   type: 'calling/INCOMING_GROUP_CALL';
   payload: IncomingGroupCallType;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type KeyChangedActionType = {
   type: 'calling/MARK_CALL_UNTRUSTED';
   payload: {
@@ -514,101 +538,104 @@ type KeyChangedActionType = {
   };
 };
 
-type KeyChangeOkActionType = {
+type KeyChangeOkActionType = ReadonlyDeep<{
   type: 'calling/MARK_CALL_TRUSTED';
   payload: null;
-};
+}>;
 
-type OutgoingCallActionType = {
+type OutgoingCallActionType = ReadonlyDeep<{
   type: 'calling/OUTGOING_CALL';
   payload: StartDirectCallType;
-};
+}>;
 
-export type PeekGroupCallFulfilledActionType = {
+export type PeekGroupCallFulfilledActionType = ReadonlyDeep<{
   type: 'calling/PEEK_GROUP_CALL_FULFILLED';
   payload: {
     conversationId: string;
     peekInfo: GroupCallPeekInfoType;
   };
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type RefreshIODevicesActionType = {
   type: 'calling/REFRESH_IO_DEVICES';
   payload: MediaDeviceSettings;
 };
 
-type RemoteSharingScreenChangeActionType = {
+type RemoteSharingScreenChangeActionType = ReadonlyDeep<{
   type: 'calling/REMOTE_SHARING_SCREEN_CHANGE';
   payload: RemoteSharingScreenChangeType;
-};
+}>;
 
-type RemoteVideoChangeActionType = {
+type RemoteVideoChangeActionType = ReadonlyDeep<{
   type: 'calling/REMOTE_VIDEO_CHANGE';
   payload: RemoteVideoChangeType;
-};
+}>;
 
-type ReturnToActiveCallActionType = {
+type ReturnToActiveCallActionType = ReadonlyDeep<{
   type: 'calling/RETURN_TO_ACTIVE_CALL';
-};
+}>;
 
-type SetLocalAudioActionType = {
+type SetLocalAudioActionType = ReadonlyDeep<{
   type: 'calling/SET_LOCAL_AUDIO_FULFILLED';
   payload: SetLocalAudioType;
-};
+}>;
 
-type SetLocalVideoFulfilledActionType = {
+type SetLocalVideoFulfilledActionType = ReadonlyDeep<{
   type: 'calling/SET_LOCAL_VIDEO_FULFILLED';
   payload: SetLocalVideoType;
-};
+}>;
 
-type SetPresentingFulfilledActionType = {
+type SetPresentingFulfilledActionType = ReadonlyDeep<{
   type: 'calling/SET_PRESENTING';
   payload?: PresentedSource;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type SetPresentingSourcesActionType = {
   type: 'calling/SET_PRESENTING_SOURCES';
   payload: Array<PresentableSource>;
 };
 
-type SetOutgoingRingActionType = {
+type SetOutgoingRingActionType = ReadonlyDeep<{
   type: 'calling/SET_OUTGOING_RING';
   payload: boolean;
-};
+}>;
 
-type StartDirectCallActionType = {
+type StartDirectCallActionType = ReadonlyDeep<{
   type: 'calling/START_DIRECT_CALL';
   payload: StartDirectCallType;
-};
+}>;
 
-type ToggleNeedsScreenRecordingPermissionsActionType = {
+type ToggleNeedsScreenRecordingPermissionsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
-};
+}>;
 
-type ToggleParticipantsActionType = {
+type ToggleParticipantsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_PARTICIPANTS';
-};
+}>;
 
-type TogglePipActionType = {
+type TogglePipActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_PIP';
-};
+}>;
 
-type ToggleSettingsActionType = {
+type ToggleSettingsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_SETTINGS';
-};
+}>;
 
-type ToggleSpeakerViewActionType = {
+type ToggleSpeakerViewActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_SPEAKER_VIEW';
-};
+}>;
 
-type SwitchToPresentationViewActionType = {
+type SwitchToPresentationViewActionType = ReadonlyDeep<{
   type: 'calling/SWITCH_TO_PRESENTATION_VIEW';
-};
+}>;
 
-type SwitchFromPresentationViewActionType = {
+type SwitchFromPresentationViewActionType = ReadonlyDeep<{
   type: 'calling/SWITCH_FROM_PRESENTATION_VIEW';
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingActionType =
   | AcceptCallPendingActionType
   | CancelCallActionType
@@ -688,10 +715,68 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { callState } = payload;
+    const {
+      callId,
+      callState,
+      isVideoCall,
+      isIncoming,
+      acceptedTime,
+      callEndedReason,
+      remoteUserId,
+    } = payload;
+
     if (callState === CallState.Ended) {
       await callingTones.playEndCall();
       ipcRenderer.send('close-screen-share-controller');
+    }
+
+    const isOutgoing = !isIncoming;
+    const wasAccepted = acceptedTime != null;
+    const isConnected = callState === CallState.Accepted; // "connected"
+    const isEnded = callState === CallState.Ended && callEndedReason != null;
+
+    const isLocalHangup = callEndedReason === CallEndedReason.LocalHangup;
+    const isRemoteHangup = callEndedReason === CallEndedReason.RemoteHangup;
+
+    const answered = isConnected && wasAccepted;
+    const notAnswered = isEnded && !wasAccepted;
+
+    const isOutgoingRemoteAccept = isOutgoing && isConnected && answered;
+    const isIncomingLocalAccept = isIncoming && isConnected && answered;
+    const isOutgoingLocalHangup = isOutgoing && isLocalHangup && notAnswered;
+    const isIncomingLocalHangup = isIncoming && isLocalHangup && notAnswered;
+    const isOutgoingRemoteHangup = isOutgoing && isRemoteHangup && notAnswered;
+    const isIncomingRemoteHangup = isIncoming && isRemoteHangup && notAnswered;
+
+    if (isIncomingRemoteHangup) {
+      // This is considered just another "missed" event
+      log.info(
+        `callStateChange: not syncing hangup from self (Call ID: ${callId}))`
+      );
+    } else if (
+      isOutgoingRemoteAccept ||
+      isIncomingLocalAccept ||
+      isOutgoingLocalHangup ||
+      isIncomingLocalHangup ||
+      isOutgoingRemoteHangup
+    ) {
+      log.info(`callStateChange: syncing call event (Call ID: ${callId})`);
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getCallEventSync(
+            remoteUserId,
+            callId,
+            isVideoCall,
+            isIncoming,
+            acceptedTime != null
+          )
+        );
+      } catch (error) {
+        log.error(
+          'callStateChange: Failed to queue sync message',
+          Errors.toLogFormat(error)
+        );
+      }
     }
 
     dispatch({
@@ -864,7 +949,7 @@ function groupCallStateChange(
     });
 
     if (didSomeoneStartPresenting) {
-      callingTones.someonePresenting();
+      void callingTones.someonePresenting();
     }
 
     if (payload.connectionState === GroupCallConnectionState.NotConnected) {
@@ -978,7 +1063,7 @@ function openSystemPreferencesAction(): ThunkAction<
   never
 > {
   return () => {
-    openSystemPreferences();
+    void openSystemPreferences();
   };
 }
 
@@ -1483,7 +1568,11 @@ export const actions = {
   toggleSpeakerView,
 };
 
-export type ActionsType = typeof actions;
+export const useCallingActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
+
+export type ActionsType = ReadonlyDeep<typeof actions>;
 
 // Reducer
 

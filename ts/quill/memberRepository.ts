@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Fuse from 'fuse.js';
@@ -45,14 +45,14 @@ export class MemberRepository {
     FUSE_OPTIONS
   );
 
-  constructor(private members: Array<ConversationType> = []) {}
+  constructor(private members: ReadonlyArray<ConversationType> = []) {}
 
-  updateMembers(members: Array<ConversationType>): void {
+  updateMembers(members: ReadonlyArray<ConversationType>): void {
     this.members = members;
     this.isFuseReady = false;
   }
 
-  getMembers(omit?: ConversationType): Array<ConversationType> {
+  getMembers(omit?: ConversationType): ReadonlyArray<ConversationType> {
     if (omit) {
       return this.members.filter(({ id }) => id !== omit.id);
     }
@@ -72,7 +72,10 @@ export class MemberRepository {
       : undefined;
   }
 
-  search(pattern: string, omit?: ConversationType): Array<ConversationType> {
+  search(
+    pattern: string,
+    omit?: ConversationType
+  ): ReadonlyArray<ConversationType> {
     if (!this.isFuseReady) {
       this.fuse.setCollection(this.members);
       this.isFuseReady = true;

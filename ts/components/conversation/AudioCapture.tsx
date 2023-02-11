@@ -1,4 +1,4 @@
-// Copyright 2016-2020 Signal Messenger, LLC
+// Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -11,10 +11,6 @@ import type {
 } from '../../types/Attachment';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
-import {
-  ErrorDialogAudioRecorderType,
-  RecordingState,
-} from '../../state/ducks/audioRecorder';
 import { ToastVoiceNoteLimit } from '../ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
@@ -22,6 +18,10 @@ import {
   useStartRecordingShortcut,
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
+import {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../../types/AudioRecorder';
 
 type OnSendAudioRecordingType = (rec: InMemoryAttachmentDraftType) => unknown;
 
@@ -38,7 +38,7 @@ export type PropsType = {
   i18n: LocalizerType;
   recordingState: RecordingState;
   onSendAudioRecording: OnSendAudioRecordingType;
-  startRecording: () => unknown;
+  startRecording: (id: string) => unknown;
 };
 
 enum ToastType {
@@ -96,7 +96,11 @@ export function AudioCapture({
 
   useEscapeHandling(escapeRecording);
 
-  const startRecordingShortcut = useStartRecordingShortcut(startRecording);
+  const recordConversation = useCallback(
+    () => startRecording(conversationId),
+    [conversationId, startRecording]
+  );
+  const startRecordingShortcut = useStartRecordingShortcut(recordConversation);
   useKeyboardShortcuts(startRecordingShortcut);
 
   const closeToast = useCallback(() => {
@@ -240,7 +244,7 @@ export function AudioCapture({
             if (draftAttachments.length) {
               setToastType(ToastType.VoiceNoteMustBeOnlyAttachment);
             } else {
-              startRecording();
+              startRecording(conversationId);
             }
           }}
           title={i18n('voiceRecording--start')}

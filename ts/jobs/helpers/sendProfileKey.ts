@@ -32,6 +32,8 @@ import {
   SendMessageProtoError,
   UnregisteredUserError,
 } from '../../textsecure/Errors';
+import { getRecipients } from '../../util/getRecipients';
+import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
 
 export function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
@@ -102,24 +104,31 @@ export async function sendProfileKey(
 
   // Note: flags and the profileKey itself are all that matter in the proto.
 
-  // Note: we don't check for untrusted conversations here; we attempt to send anyway
+  const recipients = getRecipients(conversation.attributes);
+  const untrustedUuids = getUntrustedConversationUuids(recipients);
+  if (untrustedUuids.length) {
+    log.info(
+      `conversation ${conversation.idForLogging()} has untrusted recipients; refusing to send`
+    );
+  }
+
+  if (!isConversationAccepted(conversation.attributes)) {
+    log.info(
+      `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+    );
+    return;
+  }
+  if (conversation.isBlocked()) {
+    log.info(
+      `conversation ${conversation.idForLogging()} is blocked; refusing to send`
+    );
+    return;
+  }
 
   if (isDirectConversation(conversation.attributes)) {
-    if (!isConversationAccepted(conversation.attributes)) {
-      log.info(
-        `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-      );
-      return;
-    }
     if (isConversationUnregistered(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-      );
-      return;
-    }
-    if (conversation.isBlocked()) {
-      log.info(
-        `conversation ${conversation.idForLogging()} is blocked; refusing to send`
       );
       return;
     }
@@ -142,6 +151,14 @@ export async function sendProfileKey(
   } else {
     if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
       log.error('No revision provided, but conversation is GroupV2');
+    }
+
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    if (!conversation.hasMember(ourUuid)) {
+      log.info(
+        `We are not part of group ${conversation.idForLogging()}; refusing to send`
+      );
+      return;
     }
 
     const groupV2Info = conversation.getGroupV2Info();
@@ -174,7 +191,7 @@ export async function sendProfileKey(
   } catch (error: unknown) {
     if (canAllErrorsBeIgnored(conversation.attributes, error)) {
       log.info(
-        'Group send failures were all OutgoingIdentityKeyError, SendMessageChallengeError, or UnregisteredUserError. Returning succcessfully.'
+        'Group send failures were all OutgoingIdentityKeyError, SendMessageChallengeError, or UnregisteredUserError. Returning successfully.'
       );
       return;
     }

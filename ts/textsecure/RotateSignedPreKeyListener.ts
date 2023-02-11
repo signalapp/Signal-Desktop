@@ -1,4 +1,4 @@
-// Copyright 2017-2022 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations';
@@ -19,7 +19,7 @@ export class RotateSignedPreKeyListener {
 
   protected scheduleRotationForNow(): void {
     const now = Date.now();
-    window.textsecure.storage.put('nextSignedKeyRotationTime', now);
+    void window.textsecure.storage.put('nextSignedKeyRotationTime', now);
   }
 
   protected setTimeoutForNextRun(): void {
@@ -46,7 +46,7 @@ export class RotateSignedPreKeyListener {
   private scheduleNextRotation(): void {
     const now = Date.now();
     const nextTime = now + ROTATION_INTERVAL;
-    window.textsecure.storage.put('nextSignedKeyRotationTime', nextTime);
+    void window.textsecure.storage.put('nextSignedKeyRotationTime', nextTime);
   }
 
   private async run(): Promise<void> {
@@ -67,7 +67,7 @@ export class RotateSignedPreKeyListener {
 
   private runWhenOnline() {
     if (window.navigator.onLine) {
-      this.run();
+      void this.run();
     } else {
       log.info('We are offline; keys will be rotated when we are next online');
       const listener = () => {

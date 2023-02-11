@@ -54,7 +54,11 @@ export async function isVideoGoodForStories(
     const mp4 = MP4Box.createFile();
     await new Promise<void>((resolve, reject) => {
       mp4.onReady = info => {
-        if (info.duration > MAX_VIDEO_DURATION) {
+        // mp4box returns a `duration` in `timescale` units
+        const seconds = info.duration / info.timescale;
+        const milliseconds = seconds * 1000;
+
+        if (milliseconds > MAX_VIDEO_DURATION) {
           reject(ReasonVideoNotGood.TooLong);
           return;
         }

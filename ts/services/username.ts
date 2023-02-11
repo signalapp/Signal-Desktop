@@ -1,10 +1,12 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { usernames } from '@signalapp/libsignal-client';
+
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import dataInterface from '../sql/Client';
-import { updateOurUsernameAndPni } from '../util/updateOurUsernameAndPni';
+import { strictAssert } from '../util/assert';
 import { sleep } from '../util/sleep';
+import { getMinNickname, getMaxNickname } from '../util/Username';
 import type { UsernameReservationType } from '../types/Username';
 import { ReserveUsernameError } from '../types/Username';
 import * as Errors from '../types/errors';
@@ -54,21 +56,35 @@ export async function reserveUsername(
   const { nickname, previousUsername, abortSignal } = options;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('reserveUsername: Username has changed on another device');
   }
 
   try {
-    const { username, reservationToken } = await server.reserveUsername({
+    const candidates = usernames.generateCandidates(
       nickname,
+      getMinNickname(),
+      getMaxNickname()
+    );
+    const hashes = candidates.map(username => usernames.hash(username));
+
+    const { usernameHash } = await server.reserveUsername({
+      hashes,
       abortSignal,
     });
 
+    const index = hashes.findIndex(hash => hash.equals(usernameHash));
+    if (index === -1) {
+      log.warn('reserveUsername: failed to find username hash in the response');
+      return { ok: false, error: ReserveUsernameError.Unprocessable };
+    }
+
+    const username = candidates[index];
+
     return {
       ok: true,
-      reservation: { previousUsername, username, reservationToken },
+      reservation: { previousUsername, username, hash: usernameHash },
     };
   } catch (error) {
     if (error instanceof HTTPError) {
@@ -78,9 +94,9 @@ export async function reserveUsername(
       if (error.code === 409) {
         return { ok: false, error: ReserveUsernameError.Conflict };
       }
-      if (error.code === 413) {
+      if (error.code === 413 || error.code === 429) {
         const time = findRetryAfterTimeFromError(error);
-        log.warn(`reserveUsername: got 413, waiting ${time}ms`);
+        log.warn(`reserveUsername: got ${error.code}, waiting ${time}ms`);
         await sleep(time, abortSignal);
 
         return reserveUsername(options);
@@ -96,8 +112,7 @@ async function updateUsernameAndSyncProfile(
   const me = window.ConversationController.getOurConversationOrThrow();
 
   // Update backbone, update DB, then tell linked devices about profile update
-  me.set({ username });
-  dataInterface.updateConversation(me.attributes);
+  await me.updateUsername(username);
 
   try {
     await singleProtoJobQueue.add(
@@ -120,28 +135,29 @@ export async function confirmUsername(
     throw new Error('server interface is not available!');
   }
 
-  const { previousUsername, username, reservationToken } = reservation;
+  const { previousUsername, username, hash } = reservation;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
   }
+  const proof = usernames.generateProof(username);
+  strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
 
   try {
     await server.confirmUsername({
-      usernameToConfirm: username,
-      reservationToken,
+      hash,
+      proof,
       abortSignal,
     });
 
     await updateUsernameAndSyncProfile(username);
   } catch (error) {
     if (error instanceof HTTPError) {
-      if (error.code === 413) {
+      if (error.code === 413 || error.code === 429) {
         const time = findRetryAfterTimeFromError(error);
-        log.warn(`confirmUsername: got 413, waiting ${time}ms`);
+        log.warn(`confirmUsername: got ${error.code}, waiting ${time}ms`);
         await sleep(time, abortSignal);
 
         return confirmUsername(reservation, abortSignal);
@@ -161,7 +177,6 @@ export async function deleteUsername(
   }
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');

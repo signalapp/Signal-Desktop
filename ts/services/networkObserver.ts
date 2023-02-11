@@ -26,7 +26,7 @@ export function initializeNetworkObserver(
     if (socketStatus === SocketStatus.CLOSED) {
       // If we couldn't connect during startup - we should still switch SQL to
       // the main process to avoid stalling UI.
-      window.Signal.Data.goBackToMainProcess();
+      void window.Signal.Data.goBackToMainProcess();
     }
 
     networkActions.checkNetworkStatus({

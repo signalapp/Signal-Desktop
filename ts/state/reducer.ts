@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { combineReducers } from 'redux';
@@ -18,6 +18,7 @@ import { reducer as globalModals } from './ducks/globalModals';
 import { reducer as items } from './ducks/items';
 import { reducer as lightbox } from './ducks/lightbox';
 import { reducer as linkPreviews } from './ducks/linkPreviews';
+import { reducer as mediaGallery } from './ducks/mediaGallery';
 import { reducer as network } from './ducks/network';
 import { reducer as preferredReactions } from './ducks/preferredReactions';
 import { reducer as safetyNumber } from './ducks/safetyNumber';
@@ -46,6 +47,7 @@ export const reducer = combineReducers({
   items,
   lightbox,
   linkPreviews,
+  mediaGallery,
   network,
   preferredReactions,
   safetyNumber,

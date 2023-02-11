@@ -6,6 +6,7 @@ import { getCallingNotificationText } from '../../util/callingNotification';
 import { CallMode } from '../../types/Calling';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../helpers/getDefaultConversation';
 
 describe('calling notification helpers', () => {
   const i18n = setupI18n('en', enMessages);
@@ -31,16 +32,15 @@ describe('calling notification helpers', () => {
     });
 
     it("includes the creator's first name when describing a call", () => {
+      const conversation = getDefaultConversation({
+        systemGivenName: 'Luigi',
+      });
       assert.strictEqual(
         getCallingNotificationText(
           {
             callMode: CallMode.Group,
             conversationId: 'abc123',
-            creator: {
-              firstName: 'Luigi',
-              isMe: false,
-              title: 'Luigi Mario',
-            },
+            creator: conversation,
             ended: false,
             deviceCount: 1,
             maxDevices: 23,
@@ -53,15 +53,16 @@ describe('calling notification helpers', () => {
     });
 
     it("if the creator doesn't have a first name, falls back to their title", () => {
+      const conversation = getDefaultConversation({
+        systemGivenName: undefined,
+        title: 'Luigi Mario',
+      });
       assert.strictEqual(
         getCallingNotificationText(
           {
             callMode: CallMode.Group,
             conversationId: 'abc123',
-            creator: {
-              isMe: false,
-              title: 'Luigi Mario',
-            },
+            creator: conversation,
             ended: false,
             deviceCount: 1,
             maxDevices: 23,
@@ -74,16 +75,15 @@ describe('calling notification helpers', () => {
     });
 
     it('has a special message if you were the one to start the call', () => {
+      const conversation = getDefaultConversation({
+        isMe: true,
+      });
       assert.strictEqual(
         getCallingNotificationText(
           {
             callMode: CallMode.Group,
             conversationId: 'abc123',
-            creator: {
-              firstName: 'ShouldBeIgnored',
-              isMe: true,
-              title: 'ShouldBeIgnored Smith',
-            },
+            creator: conversation,
             ended: false,
             deviceCount: 1,
             maxDevices: 23,

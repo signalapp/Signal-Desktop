@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
@@ -65,6 +65,7 @@ export const sendTypesEnum = z.enum([
   'verificationSync',
   'viewOnceSync',
   'viewSync',
+  'callEventSync',
 
   // No longer used, all non-urgent
   'legacyGroupChange',
@@ -111,7 +112,7 @@ function processError(error: unknown): void {
           `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, removing profile key`
         );
 
-        conversation.setProfileKey(undefined);
+        void conversation.setProfileKey(undefined);
       }
       if (conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
         log.warn(

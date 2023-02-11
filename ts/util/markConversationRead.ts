@@ -1,11 +1,10 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import { hasErrors } from '../state/selectors/message';
-import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
 import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
@@ -13,8 +12,14 @@ import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesD
 import { isGroup, isDirectConversation } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
+import { drop } from './drop';
 import { isConversationAccepted } from './isConversationAccepted';
 import { ReadStatus } from '../messages/MessageReadStatus';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue';
+import { ReceiptType } from '../types/Receipt';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -87,6 +92,7 @@ export async function markConversationRead(
 
     return {
       messageId: messageSyncData.id,
+      conversationId: conversationAttrs.id,
       originalReadStatus: messageSyncData.originalReadStatus,
       senderE164: messageSyncData.source,
       senderUuid: messageSyncData.sourceUuid,
@@ -133,19 +139,21 @@ export async function markConversationRead(
         'markConversationRead: We are primary device; not sending read syncs'
       );
     } else {
-      readSyncJobQueue.add({ readSyncs });
+      drop(readSyncJobQueue.add({ readSyncs }));
     }
 
     if (isConversationAccepted(conversationAttrs)) {
-      await readReceiptsJobQueue.addIfAllowedByUser(
-        window.storage,
-        allReadMessagesSync
-      );
+      await conversationJobQueue.add({
+        type: conversationQueueJobEnum.enum.Receipts,
+        conversationId,
+        receiptsType: ReceiptType.Read,
+        receipts: allReadMessagesSync,
+      });
     }
   }
 
-  expiringMessagesDeletionService.update();
-  tapToViewMessagesDeletionService.update();
+  void expiringMessagesDeletionService.update();
+  void tapToViewMessagesDeletionService.update();
 
   return true;
 }

@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -9,8 +9,8 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../types/Util';
-import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
-import { RecordingState } from '../state/ducks/audioRecorder';
+import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
+import { RecordingState } from '../types/AudioRecorder';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { Spinner } from './Spinner';
 import type {
@@ -52,7 +52,6 @@ import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileS
 import { MediaQualitySelector } from './MediaQualitySelector';
 import type { Props as QuoteProps } from './conversation/Quote';
 import { Quote } from './conversation/Quote';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { countStickers } from './stickers/lib';
 import {
   useAttachFileShortcut,
@@ -63,6 +62,7 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { usePrevious } from '../hooks/usePrevious';
 import { PanelType } from '../types/Panels';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -101,13 +101,13 @@ export type OwnProps = Readonly<{
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
   messageRequestsEnabled?: boolean;
-  onClearAttachments(): unknown;
-  onCloseLinkPreview(): unknown;
+  onClearAttachments(conversationId: string): unknown;
+  onCloseLinkPreview(conversationId: string): unknown;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
   }) => unknown;
-  onSelectMediaQuality(isHQ: boolean): unknown;
+  setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
     opts: { packId: string; stickerId: number }
@@ -136,7 +136,7 @@ export type OwnProps = Readonly<{
   ): unknown;
   shouldSendHighQualityAttachments: boolean;
   showConversation: ShowConversationType;
-  startRecording: () => unknown;
+  startRecording: (id: string) => unknown;
   theme: ThemeType;
 }>;
 
@@ -170,7 +170,7 @@ export type Props = Pick<
   > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'showGV2MigrationDialog'> &
-  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> & {
+  Pick<GroupV2PendingApprovalActionsPropsType, 'cancelJoinRequest'> & {
     pushPanelForConversation: PushPanelForConversationActionType;
   } & OwnProps;
 
@@ -211,7 +211,7 @@ export function CompositionArea({
   quotedMessageProps,
   scrollToMessage,
   // MediaQualitySelector
-  onSelectMediaQuality,
+  setMediaQualitySetting,
   shouldSendHighQualityAttachments,
   // CompositionInput
   onEditorStateChange,
@@ -261,7 +261,7 @@ export function CompositionArea({
   announcementsOnly,
   areWeAdmin,
   groupAdmins,
-  onCancelJoinRequest,
+  cancelJoinRequest,
   showConversation,
   // SMS-only contacts
   isSMSOnly,
@@ -366,6 +366,20 @@ export function CompositionArea({
     [inputApiRef, onPickEmoji]
   );
 
+  const previousConversationId = usePrevious(conversationId, conversationId);
+  useEffect(() => {
+    if (!draftText) {
+      inputApiRef.current?.setContents('');
+      return;
+    }
+
+    if (conversationId === previousConversationId) {
+      return;
+    }
+
+    inputApiRef.current?.setContents(draftText, draftBodyRanges, true);
+  }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
+
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
   }, [setLarge]);
@@ -391,9 +405,10 @@ export function CompositionArea({
       {showMediaQualitySelector ? (
         <div className="CompositionArea__button-cell">
           <MediaQualitySelector
+            conversationId={conversationId}
             i18n={i18n}
             isHighQuality={shouldSendHighQualityAttachments}
-            onSelectQuality={onSelectMediaQuality}
+            onSelectQuality={setMediaQualitySetting}
           />
         </div>
       ) : null}
@@ -462,7 +477,7 @@ export function CompositionArea({
         recentStickers={recentStickers}
         clearInstalledStickerPack={clearInstalledStickerPack}
         onClickAddPack={() =>
-          pushPanelForConversation(conversationId, {
+          pushPanelForConversation({
             type: PanelType.StickerManager,
           })
         }
@@ -501,6 +516,14 @@ export function CompositionArea({
       document.removeEventListener('keydown', handler);
     };
   }, [setLarge]);
+
+  const clearQuote = useCallback(() => {
+    if (quotedMessageId) {
+      setQuoteByMessageId(conversationId, undefined);
+    }
+  }, [conversationId, quotedMessageId, setQuoteByMessageId]);
+
+  useEscapeHandling(clearQuote);
 
   if (isSignalConversation) {
     // TODO DESKTOP-4547
@@ -592,8 +615,9 @@ export function CompositionArea({
   if (areWePendingApproval) {
     return (
       <GroupV2PendingApprovalActions
+        cancelJoinRequest={cancelJoinRequest}
+        conversationId={conversationId}
         i18n={i18n}
-        onCancelJoinRequest={onCancelJoinRequest}
       />
     );
   }
@@ -666,15 +690,6 @@ export function CompositionArea({
             />
           </div>
         )}
-        {linkPreviewLoading && linkPreviewResult && (
-          <div className="preview-wrapper">
-            <StagedLinkPreview
-              {...linkPreviewResult}
-              i18n={i18n}
-              onClose={onCloseLinkPreview}
-            />
-          </div>
-        )}
         {draftAttachments.length ? (
           <div className="CompositionArea__attachment-list">
             <AttachmentList
@@ -683,7 +698,7 @@ export function CompositionArea({
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
               onClickAttachment={maybeEditAttachment}
-              onClose={onClearAttachments}
+              onClose={() => onClearAttachments(conversationId)}
               onCloseAttachment={attachment => {
                 if (attachment.path) {
                   removeAttachment(conversationId, attachment.path);
@@ -707,8 +722,8 @@ export function CompositionArea({
           )}
         >
           <CompositionInput
-            conversationId={conversationId}
             clearQuotedMessage={clearQuotedMessage}
+            conversationId={conversationId}
             disabled={isDisabled}
             draftBodyRanges={draftBodyRanges}
             draftText={draftText}
@@ -717,6 +732,9 @@ export function CompositionArea({
             i18n={i18n}
             inputApi={inputApiRef}
             large={large}
+            linkPreviewLoading={linkPreviewLoading}
+            linkPreviewResult={linkPreviewResult}
+            onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}
             onEditorStateChange={onEditorStateChange}
             onPickEmoji={onPickEmoji}

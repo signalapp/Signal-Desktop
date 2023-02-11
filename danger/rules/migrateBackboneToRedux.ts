@@ -19,7 +19,7 @@ export default function migrateBackboneToRedux() {
 			`,
     },
     async run({ files, context }) {
-      for (let file of files.touched) {
+      for (let file of files.modifiedOrCreated) {
         let lines = await file.lines();
         let matchedLine: Line | null = null;
 

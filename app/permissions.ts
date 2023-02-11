@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // The list of permissions is here:
@@ -12,6 +12,7 @@ const PERMISSIONS: Record<string, boolean> = {
   // Allowed
   fullscreen: true, // required to show videos in full-screen
   notifications: true, // required to show OS notifications for new messages
+  'clipboard-sanitized-write': true, // required to copy text into clipboard
 
   // Off by default, can be enabled by user
   media: false, // required for access to microphone and camera, used for voice notes and calling

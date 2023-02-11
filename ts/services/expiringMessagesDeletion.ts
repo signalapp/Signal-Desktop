@@ -1,4 +1,4 @@
-// Copyright 2016-2022 Signal Messenger, LLC
+// Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce } from 'lodash';
@@ -8,6 +8,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
 import * as Errors from '../types/errors';
+import { scheduleOptimizeFTS } from './ftsOptimizer';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
@@ -56,9 +57,7 @@ class ExpiringMessagesDeletionService {
 
         // We do this to update the UI, if this message is being displayed somewhere
         message.trigger('expired');
-        window.reduxActions.lightbox.closeLightboxIfViewingExpiredMessage(
-          message.id
-        );
+        window.reduxActions.conversations.messageExpired(message.id);
 
         if (conversation) {
           // An expired message only counts as decrementing the message count, not
@@ -66,6 +65,10 @@ class ExpiringMessagesDeletionService {
           conversation.decrementMessageCount();
         }
       });
+
+      if (messages.length > 0) {
+        scheduleOptimizeFTS();
+      }
     } catch (error) {
       window.SignalContext.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
@@ -80,7 +83,7 @@ class ExpiringMessagesDeletionService {
     window.SignalContext.log.info(
       'destroyExpiredMessages: done, scheduling another check'
     );
-    this.update();
+    void this.update();
   }
 
   private async checkExpiringMessages() {

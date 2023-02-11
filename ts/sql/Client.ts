@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
@@ -37,6 +37,7 @@ import * as Errors from '../types/errors';
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
 import { cleanupMessage } from '../util/cleanup';
+import { drop } from '../util/drop';
 
 import type {
   AllItemsType,
@@ -631,8 +632,8 @@ async function saveMessage(
 
   softAssert(isValidUuid(id), 'saveMessage: messageId is not a UUID');
 
-  expiringMessagesDeletionService.update();
-  tapToViewMessagesDeletionService.update();
+  void expiringMessagesDeletionService.update();
+  void tapToViewMessagesDeletionService.update();
 
   return id;
 }
@@ -646,8 +647,8 @@ async function saveMessages(
     options
   );
 
-  expiringMessagesDeletionService.update();
-  tapToViewMessagesDeletionService.update();
+  void expiringMessagesDeletionService.update();
+  void tapToViewMessagesDeletionService.update();
 }
 
 async function removeMessage(id: string): Promise<void> {
@@ -781,9 +782,11 @@ async function removeAllMessagesInConversation(
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
-    queue.addAll(
-      messages.map(
-        (message: MessageType) => async () => cleanupMessage(message)
+    drop(
+      queue.addAll(
+        messages.map(
+          (message: MessageType) => async () => cleanupMessage(message)
+        )
       )
     );
     // eslint-disable-next-line no-await-in-loop

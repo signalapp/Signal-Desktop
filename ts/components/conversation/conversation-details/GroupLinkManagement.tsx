@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
@@ -138,7 +138,7 @@ export function GroupLinkManagement({
               ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
-                  copyGroupLink(conversation.groupLink);
+                  void copyGroupLink(conversation.groupLink);
                 }
               }}
             />

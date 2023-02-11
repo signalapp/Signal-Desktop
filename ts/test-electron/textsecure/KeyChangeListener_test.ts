@@ -1,4 +1,4 @@
-// Copyright 2017-2021 Signal Messenger, LLC
+// Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -7,6 +7,7 @@ import { v4 as getGuid } from 'uuid';
 import { getRandomBytes } from '../../Crypto';
 import { Address } from '../../types/Address';
 import { UUID } from '../../types/UUID';
+import { explodePromise } from '../../util/explodePromise';
 import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
@@ -76,13 +77,15 @@ describe('KeyChangeListener', () => {
   });
 
   describe('When we have a conversation with this contact', () => {
-    it('generates a key change notice in the private conversation with this contact', done => {
+    it('generates a key change notice in the private conversation with this contact', async () => {
       const original = convo.addKeyChange;
+      const { resolve, promise } = explodePromise<void>();
       convo.addKeyChange = async () => {
         convo.addKeyChange = original;
-        done();
+        resolve();
       };
-      store.saveIdentity(address, newKey);
+      await store.saveIdentity(address, newKey);
+      return promise;
     });
   });
 
@@ -108,15 +111,18 @@ describe('KeyChangeListener', () => {
       await window.Signal.Data.removeConversation(groupConvo.id);
     });
 
-    it('generates a key change notice in the group conversation with this contact', done => {
+    it('generates a key change notice in the group conversation with this contact', async () => {
       const original = groupConvo.addKeyChange;
+
+      const { resolve, promise } = explodePromise<void>();
       groupConvo.addKeyChange = async (_, keyChangedId) => {
         assert.equal(uuidWithKeyChange, keyChangedId?.toString());
         groupConvo.addKeyChange = original;
-        done();
+        resolve();
       };
 
-      store.saveIdentity(address, newKey);
+      await store.saveIdentity(address, newKey);
+      return promise;
     });
   });
 });

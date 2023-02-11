@@ -90,18 +90,21 @@ export class ViewSyncs extends Collection {
       notificationService.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
+      let didChangeMessage = false;
 
       if (message.get('readStatus') !== ReadStatus.Viewed) {
+        didChangeMessage = true;
         message.set(markViewed(message.attributes, sync.get('viewedAt')));
 
         const attachments = message.get('attachments');
         if (!attachments?.every(isDownloaded)) {
-          queueAttachmentDownloads(message.attributes);
+          void queueAttachmentDownloads(message.attributes);
         }
       }
 
       const giftBadge = message.get('giftBadge');
       if (giftBadge) {
+        didChangeMessage = true;
         message.set({
           giftBadge: {
             ...giftBadge,
@@ -110,6 +113,10 @@ export class ViewSyncs extends Collection {
               : GiftBadgeStates.Opened,
           },
         });
+      }
+
+      if (didChangeMessage) {
+        window.Signal.Util.queueUpdateMessage(message.attributes);
       }
 
       this.remove(sync);

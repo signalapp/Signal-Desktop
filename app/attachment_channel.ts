@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcMain } from 'electron';
@@ -178,7 +178,7 @@ function deleteOrphanedAttachments({
   }
 
   // Intentionally not awaiting
-  runSafe();
+  void runSafe();
 }
 
 export function initialize({

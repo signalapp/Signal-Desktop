@@ -18,6 +18,7 @@ export default {
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  conversationId: 'abc123',
   i18n,
   isHighQuality: boolean('isHighQuality', Boolean(overrideProps.isHighQuality)),
   onSelectQuality: action('onSelectQuality'),

@@ -1,4 +1,4 @@
-// Copyright 2020-2022 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-bitwise */
@@ -37,9 +37,10 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
+import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
@@ -110,6 +111,7 @@ import {
   GroupEvent,
   GroupSyncEvent,
   StoryRecipientUpdateEvent,
+  CallEventSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -119,6 +121,7 @@ import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
+import { chunk } from '../util/iterables';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -312,7 +315,7 @@ export default class MessageReceiver
       processBatch: (items: Array<CacheAddItemType>) => {
         // Not returning the promise here because we don't want to stall
         // the batch.
-        this.decryptAndCacheBatch(items);
+        void this.decryptAndCacheBatch(items);
       },
     });
     this.cacheRemoveBatcher = createBatcher<string>({
@@ -337,13 +340,15 @@ export default class MessageReceiver
       request.respond(200, 'OK');
 
       if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
-        this.incomingQueue.add(
-          createTaskWithTimeout(
-            async () => {
-              this.onEmpty();
-            },
-            'incomingQueue/onEmpty',
-            TASK_WITH_TIMEOUT_OPTIONS
+        drop(
+          this.incomingQueue.add(
+            createTaskWithTimeout(
+              async () => {
+                this.onEmpty();
+              },
+              'incomingQueue/onEmpty',
+              TASK_WITH_TIMEOUT_OPTIONS
+            )
           )
         );
       }
@@ -407,6 +412,9 @@ export default class MessageReceiver
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
           story: decoded.story,
+          reportingToken: decoded.reportingToken?.length
+            ? decoded.reportingToken
+            : undefined,
         };
 
         // After this point, decoding errors are not the server's
@@ -422,22 +430,28 @@ export default class MessageReceiver
       }
     };
 
-    this.incomingQueue.add(
-      createTaskWithTimeout(
-        job,
-        'incomingQueue/websocket',
-        TASK_WITH_TIMEOUT_OPTIONS
+    drop(
+      this.incomingQueue.add(
+        createTaskWithTimeout(
+          job,
+          'incomingQueue/websocket',
+          TASK_WITH_TIMEOUT_OPTIONS
+        )
       )
     );
   }
 
   public reset(): void {
     // We always process our cache before processing a new websocket message
-    this.incomingQueue.add(
-      createTaskWithTimeout(
-        async () => this.queueAllCached(),
-        'incomingQueue/queueAllCached',
-        TASK_WITH_TIMEOUT_OPTIONS
+    drop(
+      this.incomingQueue.add(
+        createTaskWithTimeout(
+          async () => this.queueAllCached(),
+          'incomingQueue/queueAllCached',
+          {
+            timeout: 10 * durations.MINUTE,
+          }
+        )
       )
     );
 
@@ -610,6 +624,11 @@ export default class MessageReceiver
     handler: (ev: StoryRecipientUpdateEvent) => void
   ): void;
 
+  public override addEventListener(
+    name: 'callEventSync',
+    handler: (ev: CallEventSyncEvent) => void
+  ): void;
+
   public override addEventListener(name: string, handler: EventHandler): void {
     return super.addEventListener(name, handler);
   }
@@ -626,11 +645,13 @@ export default class MessageReceiver
   //
 
   private async dispatchAndWait(id: string, event: Event): Promise<void> {
-    this.appQueue.add(
-      createTaskWithTimeout(
-        async () => Promise.all(this.dispatchEvent(event)),
-        `dispatchEvent(${event.type}, ${id})`,
-        TASK_WITH_TIMEOUT_OPTIONS
+    drop(
+      this.appQueue.add(
+        createTaskWithTimeout(
+          async () => Promise.all(this.dispatchEvent(event)),
+          `dispatchEvent(${event.type}, ${id})`,
+          TASK_WITH_TIMEOUT_OPTIONS
+        )
       )
     );
   }
@@ -707,16 +728,24 @@ export default class MessageReceiver
       );
 
       // We don't await here because we don't want this to gate future message processing
-      this.appQueue.add(
-        createTaskWithTimeout(emitEmpty, 'emitEmpty', TASK_WITH_TIMEOUT_OPTIONS)
+      drop(
+        this.appQueue.add(
+          createTaskWithTimeout(
+            emitEmpty,
+            'emitEmpty',
+            TASK_WITH_TIMEOUT_OPTIONS
+          )
+        )
       );
     };
 
     const waitForEncryptedQueue = async () => {
-      this.addToQueue(
-        waitForDecryptedQueue,
-        'onEmpty/waitForDecrypted',
-        TaskType.Decrypted
+      drop(
+        this.addToQueue(
+          waitForDecryptedQueue,
+          'onEmpty/waitForDecrypted',
+          TaskType.Decrypted
+        )
       );
     };
 
@@ -725,25 +754,29 @@ export default class MessageReceiver
       // Resetting count so everything from the websocket after this starts at zero
       this.count = 0;
 
-      this.addToQueue(
-        waitForEncryptedQueue,
-        'onEmpty/waitForEncrypted',
-        TaskType.Encrypted
+      drop(
+        this.addToQueue(
+          waitForEncryptedQueue,
+          'onEmpty/waitForEncrypted',
+          TaskType.Encrypted
+        )
       );
     };
 
     const waitForCacheAddBatcher = async () => {
       await this.decryptAndCacheBatcher.onIdle();
-      this.incomingQueue.add(
-        createTaskWithTimeout(
-          waitForIncomingQueue,
-          'onEmpty/waitForIncoming',
-          TASK_WITH_TIMEOUT_OPTIONS
+      drop(
+        this.incomingQueue.add(
+          createTaskWithTimeout(
+            waitForIncomingQueue,
+            'onEmpty/waitForIncoming',
+            TASK_WITH_TIMEOUT_OPTIONS
+          )
         )
       );
     };
 
-    waitForCacheAddBatcher();
+    drop(waitForCacheAddBatcher());
   }
 
   private updateProgress(count: number): void {
@@ -755,12 +788,21 @@ export default class MessageReceiver
   }
 
   private async queueAllCached(): Promise<void> {
-    const items = await this.getAllFromCache();
-    const max = items.length;
-    for (let i = 0; i < max; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.queueCached(items[i]);
+    if (this.stoppingProcessing) {
+      log.info(
+        'MessageReceiver.queueAllCached: not running due to stopped processing'
+      );
+      return;
     }
+
+    for await (const batch of this.getAllFromCache()) {
+      const max = batch.length;
+      for (let i = 0; i < max; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.queueCached(batch[i]);
+      }
+    }
+    log.info('MessageReceiver.queueAllCached - finished');
   }
 
   private async queueCached(item: UnprocessedType): Promise<void> {
@@ -809,6 +851,9 @@ export default class MessageReceiver
           item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
         urgent: isBoolean(item.urgent) ? item.urgent : true,
         story: Boolean(item.story),
+        reportingToken: item.reportingToken
+          ? Bytes.fromBase64(item.reportingToken)
+          : undefined,
       };
 
       const { decrypted } = item;
@@ -835,15 +880,20 @@ export default class MessageReceiver
         };
 
         // Maintain invariant: encrypted queue => decrypted queue
-        this.addToQueue(
-          async () => {
-            this.queueDecryptedEnvelope(decryptedEnvelope, payloadPlaintext);
-          },
-          `queueDecryptedEnvelope(${getEnvelopeId(decryptedEnvelope)})`,
-          TaskType.Encrypted
+        drop(
+          this.addToQueue(
+            async () => {
+              void this.queueDecryptedEnvelope(
+                decryptedEnvelope,
+                payloadPlaintext
+              );
+            },
+            `queueDecryptedEnvelope(${getEnvelopeId(decryptedEnvelope)})`,
+            TaskType.Encrypted
+          )
         );
       } else {
-        this.queueCachedEnvelope(item, envelope);
+        void this.queueCachedEnvelope(item, envelope);
       }
     } catch (error) {
       log.error(
@@ -876,34 +926,33 @@ export default class MessageReceiver
     if (this.isEmptied) {
       this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
-        this.incomingQueue.add(
-          createTaskWithTimeout(
-            async () => this.queueAllCached(),
-            'queueAllCached',
-            TASK_WITH_TIMEOUT_OPTIONS
+        drop(
+          this.incomingQueue.add(
+            createTaskWithTimeout(
+              async () => this.queueAllCached(),
+              'queueAllCached',
+              TASK_WITH_TIMEOUT_OPTIONS
+            )
           )
         );
       }, RETRY_TIMEOUT);
     }
   }
 
-  private async getAllFromCache(): Promise<Array<UnprocessedType>> {
+  private async *getAllFromCache(): AsyncIterable<Array<UnprocessedType>> {
     log.info('getAllFromCache');
-    const count = await this.storage.protocol.getUnprocessedCount();
 
-    if (count > 1500) {
-      await this.storage.protocol.removeAllUnprocessed();
-      log.warn(
-        `There were ${count} messages in cache. Deleted all instead of reprocessing`
+    const ids = await this.storage.protocol.getAllUnprocessedIds();
+
+    log.info(`getAllFromCache - ${ids.length} unprocessed`);
+
+    for (const batch of chunk(ids, 1000)) {
+      log.info(`getAllFromCache - yielding batch of ${batch.length}`);
+      yield this.storage.protocol.getUnprocessedByIdsAndIncrementAttempts(
+        batch
       );
-      return [];
     }
-
-    const items =
-      await this.storage.protocol.getAllUnprocessedAndIncrementAttempts();
-    log.info('getAllFromCache loaded', items.length, 'saved envelopes');
-
-    return items;
+    log.info(`getAllFromCache - done retrieving ${ids.length} unprocessed`);
   }
 
   private async decryptAndCacheBatch(
@@ -1070,13 +1119,19 @@ export default class MessageReceiver
       id,
       version: 2,
 
-      attempts: 1,
+      // This field is only used for aging items out of the cache. The original
+      //   envelope's timestamp will be used when retrying this item.
+      timestamp: envelope.receivedAtDate,
+
+      attempts: 0,
       envelope: Bytes.toBase64(plaintext),
       messageAgeSec: envelope.messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
-      timestamp: envelope.timestamp,
       urgent: envelope.urgent,
       story: envelope.story,
+      reportingToken: envelope.reportingToken
+        ? Bytes.toBase64(envelope.reportingToken)
+        : undefined,
     };
     this.decryptAndCacheBatcher.add({
       request,
@@ -1155,11 +1210,13 @@ export default class MessageReceiver
       logId = getEnvelopeId(unsealedEnvelope);
 
       const taskId = `dispatchEvent(EnvelopeEvent(${logId}))`;
-      this.addToQueue(
-        async () =>
-          this.dispatchAndWait(taskId, new EnvelopeEvent(unsealedEnvelope)),
-        taskId,
-        TaskType.Decrypted
+      drop(
+        this.addToQueue(
+          async () =>
+            this.dispatchAndWait(taskId, new EnvelopeEvent(unsealedEnvelope)),
+          taskId,
+          TaskType.Decrypted
+        )
       );
 
       return this.decryptEnvelope(stores, unsealedEnvelope, uuidKind);
@@ -1214,14 +1271,12 @@ export default class MessageReceiver
       return;
     }
 
-    if (envelope.content) {
-      await this.innerHandleContentMessage(envelope, plaintext);
-
-      return;
+    if (!envelope.content) {
+      this.removeFromCache(envelope);
+      throw new Error('Received message with no content');
     }
 
-    this.removeFromCache(envelope);
-    throw new Error('Received message with no content');
+    await this.innerHandleContentMessage(envelope, plaintext);
   }
 
   private async unsealEnvelope(
@@ -1370,59 +1425,57 @@ export default class MessageReceiver
           envelope,
           content.senderKeyDistributionMessage
         );
-      } else {
-        // Note: `story = true` can be set for sender key distribution messages
+      }
 
-        const isStoryReply = Boolean(content.dataMessage?.storyContext);
-        const isGroupStoryReply = Boolean(
-          isStoryReply && content.dataMessage?.groupV2
+      const isStoryReply = Boolean(content.dataMessage?.storyContext);
+      const isGroupStoryReply = Boolean(
+        isStoryReply && content.dataMessage?.groupV2
+      );
+      const isStory = Boolean(content.storyMessage);
+      const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+
+      if (
+        envelope.story &&
+        !(isGroupStoryReply || isStory) &&
+        !isDeleteForEveryone
+      ) {
+        log.warn(
+          `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
         );
-        const isStory = Boolean(content.storyMessage);
-        const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
+      }
 
-        if (
-          envelope.story &&
-          !(isGroupStoryReply || isStory) &&
-          !isDeleteForEveryone
-        ) {
-          log.warn(
-            `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
-
-        if (!envelope.story && (isGroupStoryReply || isStory)) {
-          log.warn(
-            `${logId}: Malformed story - story=false on envelope, but was a group story send`
-          );
-        }
-
-        const areStoriesBlocked = getStoriesBlocked();
-        // Note that there are other story-related message types which aren't captured
-        //   here. Look for other calls to getStoriesBlocked down-file.
-        if (areStoriesBlocked && (isStoryReply || isStory)) {
-          log.warn(
-            `${logId}: Dropping story message - stories are disabled or unavailable`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
-
-        const sender = window.ConversationController.get(
-          envelope.sourceUuid || envelope.source
+      if (!envelope.story && (isGroupStoryReply || isStory)) {
+        log.warn(
+          `${logId}: Malformed story - story=false on envelope, but was a group story send`
         );
-        if (
-          (isStoryReply || isStory) &&
-          !isGroupV2 &&
-          (!sender || !sender.get('profileSharing'))
-        ) {
-          log.warn(
-            `${logId}: Dropping story message - !profileSharing for sender`
-          );
-          this.removeFromCache(envelope);
-          return { plaintext: undefined, envelope };
-        }
+      }
+
+      const areStoriesBlocked = getStoriesBlocked();
+      // Note that there are other story-related message types which aren't captured
+      //   here. Look for other calls to getStoriesBlocked down-file.
+      if (areStoriesBlocked && (isStoryReply || isStory)) {
+        log.warn(
+          `${logId}: Dropping story message - stories are disabled or unavailable`
+        );
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
+      }
+
+      const sender = window.ConversationController.get(
+        envelope.sourceUuid || envelope.source
+      );
+      if (
+        (isStoryReply || isStory) &&
+        !isGroupV2 &&
+        (!sender || !sender.get('profileSharing'))
+      ) {
+        log.warn(
+          `${logId}: Dropping story message - !profileSharing for sender`
+        );
+        this.removeFromCache(envelope);
+        return { plaintext: undefined, envelope };
       }
 
       if (content.pniSignatureMessage) {
@@ -1887,10 +1940,12 @@ export default class MessageReceiver
         );
 
         // Avoid deadlocks by scheduling processing on decrypted queue
-        this.addToQueue(
-          async () => this.dispatchEvent(event),
-          `decrypted/dispatchEvent/DecryptionErrorEvent(${envelopeId})`,
-          TaskType.Decrypted
+        drop(
+          this.addToQueue(
+            async () => this.dispatchEvent(event),
+            `decrypted/dispatchEvent/DecryptionErrorEvent(${envelopeId})`,
+            TaskType.Decrypted
+          )
         );
       } else {
         this.removeFromCache(envelope);
@@ -2014,6 +2069,9 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
+      // If a text attachment has a link preview we remove it from the
+      // textAttachment data structure and instead process the preview and add
+      // it as a "preview" property for the message attributes.
       const { text, preview: unprocessedPreview } = msg.textAttachment;
       if (unprocessedPreview) {
         preview = processPreview([unprocessedPreview]);
@@ -2099,7 +2157,7 @@ export default class MessageReceiver
         },
         this.removeFromCache.bind(this, envelope)
       );
-      this.dispatchAndWait(logId, ev);
+      void this.dispatchAndWait(logId, ev);
       return;
     }
 
@@ -2158,7 +2216,7 @@ export default class MessageReceiver
           },
           this.removeFromCache.bind(this, envelope)
         );
-        this.dispatchAndWait(logId, ev);
+        void this.dispatchAndWait(logId, ev);
       });
       return;
     }
@@ -2828,7 +2886,7 @@ export default class MessageReceiver
       }
 
       if (sentMessage.storyMessage) {
-        this.handleStoryMessage(
+        void this.handleStoryMessage(
           envelope,
           sentMessage.storyMessage,
           sentMessage
@@ -2867,7 +2925,7 @@ export default class MessageReceiver
       return this.handleContacts(envelope, syncMessage.contacts);
     }
     if (syncMessage.groups) {
-      this.handleGroups(envelope, syncMessage.groups);
+      void this.handleGroups(envelope, syncMessage.groups);
       return;
     }
     if (syncMessage.blocked) {
@@ -2915,6 +2973,9 @@ export default class MessageReceiver
     }
     if (syncMessage.viewed && syncMessage.viewed.length) {
       return this.handleViewed(envelope, syncMessage.viewed);
+    }
+    if (syncMessage.callEvent) {
+      return this.handleCallEvent(envelope, syncMessage.callEvent);
     }
 
     this.removeFromCache(envelope);
@@ -3177,6 +3238,64 @@ export default class MessageReceiver
     );
   }
 
+  private async handleCallEvent(
+    envelope: ProcessedEnvelope,
+    callEvent: Proto.SyncMessage.ICallEvent
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleCallEvent', logId);
+    const { peerUuid, callId } = callEvent;
+
+    if (!peerUuid) {
+      throw new Error('MessageReceiver.handleCallEvent: missing peerUuid');
+    }
+
+    if (!callId) {
+      throw new Error('MessageReceiver.handleCallEvent: missing callId');
+    }
+
+    logUnexpectedUrgentValue(envelope, 'callEventSync');
+
+    const peerUuidStr = bytesToUuid(peerUuid);
+
+    assertDev(
+      peerUuidStr != null,
+      'MessageReceiver.handleCallEvent: invalid peerUuid'
+    );
+
+    const { receivedAtCounter, timestamp } = envelope;
+
+    const wasIncoming =
+      callEvent.direction === Proto.SyncMessage.CallEvent.Direction.INCOMING;
+    const wasVideoCall =
+      callEvent.type === Proto.SyncMessage.CallEvent.Type.VIDEO_CALL;
+    const wasAccepted =
+      callEvent.event === Proto.SyncMessage.CallEvent.Event.ACCEPTED;
+    const wasDeclined =
+      callEvent.event === Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
+
+    const acceptedTime = wasAccepted ? timestamp : undefined;
+    const endedTime = wasDeclined ? timestamp : undefined;
+
+    const callEventSync = new CallEventSyncEvent(
+      {
+        timestamp: envelope.timestamp,
+        peerUuid: peerUuidStr,
+        callId: callId.toString(),
+        wasIncoming,
+        wasVideoCall,
+        wasDeclined,
+        acceptedTime,
+        endedTime,
+        receivedAtCounter,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    await this.dispatchAndWait(logId, callEventSync);
+
+    log.info('handleCallEvent: finished');
+  }
+
   private async handleContacts(
     envelope: ProcessedEnvelope,
     contacts: Proto.SyncMessage.IContacts
@@ -3333,7 +3452,7 @@ export default class MessageReceiver
     if (changed) {
       log.info('handleBlocked: Block list changed, forcing re-render.');
       const uniqueIdentifiers = Array.from(new Set(allIdentifiers));
-      window.ConversationController.forceRerender(uniqueIdentifiers);
+      void window.ConversationController.forceRerender(uniqueIdentifiers);
     }
   }
 

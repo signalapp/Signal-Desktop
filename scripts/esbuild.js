@@ -12,13 +12,12 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 
 const nodeDefaults = {
   platform: 'node',
-  target: 'es2020',
+  target: 'esnext',
   sourcemap: isProd ? false : 'inline',
   // Otherwise React components get renamed
   // See: https://github.com/evanw/esbuild/issues/1147
   keepNames: true,
   logLevel: 'info',
-  watch,
 };
 
 const bundleDefaults = {
@@ -31,14 +30,15 @@ const bundleDefaults = {
     // Native libraries
     '@signalapp/libsignal-client',
     '@signalapp/libsignal-client/zkgroup',
+    '@signalapp/ringrtc',
     '@signalapp/better-sqlite3',
     'electron',
     'fs-xattr',
     'fsevents',
     'mac-screen-capture-permissions',
-    'ringrtc',
     'sass',
-    'websocket',
+    'bufferutil',
+    'utf-8-validate',
 
     // Things that don't bundle well
     'got',
@@ -46,6 +46,7 @@ const bundleDefaults = {
     'node-fetch',
     'pino',
     'proxy-agent',
+    'websocket',
 
     // Large libraries (3.7mb total)
     // See: https://esbuild.github.io/api/#analyze
@@ -60,24 +61,40 @@ const bundleDefaults = {
   ],
 };
 
-// App, tests, and scripts
-esbuild.build({
-  ...nodeDefaults,
-  format: 'cjs',
-  mainFields: ['browser', 'main'],
-  entryPoints: glob
-    .sync('{app,ts,sticker-creator}/**/*.{ts,tsx}', {
-      nodir: true,
-      root: ROOT_DIR,
-    })
-    .filter(file => !file.endsWith('.d.ts')),
-  outdir: path.join(ROOT_DIR),
-});
+async function main() {
+  // App, tests, and scripts
+  const app = await esbuild.context({
+    ...nodeDefaults,
+    format: 'cjs',
+    mainFields: ['browser', 'main'],
+    entryPoints: glob
+      .sync('{app,ts,sticker-creator}/**/*.{ts,tsx}', {
+        nodir: true,
+        root: ROOT_DIR,
+      })
+      .filter(file => !file.endsWith('.d.ts')),
+    outdir: path.join(ROOT_DIR),
+  });
 
-// Preload bundle
-esbuild.build({
-  ...bundleDefaults,
-  mainFields: ['browser', 'main'],
-  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
-  outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
+  // Preload bundle
+  const bundle = await esbuild.context({
+    ...bundleDefaults,
+    mainFields: ['browser', 'main'],
+    entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
+    outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
+  });
+
+  if (watch) {
+    await Promise.all([app.watch(), bundle.watch()]);
+  } else {
+    await Promise.all([app.rebuild(), bundle.rebuild()]);
+
+    await app.dispose();
+    await bundle.dispose();
+  }
+}
+
+main().catch(error => {
+  console.error(error.stack);
+  process.exit(1);
 });

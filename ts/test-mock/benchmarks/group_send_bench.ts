@@ -23,7 +23,7 @@ import {
 const CONVERSATION_SIZE = 500; // messages
 const LAST_MESSAGE = 'start sending messages now';
 
-(async () => {
+void (async () => {
   const bootstrap = new Bootstrap({
     benchmark: true,
   });
@@ -122,27 +122,27 @@ const LAST_MESSAGE = 'start sending messages now';
     {
       const leftPane = window.locator('.left-pane-wrapper');
 
-      const item = leftPane.locator(
-        '_react=BaseConversationListItem' +
-          `[title = ${JSON.stringify(group.title)}] ` +
-          `>> text=${LAST_MESSAGE}`
-      );
+      const item = leftPane
+        .locator(
+          '.module-conversation-list__item--contact-or-conversation' +
+            `>> text=${LAST_MESSAGE}`
+        )
+        .first();
       await item.click();
     }
 
     const timeline = window.locator(
-      '.timeline-wrapper, .ConversationView__template .react-wrapper'
+      '.timeline-wrapper, .conversation .ConversationView'
     );
 
     const deltaList = new Array<number>();
     for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
       debug('finding composition input and clicking it');
       const composeArea = window.locator(
-        '.composition-area-wrapper, ' +
-          '.ConversationView__template .react-wrapper'
+        '.composition-area-wrapper, .conversation .ConversationView'
       );
 
-      const input = composeArea.locator('_react=CompositionInput');
+      const input = composeArea.locator('[data-testid=CompositionInput]');
 
       debug('entering message text');
       await input.type(`my message ${runId}`);
@@ -167,9 +167,7 @@ const LAST_MESSAGE = 'start sending messages now';
       await server.send(desktop, delivery);
 
       debug('waiting for message state change');
-      const message = timeline.locator(
-        `_react=Message[timestamp = ${timestamp}][status = "delivered"]`
-      );
+      const message = timeline.locator(`[data-testid="${timestamp}"]`);
       await message.waitFor();
 
       if (runId >= DISCARD_COUNT) {

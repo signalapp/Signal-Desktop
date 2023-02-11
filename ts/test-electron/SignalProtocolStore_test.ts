@@ -1,4 +1,4 @@
-// Copyright 2015-2022 Signal Messenger, LLC
+// Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -124,7 +124,7 @@ describe('SignalProtocolStore', () => {
 
   before(async () => {
     store = window.textsecure.storage.protocol;
-    store.hydrateCaches();
+    await store.hydrateCaches();
     identityKey = {
       pubKey: getPublicKey(),
       privKey: getPrivateKey(),
@@ -140,8 +140,10 @@ describe('SignalProtocolStore', () => {
     clampPrivateKey(identityKey.privKey);
     clampPrivateKey(testKey.privKey);
 
-    window.storage.put('registrationIdMap', { [ourUuid.toString()]: 1337 });
-    window.storage.put('identityKeyMap', {
+    await window.storage.put('registrationIdMap', {
+      [ourUuid.toString()]: 1337,
+    });
+    await window.storage.put('identityKeyMap', {
       [ourUuid.toString()]: {
         privKey: identityKey.privKey,
         pubKey: identityKey.pubKey,
@@ -1271,7 +1273,10 @@ describe('SignalProtocolStore', () => {
       assert.equal(await store.getSenderKey(id, distributionId), testSenderKey);
 
       const allUnprocessed =
-        await store.getAllUnprocessedAndIncrementAttempts();
+        await store.getUnprocessedByIdsAndIncrementAttempts(
+          await store.getAllUnprocessedIds()
+        );
+
       assert.deepEqual(
         allUnprocessed.map(({ envelope }) => envelope),
         ['second']
@@ -1325,7 +1330,12 @@ describe('SignalProtocolStore', () => {
 
       assert.equal(await store.loadSession(id), testSession);
       assert.equal(await store.getSenderKey(id, distributionId), testSenderKey);
-      assert.deepEqual(await store.getAllUnprocessedAndIncrementAttempts(), []);
+      assert.deepEqual(
+        await store.getUnprocessedByIdsAndIncrementAttempts(
+          await store.getAllUnprocessedIds()
+        ),
+        []
+      );
     });
 
     it('can be re-entered', async () => {
@@ -1421,7 +1431,9 @@ describe('SignalProtocolStore', () => {
 
     beforeEach(async () => {
       await store.removeAllUnprocessed();
-      const items = await store.getAllUnprocessedAndIncrementAttempts();
+      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
+        await store.getAllUnprocessedIds()
+      );
       assert.strictEqual(items.length, 0);
     });
 
@@ -1469,7 +1481,9 @@ describe('SignalProtocolStore', () => {
         }),
       ]);
 
-      const items = await store.getAllUnprocessedAndIncrementAttempts();
+      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
+        await store.getAllUnprocessedIds()
+      );
       assert.strictEqual(items.length, 3);
 
       // they are in the proper order because the collection comparator is
@@ -1493,7 +1507,9 @@ describe('SignalProtocolStore', () => {
       });
       await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
 
-      const items = await store.getAllUnprocessedAndIncrementAttempts();
+      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
+        await store.getAllUnprocessedIds()
+      );
       assert.strictEqual(items.length, 1);
       assert.strictEqual(items[0].decrypted, 'updated');
       assert.strictEqual(items[0].timestamp, NOW + 1);
@@ -1515,7 +1531,9 @@ describe('SignalProtocolStore', () => {
       });
       await store.removeUnprocessed(id);
 
-      const items = await store.getAllUnprocessedAndIncrementAttempts();
+      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
+        await store.getAllUnprocessedIds()
+      );
       assert.strictEqual(items.length, 0);
     });
 
@@ -1531,7 +1549,9 @@ describe('SignalProtocolStore', () => {
         urgent: true,
       });
 
-      const items = await store.getAllUnprocessedAndIncrementAttempts();
+      const items = await store.getUnprocessedByIdsAndIncrementAttempts(
+        await store.getAllUnprocessedIds()
+      );
       assert.strictEqual(items.length, 0);
     });
   });

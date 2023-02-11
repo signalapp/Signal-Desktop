@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
@@ -20,6 +20,7 @@ import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone
 import { sendProfileKey } from './helpers/sendProfileKey';
 import { sendReaction } from './helpers/sendReaction';
 import { sendStory } from './helpers/sendStory';
+import { sendReceipts } from './helpers/sendReceipts';
 
 import type { LoggerType } from '../types/Logging';
 import { ConversationVerificationState } from '../state/ducks/conversationsEnums';
@@ -37,6 +38,7 @@ import type { Job } from './Job';
 import type { ParsedJob } from './types';
 import type SendMessage from '../textsecure/SendMessage';
 import type { UUIDStringType } from '../types/UUID';
+import { receiptSchema, ReceiptType } from '../types/Receipt';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -49,6 +51,7 @@ export const conversationQueueJobEnum = z.enum([
   'ProfileKey',
   'Reaction',
   'Story',
+  'Receipts',
 ]);
 
 const deleteForEveryoneJobDataSchema = z.object({
@@ -139,6 +142,14 @@ const storyJobDataSchema = z.object({
 });
 export type StoryJobData = z.infer<typeof storyJobDataSchema>;
 
+const receiptsJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.Receipts),
+  conversationId: z.string(),
+  receiptsType: z.nativeEnum(ReceiptType),
+  receipts: receiptSchema.array(),
+});
+export type ReceiptsJobData = z.infer<typeof receiptsJobDataSchema>;
+
 export const conversationQueueJobDataSchema = z.union([
   deleteForEveryoneJobDataSchema,
   deleteStoryForEveryoneJobDataSchema,
@@ -148,6 +159,7 @@ export const conversationQueueJobDataSchema = z.union([
   profileKeyJobDataSchema,
   reactionJobDataSchema,
   storyJobDataSchema,
+  receiptsJobDataSchema,
 ]);
 export type ConversationQueueJobData = z.infer<
   typeof conversationQueueJobDataSchema
@@ -301,6 +313,13 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         verificationData.type ===
         ConversationVerificationState.PendingVerification
       ) {
+        if (type === conversationQueueJobEnum.enum.ProfileKey) {
+          log.warn(
+            "Cancelling profile share, we don't want to wait for pending verification."
+          );
+          return;
+        }
+
         log.info(
           'verification is pending for this conversation; waiting at most 5m...'
         );
@@ -377,6 +396,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         case jobSet.Story:
           await sendStory(conversation, jobBundle, data);
           break;
+        case jobSet.Receipts:
+          await sendReceipts(conversation, jobBundle, data);
+          break;
         default: {
           // Note: This should never happen, because the zod call in parseData wouldn't
           //   accept data that doesn't look like our type specification.
@@ -405,7 +427,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           }
           untrustedUuids.push(uuid);
         } else if (toProcess instanceof SendMessageChallengeError) {
-          window.Signal.challengeHandler?.register(
+          void window.Signal.challengeHandler?.register(
             {
               conversationId,
               createdAt: Date.now(),
@@ -426,9 +448,17 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
 
       if (untrustedUuids.length) {
+        if (type === jobSet.ProfileKey) {
+          log.warn(
+            `Cancelling profile share, since there were ${untrustedUuids.length} untrusted send targets.`
+          );
+          return;
+        }
+
         log.error(
           `Send failed because ${untrustedUuids.length} conversation(s) were untrusted. Adding to verification list.`
         );
+
         window.reduxActions.conversations.conversationStoppedByMissingVerification(
           {
             conversationId: conversation.id,

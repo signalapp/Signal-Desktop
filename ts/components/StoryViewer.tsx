@@ -96,12 +96,12 @@ export type PropsType = {
     story: StoryViewType
   ) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
-  preferredReactionEmoji: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
   queueStoryDownload: (storyId: string) => unknown;
-  recentEmojis?: Array<string>;
+  recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
-  retrySend: (messageId: string) => unknown;
+  retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showToast: ShowToastActionCreatorType;
@@ -153,7 +153,7 @@ export function StoryViewer({
   recentEmojis,
   renderEmojiPicker,
   replyState,
-  retrySend,
+  retryMessageSend,
   saveAttachment,
   setHasAllStoriesUnmuted,
   showToast,
@@ -247,7 +247,7 @@ export function StoryViewer({
   // are sequentially posted.
   useEffect(() => {
     let shouldCancel = false;
-    (async function hydrateStoryDuration() {
+    void (async function hydrateStoryDuration() {
       if (!attachment) {
         return;
       }
@@ -555,7 +555,7 @@ export function StoryViewer({
     ];
   }
 
-  function doRetrySend() {
+  function doRetryMessageSend() {
     if (wasManuallyRetried) {
       return;
     }
@@ -568,7 +568,7 @@ export function StoryViewer({
     }
 
     setWasManuallyRetried(true);
-    retrySend(messageId);
+    retryMessageSend(messageId);
   }
 
   return (
@@ -601,7 +601,12 @@ export function StoryViewer({
             />
           )}
           <div className="StoryViewer__protection StoryViewer__protection--top" />
-          <div className="StoryViewer__container">
+          <div
+            className="StoryViewer__container"
+            onDoubleClick={() =>
+              setCurrentViewTarget(StoryViewTargetType.Replies)
+            }
+          >
             <StoryImage
               attachment={attachment}
               firstName={firstName || title}
@@ -800,7 +805,7 @@ export function StoryViewer({
               {sendStatus === ResolvedSendStatus.Failed && !wasManuallyRetried && (
                 <button
                   className="StoryViewer__actions__failed"
-                  onClick={doRetrySend}
+                  onClick={doRetryMessageSend}
                   type="button"
                 >
                   {i18n('StoryViewer__failed')}
@@ -810,7 +815,7 @@ export function StoryViewer({
                 !wasManuallyRetried && (
                   <button
                     className="StoryViewer__actions__failed"
-                    onClick={doRetrySend}
+                    onClick={doRetryMessageSend}
                     type="button"
                   >
                     {i18n('StoryViewer__partial-fail')}
@@ -908,7 +913,6 @@ export function StoryViewer({
         {(currentViewTarget === StoryViewTargetType.Replies ||
           currentViewTarget === StoryViewTargetType.Views) && (
           <StoryViewsNRepliesModal
-            conversationTitle={group?.title ?? title}
             authorTitle={firstName || title}
             canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}
@@ -942,7 +946,6 @@ export function StoryViewer({
             replies={replies}
             skinTone={skinTone}
             sortedGroupMembers={group?.sortedGroupMembers}
-            storyPreviewAttachment={attachment}
             views={views}
             viewTarget={currentViewTarget}
             onChangeViewTarget={setCurrentViewTarget}

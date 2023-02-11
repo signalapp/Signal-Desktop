@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -118,7 +118,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         return;
       }
 
-      conversation.applyMessageRequestResponse(sync.get('type'), {
+      void conversation.applyMessageRequestResponse(sync.get('type'), {
         fromSync: true,
       });
 

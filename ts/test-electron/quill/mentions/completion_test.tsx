@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -99,7 +99,7 @@ describe('MentionCompletion', () => {
   describe('onTextChange', () => {
     let possiblyShowMemberResultsStub: sinon.SinonStub<
       [],
-      Array<ConversationType>
+      ReadonlyArray<ConversationType>
     >;
 
     beforeEach(() => {

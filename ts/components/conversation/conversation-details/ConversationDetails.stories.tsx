@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -41,8 +41,8 @@ const createProps = (
   expireTimer?: DurationInSeconds
 ): Props => ({
   acceptConversation: action('acceptConversation'),
-  addMembers: async () => {
-    action('addMembers');
+  addMembersToGroup: async () => {
+    action('addMembersToGroup');
   },
   areWeASubscriber: false,
   blockConversation: action('blockConversation'),
@@ -57,10 +57,12 @@ const createProps = (
   hasActiveCall: false,
   hasGroupLink,
   getPreferredBadge: () => undefined,
+  getProfilesForConversation: action('getProfilesForConversation'),
   groupsInCommon: [],
   i18n,
   isAdmin: false,
   isGroup: true,
+  leaveGroup: action('leaveGroup'),
   loadRecentMediaItems: action('loadRecentMediaItems'),
   memberships: times(32, i => ({
     isAdmin: i === 1,
@@ -78,7 +80,6 @@ const createProps = (
     member: getDefaultConversation(),
   })),
   setDisappearingMessages: action('setDisappearingMessages'),
-  showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showConversation: action('showConversation'),
@@ -86,7 +87,6 @@ const createProps = (
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },
-  onLeave: action('onLeave'),
   deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
   replaceAvatar: action('replaceAvatar'),
   saveAvatarToDisk: action('saveAvatarToDisk'),

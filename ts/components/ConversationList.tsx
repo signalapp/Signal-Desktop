@@ -215,6 +215,9 @@ export function ConversationList({
         case RowType.SearchResultsLoadingFakeHeader:
           return HEADER_ROW_HEIGHT;
         case RowType.SelectSingleGroup:
+        case RowType.ContactCheckbox:
+        case RowType.Contact:
+        case RowType.CreateNewGroup:
           return SELECT_ROW_HEIGHT;
         default:
           return NORMAL_ROW_HEIGHT;
@@ -321,6 +324,7 @@ export function ConversationList({
             'badges',
             'color',
             'draftPreview',
+            'groupId',
             'id',
             'isMe',
             'isSelected',
@@ -338,6 +342,7 @@ export function ConversationList({
             'typingContactId',
             'unblurredAvatarPath',
             'unreadCount',
+            'uuid',
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
           result = (
@@ -374,8 +379,10 @@ export function ConversationList({
           result = (
             <div
               className="module-conversation-list__item--header"
+              // eslint-disable-next-line local-rules/valid-i18n-keys
               aria-label={i18n(row.i18nKey)}
             >
+              {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
               {i18n(row.i18nKey)}
             </div>
           );
