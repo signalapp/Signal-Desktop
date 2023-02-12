@@ -8,13 +8,15 @@ import { SessionButtonColor } from '../../../basic/SessionButton';
 import { SessionIcon } from '../../../icon';
 
 const StyledTrustSenderUI = styled.div`
-  padding-inline: var(--margins-sm);
+  padding-inline: var(--margins-lg);
   display: flex;
   align-items: center;
   width: fit-content;
 
   border-radius: var(--border-radius-message-box);
   background-color: var(--message-bubbles-received-background-color);
+  height: 35px;
+  margin-left: var(--margins-xs);
 `;
 
 const ClickToDownload = styled.div`

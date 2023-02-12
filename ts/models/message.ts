@@ -438,6 +438,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
+    if (this.getConversation()?.get('left')) {
+      return 'sent';
+    }
+
     const readBy = this.get('read_by') || [];
     if (Storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
@@ -690,7 +694,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       height: height || 0,
       path,
       fileName,
-      fileSize: size ? filesize(size) : null,
+      fileSize: size ? filesize(size, { base: 10 }) : null,
       isVoiceMessage: isVoiceMessageBool,
       pending: Boolean(pending),
       url: path ? getAbsoluteAttachmentPath(path) : '',

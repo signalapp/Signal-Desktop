@@ -3,7 +3,12 @@ import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { OpenGroupRequestCommonType } from './ApiUtil';
+import {
+  defaultServer,
+  defaultServerHost,
+  legacyDefaultServerIP,
+  OpenGroupRequestCommonType,
+} from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _, { clone, isEqual } from 'lodash';
@@ -46,9 +51,16 @@ export class OpenGroupManagerV2 {
     roomId: string,
     publicKey: string
   ): Promise<ConversationModel | undefined> {
-    const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${serverUrl}${roomId}`;
+    // make sure to use the https version of our official sogs
+    const overridenUrl =
+      (serverUrl.includes(`://${defaultServerHost}`) && !serverUrl.startsWith('https')) ||
+      serverUrl.includes(`://${legacyDefaultServerIP}`)
+        ? defaultServer
+        : serverUrl;
+
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${overridenUrl}${roomId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-      return this.attemptConnectionV2(serverUrl, roomId, publicKey);
+      return this.attemptConnectionV2(overridenUrl, roomId, publicKey);
     });
   }
 
@@ -82,10 +94,11 @@ export class OpenGroupManagerV2 {
       const poller = this.pollers.get(groupedRoomsServerUrl);
       if (!poller) {
         const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+
         this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
       } else {
         // this won't do a thing if the room is already polled for
-        roomInfos.forEach(poller.addRoomToPoll);
+        groupedRooms.forEach(poller.addRoomToPoll);
       }
     }
   }
