@@ -23,7 +23,6 @@ import type {
   ProfileKeyJobData,
 } from '../conversationJobQueue';
 import type { CallbackResultType } from '../../textsecure/Types.d';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import type { ConversationAttributesType } from '../../model-types.d';
 import {
@@ -32,8 +31,7 @@ import {
   SendMessageProtoError,
   UnregisteredUserError,
 } from '../../textsecure/Errors';
-import { getRecipients } from '../../util/getRecipients';
-import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
+import { shouldSendToConversation } from './shouldSendToConversation';
 
 export function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
@@ -104,24 +102,7 @@ export async function sendProfileKey(
 
   // Note: flags and the profileKey itself are all that matter in the proto.
 
-  const recipients = getRecipients(conversation.attributes);
-  const untrustedUuids = getUntrustedConversationUuids(recipients);
-  if (untrustedUuids.length) {
-    log.info(
-      `conversation ${conversation.idForLogging()} has untrusted recipients; refusing to send`
-    );
-  }
-
-  if (!isConversationAccepted(conversation.attributes)) {
-    log.info(
-      `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-    );
-    return;
-  }
-  if (conversation.isBlocked()) {
-    log.info(
-      `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-    );
+  if (!shouldSendToConversation(conversation, log)) {
     return;
   }
 
