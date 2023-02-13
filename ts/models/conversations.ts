@@ -352,7 +352,8 @@ export class ConversationModel extends window.Backbone
     this.on('newmessage', this.onNewMessage);
     this.on('change:profileKey', this.onChangeProfileKey);
     this.on(
-      'change:name change:profileName change:profileFamilyName change:e164',
+      'change:name change:profileName change:profileFamilyName change:e164 ' +
+        'change:systemGivenName change:systemFamilyName change:systemNickname',
       () => this.maybeClearUsername()
     );
 
@@ -1910,6 +1911,7 @@ export class ConversationModel extends window.Backbone
       name: this.get('name'),
       systemGivenName: this.get('systemGivenName'),
       systemFamilyName: this.get('systemFamilyName'),
+      systemNickname: this.get('systemNickname'),
       phoneNumber: this.getNumber(),
       profileName: this.getProfileName(),
       profileSharing: this.get('profileSharing'),

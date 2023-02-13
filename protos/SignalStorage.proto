@@ -95,6 +95,7 @@ message ContactRecord {
   optional uint64 unregisteredAtTimestamp = 16;
   optional string systemGivenName = 17;
   optional string systemFamilyName = 18;
+  optional string systemNickname = 19;
 }
 
 message GroupV1Record {

@@ -327,6 +327,7 @@ export type ConversationAttributesType = {
   name?: string;
   systemGivenName?: string;
   systemFamilyName?: string;
+  systemNickname?: string;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileSharing?: boolean;

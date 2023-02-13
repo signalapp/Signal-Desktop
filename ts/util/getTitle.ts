@@ -49,7 +49,16 @@ export function getTitleNoDefault(
 export function canHaveUsername(
   attributes: Pick<
     ConversationAttributesType,
-    'id' | 'type' | 'name' | 'profileName' | 'profileFamilyName' | 'e164'
+    | 'id'
+    | 'type'
+    | 'name'
+    | 'profileName'
+    | 'profileFamilyName'
+    | 'e164'
+    | 'systemGivenName'
+    | 'systemFamilyName'
+    | 'systemNickname'
+    | 'type'
   >,
   ourConversationId: string | undefined
 ): boolean {
@@ -84,13 +93,13 @@ export function getProfileName(
 export function getSystemName(
   attributes: Pick<
     ConversationAttributesType,
-    'systemGivenName' | 'systemFamilyName' | 'type'
+    'systemGivenName' | 'systemFamilyName' | 'systemNickname' | 'type'
   >
 ): string | undefined {
   if (isDirectConversation(attributes)) {
-    return combineNames(
-      attributes.systemGivenName,
-      attributes.systemFamilyName
+    return (
+      attributes.systemNickname ||
+      combineNames(attributes.systemGivenName, attributes.systemFamilyName)
     );
   }
 

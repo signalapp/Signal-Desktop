@@ -80,60 +80,75 @@ describe('pnp/username', function needsName() {
     await bootstrap.teardown();
   });
 
-  it('drops username when contact name becomes known', async () => {
-    const { phone } = bootstrap;
+  for (const type of ['profile', 'system']) {
+    // eslint-disable-next-line no-loop-func
+    it(`drops username when contact's ${type} name becomes known`, async () => {
+      const { phone } = bootstrap;
 
-    const window = await app.getWindow();
-    const leftPane = window.locator('.left-pane-wrapper');
+      const window = await app.getWindow();
+      const leftPane = window.locator('.left-pane-wrapper');
 
-    debug('find username in the left pane');
-    await leftPane
-      .locator(
-        `[data-testid="${usernameContact.device.uuid}"] >> "${USERNAME}"`
-      )
-      .waitFor();
+      debug('find username in the left pane');
+      await leftPane
+        .locator(
+          `[data-testid="${usernameContact.device.uuid}"] >> "${USERNAME}"`
+        )
+        .waitFor();
 
-    debug('adding profile key for username contact');
-    let state = await phone.expectStorageState('consistency check');
-    state = state.updateContact(usernameContact, {
-      profileKey: usernameContact.profileKey.serialize(),
-    });
-    await phone.setStorageState(state);
-    await phone.sendFetchStorage({
-      timestamp: bootstrap.getTimestamp(),
-    });
+      let state = await phone.expectStorageState('consistency check');
 
-    debug('find profile name in the left pane');
-    await leftPane
-      .locator(
-        `[data-testid="${usernameContact.device.uuid}"] >> ` +
-          `"${usernameContact.profileName}"`
-      )
-      .waitFor();
-
-    debug('verify that storage service state is updated');
-    {
-      const newState = await phone.waitForStorageState({
-        after: state,
+      if (type === 'profile') {
+        debug('adding profile key for username contact');
+        state = state.updateContact(usernameContact, {
+          profileKey: usernameContact.profileKey.serialize(),
+        });
+      } else {
+        debug('adding nickname for username contact');
+        state = state.updateContact(usernameContact, {
+          systemNickname: usernameContact.profileName,
+        });
+      }
+      await phone.setStorageState(state);
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
       });
 
-      const { added, removed } = newState.diff(state);
-      assert.strictEqual(added.length, 1, 'only one record must be added');
-      assert.strictEqual(removed.length, 1, 'only one record must be removed');
+      debug('find profile name in the left pane');
+      await leftPane
+        .locator(
+          `[data-testid="${usernameContact.device.uuid}"] >> ` +
+            `"${usernameContact.profileName}"`
+        )
+        .waitFor();
 
-      assert.strictEqual(
-        added[0].contact?.serviceUuid,
-        usernameContact.device.uuid
-      );
-      assert.strictEqual(added[0].contact?.username, '');
+      debug('verify that storage service state is updated');
+      {
+        const newState = await phone.waitForStorageState({
+          after: state,
+        });
 
-      assert.strictEqual(
-        removed[0].contact?.serviceUuid,
-        usernameContact.device.uuid
-      );
-      assert.strictEqual(removed[0].contact?.username, USERNAME);
-    }
-  });
+        const { added, removed } = newState.diff(state);
+        assert.strictEqual(added.length, 1, 'only one record must be added');
+        assert.strictEqual(
+          removed.length,
+          1,
+          'only one record must be removed'
+        );
+
+        assert.strictEqual(
+          added[0].contact?.serviceUuid,
+          usernameContact.device.uuid
+        );
+        assert.strictEqual(added[0].contact?.username, '');
+
+        assert.strictEqual(
+          removed[0].contact?.serviceUuid,
+          usernameContact.device.uuid
+        );
+        assert.strictEqual(removed[0].contact?.username, USERNAME);
+      }
+    });
+  }
 
   it('reserves/confirms/deletes username', async () => {
     const { phone, server } = bootstrap;

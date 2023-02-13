@@ -198,6 +198,10 @@ export async function toContactRecord(
   if (systemFamilyName) {
     contactRecord.systemFamilyName = systemFamilyName;
   }
+  const systemNickname = conversation.get('systemNickname');
+  if (systemNickname) {
+    contactRecord.systemNickname = systemNickname;
+  }
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
@@ -1033,6 +1037,7 @@ export async function mergeContactRecord(
   conversation.set({
     systemGivenName: dropNull(contactRecord.systemGivenName),
     systemFamilyName: dropNull(contactRecord.systemFamilyName),
+    systemNickname: dropNull(contactRecord.systemNickname),
   });
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936

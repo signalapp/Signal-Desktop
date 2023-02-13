@@ -193,6 +193,7 @@ export type ConversationType = ReadonlyDeep<
     name?: string;
     systemGivenName?: string;
     systemFamilyName?: string;
+    systemNickname?: string;
     familyName?: string;
     firstName?: string;
     profileName?: string;
