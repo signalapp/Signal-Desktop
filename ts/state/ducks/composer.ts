@@ -1031,6 +1031,7 @@ export function replaceAttachments(
         attachments: attachments.map(resolveDraftAttachmentOnDisk),
       },
     });
+    dispatch(setComposerFocus(conversationId));
   };
 }
 
