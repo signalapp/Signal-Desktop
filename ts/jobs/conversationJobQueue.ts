@@ -455,6 +455,13 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           return;
         }
 
+        if (type === jobSet.Receipts) {
+          log.warn(
+            `Cancelling receipt send, since there were ${untrustedUuids.length} untrusted send targets.`
+          );
+          return;
+        }
+
         log.error(
           `Send failed because ${untrustedUuids.length} conversation(s) were untrusted. Adding to verification list.`
         );

@@ -7,12 +7,16 @@ import type {
   ConversationQueueJobBundle,
   ReceiptsJobData,
 } from '../conversationJobQueue';
+import { shouldSendToConversation } from './shouldSendToConversation';
 
 export async function sendReceipts(
-  _conversation: ConversationModel,
+  conversation: ConversationModel,
   { log }: ConversationQueueJobBundle,
   data: ReceiptsJobData
 ): Promise<void> {
+  if (!shouldSendToConversation(conversation, log)) {
+    return;
+  }
   await sendReceiptsTask({
     log,
     receipts: data.receipts,
