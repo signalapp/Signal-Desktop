@@ -176,6 +176,7 @@ message AccountRecord {
   reserved 31; // hasReadOnboardingStory
   reserved 32; // hasSeenGroupStoryEducationSheet
   optional string username = 33;
+  optional bool hasCompletedUsernameOnboarding = 34;
 }
 
 message StoryDistributionListRecord {

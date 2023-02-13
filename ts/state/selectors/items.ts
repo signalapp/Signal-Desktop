@@ -74,6 +74,12 @@ export const getUsernamesEnabled = createSelector(
     isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
 );
 
+export const getHasCompletedUsernameOnboarding = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.hasCompletedUsernameOnboarding)
+);
+
 export const isInternalUser = createSelector(
   getRemoteConfig,
   (remoteConfig: ConfigMapType): boolean => {

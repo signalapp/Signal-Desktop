@@ -8,10 +8,15 @@ import { mapDispatchToProps } from '../actions';
 import type { PropsDataType as ProfileEditorModalPropsType } from '../../components/ProfileEditorModal';
 import { ProfileEditorModal } from '../../components/ProfileEditorModal';
 import type { PropsDataType } from '../../components/ProfileEditor';
+import { storageServiceUploadJob } from '../../services/storage';
 import { SmartEditUsernameModalBody } from './EditUsernameModalBody';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
-import { getEmojiSkinTone, getUsernamesEnabled } from '../selectors/items';
+import {
+  getEmojiSkinTone,
+  getUsernamesEnabled,
+  getHasCompletedUsernameOnboarding,
+} from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getUsernameEditState } from '../selectors/username';
@@ -20,6 +25,12 @@ function renderEditUsernameModalBody(props: {
   onClose: () => void;
 }): JSX.Element {
   return <SmartEditUsernameModalBody {...props} />;
+}
+
+async function markCompletedUsernameOnboarding(): Promise<void> {
+  await window.storage.put('hasCompletedUsernameOnboarding', true);
+
+  storageServiceUploadJob();
 }
 
 function mapStateToProps(
@@ -40,6 +51,8 @@ function mapStateToProps(
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
   const isUsernameFlagEnabled = getUsernamesEnabled(state);
+  const hasCompletedUsernameOnboarding =
+    getHasCompletedUsernameOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
 
   return {
@@ -50,9 +63,11 @@ function mapStateToProps(
     conversationId,
     familyName,
     firstName: String(firstName),
+    hasCompletedUsernameOnboarding,
     hasError: state.globalModals.profileEditorHasError,
     i18n: getIntl(state),
     isUsernameFlagEnabled,
+    markCompletedUsernameOnboarding,
     recentEmojis,
     skinTone,
     userAvatarData,

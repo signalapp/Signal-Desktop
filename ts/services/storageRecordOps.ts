@@ -395,6 +395,14 @@ export function toAccountRecord(
     accountRecord.hasViewedOnboardingStory = hasViewedOnboardingStory;
   }
 
+  const hasCompletedUsernameOnboarding = window.storage.get(
+    'hasCompletedUsernameOnboarding'
+  );
+  if (hasCompletedUsernameOnboarding !== undefined) {
+    accountRecord.hasCompletedUsernameOnboarding =
+      hasCompletedUsernameOnboarding;
+  }
+
   const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
@@ -1137,6 +1145,7 @@ export async function mergeAccountRecord(
     subscriberCurrencyCode,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
+    hasCompletedUsernameOnboarding,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
     storiesDisabled,
@@ -1367,6 +1376,15 @@ export async function mergeAccountRecord(
     if (hasViewedOnboardingStoryBool) {
       void findAndDeleteOnboardingStoryIfExists();
     }
+  }
+  {
+    const hasCompletedUsernameOnboardingBool = Boolean(
+      hasCompletedUsernameOnboarding
+    );
+    await window.storage.put(
+      'hasCompletedUsernameOnboarding',
+      hasCompletedUsernameOnboardingBool
+    );
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);

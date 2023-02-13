@@ -71,6 +71,7 @@ export type StorageAccessType = {
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
+  hasCompletedUsernameOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;

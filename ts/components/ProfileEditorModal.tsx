@@ -32,11 +32,12 @@ export function ProfileEditorModal({
   toggleProfileEditorHasError,
   ...restProps
 }: PropsType): JSX.Element {
-  const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string> = {
+  const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string | undefined> = {
     [EditState.BetterAvatar]: i18n('ProfileEditorModal--avatar'),
     [EditState.Bio]: i18n('ProfileEditorModal--about'),
     [EditState.None]: i18n('ProfileEditorModal--profile'),
     [EditState.ProfileName]: i18n('ProfileEditorModal--name'),
+    [EditState.UsernameOnboarding]: undefined,
     [EditState.Username]: i18n('ProfileEditorModal--username'),
   };
 
