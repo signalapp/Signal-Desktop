@@ -318,10 +318,9 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
           );
         } else {
           window.log.info(
-            `Too many failures for ${jobToLogId(
-              this.jobRunnerType,
-              nextJob
-            )} out of nextJob.persistedData.maxAttempts`
+            `Too many failures for ${jobToLogId(this.jobRunnerType, nextJob)}: ${
+              nextJob.persistedData.currentRetry
+            } out of ${nextJob.persistedData.maxAttempts}`
           );
         }
         // we cannot restart this job anymore. Remove the entry completely

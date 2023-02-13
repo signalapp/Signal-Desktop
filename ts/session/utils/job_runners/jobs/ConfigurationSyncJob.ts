@@ -23,6 +23,12 @@ import {
 const defaultMsBetweenRetries = 3000;
 const defaultMaxAttempts = 3;
 
+/**
+ * We want to run each of those jobs at least 3seconds apart.
+ * So every time one of that job finishes, update this timestamp, so we know when adding a new job, what is the next minimun date to run it.
+ */
+let lastRunConfigSyncJobTimestamp: number | null = null;
+
 export type SingleDestinationChanges = {
   destination: string;
   messages: Array<OutgoingConfResult>;
@@ -175,76 +181,84 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       delayBetweenRetries: defaultMsBetweenRetries,
       maxAttempts: isNumber(maxAttempts) ? maxAttempts : defaultMaxAttempts,
       currentRetry: isNumber(currentRetry) ? currentRetry : 0,
-      nextAttemptTimestamp: nextAttemptTimestamp || Date.now() + defaultMsBetweenRetries,
+      nextAttemptTimestamp: nextAttemptTimestamp || Date.now(),
     });
   }
 
   public async run(): Promise<RunJobResult> {
-    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    try {
+      if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+        return RunJobResult.Success;
+      }
+      window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
+
+      const us = UserUtils.getOurPubKeyStrFromCache();
+      const ed25519Key = await UserUtils.getUserED25519KeyPairBytes();
+      const conversation = getConversationController().get(us);
+      if (!us || !conversation || !ed25519Key) {
+        // we check for ed25519Key because it is needed for authenticated requests
+        window.log.warn('did not find our own conversation');
+        return RunJobResult.PermanentFailure;
+      }
+      const name = conversation.get('displayNameInProfile');
+      const pointer = conversation.get('avatarPointer');
+      const profileKey = conversation.get('profileKey');
+      await UserConfigWrapperActions.setName(name || '');
+
+      if (profileKey && pointer) {
+        const profileKeyArray = fromHexToArray(profileKey);
+        await UserConfigWrapperActions.setProfilePicture(pointer, profileKeyArray);
+      } else {
+        await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
+      }
+
+      const singleDestChanges = await retrieveSingleDestinationChanges();
+
+      // If there are no pending changes then the job can just complete (next time something
+      // is updated we want to try and run immediately so don't scuedule another run in this case)
+
+      if (isEmpty(singleDestChanges)) {
+        return RunJobResult.Success;
+      }
+
+      const allResults = await Promise.allSettled(
+        singleDestChanges.map(async dest => {
+          const msgs = dest.messages.map(item => {
+            return {
+              namespace: item.namespace,
+              pubkey: item.destination,
+              timestamp: item.message.timestamp,
+              ttl: item.message.ttl(),
+              message: item.message,
+            };
+          });
+          const asSet = new Set(dest.allOldHashes);
+          return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
+        })
+      );
+
+      // we do a sequence call here. If we do not have the right expected number of results, consider it
+
+      if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
+        return RunJobResult.RetryJobIfPossible;
+      }
+
+      const changes = resultsToSuccessfulChange(allResults, singleDestChanges);
+      if (isEmpty(changes)) {
+        return RunJobResult.RetryJobIfPossible;
+      }
+      // Now that we have the successful changes, we need to mark them as pushed and
+      // generate any config dumps which need to be stored
+
+      await buildAndSaveDumpsToDB(changes);
       return RunJobResult.Success;
+    } catch (e) {
+      throw e;
+    } finally {
+      // this is a simple way to make sure whatever happens here, we update the lastest timestamp.
+      // (a finally statement is always executed (no matter if exception or returns in other try/catch block)
+      this.updateLastTickTimestamp();
     }
-    window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
-
-    const us = UserUtils.getOurPubKeyStrFromCache();
-    const ed25519Key = await UserUtils.getUserED25519KeyPairBytes();
-    const conversation = getConversationController().get(us);
-    if (!us || !conversation || !ed25519Key) {
-      // we check for ed25519Key because it is needed for authenticated requests
-      window.log.warn('did not find our own conversation');
-      return RunJobResult.PermanentFailure;
-    }
-    const name = conversation.get('displayNameInProfile');
-    const pointer = conversation.get('avatarPointer');
-    const profileKey = conversation.get('profileKey');
-    await UserConfigWrapperActions.setName(name || '');
-
-    if (profileKey && pointer) {
-      const profileKeyArray = fromHexToArray(profileKey);
-      await UserConfigWrapperActions.setProfilePicture(pointer, profileKeyArray);
-    } else {
-      await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
-    }
-
-    const singleDestChanges = await retrieveSingleDestinationChanges();
-
-    // If there are no pending changes then the job can just complete (next time something
-    // is updated we want to try and run immediately so don't scuedule another run in this case)
-
-    if (isEmpty(singleDestChanges)) {
-      return RunJobResult.Success;
-    }
-
-    const allResults = await Promise.allSettled(
-      singleDestChanges.map(async dest => {
-        const msgs = dest.messages.map(item => {
-          return {
-            namespace: item.namespace,
-            pubkey: item.destination,
-            timestamp: item.message.timestamp,
-            ttl: item.message.ttl(),
-            message: item.message,
-          };
-        });
-        const asSet = new Set(dest.allOldHashes);
-        return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
-      })
-    );
-
-    // we do a sequence call here. If we do not have the right expected number of results, consider it
-
-    if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
-      return RunJobResult.RetryJobIfPossible;
-    }
-
-    const changes = resultsToSuccessfulChange(allResults, singleDestChanges);
-    if (isEmpty(changes)) {
-      return RunJobResult.RetryJobIfPossible;
-    }
-    // Now that we have the successful changes, we need to mark them as pushed and
-    // generate any config dumps which need to be stored
-
-    await buildAndSaveDumpsToDB(changes);
-    return RunJobResult.Success;
   }
 
   public serializeJob(): ConfigurationSyncPersistedData {
@@ -268,6 +282,10 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
   public getJobTimeoutMs(): number {
     return 20000;
   }
+
+  private updateLastTickTimestamp() {
+    lastRunConfigSyncJobTimestamp = Date.now();
+  }
 }
 
 /**
@@ -275,7 +293,27 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
  * A ConfigurationSyncJob can only be added if there is none of the same type queued already.
  */
 async function queueNewJobIfNeeded() {
-  await runners.configurationSyncRunner.addJob(new ConfigurationSyncJob({}));
+  if (
+    !lastRunConfigSyncJobTimestamp ||
+    lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries
+  ) {
+    window.log.debug('scheduling conf sync job in asap');
+
+    // this call will make sure that there is only one configuration sync job at all times
+    await runners.configurationSyncRunner.addJob(
+      new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() })
+    );
+  } else {
+    // if we did run at 100, and it is currently 110, diff is 10
+    const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
+    // but we want to run every 30, so what we need is actually `30-10` from now = 20
+    const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
+    window.log.debug(`scheduling conf sync job in ${leftBeforeNextTick} ms`);
+
+    await runners.configurationSyncRunner.addJob(
+      new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() + leftBeforeNextTick })
+    );
+  }
 }
 
 export const ConfigurationSync = {

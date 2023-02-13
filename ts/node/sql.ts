@@ -445,7 +445,6 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     // identityPrivateKey,
   } = formatted;
 
-  //FIXME
   console.warn('FIXME omit(formatted, identityPrivateKey);');
   const omited = omit(formatted, 'identityPrivateKey', 'markedAsUnread');
   const keys = Object.keys(omited);

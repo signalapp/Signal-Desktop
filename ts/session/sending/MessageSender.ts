@@ -204,6 +204,7 @@ async function sendMessagesDataToSnode(
         namespace: item.namespace,
         pubkey: item.pubkey,
         timestamp: item.timestamp,
+        sig_timestamp: item.timestamp,
         ttl: item.ttl,
         ...signOpts,
       };

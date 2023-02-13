@@ -82,23 +82,22 @@ export type GetServiceNodesSubRequest = {
   };
 };
 
-export type StoreOnNodeParamsNoSig = {
-  pubkey: string;
-  ttl: number;
-  timestamp: number;
-  data64: string;
-  namespace: number;
-};
-
 export type StoreOnNodeParams = {
   pubkey: string;
   ttl: number;
   timestamp: number;
   data: string;
   namespace: number;
+  sig_timestamp?: number;
   signature?: string;
   pubkey_ed25519?: string;
 };
+
+export type StoreOnNodeParamsNoSig = Pick<
+  StoreOnNodeParams,
+  'pubkey' | 'ttl' | 'timestamp' | 'ttl' | 'namespace'
+> & { data64: string };
+
 export type DeleteFromNodeWithTimestampParams = {
   timestamp: string | number;
 } & DeleteSigParameters;

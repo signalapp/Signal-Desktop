@@ -42,10 +42,6 @@ async function updateProfileOfContact(
 
   // avoid setting the display name to an invalid value
   if (existingDisplayName !== displayName && !isEmpty(displayName)) {
-    console.warn(
-      `updateProfileOfContact overriding old "${existingDisplayName}: with "${displayName}"`
-    );
-
     conversation.set('displayNameInProfile', displayName || undefined);
     await conversation.commit();
   }
