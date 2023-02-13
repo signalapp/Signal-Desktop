@@ -368,15 +368,19 @@ export async function downloadRanges(
 
   // Each `part` is a separate readable stream for one of the ranges
   const onPart = async (part: Dicer.PartStream): Promise<void> => {
-    const diff = await takeDiffFromPart(part, diffByRange);
+    try {
+      const diff = await takeDiffFromPart(part, diffByRange);
 
-    await saveDiffStream({
-      diff,
-      stream: part,
-      abortSignal,
-      output,
-      chunkStatusCallback,
-    });
+      await saveDiffStream({
+        diff,
+        stream: part,
+        abortSignal,
+        output,
+        chunkStatusCallback,
+      });
+    } catch (error) {
+      dicer.destroy(error);
+    }
   };
 
   let boundary: string;
