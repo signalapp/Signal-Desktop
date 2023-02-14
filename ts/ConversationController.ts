@@ -601,6 +601,7 @@ export class ConversationController {
                 'profileName',
                 'systemGivenName',
                 'systemFamilyName',
+                'systemNickname',
                 'type',
                 'username',
               ]);

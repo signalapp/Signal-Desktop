@@ -422,6 +422,8 @@ export type ConversationRenderInfoType = Pick<
   | 'profileFamilyName'
   | 'profileName'
   | 'systemGivenName'
+  | 'systemFamilyName'
+  | 'systemNickname'
   | 'type'
   | 'username'
 >;
