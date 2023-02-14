@@ -34,6 +34,7 @@ jobs:
       - name: Cache Desktop node_modules
         id: cache-desktop-modules
         uses: actions/cache@v2
+        if: runner.os != 'Windows'
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}

@@ -309,7 +309,6 @@ async function handleSwarmMessage(
         reaction: rawDataMessage.reaction,
         sender: msgModel.get('source'),
         you: isUsFromCache(msgModel.get('source')),
-        isOpenGroup: false,
       });
       if (
         convoToAddMessageTo.isPrivate() &&

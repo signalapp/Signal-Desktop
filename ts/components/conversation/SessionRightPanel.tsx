@@ -181,6 +181,11 @@ const StyledGroupSettingsItem = styled.div`
   }
 `;
 
+const StyledName = styled.h4`
+  padding-inline: var(--margins-md);
+  font-size: var(--font-size-md);
+`;
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export const SessionRightPanelWithDetails = () => {
@@ -276,7 +281,7 @@ export const SessionRightPanelWithDetails = () => {
   return (
     <div className="group-settings">
       <HeaderItem />
-      <h2 data-testid="right-panel-group-name">{displayNameInProfile}</h2>
+      <StyledName data-testid="right-panel-group-name">{displayNameInProfile}</StyledName>
       {showMemberCount && (
         <>
           <SpacerLG />

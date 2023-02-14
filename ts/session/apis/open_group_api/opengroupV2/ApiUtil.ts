@@ -38,9 +38,9 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
 
 // tslint:disable: no-http-string
 
-const legacyDefaultServerIP = '116.203.70.33';
+export const legacyDefaultServerIP = '116.203.70.33';
 export const defaultServer = 'https://open.getsession.org';
-const defaultServerHost = new window.URL(defaultServer).host;
+export const defaultServerHost = new window.URL(defaultServer).host;
 
 /**
  * This function returns true if the server url given matches any of the sogs run by Session.

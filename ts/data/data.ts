@@ -446,10 +446,11 @@ async function getMessageBySenderAndSentAt({
 }
 
 async function getMessageByServerId(
+  conversationId: string,
   serverId: number,
   skipTimerInit: boolean = false
 ): Promise<MessageModel | null> {
-  const message = await channels.getMessageByServerId(serverId);
+  const message = await channels.getMessageByServerId(conversationId, serverId);
   if (!message) {
     return null;
   }

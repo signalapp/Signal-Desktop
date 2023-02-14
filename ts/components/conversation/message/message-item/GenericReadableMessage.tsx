@@ -16,7 +16,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
-import { MessageAvatar } from '../message-content/MessageAvatar';
+
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { ReadableMessage } from './ReadableMessage';
 import styled, { keyframes } from 'styled-components';
@@ -238,7 +238,6 @@ export const GenericReadableMessage = (props: Props) => {
       isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      <MessageAvatar messageId={messageId} />
       {expirationLength && expirationTimestamp && (
         <ExpireTimer
           isCorrectSide={!isIncoming}
