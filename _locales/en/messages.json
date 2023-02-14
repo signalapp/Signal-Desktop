@@ -5411,6 +5411,10 @@
     "message": "Enter key sends",
     "description": "Title for the enter key sends setting"
   },
+  "Preferences__enter-key-sends--description": {
+    "message": "Requires restart to take effect",
+    "description": "Description for the enter key sends setting"
+  },
   "Preferences--advanced": {
     "message": "Advanced",
     "description": "Title for advanced settings"

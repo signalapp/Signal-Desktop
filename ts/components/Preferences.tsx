@@ -571,6 +571,7 @@ export function Preferences({
         <SettingsRow title={i18n('Preferences__keyboard')}>
           <Checkbox
               checked={hasEnterKeySends}
+              description={i18n('Preferences__enter-key-sends--description')}
               label={i18n('Preferences__enter-key-sends--title')}
               moduleClassName="Preferences__checkbox"
               name="enterKeySends"
