@@ -5,7 +5,7 @@ import { GetNetworkTime } from './getNetworkTime';
 
 export type SnodeSignatureResult = {
   timestamp: number;
-  sig_timestamp: number;
+  // sig_timestamp: number;
   signature: string;
   pubkey_ed25519: string;
   pubkey: string; // this is the x25519 key of the pubkey we are doing the request to (ourself for our swarm usually)
@@ -82,7 +82,7 @@ async function getSnodeSignatureParams(params: {
     const signatureBase64 = fromUInt8ArrayToBase64(signature);
 
     return {
-      sig_timestamp: signatureTimestamp,
+      // sig_timestamp: signatureTimestamp,
       timestamp: signatureTimestamp,
       signature: signatureBase64,
       pubkey_ed25519: ourEd25519Key.pubKey,

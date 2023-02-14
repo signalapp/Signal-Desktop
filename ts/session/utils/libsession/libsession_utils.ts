@@ -214,7 +214,6 @@ function variantToKind(variant: ConfigWrapperObjectTypes): SignalService.SharedC
  */
 async function markAsPushed(variant: ConfigWrapperObjectTypes, pubkey: string, seqno: number) {
   if (pubkey !== UserUtils.getOurPubKeyStrFromCache()) {
-    //FIXME libsession closed group
     throw new Error('FIXME, generic case is to be done');
   }
   await GenericWrapperActions.confirmPushed(variant, seqno);

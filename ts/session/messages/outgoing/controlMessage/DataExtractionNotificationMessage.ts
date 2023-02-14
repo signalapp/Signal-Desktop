@@ -74,7 +74,11 @@ export const sendDataExtractionNotification = async (
   );
 
   try {
-    await getMessageQueue().sendToPubKey(pubkey, dataExtractionNotificationMessage, SnodeNamespaces.UserMessages);
+    await getMessageQueue().sendToPubKey(
+      pubkey,
+      dataExtractionNotificationMessage,
+      SnodeNamespaces.UserMessages
+    );
   } catch (e) {
     window.log.warn('failed to send data extraction notification', e);
   }

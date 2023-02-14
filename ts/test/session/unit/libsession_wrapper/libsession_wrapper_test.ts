@@ -4,7 +4,7 @@ import { stringToUint8Array } from '../../../../session/utils/String';
 import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { concatUInt8Array } from '../../../../session/crypto';
 
-// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
+// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
 
 describe('libsession_wrapper', () => {
   it('libsession_user', () => {

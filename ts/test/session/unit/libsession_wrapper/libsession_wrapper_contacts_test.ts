@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { from_hex, from_string } from 'libsodium-wrappers-sumo';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
-import * as SessionUtilWrapper from 'session_util_wrapper';
+// import * as SessionUtilWrapper from 'session_util_wrapper';
 
 describe('libsession_contacts', () => {
   // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
@@ -17,7 +17,7 @@ describe('libsession_contacts', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
-    // const SessionUtilWrapper = require('session_util_wrapper');
+    const SessionUtilWrapper = require('session_util_wrapper');
 
     // Initialize a brand new, empty config because we have no dump data to deal with.
     const contacts = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, null);
@@ -55,7 +55,7 @@ describe('libsession_contacts', () => {
     created.approvedMe = true;
     contacts.set(created);
 
-    let updated = contacts.get(real_id);
+    const updated = contacts.get(real_id);
     expect(updated).to.not.be.null;
     expect(updated).to.not.be.undefined;
 
@@ -212,11 +212,7 @@ describe('libsession_contacts', () => {
     c.nickname = 'Joey';
     c.approved = true;
     c.approvedMe = true;
-    contacts.set(c); // FIXME use .set when ready
-    // contacts.setName(real_id, c.name);
-    // contacts.setNickname(real_id, c.nickname);
-    // contacts.setApproved(real_id, c.approved);
-    // contacts.setApprovedMe(real_id, c.approvedMe);
+    contacts.set(c);
 
     const c2 = contacts.getOrCreate(realId);
     expect(c2.name).to.be.eq('Joe');
@@ -230,7 +226,7 @@ describe('libsession_contacts', () => {
     expect(contacts.needsDump()).to.be.true;
     expect(contacts.needsPush()).to.be.true;
 
-    let push1 = contacts.push();
+    const push1 = contacts.push();
     expect(push1.seqno).to.be.equal(1);
 
     const contacts2 = new SessionUtilWrapper.ContactsConfigWrapperInsideWorker(edSecretKey, null);
@@ -262,7 +258,7 @@ describe('libsession_contacts', () => {
 
     contacts2.set(c3);
 
-    let push2 = contacts2.push();
+    const push2 = contacts2.push();
     accepted = contacts.merge([push2.data]);
     expect(accepted).to.be.equal(1);
 
@@ -281,9 +277,9 @@ describe('libsession_contacts', () => {
     const allContacts3 = contacts.getAll();
     let deletions = 0;
     let non_deletions = 0;
-    allContacts3.forEach((c: any) => {
-      if (c.id !== realId) {
-        contacts.erase(c.id);
+    allContacts3.forEach((contact: any) => {
+      if (contact.id !== realId) {
+        contacts.erase(contact.id);
         deletions++;
       } else {
         non_deletions++;

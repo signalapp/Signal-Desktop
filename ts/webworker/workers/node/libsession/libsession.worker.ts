@@ -94,7 +94,7 @@ onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any]
       return;
     }
 
-    const wrapper = await getCorrespondingWrapper(config);
+    const wrapper = getCorrespondingWrapper(config);
     const fn = (wrapper as any)[action];
 
     if (!fn) {

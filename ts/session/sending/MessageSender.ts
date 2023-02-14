@@ -204,7 +204,9 @@ async function sendMessagesDataToSnode(
         namespace: item.namespace,
         pubkey: item.pubkey,
         timestamp: item.timestamp,
-        sig_timestamp: item.timestamp,
+        // sig_timestamp: item.timestamp,
+        // sig_timestamp is currently not forwarded from the receiving snode to the other swarm members, and so their sig verify fail.
+        // This timestamp is not really needed so we just don't send it in the meantime (the timestamp value is used if the sig_timestamp is not present)
         ttl: item.ttl,
         ...signOpts,
       };

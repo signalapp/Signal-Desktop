@@ -522,10 +522,6 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
-      // FIXME two other thing we have to do:
-      // * update the last message text if the message deleted was the last one
-      // * update the unread count of the convo if the message was the one counted as an unread
-
       return {
         ...state,
         messages: editedMessages,

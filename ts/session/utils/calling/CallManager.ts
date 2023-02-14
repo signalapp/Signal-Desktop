@@ -591,7 +591,7 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
     return undefined;
   }
 
-  // FIXME this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object...
+  // this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object
   const allMsg = _.flattenDeep([...msgCacheFromSenderWithDevices.values()]);
   const allMsgFromType = allMsg.filter(m => m.type === msgType);
   const lastMessageOfType = _.last(allMsgFromType);

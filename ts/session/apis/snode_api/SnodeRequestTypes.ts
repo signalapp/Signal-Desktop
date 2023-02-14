@@ -88,7 +88,7 @@ export type StoreOnNodeParams = {
   timestamp: number;
   data: string;
   namespace: number;
-  sig_timestamp?: number;
+  // sig_timestamp?: number;
   signature?: string;
   pubkey_ed25519?: string;
 };
