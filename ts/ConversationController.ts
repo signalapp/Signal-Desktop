@@ -597,10 +597,10 @@ export class ConversationController {
               ])
             : pick(match.attributes as ConversationAttributesType, [
                 'e164',
-                'name',
                 'profileFamilyName',
                 'profileName',
                 'systemGivenName',
+                'systemFamilyName',
                 'type',
                 'username',
               ]);
