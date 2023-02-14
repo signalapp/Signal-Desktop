@@ -29,4 +29,5 @@ export enum UsernameReservationError {
   CheckCharacters = 'CheckCharacters',
   UsernameNotAvailable = 'UsernameNotAvailable',
   General = 'General',
+  ConflictOrGone = 'ConflictOrGone',
 }

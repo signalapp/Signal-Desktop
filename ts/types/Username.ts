@@ -12,6 +12,11 @@ export enum ReserveUsernameError {
   Conflict = 'Conflict',
 }
 
+export enum ConfirmUsernameResult {
+  Ok = 'Ok',
+  ConflictOrGone = 'ConflictOrGone',
+}
+
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
   // Search term contains username if it:
   // - Is a valid username with or without a discriminator

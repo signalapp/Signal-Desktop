@@ -120,7 +120,10 @@ export function EditUsernameModalBody({
       return i18n('ProfileEditor--username--unavailable');
     }
     // Displayed through confirmation modal below
-    if (error === UsernameReservationError.General) {
+    if (
+      error === UsernameReservationError.General ||
+      error === UsernameReservationError.ConflictOrGone
+    ) {
       return;
     }
     throw missingCaseError(error);
@@ -262,6 +265,24 @@ export function EditUsernameModalBody({
           onClose={() => setUsernameReservationError(undefined)}
         >
           {i18n('ProfileEditor--username--general-error')}
+        </ConfirmationDialog>
+      )}
+
+      {error === UsernameReservationError.ConflictOrGone && (
+        <ConfirmationDialog
+          dialogName="EditUsernameModalBody.conflictOrGone"
+          cancelText={i18n('ok')}
+          cancelButtonVariant={ButtonVariant.Secondary}
+          i18n={i18n}
+          onClose={() => {
+            if (nickname) {
+              reserveUsername(nickname);
+            }
+          }}
+        >
+          {i18n('icu:ProfileEditor--username--reservation-gone', {
+            username: currentUsername,
+          })}
         </ConfirmationDialog>
       )}
     </>

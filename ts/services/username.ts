@@ -8,7 +8,7 @@ import { strictAssert } from '../util/assert';
 import { sleep } from '../util/sleep';
 import { getMinNickname, getMaxNickname } from '../util/Username';
 import type { UsernameReservationType } from '../types/Username';
-import { ReserveUsernameError } from '../types/Username';
+import { ReserveUsernameError, ConfirmUsernameResult } from '../types/Username';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
@@ -129,7 +129,7 @@ async function updateUsernameAndSyncProfile(
 export async function confirmUsername(
   reservation: UsernameReservationType,
   abortSignal?: AbortSignal
-): Promise<void> {
+): Promise<ConfirmUsernameResult> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server interface is not available!');
@@ -162,9 +162,15 @@ export async function confirmUsername(
 
         return confirmUsername(reservation, abortSignal);
       }
+
+      if (error.code === 409 || error.code === 410) {
+        return ConfirmUsernameResult.ConflictOrGone;
+      }
     }
     throw error;
   }
+
+  return ConfirmUsernameResult.Ok;
 }
 
 export async function deleteUsername(

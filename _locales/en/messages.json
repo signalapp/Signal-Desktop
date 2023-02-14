@@ -5223,6 +5223,10 @@
     "message": "Your username couldn’t be saved. Check your connection and try again.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Your username couldn’t be removed. Check your connection and try again.",
     "description": "Shown if something unknown has gone wrong with username delete."
