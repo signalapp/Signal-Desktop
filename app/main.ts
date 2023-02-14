@@ -673,6 +673,21 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
   };
 }
 
+async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
+  try {
+    await window.loadURL(url);
+  } catch (error) {
+    if (windowState.readyForShutdown() && error?.code === 'ERR_FAILED') {
+      getLogger().warn(
+        'safeLoadURL: ignoring ERR_FAILED because we are shutting down',
+        error
+      );
+      return;
+    }
+    throw error;
+  }
+}
+
 async function createWindow() {
   const usePreloadBundle =
     !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
@@ -953,15 +968,12 @@ async function createWindow() {
     }
   });
 
-  if (getEnvironment() === Environment.Test) {
-    await mainWindow.loadURL(
-      await prepareFileUrl([__dirname, '../test/index.html'])
-    );
-  } else {
-    await mainWindow.loadURL(
-      await prepareFileUrl([__dirname, '../background.html'])
-    );
-  }
+  await safeLoadURL(
+    mainWindow,
+    getEnvironment() === Environment.Test
+      ? await prepareFileUrl([__dirname, '../test/index.html'])
+      : await prepareFileUrl([__dirname, '../background.html'])
+  );
 }
 
 // Renderer asks if we are done with the database
@@ -1189,7 +1201,8 @@ async function showScreenShareWindow(sourceName: string) {
     }
   });
 
-  await screenShareWindow.loadURL(
+  await safeLoadURL(
+    screenShareWindow,
     await prepareFileUrl([__dirname, '../screenShare.html'])
   );
 }
@@ -1238,7 +1251,10 @@ async function showAbout() {
     }
   });
 
-  await aboutWindow.loadURL(await prepareFileUrl([__dirname, '../about.html']));
+  await safeLoadURL(
+    aboutWindow,
+    await prepareFileUrl([__dirname, '../about.html'])
+  );
 }
 
 let settingsWindow: BrowserWindow | undefined;
@@ -1289,7 +1305,8 @@ async function showSettingsWindow() {
     settingsWindow.show();
   });
 
-  await settingsWindow.loadURL(
+  await safeLoadURL(
+    settingsWindow,
     await prepareFileUrl([__dirname, '../settings.html'])
   );
 }
@@ -1380,7 +1397,7 @@ async function showStickerCreator() {
     }
   });
 
-  await stickerCreatorWindow.loadURL(await appUrl);
+  await safeLoadURL(stickerCreatorWindow, await appUrl);
 }
 
 let debugLogWindow: BrowserWindow | undefined;
@@ -1436,7 +1453,8 @@ async function showDebugLogWindow() {
     }
   });
 
-  await debugLogWindow.loadURL(
+  await safeLoadURL(
+    debugLogWindow,
     await prepareFileUrl([__dirname, '../debug_log.html'])
   );
 }
@@ -1496,7 +1514,8 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       }
     });
 
-    await permissionsPopupWindow.loadURL(
+    await safeLoadURL(
+      permissionsPopupWindow,
       await prepareFileUrl([__dirname, '../permissions_popup.html'], {
         forCalling,
         forCamera,
@@ -1843,7 +1862,8 @@ app.on('ready', async () => {
         loadingWindow = undefined;
       });
 
-      await loadingWindow.loadURL(
+      await safeLoadURL(
+        loadingWindow,
         await prepareFileUrl([__dirname, '../loading.html'])
       );
     })
