@@ -12,7 +12,25 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { displayPasswordModal } from '../SessionSettings';
 
-
+async function toggleLinkPreviews(isToggleOn: boolean, setIsToggleOn: (value: boolean) => void) {
+  if (!isToggleOn) {
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('linkPreviewsTitle'),
+        message: window.i18n('linkPreviewsConfirmMessage'),
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: async () => {
+          const newValue = !isToggleOn;
+          await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
+          setIsToggleOn(newValue);
+        },
+      })
+    );
+  } else {
+    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+    setIsToggleOn(false);
+  }
+}
 
 const TypingBubbleItem = () => {
   return (
@@ -27,30 +45,10 @@ export const SettingsCategoryPrivacy = (props: {
   hasPassword: boolean | null;
   onPasswordUpdated: (action: string) => void;
 }) => {
+  const [isLinkPreviewsOn, setIsLinkPreviewsOn] = React.useState(
+    Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview))
+  );
 
-  const [isLinkPreviewsOn, setIsLinkPreviewsOn] = React.useState(Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview)))
-  
-  async function toggleLinkPreviews() {
-  const newValue = !isLinkPreviewsOn
-    await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
-    setIsLinkPreviewsOn(newValue)
-  if (!newValue) {
-    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
-    setIsLinkPreviewsOn(false)
-  } else {
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        title: window.i18n('linkPreviewsTitle'),
-        message: window.i18n('linkPreviewsConfirmMessage'),
-        okTheme: SessionButtonColor.Danger,
-        onClickCancel: async () => {
-            await window.setSettingValue(SettingsKey.settingsLinkPreview, Boolean(false));
-            setIsLinkPreviewsOn(false)},
-      })
-    );
-  }
-}
-  
   const forceUpdate = useUpdate();
 
   if (props.hasPassword !== null) {
@@ -79,7 +77,7 @@ export const SettingsCategoryPrivacy = (props: {
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {
-            await toggleLinkPreviews();
+            await toggleLinkPreviews(isLinkPreviewsOn, setIsLinkPreviewsOn);
             forceUpdate();
           }}
           title={window.i18n('linkPreviewsTitle')}
