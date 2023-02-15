@@ -1,5 +1,4 @@
-import { from_hex } from 'libsodium-wrappers-sumo';
-import { difference, isEqual, omit } from 'lodash';
+import { difference, omit } from 'lodash';
 import Long from 'long';
 import { UserUtils } from '..';
 import { ConfigDumpData } from '../../../data/configDump/configDump';
@@ -11,9 +10,10 @@ import {
 } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
-import { getConversationController } from '../../conversations';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilContact } from './libsession_utils_contacts';
+import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
 // TODO complete this list
 const requiredUserDumpVariants: Array<ConfigWrapperObjectTypes> = ['UserConfig', 'ContactsConfig']; // 'conversations'
@@ -32,29 +32,6 @@ export type OutgoingConfResult = {
   oldMessageHashes: Array<string>;
 };
 
-async function insertUserProfileIntoWrapperIfChanged() {
-  const us = UserUtils.getOurPubKeyStrFromCache();
-  const ourConvo = getConversationController().get(us);
-
-  if (!ourConvo) {
-    throw new Error('insertUserProfileIntoWrapper needs a ourConvo to exist');
-  }
-  const wrapperName = await UserConfigWrapperActions.getName();
-  const wrapperProfilePicture = await UserConfigWrapperActions.getProfilePicture();
-  const wrapperProfileUrl = wrapperProfilePicture.url || '';
-  const wrapperProfileKey = wrapperProfilePicture.key || '';
-
-  const dbName = ourConvo.get('displayNameInProfile') || '';
-  const dbProfileUrl = ourConvo.get('avatarPointer') || '';
-  const dbProfileKey = from_hex(ourConvo.get('profileKey') || '');
-  if (!isEqual(dbName, wrapperName)) {
-    await UserConfigWrapperActions.setName(dbName);
-  }
-  if (!isEqual(dbProfileUrl, wrapperProfileUrl) || !isEqual(dbProfileKey, wrapperProfileKey)) {
-    await UserConfigWrapperActions.setProfilePicture(wrapperProfileUrl, dbProfileKey);
-  }
-}
-
 /**
  * Right after we migrated, we won't have any dumps in DB. We must create them from our database state,
  */
@@ -67,7 +44,7 @@ async function createConfigDumpsFromDbFirstStart(
 
     // build the userconfig
     await UserConfigWrapperActions.init(privateKeyEd25519, null);
-    await insertUserProfileIntoWrapperIfChanged();
+    await SessionUtilUserProfile.insertUserProfileIntoWrapper();
     const data = await UserConfigWrapperActions.dump();
     // save it to the DB
     await ConfigDumpData.saveConfigDump({
@@ -224,6 +201,8 @@ export const LibSessionUtil = {
   initializeLibSessionUtilWrappers,
   requiredUserDumpVariants,
   pendingChangesForPubkey,
+  insertUserProfileIntoWrapper: SessionUtilUserProfile.insertUserProfileIntoWrapper,
+  insertAllContactsIntoContactsWrapper: SessionUtilContact.insertAllContactsIntoContactsWrapper,
   kindToVariant,
   markAsPushed,
 };

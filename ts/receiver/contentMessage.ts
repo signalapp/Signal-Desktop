@@ -428,7 +428,7 @@ export async function innerHandleSwarmContentMessage(
     if (content.configurationMessage) {
       // this one can be quite long (downloads profilePictures and everything),
       // so do not await it
-      void ConfigMessageHandler.handleConfigurationMessage(
+      void ConfigMessageHandler.handleConfigurationMessageLegacy(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
       );

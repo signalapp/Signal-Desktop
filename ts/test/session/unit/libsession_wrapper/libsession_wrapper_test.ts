@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 
 import { stringToUint8Array } from '../../../../session/utils/String';
-import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
+import { from_hex, from_string, to_hex } from 'libsodium-wrappers-sumo';
 import { concatUInt8Array } from '../../../../session/crypto';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
+
+const fakeKey32 = from_string('secret78901234567890123456789012');
 
 describe('libsession_wrapper', () => {
   it('libsession_user', () => {
@@ -46,13 +48,8 @@ describe('libsession_wrapper', () => {
     expect(picResult.key).to.be.null;
 
     // Now let's go set a profile name and picture:
-    conf.setProfilePicture(
-      'http://example.org/omg-pic-123.bmp',
-      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
-    );
-    expect(conf.getProfilePicture().key).to.be.deep.eq(
-      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
-    );
+    conf.setProfilePicture('http://example.org/omg-pic-123.bmp', new Uint8Array(fakeKey32));
+    expect(conf.getProfilePicture().key).to.be.deep.eq(new Uint8Array(fakeKey32));
 
     conf.setName('Kallie');
 
@@ -65,9 +62,7 @@ describe('libsession_wrapper', () => {
     const picture = conf.getProfilePicture();
 
     expect(picture.url).to.be.eq('http://example.org/omg-pic-123.bmp');
-    expect(picture.key).to.be.deep.eq(
-      new Uint8Array([115, 101, 99, 114, 101, 116]) // 'secret' in ascii
-    );
+    expect(picture.key).to.be.deep.eq(new Uint8Array(fakeKey32));
 
     // Since we've made changes, we should need to push new config to the swarm, *and* should need
     // to dump the updated state:
@@ -83,7 +78,7 @@ describe('libsession_wrapper', () => {
     const expHash0 = from_hex('ea173b57beca8af18c3519a7bbf69c3e7a05d1c049fa9558341d8ebb48b0c965');
 
     const expPush1Start =
-      'd1:#i1e1:&d1:n6:Kallie1:p34:http://example.org/omg-pic-123.bmp1:q6:secrete1:<lli0e32:';
+      'd1:#i1e1:&d1:n6:Kallie1:p34:http://example.org/omg-pic-123.bmp1:q32:secret78901234567890123456789012e1:<lli0e32:';
     const expPush1End = 'deee1:=d1:n0:1:p0:1:q0:ee';
 
     // The data to be actually pushed, expanded like this to make it somewhat human-readable:
@@ -93,7 +88,7 @@ describe('libsession_wrapper', () => {
       stringToUint8Array(expPush1End)
     );
     const expPush1Encrypted = from_hex(
-      'a2952190dcb9797bc48e48f6dc7b3254d004bde9091cfc9ec3433cbc5939a3726deb04f58a546d7d79e6f80ea185d43bf93278398556304998ae882304075c77f15c67f9914c4d10005a661f29ff7a79e0a9de7f21725ba3b5a6c19eaa3797671b8fa4008d62e9af2744629cbb46664c4d8048e2867f66ed9254120371bdb24e95b2d92341fa3b1f695046113a768ceb7522269f937ead5591bfa8a5eeee3010474002f2db9de043f0f0d1cfb1066a03e7b5d6cfb70a8f84a20cd2df5a510cd3d175708015a52dd4a105886d916db0005dbea5706e5a5dc37ffd0a0ca2824b524da2e2ad181a48bb38e21ed9abe136014a4ee1e472cb2f53102db2a46afa9d68'
+      '877c8e0f5d33f5fffa5a4e162785a9a89918e95de1c4b925201f1f5c29d9ee4f8c36e2b278fce1e6b9d999689dd86ff8e79e0a04004fa54d24da89bc2604cb1df8c1356da8f14710543ecec44f2d57fc56ea8b7e73d119c69d755f4d513d5d069f02396b8ec0cbed894169836f57ca4b782ce705895c593b4230d50c175d44a08045388d3f4160bacb617b9ae8de3ebc8d9024245cd09ce102627cab2acf1b9126159211359606611ca5814de320d1a7099a65c99b0eebbefb92a115f5efa6b9132809300ac010c6857cfbd62af71b0fa97eccec75cb95e67edf40b35fdb9cad125a6976693ab085c6bba96a2e51826e81e16b9ec1232af5680f2ced55310486'
     );
 
     expect(to_hex(pushResult.data)).to.be.deep.eq(to_hex(expPush1Encrypted));
@@ -150,7 +145,10 @@ describe('libsession_wrapper', () => {
     conf2.setName('Raz');
 
     // And, on conf2, we're also going to change the profile pic:
-    conf2.setProfilePicture('http://new.example.com/pic', stringToUint8Array('qwert\0yuio'));
+    conf2.setProfilePicture(
+      'http://new.example.com/pic',
+      stringToUint8Array('qwert\0yuio1234567890123456789012')
+    );
 
     // Both have changes, so push need a push
     expect(conf.needsPush()).to.be.true;
@@ -201,8 +199,8 @@ describe('libsession_wrapper', () => {
     expect(pic.url).to.be.eq('http://new.example.com/pic');
     expect(pic2.url).to.be.eq('http://new.example.com/pic');
 
-    expect(pic.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio'));
-    expect(pic2.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio'));
+    expect(pic.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio1234567890123456789012'));
+    expect(pic2.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio1234567890123456789012'));
 
     conf.confirmPushed(pushResult.seqno);
     conf2.confirmPushed(pushResult2.seqno);

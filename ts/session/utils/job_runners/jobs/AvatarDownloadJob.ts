@@ -71,9 +71,9 @@ async function addAvatarDownloadJobIfNeeded({
     );
     await runners.avatarDownloadRunner.addJob(avatarDownloadJob);
   } else {
-    window.log.debug(
-      `addAvatarDownloadJobIfNeeded: no download required for ${pubkey}:${profileUrl}:${profileKeyHex} `
-    );
+    // window.log.debug(
+    //   `addAvatarDownloadJobIfNeeded: no download required for ${pubkey}:${profileUrl}:${profileKeyHex} `
+    // );
   }
 }
 

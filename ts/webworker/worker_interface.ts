@@ -43,6 +43,7 @@ export class WorkerInterface {
       const { resolve, reject, fnName } = job;
 
       if (errorForDisplay) {
+        console.error(`Error received from worker job ${jobId} (${fnName}):`, errorForDisplay);
         return reject(
           new Error(`Error received from worker job ${jobId} (${fnName}): ${errorForDisplay}`)
         );

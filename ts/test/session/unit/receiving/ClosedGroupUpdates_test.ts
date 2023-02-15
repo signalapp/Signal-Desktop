@@ -8,7 +8,6 @@ chai.use(chaiAsPromised as any);
 
 // tslint:disable-next-line: max-func-body-length
 describe('ClosedGroupUpdates', () => {
-  //FIXME AUDRIC TODO
   // const ourDevice = TestUtils.generateFakePubKey();
   // const ourNumber = ourDevice.key;
   // const groupId = TestUtils.generateFakePubKey().key;

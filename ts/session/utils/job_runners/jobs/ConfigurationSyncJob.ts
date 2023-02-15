@@ -2,16 +2,12 @@ import { compact, groupBy, isArray, isEmpty, isNumber, isString, uniq } from 'lo
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
-import {
-  GenericWrapperActions,
-  UserConfigWrapperActions,
-} from '../../../../webworker/workers/browser/libsession_worker_interface';
+import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
 import { getConversationController } from '../../../conversations';
 import { SharedConfigMessage } from '../../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { MessageSender } from '../../../sending/MessageSender';
 import { LibSessionUtil, OutgoingConfResult } from '../../libsession/libsession_utils';
-import { fromHexToArray } from '../../String';
 import { runners } from '../JobRunner';
 import {
   AddJobCheckReturn,
@@ -200,17 +196,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         window.log.warn('did not find our own conversation');
         return RunJobResult.PermanentFailure;
       }
-      const name = conversation.get('displayNameInProfile');
-      const pointer = conversation.get('avatarPointer');
-      const profileKey = conversation.get('profileKey');
-      await UserConfigWrapperActions.setName(name || '');
-
-      if (profileKey && pointer) {
-        const profileKeyArray = fromHexToArray(profileKey);
-        await UserConfigWrapperActions.setProfilePicture(pointer, profileKeyArray);
-      } else {
-        await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
-      }
+      await LibSessionUtil.insertUserProfileIntoWrapper();
+      await LibSessionUtil.insertAllContactsIntoContactsWrapper();
 
       const singleDestChanges = await retrieveSingleDestinationChanges();
 

@@ -1,4 +1,4 @@
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { isEmpty, isEqual, isNil } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
@@ -39,7 +39,10 @@ async function mergeConfigsWithIncomingUpdates(
   await GenericWrapperActions.merge(wrapperId, toMerge);
 
   const needsPush = await GenericWrapperActions.needsPush(wrapperId);
+  console.warn(`${wrapperId} needsPush? `, needsPush);
   const needsDump = await GenericWrapperActions.needsDump(wrapperId);
+  console.warn(`${wrapperId} needsDump? `, needsDump);
+
   const messageHashes = [incomingConfig.messageHash];
   const latestSentTimestamp = incomingConfig.envelopeTimestamp;
 
@@ -73,20 +76,29 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
   if (!result.needsDump) {
     return result;
   }
+  const us = UserUtils.getOurPubKeyStrFromCache();
 
   const allContacts = await ContactsWrapperActions.getAll();
 
   for (let index = 0; index < allContacts.length; index++) {
     const wrapperConvo = allContacts[index];
 
-    if (wrapperConvo.id && getConversationController().get(wrapperConvo.id)) {
-      const existingConvo = getConversationController().get(wrapperConvo.id);
+    if (wrapperConvo.id === us) {
+      // our profile update comes from our userProfile, not from the contacts wrapper.
+      continue;
+    }
+
+    const existingConvo = await getConversationController().getOrCreateAndWait(
+      wrapperConvo.id,
+      ConversationTypeEnum.PRIVATE
+    );
+    if (wrapperConvo.id && existingConvo) {
       let changes = false;
 
       // Note: the isApproved and didApproveMe flags are irreversible so they should only be updated when getting set to true
       if (
-        existingConvo.get('isApproved') !== undefined &&
-        wrapperConvo.approved !== undefined &&
+        !isNil(existingConvo.get('isApproved')) &&
+        !isNil(wrapperConvo.approved) &&
         existingConvo.get('isApproved') !== wrapperConvo.approved
       ) {
         await existingConvo.setIsApproved(wrapperConvo.approved, false);
@@ -94,8 +106,8 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       }
 
       if (
-        existingConvo.get('didApproveMe') !== undefined &&
-        wrapperConvo.approvedMe !== undefined &&
+        !isNil(existingConvo.get('didApproveMe')) &&
+        !isNil(wrapperConvo.approvedMe) &&
         existingConvo.get('didApproveMe') !== wrapperConvo.approvedMe
       ) {
         await existingConvo.setDidApproveMe(wrapperConvo.approvedMe, false);
@@ -201,7 +213,6 @@ async function processMergingResults(
     return;
   }
 
-  await removeFromCache(envelope);
   // Now that the local state has been updated, trigger a config sync (this will push any
   // pending updates and properly update the state)
   if (result.result.needsPush) {
@@ -233,7 +244,7 @@ async function handleConfigMessageViaLibSession(
   await processMergingResults(envelope, incomingMergeResult);
 }
 
-async function handleOurProfileUpdate(
+async function handleOurProfileUpdateLegacy(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
 ) {
@@ -260,10 +271,13 @@ async function handleOurProfileUpdate(
   }
 }
 
-async function handleGroupsAndContactsFromConfigMessage(
+async function handleGroupsAndContactsFromConfigMessageLegacy(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   const envelopeTimestamp = _.toNumber(envelope.timestamp);
   const lastConfigUpdate = await Data.getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
@@ -284,13 +298,15 @@ async function handleGroupsAndContactsFromConfigMessage(
   // we only want to apply changes to closed groups if we never got them
   // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
   if (!lastConfigTimestamp) {
-    await handleClosedGroupsFromConfig(configMessage.closedGroups, envelope);
+    await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
   }
 
   handleOpenGroupsFromConfig(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
-    await Promise.all(configMessage.contacts.map(async c => handleContactFromConfig(c, envelope)));
+    await Promise.all(
+      configMessage.contacts.map(async c => handleContactFromConfigLegacy(c, envelope))
+    );
   }
 }
 
@@ -299,6 +315,9 @@ async function handleGroupsAndContactsFromConfigMessage(
  * @param openGroups string array of open group urls
  */
 const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   const numberOpenGroup = openGroups?.length || 0;
   for (let i = 0; i < numberOpenGroup; i++) {
     const currentOpenGroupUrl = openGroups[i];
@@ -320,10 +339,13 @@ const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
  * Trigger a join for all closed groups which doesn't exist yet
  * @param openGroups string array of open group urls
  */
-const handleClosedGroupsFromConfig = async (
+const handleClosedGroupsFromConfigLegacy = async (
   closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
   envelope: EnvelopePlus
 ) => {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   const numberClosedGroup = closedGroups?.length || 0;
 
   window?.log?.info(
@@ -354,10 +376,13 @@ const handleClosedGroupsFromConfig = async (
  * Handles adding of a contact and setting approval/block status
  * @param contactReceived Contact to sync
  */
-const handleContactFromConfig = async (
+const handleContactFromConfigLegacy = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
   envelope: EnvelopePlus
 ) => {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   try {
     if (!contactReceived.publicKey?.length) {
       return;
@@ -415,13 +440,13 @@ const handleContactFromConfig = async (
  * This is the legacy way of handling incoming configuration message.
  * Should not be used at all soon.
  */
-async function handleConfigurationMessage(
+async function handleConfigurationMessageLegacy(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     window?.log?.info(
-      'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessage()"'
+      'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );
     await removeFromCache(envelope);
     return;
@@ -438,14 +463,14 @@ async function handleConfigurationMessage(
     return removeFromCache(envelope);
   }
 
-  await handleOurProfileUpdate(envelope.timestamp, configurationMessage);
+  await handleOurProfileUpdateLegacy(envelope.timestamp, configurationMessage);
 
-  await handleGroupsAndContactsFromConfigMessage(envelope, configurationMessage);
+  await handleGroupsAndContactsFromConfigMessageLegacy(envelope, configurationMessage);
 
   await removeFromCache(envelope);
 }
 
 export const ConfigMessageHandler = {
-  handleConfigurationMessage,
+  handleConfigurationMessageLegacy,
   handleConfigMessageViaLibSession,
 };

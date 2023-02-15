@@ -1,10 +1,16 @@
 import { expect } from 'chai';
 
 import { from_hex, from_string } from 'libsodium-wrappers-sumo';
+import Sinon from 'sinon';
+import { ConversationModel } from '../../../../models/conversation';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { UserUtils } from '../../../../session/utils';
+import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
 // import * as SessionUtilWrapper from 'session_util_wrapper';
 
+// tslint:disable-next-line: max-func-body-length
 describe('libsession_contacts', () => {
   // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
   // To do this, you can cd to the node_module/libsession_wrapper folder and do
@@ -13,7 +19,7 @@ describe('libsession_contacts', () => {
 
   // We have to disable it by filename as nodejs tries to load the module during the import step above, and fails as it is not compiled for nodejs but for electron.
 
-  it('libsession_contacts', () => {
+  it('libsession_contacts1', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
@@ -68,12 +74,13 @@ describe('libsession_contacts', () => {
 
     expect(updated?.profilePicture).to.be.undefined;
 
-    created.profilePicture = { key: new Uint8Array([1, 2, 3]), url: 'fakeUrl' };
+    const plop = new Uint8Array(32).fill(6);
+    created.profilePicture = { key: plop, url: 'fakeUrl' };
     contacts.set(created);
     const updated2 = contacts.get(real_id);
 
     expect(updated2?.profilePicture?.url).to.be.deep.eq('fakeUrl');
-    expect(updated2?.profilePicture?.key).to.be.deep.eq(new Uint8Array([1, 2, 3]));
+    expect(updated2?.profilePicture?.key).to.be.deep.eq(plop);
 
     expect(contacts.needsPush()).to.be.eql(true);
     expect(contacts.needsDump()).to.be.eql(true);
@@ -144,7 +151,11 @@ describe('libsession_contacts', () => {
     contacts2.setNickname(third_id, 'Nickname 3');
     contacts2.setApproved(third_id, true);
     contacts2.setBlocked(third_id, true);
-    contacts2.setProfilePicture(third_id, 'http://example.com/huge.bmp', from_string('qwerty'));
+    contacts2.setProfilePicture(
+      third_id,
+      'http://example.com/huge.bmp',
+      from_string('qwert\0yuio1234567890123456789012')
+    );
 
     expect(contacts.needsPush()).to.be.true;
     expect(contacts2.needsPush()).to.be.true;
@@ -186,7 +197,7 @@ describe('libsession_contacts', () => {
     expect(nicknames2).to.be.deep.eq(['(N/A)', 'Nickname 3']);
   });
 
-  it('libsession_contacts_c', () => {
+  it('libsession_contacts2_c', () => {
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
     );
@@ -290,5 +301,92 @@ describe('libsession_contacts', () => {
     expect(non_deletions).to.be.eq(1);
     expect(contacts.get(realId)).to.exist;
     expect(contacts.get(another_id)).to.be.null;
+  });
+
+  describe('filter contacts for wrapper', () => {
+    const ourNumber = '051234567890acbdef';
+    const validArgs = {
+      id: '051111567890acbdef',
+      type: ConversationTypeEnum.PRIVATE,
+      isApproved: true,
+      didApproveMe: true,
+    };
+    beforeEach(() => {
+      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+    });
+    afterEach(() => {
+      Sinon.restore();
+    });
+
+    it('excludes ourselves', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({ ...validArgs, id: ourNumber } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes non private', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({ ...validArgs, type: ConversationTypeEnum.GROUP } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('includes private', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({ ...validArgs, type: ConversationTypeEnum.PRIVATE } as any)
+        )
+      ).to.be.eq(true);
+    });
+
+    it('excludes blinded', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            type: ConversationTypeEnum.PRIVATE,
+            id: '1511111111111',
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes non approved by us nor did approveme', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            didApproveMe: false,
+            isApproved: false,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('includes approved only by us ', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            didApproveMe: false,
+            isApproved: true,
+          } as any)
+        )
+      ).to.be.eq(true);
+    });
+    it('includes approved only by them ', () => {
+      expect(
+        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            didApproveMe: true,
+            isApproved: false,
+          } as any)
+        )
+      ).to.be.eq(true);
+    });
   });
 });

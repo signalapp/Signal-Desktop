@@ -51,7 +51,7 @@ describe('ConfigurationMessage_receiving', () => {
     const proto = config.contentProto();
     createOrUpdateStub = stubData('createOrUpdateItem').resolves();
     getItemByIdStub = stubData('getItemById').resolves();
-    await ConfigMessageHandler.handleConfigurationMessage(
+    await ConfigMessageHandler.handleConfigurationMessageLegacy(
       envelope,
       proto.configurationMessage as SignalService.ConfigurationMessage
     );
@@ -73,7 +73,7 @@ describe('ConfigurationMessage_receiving', () => {
 
       createOrUpdateStub = stubData('createOrUpdateItem').resolves();
       getItemByIdStub = stubData('getItemById').resolves();
-      await ConfigMessageHandler.handleConfigurationMessage(
+      await ConfigMessageHandler.handleConfigurationMessageLegacy(
         envelope,
         proto.configurationMessage as SignalService.ConfigurationMessage
       );
@@ -87,7 +87,7 @@ describe('ConfigurationMessage_receiving', () => {
 
     //     createOrUpdateStub = sandbox.stub(data, 'createOrUpdateItem').resolves();
     //     getItemByIdStub = sandbox.stub(data, 'getItemById').resolves();
-    //     await handleConfigurationMessage(envelope, proto.configurationMessage as SignalService.ConfigurationMessage);
+    //     await handleConfigurationMessageLegacy(envelope, proto.configurationMessage as SignalService.ConfigurationMessage);
     //     expect(getItemByIdStub.callCount).to.equal(1);
     // });
   });

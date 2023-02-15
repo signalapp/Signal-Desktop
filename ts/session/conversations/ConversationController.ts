@@ -264,8 +264,14 @@ export class ConversationController {
     }
   }
 
+  /**
+   *
+   * @returns the reference of the list of conversations stored.
+   * Warning: You should not not edit things directly from that list. This must only be used for reading things.
+   * If you need to make change, do the usual getConversationControler().get('the id you want to edit')
+   */
   public getConversations(): Array<ConversationModel> {
-    return Array.from(this.conversations.models);
+    return this.conversations.models;
   }
 
   public unsafeDelete(convo: ConversationModel) {
@@ -315,6 +321,7 @@ export class ConversationController {
   public loadPromise() {
     return this._initialPromise;
   }
+
   public reset() {
     this._initialPromise = Promise.resolve();
     this._initialFetchComplete = false;
