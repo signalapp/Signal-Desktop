@@ -31,7 +31,7 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'icu:WhatsNew__v6.6--0',
+      key: 'WhatsNew__bugfixes--5',
       components: undefined,
     },
   ],
