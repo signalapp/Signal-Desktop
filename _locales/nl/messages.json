@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Als geverifieerd markeren"
+    "message": "Als geverifieerd markeren",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Verificatie ongedaan maken"
+    "message": "Verificatie ongedaan maken",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Als geverifieerd markeren",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Verificatie ongedaan maken",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Je hebt je veiligheidsnummer met $name$ geverifieerd.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Welkom bij Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Oorspronkelijk bericht niet meer beschikbaar",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Oorspronkelijk bericht gevonden, maar niet opgehaald. Scroll naar boven om het op te halen.",
@@ -1109,9 +1119,25 @@
     "message": "Naar",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} naar {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} naar jou",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Jij naar {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Jij naar {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "aan",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Verzonden",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Veiligheidsnummer bekijken"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Veiligheidsnummer bekijken",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Recente media weergeven",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Veiligheidsnummer verifiëren",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Veiligheidsnummer weergeven",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Veiligheidsnummer weergeven",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Deze persoon kan niet geverifieerd worden zolang je nog geen berichten met hem of haar hebt uitgewisseld.",
@@ -5186,6 +5224,10 @@
     "message": "Je gebruikersnaam kan niet worden bewaard. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Je gebruikersnaam kan niet worden verwijderd. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(verwijderd op 25/01/23) Reageer op verhaal",
-    "description": "aria-label for reaction button"
+    "message": "Reageren op dit verhaal",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reageerde op dit verhaal",
@@ -6278,6 +6320,14 @@
     "message": "Voeg een link toe voor kijkers van je verhaal",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Verhaal kan niet worden verstuurd",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Het verhaal kan niet naar alle ontvangers worden verstuurd",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Tekst toevoegen",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Deze cijfers helpen jou je gebruikersnaam privé te houden zodat je ongewenste berichten kunt voorkomen. Deel jouw gebruikersnaam alleen met mensen en groepen waarmee je zou willen chatten. Als je je gebruikersnaam wijzigt, krijg je een nieuwe cijferset.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop ondersteunt binnenkort jouw computers versie van {OS} niet meer. Als je Signal wilt blijven gebruiken, moet je het besturingssysteem van je computer vóór {expirationDate} bijwerken. <learnMoreLink>Meer informatie</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Je kunt nu in je berichtengeschiedenis zoeken naar individuele tekens in het Chinees en Japans.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help ons verschillende betrouwbaarheids- en prestatieverbeteringen voor spraak- en videogesprekken te testen. Deze bètarelease bevat ook enkele bugfixes en kleine UI-updates (check onze nieuwe verbeteringen voor previews van de links!). Bedankt dat je een bètatester bent. Neem contact met ons op via het communityforum als je bugs tegenkomt.",
+    "description": "Release notes for v6.6"
   }
 }

@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ధృవీకరించినట్లు గుర్తించండి"
+    "message": "ధృవీకరించినట్లు గుర్తించండి",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ధృవీకరించబడలేదని గుర్తించండి"
+    "message": "ధృవీకరించబడలేదని గుర్తించండి",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ధృవీకరించబడినట్లు గుర్తు పెట్టండి",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ధృవీకరణను క్లియర్ చేయండి",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "మీరు మీ భద్రతా నంబర్‌ను $name$తో ధృవీకరించారు",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal కి స్వాగతం!"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "అసలు సందేశం అందుబాటులో లేదు",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "అసలు సందేశం కనుగొనబడింది, కానీ లోడ్ కాలేదు. దాన్ని లోడ్ చేయడానికి పైకి స్క్రోల్ చేయండి.",
@@ -1109,9 +1119,25 @@
     "message": "ఎవరికి",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} నుంచి {receiverGroup}కు",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} నుంచి మీకు",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "మీ నుంచి {receiverGroup}కు",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "మీ నుంచి {receiverContact}కు",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "కు",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "పంపిన",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "భద్రతా సంఖ్యను వీక్షించండి"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "భద్రతా సంఖ్యను వీక్షించండి",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "ఇటీవలి మీడియాను చూడండి",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "భద్రత సంఖ్యను ధృవీకరించండి",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "భద్రతా సంఖ్యను వీక్షించండి",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "భద్రతా సంఖ్యను వీక్షించండి",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "మీరు వారితో సందేశాలను మార్పిడి చేసే వరకు ఈ వినియోగదారుని ధృవీకరించలేరు.",
@@ -5186,6 +5224,10 @@
     "message": "మీ యూజర్‌నేమ్‌ని సేవ్ చేయలేరు. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "మీ యూజర్‌నేమ్‌ను తొలగించడం వీలుకాలేదు. మీ కనెక్షన్ సరిచూసుకొని, మళ్ళీ ప్రయత్నించండి.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 నాడు తొలగించబడింది) కథకు ప్రతిస్పందించండి",
-    "description": "aria-label for reaction button"
+    "message": "కథకు ప్రతిస్పందించండి",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "కథకు ప్రతిస్పందించారు",
@@ -6278,6 +6320,14 @@
     "message": "మీ కథ యొక్క వీక్షకుల కొరకు ఒక లింక్‌ను జోడించండి",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "కథ పంపడం విఫలమైంది",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "కథను అందుకునే వారందరికీ పంపడం సాధ్యపడలేదు",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "టెక్ట్స్ జోడించండి",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "ఈ అంకెలు మీ యూజర్‌నేమ్‌ను గోప్యంగా ఉంచడానికి సహాయపడతాయి, కాబట్టి మీరు అవాంఛిత సందేశాలను నివారించవచ్చు. మీరు చాట్ చేయడానికి ఇష్టపడే వ్యక్తులు మరియు గ్రూపులతో మాత్రమే మీ యూజర్‌నేమ్‌ను పంచుకోండి. ఒకవేళ మీరు యూజర్‌నేమ్‌లను మార్చితే, మీరు కొత్త అంకెల అమరికను పొందుతారు.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "త్వరలో {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌కు Signal డెస్క్‌టాప్ ఇక ఏమాత్రం మద్దతు ఇవ్వదు. Signal ఉపయోగించడాన్నికొనసాగించేందుకు, {expirationDate} లోపు మీ కంప్యూటర్ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేసుకోండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "చైనీస్ మరియు జపనీస్ భాషల్లో వ్యక్తిగత క్యారెక్టర్ల కొరకు మీ సందేశ చరిత్రను వెతకడం ఇప్పుడు సాధ్యం.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ధ్వని మరియు వీడియో కాల్స్ కోసం అనేక విశ్వసనీయత మరియు పనితీరు మెరుగుదలలను పరీక్షించడంలో మాకు సహాయపడండి. ఈ బీటా విడుదల కొన్ని బగ్ పరిష్కారాలు మరియు కొన్ని చిన్న UI అప్‌డేట్‌లను కూడా కలిగి ఉంది (కొత్త లింక్ ప్రివ్యూ మెరుగుదలల కోసం చూడండి!). బీటా పరీక్షకుడిగా ఉన్నందుకు మీకు ధన్యవాదాలు, మరియు ఒకవేళ మీరు ఏవైనా బగ్‌లను గుర్తించినట్లయితే కమ్యూనిటీ ఫోరమ్‌పై దయచేసి మమ్మల్ని సంప్రదించండి.",
+    "description": "Release notes for v6.6"
   }
 }

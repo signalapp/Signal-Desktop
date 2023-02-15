@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marcáil Deimhnithe"
+    "message": "Marcáil Deimhnithe",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marcáil mar neamhfhíoraithe"
+    "message": "Marcáil mar neamhfhíoraithe",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marcáil 'Deimhnithe'",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Glan an deimhniú",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "D'fhíoraigh tú d'uimhir sábháilteachta le $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Fáilte go Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Níl an teachtaireacht bhunaidh le fáil a thuilleadh",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Fuarthas an bhunteachtaireacht, ach níor lódáladh í. Scrollaigh suas lena lódáil.",
@@ -1109,9 +1119,25 @@
     "message": "Chuig",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} chuig {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "Ó {sender} Chugat",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Uait chuig {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Uait chuig {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "Chuig",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Seolta",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Taispeáin an Uimhir Shábháilteachta"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Féach ar an uimhir shábháilteachta",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Féach ar na meáin le déanaí",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Uimhir Shábháilteachta a Dheimhniú",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Féach ar an Uimhir Shábháilteachta",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Féach ar an Uimhir Shábháilteachta",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Ní féidir leat an t-úsáideoir seo a dheimhniú go dtí go malartóidh tú teachtaireachtaí leis/léi.",
@@ -5186,6 +5224,10 @@
     "message": "Níorbh fhéidir d'ainm úsáideora a shábháil. Seiceáil do nasc agus triail arís.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Níorbh fhéidir d'ainm úsáideora a bhaint. Seiceáil do nasc agus triail arís.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(scriosta 25/01/23) Tabhair freagairt don scéal",
-    "description": "aria-label for reaction button"
+    "message": "Tabhair freagairt ar an scéal",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Tugadh freagairt ar an scéal",
@@ -6278,6 +6320,14 @@
     "message": "Cuir nasc leis le haghaidh lucht féachana do scéil",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Theip ar sheoladh an scéil",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Níorbh fhéidir an scéal a sheoladh chuig gach rannpháirtí",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Cuir téacs leis",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Cabhraíonn na digití seo le d'ainm úsáideora a choimeád príobháideach agus teachtaireachtaí gan iarraidh a sheachaint. Ná comhroinn d'ainm úsáideora ach le daoine agus le grúpaí ar mhaith leat comhrá a dhéanamh leo. Má athraíonn tú d'ainm úsáideora gheobhaidh tú tacar nua digití.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ní bheidh tacú ag Signal Desktop a thuilleadh don leagan de {OS} ar do ríomhaire. Le leanúint le Signal a úsáid, nuashonraigh córas oibriúcháin do ríomhaire faoin {expirationDate}. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Is féidir stair do theachtaireachtaí a chuardach anois le haghaidh carachtair aonair sa tSínis agus sa tSeapáinis.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Cabhraigh linn roinnt feabhsuithe ar iontaofacht agus ar fheidhmíocht guthghlaonna agus físghlaonna a thástáil. Áirítear leis an eisiúint bhéite freisin cúpla réiteach ar fhabhtanna agus roinnt nuashonruithe beaga ar chomhéadan úsáideora (cuardaigh feabhsuithe nua don réamhamharc ar nasc!). Buíochas leat as a bheith i do thástálaí béite, agus déan teagmháil linn ar an bhfóram pobail má fheiceann tú aon fhabht.",
+    "description": "Release notes for v6.6"
   }
 }

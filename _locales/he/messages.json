@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "סמן כמודא"
+    "message": "סמן כמודא",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "סמן כבלתי מודא"
+    "message": "סמן כבלתי מודא",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "לסמן כמאומת",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "לנקות אימות",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "וידאת את מספר הביטחון שלך עם $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "ברוך הבא אל Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "הודעה מקורית אינה זמינה יותר",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "הודעה מקורית נמצאה, אבל לא נטענה. גלול למעלה כדי לטעון אותה.",
@@ -1109,9 +1119,25 @@
     "message": "אל",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} אל {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} אליך",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "את/ה אל {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "את/ה אל {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "אל",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "נשלח",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "הצג מספר ביטחון"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "הצגת מספר בטיחות",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "הצג מדיה אחרונה",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "וודא מספר ביטחון",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "הצגת מספר בטיחות",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "הצגת מספר בטיחות",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "משתמש זה לא יכול להיות מוודא עד שלא תחליף איתו הודעות.",
@@ -5186,6 +5224,10 @@
     "message": "שם המשתמש שלך לא היה יכול להישמר. בדוק את החיבור שלך ונסה שוב.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "לא ניתן היה להסיר את שם המשתמש שלך. יש לבדוק את החיבור שלך ולנסות שוב.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(נמחק 25/01/23) שליחת תגובה לסטורי",
-    "description": "aria-label for reaction button"
+    "message": "שליחת תגובה לסטורי",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "הגיב/ה לסטורי",
@@ -6278,6 +6320,14 @@
     "message": "הוספת לינק למי שצופה בסטורי שלך",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "שליחת סטורי נכשלה",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "לא הצלחנו לשלוח את הסטורי לחלק מהנמענים",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "הוסף טקסט",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "הספרות האלה עוזרות לשמור על שם המשתמש שלך פרטי כדי להימנע מהודעות לא רצויות. ניתן לשתף את שם המשתמש שלך רק עם אנשים וקבוצות שמתחשק לך לשוחח איתם. אם משנים את שם המשתמש, מקבלים סט חדש של ספרות.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal לשולחן עבודה בקרוב תפסיק לתמוך בגרסת {OS} של המחשב שלך. כדי להמשיך להשתמש ב–Signal, צריך לעדכן את מערכת ההפעלה של המחשב שלך עד {expirationDate}. <learnMoreLink>למידע נוסף</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "עכשיו אפשר לחפש בהיסטוריית ההודעות שלך תווים בודדים בסינית ויפנית.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "נשמח לעזרתך בבדיקת כמה שיפורי אמינות וביצוע לשיחות קוליות ושיחות וידאו. מהדורת בטא זו כוללת גם כמה תיקוני באגים וכמה עדכוני ממשק משתמש קטנים (כדאי לחפש את השיפורים החדשים לתצוגה מקדימה של קישורים!). תודה על העזרה בבדיקת הבטא, ונשמח לשמוע ממך בפורום הקהילה שלנו אם זיהית באגים כלשהם.",
+    "description": "Release notes for v6.6"
   }
 }

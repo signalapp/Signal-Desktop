@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Tanda sebagai disahkan"
+    "message": "Tanda sebagai disahkan",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Tanda sebagai tidah disahkan"
+    "message": "Tanda sebagai tidah disahkan",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Tanda sebagai disahkan",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Kosongkan pengesahan",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Anda telah menentusahkan nombor keselamatan anda dengan $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Selamat datang ke Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Mesej asal tidak lagi tersedia",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Mesej asal dijumpai, tetapi tidak dimuatkan. Tatal ke atas untuk memuatkannya.",
@@ -1109,9 +1119,25 @@
     "message": "Kepada",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} kepada {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} kepada anda",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Anda kepada {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Anda kepada {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "Kepada",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Dihantar",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Lihat nombor keselamatan"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Lihat nombor keselamatan",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Lihat media terkini",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Sahkan Nombor Keselamatan",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Lihat Nombor Keselamatan",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Lihat Nombor Keselamatan",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Pengguna ini tidak boleh disahkan sehingga anda telah menukar mesej dengan mereka.",
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {{count,number} kumpulan yang sama}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -5185,6 +5223,10 @@
   "ProfileEditor--username--general-error": {
     "message": "Nama pengguna anda tidak boleh disimpan. Periksa sambungan anda dan cuba lagi.",
     "description": "Shown if something unknown has gone wrong with username save."
+  },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
     "message": "Nama pengguna anda tidak dapat dibuang. Semak sambungan internet anda dan cuba lagi.",
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(dipadamkan 25/01/23) Beri reaksi terhadap cerita",
-    "description": "aria-label for reaction button"
+    "message": "Beri reaksi kepada cerita",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Telah beri reaksi kepada cerita",
@@ -6278,6 +6320,14 @@
     "message": "Tambah pautan untuk penonton cerita anda",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Cerita gagal dihantar",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Cerita tidak dapat dihantar kepada semua penerima",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Tambah teks",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Digit ini membantu mengekalkan privasi nama pengguna anda supaya anda boleh mengelakkan mesej yang tidak diingini. Kongsi nama pengguna anda hanya dengan orang dan kumpulan yang anda mahu bersembang. Jika anda menukar nama pengguna, anda akan menerima set digit baru.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop tidak lagi akan menyokong versi {OS} komputer anda tidak lama lagi. Untuk terus menggunakan Signal, kemas kini sistem pengendalian komputer anda dengan {expirationDate}. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Kini anda boleh mencari sejarah mesej anda untuk aksara individu dalam bahasa Cina dan Jepun.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Bantu kami menguji beberapa kebolehpercayaan dan peningkatan prestasi untuk panggilan suara dan video. Keluaran beta ini juga termasuk beberapa pembetulan pepijat dan beberapa kemas kini UI (cari peningkatan pratonton pautan baru!). Terima kasih kerana menjadi penguji beta dan sila hubungi kami di forum komuniti jika anda mengesan sebarang pepijat.",
+    "description": "Release notes for v6.6"
   }
 }

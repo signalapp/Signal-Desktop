@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Weka alama kuwa imehakikishwa"
+    "message": "Weka alama kuwa imehakikishwa",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Weka alama kuwa haijahakikishwa"
+    "message": "Weka alama kuwa haijahakikishwa",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Weka alama kuwa imehakikishwa",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Futa uthibitishwaji",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Haujahakikisha nambari yako ya usalama na  $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Karibu Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Ujumbe halisi haupo tena",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Ujumbe asili umepatikana, lakini haujapakia.\nBiringiza ili kuupakia.",
@@ -1109,9 +1119,25 @@
     "message": "Kwa",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} kwa {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} kwako",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Kutoka kwako kwenda {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Kutoka kwako kwenda {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "kwa",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Umetumwa",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Tazama nambari ya usalama"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Tazama nambari ya usalama",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Tazama media za hivi majuzi",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Hakikisha Nambari ya Usalama",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Tazama Nambari za Usalama",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Tazama Nambari za Usalama",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Mtumiaji huyu hawezi kuthibitishwa hadi ubadilishane ujumbe naye.",
@@ -5186,6 +5224,10 @@
     "message": "Jina lako la mtumiaji halijahifadhiwa. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Jina lako la mtumiaji halijaweza kuondolewa. Angalia muunganisho wa mtandao wako kisha ujaribu tena.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(imefutwa 01/24/23) react kwa stori",
-    "description": "aria-label for reaction button"
+    "message": "React kwa Stori",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Ame-react kwa stori",
@@ -6278,6 +6320,14 @@
     "message": "Ongeza kiungo kwa watazamaji wa stori yako",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Stori imeshindwa kutumwa",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Stori imeshindwa kutumwa kwa wapokeaji wote",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Ongeza maandishi",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Tarakimu hizi zinasaidia kuliweka jina lako la mtumiaji kibinafsi ili kuepuke jumbe zisizotakikana. Share jina lako la mtumiaji na watu na makundi ambayo ungependa kuzungumza nayo tu. Ukibadili jina lako la mtumiaji utatumiwa seti mpya ya tarakimu.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Muda si mrefu Signal desktop haitaikubali tena toleo lako la {OS} mfumo wa uendeshaji wa kompyuta yako. Ili kuendelea kutumia Signal, sasisha mfumo wa uendeshaji wa kompyuta kabla ya {expirationDate}. <learnMoreLink>Jifunze zaidi</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Sasa inawezekana kutafuta historia yako ya jumbe kwa herufi moja moja za Kichina na Kijapani.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Tusaidie kupima maboresho kadhaa ya utegemeajwi na utendaji wa simu za kawaida na simu za video. Toleo hili la beta pia linajumuisha urekebishwaji mchache wa hitilafu na masasisho madogo ya UI (tafuta maboresho mapya ya mtazamo wa kiungo!). Asante kwa kuwa mpimaji wetu wa beta, na tafadhali tueleze kwenye jukwaa la jumuiya endapo utaona hitilafu zozote.",
+    "description": "Release notes for v6.6"
   }
 }

@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់"
+    "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់"
+    "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "សម្គាល់ថាបានផ្ទៀងផ្ទាត់",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "សម្អាតការផ្ទៀងផ្ទាត់",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "អ្នកបានផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "ស្វាគមន៍មកកាន់ Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "ឯកសារដើមលែងមានទៀតហើយ",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "រកឃើញសារដើម ប៉ុន្តែមិនអាចផ្ទុក។ រំកិលចុះក្រោម ដើម្បីផ្ទុកវា។",
@@ -1109,9 +1119,25 @@
     "message": "ទៅ",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} ទៅ {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ទៅអ្នក",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "អ្នកទៅ {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "អ្នកទៅ {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ទៅ",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "បានផ្ញើ",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "បង្ហាញលេខសុវត្ថិភាព"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "មើលលេខសុវត្ថិភាព",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "បង្ហាញឯកសារមេឌាថ្មីៗ",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "មើលលេខសុវត្ថិភាព",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "មើលលេខសុវត្ថិភាព",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "អ្នកប្រើប្រាស់នេះមិនអាចផ្ទៀងផ្ទាត់បានទេ ទាល់តែអ្នកបានផ្លាស់ប្តូរសារជាមួយពួកគេ។",
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {{count,number}ក្រុមរួមគ្នា}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -5185,6 +5223,10 @@
   "ProfileEditor--username--general-error": {
     "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចរក្សាទុកបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Shown if something unknown has gone wrong with username save."
+  },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
     "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចលុបបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(បានលុបនៅថ្ងៃទី 25 មករា 2023) ប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
-    "description": "aria-label for reaction button"
+    "message": "ប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
@@ -6278,6 +6320,14 @@
     "message": "បញ្ចូលតំណសម្រាប់អ្នកមើលរឿងរ៉ាវរបស់អ្នក",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "មិនអាចផ្ញើរឿងរ៉ាវបានទេ",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "មិនអាចផ្ញើរឿងរ៉ាវទៅអ្នកទទួលទាំងអស់បានទេ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "បញ្ចូលអត្ថបទ",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "លេខទាំងនេះជួយរក្សាឲ្យឈ្មោះអ្នកប្រើរបស់អ្នកស្ថិតក្នុងភាពឯកជន ដើម្បីឲ្យអ្នកអាចជៀសវាងនូវការទទួលសារដែលមិនចង់បាន។ សូមចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នកតែជាមួយមនុស្ស និងក្រុមដែលអ្នកចង់ជជែកជាមួយប៉ុណ្ណោះ។ ប្រសិនបើអ្នកប្តូរឈ្មោះអ្នកប្រើ អ្នកនឹងទទួលបានសំណុំលេខថ្មី។",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop នឹងប្រើលែងបាននៅលើកំណែ {OS} របស់កុំព្យូទ័រអ្នកទៀតហើយក្នុងពេលឆាប់ៗនេះ។ ដើម្បីបន្តប្រើប្រាស់ Signal សូមដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការកុំព្យូទ័ររបស់អ្នកត្រឹម {expirationDate}។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ឥឡូវនេះ អ្នកអាចស្វែងរកប្រវត្តិសាររបស់អ្នកសម្រាប់តួអក្សរនីមួយៗជាភាសាចិន និងជប៉ុន។",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ជួយយើងធ្វើតេស្តសាកល្បងទៅលើការកែលម្អមួយចំនួនចំពោះសមត្ថភាពដំណើរការ និងភាពគួរឲ្យទុកចិត្តបាន សម្រាប់ការហៅទូរសព្ទជាសំឡេង និងជាវីដេអូ។ ការចេញផ្សាយបេតានេះក៏រួមបញ្ចូលផងដែរនូវការកែតម្រូវបញ្ហាមួយចំនួនតូច និងការធ្វើបច្ចុប្បន្នភាពបន្តិចបន្តួចទៅលើ UI មួយចំនួន (សូមរកមើលការកែលម្អថ្មីៗចំពោះការមើលតំណភ្ជាប់ជាមុន!)។ សូមអរគុណដែលបានធ្វើជាអ្នកសាកល្បងបេតា ហើយសូមទាក់ទងមកពួកយើងនៅលើវេទិកាសហគមន៍ ប្រសិនបើអ្នកឃើញមានបញ្ហាណាមួយ។",
+    "description": "Release notes for v6.6"
   }
 }

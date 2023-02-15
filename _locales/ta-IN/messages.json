@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "சரிபார்க்கப்பட்டதாகக் குறிக்கவும்"
+    "message": "சரிபார்க்கப்பட்டதாகக் குறிக்கவும்",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "சரிபார்க்கப்படவில்லை எனக் குறிக்கவும்"
+    "message": "சரிபார்க்கப்படவில்லை எனக் குறிக்கவும்",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "சரிபார்க்கப்பட்டதாகக் குறி",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "சரிபார்ப்பை நீக்கு",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "உங்கள் பாதுகாப்பு எண்ணை $name$ with உடன் சரிபார்த்துள்ளீர்கள்.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal லுக்கு வருக"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "அசல் செய்தி இனி கிடைக்கும்",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "அசல் செய்தி கிடைத்தது, ஆனால் ஏற்றப்படவில்லை. அதை ஏற்றுவதற்கு மேலே உருட்டவும்.",
@@ -1109,9 +1119,25 @@
     "message": "செய்ய",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} - {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} இடமிருந்து உங்களுக்கு",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "உங்களிடமிருந்து {receiverGroup}க்கு",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "உங்களிடமிருந்து {receiverContact}க்கு",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "க்கு",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "அனுப்புதல்",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "பாதுகாப்பு எண்ணைக் காண்க"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "சமீபத்திய ஊடகங்களைக் காண்க",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "நீங்கள் அவர்களுடன் செய்திகளைப் பரிமாறிக் கொள்ளும் வரை இந்த பயனரைச் சரிபார்க்க முடியாது.",
@@ -5186,6 +5224,10 @@
     "message": "உங்கள் பயனர்பெயரை சேமிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "உங்கள் பயனர்பெயரை அகற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(அழிக்கப்பட்டது 01/25/23) ஸ்டோரிக்கு எதிர்வினையாற்றவும்",
-    "description": "aria-label for reaction button"
+    "message": "ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றவும்",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "ஸ்டோரிக்கு எதிர்வினையாற்றினார்",
@@ -6278,6 +6320,14 @@
     "message": "உங்கள் ஸ்டோரியைப் பார்ப்பவர்களுக்கு ஒரு இணைப்பைச் சேர்க்கவும்",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "ஸ்டோரியை அனுப்ப முடியவில்லை",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "அனைத்து பெறுநர்களுக்கும் ஸ்டோரியை அனுப்ப முடியவில்லை",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "உரையைச் சேர்க்கவும்",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal டெஸ்க்டாப் விரைவில் உங்கள் கணினியின் {OS} பதிப்பை ஆதரிக்காது. சிக்னலைத் தொடர்ந்து பயன்படுத்த, உங்கள் கணினியின் இயங்குதளத்தை {expirationDate} க்குள் புதுப்பிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "சீன மற்றும் ஜப்பானிய மொழிகளில் தனிப்பட்ட எழுத்துக்களுக்காக உங்கள் செய்தி வரலாற்றைத் தேடுவது இப்போது சாத்தியமாகும்.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "குரல் மற்றும் வீடியோ அழைப்புகளுக்கான பல நம்பகத்தன்மை மற்றும் செயல்திறன் மேம்பாடுகளைச் சோதிக்க எங்களுக்கு உதவுங்கள். இந்த பீட்டா வெளியீட்டில் சில பிழைத் திருத்தங்கள் மற்றும் சில சிறிய UI புதுப்பிப்புகளும் அடங்கும் (புதிய இணைப்பு முன்னோட்ட மேம்பாடுகளைப் பார்க்கவும்!). பீட்டா சோதனையாளராக இருப்பதற்கு நன்றி, மேலும் ஏதேனும் பிழைகள் இருந்தால் சமூக மன்றத்தில் எங்களைத் தொடர்பு கொள்ளவும்.",
+    "description": "Release notes for v6.6"
   }
 }

@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ચકાસાયેલ તરીકે માર્ક કરો"
+    "message": "ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો"
+    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ચકાસાયેલ તરીકે માર્ક કરો",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ચકાસણી દૂર કરો",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "તમે $name$ સાથે તમારો સલામતી નંબર ચકાસી લીધો છે.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal પર આપનું સ્વાગત છે"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "મૂળ મેસેજ હવે ઉપલબ્ધ નથી",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "મૂળ મેસેજ મળ્યો, પરંતુ લોડ થયો નથી. તેને લોડ કરવા માટે ઉપર સ્ક્રોલ કરો.",
@@ -1109,9 +1119,25 @@
     "message": "તરફ:",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender}એ {receiverGroup}માં",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender}એ તમને",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "તમે {receiverGroup}ને",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "તમે {receiverContact}ને",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ને:",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "મોકલ્યો",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "સલામતી નંબર જુઓ"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "તાજેતરના મીડિયા જુઓ",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "સલામતી નંબર ચકાસો",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "સલામતી નંબર જુઓ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "જ્યાં સુધી તમે તેમની સાથે મેસેજની આપ-લે ન કરો ત્યાં સુધી આ વપરાશકર્તાની ચકાસણી કરી શકાતી નથી.",
@@ -5186,6 +5224,10 @@
     "message": "તમારું ઉપયોગકર્તા નામ સેવ ન થઈ શક્યું. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "તમારું યુઝરનેમ દૂર થઈ શક્યું નહીં. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23ના રોજ ડિલીટ કર્યું) સ્ટોરી પર પ્રતિક્રિયા આપો",
-    "description": "aria-label for reaction button"
+    "message": "સ્ટોરી પર પ્રતિક્રિયા આપો",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "સ્ટોરી પર પ્રતિક્રિયા આપી",
@@ -6278,6 +6320,14 @@
     "message": "તમારી સ્ટોરીના દર્શકો માટે લિંક ઉમેરો",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "સ્ટોરી મોકલવાનું નિષ્ફળ થયું",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "સ્ટોરી બધા જ પ્રાપ્તકર્તાઓને મોકલી ન શકાઈ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "લખાણ ઉમેરો",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "આ અંકો તમારા યુઝરનેમને ખાનગી રાખવામાં મદદ કરે છે જેથી તમે અનિચ્છનીય મેસેજને ટાળી શકો. તમારું યુઝરનેમ ફક્ત એ લોકો અને ગ્રુપ સાથે જ શેર કરો જેમની સાથે તમને ચેટ કરવું ગમે છે. જો તમે યુઝરનેમ બદલો છો તો તમને નવા અંકો મળશે.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal હવે ટૂંક સમયમાં તમારા ડિવાઇસના {OS} વર્ઝનને સપોર્ટ કરશે નહીં. Signalનો ઉપયોગ ચાલુ રાખવા માટે, તમારા કમ્પ્યુટરની ઓપરેટિંગ સિસ્ટમને {expirationDate} સુધીમાં અપડેટ કરો. <learnMoreLink>વધુ જાણો</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ચાઇનીઝ અને જાપાનીઝમાં વ્યક્તિગત અક્ષરો માટે તમારી મેસેજ હિસ્ટ્રીમાં શોધવાનું હવે શક્ય છે.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "વોઇસ અને વીડિયો કૉલ માટે કેટલીક વિશ્વસનીયતા અને પ્રદર્શન સુધારણાઓનું પરીક્ષણ કરવામાં અમારી સહાય કરો. આ બીટા રિલીઝમાં થોડી ભૂલ સુધારણાઓ અને કેટલાક નાના UI અપડેટ પણ શામેલ છે (નવી લિંક પ્રિવ્યૂ એન્હાન્સમેન્ટ્સ જુઓ!). બીટા ટેસ્ટર બનવા બદલ આપનો આભાર, અને જો તમને કોઈ બગ દેખાય તો કૃપા કરીને કોમ્યુનિટી ફોરમ પર અમારો સંપર્ક કરો.",
+    "description": "Release notes for v6.6"
   }
 }

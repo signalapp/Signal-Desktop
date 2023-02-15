@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified"
+    "message": "Mark as verified",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark as not verified",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "အတည်ပြုပြီး အမှတ်အသား",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "အတည်ပြုမှု ရှင်းလင်းရန်",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal သို့ ကြိုဆိုပါသည်"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "မူရင်းမက်ဆေ့ မရရှိတော့ပါ",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "မူရင်း မက်ဆေ့ချ် ရှာတွေ့ထားသော်လည်း ထည့်သွင်းလုပ်ဆောင်မရပါ။ လုပ်ဆောင်ရန် အပေါ်သို့ ဆွဲပါ။",
@@ -1109,9 +1119,25 @@
     "message": "သို့",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} မှ {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ထံမှ",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "{receiverGroup} ထံသို့",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "{receiverContact} ထံသို့",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "သို့",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ပို့ပြီးပြီ",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "လုံခြုံရေးနံပါတ်ကိုကြည့်မည်"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "မကြာမီက မီဒီယာကို ကြည့်ရန်",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "လုံခြုံရေးနံပါတ်ကို အတည်ပြုပါ",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "သူနှင့် စာတိုအဆက်အသွယ်မပြုပဲ ယင်းသူကို ဆန်းစစ်အတည်ပြုမရပါ။",
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {တူညီသော အဖွဲ့ {count,number} ဖွဲ့}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -5185,6 +5223,10 @@
   "ProfileEditor--username--general-error": {
     "message": "သင့်သုံးစွဲသူအမည်ကို သိမ်း၍ မရနိုင်ပါ။ သင်၏ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
     "description": "Shown if something unknown has gone wrong with username save."
+  },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
     "message": "သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှား၍ မရနိုင်ပါ။ သင့်၏ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 တွင် ဖျက်ထားသည်) စတိုရီကို တုံ့ပြန်ရန်",
-    "description": "aria-label for reaction button"
+    "message": "စတိုရီကို တုံ့ပြန်မှု ပေးရန်",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",
@@ -6278,6 +6320,14 @@
     "message": "သင့်စတိုရီ ကြည့်သူများအတွက် လင့်ခ်ပေါင်းထည့်ပါ",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "စတိုရီ ပေးပို့ရန် မအောင်မြင်ပါ",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "လက်ခံသူများ အားလုံးထံ စတိုရီ ပေးပို့၍ မရနိုင်ပါ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "စာသားထည့်ရန်",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "ဤဂဏန်းများသည် သင့်သုံးစွဲသူအမည်ကို သီးသန့်လျှို့ဝှက်ပေးထားသောကြောင့် မလိုချင်သည့် မက်ဆေ့ချ်များကို ရှောင်နိုင်ပါသည်။ သင့်သုံးစွဲသူအမည်ကို သင် ချက်(တ်)လိုသည့် လူများ၊ အဖွဲ့များထံသာ ဝေမျှနိုင်ပါသည်။ သုံးစွဲသူအမည်များကို ပြောင်းလိုက်ပါက ဂဏန်းတွဲအသစ် ရရှိပါမည်။",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို Signal Desktop က မကြာမီ ပံ့ပိုးပေးတော့မည် မဟုတ်ပါ။ Signal ကို ဆက်သုံးရန် သင့်ကွန်ပျူတာ၏ လုပ်ဆောင်မှုစနစ်ကို {expirationDate} မတိုင်မီ အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ယခုအခါ တရုတ်အက္ခရာနှင့် ဂျပန်အက္ခရာ တစ်လုံးစီအတွက် သင့်မက်ဆေ့ချ်မှတ်တမ်းကို ရှာ၍ ရနိုင်ပါပြီ။",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "အော်ဒီယိုနှင့် ဗီဒီယို ကောလ်များအတွက် စွမ်းဆောင်ရည် မြှင့်တင်မှုများနှင့် ယုံကြည်စိတ်ချရမှု အချို့ကို စမ်းသပ်ရန် ကျွန်ုပ်တို့အား ကူညီပေးပါ။ ဤစမ်းသပ်ထုတ်ဝေမှုတွင် ချို့ယွင်းချက်ပြင်ဆင်မှု အနည်းငယ်နှင့် UI အပ်ဒိတ်အသေးစားအချို့ (လင့်ခ်ကြိုတင်ကြည့်ရှုမှု အဆင့်မြှင့်တင်မှု အသစ်များကို ရှာရန်) လည်း ပါဝင်ပါသည်။ စမ်းသပ်သုံးစွဲသူအဖြစ် ဆောင်ရွက်ပေးသည့်အတွက် ကျေးဇူးတင်ပါသည်၊ ချို့ယွင်းချက်တစ်ခုခု တွေ့ရှိပါက ကွန်မြူနတီဖိုရမ်မှတစ်ဆင့် ကျွန်ုပ်တို့ထံ ဆက်သွယ်ပါ။",
+    "description": "Release notes for v6.6"
   }
 }

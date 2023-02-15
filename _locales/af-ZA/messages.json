@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merk as geverifieer"
+    "message": "Merk as geverifieer",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Merk as nie geverifieer nie"
+    "message": "Merk as nie geverifieer nie",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Merk as geverifieer",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Maak verifiëring skoon",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Jy het jou veiligheidsnommer met $name$ geverifieer.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Welkom by Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Oorspronklike boodskap is nie meer beskikbaar nie",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Oorspronklike boodskap gevind, maar nie gelaai nie. Rol op om dit te laai.",
@@ -1109,9 +1119,25 @@
     "message": "Aan",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} aan {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} aan jou",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Jy aan {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Jy aan {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "aan",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Gestuur",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Kyk na veiligheidsnommer"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Bekyk veiligheidsnommer",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Kyk na onlangse media",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifieer veiligheidsnommer",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Bekyk veiligheidsnommer",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Bekyk veiligheidsnommer",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Hierdie gebruiker kan nie geverifieer word voordat julle vir mekaar boodskappe gestuur het nie.",
@@ -5186,6 +5224,10 @@
     "message": "Jou gebruikernaam kon nie bewaar word nie. Gaan jou verbinding na en probeer weer.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Jou gebruikernaam kon nie verwyder word nie. Gaan jou verbinding na en probeer weer.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6139,8 +6181,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(geskrap 25/01/23) Reageer op storie",
-    "description": "aria-label for reaction button"
+    "message": "Reageer op storie",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Het op die storie gereageer",
@@ -6278,6 +6320,14 @@
     "message": "Voeg 'n skakel by vir mense wat na jou storie kyk",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Storie kon nie gestuur word nie",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Storie kon nie aan alle ontvangers gestuur word nie",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Voeg teks toe",
     "description": "Placeholder for the add text input"
@@ -6337,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Hierdie syfers help om jou gebruikersnaam privaat te hou sodat jy ongevraagde boodskappe kan voorkom. Deel jou gebruikersnaam slegs met die mense en groepe met wie jy wil klets. As jy gebruikersname verander, sal jy 'n nuwe stel syfers ontvang.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal vir rekenaars sal binnekort nie meer jou rekenaar se weergawe van {OS} ondersteun nie. Om voort te gaan om Signal te gebruik, doen 'n opdatering van jou rekenaar se bedryfstelsel teen {expirationDate}. <learnMoreLink>Vind meer uit</learnMoreLink>",
@@ -6413,5 +6487,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Dit is nou moontlik om deur jou boodskapgeskiedenis vir individuele karakters in Chinees en Japannees te soek.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Help ons om verskeie betroubaarheids- en werkverrigtingsverbeterings vir stem- en video-oproepe te toets. Hierdie beta-vrystelling bevat ook 'n paar foutregstellings en 'n paar klein gebruikerskoppelvlak-bywerkings (wees op die uitkyk vir die nuwe skakelvoorskou-verbeterings!). Dankie dat jy 'n beta-toetser is; kontak ons asseblief op die gemeenskapsforum as jy enige foute opmerk.",
+    "description": "Release notes for v6.6"
   }
 }
