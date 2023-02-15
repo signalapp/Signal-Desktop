@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified"
+    "message": "Mark as verified",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark as not verified",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "დადასტურებულად მონიშვნა",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ვერიფიკაციის გასუფთავება",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Welcome to Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "თავდაპირველი შეტყობინება აღარაა ხელმისაწვდომი",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "თავდაპირველი შეტყობინება ნაპოვნია, მაგრამ ვერ ჩაიტვირთა. ჩასატვირთად ასქროლე ზევით.",
@@ -1109,9 +1119,25 @@
     "message": "To",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} {receiverGroup}-ს",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} შენ",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "შენ {receiverGroup}-ს",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "შენ {receiverContact}-ს",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "-ს",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Sent",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "უსაფრთხოების ნომრის ნახვა"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "უსაფრთხოების ნომრის ნახვა",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "ბოლო მედია-ფაილების ნახვა",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "უსაფრთხოების ნომრის ვერიფიკაცია",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "უსაფრთხოების ნომრის ნახვა",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "უსაფრთხოების ნომრის ნახვა",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "ამ მომხმარებლის ვერიფიცირება შეუძლებელია, სანამ მასთან შეტყობინებებს არ გაცვლი.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(წაიშალა 01/25/23) გამოეხმაურე Story-ის",
-    "description": "aria-label for reaction button"
+    "message": "Story-ზე გამოხმაურება",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "გამოხმაურება Story-ის",
@@ -6278,6 +6316,14 @@
     "message": "დაამატე ბმული შენი Story-ის მნახველებისთვის",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Story-ის გაგზავნა ვერ მოხერხდა",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Story-ის გაგზავნა ყველა მიმღებთან ვერ მოხერხდა",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "ტექსტის დამატება",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ახლა უკვე შესაძლებელია შენი შეტყობინებების ისტორიაში ჩინურ და იაპონურ ენებზე ცალკეული სიმბოლოები მოძებნო.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "დაგვეხმარე ხმოვანი და ვიდეო ზარების საიმედოობისა და პერფორმანსის რამდენიმე გაუმჯობესების გატესტვაში. ამ ბეტა გამოშვებაში ასევე შედის რამდენიმე ბაგის გასწორება და UI ინტერფეისის მცირე განახლება (მოძებნე ბმულის გადახედვის გაუმჯობესებული ფუნქცია!). მადლობას გიხდით იმისთვის, რომ ბეტა ტესტერი ხარ და თუ რაიმე შეცდომას შეამჩნევ, გთხოვთ საზოგადოების ფორუმზე დაგვიკავშირდე.",
+    "description": "Release notes for v6.6"
   }
 }

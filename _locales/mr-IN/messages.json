@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "सत्यापित म्हणून चिन्हांकित करा"
+    "message": "सत्यापित म्हणून चिन्हांकित करा",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "असत्यापित म्हणून चिन्हांकित करा"
+    "message": "असत्यापित म्हणून चिन्हांकित करा",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "सत्यापित म्हणून चिन्हांकित करा",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "सत्यापन साफ करा",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ सोबत आपण आपला सुरक्षितता नंबर सत्यापित केला आहे.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal मध्ये स्वागत आहे"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "मूळ संदेश आता उपलब्ध नाही",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "मूळ संदेश सापडला, पण लोड केलेला नाही. त्यास लोड करण्यासाठी वर स्क्रोल करा.",
@@ -1109,9 +1119,25 @@
     "message": "याला",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} कडून {receiverGroup}ला",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} कडून आपणाला",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "आपण ते {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "आपण ते {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "यावर",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "पाठविले",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "सुरक्षितता नंबर बघा"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "सुरक्षितता क्रमांक पहा",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "अलीकडील मिडिया बघा",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "सुरक्षितता नंबर सत्यापित करा",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "सुरक्षितता क्रमांक पहा",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "सुरक्षितता क्रमांक पहा",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "आपण त्यांचासोबत संदेश विनिमय केल्याशिवाय हा वापरकर्ता सत्यापित केला जाऊ शकत नाही.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 हटवले) स्टोरीला प्रतिक्रिया द्या",
-    "description": "aria-label for reaction button"
+    "message": "स्टोरी ला प्रतिक्रिया द्या",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "स्टोरीला प्रतिक्रिया दिली",
@@ -6278,6 +6316,14 @@
     "message": "आपल्या स्टोरीच्या दर्शकांसाठी एक लिंक जोडा",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "स्टोरी पाठवण्यामध्ये अपयशी",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "स्टोरी सर्व प्राप्तकर्त्यांना पाठवली जाऊ शकत नाही",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "मजकूर समाविष्ट करा",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "चिनी आणि जपानी मध्ये वैयक्तिक वर्णासाठी शोध घेऊन आपल्या संदेश इतिहासात शोध घेणे आता शक्य आहे.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "व्हाईस आणि व्हिडीओ कॉल्स साठी असंख्य विश्वसनीयता व कामगिरी सुधारणांची चाचणी करण्यासाठी आम्हाला मदत करा. या बीटा रीलिज मध्ये काही दोष निराकरणे आणि काही लहान UI अद्यतनांचा (नवीन लिंक पूर्वावलोकन सुधारणांचा शोध घ्या!) देखील समावेश होतो. एक बीटा टेस्टर बनल्याबद्दल आभारी आहोत, आणि आपणाला काही दोष आढळून आला असल्यास आमच्याशी सामुदायिक फोरम वर संपर्क साधा.",
+    "description": "Release notes for v6.6"
   }
 }

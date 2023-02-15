@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Означи како проверено"
+    "message": "Означи како проверено",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Означи како непроверено"
+    "message": "Означи како непроверено",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Означи како проверено",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Отстрани проверка",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Успешна проверка на безбедносниот број со $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Добредојдовте во Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Оригиналната порака не е повеќе достапна",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Оригиналната порака е пронајдена но не е вчитана. Одете нагоре за да ја вчитате.",
@@ -1109,9 +1119,25 @@
     "message": "До",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} до {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} до вас",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Вие до {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Вие до {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "до",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Испратено",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Види  безбедносен број"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Види безбедносен број",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Погледни скорешна медиумска датотека",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Проверка на сигурносен број",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Види безбедносен број",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Види безбедносен број",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Овој корисник не може да биде проверен додека разменувате пораки со него.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(избришано на 25/01/23) Реагирајте на приказната",
-    "description": "aria-label for reaction button"
+    "message": "Реагирајте на приказната",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Реагираше на приказната",
@@ -6278,6 +6316,14 @@
     "message": "Додајте линк за гледачите на вашата приказна",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Испраќањето на приказната е неуспешно",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Приказната не можеше да се испрати на сите примачи",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Додај текст",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Сега можете да пребарувате индивидуални знаци на кинески и јапонски во вашата историја на разговори.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Помогнете ни да тестираме неколку подобрувања на сигурноста и перформансот на гласовни и видео повици. Оваа бета верзија исто така вклучува и неколку решени багови и мали ажурирања на интерфејсот (очекувајте ги новите подобрувања на можноста за преглед на линкови!). Ви благодариме што ја тестирате бета верзијата и ве молиме контактирајте нè на форумот на заедницата доколку забележите багови.",
+    "description": "Release notes for v6.6"
   }
 }

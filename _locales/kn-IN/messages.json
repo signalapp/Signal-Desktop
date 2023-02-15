@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ"
+    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ಪರಿಶೀಲಿಸಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ"
+    "message": "ಪರಿಶೀಲಿಸಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ದೃಢೀಕರಣವನ್ನು ತೆರವುಗೊಳಿಸಿ",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ ಜೊತೆಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ನೀವು ಪರಿಶೀಲಿಸಿದ್ದೀರಿ",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "ಮೂಲ ಸಂದೇಶ ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿಲ್ಲ",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "ಮೂಲ ಸಂದೇಶ ಕಂಡುಬಂದಿದೆ, ಆದರೆ ಲೋಡ್ ಆಗಿಲ್ಲ. ಲೋಡ್ ಮಾಡಲು ಮೇಲಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ.",
@@ -1109,9 +1119,25 @@
     "message": "ಗೆ",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} ನಿಂದ {receiverGroup} ಗೆ",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ಅವರಿಂದ ನಿಮಗೆ",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "ನಿಮ್ಮಿಂದ {receiverGroup} ಅವರಿಗೆ",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "ನಿಮ್ಮಿಂದ {receiverContact} ಅವರಿಗೆ",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ಗೆ",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ಕಳುಹಿಸಿ",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "ನೋಟ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "ವೀಕ್ಷಣಾ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "ಇತ್ತೀಚಿನ ಮಾಧ್ಯಮವನ್ನು ನೋಡಿ",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ದೃಢೀಕರಿಸಿ",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "ನೀವು ಈ ಬಳಕೆದಾರರೊಂದಿಗೆ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಕೊಳ್ಳುವವರೆಗೆ ಅವರನ್ನು ದೃಢೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 ರಂದು ಅಳಿಸಲಾಗಿದೆ) ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
-    "description": "aria-label for reaction button"
+    "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಲಾಗಿದೆ",
@@ -6278,6 +6316,14 @@
     "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯ ವೀಕ್ಷಕರಿಗಾಗಿ ಒಂದು ಲಿಂಕ್ ಸೇರಿಸಿ",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "ಸ್ಟೋರಿ ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "ಎಲ್ಲಾ ಸ್ವೀಕೃತಿದಾರರಿಗೆ ಸ್ಟೋರಿಯನ್ನು ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "ಪಠ್ಯ ಸೇರಿಸಿ",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ಇದೀಗ ಚೈನೀಸ್ ಮತ್ತು ಜಪಾನೀಸ್‌ ಭಾಷೆಯ ಪ್ರತಿ ಕ್ಯಾರೆಕ್ಟರ್‌ಗಾಗಿ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಸರ್ಚ್ ಮಾಡಲು ಸಾಧ್ಯ.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೋ ಕರೆಗಳ ಹಲವಾರು ವಿಶ್ವಾಸಾರ್ಹತೆ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ಸುಧಾರಣೆಗಳನ್ನು ಪರೀಕ್ಷಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ. ಈ ಬೀಟಾ ಬಿಡುಗಡೆಯು ಕೆಲವು ದೋಷ ಪರಿಹಾರಗಳು ಹಾಗೂ ಕೆಲವು ಸಣ್ಣ UI ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡಾ ಒಳಗೊಂಡಿದೆ (ಹೊಸ ಲಿಂಕ್ ಪೂರ್ವನೋಟ ಸುಧಾರಣೆಗಳನ್ನು ನೋಡಿ). ಬೀಟಾ ಪರೀಕ್ಷಕರಾಗಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು ಮತ್ತು ನೀವು ಯಾವುದೇ ದೋಷಗಳನ್ನು ಗುರುತಿಸಿದರೆ ದಯವಿಟ್ಟು ಕಮ್ಯುನಿಟಿ ಫೋರಂನಲ್ಲಿ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    "description": "Release notes for v6.6"
   }
 }

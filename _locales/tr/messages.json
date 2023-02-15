@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Doğrulanmış olarak işaretle"
+    "message": "Doğrulanmış olarak işaretle",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Doğrulanmadı olarak işaretle"
+    "message": "Doğrulanmadı olarak işaretle",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Doğrulanmış olarak işaretle",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Doğrulamayı temizle",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ ile olan güvenlik numaranızı doğruladınız.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal'e Hoşgeldin"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "İletinin aslı artık mevcut değil",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "İletinin aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın.",
@@ -1109,9 +1119,25 @@
     "message": "Alıcı",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{receiverGroup} grubunda {sender}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} adlı kişiden sana",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Senden {receiverGroup} grubuna",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Senden {receiverContact} grubuna",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "->",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Gönderildi",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Güvenlik numarasını görüntüle"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Güvenlik numarasını görüntüle",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Son içerikleri görüntüle",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Güvenlik Numarasını Doğrula",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Güvenlik Numarasını görüntüle",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Güvenlik Numarasını görüntüle",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Bu kullanıcı ile iletişim kurulmadan doğrulanamaz.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(25/01/2023 tarihinde silindi) Hikayeye tepki ver",
-    "description": "aria-label for reaction button"
+    "message": "Hikayeye tepki ver",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Hikayeye tepki verildi",
@@ -6278,6 +6316,14 @@
     "message": "Hikayeni izleyenler için bir bağlantı ekle",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Hikaye gönderilemedi",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Hikaye tüm alıcılara gönderilemedi",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Metin ekle",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Artık mesaj geçmişinde Çince ve Japonca karakterleri tek tek aramak mümkün.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Sesli ve görüntülü aramalar için çeşitli güvenilirlik ve performans iyileştirmelerini test etmemize yardımcı ol. Bu beta sürümü birkaç hata düzeltmesi ve bazı küçük kullanıcı arayüzü güncellemeleri de içerir (yeni bağlantı ön izleme geliştirmelerine göz atmayı unutma!). Bir beta test kullanıcısı olduğun için teşekkür ederiz, herhangi bir hata görürsen lütfen topluluk forumundan bize ulaş.",
+    "description": "Release notes for v6.6"
   }
 }

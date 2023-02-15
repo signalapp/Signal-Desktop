@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "دەلىللەندى بەلگىسى سال"
+    "message": "دەلىللەندى بەلگىسى سال",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark as not verified",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "دەلىللەندى بەلگىسى سال",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "دەلىللەشنى تازىلا",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "‫Signal غا خۇش كەلدىڭىز"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "ئەسلى ئۇچۇرنى ئەمدى يوق",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Original message found, but not loaded. Scroll up to load it.",
@@ -1109,9 +1119,25 @@
     "message": "كىمگە",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} دىن{receiverGroup} غىچە",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} دىن سىزگە",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "سىزدن {receiverGroup} گە",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "سىزدىن {receiverContact} گە",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "كىمگە",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "يوللانغان",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "بىخەتەرلىك نومۇرىنى كۆرسەت"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "بىخەتەرلىك نومۇرىنى كۆرسەت",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "View recent media",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "بىخەتەرلىك نومۇرنى دەلىللەڭ",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "بۇ ئىشلەتكۈچى سىز ئۇنىڭ بىلەن ئۇچۇر ئالماشتۇرۇشتىن ئىلگىرى دەلىللەنمەيدۇ.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(deleted 01/25/23) React to story",
-    "description": "aria-label for reaction button"
+    "message": "ھېكايىگە ئىنكاس قايتۇرۇش",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reacted to the story",
@@ -6278,6 +6316,14 @@
     "message": "Add a link for viewers of your story",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "ھېكايىنى يوللانمىدى",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "ھېكايىنى ھەممەيلەنگە يوللىغىلى بولمىدى",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Add text",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ئاۋازلىق ۋە ۋىدېيولۇق سۆزلىشىش ئىقتىدارىغا ئېلىپ بارغان ئىشەنچلىكلىك ۋە ئىقتىدار جەھەتتىكى ئىلغارلاشتۇرۇش نەتىجىسىنى سىناپ كۆرۈشكە ياردەم قىلىڭ. بۇ سىناق نەشرىدە بىر قانچە مەسىلىگە تۈزىتىش كىرگۈزۈلدى ۋە UI ئازىراق يېڭىلاندى (ئالدىن كۆرۈش ئىقتىدارى ئۈچۈن يېڭى ئۇلانمىغا قاراڭ). سىناق ئىشلەتكۈچى بولغانلىقىڭىز ئۈچۈن رەھمەت. ئەگەر بىرەر مەسىلە بايقىسىڭىز مەھەللە مۇنبىرىدە بىز بىلەن ئالاقىلىشىڭ.",
+    "description": "Release notes for v6.6"
   }
 }

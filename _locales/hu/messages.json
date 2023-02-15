@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Megjelölés ellenőrzöttként"
+    "message": "Megjelölés ellenőrzöttként",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Megjelölés nem ellenőrzöttként"
+    "message": "Megjelölés nem ellenőrzöttként",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Megjelölés ellenőrzöttként",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Ellenőrzött állapot törlése",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Biztonsági számodat $name$ nevű partnereddel már hitelesítetted.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Üdvözöl a Signal!"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Az eredeti üzenet már nem érhető el",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Az eredeti üzenet ugyan létezik, de még nincs betöltve. Görgess fel a betöltéséhez!",
@@ -1109,9 +1119,25 @@
     "message": "Címzett",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} → {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} neked",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Te → {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Te → {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "címzett",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Elküldve",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Biztonsági szám megjelenítése"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Biztonsági szám megjelenítése",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Friss médiafájlok megtekintése",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Biztonsági szám ellenőrzése",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Biztonsági szám megjelenítése",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Biztonsági szám megjelenítése",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Ezt a felhasználót nem jelölheted ellenőrzöttnek, míg nem váltottatok üzenetet egymással.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(törölve: 2023. 01. 25.) Reakció a Történetre",
-    "description": "aria-label for reaction button"
+    "message": "Reakció a Történetre",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reakció elküldve a Történetre",
@@ -6278,6 +6316,14 @@
     "message": "Adj hozzá egy hivatkozást a Történeted nézőinek",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "A Történetet nem sikerült elküldeni",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "A Történetet nem sikerült minden címzettnek elküldeni",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Szöveg hozzáadása",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Mostantól lehetőséged van rákeresni az egyes kínai és japán karakterekre az üzenetelőzményekben.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Segíts nekünk tesztelni a hang- és videohívások számos megbízhatósági és teljesítménybeli fejlesztését. Ez a béta verzió hibajavításokat és néhány kisebb felhasználói felület-frissítést is tartalmaz (keresd az új linkelőnézeti fejlesztéseket!). Köszönjük, hogy béta-tesztelő vagy! Ha hibát észlelsz, fordulj hozzánk a közösségi fórumon keresztül.",
+    "description": "Release notes for v6.6"
   }
 }

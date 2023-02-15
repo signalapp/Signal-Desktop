@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Σημείωση ως επιβεβαιωμένο"
+    "message": "Σημείωση ως επιβεβαιωμένο",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Σημείωση ως μη επιβεβαιωμένο"
+    "message": "Σημείωση ως μη επιβεβαιωμένο",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Σημείωση ως επιβεβαιωμένο",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Αφαίρεση επιβεβαίωσης",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Επιβεβαίωσες τον αριθμό ασφαλείας με τον/την $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Καλωσήλθες στο Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Το αρχικό μήνυμα δεν είναι πλέον διαθέσιμο",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Το αρχικό μήνυμα βρέθηκε, αλλά δεν φορτώθηκε. Σκρόλαρε προς τα πάνω για να φορτωθεί.",
@@ -1109,9 +1119,25 @@
     "message": "Προς",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} προς {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} προς εσένα",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Εσύ προς {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Εσύ προς {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "προς",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Στάλθηκε",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Εμφάνιση αριθμού ασφαλείας"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Προβολή πρόσφατων πολυμέσων",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Επιβεβαίωση αριθμού ασφαλείας",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Εμφάνιση αριθμού ασφαλείας",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Αυτός ο/η χρήστης/τρια δεν μπορεί να επιβεβαιωθεί μέχρι να ανταλλάξεις μηνύματα μαζί του/της.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(διαγράφηκε στις 25/01/23) Αντίδραση σε ιστορία",
-    "description": "aria-label for reaction button"
+    "message": "Αντίδραση στην ιστορία",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Αντέδρασε στην ιστορία",
@@ -6278,6 +6316,14 @@
     "message": "Πρόσθεσε σύνδεσμο για τα άτομα που βλέπουν την ιστορία σου",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Η αποστολή της ιστορίας απέτυχε",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Δεν ήταν δυνατή η αποστολή της ιστορίας σε όλους τους παραλήπτες",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Προσθήκη κειμένου",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Πλέον μπορείς να κάνεις αναζήτηση στο ιστορικό μηνυμάτων σου για μεμονωμένους χαρακτήρες στα κινεζικά και τα ιαπωνικά.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Βοήθησέ μας να δοκιμάσουμε αρκετές βελτιώσεις αξιοπιστίας και απόδοσης για φωνητικές κλήσεις και βιντεοκλήσεις. Αυτή η έκδοση beta περιλαμβάνει επίσης μερικές επιδιορθώσεις σφαλμάτων και μερικές μικρές ενημερώσεις στο περιβάλλον χρήστη (ανακάλυψε τις νέες βελτιώσεις προεπισκόπησης συνδέσμου!). Σε ευχαριστούμε που είσαι δοκιμαστής beta και επικοινώνησε μαζί μας στο φόρουμ της κοινότητας εάν εντοπίσεις σφάλματα.",
+    "description": "Release notes for v6.6"
   }
 }

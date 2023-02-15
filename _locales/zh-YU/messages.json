@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "標記咗做已驗證"
+    "message": "標記咗做已驗證",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "標記咗做未驗證"
+    "message": "標記咗做未驗證",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "標記做已驗證",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "清除驗證",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "你已經驗證咗你同 $name$嘅安全碼。",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "歡迎使用 Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "原本嘅訊息已經冇咗",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "搵到原本嘅訊息喇，但仲未載入。你將畫面向上碌就可以載入訊息㗎喇。",
@@ -1109,9 +1119,25 @@
     "message": "傳送俾",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "由 {sender} 傳送俾 {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "由 {sender} 傳送俾你",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "由你傳送俾 {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "由你傳送俾 {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "俾",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "送出",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "睇吓安全碼"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "檢視安全碼",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "睇吓最近嘅媒體",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "驗證安全碼",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "檢視安全碼",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "檢視安全碼",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "你要同呢位用戶有通訊先可以驗證對方。",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(deleted 01/25/23) React to story",
-    "description": "aria-label for reaction button"
+    "message": "對限時動態傳送心情回應",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "對限時動態傳送咗心情回應",
@@ -6278,6 +6316,14 @@
     "message": "為大家新增您嘅限時動態連結",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "限時動態發送失敗",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "發送唔到呢個限時動態俾所有接收者",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "加入文字",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "協助我哋測試多項經改善嘅語音同視像通話功能嘅可靠度同性能。呢個測試版仲包含幾項錯誤修復同埋用戶介面嘅小型更新 (請特別留意全新嘅連結預覽加強功能！)。多謝你試用測試版。如果你發現任何錯誤，請喺社群討論區同我哋聯絡。",
+    "description": "Release notes for v6.6"
   }
 }

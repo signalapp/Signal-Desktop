@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക"
+    "message": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "പരിശോധിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക"
+    "message": "പരിശോധിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "പരിശോധന പൂർത്തിയാക്കുക",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ ഉപയോഗിച്ച് നിങ്ങളുടെ സുരക്ഷാ നമ്പർ നിങ്ങൾ പരിശോധിച്ചുറപ്പിച്ചിട്ടുണ്ട്.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal-ലേക്ക് സ്വാഗതം"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "യഥാർത്ഥ സന്ദേശം മേലിൽ ലഭ്യമല്ല",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "യഥാർത്ഥ സന്ദേശം കണ്ടെത്തി, പക്ഷേ ലോഡ് ചെയ്തിട്ടില്ല. അത് ലോഡ് ചെയ്യാൻ മുകളിലേക്ക് സ്ക്രോൾ ചെയ്യുക.",
@@ -1109,9 +1119,25 @@
     "message": "സ്വീകർത്താവ്:",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender}  {receiverGroup} എന്നതിലേക്ക് അയച്ചു",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} എന്നയാൾ നിങ്ങൾക്ക് അയച്ചത്",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "നിങ്ങൾ {receiverGroup} എന്നയാൾക്ക് അയച്ചത്",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "നിങ്ങൾ {receiverContact} എന്നയാൾക്ക് അയച്ചത്",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ലേക്ക്",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "അയച്ചു",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "സുരക്ഷാ നമ്പർ കാണുക"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "സുരക്ഷാ നമ്പർ കാണുക",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "സമീപകാല മീഡിയ കാണുക",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "സുരക്ഷാ നമ്പർ പരിശോധിക്കുക",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "സുരക്ഷാ നമ്പർ കാണുക",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "സുരക്ഷാ നമ്പർ കാണുക",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "നിങ്ങൾ അവരുമായി മെസേജുകൾ കൈമാറും വരെ നിങ്ങൾക്ക് ഈ യൂസറിന്റെ വേരിഫൈ ചെയ്യാനാകില്ല.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23-ന് ഇല്ലാതാക്കി) സ്റ്റോറിയോട് പ്രതികരിക്കൂ",
-    "description": "aria-label for reaction button"
+    "message": "സ്റ്റോറിയോട് പ്രതികരിക്കുക",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "സ്റ്റോറിയോട് പ്രതികരിച്ചു",
@@ -6278,6 +6316,14 @@
     "message": "നിങ്ങളുടെ സ്റ്റോറിയുടെ കാഴ്ചക്കാർക്കായി ഒരു ലിങ്ക് ചേർക്കുക",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "സ്റ്റോറി അയയ്ക്കാനായില്ല",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "സ്റ്റോറി എല്ലാ സ്വീകർത്താക്കൾക്കും അയയ്ക്കാനായില്ല",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "എഴുത്ത് ചേർക്കുക",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ഇപ്പോൾ ചൈനീസ്, ജാപ്പനീസ് ഭാഷകളിലെ അക്ഷരങ്ങൾക്കായി നിങ്ങളുടെ സന്ദേശ ചരിത്രത്തിൽ തിരയാനാകും.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "വോയ്‌സ്, വീഡിയോ കോളുകൾക്ക് വിശ്വാസ്യത, പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്താനായി പരിശോധിക്കാൻ ഞങ്ങളെ സഹായിക്കൂ. ഈ ബീറ്റാ റിലീസിൽ ഏതാനും ചെറിയ ബഗ് പരിഹരിക്കലുകളും ഏതാനും ചെറിയ യുഐ അപ്ഡേറ്റുകളും (പുതിയ ലിങ്ക് പ്രിവ്യു മെച്ചപ്പെടുത്തലുകൾക്കായി നോക്കൂ) ഉൾപ്പെടുന്നു. ബീറ്റാ ടെസ്റ്റർ ആയതിന് നന്ദി, എന്തെങ്കിലും ബഗ്ഗുകൾ കണ്ടെത്തിയാൽ കമ്മ്യൂണിറ്റി ഫോറത്തിലൂടെ ഞങ്ങളെ ബന്ധപ്പെടൂ.",
+    "description": "Release notes for v6.6"
   }
 }

@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marcar como verificado"
+    "message": "Marcar como verificado",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marcar como non verificado"
+    "message": "Marcar como non verificado",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marcar como verificado",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Borrar verificación",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Benvido/a a Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "A mensaxe orixinal xa non está dispoñible",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Mensaxe orixinal atopada, pero non cargada. Sube para cargala.",
@@ -1109,9 +1119,25 @@
     "message": "Para",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} a {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} a ti",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Ti a {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Ti a {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "para",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Enviada",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Ver número de seguranza"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Ver contido multimedia recente",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifica o número de seguranza",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Este usuario non pode verificarse ata que intercambiedes mensaxes.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(eliminada 25/01/2023) Reaccionar á historia",
-    "description": "aria-label for reaction button"
+    "message": "Reaccionar á historia",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reaccionou á historia",
@@ -6278,6 +6316,14 @@
     "message": "Engade unha ligazón para os que ven a túa historia",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Erro ao enviar a historia",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Non se puido enviar a historia a todos os destinatarios",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Engadir texto",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Xa podes buscar no teu historial de mensaxes caracteres individuais en chinés e xaponés.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Axúdanos a probar a fiabilidade e o rendemento das melloras que fixemos nas chamadas de voz e vídeo. Esta versión beta tamén inclúe algunhas correccións de pequenos erros e algunhas actualizacións menores da IU (busca a nova mellora de visualización de ligazón!). Grazas por probar esta versión beta. Non dubides en contactar connosco no foro da comunidade se detectas algún erro.",
+    "description": "Release notes for v6.6"
   }
 }

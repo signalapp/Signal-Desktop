@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "علامت گذاری به عنوان تایید شده"
+    "message": "علامت گذاری به عنوان تایید شده",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "علامت گذاری به عنوان تایید نشده"
+    "message": "علامت گذاری به عنوان تایید نشده",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "علامت‌گذاری به عنوان تأیید شده",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "پاک کردن تأیید",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "کدِ امنیتیِ $name$ تأیید شد.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "به سیگنال خوش‌آمدید"
@@ -873,7 +883,7 @@
     "description": "Description of icon denoting that contact is from your address book"
   },
   "contactAvatarAlt": {
-    "message": "آواتار متعلق به مخاطب $name$",
+    "message": "آواتارمخاطب $name$",
     "description": "Used in the alt tag for the image avatar of a contact"
   },
   "sendMessageToContact": {
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "پیام اصلی دیگر در دسترس نیست",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "پیام اصلی پیدا شد، اما بارگیری نشد. برای بارگذاری به سمت بالا حرکت کنید",
@@ -1109,9 +1119,25 @@
     "message": "به",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} به {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} به شما",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "شما به {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "شما به {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "به",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ارسال شد",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "دیدن شماره امنیتی"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "دیدن شماره ایمنی",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "مشاهدهٔ رسانه‌های اخیر",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "تایید شماره امنیتی",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "دیدن شمارهٔ ایمنی",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "دیدن شمارهٔ ایمنی",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "این کاربر تا زمانی که پیامی بین شما رد و بدل نشود قابل تایید نیست",
@@ -3707,7 +3745,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--you": {
-    "message": "شما عکس گروه را عوض کردید.",
+    "message": "شما آواتار گروه را عوض کردید.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--unknown": {
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(پاک‌شده در 25 ژانویه 2023) واکنش نشان دادن به استوری",
-    "description": "aria-label for reaction button"
+    "message": "واکنش به استوری",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "به استوری واکنش نشان داده شد",
@@ -6278,6 +6316,14 @@
     "message": "افزودن پیوند برای بازدیدکنندگان استوری",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "استوری ارسال نشد",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "امکان ارسال استوری به همه گیرندگان وجود نداشت",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "افزودن متن",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "حالا دیگر می‌توانید نویسه‌های تکی زبان‌های چینی و ژاپنی را در تاریخچه پیامتان جستجو کنید.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "به ما کمک کنید چند بهبود عملکرد و اطمینان‌پذیری را برای تماس‌های صوتی و تصویری آزمایش کنیم. این نسخه بتا چند رفع اشکال و چند به‌روزرسانی جزئی رابط کاربری را نیز شامل می‌شود (بهبودهای جدید پیش‌نمایش پیوند را ببینید!). از اینکه آزمایش‌کننده بتا هستید سپاسگزاریم؛ لطفاً در صورت پیدا کردن هرگونه اشکال، با ما در تالار گفتگوی انجمن در تماس باشید.",
+    "description": "Release notes for v6.6"
   }
 }

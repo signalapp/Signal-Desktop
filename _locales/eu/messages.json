@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Markatu egiaztatu gisa"
+    "message": "Markatu egiaztatu gisa",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Markatu ez egiaztatu gisa"
+    "message": "Markatu ez egiaztatu gisa",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Markatu egiaztatutako gisa",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Garbitu egiaztapena",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$(r)ekin duzun segurtasun zenbakia egiaztatu duzu.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Ongi etorri Signal-era"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Jatorrizko mezua ez dago eskuragarri jada",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Jatorrizko mezua topatu da, baina ez da kargatu. Korritu gorantz kargatzeko.",
@@ -1109,9 +1119,25 @@
     "message": "Hartzailea:",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} erabiltzaileak hona: {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} erabiltzaileak zuri",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Zuk {receiverGroup} erabiltzaileari",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Zuk {receiverContact} erabiltzaileari",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "->",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Bidalita",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Segurtasun zenbakia ikusi"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Ikusi segurtasun-zenbakia",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Ikusi arestiko medioak",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Segurtasun zenbakia baieztatu",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Erakutsi segurtasun-zenbakia",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Erakutsi segurtasun-zenbakia",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Erabiltzaile hau ezin da egiaztatu elkarrekin mezuak trukatzen dituzuen arte.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(23/01/25ean ezabatuts) Bidali erreakzio bat istorioari",
-    "description": "aria-label for reaction button"
+    "message": "Bidali istorioari buruzko erreakzio bat",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Istorioari buruzko erreakzio bat bidali duzu",
@@ -6278,6 +6316,14 @@
     "message": "Gehitu istorioaren ikusleentzako esteka bat",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Ezin izan da bidali istorioa",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Ezin izan zaie bidali istorioa hartzaile guztiei",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Gehitu testua",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Orain, txinera eta japonierazko karaktere indibidualak bila daitezke mezuen historian.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Lagun iezaguzu ahots-dei eta bideodeien hainbat fidagarritasun- eta errendimendu-hobekuntza probatzen. Beta-bertsio honek akats batzuk konpontzen ditu, eta interfazeko eguneraketa txiki batzuk ere badakartza (bilatu esteka-aurreikuspenen hobekuntza berriak!). Eskerrik asko beta-probatzaile izateagatik. Akatsen bat ikusten baduzu, jarri gurekin harremanetan komunitatearen foroan.",
+    "description": "Release notes for v6.6"
   }
 }

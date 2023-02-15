@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ"
+    "message": "ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ"
+    "message": "ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ਤਸਦੀਕਸ਼ੁਦਾ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਗਾਓ",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ਤਸਦੀਕ ਨੂੰ ਹਟਾਓ",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕੀਤਾ ਹੈ।",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "ਅਸਲ ਸੁਨੇਹਾ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "ਅਸਲ ਸੁਨੇਹਾ ਲੱਭਿਆ, ਪਰ ਲੋਡ ਨਹੀਂ ਹੋਇਆ। ਇਸਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਉੱਪਰ ਨੂੰ ਸਰਕਾਓ।",
@@ -1109,9 +1119,25 @@
     "message": "ਪ੍ਰਤੀ",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} ਵੱਲੋਂ {receiverGroup} ਵਿੱਚ",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ਵੱਲੋਂ ਤੁਹਾਨੂੰ",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ {receiverGroup} ਵਿੱਚ",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ {receiverContact} ਨੂੰ",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ਨੂੰ",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ਭੇਜਿਆ ਗਿਆ",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਵੇਖੋ"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "ਹਾਲੀਆ ਮੀਡੀਆ ਨੂੰ ਵੇਖੋ",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਜਦੋਂ ਤੱਕ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਸੁਨੇਹਿਆਂ ਦਾ ਆਦਾਨ-ਪ੍ਰਦਾਨ ਨਹੀਂ ਹੋ ਜਾਂਦਾ।",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ) ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
-    "description": "aria-label for reaction button"
+    "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
@@ -6278,6 +6316,14 @@
     "message": "ਆਪਣੀ ਸਟੋਰੀ ਦੇ ਦਰਸ਼ਕਾਂ ਲਈ ਇੱਕ ਲਿੰਕ ਸ਼ਾਮਲ ਕਰੋ",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "ਸਟੋਰੀ ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ ਰਹੇ",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "ਸਟੋਰੀ ਸਾਰੇ ਪ੍ਰਾਪਤਕਰਤਾਵਾਂ ਨੂੰ ਨਹੀਂ ਭੇਜ ਸਕੇ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "ਲਿਖਤ ਜੋੜੋ",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "ਹੁਣ ਚੀਨੀ ਅਤੇ ਜਾਪਾਨੀ ਭਾਸ਼ਾ ਦੇ ਇੱਕ-ਇੱਕ ਅੱਖਰ ਨਾਲ ਵੀ ਤੁਹਾਡੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਖੋਜਣਾ ਸੰਭਵ ਹੋ ਗਿਆ ਹੈ।",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਕਈ ਭਰੋਸੇਯੋਗ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਸੁਧਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ। ਇਸ ਬੀਟਾ ਰੀਲੀਜ਼ ਵਿੱਚ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ UI ਵਿੱਚ ਛੋਟੇ-ਮੋਟੇ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ ਹਨ (ਨਵੇਂ ਲਿੰਕ ਦੀ ਝਲਕ ਵਾਲੇ ਸੁਧਾਰਾਂ ਲਈ ਦੇਖੋ!) ਬੀਟਾ ਟੈਸਟਰ ਬਣਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ, ਅਤੇ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਖ਼ਰਾਬੀ ਲੱਭਦੀ ਹੈ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਕਮਿਊਨਿਟੀ ਫੋਰਮ 'ਤੇ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
+    "description": "Release notes for v6.6"
   }
 }

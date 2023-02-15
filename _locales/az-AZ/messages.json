@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Təsdiqləndi olaraq işarələ"
+    "message": "Təsdiqləndi olaraq işarələ",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Təsdiqlənmədi olaraq işarələ"
+    "message": "Təsdiqlənmədi olaraq işarələ",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Təsdiqləndi olaraq işarələ",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Təsdiqləməni təmizlə",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ ilə olan güvənlik nömrəniz təsdiqləndi.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal-a xoş gəldiniz"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Orijinal mesaj artıq mövcud deyil",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Orijinal mesaj tapıldı, ancaq yüklənmədi. Yükləmək üçün yuxarı çək.",
@@ -1109,9 +1119,25 @@
     "message": "Alan",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender}, {receiverGroup} qrupuna",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} sizə göndərildi",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Göndərdiniz: {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Göndərdiniz: {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "->",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Göndərildi",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Güvənlik nömrəsinə bax"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Güvənlik nömrəsinə bax",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Son mediaya bax",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Güvənlik nömrəsini təsdiqlə",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Güvənlik nömrəsinə bax",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Güvənlik nömrəsinə bax",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Bu istifadəçi, onunla mesajlaşana qədər təsdiqlənə bilməz.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(01/25/23 silindi) Hekayəyə reaksiya ver",
-    "description": "aria-label for reaction button"
+    "message": "Hekayəyə reaksiya ver",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Hekayəyə reaksiya verildi",
@@ -6278,6 +6316,14 @@
     "message": "Hekayənizə baxanlar üçün keçid əlavə edin",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Hekayəni göndərmək mümkün olmadı",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Hekayəni bütün alıcılara göndərmək mümkün olmadı",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Mətn əlavə et",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Artıq mesaj tarixçəsində Çin və Yapon dillərində fərdi simvolları axtarmaq mümkündür.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Audio və video zənglər üçün bir neçə etibarlı və effektiv təkmilləşmə metodlarını sınaqdan keçirməkdə bizə kömək edin. Bu beta versiyaya bəzi xəta düzəlişləri və kiçik UI yeniləmələri də daxildir (keçid önizləməsi ilə əlaqəli yeniliklərə nəzər salın!). Beta sınaq istifadəçisi olduğunuz üçün təşəkkürlər, hər hansı bir xəta aşkar etsəniz bizimlə icma formunda əlaqə saxlayın.",
+    "description": "Release notes for v6.6"
   }
 }

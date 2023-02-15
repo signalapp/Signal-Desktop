@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Đánh dấu đã xác minh"
+    "message": "Đánh dấu đã xác minh",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Đánh dấu chưa xác minh"
+    "message": "Đánh dấu chưa xác minh",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Đánh dấu đã xác minh",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Xóa xác nhận",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Bạn đã xác minh số an toàn của bạn với $name$",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Chào mừng đến với Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Tin nhắn ban đầu không còn khả dụng",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Đã tìm thấy tin nhắn gốc, nhưng không tải dược. Cuộn lên để tải nó.",
@@ -1109,9 +1119,25 @@
     "message": "Đến",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} đến {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} gửi đến bạn",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Bạn gửi đến {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Bạn gửi đến {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "đến",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Đã gửi",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Xem số an toàn"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Xem số an toàn",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Xem các tập đa phương tiện gần đây",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Xác minh Số An toàn",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Xem Số An toàn",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Xem Số An toàn",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Người dùng này không thể được xác minh cho tới khi bạn đã nhắn tin với họ.",
@@ -4527,7 +4565,7 @@
     "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
+    "messageformat": "{count, plural, other {{count,number} nhóm chung}}",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(đã xóa ngày 25/01/23) Bày tỏ cảm xúc với story",
-    "description": "aria-label for reaction button"
+    "message": "Bày tỏ cảm xúc với story",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Đã bày tỏ cảm xúc với story",
@@ -6278,6 +6316,14 @@
     "message": "Thêm một đường dẫn cho người xem story của bạn",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Không gửi được story",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Không gửi được story đến tất cả người nhận",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Thêm ký tự",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Người dùng nay có thể tìm kiếm lịch sử tin nhắn bằng các ký tự riêng lẻ của tiếng Trung và tiếng Nhật.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Giúp chúng tôi kiểm tra độ tin cậy và các cải thiện về mặt hiệu năng của cuộc gọi thoại và cuộc gọi video. Bản beta này cũng bao gồm một số sửa lỗi và cập nhật UI nhỏ (giao diện xem trước đường dẫn đã được nâng cấp!). Cảm ơn bạn vì đã giúp thử nghiệm bản beta, và hãy liên hệ với chúng tôi thông qua diễn đàn dành cho cộng đồng nếu bạn gặp bất kỳ lỗi nào.",
+    "description": "Release notes for v6.6"
   }
 }

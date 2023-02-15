@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Označiť ako overené"
+    "message": "Označiť ako overené",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Označiť ako neoverené"
+    "message": "Označiť ako neoverené",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Označiť ako overené",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Zrušiť overenie",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Overili ste bezpečnostné číslo s $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Vitajte v aplikácii Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Pôvodná správa už nie je k dispozícii",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Pôvodná správa sa našla, ale ešte nebola načítaná. Pre načítanie sa posuňte vyššie.",
@@ -1109,9 +1119,25 @@
     "message": "Komu",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} do {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} vám",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Vy do {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Vy používateľovi {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "pre",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Odoslaná",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Zobraziť bezpečnostné číslo"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Zobraziť bezpečnostné číslo",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Zobraziť nedávne médiá",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Overiť bezpečnostné číslo",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Zobraziť bezpečnostné číslo",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Zobraziť bezpečnostné číslo",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Tento používateľ nemôže byť overený kým neodošlete prvú správu.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(vymazané 25. 1. 2023) Reagovať na príbeh",
-    "description": "aria-label for reaction button"
+    "message": "Reagovať na príbeh",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagoval/a na príbeh",
@@ -6278,6 +6316,14 @@
     "message": "Pridajte odkaz pre sledovateľov vášho príbehu",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Príbeh sa nepodarilo odoslať",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Príbeh sa nepodarilo odoslať všetkým príjemcom",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Pridať text",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Teraz je možné vyhľadávať v histórii správ jednotlivé znaky v čínštine a japončine.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Pomôžte nám otestovať niekoľko vylepšení spoľahlivosti a výkonu pre hlasové hovory a videohovory. Táto beta verzia obsahuje aj niekoľko opráv chýb a niekoľko malých aktualizácií používateľského rozhrania (pozrite si vylepšené náhľady odkazov!). Ďakujeme, že ste beta testerom! Ak zistíte nejaké chyby, kontaktujte nás, prosím, prostredníctvom komunitného fóra.",
+    "description": "Release notes for v6.6"
   }
 }

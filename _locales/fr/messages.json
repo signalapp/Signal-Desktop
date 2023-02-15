@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marquer comme confirmé"
+    "message": "Marquer comme confirmé",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marquer comme non confirmé"
+    "message": "Marquer comme non confirmé",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marquer comme confirmé",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Annuler la confirmation",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Vous avez confirmé votre numéro de sécurité avec $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Bienvenue sur Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Le message original n’est plus disponible",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Le message original a été trouvé, mais n’a pas été chargé. Faites défiler vers le haut pour le charger.",
@@ -1109,9 +1119,25 @@
     "message": "À",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} à {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} à vous",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Vous à {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Vous à {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "à",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Envoyé",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Afficher le numéro de sécurité"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Afficher le numéro de sécurité",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Afficher les médias récents",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Confirmer le numéro de sécurité",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Afficher le numéro de sécurité",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Afficher le numéro de sécurité",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Cet utilisateur ne pourra pas être confirmé tant que vous n’aurez pas échangé de messages.",
@@ -6139,8 +6177,8 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "(supprimé le 24/01/23) Réagir à une Story",
-    "description": "aria-label for reaction button"
+    "message": "Réagir à la Story",
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "A réagi à la Story",
@@ -6278,6 +6316,14 @@
     "message": "Ajouter un lien pour les spectateurs de votre Story",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Échec de l’envoi de la Story",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "La Story n’a pas pu être envoyée à tous les destinataires",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Ajouter du texte",
     "description": "Placeholder for the add text input"
@@ -6413,5 +6459,9 @@
   "icu:WhatsNew__v6.5--1": {
     "messageformat": "Il vous est désormais possible de rechercher des caractères individuels dans l'historique des messages en chinois et en japonais.",
     "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Aidez-nous à tester plusieurs améliorations concernant la fiabilité et les performances, pour les appels vocaux et vidéo. Cette version bêta comprend également des corrections de bug et quelques mises à jour mineures de l’interface utilisateur (découvrez les nouvelles améliorations de l’aperçu des liens !) Merci d’avoir testé la version bêta. Veuillez nous contacter dans le forum de la communauté si vous repérez des problèmes.",
+    "description": "Release notes for v6.6"
   }
 }
