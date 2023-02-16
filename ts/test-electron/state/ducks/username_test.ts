@@ -20,12 +20,15 @@ import { actions } from '../../../state/ducks/username';
 import { ToastType } from '../../../types/Toast';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer } from '../../../state/reducer';
-import { ReserveUsernameError } from '../../../types/Username';
+import {
+  ReserveUsernameError,
+  ConfirmUsernameResult,
+} from '../../../types/Username';
 
 const DEFAULT_RESERVATION = {
   username: 'abc.12',
   previousUsername: undefined,
-  reservationToken: 'def',
+  hash: new Uint8Array(),
 };
 
 describe('electron/state/ducks/username', () => {
@@ -312,7 +315,7 @@ describe('electron/state/ducks/username', () => {
 
   describe('confirmUsername', () => {
     it('should dispatch promise when reservation is present', () => {
-      const doConfirmUsername = sinon.stub().resolves();
+      const doConfirmUsername = sinon.stub().resolves(ConfirmUsernameResult.Ok);
       const dispatch = sinon.spy();
 
       actions.confirmUsername({
@@ -344,7 +347,7 @@ describe('electron/state/ducks/username', () => {
 
       state = reducer(state, {
         type: 'username/CONFIRM_USERNAME_FULFILLED',
-        payload: undefined,
+        payload: ConfirmUsernameResult.Ok,
         meta: undefined,
       });
 
@@ -387,6 +390,39 @@ describe('electron/state/ducks/username', () => {
       assert.strictEqual(
         getUsernameReservationError(state),
         UsernameReservationError.General
+      );
+    });
+
+    it('should not close modal on "conflict or gone"', () => {
+      let state = stateWithReservation;
+
+      state = reducer(state, {
+        type: 'username/CONFIRM_USERNAME_PENDING',
+        meta: undefined,
+      });
+      assert.strictEqual(
+        getUsernameReservationState(state),
+        UsernameReservationState.Confirming
+      );
+      assert.strictEqual(
+        getUsernameReservationObject(state),
+        DEFAULT_RESERVATION
+      );
+
+      state = reducer(state, {
+        type: 'username/CONFIRM_USERNAME_FULFILLED',
+        payload: ConfirmUsernameResult.ConflictOrGone,
+        meta: undefined,
+      });
+
+      assert.strictEqual(
+        getUsernameReservationState(state),
+        UsernameReservationState.Open
+      );
+      assert.strictEqual(getUsernameReservationObject(state), undefined);
+      assert.strictEqual(
+        getUsernameReservationError(state),
+        UsernameReservationError.ConflictOrGone
       );
     });
   });

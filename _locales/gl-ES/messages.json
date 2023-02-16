@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marcar como verificado"
+    "message": "Marcar como verificado",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marcar como non verificado"
+    "message": "Marcar como non verificado",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marcar como verificado",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Borrar verificación",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Benvido/a a Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "A mensaxe orixinal xa non está dispoñible",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Mensaxe orixinal atopada, pero non cargada. Sube para cargala.",
@@ -1094,7 +1104,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Esta mensaxe borrarase do teu dispositivo.",
+    "message": "Esta mensaxe eliminarase do teu dispositivo.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1109,9 +1119,25 @@
     "message": "Para",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} a {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} a ti",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Ti a {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Ti a {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "para",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Enviada",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Ver número de seguranza"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Ver contido multimedia recente",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Reintentar Borrar para todos",
+    "message": "Reintentar Eliminar para todos",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1181,7 +1211,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Queres borrar de xeito permanente a conversa seleccionada?",
+    "message": "Queres eliminar de xeito permanente a conversa seleccionada?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifica o número de seguranza",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Ver número de seguranza",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Este usuario non pode verificarse ata que intercambiedes mensaxes.",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Pode que se eliminara a última mensaxe.",
+    "message": "Pode que se eliminase a última mensaxe.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Borrar mensaxe seleccionada",
+    "message": "Eliminar mensaxe seleccionada",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -3691,7 +3729,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ eliminou o nome do grupo.",
+    "message": "$memberName$ Eliminou o nome do grupo.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Eliminar a $contact$ como admr. do grupo?",
+    "message": "Eliminar a $contact$ como administrador do grupo?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Erro ao borrar a mensaxe para todos. Inténtao de novo máis tarde.",
+    "message": "Erro ao eliminar a mensaxe para todos. Inténtao de novo máis tarde.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Emprégase esta cor personalizada en $num$conversas. Queres eliminala de todas as conversas?",
+    "message": "Emprégase esta cor personalizada en $num$ conversas. Queres eliminala de todas as conversas?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5185,6 +5223,10 @@
   "ProfileEditor--username--general-error": {
     "message": "Non se gardou o teu nome de usuario. Comproba a túa conexión e inténtao de novo.",
     "description": "Shown if something unknown has gone wrong with username save."
+  },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
     "message": "Non se eliminou o teu nome de usuario. Comproba a túa conexión e inténtao de novo.",
@@ -6066,6 +6108,10 @@
     "message": "Responder",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Responder a {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Responder ao grupo",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reaccionar á historia",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reaccionou á historia",
@@ -6274,6 +6320,14 @@
     "message": "Engade unha ligazón para os que ven a túa historia",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Erro ao enviar a historia",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Non se puido enviar a historia a todos os destinatarios",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Engadir texto",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Estas cifras manteñen o teu nome de usuario privado para que non recibas mensaxes non desexadas. Comparte o teu usuario só coas persoas e grupos cos que queiras conversar. Se cambias o teu nome de usuario, terás unha nova serie de cifras.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop deixará de funcionar na túa versión do ordenador de {OS}. Para seguir empregando Signal, actualiza o sistema operativo do teu ordenador antes do {expirationDate}. <learnMoreLink>Máis información</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Agora é máis doado premer no exterior dunha imaxe para ignorar a vista de galería sen facer zoom. Ás veces só querías pechar algo e, polo contrario, só conseguías agrandalo. Grazas a {jojomatik} pola corrección!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Mellora o teu tempo de resposta. Agora podes reaccionar máis rápido ao seleccionar calquera emoticona ao responder a unha historia.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Xa podes buscar no teu historial de mensaxes caracteres individuais en chinés e xaponés.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Axúdanos a probar a fiabilidade e o rendemento das melloras que fixemos nas chamadas de voz e vídeo. Esta versión beta tamén inclúe algunhas correccións de pequenos erros e algunhas actualizacións menores da IU (busca a nova mellora de visualización de ligazón!). Grazas por probar esta versión beta. Non dubides en contactar connosco no foro da comunidade se detectas algún erro.",
+    "description": "Release notes for v6.6"
   }
 }

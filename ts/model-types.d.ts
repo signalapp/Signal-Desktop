@@ -327,6 +327,7 @@ export type ConversationAttributesType = {
   name?: string;
   systemGivenName?: string;
   systemFamilyName?: string;
+  systemNickname?: string;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileSharing?: boolean;
@@ -353,6 +354,7 @@ export type ConversationAttributesType = {
   username?: string;
   shareMyPhoneNumber?: boolean;
   previousIdentityKey?: string;
+  reportingToken?: string;
 
   // Group-only
   groupId?: string;
@@ -420,6 +422,8 @@ export type ConversationRenderInfoType = Pick<
   | 'profileFamilyName'
   | 'profileName'
   | 'systemGivenName'
+  | 'systemFamilyName'
+  | 'systemNickname'
   | 'type'
   | 'username'
 >;

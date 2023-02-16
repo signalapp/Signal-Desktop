@@ -8,6 +8,7 @@ import type {
   IPCRequest as ChallengeRequestType,
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
+import type { ReceiptType } from '../types/Receipt';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -21,6 +22,11 @@ export type MessageSendInfoType = Readonly<{
 
 export type ConversationOpenInfoType = Readonly<{
   delta: number;
+}>;
+
+export type ReceiptsInfoType = Readonly<{
+  type: ReceiptType;
+  timestamps: Array<number>;
 }>;
 
 export type StorageServiceInfoType = Readonly<{
@@ -68,6 +74,10 @@ export class App {
 
   public async waitForChallenge(): Promise<ChallengeRequestType> {
     return this.waitForEvent('challenge');
+  }
+
+  public async waitForReceipts(): Promise<ReceiptsInfoType> {
+    return this.waitForEvent('receipts');
   }
 
   public async waitForStorageService(): Promise<StorageServiceInfoType> {

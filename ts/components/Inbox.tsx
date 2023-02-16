@@ -189,6 +189,7 @@ export function Inbox({
               ? i18n('loadingMessages', [String(loadingMessageCount)])
               : i18n('loading')}
           </div>
+          <div id="toast" />
         </div>
       </div>
     );

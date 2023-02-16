@@ -23,6 +23,7 @@ import * as log from '../../logging/log';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { SendStatus } from '../../messages/MessageSendState';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { assertDev, strictAssert } from '../../util/assert';
@@ -55,11 +56,15 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
-import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { getOwn } from '../../util/getOwn';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../../jobs/conversationJobQueue';
+import { ReceiptType } from '../../types/Receipt';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -399,8 +404,11 @@ function markStoryRead(
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
     });
 
+    const conversationId = message.get('conversationId');
+
     const viewedReceipt = {
       messageId,
+      conversationId,
       senderE164: message.attributes.source,
       senderUuid: message.attributes.sourceUuid,
       timestamp: message.attributes.sent_at,
@@ -413,7 +421,14 @@ function markStoryRead(
     }
 
     if (window.Events.getStoryViewReceiptsEnabled()) {
-      drop(viewedReceiptsJobQueue.add({ viewedReceipt }));
+      drop(
+        conversationJobQueue.add({
+          type: conversationQueueJobEnum.enum.Receipts,
+          conversationId,
+          receiptsType: ReceiptType.Viewed,
+          receipts: [viewedReceipt],
+        })
+      );
     }
 
     await dataInterface.addNewStoryRead({
@@ -973,6 +988,10 @@ const viewStory: ViewStoryActionCreatorType = (
 
     // Go directly to the storyId selected
     if (!viewDirection) {
+      const hasFailedSend = Object.values(
+        story.sendStateByConversationId || {}
+      ).some(({ status }) => status === SendStatus.Failed);
+
       dispatch({
         type: VIEW_STORY,
         payload: {
@@ -981,7 +1000,7 @@ const viewStory: ViewStoryActionCreatorType = (
           numStories,
           storyViewMode,
           unviewedStoryConversationIdsSorted,
-          viewTarget,
+          viewTarget: hasFailedSend ? undefined : viewTarget,
         },
       });
       return;

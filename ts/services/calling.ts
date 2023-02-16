@@ -7,7 +7,6 @@ import type {
   AudioDevice,
   CallId,
   CallMessageUrgency,
-  CallSettings,
   DeviceId,
   PeekInfo,
   UserId,
@@ -323,10 +322,12 @@ export class CallingClass {
     RingRTC.setConfig({
       use_new_audio_device_module:
         this.currentAudioDeviceModule === AudioDeviceModule.WindowsAdm2,
+      field_trials: undefined,
     });
 
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
+    RingRTC.handleStartCall = this.handleStartCall.bind(this);
     RingRTC.handleAutoEndedIncomingCallRequest =
       this.handleAutoEndedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
@@ -541,8 +542,6 @@ export class CallingClass {
 
     log.info('CallingClass.startOutgoingDirectCall(): Getting call settings');
 
-    const callSettings = await this.getCallSettings(conversation);
-
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
       log.info('Call already in progress, new call not allowed.');
@@ -552,13 +551,10 @@ export class CallingClass {
 
     log.info('CallingClass.startOutgoingDirectCall(): Starting in RingRTC');
 
-    // We could make this faster by getting the call object
-    // from the RingRTC before we lookup the ICE servers.
     const call = RingRTC.startOutgoingCall(
       remoteUserId,
       hasLocalVideo,
-      this.localDeviceId,
-      callSettings
+      this.localDeviceId
     );
 
     RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
@@ -1831,25 +1827,25 @@ export class CallingClass {
   }
 
   // If we return null here, we hang up the call.
-  private async handleIncomingCall(call: Call): Promise<CallSettings | null> {
+  private async handleIncomingCall(call: Call): Promise<boolean> {
     log.info('CallingClass.handleIncomingCall()');
 
     if (!this.reduxInterface || !this.localDeviceId) {
       log.error('Missing required objects, ignoring incoming call.');
-      return null;
+      return false;
     }
 
     const conversation = window.ConversationController.get(call.remoteUserId);
     if (!conversation) {
       log.error('Missing conversation, ignoring incoming call.');
-      return null;
+      return false;
     }
 
     if (conversation.isBlocked()) {
       log.warn(
         `handleIncomingCall(): ${conversation.idForLogging()} is blocked`
       );
-      return null;
+      return false;
     }
 
     const callId = Long.fromValue(call.callId).toString();
@@ -1871,7 +1867,7 @@ export class CallingClass {
           Date.now(),
           callId
         );
-        return null;
+        return false;
       }
 
       this.attachToCall(conversation, call);
@@ -1881,9 +1877,7 @@ export class CallingClass {
         isVideoCall: call.isVideoCall,
       });
 
-      log.info('CallingClass.handleIncomingCall(): Proceeding');
-
-      return await this.getCallSettings(conversation);
+      return true;
     } catch (err) {
       log.error(`Ignoring incoming call: ${Errors.toLogFormat(err)}`);
       await this.addCallHistoryForFailedIncomingCall(
@@ -1892,7 +1886,7 @@ export class CallingClass {
         Date.now(),
         callId
       );
-      return null;
+      return false;
     }
   }
 
@@ -2084,21 +2078,26 @@ export class CallingClass {
     return null;
   }
 
-  private async getCallSettings(
-    conversation: ConversationModel
-  ): Promise<CallSettings> {
+  private async handleStartCall(call: Call): Promise<boolean> {
     if (!window.textsecure.messaging) {
-      throw new Error('getCallSettings: offline!');
+      log.error('handleStartCall: offline!');
+      return false;
     }
 
     const iceServer = await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
+    const conversation = window.ConversationController.get(call.remoteUserId);
+    if (!conversation) {
+      log.error('Missing conversation, ignoring incoming call.');
+      return false;
+    }
+
     // If the peer is 'unknown', i.e. not in the contact list, force IP hiding.
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
-    return {
+    const callSettings = {
       iceServer: {
         ...iceServer,
         urls: iceServer.urls.slice(),
@@ -2108,6 +2107,11 @@ export class CallingClass {
       // TODO: DESKTOP-3101
       // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
     };
+
+    log.info('CallingClass.handleStartCall(): Proceeding');
+    RingRTC.proceed(call.callId, callSettings);
+
+    return true;
   }
 
   private async addCallHistoryForEndedCall(

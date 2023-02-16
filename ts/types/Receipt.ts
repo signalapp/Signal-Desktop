@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 export const receiptSchema = z.object({
   messageId: z.string(),
+  conversationId: z.string(),
   senderE164: z.string().optional(),
   senderUuid: z.string().optional(),
   timestamp: z.number(),

@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "ਸਾਰਾ ਡੇਟਾ ਹਟਾਓ ਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
+    "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ ਅਤੇ ਮੁੜ-ਚਾਲੂ ਕਰੋ",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ਹਟਾਓ",
+    "message": "ਮਿਟਾਓ",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ"
+    "message": "ਪ੍ਰਮਾਣਿਤ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ"
+    "message": "ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਓ",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "ਤਸਦੀਕਸ਼ੁਦਾ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਗਾਓ",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "ਤਸਦੀਕ ਨੂੰ ਹਟਾਓ",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕੀਤਾ ਹੈ।",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "ਅਸਲ ਸੁਨੇਹਾ ਹੁਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "ਅਸਲ ਸੁਨੇਹਾ ਲੱਭਿਆ, ਪਰ ਲੋਡ ਨਹੀਂ ਹੋਇਆ। ਇਸਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਉੱਪਰ ਨੂੰ ਸਰਕਾਓ।",
@@ -1067,7 +1077,7 @@
     "message": "ਸੁਨੇਹਾ ਵੇਰਵਾ"
   },
   "delete": {
-    "message": "ਹਟਾਓ"
+    "message": "ਮਿਟਾਓ"
   },
   "accept": {
     "message": "ਮਨਜ਼ੂਰ ਕਰੋ"
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "ਇਹ ਸੁਨੇਹਾ ਇਸ ਡਿਵਾਈਸ ਤੋਂ ਮਿਟਾਇਆ ਜਾਵੇਗਾ।",
+    "message": "ਇਹ ਸੁਨੇਹਾ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਸਾਰੇ ਵਿਅਕਤੀਆਂ ਲਈ ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਜਾਵੇਗਾ ਜੇ ਉਹ Signal ਦੇ ਤਾਜ਼ਾ ਸੰਸਕਰਣ ’ਤੇ ਹਨ। ਉਹ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਸੀ।",
+    "message": "ਜੇ ਗੱਲਬਾਤ ਵਿੱਚ ਸ਼ਾਮਲ ਵਿਅਕਤੀ Signal ਦਾ ਸਭ ਤੋਂ ਨਵਾਂ ਵਰਜ਼ਨ ਵਰਤ ਰਹੇ ਹਨ ਤਾਂ ਇਹ ਸੁਨੇਹਾ ਉਸ ਗੱਲਬਾਤ ਵਿੱਚੋਂ ਸਾਰਿਆਂ ਲਈ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਉਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਸੁਨੇਹਾ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "ਪ੍ਰਤੀ",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} ਵੱਲੋਂ {receiverGroup} ਵਿੱਚ",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} ਵੱਲੋਂ ਤੁਹਾਨੂੰ",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ {receiverGroup} ਵਿੱਚ",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ {receiverContact} ਨੂੰ",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "ਨੂੰ",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ਭੇਜਿਆ ਗਿਆ",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਵੇਖੋ"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "ਹਾਲੀਆ ਮੀਡੀਆ ਨੂੰ ਵੇਖੋ",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "ਦੁਬਾਰਾ ਸਾਰਿਆਂ ਲਈ ਹਟਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "message": "ਦੁਬਾਰਾ ਸਾਰਿਆਂ ਲਈ ਮਿਟਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1181,7 +1211,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "ਕੀ ਇਹ ਗੱਲਬਾਤ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਮਿਟਾਉਣੀ ਹੈ?",
+    "message": "ਕੀ ਇਸ ਗੱਲਬਾਤ ਨੂੰ ਸਥਾਈ ਤੌਰ ’ਤੇ ਮਿਟਾਉਣਾ ਹੈ?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1692,11 +1722,11 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਉਣਾ ਹੈ?",
+    "message": "ਕੀ ਸਾਰਾ ਡਾਟਾ ਮਿਟਾਉਣਾ ਹੈ?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "ਤੁਸੀਂ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਸਾਰੀ ਸੰਭਾਲੀ ਹੋਈ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਮਿਟਾਉਣ ਜਾ ਰਹੇ ਹੋ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਸੰਪਰਕ ਅਤੇ ਸਾਰੇ ਸੁਨੇਹੇ ਸ਼ਾਮਲ ਹਨ। ਤੁਸੀਂ ਹਮੇਸ਼ਾ ਆਪਣੀ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਨਾਲ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਇਸ ਨਾਲ ਮਿਟਾਏ ਗਏ ਸੁਨੇਹੇ ਮੁੜ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋਣਗੇ।",
+    "message": "ਤੁਸੀਂ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਸਾਰੀ ਸੇਵ ਕੀਤੀ ਖਾਤਾ ਦੀ ਜਾਣਕਾਰੀ ਨੂੰ ਮਿਟਾਉਣ ਲੱਗੇ ਹੋ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਸੰਪਰਕ ਅਤੇ ਸਾਰੇ ਸੁਨੇਹੇ ਸ਼ਾਮਲ ਹਨ। ਤੁਸੀਂ ਹਮੇਸ਼ਾ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਨਾਲ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਅਜਿਹਾ ਕਰਨ 'ਤੇ ਮਿਟਾਏ ਗਏ ਸੁਨੇਹੇ ਰੀਸਟੋਰ ਨਹੀਂ ਹੋਣਗੇ।",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪੁਰਾਣੀ ਸਥਾਪਨਾ ਤੋਂ ਪੁਰਾਣਾ ਡੇਟਾ ਹੈ। ਜੇ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣ ਦੀ ਚੋਣ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਸੀਂ ਮੁੜ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋਗੇ।",
+    "message": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪਿਛਲੀ ਇੰਸਟਾਲੇਸ਼ਨ ਦਾ ਪੁਰਾਣਾ ਡਾਟਾ ਮੌਜੂਦ ਹੈ। ਜੇ ਤੁਸੀਂ ਅੱਗੇ ਜਾਰੀ ਰੱਖਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਹਾਨੂੰ ਮੁੱਢ ਤੋਂ ਸ਼ੁਰੂ ਕਰਨਾ ਪਵੇਗਾ।",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "ਪੁਰਾਣਾ ਡੇਟਾ ਮਿਟਾਓ",
+    "message": "ਪੁਰਾਣਾ ਡਾਟਾ ਮਿਟਾਓ",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "ਹਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ",
+    "message": "ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "ਅੰਸ਼ਕ ਤੌਰ 'ਤੇ ਹਟਾਇਆ ਗਿਆ, ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+    "message": "ਅੰਸ਼ਕ ਤੌਰ 'ਤੇ ਮਿਟਾਇਆ ਗਿਆ, ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਪ੍ਰਮਾਣਿਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਜਦੋਂ ਤੱਕ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਸੁਨੇਹਿਆਂ ਦਾ ਆਦਾਨ-ਪ੍ਰਦਾਨ ਨਹੀਂ ਹੋ ਜਾਂਦਾ।",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "ਆਖਰੀ ਸੁਨੇਹਾ ਸ਼ਾਇਦ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+    "message": "ਆਖਰੀ ਸੁਨੇਹਾ ਸ਼ਾਇਦ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ ਸੀ।",
+    "message": "ਇਹ ਸੁਨੇਹਾ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "ਡ੍ਰਾਫ਼ਟ ਲਿੰਕ ਝਲਕ ਨੂੰ ਹਟਾਓ",
+    "message": "ਡ੍ਰਾਫਟ ਲਿੰਕ ਦੀ ਝਲਕ ਨੂੰ ਹਟਾਓ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "ਸਾਰੀਆਂ ਡ੍ਰਾਫ਼ਟ ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਹਟਾਓ",
+    "message": "ਸਾਰੀਆਂ ਡ੍ਰਾਫਟ ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਹਟਾਓ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "ਨੱਥੀ ਨੂੰ ਹਟਾਓ",
+    "message": "ਅਟੈਚਮੈਂਟ ਹਟਾਓ",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "ਕਿਸੇ ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਤਿਆਰ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਇਸ ਨੂੰ ਹੋਰ ਸੰਪਾਦਤ ਨਹੀਂ ਕਰ ਸਕੋਗੇ ਜਾਂ ਮਿਟਾ ਨਹੀਂ ਸਕੋਗੇ।",
+    "message": "ਸਟਿੱਕਰ ਪੈਕ ਬਣਾਉਣ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਇਸ ਨੂੰ ਸੋਧ ਜਾਂ ਮਿਟਾ ਨਹੀਂ ਸਕੋਗੇ।",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3191,15 +3229,15 @@
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "ਗੱਲਬਾਤ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
+    "message": "ਕੀ ਗੱਲਬਾਤ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "ਇਹ ਗੱਲਬਾਤ ਤੁਹਾਡੀਆਂ ਸਾਰੀਆਂ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
+    "message": "ਇਹ ਗੱਲਬਾਤ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "$group$ ਨੂੰ ਮਿਟਾਉਣਾ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
+    "message": "ਕੀ $group$ ਨੂੰ ਮਿਟਾਉਣਾ ਅਤੇ ਛੱਡਣਾ ਹੈ?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਨੂੰ ਛੱਡ ਦਿਓਗੇ, ਅਤੇ ਇਹ ਤੁਹਾਡੀਆਂ ਸਾਰੀਆਂ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
+    "message": "ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਨੂੰ ਛੱਡ ਦਿਓਗੇ, ਅਤੇ ਇਸ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਕੱਢ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
+    "message": "ਤੁਹਾਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,15 +4201,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੇ ਵੇਰਵੇ ਨੂੰ ਹਟਾਇਆ।",
+    "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਇਆ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦੇ ਵੇਰਵੇ ਨੂੰ ਹਟਾਇਆ।",
+    "message": "$memberName$ ਨੇ ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਇਆ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "ਗਰੁੱਪ ਦੇ ਵੇਰਵੇ ਨੂੰ ਹਟਾਇਆ ਗਿਆ ਸੀ।",
+    "message": "ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਨੂੰ ਹਟਾਇਆ ਗਿਆ ਸੀ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਯੋਗ ਨਹੀਂ ਹਨ, ਅਤੇ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਤੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ:",
+    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਯੋਗ ਨਹੀਂ ਹਨ, ਅਤੇ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਯੋਗ ਨਹੀਂ ਹੈ, ਅਤੇ ਇਸ ਨੂੰ ਗਰੁੱਪ ਤੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ:",
+    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਯੋਗ ਨਹੀਂ ਹੈ, ਅਤੇ ਇਸ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਯੋਗ ਨਹੀਂ ਸਨ, ਅਤੇ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਤੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ:",
+    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਯੋਗ ਨਹੀਂ ਸਨ, ਅਤੇ ਇਹਨਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੇ ਯੋਗ ਨਹੀਂ ਸੀ, ਅਤੇ ਇਸ ਨੂੰ ਗਰੁੱਪ ਤੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ:",
+    "message": "ਇਹ ਮੈਂਬਰ ਨਵੇਂ ਗਰੁੱਪਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਯੋਗ ਨਹੀਂ ਸੀ, ਅਤੇ ਇਸ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਕੱਢਿਆ ਗਿਆ ਸੀ।",
+    "message": "$contact$ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਕੱਢਿਆ ਗਿਆ ਸੀ।",
+    "message": "$count$ ਮੈਂਬਰਾਂ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ।",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "ਐਡਮਿਨ ਵਜੋਂ ਹਟਾਓ",
+    "message": "ਐਡਮਿਨ ਦੇ ਅਹੁਦੇ ਤੋਂ ਹਟਾਓ",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "ਕੀ $contact$ ਨੂੰ ਗਰੁੱਪ ਐਡਮਿਨ ਵਜੋਂ ਹਟਾਉਣਾ ਹੈ?",
+    "message": "ਕੀ $contact$ ਨੂੰ ਗਰੁੱਪ ਐਡਮਿਨ ਦੇ ਅਹੁਦੇ ਤੋਂ ਹਟਾਉਣਾ ਹੈ?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4687,7 +4725,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "ਫ਼ੋਟੋ ਨੂੰ ਹਟਾਓ",
+    "message": "ਫ਼ੋਟੋ ਹਟਾਓ",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -4887,7 +4925,7 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "$name$ ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਹੈ?",
+    "message": "ਕੀ \"$name$\" ਨੂੰ ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਹੈ?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "ਹਰੇਕ ਦੇ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਉਣਾ ਅਸਫ਼ਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "message": "ਹਰੇਕ ਦੇ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "$num$ ਚੈਟਾਂ ਵਿੱਚ ਇਸ ਪਸੰਦੀਦਾ ਰੰਗ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਕੀ ਤੁਸੀਂ ਸਾਰੀਆਂ ਚੈਟਾਂ ਲਈ ਇਸ ਨੂੰ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    "message": "ਇਸ ਕਸਟਮ ਰੰਗ ਦੀ ਵਰਤੋਂ $num$ ਚੈਟਾਂ ਵਿੱਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ। ਕੀ ਤੁਸੀਂ ਸਾਰੀਆਂ ਚੈਟਾਂ ਲਈ ਇਸ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5186,8 +5224,12 @@
     "message": "ਤੁਹਾਡਾ ਵਰਤੋਂਕਾਰ ਨਾਮ ਸੇਵ ਨਹੀਂ ਕਰ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
-    "message": "ਤੁਹਾਡਾ ਵਰਤੋਂਕਾਰ ਨਾਮ ਹਟਾ ਨਹੀਂ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "message": "ਤੁਹਾਡਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਹਟਾ ਨਹੀਂ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,15 +5245,15 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "ਵਰਤੋਂਕਾਰ ਨਾਮ ਹਟਾਓ",
+    "message": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਹਟਾਓ",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਤੁਹਾਡਾ ਵਰਤੋਂਕਾਰ ਨਾਮ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਦੂਜੇ ਵਰਤੋਂਕਾਰ ਉਸ ਨਾਮ ਨੂੰ ਕਲੇਮ ਕਰ ਸਕਣਗੇ। ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    "message": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਤੁਹਾਡਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਦੂਜੇ ਵਰਤੋਂਕਾਰ ਉਸ ਨਾਂ ਨੂੰ ਕਲੇਮ ਕਰ ਸਕਣਗੇ। ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "ਹਟਾਓ",
+    "message": "ਮਿਟਾਓ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
@@ -5643,7 +5685,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ਕੀ ਇਸ ਸਟੋਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਇਹ ਸਟੋਰੀ ਜਿਹਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਹੋਈ ਹੈ, ਉਹਨਾਂ ਸਭ ਲਈ ਵੀ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
+    "message": "ਕੀ ਇਸ ਸਟੋਰੀ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ? ਇਹ ਸਟੋਰੀ ਜਿਹਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਹੋਈ ਹੈ, ਉਹਨਾਂ ਸਭ ਲਈ ਵੀ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -6019,7 +6061,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "ਕੀ ਸਟੋਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਅਜਿਹਾ ਕਰਨ 'ਤੇ ਸੂਚੀ ਵਿੱਚੋਂ ਸਟੋਰੀ ਨੂੰ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ, ਪਰ ਤੁਸੀਂ ਅਜੇ ਵੀ ਇਸ ਗਰੁੱਪ ਦੀਆਂ ਸਟੋਰੀਆਂ ਦੇਖ ਸਕੋਗੇ।",
+    "message": "ਕੀ ਸਟੋਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਅਜਿਹਾ ਕਰਨ 'ਤੇ ਤੁਹਾਡੀ ਸੂਚੀ ਵਿੱਚੋਂ ਸਟੋਰੀ ਨੂੰ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ, ਪਰ ਤੁਸੀਂ ਅਜੇ ਵੀ ਇਸ ਗਰੁੱਪ ਦੀਆਂ ਸਟੋਰੀਆਂ ਦੇਖ ਸਕੋਗੇ।",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6106,10 @@
   },
   "StoryViewer__reply": {
     "message": "ਜਵਾਬ ਦਿਓ",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} ਨੂੰ ਜਵਾਬ ਦਿਓ",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
@@ -6147,11 +6193,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "ਮੇਰੇ ਲਈ ਹਟਾਓ",
+    "messageformat": "ਮੇਰੇ ਲਈ ਮਿਟਾਓ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "ਹਰੇਕ ਲਈ ਹਟਾਓ",
+    "messageformat": "ਹਰੇਕ ਲਈ ਮਿਟਾਓ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6175,7 +6221,7 @@
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "ਹਟਾਓ",
+    "message": "ਮਿਟਾਓ",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6274,6 +6320,14 @@
     "message": "ਆਪਣੀ ਸਟੋਰੀ ਦੇ ਦਰਸ਼ਕਾਂ ਲਈ ਇੱਕ ਲਿੰਕ ਸ਼ਾਮਲ ਕਰੋ",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "ਸਟੋਰੀ ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ ਰਹੇ",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "ਸਟੋਰੀ ਸਾਰੇ ਪ੍ਰਾਪਤਕਰਤਾਵਾਂ ਨੂੰ ਨਹੀਂ ਭੇਜ ਸਕੇ",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "ਲਿਖਤ ਜੋੜੋ",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "ਇਹ ਅੰਕ ਤੁਹਾਡੇ ਵਰਤੋਂਕਾਰ ਨਾਂ ਨੂੰ ਪ੍ਰਾਈਵੇਟ ਰੱਖਣ ਵਿੱਚ ਮਦਦ ਕਰਦੇ ਹਨ ਤਾਂ ਜੋ ਤੁਸੀਂ ਅਣਚਾਹੇ ਸੁਨੇਹਿਆਂ ਤੋਂ ਬਚ ਸਕੋ। ਆਪਣਾ ਵਰਤੋਂਕਾਰ ਨਾਂ ਸਿਰਫ਼ ਉਹਨਾਂ ਲੋਕਾਂ ਅਤੇ ਗਰੁੱਪਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ ਜਿਹਨਾਂ ਨਾਲ ਤੁਸੀਂ ਚੈਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ। ਜੇਕਰ ਤੁਸੀਂ ਵਰਤੋਂਕਾਰ ਨਾਂ ਬਦਲਦੇ ਹੋ ਤਾਂ ਅੰਕਾਂ ਨੂੰ ਵੀ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop ਜਲਦੀ ਹੀ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੇ {OS} ਵਰਜਨ ਵਿੱਚ ਕੰਮ ਕਰਨਾ ਬੰਦ ਕਰ ਦੇਵੇਗਾ। Signal ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਰਹਿਣ ਲਈ, {expirationDate} ਤੱਕ ਆਪਣੇ ਕੰਪਿਊਟਰ ਦੇ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "ਹੁਣ ਜ਼ੂਮ ਇਨ ਕੀਤੇ ਬਿਨਾਂ ਗੈਲਰੀ ਵਿਊ ਵਿੱਚੋਂ ਆਸਾਨੀ ਨਾਲ ਬਾਹਰ ਜਾਣ ਲਈ ਤੁਸੀਂ ਤਸਵੀਰ ਦੇ ਬਾਹਰ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੈ। ਕਈ ਵਾਰ ਤੁਸੀਂ ਬਸ ਤਸਵੀਰ ਨੂੰ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਪਰ ਗਲਤੀ ਨਾਲ ਜ਼ੂਮ ਹੋ ਜਾਂਦਾ ਹੈ। ਇਸ ਸਮੱਸਿਆ ਨੂੰ ਠੀਕ ਕਰਨ ਲਈ {jojomatik} ਦਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "ਫਟਾ-ਫਟ ਜਵਾਬ ਦਿਓ। ਹੁਣ ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਦਾ ਜਵਾਬ ਦੇਣ ਵੇਲੇ ਕਿਸੇ ਵੀ ਇਮੋਜੀ 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਤੇਜ਼ੀ ਨਾਲ ਰਿਐਕਸ਼ਨ ਦੇ ਸਕਦੇ ਹੋ।",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "ਹੁਣ ਚੀਨੀ ਅਤੇ ਜਾਪਾਨੀ ਭਾਸ਼ਾ ਦੇ ਇੱਕ-ਇੱਕ ਅੱਖਰ ਨਾਲ ਵੀ ਤੁਹਾਡੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਖੋਜਣਾ ਸੰਭਵ ਹੋ ਗਿਆ ਹੈ।",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਕਈ ਭਰੋਸੇਯੋਗ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਸੁਧਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ। ਇਸ ਬੀਟਾ ਰੀਲੀਜ਼ ਵਿੱਚ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ UI ਵਿੱਚ ਛੋਟੇ-ਮੋਟੇ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ ਹਨ (ਨਵੇਂ ਲਿੰਕ ਦੀ ਝਲਕ ਵਾਲੇ ਸੁਧਾਰਾਂ ਲਈ ਦੇਖੋ!) ਬੀਟਾ ਟੈਸਟਰ ਬਣਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ, ਅਤੇ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਖ਼ਰਾਬੀ ਲੱਭਦੀ ਹੈ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਕਮਿਊਨਿਟੀ ਫੋਰਮ 'ਤੇ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
+    "description": "Release notes for v6.6"
   }
 }

@@ -5,7 +5,6 @@ import { omit } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import { hasErrors } from '../state/selectors/message';
-import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
 import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
@@ -16,6 +15,11 @@ import { getConversationIdForLogging } from './idForLogging';
 import { drop } from './drop';
 import { isConversationAccepted } from './isConversationAccepted';
 import { ReadStatus } from '../messages/MessageReadStatus';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue';
+import { ReceiptType } from '../types/Receipt';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -88,6 +92,7 @@ export async function markConversationRead(
 
     return {
       messageId: messageSyncData.id,
+      conversationId: conversationAttrs.id,
       originalReadStatus: messageSyncData.originalReadStatus,
       senderE164: messageSyncData.source,
       senderUuid: messageSyncData.sourceUuid,
@@ -138,10 +143,12 @@ export async function markConversationRead(
     }
 
     if (isConversationAccepted(conversationAttrs)) {
-      await readReceiptsJobQueue.addIfAllowedByUser(
-        window.storage,
-        allReadMessagesSync
-      );
+      await conversationJobQueue.add({
+        type: conversationQueueJobEnum.enum.Receipts,
+        conversationId,
+        receiptsType: ReceiptType.Read,
+        receipts: allReadMessagesSync,
+      });
     }
   }
 

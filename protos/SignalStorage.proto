@@ -95,6 +95,7 @@ message ContactRecord {
   optional uint64 unregisteredAtTimestamp = 16;
   optional string systemGivenName = 17;
   optional string systemFamilyName = 18;
+  optional string systemNickname = 19;
 }
 
 message GroupV1Record {
@@ -173,6 +174,10 @@ message AccountRecord {
   reserved 28; // deprecatedStoriesDisabled
   optional bool storiesDisabled = 29;
   optional OptionalBool storyViewReceiptsEnabled = 30;
+  reserved 31; // hasReadOnboardingStory
+  reserved 32; // hasSeenGroupStoryEducationSheet
+  optional string username = 33;
+  optional bool hasCompletedUsernameOnboarding = 34;
 }
 
 message StoryDistributionListRecord {

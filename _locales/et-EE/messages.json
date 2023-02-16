@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Märgi kinnitatuks"
+    "message": "Märgi kinnitatuks",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Märgi mittekinnitatuks"
+    "message": "Märgi mittekinnitatuks",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Märgi kinnitatuks",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Tühista kontrollimine",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Sa oled kinnitanud enda turvanumbri kasutajaga $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Tere tulemast Signalisse"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Algne sõnum ei ole enam saadaval",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
@@ -1109,9 +1119,25 @@
     "message": "Saaja",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "Kasutajalt {sender} grupile {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "Kasutajalt {sender} sinule",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Sinult kasutajale {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Sinult kasutajale {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "saajale",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Saadetud",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Näita turvanumbrit"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Näita turvanumbrit",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Näita hiljutist meediat",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Kinnita turvanumber",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Näita turvanumbrit",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Näita turvanumbrit",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Seda kasutajat pole võimalik kinnitada kuni sa pole temaga sõnumeid vahetanud.",
@@ -5186,6 +5224,10 @@
     "message": "Sinu kasutajanime salvestamine ei õnnestunud. Kontrolli internetiühendust ja proovi uuesti.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Sinu kasutajanime eemaldamine ei õnnestunud. Kontrolli internetiühendust ja proovi uuesti.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6066,6 +6108,10 @@
     "message": "Vasta",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Vasta kasutajale {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Vasta grupile",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reageeri loole",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reageeris loole",
@@ -6274,6 +6320,14 @@
     "message": "Lisa oma loo vaatajatele link",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Loo saatmine nurjus",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Lugu ei saanud kõigile valitud saajatele saata",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Lisa tekst",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "See numbrikombinatsioon aitab sinu kasutajanime privaatsena hoida, et saaksid soovimatuid sõnumeid vältida. Jaga oma kasutajanime ainult nende inimeste ja gruppidega, kellega soovid suhelda. Kui kasutajanime muudad, saadetakse sulle uus numbrikombinatsioon.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signali veebiversioon lõpetab varsti sinu arvuti {OS} versiooni toetamise. Kui soovid jätkata Signali kasutamist, uuenda oma arvuti operatsioonisüsteemi hiljemalt {expirationDate}. <learnMoreLink>Rohkem teavet</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Nüüd on lihtsam pildi välisservale toksata ja galeriivaatest väljuda, selle asemel et pilti suurendada. Enne kippus juhtuma, et kui sina püüdsid pilti sulgeda, näitas rakendus seda sulle veel lähemalt. Täname kasutajat {jojomatik}, kes asja korda tegi!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Vasta kiiremini. Nüüd saad kiiremini reageerida. Selleks klõpsa loole vastates ükskõik millisele emojile.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Nüüd saad oma sõnumite ajaloost otsida konkreetseid hiina ja jaapani kirjamärke.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Aita meil testida hääl- ja videokõnede usaldusväärsust ja toimimist. Selles beetaväljalaskes on mõned veaparandused ja mõned väikesed kasutajaliidese uuendused (vt täiustusi uue lingi eelvaatest). Aitäh, et oled meie beetatestija ning palun anna meile kogukonnafoorumis märku, kui mõne vea leiad.",
+    "description": "Release notes for v6.6"
   }
 }

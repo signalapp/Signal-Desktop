@@ -42,12 +42,11 @@ describe('storage service', function needsName() {
     debug('archiving contact');
     {
       const state = await phone.expectStorageState('consistency check');
+      const newState = state
+        .updateContact(firstContact, { archived: true })
+        .unpin(firstContact);
 
-      await phone.setStorageState(
-        state
-          .updateContact(firstContact, { archived: true })
-          .unpin(firstContact)
-      );
+      await phone.setStorageState(newState);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -59,15 +58,20 @@ describe('storage service', function needsName() {
       await leftPane
         .locator('button.module-conversation-list__item--archive-button')
         .waitFor();
+
+      await app.waitForManifestVersion(newState.version);
     }
 
     debug('unarchiving pinned contact');
     {
       const state = await phone.expectStorageState('consistency check');
+      const newState = state
+        .updateContact(firstContact, {
+          archived: false,
+        })
+        .pin(firstContact);
 
-      await phone.setStorageState(
-        state.updateContact(firstContact, { archived: false }).pin(firstContact)
-      );
+      await phone.setStorageState(newState);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -79,6 +83,8 @@ describe('storage service', function needsName() {
       await leftPane
         .locator('button.module-conversation-list__item--archive-button')
         .waitFor({ state: 'hidden' });
+
+      await app.waitForManifestVersion(newState.version);
     }
 
     debug('archive pinned contact in the app');

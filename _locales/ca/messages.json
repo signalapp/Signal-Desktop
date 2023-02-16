@@ -469,11 +469,11 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Segur que vols eliminar 1 contacte de la teva història «{story}»?} other {Segur que vols eliminar {count,number} contactes de la teva història «{story}»?}}",
+    "messageformat": "{count, plural, one {Segur que vols suprimir 1 contacte de la teva història «{story}»?} other {Segur que vols suprimir {count,number} contactes de la teva història «{story}»?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
-    "message": "Eliminar tot",
+    "message": "Suprimir-ho tot",
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
@@ -481,7 +481,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Eliminar de la història",
+    "message": "Suprimir de la història",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marca com a verificat"
+    "message": "Marca com a verificat",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Marca com a no verificat"
+    "message": "Marca com a no verificat",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Marca com a verificat",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Neteja la verificació",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Heu verificat el número de seguretat amb $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Benvingut/da al Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "El missatge original ja no és disponible",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "S'ha trobat el missatge original, però no s'ha carregat. Desplaceu-vos amunt per ca arregar-lo.",
@@ -1109,9 +1119,25 @@
     "message": "A",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} a {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} a vós",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Vós a {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Vós a {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "a",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Enviament",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Mostra el número de seguretat"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Mostra el número de seguretat",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Mostra el contingut recent",
@@ -1181,7 +1211,7 @@
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "Voleu suprimir aquesta conversa de forma permanent?",
+    "message": "Vols suprimir aquesta conversa de forma permanent?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1692,7 +1722,7 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Voleu suprimir totes les dades?",
+    "message": "Vols suprimir totes les dades?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
@@ -1708,7 +1738,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Teniu dades obsoletes d'una instal·lació anterior del Signal Desktop. Si trieu continuar, se suprimiran i començareu de zero.",
+    "message": "Tens dades obsoletes d'una instal·lació anterior del Signal Desktop. Si tries continuar, se suprimiran i començareu de zero.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "Ha fallat la supressió.",
+    "message": "No s'ha pogut suprimir",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Verifiqueu el número de seguretat",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Mostra el número de seguretat",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Mostra el número de seguretat",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "L'usuari no es pot verificar fins que no intercanvieu missatges.",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "L'últim missatge podria haver estat eliminat.",
+    "message": "Pot ser que l'últim missatge hagi estat suprimit.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2963,7 +3001,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Elimina l'adhesiu",
+    "message": "Suprimeix l'adhesiu",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3207,11 +3245,11 @@
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Suprimeix-lo i abandona'l",
+    "message": "Esborrar i sortir",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Abandonareu aquest grup i se suprimirà de tots els dispositius.",
+    "message": "Sortiràs d'aquest grup i s'esborrarà de tots els dispositius.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "No podeu afegir-vos-hi mitjançant l'enllaç de grup perquè un administrador us n'ha suprimit.",
+    "message": "No pots afegir-t'hi mitjançant l'enllaç de grup perquè un administrador t'ha esborrat.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3719,7 +3757,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Heu suprimit l'avatar del grup.",
+    "message": "Has suprimit l'avatar del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3891,7 +3929,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Heu suprimit $memberName$.",
+    "message": "Has suprimit $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Se us ha suprimit del grup.",
+    "message": "T'han esborrat del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,7 +4201,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Heu suprimit la descripció del grup.",
+    "message": "Has suprimit la descripció del grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "Aquests membres no són capaços d'afegir-se als grups nous i se suprimiran del grup:",
+    "message": "Aquests membres no són capaços d'afegir-se als grups nous i han estat esborrats del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Aquest membre no és capaç d'afegir-se als grups nous i se suprimirà del grup:",
+    "message": "Aquest membre no és capaç d'afegir-se als grups nous i serà esborrat del grup.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Aquests membres no eren capaços d'afegir-se als grups nous i s'han suprimit del grup:",
+    "message": "Aquests membres no eren capaços d'afegir-se als grups nous i han estat esborrats del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Aquest membre no era capaços d'afegir-se als grups nous i s'ha suprimit del grup:",
+    "message": "Aquest membre no podia afegir-se als grups nous i ha estat esborrat del grup:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4291,11 +4329,11 @@
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
-    "message": "$contact$ s'ha suprimit del grup.",
+    "message": "$contact$ ha estat esborrat del grup.",
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ membres s'han suprimit del grup.",
+    "message": "S'han esborrat $count$ membres del grup.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "Suprimeix com a administrador",
+    "message": "Esborra com a administrador",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,11 +4413,11 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Voleu suprimir $contact$ com a administrador del grup?",
+    "message": "Vols suprimir a $contact$ com a administrador del grup?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
-    "message": "Suprimeix del grup",
+    "message": "Esborra del grup",
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
@@ -4687,11 +4725,11 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Suprimeix la foto",
+    "message": "Esborrar la foto",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Suprimeix el contacte",
+    "message": "Esborrar el contacte",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4883,15 +4921,15 @@
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
-    "message": "Suprimeix del grup",
+    "message": "Esborrar del grup",
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "Voleu suprimir $name$ del grup?",
+    "message": "Vols esborrar a $name$ del grup?",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Voleu suprimir $name$ del grup? No s'hi podran tornar a afegir mitjançant l'enllaç del grup.",
+    "message": "Vols esborrar a $name$ del grup? No s'hi podran tornar a afegir mitjançant l'enllaç del grup.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Ha fallat suprimir el missatge per a tothom. Proveu-ho més tard.",
+    "message": "No s'ha pogut esborrar el missatge per a tots. Torna-ho a intentar més tard.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -5186,8 +5224,12 @@
     "message": "No s'ha pogut desar el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
-    "message": "No s'ha pogut suprimir el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
+    "message": "No s'ha pogut suprimir el nom d'usuari. Comprova la connexió i torna-ho a provar.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5207,7 +5249,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Això suprimirà el vostre nom d'usuari i permetrà que altres usuaris el reclamin. N'esteu segur?",
+    "message": "Això suprimirà el vostre nom d'usuari i permetrà que altres usuaris el reclamin. Estàs segur?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5455,7 +5497,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Ja no podràs compartir o veure històries. Les històries que hagis compartit recentment també seran eliminades.",
+    "message": "Ja no podràs compartir o veure històries. Les històries que hagis compartit recentment també seran esborrades.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5685,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Voleu suprimir aquesta història? També s'eliminarà per a tothom que l'hagi rebuda.",
+    "message": "Vols suprimir aquesta història? També s'esborrarà per a tothom que l'hagi rebuda.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5835,7 +5877,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Eliminar $title$",
+    "message": "Esborrar $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5855,11 +5897,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Eliminar història personalitzada",
+    "message": "Esborrar història personalitzada",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Segur que vols eliminar a \"$name$\"? També s'eliminaran les actualitzacions compartides en aquesta història.",
+    "message": "Segur que vols esborrar \"$name$\"? També s'esborraran les actualitzacions compartides en aquesta història.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5935,11 +5977,11 @@
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Eliminar història de grup",
+    "messageformat": "Esborrar història de grup",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Segur que vols eliminar \"{groupTitle}\"?",
+    "messageformat": "Segur que vols esborrar \"{groupTitle}\"?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6015,11 +6057,11 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Eliminar història",
+    "message": "Esborrar història",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Eliminar història? Aquesta acció eliminarà la història de la teva llista, però podràs continuar veient les històries d'aquest grup.",
+    "message": "Esborrar història? Aquesta acció esborrarà la història de la teva llista, però podràs continuar veient les històries d'aquest grup.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6106,10 @@
   },
   "StoryViewer__reply": {
     "message": "Respon",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Respondre a {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reacció a la història",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Ha reaccionat a la història",
@@ -6274,6 +6320,14 @@
     "message": "Afegeix un enllaç per a les visualitzacions de la teva història",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "No s'ha pogut enviar la història",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "No s'ha pogut enviar la història a tots els destinataris",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Afegiu-hi text",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Aquests dígits ajudaran a mantenir el teu nom d'usuari en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu nom d'usuari només amb aquelles persones i grups amb les que desitges parlar. Si canvies el teu nom d'usuari, rebràs una nova sèrie de dígits.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal per a Escriptori aviat deixarà de ser compatible amb la versió de {OS} del teu ordinador. Per continuar utilitzant Signal, actualitza el sistema operatiu de l'ordinador abans de {expirationDate}. <learnMoreLink>Més informació</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Ara és més fàcil fer clic fora d'una imatge per sortit de la visualització de la galeria sense fer zoom. De vegades només volies tancar i, en canvi, augmentaves el contingut. Gràcies a {jojomatik} per la correcció!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Accelera el teu temps de resposta. Ara pots reaccionar més ràpidament fent clic a qualsevol emoji quan responguis a una història.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Ara és possible cercar caràcters individuals a l'historial de missatges en xinès i japonès.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Ajuda'ns a provar diverses millores de fiabilitat i rendiment de les trucades de veu i de vídeo. Aquesta versió beta també inclou algunes correccions d'errors i algunes petites actualitzacions de la interfície d'usuari (descobreix les noves millores de previsualització d'enllaços!). Gràcies per ser un provador beta i, si detectes cap error, fes-nos-ho saber a través del fòrum de la comunitat.",
+    "description": "Release notes for v6.6"
   }
 }

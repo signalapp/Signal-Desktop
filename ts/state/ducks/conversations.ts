@@ -103,7 +103,6 @@ import {
   isGroupV2,
 } from '../../util/whatTypeOfConversation';
 import { missingCaseError } from '../../util/missingCaseError';
-import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { isIncoming, isOutgoing } from '../selectors/message';
@@ -134,10 +133,7 @@ import { isNotNil } from '../../util/isNotNil';
 import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
 import { UUIDKind } from '../../types/UUID';
-import {
-  removeLinkPreview,
-  suspendLinkPreviews,
-} from '../../services/LinkPreview';
+import { removeLinkPreview } from '../../services/LinkPreview';
 import type {
   ReplaceAttachmentsActionType,
   SetFocusActionType,
@@ -150,6 +146,7 @@ import {
   setQuoteByMessageId,
   resetComposer,
 } from './composer';
+import { ReceiptType } from '../../types/Receipt';
 
 // State
 
@@ -196,6 +193,7 @@ export type ConversationType = ReadonlyDeep<
     name?: string;
     systemGivenName?: string;
     systemFamilyName?: string;
+    systemNickname?: string;
     familyName?: string;
     firstName?: string;
     profileName?: string;
@@ -1678,17 +1676,24 @@ export const markViewed = (messageId: string): void => {
 
   if (isIncoming(message.attributes)) {
     const convoAttributes = message.getConversation()?.attributes;
+    const conversationId = message.get('conversationId');
     drop(
-      viewedReceiptsJobQueue.add({
-        viewedReceipt: {
-          messageId,
-          senderE164,
-          senderUuid,
-          timestamp,
-          isDirectConversation: convoAttributes
-            ? isDirectConversation(convoAttributes)
-            : true,
-        },
+      conversationJobQueue.add({
+        type: conversationQueueJobEnum.enum.Receipts,
+        conversationId,
+        receiptsType: ReceiptType.Viewed,
+        receipts: [
+          {
+            messageId,
+            conversationId,
+            senderE164,
+            senderUuid,
+            timestamp,
+            isDirectConversation: convoAttributes
+              ? isDirectConversation(convoAttributes)
+              : true,
+          },
+        ],
       })
     );
   }
@@ -2866,7 +2871,7 @@ function blockAndReportSpam(
         await Promise.all([
           conversation.syncMessageRequestResponse(messageRequestEnum.BLOCK),
           addReportSpamJob({
-            conversation: conversation.format(),
+            conversation: conversation.attributes,
             getMessageServerGuidsForSpam:
               window.Signal.Data.getMessageServerGuidsForSpam,
             jobQueue: reportSpamJobQueue,
@@ -3670,7 +3675,6 @@ function onConversationClosed(
     }
 
     removeLinkPreview(conversationId);
-    suspendLinkPreviews();
 
     dispatch({
       type: CONVERSATION_UNLOADED,

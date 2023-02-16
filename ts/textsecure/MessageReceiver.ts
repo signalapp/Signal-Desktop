@@ -121,6 +121,7 @@ import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
+import { chunk } from '../util/iterables';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -411,6 +412,9 @@ export default class MessageReceiver
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
           story: decoded.story,
+          reportingToken: decoded.reportingToken?.length
+            ? decoded.reportingToken
+            : undefined,
         };
 
         // After this point, decoding errors are not the server's
@@ -444,7 +448,9 @@ export default class MessageReceiver
         createTaskWithTimeout(
           async () => this.queueAllCached(),
           'incomingQueue/queueAllCached',
-          TASK_WITH_TIMEOUT_OPTIONS
+          {
+            timeout: 10 * durations.MINUTE,
+          }
         )
       )
     );
@@ -789,12 +795,14 @@ export default class MessageReceiver
       return;
     }
 
-    const items = await this.getAllFromCache();
-    const max = items.length;
-    for (let i = 0; i < max; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.queueCached(items[i]);
+    for await (const batch of this.getAllFromCache()) {
+      const max = batch.length;
+      for (let i = 0; i < max; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.queueCached(batch[i]);
+      }
     }
+    log.info('MessageReceiver.queueAllCached - finished');
   }
 
   private async queueCached(item: UnprocessedType): Promise<void> {
@@ -843,6 +851,9 @@ export default class MessageReceiver
           item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
         urgent: isBoolean(item.urgent) ? item.urgent : true,
         story: Boolean(item.story),
+        reportingToken: item.reportingToken
+          ? Bytes.fromBase64(item.reportingToken)
+          : undefined,
       };
 
       const { decrypted } = item;
@@ -928,23 +939,20 @@ export default class MessageReceiver
     }
   }
 
-  private async getAllFromCache(): Promise<Array<UnprocessedType>> {
+  private async *getAllFromCache(): AsyncIterable<Array<UnprocessedType>> {
     log.info('getAllFromCache');
-    const count = await this.storage.protocol.getUnprocessedCount();
 
-    if (count > 1500) {
-      await this.storage.protocol.removeAllUnprocessed();
-      log.warn(
-        `There were ${count} messages in cache. Deleted all instead of reprocessing`
+    const ids = await this.storage.protocol.getAllUnprocessedIds();
+
+    log.info(`getAllFromCache - ${ids.length} unprocessed`);
+
+    for (const batch of chunk(ids, 1000)) {
+      log.info(`getAllFromCache - yielding batch of ${batch.length}`);
+      yield this.storage.protocol.getUnprocessedByIdsAndIncrementAttempts(
+        batch
       );
-      return [];
     }
-
-    const items =
-      await this.storage.protocol.getAllUnprocessedAndIncrementAttempts();
-    log.info('getAllFromCache loaded', items.length, 'saved envelopes');
-
-    return items;
+    log.info(`getAllFromCache - done retrieving ${ids.length} unprocessed`);
   }
 
   private async decryptAndCacheBatch(
@@ -1111,13 +1119,19 @@ export default class MessageReceiver
       id,
       version: 2,
 
+      // This field is only used for aging items out of the cache. The original
+      //   envelope's timestamp will be used when retrying this item.
+      timestamp: envelope.receivedAtDate,
+
       attempts: 0,
       envelope: Bytes.toBase64(plaintext),
       messageAgeSec: envelope.messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
-      timestamp: envelope.timestamp,
       urgent: envelope.urgent,
       story: envelope.story,
+      reportingToken: envelope.reportingToken
+        ? Bytes.toBase64(envelope.reportingToken)
+        : undefined,
     };
     this.decryptAndCacheBatcher.add({
       request,
@@ -1257,14 +1271,12 @@ export default class MessageReceiver
       return;
     }
 
-    if (envelope.content) {
-      await this.innerHandleContentMessage(envelope, plaintext);
-
-      return;
+    if (!envelope.content) {
+      this.removeFromCache(envelope);
+      throw new Error('Received message with no content');
     }
 
-    this.removeFromCache(envelope);
-    throw new Error('Received message with no content');
+    await this.innerHandleContentMessage(envelope, plaintext);
   }
 
   private async unsealEnvelope(

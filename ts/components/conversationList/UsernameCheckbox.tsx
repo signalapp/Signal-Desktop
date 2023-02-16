@@ -62,7 +62,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
       username,
     ]);
 
-    const title = i18n('at-username', { username });
+    const title = username;
 
     const avatar = (
       <Avatar

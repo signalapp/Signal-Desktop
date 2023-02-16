@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "Smazat všechna data a restartovat",
+    "message": "Odstranit všechna data a restartovat",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "Vymazat",
+    "message": "Odstranit",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Označit jako ověřené"
+    "message": "Označit jako ověřené",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Označit jako neověřené"
+    "message": "Označit jako neověřené",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Označit jako ověřené",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Vymazat ověření",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Ověřili jste bezpečnostní číslo pro komunikaci s $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Vítá vás Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Původní zpráva již není dostupná",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Původní zpráva byla nalezena, ale nebyla načtena. Přejděte nahoru a načtěte ji.",
@@ -1067,7 +1077,7 @@
     "message": "Podrobnosti zprávy"
   },
   "delete": {
-    "message": "Smazat"
+    "message": "Odstranit"
   },
   "accept": {
     "message": "Přijmout"
@@ -1094,7 +1104,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "Tato zpráva bude odstraněna z tohoto zařízení.",
+    "message": "Tato zpráva bude z tohoto zařízení odstraněna.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1109,9 +1119,25 @@
     "message": "Komu",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} skupině {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} vám",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Vy skupině {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Vy uživateli {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "do",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Odeslána",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Zobrazit bezpečnostní číslo"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Zobrazit bezpečnostní číslo",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Zobrazit nedávná média",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "Zkusit znovu smazání pro všechny",
+    "message": "Opakovat Odstranit pro všechny",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1169,11 +1199,11 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "Smazat zprávu u mě",
+    "message": "Smazat zprávu pro mě",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "Smazat zprávu u všech",
+    "message": "Smazat zprávu pro všechny",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "Vymazat všechna data?",
+    "message": "Smazat všechna data?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Chystáte se smazat všechny uložené informace k účtu včetně všech kontaktů a zpráv. Vaše mobilní zařízení můžete kdykoliv spárovat znovu, ale smazané zprávy nebudou obnoveny.",
+    "message": "Chystáte se smazat všechny uložené informace k účtu, včetně všech kontaktů a zpráv. Své mobilní zařízení můžete kdykoliv spárovat znovu, smazané zprávy se však již neobnoví.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "Vymazat všechna data",
+    "message": "Smazat všechna data",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Máte zastaralá data z předchozí instalace Signal Desktop. Pokud se rozhodnete pokračovat, budou tato data smazána a budete muset začít od začátku.",
+    "message": "Máte zastaralá data z předchozí instalace aplikace Signal Desktop. Pokud se rozhodnete pokračovat, budou odstraněna a budete muset začít od začátku.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "Smazat stará data.",
+    "message": "Odstranit stará data",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "Smazání se nezdařilo",
+    "message": "Odstranění se nezdařilo",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Částečně smazáno, klikněte pro opakování",
+    "message": "Částečně odstraněno, kliknutím pokus zopakujete",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Ověřit bezpečností číslo",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Zobrazit bezpečnostní číslo",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Zobrazit bezpečnostní číslo",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Tohoto uživatele nelze ověřit, dokud si s ním nevyměníte zprávy.",
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Poslední zpráva mohla být odstraněna.",
+    "message": "Poslední zpráva byla pravděpodobně odstraněna.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "Tato zpráva byla smazána.",
+    "message": "Tato zpráva byla odstraněna.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "Smazat označenou zprávu",
+    "message": "Odstranit vybranou zprávu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2767,11 +2805,11 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-link-preview": {
-    "message": "Odstranit náhled rozepsané zprávy",
+    "message": "Odebrat náhled odkazu na rozepsanou zprávu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--remove-draft-attachments": {
-    "message": "Odstranit všechny přílohy návrhu",
+    "message": "Odebrat všechny přílohy návrhu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--conversation-by-index": {
@@ -2887,7 +2925,7 @@
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
-    "message": "Odstranit přílohu",
+    "message": "Odebrat přílohu",
     "description": "Used in draft attachment list to remove an individual attachment"
   },
   "backToInbox": {
@@ -2963,7 +3001,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
-    "message": "Odstranit nálepku",
+    "message": "Odebrat nálepku",
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Balíček nálepek nebude možné po odeslání upravit nebo smazat.",
+    "message": "Po vytvoření balíčku již nebude možné nálepky upravovat ani mazat.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3111,7 +3149,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Odebrat reakci",
+    "message": "Odstranit reakci",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -3187,31 +3225,31 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "Smazat",
+    "message": "Odstranit",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "Smazat konverzaci?",
+    "message": "Odstranit konverzaci?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Tato konverzace bude smazána ze všech vašich zařízení.",
+    "message": "Tato konverzace bude odstraněna ze všech vašich zařízení.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Smazat a opustit skupinu $group$?",
+    "message": "Odstranit a opustit $group$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "Smazat",
+    "message": "Odstranit",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "Smazat a odejít",
+    "message": "Odstranit a opustit",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Opustíte tuto skupinu a bude smazána ze všech vašich zařízení.",
+    "message": "Tuto skupinu opustíte a bude odstraněna ze všech vašich zařízení.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "K této skupině se nemůžete připojit přes odkaz na skupinu, protože vás správce odstranil.",
+    "message": "K této skupině se nemůžete připojit přes odkaz na skupinu, protože vás odebral správce.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -4163,15 +4201,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Odstranili jste popis skupiny.",
+    "message": "Odstranili jste popisek skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ odstranil/a popis skupiny.",
+    "message": "$memberName$ odstranil/a popisek skupiny.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": "Popis skupiny byl odstraněn.",
+    "message": "Popisek skupiny byl odstraněn.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "Odebrat $contact$ práva správce?",
+    "message": "Odebrat $contact$ jako správce skupiny?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4691,7 +4729,7 @@
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
-    "message": "Odstranit kontakt",
+    "message": "Odebrat kontakt",
     "description": "The label for the 'remove' button on the contact pill"
   },
   "ComposeErrorDialog--close": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "Odebrat „$name$“ ze skupiny? Nebude se moci znovu připojit přes odkaz skupiny.",
+    "message": "Odebrat „$name$“ ze skupiny? Nebude se moci znovu připojit přes odkaz na skupinu.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Nepodařilo se smazat zprávu pro všechny. Zkuste to prosím znovu později.",
+    "message": "Nepodařilo se odstranit zprávu pro všechny. Zkuste to prosím znovu později.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Tato vlastní barva se používá v $num$ konverzacích. Chcete ji smazat pro všechny konverzace?",
+    "message": "Tato vlastní barva se používá v $num$ konverzacích. Chcete ji odstranit ze všech konverzací?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "Smazat",
+    "message": "Odstranit",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5186,6 +5224,10 @@
     "message": "Vaše uživatelské jméno se nepodařilo uložit. Zkontrolujte připojení a zkuste to znovu.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "Vaše uživatelské jméno se nepodařilo odstranit. Zkontrolujte připojení a zkuste to znovu.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -5207,7 +5249,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Tímto smažete své uživatelské jméno a umožníte ostatním uživatelům, aby si ho přivlastnili. Jste si jisti?",
+    "message": "Tímto odstraníte své uživatelské jméno a umožníte ostatním uživatelům, aby si ho přivlastnili. Jste si tím jisti?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -5455,7 +5497,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Příběhy již nebudete moci sdílet ani zobrazovat. Aktualizace příběhů, které jste nedávno sdíleli, budou také odstraněny.",
+    "message": "Příběhy již nebudete moci sdílet ani zobrazovat. Smazány budou také aktualizace příběhů, které jste nedávno sdíleli.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5685,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Smazat tento příběh? Smaže se také všem, kdo jej obdrželi.",
+    "message": "Smazat tento příběh? Smaže se také pro všechny, kdo jej obdrželi.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5835,7 +5877,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "Odstranit – $title$",
+    "message": "Odstranit $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5859,7 +5901,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Opravdu chcete smazat příběh „$name$“? Aktualizace sdílené k tomuto příběhu budou také smazány.",
+    "message": "Opravdu chcete smazat „$name$“? Smazány budou také aktualizace sdílené k tomuto příběhu.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5939,7 +5981,7 @@
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Opravdu chcete odebrat „{groupTitle}“?",
+    "messageformat": "Opravdu chcete odstranit „{groupTitle}“?",
     "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -6015,11 +6057,11 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Smazat příběh",
+    "message": "Odstranit příběh",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Smazat příběh? Tím příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
+    "message": "Odstranit příběh? Tím příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -6064,6 +6106,10 @@
   },
   "StoryViewer__reply": {
     "message": "Odpovědět",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Odpovědět uživateli {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reagovat na příběh",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagoval/a na příběh",
@@ -6147,11 +6193,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "Smazat u mne",
+    "messageformat": "Odstranit pro mě",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "Smazat u všech",
+    "messageformat": "Odstranit pro všechny",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6274,6 +6320,14 @@
     "message": "Přidejte odkaz pro sledující vašeho příběhu",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Příběh se nepodařilo odeslat",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Příběh se nepodařilo odeslat všem příjemcům",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Přidat text",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop již brzy nebude podporovat verzi {OS} na vašem počítači. Chcete-li službu Signal používat i nadále, aktualizujte operační systém svého počítače do {expirationDate}. <learnMoreLink>Zjistit více</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Kliknutím mimo obrázek lze nyní snadněji zrušit zobrazení galerie bez nutnosti přibližování. Někdy jste chtěli jen zavřít a místo toho se začaly dít věci. Za opravu děkujeme {jojomatik}!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Odpovídejte rychleji. Kliknutím na libovolné emoji můžete nyní na příběh reagovat rychleji.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "V historii zpráv je nyní možné v čínštině a japonštině vyhledávat jednotlivé znaky.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Pomozte nám otestovat několik vylepšení spolehlivosti a funkčnosti hlasových a video hovorů. Tato beta verze obsahuje také několik oprav chyb a drobné aktualizace uživatelského rozhraní (podívejte se na nová vylepšení náhledu odkazů!). Děkujeme, že nám pomáháte testovat beta verzi. Pokud si všimnete jakýchkoli chyb, dejte nám vědět na komunitním fóru.",
+    "description": "Release notes for v6.6"
   }
 }

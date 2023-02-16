@@ -20,6 +20,7 @@ import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone
 import { sendProfileKey } from './helpers/sendProfileKey';
 import { sendReaction } from './helpers/sendReaction';
 import { sendStory } from './helpers/sendStory';
+import { sendReceipts } from './helpers/sendReceipts';
 
 import type { LoggerType } from '../types/Logging';
 import { ConversationVerificationState } from '../state/ducks/conversationsEnums';
@@ -37,6 +38,7 @@ import type { Job } from './Job';
 import type { ParsedJob } from './types';
 import type SendMessage from '../textsecure/SendMessage';
 import type { UUIDStringType } from '../types/UUID';
+import { receiptSchema, ReceiptType } from '../types/Receipt';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -49,6 +51,7 @@ export const conversationQueueJobEnum = z.enum([
   'ProfileKey',
   'Reaction',
   'Story',
+  'Receipts',
 ]);
 
 const deleteForEveryoneJobDataSchema = z.object({
@@ -139,6 +142,14 @@ const storyJobDataSchema = z.object({
 });
 export type StoryJobData = z.infer<typeof storyJobDataSchema>;
 
+const receiptsJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.Receipts),
+  conversationId: z.string(),
+  receiptsType: z.nativeEnum(ReceiptType),
+  receipts: receiptSchema.array(),
+});
+export type ReceiptsJobData = z.infer<typeof receiptsJobDataSchema>;
+
 export const conversationQueueJobDataSchema = z.union([
   deleteForEveryoneJobDataSchema,
   deleteStoryForEveryoneJobDataSchema,
@@ -148,6 +159,7 @@ export const conversationQueueJobDataSchema = z.union([
   profileKeyJobDataSchema,
   reactionJobDataSchema,
   storyJobDataSchema,
+  receiptsJobDataSchema,
 ]);
 export type ConversationQueueJobData = z.infer<
   typeof conversationQueueJobDataSchema
@@ -384,6 +396,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         case jobSet.Story:
           await sendStory(conversation, jobBundle, data);
           break;
+        case jobSet.Receipts:
+          await sendReceipts(conversation, jobBundle, data);
+          break;
         default: {
           // Note: This should never happen, because the zod call in parseData wouldn't
           //   accept data that doesn't look like our type specification.
@@ -436,6 +451,13 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         if (type === jobSet.ProfileKey) {
           log.warn(
             `Cancelling profile share, since there were ${untrustedUuids.length} untrusted send targets.`
+          );
+          return;
+        }
+
+        if (type === jobSet.Receipts) {
+          log.warn(
+            `Cancelling receipt send, since there were ${untrustedUuids.length} untrusted send targets.`
           );
           return;
         }

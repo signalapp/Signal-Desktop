@@ -105,7 +105,7 @@
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
-    "message": "حذف تمام داده‌ها و راه‌اندازی دوباره",
+    "message": "پاک کردن همه اطلاعات و راه‌اندازی دوباره",
     "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
   },
   "mainMenuFile": {
@@ -181,7 +181,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "علامت گذاری به عنوان تایید شده"
+    "message": "علامت گذاری به عنوان تایید شده",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "علامت گذاری به عنوان تایید نشده"
+    "message": "علامت گذاری به عنوان تایید نشده",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "علامت‌گذاری به عنوان تأیید شده",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "پاک کردن تأیید",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "کدِ امنیتیِ $name$ تأیید شد.",
@@ -810,7 +820,7 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "جستجو در چت",
+    "message": "جستجو در گفتگو",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -818,7 +828,7 @@
     "description": "Shown in the search left pane when no results were found"
   },
   "noSearchResults--sms-only": {
-    "message": "مخاطبین پیامک/فراپیام در دسکتاپ در دسترس نیستند.",
+    "message": "مخاطبین پیامک/پیام چندرسانه‌ای در دسکتاپ در دسترس نیستند.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "به سیگنال خوش‌آمدید"
@@ -873,7 +883,7 @@
     "description": "Description of icon denoting that contact is from your address book"
   },
   "contactAvatarAlt": {
-    "message": "آواتار متعلق به مخاطب $name$",
+    "message": "آواتارمخاطب $name$",
     "description": "Used in the alt tag for the image avatar of a contact"
   },
   "sendMessageToContact": {
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "پیام اصلی دیگر در دسترس نیست",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "پیام اصلی پیدا شد، اما بارگیری نشد. برای بارگذاری به سمت بالا حرکت کنید",
@@ -1067,7 +1077,7 @@
     "message": "جزئیات پیام"
   },
   "delete": {
-    "message": "حذف"
+    "message": "پاک کردن"
   },
   "accept": {
     "message": "پذیرفتن"
@@ -1094,11 +1104,11 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "این پیام از روی این دستگها پاک خواهد شد.",
+    "message": "این پیام از روی این دستگاه پاک خواهد شد.",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "این پیام برای همه در این مکالمه حذف خواهد شد اگر آن‌ها از نسخه‌های اخیر سیگنال استفاده کنند. آن‌ها قادر خواهند بود ببینند که شما پیامی را پاک کردید.",
+    "message": "این پیام برای همهٔ کسانی در این گفتگو که از تازه‌ترین نسخهٔ سیگنال استفاده می‌کنند، پاک خواهد شد. آن‌ها قادر خواهند بود ببینند که شما پیامی را پاک کردید.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "به",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} به {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} به شما",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "شما به {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "شما به {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "به",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "ارسال شد",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "دیدن شماره امنیتی"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "دیدن شماره ایمنی",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "مشاهدهٔ رسانه‌های اخیر",
@@ -1161,7 +1191,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
-    "message": "حذف را برای همه مجددا امتحان کنید",
+    "message": "تکرار پاک کردن برای همه",
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
@@ -1169,19 +1199,19 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": "حذف پیام برای من",
+    "message": "پاک کردن پیام برای من",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
-    "message": "حذف پیام برای همه",
+    "message": "پاک کردن پیام برای همه",
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
-    "message": "آیا می‌خواهید این گفتگو را برای همیشه حذف کنید؟",
+    "message": "آیا می‌خواهید این گفتگو را برای همیشه پاک کنید؟",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -1233,7 +1263,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} و {conversationTitle} یک حساب هستند. تاریخچه پیام هر دو چت شما اینجا هست.",
+    "messageformat": "{obsoleteConversationTitle} و {conversationTitle} یک حساب هستند. تاریخچه پیام هر دو گفتگوی شما اینجا هست.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -1692,15 +1722,15 @@
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
-    "message": "پاک کردن تمام داده ها؟",
+    "message": "پاک کردن همه اطلاعات؟",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "شما در حال پاک کردن تمامی اطلاعات حساب کاربری ذخیره شده در این برنامه، شامل همهٔ مخاطبین و کل پیام‌ها، هستید. شما همیشه می‌توانید برنامه را دوباره با دستگاه تلفن همراه خود پیوند دهید، اما این کار پیام‌های پاک شده را بازگردانی نمی‌کند.",
+    "message": "شما در حال پاک کردن تمامی اطلاعات حساب کاربری ذخیره شده در این برنامه، شامل همهٔ مخاطبین و کل پیام‌ها، هستید. همیشه می‌توانید برنامه را دوباره با دستگاه تلفن همراه خود پیوند دهید، اما این کار پیام‌های پاک شده را برنمی‌گرداند.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
-    "message": "پاک کردن تمام داده ها",
+    "message": "پاک کردن همه اطلاعات",
     "description": "Text of the button that deletes all data"
   },
   "deleteAllDataProgress": {
@@ -1708,11 +1738,11 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "اطلاعات قدیمی از نصب گذشته سیگنال دسکتاپ موجود است اگر ادامه دهید این اطلاعات حذف خواهد شد",
+    "message": "از نصب گذشته سیگنال دسکتاپ اطلاعات منسوخی برجا مانده است. اگر ادامه دهید این اطلاعات پاک خواهد شد و از نو آغاز خواهید کرد.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
-    "message": "پاک کردن داده‌های قدیمی",
+    "message": "پاک کردن اطلاعات قدیمی",
     "description": "Button to make the delete happen"
   },
   "notifications": {
@@ -1758,7 +1788,7 @@
     "description": "Shown on outgoing message if it fails to send"
   },
   "deleteFailed": {
-    "message": "حذف ناموفق بود",
+    "message": "پاک کردن ناموفق بود",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
   "sendPaused": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "بخشی از آن حذف شد، برای تلاش مجدد کلیک کنید",
+    "message": "به طور کامل پاک نشد، برای تلاش مجدد کلیک کنید",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "تایید شماره امنیتی",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "دیدن شمارهٔ ایمنی",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "دیدن شمارهٔ ایمنی",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "این کاربر تا زمانی که پیامی بین شما رد و بدل نشود قابل تایید نیست",
@@ -2122,7 +2160,7 @@
     "description": "Shown in the modal when we can't update a group"
   },
   "notSupportedSMS": {
-    "message": "پیامک/فراپیام پشتیبانی نمی شود.",
+    "message": "پیامک/پیام چندرسانه‌ای پشتیبانی نمی شود.",
     "description": "Label underneath number informing user that SMS is not supported on desktop"
   },
   "newPhoneNumber": {
@@ -2215,7 +2253,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "آخرین پیام ممکن است حذف شده باشد",
+    "message": "آخرین پیام ممکن است پاک شده باشد.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2279,7 +2317,7 @@
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
   "message--deletedForEveryone": {
-    "message": "این پیام حذف شد",
+    "message": "این پیام پاک شد.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "giftBadge--missing": {
@@ -2747,7 +2785,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--delete-message": {
-    "message": "حذف پیام‌های انتخاب‌شده",
+    "message": "پاک کردن پیام‌های انتخاب‌شده",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "پس از ایجاد یک بستهٔ استیکر شما دیگر قادر به انجام ویرایش‌ها و حذف نخواهید بود.",
+    "message": "پس از ایجاد یک بستهٔ استیکر دیگر قادر به ویرایش یا پاک کردن نخواهید بود.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3187,31 +3225,31 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
-    "message": "مکالمه حذف شود؟",
+    "message": "مکالمه پاک شود؟",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "این مکالمه از روی تمام دستگاه‌های شما حذف خواهد شد.",
+    "message": "این مکالمه از روی تمام دستگاه‌های شما پاک خواهد شد.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "حذف و ترک $group$؟",
+    "message": "پاک کردن و ترک $group$؟",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
-    "message": "حذف و ترک",
+    "message": "پاک کردن و ترک",
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "شما این گروه را ترک می‌کنید و گروه از روی تمام دستگاه‌های شما حذف خواهد شد.",
+    "message": "شما این گروه را ترک می‌کنید و گروه از روی تمام دستگاه‌های شما پاک خواهد شد.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3707,7 +3745,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--you": {
-    "message": "شما عکس گروه را عوض کردید.",
+    "message": "شما آواتار گروه را عوض کردید.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--unknown": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "شما از گروه حذف شده اید.",
+    "message": "شما از گروه حذف شده‌اید.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4167,7 +4205,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
-    "message": "$memberName$ توضیحات گروه را تغییر داد.",
+    "message": "$memberName$ توضیحات گروه را حذف کرد.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
@@ -4363,7 +4401,7 @@
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "ContactModal--rm-admin": {
-    "message": "حذف بعنوان مدیر",
+    "message": "حذف از مدیریت",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
   "ContactModal--make-admin": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "حذف $contact$بعنوان مدیر گروه؟",
+    "message": "آیا می‌خواهید $contact$ را از سمت مدیر حذف کنید؟",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4891,7 +4929,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "\"$name$\" از گروه حذف شود؟ وی نمی‌تواند از طریق پیوند گروه دوباره بپیوندد.",
+    "message": "\"$name$\" از گروه حذف شود؟ دیگر نخواهد توانست دوباره از طریق پیوند گروه بپیوندد.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4927,15 +4965,15 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "حذف پیام برای همه ناموفق بود. لطفاً بعداً دوباره سعی کنید.",
+    "message": "پاک کردن پیام برای همه ناموفق بود. لطفاً بعداً دوباره سعی کنید.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
-    "message": "حذف رنگ",
+    "message": "پاک کردن رنگ",
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "این رنگ سفارشی در $num$ گفتگو استفاده شده است. آیا می‌خواهید آن را از همهٔ گفتگوها حذف کنید؟",
+    "message": "این رنگ سفارشی در $num$ گفتگو استفاده شده است. آیا می‌خواهید آن را از همهٔ گفتگوها پاک کنید؟",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -4995,7 +5033,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -5186,8 +5224,12 @@
     "message": "نام کاربری شما ذخیره نشد. ارتباط خود را چک کنید و مجددا تلاش کنید",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
-    "message": "نام کاربری شما حذف نشد. ارتباط خود را چک کنید و مجددا تلاش کنید",
+    "message": "حذف نام کاربری شما ممکن نبود. ارتباط خود را چک کنید و مجددا تلاش کنید",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5203,19 +5245,19 @@
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
-    "message": "حذف نام کاربری",
+    "message": "پاک کردن نام کاربری",
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "این کار، نام کاربری شما را حذف خواهد کرد و منجر می شود دیگران بتوانند از آن استفاده بکنند. آیا مطمئن هستید؟",
+    "message": "با این کار، نام کاربری شما حذف می‌شود و سایر کاربران می‌توانند آن را برای خود برگزینند. آیا مطمئن هستید؟",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "کپی یا حذف نام کاربری",
+    "message": "کپی یا پاک کردن نام کاربری",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
@@ -5227,7 +5269,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5455,7 +5497,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "دیگر نمی‌توانید استوری‌ها را هم‌رسانی یا مشاهده کنید. به‌روزرسانی‌های استوری‌هایی که اخیراً همرسانی کرده‌اید نیز حذف خواهند شد.",
+    "message": "دیگر نمی‌توانید استوری‌ها را اشتراک‌گذاری یا مشاهده کنید. به‌روزرسانی‌های استوری‌هایی که اخیراً اشتراک‌گذاری کرده‌اید نیز پاک خواهند شد.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5643,7 +5685,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "این استوری حذف شود؟ این استوری برای تمام افرادی که آن را دریافت کرده‌اند هم حذف خواهد شد.",
+    "message": "این استوری پاک شود؟ این استوری برای تمام افرادی که آن را دریافت کرده‌اند هم پاک خواهد شد.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
@@ -5855,11 +5897,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "حذف استوری سفارشی",
+    "message": "پاک کردن استوری سفارشی",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "مطمئن هستید که می‌خواهید «$name$» را پاک کنید؟ به‌روزرسانی‌های هم‌رسانی‌شده در این استوری نیز حذف خواهد شد.",
+    "message": "مطمئن هستید که می‌خواهید «$name$» را پاک کنید؟ به‌روزرسانی‌های اشتراک‌گذاری‌شده در این استوری نیز پاک خواهد شد.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5931,7 +5973,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "اعضای گفتگوی گروهی «{groupTitle}» می‌توانند این استوری را مشاهده کنند و به آن پاسخ دهند. می‌توانید عضویت این چت را در گروه به‌روزرسانی کنید.",
+    "messageformat": "اعضای گفتگوی گروهی «{groupTitle}» می‌توانند این استوری را مشاهده کنند و به آن پاسخ دهند. می‌توانید عضویت این گفتگو را در گروه به‌روزرسانی کنید.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -6015,7 +6057,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "حذف استوری",
+    "message": "پاک کردن استوری",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -6064,6 +6106,10 @@
   },
   "StoryViewer__reply": {
     "message": "پاسخ",
+    "description": "Button label to reply to a story"
+  },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "پاسخ به {firstName}",
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "واکنش به استوری",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "به استوری واکنش نشان داده شد",
@@ -6147,11 +6193,11 @@
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
-    "messageformat": "حذف برای من",
+    "messageformat": "پاک کردن برای من",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
   },
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
-    "messageformat": "حذف برای همه",
+    "messageformat": "پاک کردن برای همه",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
@@ -6171,11 +6217,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "رفتن به چت",
+    "message": "رفتن به گفتگو",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
-    "message": "حذف",
+    "message": "پاک کردن",
     "description": "Label for menu item to delete a story"
   },
   "StoryListItem__info": {
@@ -6274,6 +6320,14 @@
     "message": "افزودن پیوند برای بازدیدکنندگان استوری",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "استوری ارسال نشد",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "امکان ارسال استوری به همه گیرندگان وجود نداشت",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "افزودن متن",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "این ارقام به حفظ حریم خصوصی نام کاربری‌تان کمک می‌کند تا بتوانید از پیام‌های ناخواسته جلوگیری کنید. نام کاربری خود را فقط با افراد و گروه‌هایی که می‌خواهید با آن‌ها گفتگو کنید به اشتراک بگذارید. اگر نام کاربری را تغییر دهید، مجموعه اعداد جدیدی دریافت خواهید کرد.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سیگنال دسکتاپ به‌زودی دیگر از نسخه {OS} رایانه شما پشتیبانی نخواهد کرد. برای ادامه استفاده از سیگنال، سیستم‌عامل رایانه خود را تا تاریخ {expirationDate} به‌روزرسانی کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "حالا دیگر آسان‌تر از قبل می‌توانید بیرون یک تصویر کلیک کنید تا از نمای گالری خارج شوید و دیگر ناخواسته جایی از تصویر را بزرگ‌نمایی نکنید. گاهی اوقات فقط می‌خواستید تصویر را ببندید ولی در عوض بازترش می‌کردید. با سپاس از {jojomatik} برای این رفع اشکال!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "پاسخ دادن خود را سرعت ببخشید. حالا می‌توانید هنگام پاسخ دادن به استوری، با کلیک روی هر ایموجی واکنش سریع‌تری به استوری نشان دهید.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "حالا دیگر می‌توانید نویسه‌های تکی زبان‌های چینی و ژاپنی را در تاریخچه پیامتان جستجو کنید.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "به ما کمک کنید چند بهبود عملکرد و اطمینان‌پذیری را برای تماس‌های صوتی و تصویری آزمایش کنیم. این نسخه بتا چند رفع اشکال و چند به‌روزرسانی جزئی رابط کاربری را نیز شامل می‌شود (بهبودهای جدید پیش‌نمایش پیوند را ببینید!). از اینکه آزمایش‌کننده بتا هستید سپاسگزاریم؛ لطفاً در صورت پیدا کردن هرگونه اشکال، با ما در تالار گفتگوی انجمن در تماس باشید.",
+    "description": "Release notes for v6.6"
   }
 }

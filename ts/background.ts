@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber, debounce } from 'lodash';
+import { isNumber, throttle, groupBy } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
 import type { MenuOptionsType } from './types/menu';
 import type { Receipt } from './types/Receipt';
+import { ReceiptType } from './types/Receipt';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ThemeType } from './types/Util';
@@ -55,6 +56,7 @@ import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
+import { optimizeFTS } from './services/ftsOptimizer';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -145,12 +147,13 @@ import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import type { MainWindowStatsType } from './windows/context';
-import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
-import { updateOurUsernameAndPni } from './util/updateOurUsernameAndPni';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import { getInitialState } from './state/getInitialState';
-import { conversationJobQueue } from './jobs/conversationJobQueue';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
@@ -483,7 +486,17 @@ export async function startApp(): Promise<void> {
       wait: 500,
       maxSize: 100,
       processBatch: async deliveryReceipts => {
-        await deliveryReceiptsJobQueue.add({ deliveryReceipts });
+        const groups = groupBy(deliveryReceipts, 'conversationId');
+        await Promise.all(
+          Object.keys(groups).map(async conversationId => {
+            await conversationJobQueue.add({
+              type: conversationQueueJobEnum.enum.Receipts,
+              conversationId,
+              receiptsType: ReceiptType.Delivery,
+              receipts: groups[conversationId],
+            });
+          })
+        );
       },
     });
 
@@ -862,6 +875,8 @@ export async function startApp(): Promise<void> {
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
 
+      optimizeFTS();
+
       // Don't block on the following operation
       void window.Signal.Data.ensureFilePermissions();
     }
@@ -1167,11 +1182,30 @@ export async function startApp(): Promise<void> {
       onConversationClosed(id, 'removed');
       conversationRemoved(id);
     });
+
+    const addedConvoBatcher = createBatcher<ConversationModel>({
+      name: 'addedConvoBatcher',
+      processBatch(batch) {
+        batchDispatch(() => {
+          batch.forEach(conversation => {
+            conversationAdded(conversation.id, conversation.format());
+          });
+        });
+      },
+
+      // This delay ensures that the .format() call isn't synchronous as a
+      //   Backbone property is changed. Important because our _byUuid/_byE164
+      //   lookups aren't up-to-date as the change happens; just a little bit
+      //   after.
+      wait: 1,
+      maxSize: Infinity,
+    });
+
     convoCollection.on('add', conversation => {
       if (!conversation) {
         return;
       }
-      conversationAdded(conversation.id, conversation.format());
+      addedConvoBatcher.add(conversation);
     });
 
     const changedConvoBatcher = createBatcher<ConversationModel>({
@@ -1759,10 +1793,16 @@ export async function startApp(): Promise<void> {
     });
   };
 
-  window.Whisper.events.on(
-    'mightBeUnlinked',
-    debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
+  const throttledEnqueueReconnectToWebSocket = throttle(
+    enqueueReconnectToWebSocket,
+    1000
   );
+
+  window.Whisper.events.on('mightBeUnlinked', () => {
+    if (window.Signal.Util.Registration.everDone()) {
+      throttledEnqueueReconnectToWebSocket();
+    }
+  });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
     void unlinkAndDisconnect(RemoveAllConfiguration.Full);
@@ -2262,18 +2302,15 @@ export async function startApp(): Promise<void> {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
-          await Promise.all([
-            server.registerCapabilities({
-              announcementGroup: true,
-              giftBadges: true,
-              'gv2-3': true,
-              senderKey: true,
-              changeNumber: true,
-              stories: true,
-              pni: isPnpEnabled(),
-            }),
-            updateOurUsernameAndPni(),
-          ]);
+          await server.registerCapabilities({
+            announcementGroup: true,
+            giftBadges: true,
+            'gv2-3': true,
+            senderKey: true,
+            changeNumber: true,
+            stories: true,
+            pni: isPnpEnabled(),
+          });
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',
@@ -2306,7 +2343,8 @@ export async function startApp(): Promise<void> {
             window.Whisper.events.once(event, () => resolve());
             return promise;
           },
-          'firstRun:waitForEvent'
+          'firstRun:waitForEvent',
+          { timeout: 2 * durations.MINUTE }
         );
 
         let storageServiceSyncComplete: Promise<void>;
@@ -2843,7 +2881,7 @@ export async function startApp(): Promise<void> {
   }: EnvelopeEvent): Promise<void> {
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
-      const { mergePromises } =
+      const { mergePromises, conversation } =
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
           aci: envelope.sourceUuid,
@@ -2852,6 +2890,10 @@ export async function startApp(): Promise<void> {
 
       if (mergePromises.length > 0) {
         await Promise.all(mergePromises);
+      }
+
+      if (envelope.reportingToken) {
+        await conversation.updateReportingToken(envelope.reportingToken);
       }
     }
   }
@@ -3426,12 +3468,14 @@ export async function startApp(): Promise<void> {
 
     const NUMBER_ID_KEY = 'number_id';
     const UUID_ID_KEY = 'uuid_id';
+    const PNI_KEY = 'pni';
     const VERSION_KEY = 'version';
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
     const previousNumberId = window.textsecure.storage.get(NUMBER_ID_KEY);
     const previousUuidId = window.textsecure.storage.get(UUID_ID_KEY);
+    const previousPni = window.textsecure.storage.get(PNI_KEY);
     const lastProcessedIndex = window.textsecure.storage.get(
       LAST_PROCESSED_INDEX_KEY
     );
@@ -3450,13 +3494,16 @@ export async function startApp(): Promise<void> {
         delete conversation.attributes.senderKeyInfo;
       });
 
-      // These two bits of data are important to ensure that the app loads up
+      // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       if (previousNumberId !== undefined) {
         await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
       }
       if (previousUuidId !== undefined) {
         await window.textsecure.storage.put(UUID_ID_KEY, previousUuidId);
+      }
+      if (previousPni !== undefined) {
+        await window.textsecure.storage.put(PNI_KEY, previousPni);
       }
 
       // These two are important to ensure we don't rip through every message
@@ -3532,10 +3579,7 @@ export async function startApp(): Promise<void> {
         log.info('onFetchLatestSync: fetching latest local profile');
         const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await Promise.all([
-          getProfile(ourUuid, ourE164),
-          updateOurUsernameAndPni(),
-        ]);
+        await getProfile(ourUuid, ourE164);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:

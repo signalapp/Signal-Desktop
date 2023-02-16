@@ -4,12 +4,17 @@
 export type UsernameReservationType = Readonly<{
   username: string;
   previousUsername: string | undefined;
-  reservationToken: string;
+  hash: Uint8Array;
 }>;
 
 export enum ReserveUsernameError {
   Unprocessable = 'Unprocessable',
   Conflict = 'Conflict',
+}
+
+export enum ConfirmUsernameResult {
+  Ok = 'Ok',
+  ConflictOrGone = 'ConflictOrGone',
 }
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {

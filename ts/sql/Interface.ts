@@ -264,6 +264,7 @@ export type UnprocessedType = {
   decrypted?: string;
   urgent?: boolean;
   story?: boolean;
+  reportingToken?: string;
 };
 
 export type UnprocessedUpdateType = {
@@ -359,6 +360,12 @@ export type GetAllStoriesResultType = ReadonlyArray<
     hasRepliesFromSelf: boolean;
   }
 >;
+
+export type FTSOptimizationStateType = Readonly<{
+  changes: number;
+  steps: number;
+  done?: boolean;
+}>;
 
 export type DataInterface = {
   close: () => Promise<void>;
@@ -560,7 +567,10 @@ export type DataInterface = {
   ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
-  getAllUnprocessedAndIncrementAttempts: () => Promise<Array<UnprocessedType>>;
+  getUnprocessedByIdsAndIncrementAttempts: (
+    ids: ReadonlyArray<string>
+  ) => Promise<Array<UnprocessedType>>;
+  getAllUnprocessedIds: () => Promise<Array<string>>;
   updateUnprocessedWithData: (
     id: string,
     data: UnprocessedUpdateType
@@ -570,6 +580,8 @@ export type DataInterface = {
   ) => Promise<void>;
   getUnprocessedById: (id: string) => Promise<UnprocessedType | undefined>;
   removeUnprocessed: (id: string | Array<string>) => Promise<void>;
+
+  /** only for testing */
   removeAllUnprocessed: () => Promise<void>;
 
   getAttachmentDownloadJobById: (
@@ -704,6 +716,10 @@ export type DataInterface = {
   getMaxMessageCounter(): Promise<number | undefined>;
 
   getStatisticsForLogging(): Promise<Record<string, string>>;
+
+  optimizeFTS: (
+    state?: FTSOptimizationStateType
+  ) => Promise<FTSOptimizationStateType | undefined>;
 };
 
 export type ServerInterface = DataInterface & {

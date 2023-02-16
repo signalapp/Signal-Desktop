@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Žymėti kaip patvirtintą"
+    "message": "Žymėti kaip patvirtintą",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Žymėti kaip nepatvirtintą"
+    "message": "Žymėti kaip nepatvirtintą",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Žymėti kaip patvirtintą",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Išvalyti patvirtinimą",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Jūs patvirtinote savo saugumo numerį su $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Sveiki atvykę į Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Pradinė žinutė daugiau nebeprieinama",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Pradinė žinutė rasta, tačiau neįkelta. Slinkite žemyn, norėdami ją įkelti.",
@@ -1098,7 +1108,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Ši žinutė šiame pokalbyje bus ištrinta visiems žmonėms tuo atveju, jeigu jie naudoja paskiausią Signal versiją. Jie galės matyti, kad ištrynėte žinutę.",
+    "message": "Ši žinutė šiame pokalbyje bus ištrinta visiems žmonėms tuo atveju, jeigu jie naudoja naujausią „Signal“ versiją. Jie galės matyti, kad ištrynei žinutę.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "Kam",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "Nuo {sender} grupei {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} siuntė jums",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Jūs siuntėte gavėjui {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Jūs siuntėte gavėjui {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "žinutė, skirta",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Išsiųsta",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Rodyti saugumo numerį"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Rodyti saugumo numerį",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Rodyti paskiausią mediją",
@@ -1696,7 +1726,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "Jūs ketinate ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Jūs visada ir vėl galite susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
+    "message": "Tu ketini ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Visada ir vėl galėsi susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,7 +1738,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Turite nebenaudojamų duomenų, likusių iš ankstesnio Signal Desktop diegimo. Jei pasirinksite tęsti, jie bus ištrinti ir pradėsite viską nuo nulio.",
+    "message": "Turi nebenaudojamų duomenų, likusių iš ankstesnio „Signal Desktop“ diegimo. Jei pasirinksi tęsti, jie bus ištrinti ir pradėsi viską nuo nulio.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1770,7 +1800,7 @@
     "description": "Shown on outgoing message if it is partially sent"
   },
   "partiallyDeleted": {
-    "message": "Dalinai ištrinta, spustelėkite norėdami bandyti dar kartą",
+    "message": "Dalinai ištrinta, spustelėk, kad bandytum dar kartą",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "showMore": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Patvirtinti saugumo numerį",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Rodyti saugumo numerį",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Rodyti saugumo numerį",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Šis naudotojas negali būti patvirtintas tol, kol jūs neapsikeitėte su juo žinutėmis.",
@@ -3019,7 +3057,7 @@
     "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
-    "message": "Sukūrę lipdukų paketą, daugiau nebegalėsite jo taisyti ar ištrinti.",
+    "message": "Sukūręs lipdukų paketą daugiau nebegalėsi jo taisyti ar ištrinti.",
     "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
@@ -3195,7 +3233,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
-    "message": "Šis pokalbis bus ištrintas iš visų jūsų įrenginių.",
+    "message": "Šis pokalbis bus ištrintas iš visų tavo įrenginių.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "Jūs išeisite iš šios grupės ir ji bus ištrinta iš visų jūsų įrenginių.",
+    "message": "Tu išeisi iš šios grupės ir ji bus ištrinta iš visų tavo įrenginių.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -3595,7 +3633,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Jūs negalite prisijungti prie grupės per šią grupės nuorodą, nes administratorius jus pašalino.",
+    "message": "Tu negali prisijungti prie grupės per šią grupės nuorodą, nes administratorius tave pašalino.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -3695,7 +3733,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Jūs pašalinote grupės pavadinimą.",
+    "message": "Tu pašalinai grupės pavadinimą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
@@ -3719,7 +3757,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
-    "message": "Jūs pašalinote grupės avatarą.",
+    "message": "Tu pašalinai grupės avatarą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--unknown": {
@@ -3891,7 +3929,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
-    "message": "Jūs pašalinote naudotoją $memberName$.",
+    "message": "Tu pašalinai naudotoją $memberName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
@@ -3899,7 +3937,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
-    "message": "$adminName$ jus pašalino.",
+    "message": "$adminName$ pašalino tave.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
@@ -3907,7 +3945,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "Jūs buvote pašalinti iš grupės.",
+    "message": "Tave pašalino iš grupės.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--other": {
@@ -4163,7 +4201,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
-    "message": "Jūs pašalinote grupės aprašą.",
+    "message": "Tu pašalinai grupės aprašą.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
@@ -4267,7 +4305,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "Šis narys negali prisijungti prie naujosios grupės ir todėl, bus iš jos pašalintas:",
+    "message": "Šis narys negali prisijungti prie naujosios grupės ir todėl bus iš jos pašalintas:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
@@ -4275,7 +4313,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Šis narys negalėjo prisijungti prie naujosios grupės ir todėl, buvo iš jos pašalintas:",
+    "message": "Šis narys negalėjo prisijungti prie naujosios grupės ir todėl buvo iš jos pašalintas:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4295,7 +4333,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "$count$ nariai(-ių) buvo pašalinti iš grupės.",
+    "message": "$count$ nariai (-ių) buvo pašalinti iš grupės.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4927,7 +4965,7 @@
     "description": "Displayed after unsuccessful captcha"
   },
   "deleteForEveryoneFailed": {
-    "message": "Nepavyko ištrinti žinutės visiems. Vėliau bandykite dar kartą.",
+    "message": "Nepavyko ištrinti žinutės visiems. Vėliau bandyk dar kartą.",
     "description": "Displayed when delete-for-everyone has failed to send to all recipients"
   },
   "ChatColorPicker__delete--title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Ši tinkinta spalva yra naudojama $num$ pokalbiuose(-ių). Ar norite ją ištrinti visuose pokalbiuose?",
+    "message": "Ši tinkinta spalva yra naudojama $num$ pokalbiuose (-ių). Ar nori ją ištrinti visuose pokalbiuose?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5186,8 +5224,12 @@
     "message": "Nepavyko įrašyti jūsų naudotojo vardo. Patikrinkite ryšį ir bandykite dar kartą.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
-    "message": "Nepavyko pašalinti jūsų naudotojo vardo. Patikrinkite ryšį ir bandykite dar kartą.",
+    "message": "Nepavyko pašalinti tavo naudotojo vardo. Patikrink ryšį ir bandyk dar kartą.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
@@ -5207,7 +5249,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "Tai pašalins jūsų naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esate tikri?",
+    "message": "Tai pašalins tavo naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esi tikras?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -6066,6 +6108,10 @@
     "message": "Atsakyti",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "Atsakyti {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Atsakyti grupei",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Reaguoti į istoriją",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Sureagavo į istoriją",
@@ -6274,6 +6320,14 @@
     "message": "Pridėk nuorodą savo istorijos žiūrovams",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Nepavyko išsiųsti istorijos",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Nepavyko išsiųsti istorijos visiems gavėjams",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Pridėti tekstą",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Šie skaitmenys padeda užtikrinti tavo naudotojo vardo privatumą, kad išvengtum nepageidaujamų žinučių. Savo naudotojo vardą pasakyk tik tiems žmonėms ir grupėms, su kuriais (-iomis) nori bendrauti. Pakeitus naudotojo vardą suteikiama nauja skaitmenų kombinacija.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Netrukus „Signal“ nebepalaikys tavo kompiuteryje esančios {OS} versijos. Jei nori toliau naudoti „Signal“, atnaujink kompiuterio operacinę sistemą iki {expirationDate}. <learnMoreLink>Sužinok daugiau</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Dabar lengviau spustelėti už vaizdo ribų ir išjungti galerijos rodinį nepriartinant. Juk kartais norėdavai nebematyti, o vietoj to pamatydavai iš arčiau. Dėkojame {jojomatik} už pataisymą!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Pagreitink atsakymų laiką. Dabar gali sureaguoti greičiau – tereikia spustelėti bet kurį jaustuką atsakant į istoriją.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Dabar pranešimų istorijoje galima ieškoti atskirų simbolių kinų ir japonų kalbomis.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Padėk mums išbandyti kelis balso ir vaizdo skambučių patikimumo bei veikimo patobulinimus. Šioje beta versijoje dar yra keletas klaidų pataisymų ir nedidelių vartotojo sąsajos atnaujinimų (ieškok naujų nuorodų peržiūros patobulinimų!). Ačiū už beta versijos testavimą, o jei pastebėsi klaidų – pranešk mums bendruomenės forume.",
+    "description": "Release notes for v6.6"
   }
 }

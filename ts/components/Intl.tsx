@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import type { ReactNode } from 'react';
 
 import type { FormatXMLElementFn } from 'intl-messageformat';
 import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
@@ -12,6 +13,7 @@ import { strictAssert } from '../util/assert';
 export type FullJSXType =
   | FormatXMLElementFn<JSX.Element | string>
   | Array<JSX.Element | string>
+  | ReactNode
   | JSX.Element
   | string;
 export type IntlComponentsType =

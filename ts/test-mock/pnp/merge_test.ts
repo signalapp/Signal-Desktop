@@ -432,6 +432,13 @@ describe('pnp/merge', function needsName() {
     debug('Open PNI conversation');
     await leftPane.locator(`[data-testid="${pniContact.device.pni}"]`).click();
 
+    debug('Wait for ACI conversation to go away');
+    await window
+      .locator(`.module-conversation-hero >> ${pniContact.profileName}`)
+      .waitFor({
+        state: 'hidden',
+      });
+
     debug('Verify absence of messages in the PNI conversation');
     {
       const messages = window.locator('.module-message__text');

@@ -30,7 +30,6 @@ export function UsernameSearchResultListItem({
   setIsFetchingUUID,
   showConversation,
 }: Props): JSX.Element {
-  const usernameText = i18n('at-username', { username });
   const boundOnClick = useCallback(async () => {
     if (isFetchingUsername) {
       return;
@@ -59,7 +58,7 @@ export function UsernameSearchResultListItem({
     <BaseConversationListItem
       acceptedMessageRequest={false}
       conversationType="direct"
-      headerName={usernameText}
+      headerName={username}
       i18n={i18n}
       isMe={false}
       isSelected={false}
@@ -67,7 +66,7 @@ export function UsernameSearchResultListItem({
       shouldShowSpinner={isFetchingUsername}
       onClick={boundOnClick}
       sharedGroupNames={[]}
-      title={usernameText}
+      title={username}
     />
   );
 }

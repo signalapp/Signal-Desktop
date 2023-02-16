@@ -1,12 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { usernames } from '@signalapp/libsignal-client';
+
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import dataInterface from '../sql/Client';
-import { updateOurUsernameAndPni } from '../util/updateOurUsernameAndPni';
+import { strictAssert } from '../util/assert';
 import { sleep } from '../util/sleep';
+import { getMinNickname, getMaxNickname } from '../util/Username';
 import type { UsernameReservationType } from '../types/Username';
-import { ReserveUsernameError } from '../types/Username';
+import { ReserveUsernameError, ConfirmUsernameResult } from '../types/Username';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
@@ -54,21 +56,35 @@ export async function reserveUsername(
   const { nickname, previousUsername, abortSignal } = options;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('reserveUsername: Username has changed on another device');
   }
 
   try {
-    const { username, reservationToken } = await server.reserveUsername({
+    const candidates = usernames.generateCandidates(
       nickname,
+      getMinNickname(),
+      getMaxNickname()
+    );
+    const hashes = candidates.map(username => usernames.hash(username));
+
+    const { usernameHash } = await server.reserveUsername({
+      hashes,
       abortSignal,
     });
 
+    const index = hashes.findIndex(hash => hash.equals(usernameHash));
+    if (index === -1) {
+      log.warn('reserveUsername: failed to find username hash in the response');
+      return { ok: false, error: ReserveUsernameError.Unprocessable };
+    }
+
+    const username = candidates[index];
+
     return {
       ok: true,
-      reservation: { previousUsername, username, reservationToken },
+      reservation: { previousUsername, username, hash: usernameHash },
     };
   } catch (error) {
     if (error instanceof HTTPError) {
@@ -96,8 +112,7 @@ async function updateUsernameAndSyncProfile(
   const me = window.ConversationController.getOurConversationOrThrow();
 
   // Update backbone, update DB, then tell linked devices about profile update
-  me.set({ username });
-  dataInterface.updateConversation(me.attributes);
+  await me.updateUsername(username);
 
   try {
     await singleProtoJobQueue.add(
@@ -114,25 +129,26 @@ async function updateUsernameAndSyncProfile(
 export async function confirmUsername(
   reservation: UsernameReservationType,
   abortSignal?: AbortSignal
-): Promise<void> {
+): Promise<ConfirmUsernameResult> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server interface is not available!');
   }
 
-  const { previousUsername, username, reservationToken } = reservation;
+  const { previousUsername, username, hash } = reservation;
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
   }
+  const proof = usernames.generateProof(username);
+  strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
 
   try {
     await server.confirmUsername({
-      usernameToConfirm: username,
-      reservationToken,
+      hash,
+      proof,
       abortSignal,
     });
 
@@ -146,9 +162,15 @@ export async function confirmUsername(
 
         return confirmUsername(reservation, abortSignal);
       }
+
+      if (error.code === 409 || error.code === 410) {
+        return ConfirmUsernameResult.ConflictOrGone;
+      }
     }
     throw error;
   }
+
+  return ConfirmUsernameResult.Ok;
 }
 
 export async function deleteUsername(
@@ -161,7 +183,6 @@ export async function deleteUsername(
   }
 
   const me = window.ConversationController.getOurConversationOrThrow();
-  await updateOurUsernameAndPni();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');

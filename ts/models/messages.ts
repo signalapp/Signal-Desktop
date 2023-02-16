@@ -79,6 +79,7 @@ import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
 import { markRead, markViewed } from '../services/MessageUpdater';
+import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
@@ -90,6 +91,7 @@ import {
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import { findAndFormatContact } from '../util/findAndFormatContact';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import {
   getAttachmentsForMessage,
   getMessagePropStatus,
@@ -1191,6 +1193,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     await window.Signal.Data.deleteSentProtoByMessageId(this.id);
+
+    scheduleOptimizeFTS();
   }
 
   override isEmpty(): boolean {
@@ -1466,6 +1470,26 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         })
       )
     );
+
+    this.notifyStorySendFailed();
+  }
+
+  public notifyStorySendFailed(): void {
+    if (!isStory(this.attributes)) {
+      return;
+    }
+
+    notificationService.add({
+      conversationId: this.get('conversationId'),
+      storyId: this.id,
+      messageId: this.id,
+      senderTitle:
+        this.getConversation()?.getTitle() ?? window.i18n('Stories__mine'),
+      message: this.hasSuccessfulDelivery()
+        ? window.i18n('icu:Stories__failed-send--partial')
+        : window.i18n('icu:Stories__failed-send--full'),
+      isExpiringMessage: false,
+    });
   }
 
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
@@ -1618,6 +1642,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               updatedAt: Date.now(),
             }
           );
+          this.notifyStorySendFailed();
         }
       }
 
@@ -2030,6 +2055,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return result;
   }
 
+  getQuoteBodyText(): string | undefined {
+    const storyReactionEmoji = this.get('storyReaction')?.emoji;
+    const body = this.get('body');
+    const embeddedContact = this.get('contact');
+    const embeddedContactName =
+      embeddedContact && embeddedContact.length > 0
+        ? EmbeddedContact.getName(embeddedContact[0])
+        : '';
+
+    return body || embeddedContactName || storyReactionEmoji;
+  }
+
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
     quote: QuotedMessageType
@@ -2078,7 +2115,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     quote.isViewOnce = false;
 
     // eslint-disable-next-line no-param-reassign
-    quote.text = originalMessage.get('body');
+    quote.text = originalMessage.getQuoteBodyText();
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
     }
@@ -2476,6 +2513,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           window.Whisper.deliveryReceiptQueue.add(() => {
             window.Whisper.deliveryReceiptBatcher.add({
               messageId,
+              conversationId,
               senderE164: source,
               senderUuid: sourceUuid,
               timestamp: this.get('sent_at'),
@@ -3154,11 +3192,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isGroupStoryReply =
         isGroup(conversation.attributes) && message.get('storyId');
 
-      const keepMutedChatsArchived =
-        window.storage.get('keepMutedChatsArchived') ?? false;
-      const keepThisConversationArchived =
-        keepMutedChatsArchived && conversation.isMuted();
-
       if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
         const markReadAt = Math.min(
           Date.now(),
@@ -3201,7 +3234,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } else if (
         isFirstRun &&
         !isGroupStoryReply &&
-        !keepThisConversationArchived
+        canConversationBeUnarchived(conversation.attributes)
       ) {
         conversation.setArchived(false);
       }

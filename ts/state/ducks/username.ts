@@ -5,7 +5,10 @@ import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { UsernameReservationType } from '../../types/Username';
-import { ReserveUsernameError } from '../../types/Username';
+import {
+  ReserveUsernameError,
+  ConfirmUsernameResult,
+} from '../../types/Username';
 import * as usernameServices from '../../services/username';
 import type { ReserveUsernameResultType } from '../../services/username';
 import {
@@ -83,7 +86,7 @@ type ReserveUsernameActionType = ReadonlyDeep<
   >
 >;
 type ConfirmUsernameActionType = ReadonlyDeep<
-  PromiseAction<typeof CONFIRM_USERNAME, void>
+  PromiseAction<typeof CONFIRM_USERNAME, ConfirmUsernameResult>
 >;
 type DeleteUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof DELETE_USERNAME, void>
@@ -425,12 +428,25 @@ export function reducer(
       'Must be reserving before resolving confirmation'
     );
 
-    return {
-      ...state,
-      usernameReservation: {
-        state: UsernameReservationState.Closed,
-      },
-    };
+    const { payload } = action;
+    if (payload === ConfirmUsernameResult.Ok) {
+      return {
+        ...state,
+        usernameReservation: {
+          state: UsernameReservationState.Closed,
+        },
+      };
+    }
+    if (payload === ConfirmUsernameResult.ConflictOrGone) {
+      return {
+        ...state,
+        usernameReservation: {
+          state: UsernameReservationState.Open,
+          error: UsernameReservationError.ConflictOrGone,
+        },
+      };
+    }
+    throw missingCaseError(payload);
   }
 
   if (action.type === 'username/CONFIRM_USERNAME_REJECTED') {

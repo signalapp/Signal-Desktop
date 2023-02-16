@@ -34,6 +34,7 @@ import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
+import { UsernameOnboardingModalBody } from './UsernameOnboardingModalBody';
 import {
   ConversationDetailsIcon,
   IconType,
@@ -48,6 +49,7 @@ export enum EditState {
   ProfileName = 'ProfileName',
   Bio = 'Bio',
   Username = 'Username',
+  UsernameOnboarding = 'UsernameOnboarding',
 }
 
 type PropsExternalType = {
@@ -67,11 +69,13 @@ export type PropsDataType = {
   conversationId: string;
   familyName?: string;
   firstName: string;
+  hasCompletedUsernameOnboarding: boolean;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   usernameEditState: UsernameEditState;
+  markCompletedUsernameOnboarding: () => void;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
@@ -124,8 +128,10 @@ export function ProfileEditor({
   deleteUsername,
   familyName,
   firstName,
+  hasCompletedUsernameOnboarding,
   i18n,
   isUsernameFlagEnabled,
+  markCompletedUsernameOnboarding,
   onEditStateChanged,
   onProfileChanged,
   onSetSkinTone,
@@ -481,6 +487,16 @@ export function ProfileEditor({
     content = renderEditUsernameModalBody({
       onClose: () => setEditState(EditState.None),
     });
+  } else if (editState === EditState.UsernameOnboarding) {
+    content = (
+      <UsernameOnboardingModalBody
+        i18n={i18n}
+        onNext={() => {
+          markCompletedUsernameOnboarding();
+          setEditState(EditState.Username);
+        }}
+      />
+    );
   } else if (editState === EditState.None) {
     let maybeUsernameRow: JSX.Element | undefined;
     if (isUsernameFlagEnabled) {
@@ -560,7 +576,11 @@ export function ProfileEditor({
           info={username && generateUsernameLink(username, { short: true })}
           onClick={() => {
             openUsernameReservationModal();
-            setEditState(EditState.Username);
+            if (username || hasCompletedUsernameOnboarding) {
+              setEditState(EditState.Username);
+            } else {
+              setEditState(EditState.UsernameOnboarding);
+            }
           }}
           actions={actions}
         />

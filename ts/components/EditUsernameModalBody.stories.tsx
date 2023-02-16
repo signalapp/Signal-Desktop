@@ -20,7 +20,7 @@ const i18n = setupI18n('en', enMessages);
 const DEFAULT_RESERVATION: UsernameReservationType = {
   username: 'reserved.56',
   previousUsername: undefined,
-  reservationToken: 'unused token',
+  hash: new Uint8Array(),
 };
 
 export default {
@@ -87,7 +87,7 @@ const Template: Story<ArgsType> = args => {
     reservation = {
       username: `reserved.${args.discriminator}`,
       previousUsername: undefined,
-      reservationToken: 'unused token',
+      hash: new Uint8Array(),
     };
   }
   return <EditUsernameModalBody {...args} reservation={reservation} />;

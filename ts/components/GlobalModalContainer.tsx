@@ -181,9 +181,7 @@ export function GlobalModalContainer({
       });
     } else if (userNotFoundModalState.type === 'username') {
       content = i18n('startConversation--username-not-found', {
-        atUsername: i18n('at-username', {
-          username: userNotFoundModalState.username,
-        }),
+        atUsername: userNotFoundModalState.username,
       });
     } else {
       throw missingCaseError(userNotFoundModalState);

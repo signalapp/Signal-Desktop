@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "تصدیق کے طور پر نشان لگائیں"
+    "message": "تصدیق کے طور پر نشان لگائیں",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "غیر شدہ تصدیق کے طور پر نشان لگائیں"
+    "message": "غیر شدہ تصدیق کے طور پر نشان لگائیں",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "تصدیق کے طور پر نشان لگائیں",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "تصدیق ہٹائیں",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "$name$ کے ساتھ آپ نے اپنے حفاظتی نمبر کی تصدیق کر دی ہے۔",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal میں خوش آمدید"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "اصل پیغامات طویل دستیاب نہیں ہیں",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "اصل پیغام ملا ، لیکن لوڈ نہیں۔ اسے لوڈ کرنے کے لئے اوپر سکرول کریں۔",
@@ -1094,7 +1104,7 @@
     "description": "Label for when something is turned off"
   },
   "deleteWarning": {
-    "message": "اس پیغام کو اس آلہ سے حذف کردیا جائے گا۔",
+    "message": "اس پیغام کو اس ڈیوائس سے حذف کردیا جائے گا۔",
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
@@ -1109,9 +1119,25 @@
     "message": "کے لئے",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} تا {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} کی طرف سے آپ کے لیے",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "آپ کی طرف سے {receiverGroup} کے لیے",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "آپ کی طرف سے {receiverContact} کے لیے",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "کے لئے",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "بھیجا",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "حفاظتی نمبر دیکھیں"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "حفاظتی نمبر دیکھیں",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "حالیہ میڈیا دیکھیں",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "حفاظتی نمبر کی تصدیق کریں",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "حفاظتی نمبر دیکھیں",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "حفاظتی نمبر دیکھیں",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "جب تک آپ اس صارف سے پیغامات کا تبادلہ نہیں کرتے اس صارف کی تصدیق نہیں ہو سکتی۔",
@@ -3883,7 +3921,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
-    "message": "$adminName$ $memberName$ کو ہٹا دیا",
+    "message": "$adminName$ $memberName$ کو ہٹا دیا۔",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
@@ -5186,6 +5224,10 @@
     "message": "آپ کا صارفی نام محفوظ نہیں کیا جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "آپ کا صارفی نام ہٹایا نہیں جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -6066,6 +6108,10 @@
     "message": "جواب دیں",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} کو جواب دیں",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "گروپ کو جواب دیں",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "سٹوری پر ردعمل دیں",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "سٹوری پر ردعمل دیا",
@@ -6274,6 +6320,14 @@
     "message": "اپنی سٹوری کے ناظرین کے لیے لنک شامل کریں",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "سٹوری بھیجنے میں ناکامی ہوئی",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "سٹوری تمام وصول کنندگان کو نہیں بھیجی جا سکی",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "متن شامل کریں",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "یہ ہندسے آپ کا صارفی نام نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ پیغامات سے بچ سکیں۔ اپنے صارفی نام کا اشتراک صرف ان افراد اور گروپس کے ساتھ کریں جن سے آپ چیٹ کرنا چاہتے ہیں۔ صارفی نام تبدیل کرنے کی صورت میں آپ کو ہندسوں کا ایک نیا سیٹ ملے گا۔",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal ڈیسک ٹاپ جلد ہی {OS} کے آپ کے کمپیوٹر ورژن کی مزید معاونت نہیں کرے گا۔ Signal استعمال کرنا جاری رکھنے کے لیے، اپنے کمپیوٹر کے آپریٹنگ سسٹم کو {expirationDate} تک اپ ڈیٹ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "اب زوم ان کیے بغیر گیلری ویو کو ختم کرنے کے لیے تصویر کے باہر کلک کرنا مزید آسان ہو گیا ہے۔ کبھی کبھار آپ قریب ہونا چاہتے ہیں، لیکن چیزیں کہیں زیادہ قریب ہو جاتی ہیں۔ درستگی کے لیے {jojomatik} کا شکریہ!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "اپنے رد عمل کے وقت کی رفتار بڑھائیں۔ اب آپ سٹوری کا جواب دیتے وقت کسی ایموجی پر کلک کر کے زیادہ تیزی سے ری ایکٹ کر سکتے ہیں۔",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "اب چینی اور جاپانی زبانوں میں انفرادی حروف کے حوالے سے اپنی میسج ہسٹری تلاش کرنا ممکن ہے۔",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "وائس اور ویڈیو کالز کے لیے پائیداری اور کارکردگی کی متعدد بہتریوں کو ٹیسٹ کرنے میں ہماری کرتا ہے۔ اس بی ٹا ریلیز میں کچھ نقص کی درستگیاں اور کچھ چھوٹی UI اپ ڈیٹس شامل ہیں (نئے لنک کے پیش منظر کے اضافوں کو تلاش کریں!)۔ بی ٹا ٹیسٹر ہونے پر آپ کا شکریہ، اور اگر آپ کوئی نقائص دیکھیں تو براہ کرم ہم سے کمیونٹی فورم پر رابطہ کریں۔",
+    "description": "Release notes for v6.6"
   }
 }

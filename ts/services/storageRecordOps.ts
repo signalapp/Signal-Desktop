@@ -19,6 +19,7 @@ import { assertDev } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
+import { isNotNil } from '../util/isNotNil';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
@@ -33,6 +34,7 @@ import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
 } from '../util/timestampLongUtils';
+import { canHaveUsername } from '../util/getTitle';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
@@ -156,6 +158,11 @@ export async function toContactRecord(
   if (e164) {
     contactRecord.serviceE164 = e164;
   }
+  const username = conversation.get('username');
+  const ourID = window.ConversationController.getOurConversationId();
+  if (username && canHaveUsername(conversation.attributes, ourID)) {
+    contactRecord.username = username;
+  }
   const pni = conversation.get('pni');
   if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
     contactRecord.pni = pni;
@@ -190,6 +197,10 @@ export async function toContactRecord(
   const systemFamilyName = conversation.get('systemFamilyName');
   if (systemFamilyName) {
     contactRecord.systemFamilyName = systemFamilyName;
+  }
+  const systemNickname = conversation.get('systemNickname');
+  if (systemNickname) {
+    contactRecord.systemNickname = systemNickname;
   }
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
@@ -229,6 +240,10 @@ export function toAccountRecord(
   const avatarUrl = window.storage.get('avatarUrl');
   if (avatarUrl !== undefined) {
     accountRecord.avatarUrl = avatarUrl;
+  }
+  const username = conversation.get('username');
+  if (username !== undefined) {
+    accountRecord.username = username;
   }
   accountRecord.noteToSelfArchived = Boolean(conversation.get('isArchived'));
   accountRecord.noteToSelfMarkedUnread = Boolean(
@@ -382,6 +397,14 @@ export function toAccountRecord(
   );
   if (hasViewedOnboardingStory !== undefined) {
     accountRecord.hasViewedOnboardingStory = hasViewedOnboardingStory;
+  }
+
+  const hasCompletedUsernameOnboarding = window.storage.get(
+    'hasCompletedUsernameOnboarding'
+  );
+  if (hasCompletedUsernameOnboarding !== undefined) {
+    accountRecord.hasCompletedUsernameOnboarding =
+      hasCompletedUsernameOnboarding;
   }
 
   const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
@@ -978,6 +1001,10 @@ export async function mergeContactRecord(
     };
   }
 
+  await conversation.updateUsername(dropNull(contactRecord.username), {
+    shouldSave: false,
+  });
+
   let needsProfileFetch = false;
   if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
     needsProfileFetch = await conversation.setProfileKey(
@@ -1010,6 +1037,7 @@ export async function mergeContactRecord(
   conversation.set({
     systemGivenName: dropNull(contactRecord.systemGivenName),
     systemFamilyName: dropNull(contactRecord.systemFamilyName),
+    systemNickname: dropNull(contactRecord.systemNickname),
   });
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
@@ -1122,10 +1150,12 @@ export async function mergeAccountRecord(
     subscriberCurrencyCode,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
+    hasCompletedUsernameOnboarding,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
     storiesDisabled,
     storyViewReceiptsEnabled,
+    username,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1254,8 +1284,8 @@ export async function mergeAccountRecord(
       `remote pinned=${pinnedConversations.length}`
     );
 
-    const remotelyPinnedConversationPromises = pinnedConversations.map(
-      async ({ contact, legacyGroupId, groupMasterKey }) => {
+    const remotelyPinnedConversations = pinnedConversations
+      .map(({ contact, legacyGroupId, groupMasterKey }) => {
         let conversation: ConversationModel | undefined;
 
         if (contact) {
@@ -1292,15 +1322,8 @@ export async function mergeAccountRecord(
         }
 
         return conversation;
-      }
-    );
-
-    const remotelyPinnedConversations = (
-      await Promise.all(remotelyPinnedConversationPromises)
-    ).filter(
-      (conversation): conversation is ConversationModel =>
-        conversation !== undefined
-    );
+      })
+      .filter(isNotNil);
 
     const remotelyPinnedConversationIds = remotelyPinnedConversations.map(
       ({ id }) => id
@@ -1360,6 +1383,15 @@ export async function mergeAccountRecord(
     }
   }
   {
+    const hasCompletedUsernameOnboardingBool = Boolean(
+      hasCompletedUsernameOnboarding
+    );
+    await window.storage.put(
+      'hasCompletedUsernameOnboarding',
+      hasCompletedUsernameOnboardingBool
+    );
+  }
+  {
     const hasStoriesDisabled = Boolean(storiesDisabled);
     await window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
     window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
@@ -1397,6 +1429,7 @@ export async function mergeAccountRecord(
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
     markedUnread: Boolean(noteToSelfMarkedUnread),
+    username: dropNull(username),
     storageID,
     storageVersion,
   });

@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Верификациядан өтті деп белгілеу"
+    "message": "Верификациядан өтті деп белгілеу",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "Верификациядан өтпеді деп белгілеу"
+    "message": "Верификациядан өтпеді деп белгілеу",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "Верификациядан өтті деп белгілеу",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "Верификацияны тазалау",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "Сіздің $name$ араңыздағы қауіпсіздік нөміріңізге верификация жасалды.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Signal қолданбасына қош келдіңіз"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "Бастапқы хат енді қолжетімді емес",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Бастапқы хат табылды, бірақ жүктелмеді. Оны жүктеу үшін жоғары айналдырыңыз.",
@@ -1109,9 +1119,25 @@
     "message": "Кімге",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "{sender} -> {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} -> сіз",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "Сіз -> {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "Сіз -> {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "кімге",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Жіберілді",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "Қауіпсіздік нөмірін көру"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "Қауіпсіздік нөмірін көру",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "Соңғы мультимедианы көру",
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "Қауіпсіздік нөмірін верификациялау",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "Қауіпсіздік нөмірін көру",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "Қауіпсіздік нөмірін көру",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "Бұл пайдаланушымен хат алыспайынша, оны верификациялау мүмкін емес.",
@@ -3691,15 +3729,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ топтың атын өшіріп тастады.",
+    "message": "$memberName$ топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
-    "message": "Сіз топ атауын алып тастадыңыз.",
+    "message": "Сіз топ атауын өшіріп тастадыңыз.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--unknown": {
-    "message": "Мүше топтың атын өшіріп тастады.",
+    "message": "Мүше топтың атауын өшіріп тастады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
@@ -4271,11 +4309,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшелері Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшіріледі:",
+    "message": "Бұл топ мүшесі Жаңа топтарға қосыла алмайды және мына топтан өшірілді:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4375,7 +4413,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": "$contact$ топ админінен өшіру керек пе?",
+    "message": "$contact$ топ әкімшісінен өшіру керек пе?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4687,7 +4725,7 @@
     "description": "The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "AvatarInput--remove-photo-choice": {
-    "message": "Фотосуретті жою",
+    "message": "Фотосуретті өшіру",
     "description": "The button text when you click on an uploaded avatar and want to remove it"
   },
   "ContactPill--remove": {
@@ -5185,6 +5223,10 @@
   "ProfileEditor--username--general-error": {
     "message": "Пайдаланушы атыңыз сақталмады. Қосылымды тексеріп, қайталап көріңіз.",
     "description": "Shown if something unknown has gone wrong with username save."
+  },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
     "message": "Пайдаланушы атыңыз өшірілмеді. Байланысты тексеріп, қайталап көріңіз.",
@@ -5835,7 +5877,7 @@
     "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$ деген пайдаланушыны өшіру",
+    "message": "$title$ өшіру",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5859,7 +5901,7 @@
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "\"$name$\" деген стористі шынымен де жойып тастағыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
+    "message": "\"$name$\" шынымен де жойғыңыз келе ме? Осы стористегі өзгерістер де жойылып кетеді.",
     "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -6066,6 +6108,10 @@
     "message": "Жауап беру",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "{firstName} деген кісіге жауап беру",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "Топқа жауап беру",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "Сториске реакция қалдыру",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "Осы сториске реакция қалдырды",
@@ -6274,6 +6320,14 @@
     "message": "Сторисіңіздің көрермендері үшін сілтеме қосыңыз",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "Сторис жіберілмеді",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "Стористі барлық алушыға жіберу мүмкін емес",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "Мәтін қосу",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "Бұл цифрлар пайдаланушы атыңызды құпия сақтайды, соның арқасында қажетсіз хаттар алмайсыз. Пайдаланушы атыңызды тек сөйлескіңіз келетін адамдармен және топтармен бөлісіңіз. Пайдаланушы атыңызды өзгертсеңіз, сізге жаңа цифрлар жинағы беріледі.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal-дың компьютерлік нұсқасы жақында компьютеріңіздегі {OS} нұсқасымен жұмыс істемейтін болады. Signal-ды пайдалана беру үшін {expirationDate} күніне дейін компьютеріңіздің операциялық жүйесін жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "Енді суреттен тыс жерді басып қалып, суретті ұлғайтпай-ақ галерея көрінісін жабуға болады. Кейде жай ғана суретті жабайын дегенде, ол үлкейіп кететін. Осыны түзеткені үшін {jojomatik} ұжымына рақмет!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "Барынша тез жауап беріңіз. Енді стористерге жауап бергенде, кез келген эмодзиді түртіп, жылдам реакция қалдыра аласыз.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "Енді хаттар тарихынан қытай немесе жапон тілдерінде жекелекен иероглифтерді іздеуіңізге болады.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "Дауыстық және видеоқоңыраулар жұмысының сенімділігі мен жұмысына енгізілген бірнеше өзгерісті сынақтан өткізуге көмектесуіңізді сұраймыз. Бұл бета шығарылымда бірнеше ақау түзетілді және интерфейске қатысты аздаған өзгерістер енгізілді (жаңа сілтеме мазмұнының нобайына жасалған өзгерістерді іздеңіз!). Бета шығарылымды сынақтан өткізуге келіскеніңіз үшін рақмет. Қандай да бір ақау тапсаңыз, қауымдастық форумы арқылы бізбен хабарласыңыз.",
+    "description": "Release notes for v6.6"
   }
 }

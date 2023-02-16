@@ -332,7 +332,7 @@ export class Linkify extends React.Component<Props> {
     const { text, renderNonLink = defaultRenderNonLink } = this.props;
 
     if (!shouldLinkifyMessage(text)) {
-      return text;
+      return renderNonLink({ text, key: 1 });
     }
 
     const chunkData: Array<{

@@ -25,7 +25,9 @@ describe('pnp/send gv2 invite', function needsName() {
   let pniContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({
+      contactCount: 0,
+    });
     await bootstrap.init();
 
     const { phone, server } = bootstrap;

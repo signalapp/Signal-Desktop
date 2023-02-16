@@ -572,10 +572,20 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "علِّم كمُتحقَّق منه"
+    "message": "علِّم كمُتحقَّق منه",
+    "description": "(deleted 2023/02/03)"
   },
   "unverify": {
-    "message": "علِّم كغير مُتحقَّق منه"
+    "message": "علِّم كغير مُتحقَّق منه",
+    "description": "(deleted 2023/02/03)"
+  },
+  "icu:SafetyNumberViewer__markAsVerified": {
+    "messageformat": "علِّم كمُتحقَّق منه",
+    "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
+  },
+  "icu:SafetyNumberViewer__clearVerification": {
+    "messageformat": "محو التحقّق",
+    "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "isVerified": {
     "message": "لقد تحققت من رقم أمانك مع $name$.",
@@ -851,7 +861,7 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    "description": "(deleted 02/07/2023) @ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "مرحباً بك في Signal"
@@ -934,7 +944,7 @@
   },
   "originalMessageNotAvailable": {
     "message": "الرسالة الأصلية لم تعد متاحة",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "(deleted 02/07/2023) Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "عُثِر على الرسالة الأصلية، ولكن لم يتم تحميلها. يُرجى التمرير لأعلى لتحميلها.‫",
@@ -1098,7 +1108,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "سوف تُحذَف هذه الرسالة لأي كان في هذه المحادثة إن كان أحد يستخدم إصدار Signal حديث. لن يكون بإمكان أحد رؤية الرسالة التي قمت بحذفها.",
+    "message": "سَتُحذَف هذه الرسالة لأي كان في هذه المحادثة إن كان أحد يستخدم إصدار Signal حديث. لن يكون بإمكان أحد رؤية الرسالة التي قمت بحذفها.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1109,9 +1119,25 @@
     "message": "إلى",
     "description": "Label for the receiver of a message"
   },
+  "icu:searchResultHeader--sender-to-group": {
+    "messageformat": "‫من {sender} إلى {receiverGroup}",
+    "description": "Shown for search result items - like 'Jon to Friends Group'"
+  },
+  "icu:searchResultHeader--sender-to-you": {
+    "messageformat": "{sender} إليك",
+    "description": "Shown for search result items - like 'Jon to You"
+  },
+  "icu:searchResultHeader--you-to-group": {
+    "messageformat": "أنت إلى {receiverGroup}",
+    "description": "Shown for search result items - like 'You to Friends Group'"
+  },
+  "icu:searchResultHeader--you-to-receiver": {
+    "messageformat": "أنت إلى {receiverContact}",
+    "description": "Shown for search result items - like 'You to Jon'"
+  },
   "toJoiner": {
     "message": "إلى",
-    "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "تم الإرسال",
@@ -1133,6 +1159,10 @@
   },
   "showSafetyNumber": {
     "message": "عرض رقم الأمان"
+  },
+  "icu:ContactModal__showSafetyNumber": {
+    "messageformat": "عرض رقم الأمان",
+    "description": "Contact modal, label for button to show safety number modal"
   },
   "viewRecentMedia": {
     "message": "رؤية الوسائط الحديثة",
@@ -1696,7 +1726,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message": "أنت على وشك حذف جميع معلومات الحساب المحفوظة في التطبيق، والتي تشمل جهات الاتصال وجميع الرسائل. يمكن دوما إعادة ربط جهازك المحمول، لكن لن تُستعاد الرسائل المحذوفة.",
+    "message": "أنت على وشك حذف جميع معلومات الحساب المحفوظة في التطبيق، والتي تشمل جهات الاتصال وجميع الرسائل. يمكن دومًا إعادة ربط جهازك المحمول، لكن لن تُستعاد الرسائل المحذوفة.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
@@ -1708,7 +1738,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب بعدها البداية من الصفر.",
+    "message": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب البداية بعدها من الصفر.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1959,7 +1989,15 @@
   },
   "verifyNewNumber": {
     "message": "التحقق من رقم اﻷمان",
-    "description": "Label on button included with safety number change notification in the conversation"
+    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
+  },
+  "icu:ConversationDetails__viewSafetyNumber": {
+    "messageformat": "عرض رقم اﻷمان",
+    "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:SafetyNumberNotification__viewSafetyNumber": {
+    "messageformat": "عرض رقم اﻷمان",
+    "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "cannotGenerateSafetyNumber": {
     "message": "لا يمكن التحقق من هذا المستخدم حتى يتم تبادل الرسائل معه.",
@@ -3211,7 +3249,7 @@
     "description": "Shown as a button to let the user delete a group message request"
   },
   "MessageRequests--delete-group-confirm-body": {
-    "message": "سوف تغادر هذه المجموعة، ثم ستُحذَف من كل أجهزتك.",
+    "message": "ستُغادر هذه المجموعة، ثم ستُحذَف من كل أجهزتك.",
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--accept": {
@@ -4263,19 +4301,19 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "لا يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالتهم من المجموعة :",
+    "message": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
-    "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سوف تتم إزالته من المجموعة :",
+    "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالته من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--many": {
-    "message": "لا يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة :",
+    "message": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "لا يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
+    "message": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4295,7 +4333,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
-    "message": "أُزيل$count$عضوا من المجموعة.",
+    "message": "أُزيل $count$ عضوا من المجموعة.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -4887,11 +4925,11 @@
     "description": "When confirming the removal of a group member, show this text in the button"
   },
   "RemoveGroupMemberConfirmation__description": {
-    "message": "إزالة \"$name$\" من المجموعة ؟",
+    "message": "إزالة \"$name$\" من المجموعة؟",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
-    "message": "‫إزالة « $name$ » من المجموعة ؟ لن يتمكن هذا المستخدم من إعادة الانضمام بواسطة وصلة المجموعة.",
+    "message": "‫إزالة \"$name$\" من المجموعة؟ لن يتمكن هذا المستخدم من إعادة الانضمام بواسطة وصلة المجموعة.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
@@ -4935,7 +4973,7 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "إن هذا اللون المخصص يُستخدَم في $num$ محادثة. أ لديك الرغبة في حذفه من جميع المحادثات ؟",
+    "message": "إن هذا اللون المخصص يُستخدَم في $num$ محادثة. هل لديك الرغبة في حذفه من جميع المحادثات؟",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -5186,6 +5224,10 @@
     "message": "تعذّر حفظ اسم المستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
+  "icu:ProfileEditor--username--reservation-gone": {
+    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "description": "Shown if username reservation has expired and new one needs to be generated."
+  },
   "ProfileEditor--username--delete-general-error": {
     "message": "تعذّر حذف اسم المستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى.",
     "description": "Shown if something unknown has gone wrong with username delete."
@@ -5207,7 +5249,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "ProfileEditor--username--confirm-delete-body": {
-    "message": "سيحذف ذلك اسم المستخدم الخاص بك، مما يسمح للمستخدمين الآخرين باستخدامه. هل أنت متأكد؟",
+    "message": "سَيحذف ذلك اسم المستخدم الخاص بك، مما يسمح للمُستخدمين الآخرين باستخدامه. هل أنت متأكد؟",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--confirm-delete-button": {
@@ -6066,6 +6108,10 @@
     "message": "الرَّدّ",
     "description": "Button label to reply to a story"
   },
+  "icu:StoryViewer__reply-placeholder": {
+    "messageformat": "الردّ على {firstName}",
+    "description": "Button label to reply to a story"
+  },
   "StoryViewer__reply-group": {
     "message": "الردّ على المجموعة",
     "description": "Button label to reply to a group story"
@@ -6136,7 +6182,7 @@
   },
   "StoryViewsNRepliesModal__react": {
     "message": "التفاعل مع القصة",
-    "description": "aria-label for reaction button"
+    "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
     "message": "المتفاعلون مع القصة",
@@ -6274,6 +6320,14 @@
     "message": "إضافة رابط للأشخاص الذين شاهدوا قصتك",
     "description": "Empty state for the link preview"
   },
+  "icu:Stories__failed-send--full": {
+    "messageformat": "تعذّر إرسال القصة",
+    "description": "Notification text whenever a story fails to send"
+  },
+  "icu:Stories__failed-send--partial": {
+    "messageformat": "تعذّر إرسال القصة إلى جميع المتلقّين",
+    "description": "Notification text whenever a story partially fails to send"
+  },
   "TextAttachment__placeholder": {
     "message": "أضف نصاً",
     "description": "Placeholder for the add text input"
@@ -6333,6 +6387,30 @@
   "EditUsernameModalBody__learn-more__body": {
     "message": "تُساعد هذه الأرقام في الحفاظ على خصوصية اسم المستخدم الخاص بك حتى تتجنب الرسائل غير المرغوب فيها. شارك اسم المستخدم الخاص بك فقط مع الأشخاص والمجموعات الذين ترغب في الدردشة معهم. إذا غيّرتَ أسماء المُستخدم الخاص بك، فسَتحصل على مجموعة جديدة من الأرقام.",
     "description": "Body of the popup with information about discriminator in username"
+  },
+  "icu:UsernameOnboardingModalBody__title": {
+    "messageformat": "Set up your Signal username",
+    "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number": {
+    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "description": "Content of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__link": {
+    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "description": "Content of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__lock": {
+    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "description": "Content of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__learn-more": {
+    "messageformat": "Learn More",
+    "description": "Text that open a popup with information about username onboarding"
+  },
+  "icu:UsernameOnboardingModalBody__continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سيتوقف تطبيق Signal الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام Signal، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
@@ -6401,5 +6479,17 @@
   "icu:WhatsNew__v6.3--1": {
     "messageformat": "أصبح من السهل الآن النقر خارج صورة لتجاهل العرض الكامل دون تكبير الصورة. أحيانًا كنت تودّ فقط أن تغلق الصورة لكن بدلا من ذلك تقترب. شكرًا لـ {jojomatik} على التصليح!",
     "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.5--0": {
+    "messageformat": "سرّع وقت استجابتك. يُمكنك الآن التفاعل بسرعة عبر النقر على أيٍ من الرموز التعبيرية عند الردّ على قصة.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.5--1": {
+    "messageformat": "يُمكنك الآن البحث في سِجل رسائلك عن أحرف فردية باللغتين الصينية واليابانية.",
+    "description": "Release notes for v6.5"
+  },
+  "icu:WhatsNew__v6.6--0": {
+    "messageformat": "ساعدنا في اختبار عدد من تحسينات الموثوقية والأداء لمُكالمات الصوت والفيديو. يَتضمن هذا الإصدار التجريبي أيضًا بعض إصلاحات الأخطاء وبعض التحديثات الصغيرة لواجهة المُستخدم (ابحث عن تحسينات العرض المُسبق للروابط الجديدة!). نشكرك لأنك أحد مختبري الإصدار التجريبي، ويُرجى التواصل معنا على منتدى المجتمع إذا لاحظت أي أخطاء.",
+    "description": "Release notes for v6.6"
   }
 }

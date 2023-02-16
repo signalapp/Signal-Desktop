@@ -71,6 +71,7 @@ export default {
     },
     replaceAvatar: { action: true },
     saveAvatarToDisk: { action: true },
+    markCompletedUsernameOnboarding: { action: true },
     openUsernameReservationModal: { action: true },
     setUsernameEditState: { action: true },
     deleteUsername: { action: true },
