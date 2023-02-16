@@ -3225,11 +3225,25 @@ export class ConversationModel extends window.Backbone
 
     switch (callHistoryDetails.callMode) {
       case CallMode.Direct: {
+        const {
+          callId,
+          wasIncoming,
+          wasVideoCall,
+          wasDeclined,
+          acceptedTime,
+          endedTime,
+        } = callHistoryDetails;
         log.info(
-          `addCallHistory: Adding direct call to history (Call ID ${callHistoryDetails.callId})`
+          `addCallHistory: Call ID: ${callId}, ` +
+            'Direct, ' +
+            `Incoming: ${wasIncoming}, ` +
+            `Video: ${wasVideoCall}, ` +
+            `Declined: ${wasDeclined}, ` +
+            `Accepted: ${acceptedTime}, ` +
+            `Ended: ${endedTime}`
         );
-        const resolvedTime =
-          callHistoryDetails.acceptedTime ?? callHistoryDetails.endedTime;
+
+        const resolvedTime = acceptedTime ?? endedTime;
         assertDev(resolvedTime, 'Direct call must have accepted or ended time');
         timestamp = resolvedTime;
         unread =
@@ -3277,6 +3291,10 @@ export class ConversationModel extends window.Backbone
               `addCallHistory: Found existing call history message (Call ID ${callHistoryDetails.callId}, Message ID: ${messageId})`
             );
             message.id = messageId;
+          } else {
+            log.info(
+              `addCallHistory: No existing call history message found (Call ID ${callHistoryDetails.callId})`
+            );
           }
         }
 
