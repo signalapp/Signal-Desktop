@@ -117,7 +117,7 @@ export interface Reaction {
   action: Action;
 }
 
-// used for logic operations with reactions i.e reponses, db, etc.
+// used for logic operations with reactions i.e responses, db, etc.
 export type ReactionList = Record<
   string,
   {

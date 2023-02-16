@@ -707,7 +707,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         // than the message was sent without the link preview.
         // So be sure to reset the staged link preview so it is not sent with the next message.
 
-        // if we were not aborted, it's probably just an error on the fetch. Nothing to do excpet mark the fetch as done (with errors)
+        // if we were not aborted, it's probably just an error on the fetch. Nothing to do except mark the fetch as done (with errors)
 
         if (aborted) {
           this.setState({

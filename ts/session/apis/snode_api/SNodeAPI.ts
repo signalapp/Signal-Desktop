@@ -567,7 +567,7 @@ export async function retrieveNextMessages(
 }
 
 /**
- * Makes a post to a node to receive the timestamp info. If non-existant, returns -1
+ * Makes a post to a node to receive the timestamp info. If non-existent, returns -1
  * @param snode Snode to send request to
  * @returns timestamp of the response from snode
  */

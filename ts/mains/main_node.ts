@@ -649,7 +649,7 @@ async function showDebugLogWindow() {
   }
 
   if (!mainWindow) {
-    console.info('debug log neeeds mainwindow size to open');
+    console.info('debug log needs mainwindow size to open');
     return;
   }
 

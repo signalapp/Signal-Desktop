@@ -727,7 +727,7 @@ async function handle421InvalidSwarm({
     associatedWith,
   });
 
-  // this is important we throw so another retry is made and we exit the handling of that reponse
+  // this is important we throw so another retry is made and we exit the handling of that response
   throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
 }
 

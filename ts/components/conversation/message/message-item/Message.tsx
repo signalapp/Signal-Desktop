@@ -12,7 +12,7 @@ export const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = THUMBNAIL_SIDE;
 
 type Props = {
   messageId: string;
-  isDetailView?: boolean; // when the detail is shown for a message, we disble click and some other stuff
+  isDetailView?: boolean; // when the detail is shown for a message, we disable click and some other stuff
 };
 
 export const Message = (props: Props) => {

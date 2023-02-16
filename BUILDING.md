@@ -65,7 +65,7 @@ git lfs install
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
-yarn install --frozen-lockfile # install all dependecies of this project
+yarn install --frozen-lockfile # install all dependencies of this project
 yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```
@@ -115,7 +115,7 @@ git lfs install # once git lfs is installed, you have to run this command too
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
-yarn install --frozen-lockfile # install all dependecies of this project
+yarn install --frozen-lockfile # install all dependencies of this project
 yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```

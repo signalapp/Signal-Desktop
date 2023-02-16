@@ -15,7 +15,7 @@ const { NODE_ENV: environment, NODE_APP_INSTANCE: instance } = process.env;
 const isValidInstance = typeof instance === 'string' && instance.length > 0;
 const isProduction = environment === 'production' && !isValidInstance;
 
-// Use seperate data directories for each different environment and app instances
+// Use separate data directories for each different environment and app instances
 if (!isProduction) {
   storageProfile = environment;
   if (isValidInstance) {

@@ -17,7 +17,7 @@ const sha512FromPubkey = async (pubkey: string): Promise<string> => {
     .join('');
 };
 
-// do not do this on every avatar, just cache the values so we can reuse them accross the app
+// do not do this on every avatar, just cache the values so we can reuse them across the app
 // key is the pubkey, value is the hash
 const cachedHashes = new Map<string, number>();
 

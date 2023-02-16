@@ -102,7 +102,7 @@ For example, running:
 NODE_APP_INSTANCE=alice yarn start-prod
 ```
 
-Will run the development environment with the `alice` instance and thus create a seperate storage profile.
+Will run the development environment with the `alice` instance and thus create a separate storage profile.
 
 If a fixed profile is needed (in the case of tests), you can specify it using `storageProfile` in the config file. If the change is local then put it in `local-{instance}.json` otherwise put it in `default-{instance}.json` or `{env}-{instance}.json`.
 
