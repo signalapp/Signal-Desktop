@@ -28,7 +28,7 @@ export function validateConversation(
 function validateNumber(attributes: ValidateConversationType): string | null {
   const { e164 } = attributes;
   if (isDirectConversation(attributes) && e164) {
-    if (!/^\+[0-9]{1,19}$/.test(e164)) {
+    if (!/^\+[1-9][0-9]{0,18}$/.test(e164)) {
       return 'Invalid E164';
     }
 
