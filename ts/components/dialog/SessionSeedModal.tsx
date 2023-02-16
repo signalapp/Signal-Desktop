@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
@@ -12,6 +12,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import styled from 'styled-components';
+import { saveQRCode } from '../../util/saveQRCode';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -90,14 +91,24 @@ interface SeedProps {
   onClickCopy?: () => any;
 }
 
-const StyledRecoveryPhrase = styled.i`
-  margin-bottom: var(--margins-md);
-`;
+const StyledRecoveryPhrase = styled.i``;
 
 const StyledQRImage = styled.div`
   width: fit-content;
-  margin: 0 auto;
+  margin: 0 auto var(--margins-lg);
+  cursor: pointer;
 `;
+
+const handleSaveQRCode = (event: MouseEvent) => {
+  event.preventDefault();
+  saveQRCode(
+    'session-recovery-phrase',
+    '220px',
+    '220px',
+    'var(--white-color)',
+    'var(--black-color)'
+  );
+};
 
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
@@ -132,6 +143,15 @@ const Seed = (props: SeedProps) => {
           {i18n('recoveryPhraseSavePromptMain')}
         </p>
 
+        <StyledQRImage
+          aria-label={window.i18n('clickToTrustContact')}
+          title={window.i18n('clickToTrustContact')}
+          className="qr-image"
+          onClick={handleSaveQRCode}
+        >
+          <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
+        </StyledQRImage>
+
         <StyledRecoveryPhrase
           data-testid="recovery-phrase-seed-modal"
           className="session-modal__text-highlight"
@@ -139,9 +159,6 @@ const Seed = (props: SeedProps) => {
           {recoveryPhrase}
         </StyledRecoveryPhrase>
       </div>
-      <StyledQRImage className="qr-image">
-        <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
-      </StyledQRImage>
       <div
         className="session-modal__button-group"
         style={{ justifyContent: 'center', width: '100%' }}
