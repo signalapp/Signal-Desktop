@@ -562,6 +562,31 @@ export function CompositionInput(props: Props): React.ReactElement {
   const callbacksRef = React.useRef(unstaleCallbacks);
   callbacksRef.current = unstaleCallbacks;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const bindingVar: any = {
+    onShortKeyEnter: {
+      key: 13, // 13 = Enter
+      shortKey: true,
+      handler: () => callbacksRef.current.onShortKeyEnter(),
+    },
+    onEscape: {
+      key: 27,
+      handler: () => callbacksRef.current.onEscape(),
+    }, // 27 = Escape
+    onBackspace: {
+      key: 8,
+      handler: () => callbacksRef.current.onBackspace(),
+    }, // 8 = Backspace
+  };
+
+  const SHOULD_SUBMIT = window.storage.get('enter-key-sends', true);
+  if (SHOULD_SUBMIT) {
+    bindingVar.onEnter = {
+      key: 13,
+      handler: () => callbacksRef.current.onEnter(),
+    };
+  }
+
   const reactQuill = React.useMemo(
     () => {
       const delta = generateDelta(draftText || '', draftBodyRanges || []);
@@ -584,25 +609,7 @@ export function CompositionInput(props: Props): React.ReactElement {
               ],
             },
             keyboard: {
-              bindings: {
-                onEnter: {
-                  key: 13,
-                  handler: () => callbacksRef.current.onEnter(),
-                }, // 13 = Enter
-                onShortKeyEnter: {
-                  key: 13, // 13 = Enter
-                  shortKey: true,
-                  handler: () => callbacksRef.current.onShortKeyEnter(),
-                },
-                onEscape: {
-                  key: 27,
-                  handler: () => callbacksRef.current.onEscape(),
-                }, // 27 = Escape
-                onBackspace: {
-                  key: 8,
-                  handler: () => callbacksRef.current.onBackspace(),
-                }, // 8 = Backspace
-              },
+              bindings: bindingVar,
             },
             emojiCompletion: {
               setEmojiPickerElement: setEmojiCompletionElement,
