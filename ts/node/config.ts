@@ -24,7 +24,7 @@ if (environment === 'production') {
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
 
-  // We could be running againt production but still be in dev mode, we need to handle that
+  // We could be running against production but still be in dev mode, we need to handle that
   if (!electronIsDev) {
     process.env.NODE_APP_INSTANCE = '';
   }

@@ -94,7 +94,7 @@ describe('OnionPathsErrors', () => {
     stubData('getSwarmNodesForPubkey').resolves(fakeSwarmForAssociatedWith);
     updateGuardNodesStub = stubData('updateGuardNodes').resolves();
 
-    // those are still doing what they do, but we spy on their executation
+    // those are still doing what they do, but we spy on their execution
     updateSwarmSpy = stubData('updateSwarmNodesForPubkey').resolves();
     stubData('getItemById').resolves({ id: SNODE_POOL_ITEM_ID, value: '' });
     stubData('createOrUpdateItem').resolves();

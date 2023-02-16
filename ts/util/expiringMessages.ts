@@ -20,7 +20,7 @@ export async function destroyMessagesAndUpdateRedux(
   const conversationWithChanges = uniq(messages.map(m => m.conversationKey));
 
   try {
-    // Delete all thoses messages in a single sql call
+    // Delete all those messages in a single sql call
     await Data.removeMessagesByIds(messages.map(m => m.messageId));
   } catch (e) {
     window.log.error('destroyMessages: removeMessagesByIds failed', e && e.message ? e.message : e);

@@ -22,7 +22,7 @@ const StyledConversationTitleResults = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--conversation-tab-text-color);
-  /* We don't want this to overflow horziontally past the timestamp */
+  /* We don't want this to overflow horizontally past the timestamp */
   width: 90px;
 `;
 

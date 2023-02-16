@@ -53,7 +53,7 @@ describe('Padding', () => {
     });
 
     it('add padding if the attachment is already too big', () => {
-      // we just want to make sure we do not overide attachment data. The file upload will fail, but at least make sure to keep the user data.
+      // we just want to make sure we do not override attachment data. The file upload will fail, but at least make sure to keep the user data.
       const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES + 1);
       const paddedBuffer = addAttachmentPadding(bufferIn);
       const expectedPaddedSize = Math.floor(
