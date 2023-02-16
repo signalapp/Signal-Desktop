@@ -50,7 +50,6 @@ export const SettingsCategoryPrivacy = (props: {
   const isLinkPreviewsOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
 
   const forceUpdate = useUpdate();
-
   if (props.hasPassword !== null) {
     return (
       <>
