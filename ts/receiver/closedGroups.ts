@@ -89,7 +89,7 @@ export async function handleClosedGroupControlMessage(
     return;
   }
 
-  if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
+  if (BlockedNumberController.isBlocked(PubKey.cast(envelope.source))) {
     window?.log?.warn('Message ignored; destined for blocked group');
     await removeFromCache(envelope);
     return;

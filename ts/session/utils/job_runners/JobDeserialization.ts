@@ -25,7 +25,7 @@ export function persistedJobFromData<T extends TypeOfPersistedData>(
     case 'FakeSleepForJobMultiType':
       return (new FakeSleepForMultiJob(data) as unknown) as PersistedJob<T>;
     default:
-      console.warn('unknown persisted job type:', (data as any).jobType);
+      console.error('unknown persisted job type:', (data as any).jobType);
       return null;
   }
 }

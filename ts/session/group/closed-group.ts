@@ -268,7 +268,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
 
   const isBlocked = details.blocked || false;
   if (conversation.isClosedGroup() || conversation.isMediumGroup()) {
-    await BlockedNumberController.setGroupBlocked(conversation.id as string, isBlocked);
+    await BlockedNumberController.setBlocked(conversation.id as string, isBlocked);
   }
 
   if (details.admins?.length) {

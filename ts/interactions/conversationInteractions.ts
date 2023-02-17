@@ -91,10 +91,7 @@ export async function blockConvoById(conversationId: string) {
     return;
   }
 
-  const promise = conversation.isPrivate()
-    ? BlockedNumberController.block(conversation.id)
-    : BlockedNumberController.blockGroup(conversation.id);
-  await promise;
+  await BlockedNumberController.block(conversation.id);
   await conversation.commit();
   ToastUtils.pushToastSuccess('blocked', window.i18n('blocked'));
 }
@@ -112,10 +109,7 @@ export async function unblockConvoById(conversationId: string) {
   if (!conversation.id || conversation.isPublic()) {
     return;
   }
-  const promise = conversation.isPrivate()
-    ? BlockedNumberController.unblock(conversationId)
-    : BlockedNumberController.unblockGroup(conversationId);
-  await promise;
+  await BlockedNumberController.unblock(conversationId);
   ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
   await conversation.commit();
 }

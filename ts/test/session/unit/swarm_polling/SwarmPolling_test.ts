@@ -40,7 +40,7 @@ describe('SwarmPolling', () => {
   let clock: Sinon.SinonFakeTimers;
   beforeEach(async () => {
     getConversationController().reset();
-
+    TestUtils.stubWindowFeatureFlags();
     // Utils Stubs
     Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 

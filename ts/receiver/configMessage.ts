@@ -72,6 +72,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   return result;
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 async function handleContactsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   if (!result.needsDump) {
     return result;
@@ -116,11 +117,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
 
       const convoBlocked = wrapperConvo.blocked || false;
       if (convoBlocked !== existingConvo.isBlocked()) {
-        if (existingConvo.isPrivate()) {
-          await BlockedNumberController.setBlocked(wrapperConvo.id, convoBlocked);
-        } else {
-          await BlockedNumberController.setGroupBlocked(wrapperConvo.id, convoBlocked);
-        }
+        await BlockedNumberController.setBlocked(wrapperConvo.id, convoBlocked);
       }
 
       if (wrapperConvo.nickname !== existingConvo.getNickname()) {

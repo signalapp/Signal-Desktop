@@ -405,9 +405,7 @@ export const _getSortedConversations = (
       };
     }
 
-    const isBlocked =
-      BlockedNumberController.isBlocked(conversation.id) ||
-      BlockedNumberController.isGroupBlocked(conversation.id);
+    const isBlocked = BlockedNumberController.isBlocked(conversation.id);
 
     if (isBlocked) {
       conversation = {

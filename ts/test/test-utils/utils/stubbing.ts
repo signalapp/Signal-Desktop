@@ -86,6 +86,10 @@ export const stubWindowLog = () => {
   });
 };
 
+export const stubWindowFeatureFlags = () => {
+  stubWindow('sessionFeatureFlags', { debug: {} } as any);
+};
+
 export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessageToCatch: string) {
   try {
     await toAwait();

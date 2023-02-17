@@ -28,6 +28,7 @@ describe('ConfigurationMessage_receiving', () => {
   let config: ConfigurationMessage;
 
   beforeEach(() => {
+    TestUtils.stubWindowFeatureFlags();
     Sinon.stub(cache, 'removeFromCache').resolves();
     sender = TestUtils.generateFakePubKey().key;
     config = new ConfigurationMessage({

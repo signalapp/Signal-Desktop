@@ -46,11 +46,12 @@ describe('Message Utils', () => {
         SnodeNamespaces.UserContacts
       );
 
-      expect(Object.keys(rawMessage)).to.have.length(5);
+      expect(Object.keys(rawMessage)).to.have.length(6);
 
       // do not believe tslint. those calls to.exist are actually correct here
       // tslint:disable: no-unused-expression
       expect(rawMessage.identifier).to.exist;
+      expect(rawMessage.namespace).to.exist;
       expect(rawMessage.device).to.exist;
       expect(rawMessage.encryption).to.exist;
       expect(rawMessage.plainTextBuffer).to.exist;

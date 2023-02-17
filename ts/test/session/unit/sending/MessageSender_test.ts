@@ -1,23 +1,24 @@
 import { expect } from 'chai';
 import * as crypto from 'crypto';
-import Sinon, * as sinon from 'sinon';
-import { MessageSender } from '../../../../session/sending';
-import { TestUtils } from '../../../test-utils';
-import { MessageEncrypter } from '../../../../session/crypto';
-import { SignalService } from '../../../../protobuf';
-import { PubKey, RawMessage } from '../../../../session/types';
-import { MessageUtils, UserUtils } from '../../../../session/utils';
 import _ from 'lodash';
-import { OpenGroupPollingUtils } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
-import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
-import { stubCreateObjectUrl, stubData, stubUtilWorker } from '../../../test-utils/utils';
-import { SogsBlinding } from '../../../../session/apis/open_group_api/sogsv3/sogsBlinding';
-import { Onions } from '../../../../session/apis/snode_api/onions';
-import { OnionV4 } from '../../../../session/onions/onionv4';
-import { OnionSending } from '../../../../session/onions/onionSend';
+import Sinon, * as sinon from 'sinon';
+import { SignalService } from '../../../../protobuf';
 import { OpenGroupMessageV2 } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupPollingUtils } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
+import { SogsBlinding } from '../../../../session/apis/open_group_api/sogsv3/sogsBlinding';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
+import { Onions } from '../../../../session/apis/snode_api/onions';
+import { getConversationController } from '../../../../session/conversations/ConversationController';
+import { MessageEncrypter } from '../../../../session/crypto';
+import { OnionSending } from '../../../../session/onions/onionSend';
+import { OnionV4 } from '../../../../session/onions/onionv4';
+import { MessageSender } from '../../../../session/sending';
+import { PubKey, RawMessage } from '../../../../session/types';
+import { MessageUtils, UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
+import { stubCreateObjectUrl, stubData, stubUtilWorker } from '../../../test-utils/utils';
+import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
 
 describe('MessageSender', () => {
   afterEach(() => {
@@ -26,6 +27,7 @@ describe('MessageSender', () => {
 
   beforeEach(() => {
     TestUtils.stubWindowLog();
+    TestUtils.stubWindowFeatureFlags();
   });
 
   // tslint:disable-next-line: max-func-body-length
@@ -35,7 +37,7 @@ describe('MessageSender', () => {
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, SignalService.Envelope.Type]>;
 
     beforeEach(() => {
-      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessagesToSnode').resolves();
+      sessionMessageAPISendStub = Sinon.stub(MessageSender, 'sendMessagesDataToSnode').resolves();
 
       stubData('getMessageById').resolves();
 
@@ -101,6 +103,7 @@ describe('MessageSender', () => {
       it('should pass the correct values to lokiMessageAPI', async () => {
         const device = TestUtils.generateFakePubKey();
         const visibleMessage = TestUtils.generateVisibleMessage();
+        Sinon.stub(getConversationController(), 'get').returns(undefined as any);
 
         const rawMessage = await MessageUtils.toRawMessage(
           device,
@@ -121,7 +124,7 @@ describe('MessageSender', () => {
 
         // This test assumes the encryption stub returns the plainText passed into it.
         const device = TestUtils.generateFakePubKey();
-
+        Sinon.stub(getConversationController(), 'get').returns(undefined as any);
         const visibleMessage = TestUtils.generateVisibleMessage();
         const rawMessage = await MessageUtils.toRawMessage(
           device,
@@ -171,6 +174,7 @@ describe('MessageSender', () => {
       describe('SESSION_MESSAGE', () => {
         it('should set the envelope source to be empty', async () => {
           messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.SESSION_MESSAGE;
+          Sinon.stub(getConversationController(), 'get').returns(undefined as any);
 
           // This test assumes the encryption stub returns the plainText passed into it.
           const device = TestUtils.generateFakePubKey();
