@@ -1182,30 +1182,11 @@ export async function startApp(): Promise<void> {
       onConversationClosed(id, 'removed');
       conversationRemoved(id);
     });
-
-    const addedConvoBatcher = createBatcher<ConversationModel>({
-      name: 'addedConvoBatcher',
-      processBatch(batch) {
-        batchDispatch(() => {
-          batch.forEach(conversation => {
-            conversationAdded(conversation.id, conversation.format());
-          });
-        });
-      },
-
-      // This delay ensures that the .format() call isn't synchronous as a
-      //   Backbone property is changed. Important because our _byUuid/_byE164
-      //   lookups aren't up-to-date as the change happens; just a little bit
-      //   after.
-      wait: 1,
-      maxSize: Infinity,
-    });
-
     convoCollection.on('add', conversation => {
       if (!conversation) {
         return;
       }
-      addedConvoBatcher.add(conversation);
+      conversationAdded(conversation.id, conversation.format());
     });
 
     const changedConvoBatcher = createBatcher<ConversationModel>({
