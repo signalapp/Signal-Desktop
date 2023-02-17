@@ -5,10 +5,10 @@
   &__container {
     .module-message & {
       margin: {
-        left: -6px;
-        right: -6px;
-        top: 3px;
-        bottom: 5px;
+        left: -4px;
+        right: -4px;
+        top: 0px;
+        bottom: 8px;
       }
     }
   }
@@ -17,15 +17,12 @@
   width: 100%;
 
   position: relative;
-  border-radius: 4px;
+  border-radius: 8px 8px 4px 4px;
 
   display: flex;
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-
-  border-left-width: 4px;
-  border-left-style: solid;
 
   @include keyboard-mode {
     &:focus {
@@ -63,8 +60,11 @@
 }
 
 .module-quote--outgoing {
-  border-left-color: $color-steel;
   background-color: $color-steel;
+
+  .module-quote__primary {
+    border-left-color: $color-steel;
+  }
 
   // To preserve contrast
   @include keyboard-mode {
@@ -77,7 +77,10 @@
 @each $color, $value in $conversation-colors {
   .module-quote--incoming-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $value;
+
+    .module-quote__primary {
+      border-left-color: $value;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
@@ -86,7 +89,10 @@
 
   .module-quote--outgoing-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $color-white;
+
+    .module-quote__primary {
+      border-left-color: $color-white;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
@@ -96,11 +102,16 @@
 
   .module-quote--compose-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $value;
+
+    .module-quote__primary {
+      border-left-color: $value;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
-      border-left-color: $color-white;
+      .module-quote__primary {
+        border-left-color: $color-white;
+      }
     }
   }
 }
@@ -114,7 +125,9 @@
 @each $color, $value in $conversation-colors-gradient {
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
-    border-left-color: map-get($value, 'start');
+    .module-quote__primary {
+      border-left-color: map-get($value, 'start');
+    }
   }
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color},
@@ -122,10 +135,11 @@
     background-attachment: fixed;
     @include light-theme {
       background-image: linear-gradient(
-        map-get($value, 'deg'),
-        scale-color(map-get($value, 'start'), $lightness: 60%),
-        scale-color(map-get($value, 'end'), $lightness: 60%)
-      );
+          map-get($value, 'deg'),
+          scale-color(map-get($value, 'start'), $lightness: 60%),
+          scale-color(map-get($value, 'end'), $lightness: 60%)
+        ),
+        linear-gradient(red, blue);
     }
     @include dark-theme {
       background-image: linear-gradient(
@@ -136,7 +150,9 @@
     }
   }
   .module-quote--outgoing-#{$color} {
-    border-left-color: $color-white;
+    .module-quote__primary {
+      border-left-color: $color-white;
+    }
   }
 }
 
@@ -149,6 +165,8 @@
 
   // To leave room for image thumbnail
   min-height: 54px;
+  border-style: solid;
+  border-width: 0 0 0 4px;
 }
 
 .module-quote__primary__author {
@@ -428,5 +446,25 @@
 .module-quote__reference-warning__text--incoming {
   @include dark-theme {
     color: $color-gray-05;
+  }
+}
+
+.module-message {
+  .module-message__author + .module-quote__container {
+    margin-top: 3px;
+    .module-quote {
+      border-radius: 4px 4px 4px 4px;
+    }
+  }
+}
+
+.module-message--incoming.module-message--collapsed-above {
+  .module-quote {
+    border-top-left-radius: 4px;
+  }
+}
+.module-message--outgoing.module-message--collapsed-above {
+  .module-quote {
+    border-top-right-radius: 4px;
   }
 }

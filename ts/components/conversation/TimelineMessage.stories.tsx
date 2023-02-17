@@ -738,6 +738,31 @@ Sticker.args = {
   status: 'sent',
 };
 
+export const Quote = Template.bind({});
+Quote.args = {
+  quote: {
+    text: 'hello my good friend',
+    conversationColor: 'ultramarine',
+    conversationTitle: 'Convo',
+    isFromMe: false,
+    sentAt: 0,
+    authorId: '',
+    authorTitle: 'Author',
+    referencedMessageNotFound: false,
+    isViewOnce: false,
+    isGiftBadge: false,
+  },
+  author: {
+    id: '',
+    isMe: false,
+    title: 'Quoter Dude',
+    sharedGroupNames: [],
+    acceptedMessageRequest: true,
+    badges: [],
+  },
+  conversationType: 'group',
+};
+
 export function Deleted(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
