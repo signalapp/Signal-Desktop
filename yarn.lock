@@ -2187,10 +2187,10 @@
     ws "^8.4.2"
     zod "^3.20.2"
 
-"@signalapp/ringrtc@2.24.0":
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.24.0.tgz#634160d24b2e13967a634e0f3236b2b4b5854091"
-  integrity sha512-BtpTRxSSCPIV6WBxxGuXUj16ZND/O30+l20Ck2TKDFwRyJUDuBfrNUCGtGXvmmt/OQx6wDG3ZyfjePpffdhEvQ==
+"@signalapp/ringrtc@2.25.0":
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.25.0.tgz#dfa75860c69dd6a81aef568d9fe3fb1a0573a4f7"
+  integrity sha512-/kOtgYjhqAdPPmmrcX8MaH4YPQX4xVXCzy8ph4NC1NnCK0DiBP9b+jC2sijdx8rHeKhXCcCyeiHVm1LOcnPNjQ==
   dependencies:
     tar "^6.1.0"
 

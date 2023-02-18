@@ -32,7 +32,11 @@ class FakeGroupCallVideoFrameSource implements VideoFrameSource {
     this.dimensions = [width, height];
   }
 
-  receiveVideoFrame(destinationBuffer: Buffer): [number, number] | undefined {
+  receiveVideoFrame(
+    destinationBuffer: Buffer,
+    _maxWidth: number,
+    _maxHeight: number
+  ): [number, number] | undefined {
     // Simulate network jitter. Also improves performance when testing.
     if (Math.random() < 0.5) {
       return undefined;
