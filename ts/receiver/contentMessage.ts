@@ -1,34 +1,34 @@
-import { EnvelopePlus } from './types';
 import { handleSwarmDataMessage } from './dataMessage';
+import { EnvelopePlus } from './types';
 
-import { removeFromCache, updateCacheWithDecryptedContent } from './cache';
-import { SignalService } from '../protobuf';
 import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
+import { SignalService } from '../protobuf';
 import { KeyPrefixType, PubKey } from '../session/types';
+import { removeFromCache, updateCacheWithDecryptedContent } from './cache';
 
-import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils, UserUtils } from '../session/utils';
-import { fromHexToArray, toHex } from '../session/utils/String';
-import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
-import { getConversationController } from '../session/conversations';
-import { ECKeyPair } from './keypairs';
-import { ConfigMessageHandler } from './configMessage';
-import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { perfEnd, perfStart } from '../session/utils/Performance';
-import { getAllCachedECKeyPair } from './closedGroups';
-import { handleCallMessage } from './callMessage';
-import { SettingsKey } from '../data/settings-key';
-import { ReadReceipts } from '../util/readReceipts';
-import { Storage } from '../util/storage';
 import { Data } from '../data/data';
+import { SettingsKey } from '../data/settings-key';
 import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { getConversationController } from '../session/conversations';
+import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
+import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { GroupUtils, UserUtils } from '../session/utils';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { fromHexToArray, toHex } from '../session/utils/String';
+import { ReadReceipts } from '../util/readReceipts';
+import { Storage } from '../util/storage';
+import { handleCallMessage } from './callMessage';
+import { getAllCachedECKeyPair } from './closedGroups';
+import { ConfigMessageHandler } from './configMessage';
+import { ECKeyPair } from './keypairs';
+import { BlockedNumberController } from '../util';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -205,10 +205,6 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-export async function isBlocked(number: string) {
-  return BlockedNumberController.isBlockedAsync(number);
-}
-
 async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
@@ -356,7 +352,7 @@ export async function innerHandleSwarmContentMessage(
      * a control message through (if the associated closed group is not blocked)
      */
 
-    const blocked = await isBlocked(envelope.senderIdentity || envelope.source);
+    const blocked = BlockedNumberController.isBlocked(envelope.senderIdentity || envelope.source);
     perfEnd(`isBlocked-${envelope.id}`, 'isBlocked');
     if (blocked) {
       const envelopeSource = envelope.source;
@@ -444,6 +440,10 @@ export async function innerHandleSwarmContentMessage(
           authorInGroup: envelope.senderIdentity,
         };
         await ConfigMessageHandler.handleConfigMessageViaLibSession(envelope, asIncomingMsg);
+        return;
+      } else {
+        await removeFromCache(envelope);
+        return;
       }
     }
     if (content.dataExtractionNotification) {

@@ -347,7 +347,6 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
     await setLastProfileUpdateTimestamp(Date.now());
   } else {
     await setLastProfileUpdateTimestamp(Date.now());
-
     await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
   }
 }

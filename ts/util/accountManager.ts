@@ -17,6 +17,7 @@ import {
 import { Registration } from './registration';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 
 /**
  * Might throw
@@ -196,7 +197,13 @@ async function registrationDone(ourPubkey: string, displayName: string) {
     ourPrimary: ourPubkey,
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
+
   await Registration.markDone();
+  try {
+    await LibSessionUtil.initializeLibSessionUtilWrappers();
+  } catch (e) {
+    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+  }
   window?.log?.info('dispatching registration event');
   trigger('registration_done');
 }

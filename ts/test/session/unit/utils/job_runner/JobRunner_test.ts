@@ -331,7 +331,7 @@ describe('JobRunner', () => {
     });
   });
 
-  describe('retriesFailing Jobns', () => {
+  describe('retriesFailing Jobs', () => {
     it('does not await if no job at all ', async () => {
       await runner.loadJobsFromDb();
       runner.startProcessing();

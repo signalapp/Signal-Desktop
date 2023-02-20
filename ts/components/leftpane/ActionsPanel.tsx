@@ -44,11 +44,9 @@ import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
-import { LibSessionUtil } from '../../session/utils/libsession/libsession_utils';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
-import { runners } from '../../session/utils/job_runners/JobRunner';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -193,21 +191,13 @@ const triggerAvatarReUploadIfNeeded = async () => {
  * This function is called only once: on app startup with a logged in user
  */
 const doAppStartUp = async () => {
-  await LibSessionUtil.initializeLibSessionUtilWrappers();
-
   void setupTheme();
   // this generates the key to encrypt attachments locally
   await Data.generateAttachmentKeyIfEmpty();
 
-  await runners.avatarDownloadRunner.loadJobsFromDb();
-  runners.avatarDownloadRunner.startProcessing();
-  await runners.configurationSyncRunner.loadJobsFromDb();
-  runners.configurationSyncRunner.startProcessing();
-
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();
   void getSwarmPollingInstance().start();
-
   void loadDefaultRooms();
 
   // TODO make this a job of the JobRunner

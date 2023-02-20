@@ -4,6 +4,7 @@ import {
   FakeSleepForMultiJob,
 } from '../../../test/session/unit/utils/job_runner/FakeSleepForJob';
 import { AvatarDownload } from './jobs/AvatarDownloadJob';
+import { ConfigurationDumpSync } from './jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from './jobs/ConfigurationSyncJob';
 import { PersistedJob, TypeOfPersistedData } from './PersistedJob';
 
@@ -17,6 +18,10 @@ export function persistedJobFromData<T extends TypeOfPersistedData>(
   switch (data.jobType) {
     case 'ConfigurationSyncJobType':
       return (new ConfigurationSync.ConfigurationSyncJob(data) as unknown) as PersistedJob<T>;
+    case 'ConfigurationSyncDumpJobType':
+      return (new ConfigurationDumpSync.ConfigurationSyncDumpJob(data) as unknown) as PersistedJob<
+        T
+      >;
 
     case 'AvatarDownloadJobType':
       return (new AvatarDownload.AvatarDownloadJob(data) as unknown) as PersistedJob<T>;

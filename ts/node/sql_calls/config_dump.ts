@@ -8,6 +8,8 @@ import {
   ConfigDumpDataNode,
   ConfigDumpRow,
   ConfigDumpRowWithoutData,
+  ConfigDumpRowWithoutHashes,
+  CONFIG_DUMP_TABLE,
 } from '../../types/sqlSharedTypes';
 import { ConfigWrapperObjectTypes } from '../../webworker/workers/browser/libsession_worker_functions';
 import { assertGlobalInstance } from '../sqlInstance';
@@ -59,7 +61,7 @@ export const configDumpData: ConfigDumpDataNode = {
   getByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, publicKey: string) => {
     const rows = assertGlobalInstance()
       .prepare(
-        'SELECT publicKey, variant, combinedMessageHashes, data from configDump WHERE variant = $variant AND publicKey = $publicKey;'
+        `SELECT publicKey, variant, combinedMessageHashes, data from ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
       )
       .all({
         publicKey,
@@ -79,7 +81,7 @@ export const configDumpData: ConfigDumpDataNode = {
   ): Array<string> => {
     const rows = assertGlobalInstance()
       .prepare(
-        'SELECT combinedMessageHashes from configDump WHERE variant = $variant AND publicKey = $publicKey;'
+        `SELECT combinedMessageHashes from ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
       )
       .all({
         publicKey,
@@ -97,7 +99,7 @@ export const configDumpData: ConfigDumpDataNode = {
 
   getAllDumpsWithData: () => {
     const rows = assertGlobalInstance()
-      .prepare('SELECT variant, publicKey, combinedMessageHashes, data from configDump;')
+      .prepare(`SELECT variant, publicKey, combinedMessageHashes, data from ${CONFIG_DUMP_TABLE};`)
       .all();
 
     if (!rows) {
@@ -109,7 +111,7 @@ export const configDumpData: ConfigDumpDataNode = {
 
   getAllDumpsWithoutData: () => {
     const rows = assertGlobalInstance()
-      .prepare('SELECT variant, publicKey, combinedMessageHashes from configDump;')
+      .prepare(`SELECT variant, publicKey, combinedMessageHashes from ${CONFIG_DUMP_TABLE};`)
       .all();
 
     if (!rows) {
@@ -122,7 +124,7 @@ export const configDumpData: ConfigDumpDataNode = {
   saveConfigDump: ({ data, publicKey, variant, combinedMessageHashes }: ConfigDumpRow) => {
     assertGlobalInstance()
       .prepare(
-        `INSERT OR REPLACE INTO configDump (
+        `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
               publicKey,
               variant,
               combinedMessageHashes,
@@ -141,6 +143,26 @@ export const configDumpData: ConfigDumpDataNode = {
         data,
       });
   },
+  saveConfigDumpNoHashes: ({ data, publicKey, variant }: ConfigDumpRowWithoutHashes) => {
+    assertGlobalInstance()
+      .prepare(
+        `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+            publicKey,
+            variant,
+            data
+        ) values (
+          $publicKey,
+          $variant,
+          $data
+        );`
+      )
+      .run({
+        publicKey,
+        variant,
+        data,
+      });
+  },
+
   saveCombinedMessageHashesForMatching: ({
     publicKey,
     variant,
@@ -148,7 +170,7 @@ export const configDumpData: ConfigDumpDataNode = {
   }: ConfigDumpRowWithoutData) => {
     assertGlobalInstance()
       .prepare(
-        `UPDATE configDump SET
+        `UPDATE ${CONFIG_DUMP_TABLE} SET
          combinedMessageHashes = $combinedMessageHashes
          WHERE publicKey=$publicKey AND variant=$variant;`
       )
@@ -162,7 +184,7 @@ export const configDumpData: ConfigDumpDataNode = {
   getCombinedHashesByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, publicKey: string) => {
     const rows = assertGlobalInstance()
       .prepare(
-        'SELECT combinedMessageHashes from configDump WHERE variant = $variant AND publicKey = $publicKey;'
+        `SELECT combinedMessageHashes from ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
       )
       .all({
         publicKey,

@@ -1,8 +1,8 @@
-import path from 'path';
-import fs from 'fs';
-import rimraf from 'rimraf';
 import * as BetterSqlite3 from 'better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
 
 import {
   chunk,
@@ -19,11 +19,9 @@ import {
   map,
   omit,
 } from 'lodash';
-import { redactAll } from '../util/privacy'; // checked - only node
-import { LocaleMessagesType } from './locale'; // checked - only node
-import { PubKey } from '../session/types/PubKey'; // checked - only node
-import { StorageItem } from './storage_item'; // checked - only node
 import { ConversationAttributes } from '../models/conversationAttributes';
+import { PubKey } from '../session/types/PubKey'; // checked - only node
+import { redactAll } from '../util/privacy'; // checked - only node
 import {
   arrayStrToJson,
   assertValidConversationAttributes,
@@ -46,21 +44,24 @@ import {
   rebuildFtsTable,
   toSqliteBoolean,
 } from './database_utility';
+import { LocaleMessagesType } from './locale'; // checked - only node
+import { StorageItem } from './storage_item'; // checked - only node
 
+import { OpenGroupV2Room } from '../data/opengroups';
 import {
+  CONFIG_DUMP_TABLE,
   MsgDuplicateSearchOpenGroup,
   UnprocessedDataNode,
   UnprocessedParameter,
   UpdateLastHashType,
 } from '../types/sqlSharedTypes';
-import { OpenGroupV2Room } from '../data/opengroups';
 
+import { SettingsKey } from '../data/settings-key';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
-import { SettingsKey } from '../data/settings-key';
 import {
   assertGlobalInstance,
   assertGlobalInstanceOrInstance,
@@ -1620,6 +1621,7 @@ function removeAll() {
     DELETE FROM ${MESSAGES_TABLE};
     DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};
     DELETE FROM ${MESSAGES_FTS_TABLE};
+    DELETE FROM ${CONFIG_DUMP_TABLE};
 `);
 }
 

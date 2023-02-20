@@ -22,6 +22,7 @@ import { channels } from './channels';
 import * as dataInit from './dataInit';
 import { StorageItem } from '../node/storage_item';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
+import { cleanData } from './dataUtils';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -53,57 +54,6 @@ export type SwarmNode = Snode & {
 export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
-
-/**
- * When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
- * We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
- * @param data - data to be cleaned
- */
-function _cleanData(data: any): any {
-  const keys = Object.keys(data);
-
-  for (let index = 0, max = keys.length; index < max; index += 1) {
-    const key = keys[index];
-    const value = data[key];
-
-    if (value === null || value === undefined) {
-      // eslint-disable-next-line no-continue
-      continue;
-    }
-    // eslint-disable no-param-reassign
-
-    if (_.isFunction(value.toNumber)) {
-      // eslint-disable-next-line no-param-reassign
-      data[key] = value.toNumber();
-    } else if (_.isFunction(value)) {
-      // just skip a function which has not a toNumber function. We don't want to save a function to the db.
-      // an attachment comes with a toJson() function
-      // tslint:disable-next-line: no-dynamic-delete
-      delete data[key];
-    } else if (Array.isArray(value)) {
-      data[key] = value.map(_cleanData);
-    } else if (_.isObject(value) && value instanceof File) {
-      data[key] = { name: value.name, path: value.path, size: value.size, type: value.type };
-    } else if (_.isObject(value) && value instanceof ArrayBuffer) {
-      window.log.error(
-        'Trying to save an ArrayBuffer to the db is most likely an error. This specific field should be removed before the cleanData call'
-      );
-      /// just skip it
-      continue;
-    } else if (_.isObject(value)) {
-      data[key] = _cleanData(value);
-    } else if (_.isBoolean(value)) {
-      data[key] = value ? 1 : 0;
-    } else if (
-      typeof value !== 'string' &&
-      typeof value !== 'number' &&
-      typeof value !== 'boolean'
-    ) {
-      window?.log?.info(`_cleanData: key ${key} had type ${typeof value}`);
-    }
-  }
-  return data;
-}
 
 // Basic
 async function shutdown(): Promise<void> {
@@ -192,7 +142,7 @@ async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string): P
 
 // Conversation
 async function saveConversation(data: ConversationAttributes): Promise<void> {
-  const cleaned = _cleanData(data);
+  const cleaned = cleanData(data);
   /**
    * Merging two conversations in `handleMessageRequestResponse` introduced a bug where we would mark conversation active_at to be -Infinity.
    * The root issue has been fixed, but just to make sure those INVALID DATE does not show up, update those -Infinity active_at conversations to be now(), once.,
@@ -281,22 +231,22 @@ async function saveSeenMessageHashes(
     hash: string;
   }>
 ): Promise<void> {
-  await channels.saveSeenMessageHashes(_cleanData(data));
+  await channels.saveSeenMessageHashes(cleanData(data));
 }
 
 async function updateLastHash(data: UpdateLastHashType): Promise<void> {
-  await channels.updateLastHash(_cleanData(data));
+  await channels.updateLastHash(cleanData(data));
 }
 
 async function saveMessage(data: MessageAttributes): Promise<string> {
-  const cleanedData = _cleanData(data);
+  const cleanedData = cleanData(data);
   const id = await channels.saveMessage(cleanedData);
   ExpirationTimerOptions.updateExpiringMessagesCheck();
   return id;
 }
 
 async function saveMessages(arrayOfMessages: Array<MessageAttributes>): Promise<void> {
-  await channels.saveMessages(_cleanData(arrayOfMessages));
+  await channels.saveMessages(cleanData(arrayOfMessages));
 }
 
 async function removeMessage(id: string): Promise<void> {
@@ -601,7 +551,7 @@ const getUnprocessedById: AsyncWrapper<UnprocessedDataNode['getUnprocessedById']
 };
 
 const saveUnprocessed: AsyncWrapper<UnprocessedDataNode['saveUnprocessed']> = data => {
-  return channels.saveUnprocessed(_cleanData(data));
+  return channels.saveUnprocessed(cleanData(data));
 };
 
 const updateUnprocessedAttempts: AsyncWrapper<UnprocessedDataNode['updateUnprocessedAttempts']> = (
@@ -614,7 +564,7 @@ const updateUnprocessedWithData: AsyncWrapper<UnprocessedDataNode['updateUnproce
   id,
   data
 ) => {
-  return channels.updateUnprocessedWithData(id, _cleanData(data));
+  return channels.updateUnprocessedWithData(id, cleanData(data));
 };
 
 const removeUnprocessed: AsyncWrapper<UnprocessedDataNode['removeUnprocessed']> = id => {

@@ -5,6 +5,7 @@ import { persistedJobFromData } from './JobDeserialization';
 import { JobRunnerType } from './jobs/JobRunnerType';
 import {
   AvatarDownloadPersistedData,
+  ConfigurationSyncDumpPersistedData,
   ConfigurationSyncPersistedData,
   PersistedJob,
   RunJobResult,
@@ -172,7 +173,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
   private async writeJobsToDB() {
     const serialized = this.getSerializedJobs();
-    window.log.warn(`writing to db for "${this.jobRunnerType}": `, serialized);
+    window.log.debug(`writing to db for "${this.jobRunnerType}": `, serialized);
     await Data.createOrUpdateItem({
       id: this.getJobRunnerItemId(),
       value: JSON.stringify(serialized),
@@ -361,12 +362,19 @@ const configurationSyncRunner = new PersistedJobRunner<ConfigurationSyncPersiste
   'ConfigurationSyncJob',
   null
 );
+
 const avatarDownloadRunner = new PersistedJobRunner<AvatarDownloadPersistedData>(
   'AvatarDownloadJob',
   null
 );
 
+const configurationSyncDumpRunner = new PersistedJobRunner<ConfigurationSyncDumpPersistedData>(
+  'ConfigurationSyncDumpJob',
+  null
+);
+
 export const runners = {
   configurationSyncRunner,
+  configurationSyncDumpRunner,
   avatarDownloadRunner,
 };

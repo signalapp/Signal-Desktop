@@ -88,7 +88,7 @@ async function initializeLibSessionUtilWrappers() {
 
   for (let index = 0; index < dumps.length; index++) {
     const dump = dumps[index];
-    console.warn('forl oop init', dump.variant);
+    console.warn('for loop init', dump.variant);
     try {
       if (!createdDuringFirstStart.includes(dump.variant)) {
         await GenericWrapperActions.init(

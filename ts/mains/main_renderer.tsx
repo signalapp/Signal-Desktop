@@ -22,6 +22,8 @@ import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/know
 import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { runners } from '../session/utils/job_runners/JobRunner';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -107,6 +109,16 @@ function mapOldThemeToNew(theme: string) {
   }
 }
 
+async function startJobRunners() {
+  // start the job runners
+  await runners.avatarDownloadRunner.loadJobsFromDb();
+  runners.avatarDownloadRunner.startProcessing();
+  await runners.configurationSyncRunner.loadJobsFromDb();
+  runners.configurationSyncRunner.startProcessing();
+  await runners.configurationSyncDumpRunner.loadJobsFromDb();
+  runners.configurationSyncDumpRunner.startProcessing();
+}
+
 // We need this 'first' check because we don't want to start the app up any other time
 //   than the first time. And storage.fetch() will cause onready() to fire.
 let first = true;
@@ -176,8 +188,14 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
+    try {
+      await LibSessionUtil.initializeLibSessionUtilWrappers();
+    } catch (e) {
+      window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+    }
     await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
+    await startJobRunners();
 
     await Promise.all([
       getConversationController().load(),

@@ -3,9 +3,11 @@ import {
   ConfigDumpDataNode,
   ConfigDumpRow,
   ConfigDumpRowWithoutData,
+  ConfigDumpRowWithoutHashes,
 } from '../../types/sqlSharedTypes';
 import { ConfigWrapperObjectTypes } from '../../webworker/workers/browser/libsession_worker_functions';
 import { channels } from '../channels';
+import { cleanData } from '../dataUtils';
 
 export const ConfigDumpData: AsyncObjectWrapper<ConfigDumpDataNode> = {
   getByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, pubkey: string) => {
@@ -15,15 +17,18 @@ export const ConfigDumpData: AsyncObjectWrapper<ConfigDumpDataNode> = {
     return channels.getMessageHashesByVariantAndPubkey(variant, pubkey);
   },
   saveConfigDump: (dump: ConfigDumpRow) => {
-    console.warn('saveConfigDump', dump);
+    console.warn('saveConfigDump', dump.variant);
     if (dump.combinedMessageHashes.some(m => Boolean(m && m.length < 5))) {
       throw new Error('saveConfigDump combinedMessageHashes have invalid size');
     }
-    return channels.saveConfigDump(dump);
+    return channels.saveConfigDump(cleanData(dump));
   },
+  saveConfigDumpNoHashes: (dump: ConfigDumpRowWithoutHashes) => {
+    return channels.saveConfigDumpNoHashes(cleanData(dump));
+  },
+
   saveCombinedMessageHashesForMatching: (dump: ConfigDumpRowWithoutData) => {
-    console.warn('saveCombinedMessageHashesForMatching', dump);
-    return channels.saveCombinedMessageHashesForMatching(dump);
+    return channels.saveCombinedMessageHashesForMatching(cleanData(dump));
   },
   getAllDumpsWithData: () => {
     return channels.getAllDumpsWithData();

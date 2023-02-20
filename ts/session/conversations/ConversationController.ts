@@ -10,6 +10,7 @@ import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGrou
 
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 
 let instance: ConversationController | null;
 
@@ -244,10 +245,12 @@ export class ConversationController {
         isApproved: false,
       });
       await conversation.commit();
+      // the call above will mark it as hidden in the wrapper already
     } else {
       window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);
-
+      // not a private conversation, so not a contact for the ContactWrapper
       await Data.removeConversation(id);
+
       window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
 
       this.conversations.remove(conversation);
@@ -290,16 +293,22 @@ export class ConversationController {
 
         this.conversations.add(collection.models);
 
+        console.time('refreshAllWrapperContactsData');
+        for (let index = 0; index < collection.models.length; index++) {
+          const convo = collection.models[index];
+          if (convo.isPrivate()) {
+            await SessionUtilContact.refreshMappedValue(convo.id, true);
+          }
+        }
+        console.timeEnd('refreshAllWrapperContactsData');
+
         this._initialFetchComplete = true;
-        const promises: any = [];
         this.conversations.forEach((conversation: ConversationModel) => {
-          if (!conversation.get('lastMessage')) {
-            // tslint:disable-next-line: no-void-expression
-            promises.push(conversation.updateLastMessage());
+          if (conversation.isActive() && !conversation.get('lastMessage')) {
+            conversation.updateLastMessage();
           }
         });
 
-        await Promise.all(promises);
         window?.log?.info(
           `ConversationController: done with initial fetch in ${Date.now() - start}ms.`
         );

@@ -1,11 +1,9 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import { expect } from 'chai';
+import Sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
-import { PubKey } from '../../session/types';
-import { UserUtils } from '../../session/utils';
-import Sinon from 'sinon';
 
 // tslint:disable-next-line: max-func-body-length
 describe('BlockedNumberController', () => {
@@ -113,34 +111,6 @@ describe('BlockedNumberController', () => {
         false,
         'Expected isBlocked to return false'
       );
-    });
-  });
-
-  describe('isBlockedAsync', () => {
-    let ourDevice: PubKey;
-    beforeEach(() => {
-      ourDevice = TestUtils.generateFakePubKey();
-      Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourDevice.key);
-    });
-    it('should return false for our device', async () => {
-      const isBlocked = await BlockedNumberController.isBlockedAsync(ourDevice);
-      expect(isBlocked).to.equal(false, 'Expected our device to return false');
-    });
-
-    it('should return true if the device is blocked', async () => {
-      const other = TestUtils.generateFakePubKey();
-      memoryDB.blocked = [other.key];
-
-      const isBlocked = await BlockedNumberController.isBlockedAsync(other);
-      expect(isBlocked).to.equal(true, 'Expected isBlockedAsync to return true.');
-    });
-
-    it('should return false if device is not blocked', async () => {
-      const other = TestUtils.generateFakePubKey();
-      memoryDB.blocked = [];
-
-      const isBlocked = await BlockedNumberController.isBlockedAsync(other);
-      expect(isBlocked).to.equal(false, 'Expected isBlockedAsync to return false.');
     });
   });
 });

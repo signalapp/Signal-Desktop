@@ -1,3 +1,4 @@
+import autoBind from 'auto-bind';
 import Backbone from 'backbone';
 import {
   debounce,
@@ -14,20 +15,33 @@ import {
   throttle,
   uniq,
 } from 'lodash';
+import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
+import { leaveClosedGroup } from '../session/group/closed-group';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { leaveClosedGroup } from '../session/group/closed-group';
-import { SignalService } from '../protobuf';
 import { MessageModel, sliceQuoteText } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
-import autoBind from 'auto-bind';
 
 import { Data } from '../../ts/data/data';
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
+import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
+import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
+import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 import { toHex } from '../session/utils/String';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -36,42 +50,49 @@ import {
   MessageModelPropsWithoutConvoProps,
   ReduxConversationType,
 } from '../state/ducks/conversations';
-import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
-import {
-  VisibleMessage,
-  VisibleMessageParams,
-} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
-import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
-import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
-import { perfEnd, perfStart } from '../session/utils/Performance';
 
-import { ed25519Str } from '../session/onions/onionPath';
-import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
-import { IMAGE_JPEG } from '../types/MIME';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
-import { createLastMessageUpdate } from '../types/Conversation';
+import { from_hex } from 'libsodium-wrappers-sumo';
 import {
   ReplyingToMessageProps,
   SendMessageType,
 } from '../components/conversation/composition/CompositionBox';
+import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
+import {
+  findCachedOurBlindedPubkeyOrLookItUp,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
+import {
+  roomHasBlindEnabled,
+  roomHasReactionsEnabled,
+} from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
+import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { getSodiumRenderer } from '../session/crypto';
+import { addMessagePadding } from '../session/crypto/BufferPadding';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import {
+  MessageRequestResponse,
+  MessageRequestResponseParams,
+} from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+import { ed25519Str } from '../session/onions/onionPath';
+import { ConfigurationDumpSync } from '../session/utils/job_runners/jobs/ConfigurationSyncDumpJob';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
+import { getOurProfile } from '../session/utils/User';
+import { createLastMessageUpdate } from '../types/Conversation';
 import {
   deleteExternalFilesOfConversation,
   getAbsoluteAttachmentPath,
   loadAttachmentData,
 } from '../types/MessageAttachment';
-import { getOurProfile } from '../session/utils/User';
-import {
-  MessageRequestResponse,
-  MessageRequestResponseParams,
-} from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+import { IMAGE_JPEG } from '../types/MIME';
+import { Reaction } from '../types/Reaction';
 import { Notifications } from '../util/notifications';
+import { Reactions } from '../util/reactions';
 import { Storage } from '../util/storage';
 import {
   ConversationAttributes,
@@ -81,24 +102,6 @@ import {
   isDirectConversation,
   isOpenOrClosedGroup,
 } from './conversationAttributes';
-import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
-import { from_hex } from 'libsodium-wrappers-sumo';
-import { OpenGroupData } from '../data/opengroups';
-import {
-  roomHasBlindEnabled,
-  roomHasReactionsEnabled,
-} from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import { addMessagePadding } from '../session/crypto/BufferPadding';
-import { getSodiumRenderer } from '../session/crypto';
-import {
-  findCachedOurBlindedPubkeyOrLookItUp,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
-import { Reaction } from '../types/Reaction';
-import { Reactions } from '../util/reactions';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
-import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -234,11 +237,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    if (this.isClosedGroup()) {
-      return BlockedNumberController.isGroupBlocked(this.id);
-    }
-
-    if (this.isPrivate()) {
+    if (this.isPrivate() || this.isClosedGroup() || this.isMediumGroup()) {
       return BlockedNumberController.isBlocked(this.id);
     }
 
@@ -285,7 +284,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public getConversationModelProps(): ReduxConversationType {
     const groupAdmins = this.getGroupAdmins();
     const groupModerators = this.getGroupModerators();
-    // tslint:disable-next-line: cyclomatic-complexity
     const isPublic = this.isPublic();
 
     const members = this.isClosedGroup() ? this.get('members') : [];
@@ -300,18 +298,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isTyping = !!this.typingTimer;
     const unreadCount = this.get('unreadCount') || undefined;
     const mentionedUs = this.get('mentionedUs') || undefined;
-    const isBlocked = this.isBlocked();
     const subscriberCount = this.get('subscriberCount');
-    const isPinned = this.isPinned();
-    const isApproved = this.isApproved();
-    const didApproveMe = this.didApproveMe();
-    const hasNickname = !!this.getNickname();
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
-    const displayNameInProfile = this.get('displayNameInProfile');
-    const nickname = this.get('nickname');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
     // For instance, a boolean can usually be not set if false, etc
@@ -355,12 +346,37 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    if (displayNameInProfile) {
-      toRet.displayNameInProfile = displayNameInProfile;
-    }
+    const foundWrapperValue = SessionUtilContact.getMappedValue(this.id);
 
-    if (nickname) {
-      toRet.nickname = nickname;
+    if (foundWrapperValue) {
+      if (foundWrapperValue.name) {
+        toRet.displayNameInProfile = foundWrapperValue.name;
+      }
+
+      if (foundWrapperValue.nickname) {
+        toRet.nickname = foundWrapperValue.nickname;
+        toRet.hasNickname = !!toRet.nickname;
+      }
+
+      if (foundWrapperValue.blocked) {
+        toRet.isBlocked = foundWrapperValue.blocked;
+      }
+
+      if (foundWrapperValue.approvedMe) {
+        toRet.didApproveMe = foundWrapperValue.approvedMe;
+      }
+
+      if (foundWrapperValue.approved) {
+        toRet.isApproved = foundWrapperValue.approved;
+      }
+
+      if (foundWrapperValue.hidden) {
+        toRet.activeAt = undefined;
+      }
+
+      if (foundWrapperValue.priority > 0) {
+        toRet.isPinned = true; // TODO priority also handles sorting
+      }
     }
 
     if (unreadCount) {
@@ -371,28 +387,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.mentionedUs = mentionedUs;
     }
 
-    if (isBlocked) {
-      toRet.isBlocked = isBlocked;
-    }
-    if (hasNickname) {
-      toRet.hasNickname = hasNickname;
-    }
-
     if (isKickedFromGroup) {
       toRet.isKickedFromGroup = isKickedFromGroup;
     }
     if (left) {
       toRet.left = left;
-    }
-    if (isPinned) {
-      toRet.isPinned = isPinned;
-    }
-    if (didApproveMe) {
-      toRet.didApproveMe = didApproveMe;
-    }
-
-    if (isApproved) {
-      toRet.isApproved = isApproved;
     }
 
     if (subscriberCount) {
@@ -1177,9 +1176,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async commit() {
     perfStart(`conversationCommit-${this.attributes.id}`);
-    // write to DB
-    await Data.saveConversation(this.attributes);
-    this.triggerUIRefresh();
+    await commitConversationAndRefreshWrapper(this.id);
     perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
@@ -1538,20 +1535,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return Array.isArray(groupModerators) && groupModerators.includes(pubKey);
   }
 
-  public async setIsPinned(value: boolean) {
-    if (value !== this.isPinned()) {
+  public async setIsPinned(value: boolean, shouldCommit: boolean = true) {
+    const valueForced = Boolean(value);
+
+    if (valueForced !== Boolean(this.isPinned())) {
       this.set({
-        isPinned: value,
+        isPinned: valueForced,
       });
-      await this.commit();
+
+      if (shouldCommit) {
+        await this.commit();
+      }
     }
   }
 
   public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
-    if (value !== this.isApproved()) {
+    const valueForced = Boolean(value);
+
+    if (valueForced !== Boolean(this.isApproved())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} isApproved to: ${value}`);
       this.set({
-        isApproved: value,
+        isApproved: valueForced,
       });
 
       if (shouldCommit) {
@@ -1561,10 +1565,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
-    if (value !== this.didApproveMe()) {
+    const valueForced = Boolean(value);
+    if (valueForced !== Boolean(this.didApproveMe())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} didApproveMe to: ${value}`);
       this.set({
-        didApproveMe: value,
+        didApproveMe: valueForced,
       });
 
       if (shouldCommit) {
@@ -2184,6 +2189,33 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     return [];
   }
+}
+
+export async function commitConversationAndRefreshWrapper(id: string) {
+  const convo = getConversationController().get(id);
+  if (!convo) {
+    return;
+  }
+  // write to DB
+  // TODO remove duplicates between db and wrapper (except nickname&name as we need them for search)
+  await Data.saveConversation(convo.attributes);
+
+  const shouldBeSavedToWrapper = SessionUtilContact.filterContactsToStoreInContactsWrapper(convo);
+
+  console.warn(`should be saved to wrapper ${id}: ${shouldBeSavedToWrapper}`);
+  if (shouldBeSavedToWrapper) {
+    await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
+
+    // save the new dump if needed to the DB asap
+    // this call throttled so we do not run this too often (and not for every .commit())
+    await ConfigurationDumpSync.queueNewJobIfNeeded();
+
+    // if we need to sync the dump, also send add a job for syncing
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
+  }
+  convo.triggerUIRefresh();
 }
 
 const throttledAllConversationsDispatch = debounce(

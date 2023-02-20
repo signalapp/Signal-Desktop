@@ -1,7 +1,6 @@
 import { Data } from '../data/data';
-import { getConversationController } from '../session/conversations';
+import { commitConversationAndRefreshWrapper } from '../models/conversation';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 
@@ -9,22 +8,6 @@ const BLOCKED_NUMBERS_ID = 'blocked';
 export class BlockedNumberController {
   private static loaded: boolean = false;
   private static blockedNumbers: Set<string> = new Set();
-
-  /**
-   * Check if a device is blocked.
-   *
-   * @param user The user.
-   */
-  public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
-    await this.load();
-    const isOurDevice = UserUtils.isUsFromCache(user);
-    if (isOurDevice) {
-      return false;
-    }
-
-    const pubkey = PubKey.cast(user);
-    return this.blockedNumbers.has(pubkey.key);
-  }
 
   /**
    * Check if a device is blocked synchronously.
@@ -55,6 +38,7 @@ export class BlockedNumberController {
     if (!this.blockedNumbers.has(toBlock.key)) {
       this.blockedNumbers.add(toBlock.key);
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+      await commitConversationAndRefreshWrapper(toBlock.key);
     }
   }
 
@@ -92,12 +76,17 @@ export class BlockedNumberController {
       }
     });
 
-    users.map(user => {
-      const found = getConversationController().get(user);
-      if (found) {
-        found.triggerUIRefresh();
+    for (let index = 0; index < users.length; index++) {
+      const user = users[index];
+      try {
+        await commitConversationAndRefreshWrapper(user);
+      } catch (e) {
+        window.log.warn(
+          'failed to SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh with: ',
+          user
+        );
       }
-    });
+    }
 
     if (changes) {
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);

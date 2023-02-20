@@ -43,6 +43,10 @@ export type ConfigDumpRowWithoutData = Pick<
   'publicKey' | 'combinedMessageHashes' | 'variant'
 >;
 
+export type ConfigDumpRowWithoutHashes = Pick<ConfigDumpRow, 'publicKey' | 'variant' | 'data'>;
+
+export const CONFIG_DUMP_TABLE = 'configDump';
+
 // ========== configdump
 
 export type ConfigDumpDataNode = {
@@ -55,6 +59,7 @@ export type ConfigDumpDataNode = {
     publicKey: string
   ) => Array<string>;
   saveConfigDump: (dump: ConfigDumpRow) => void;
+  saveConfigDumpNoHashes: (dump: ConfigDumpRowWithoutHashes) => void;
   saveCombinedMessageHashesForMatching: (row: ConfigDumpRowWithoutData) => void;
 
   getAllDumpsWithData: () => Array<ConfigDumpRow>;

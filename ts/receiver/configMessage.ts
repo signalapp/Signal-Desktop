@@ -1,4 +1,4 @@
-import _, { isEmpty, isEqual, isNil } from 'lodash';
+import _, { isEmpty, isEqual } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
@@ -34,26 +34,28 @@ async function mergeConfigsWithIncomingUpdates(
   const { kind } = incomingConfig.message;
 
   const toMerge = [incomingConfig.message.data];
-
   const wrapperId = LibSessionUtil.kindToVariant(kind);
-  await GenericWrapperActions.merge(wrapperId, toMerge);
+  try {
+    await GenericWrapperActions.merge(wrapperId, toMerge);
+    const needsPush = await GenericWrapperActions.needsPush(wrapperId);
+    const needsDump = await GenericWrapperActions.needsDump(wrapperId);
+    console.info(`${wrapperId} needsPush:${needsPush} needsDump:${needsDump} `);
 
-  const needsPush = await GenericWrapperActions.needsPush(wrapperId);
-  console.warn(`${wrapperId} needsPush? `, needsPush);
-  const needsDump = await GenericWrapperActions.needsDump(wrapperId);
-  console.warn(`${wrapperId} needsDump? `, needsDump);
+    const messageHashes = [incomingConfig.messageHash];
+    const latestSentTimestamp = incomingConfig.envelopeTimestamp;
 
-  const messageHashes = [incomingConfig.messageHash];
-  const latestSentTimestamp = incomingConfig.envelopeTimestamp;
+    const incomingConfResult: IncomingConfResult = {
+      latestSentTimestamp,
+      messageHashes,
+      needsDump,
+      needsPush,
+    };
 
-  const incomingConfResult: IncomingConfResult = {
-    latestSentTimestamp,
-    messageHashes,
-    needsDump,
-    needsPush,
-  };
-
-  return { kind, result: incomingConfResult };
+    return { kind, result: incomingConfResult };
+  } catch (e) {
+    window.log.error('mergeConfigsWithIncomingUpdates failed with', e);
+    throw e;
+  }
 }
 
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
@@ -96,40 +98,50 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
     if (wrapperConvo.id && existingConvo) {
       let changes = false;
 
-      // Note: the isApproved and didApproveMe flags are irreversible so they should only be updated when getting set to true
-      if (
-        !isNil(existingConvo.get('isApproved')) &&
-        !isNil(wrapperConvo.approved) &&
-        existingConvo.get('isApproved') !== wrapperConvo.approved
-      ) {
-        await existingConvo.setIsApproved(wrapperConvo.approved, false);
-        changes = true;
-      }
-
-      if (
-        !isNil(existingConvo.get('didApproveMe')) &&
-        !isNil(wrapperConvo.approvedMe) &&
-        existingConvo.get('didApproveMe') !== wrapperConvo.approvedMe
-      ) {
-        await existingConvo.setDidApproveMe(wrapperConvo.approvedMe, false);
-        changes = true;
-      }
-
-      const convoBlocked = wrapperConvo.blocked || false;
-      if (convoBlocked !== existingConvo.isBlocked()) {
-        await BlockedNumberController.setBlocked(wrapperConvo.id, convoBlocked);
-      }
+      // the display name set is handled in `updateProfileOfContact`
 
       if (wrapperConvo.nickname !== existingConvo.getNickname()) {
         await existingConvo.setNickname(wrapperConvo.nickname || null, false);
         changes = true;
       }
+
+      if (!wrapperConvo.hidden && !existingConvo.isActive()) {
+        // FIXME we need a field hidden rather than overriding the active_at here.
+        existingConvo.set('active_at', Date.now());
+        changes = true;
+      }
+
+      if (Boolean(wrapperConvo.approved) !== Boolean(existingConvo.isApproved())) {
+        await existingConvo.setIsApproved(Boolean(wrapperConvo.approved), false);
+        changes = true;
+      }
+
+      if (Boolean(wrapperConvo.approvedMe) !== Boolean(existingConvo.didApproveMe())) {
+        await existingConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
+        changes = true;
+      }
+
+      if (Boolean(wrapperConvo.approvedMe) !== Boolean(existingConvo.didApproveMe())) {
+        await existingConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
+        changes = true;
+      }
+
+      //TODO priority means more than just isPinned but has an order logic in it too
+      const shouldBePinned = wrapperConvo.priority > 0;
+      if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
+        await existingConvo.setIsPinned(shouldBePinned, false);
+        changes = true;
+      }
+
+      const convoBlocked = wrapperConvo.blocked || false;
+      await BlockedNumberController.setBlocked(wrapperConvo.id, convoBlocked);
+
       // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
       if (changes) {
         await existingConvo.commit();
       }
 
-      // we still need to handle the the `name` (synchronous) and the `profilePicture` (asynchronous)
+      // we still need to handle the `name` (synchronous) and the `profilePicture` (asynchronous)
       await ProfileManager.updateProfileOfContact(
         existingConvo.id,
         wrapperConvo.name,
@@ -202,7 +214,6 @@ async function processMergingResults(
       });
     }
 
-    console.warn('all dumps in DB: ', await ConfigDumpData.getAllDumpsWithoutData());
     await removeFromCache(envelope);
   } catch (e) {
     window.log.error(`processMergingResults failed with ${e.message}`);
@@ -213,7 +224,6 @@ async function processMergingResults(
   // Now that the local state has been updated, trigger a config sync (this will push any
   // pending updates and properly update the state)
   if (result.result.needsPush) {
-    console.warn(`processMergingResults  ${LibSessionUtil.kindToVariant(result.kind)} needs push`);
     await ConfigurationSync.queueNewJobIfNeeded();
   }
 }
@@ -222,7 +232,7 @@ async function handleConfigMessageViaLibSession(
   envelope: EnvelopePlus,
   configMessage: IncomingMessage<SignalService.ISharedConfigMessage>
 ) {
-  // FIXME: Remove this once `useSharedUtilForUserConfig` is permanent
+  // TODO: Remove this once `useSharedUtilForUserConfig` is permanent
   if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     await removeFromCache(envelope);
     return;
@@ -234,7 +244,7 @@ async function handleConfigMessageViaLibSession(
     return;
   }
 
-  window?.log?.info('Handling our profileUdpates via libsession_util.');
+  window?.log?.info('Handling our sharedConfig message via libsession_util.');
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessage);
 

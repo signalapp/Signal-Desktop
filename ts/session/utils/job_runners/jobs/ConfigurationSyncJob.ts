@@ -284,19 +284,20 @@ async function queueNewJobIfNeeded() {
     !lastRunConfigSyncJobTimestamp ||
     lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries
   ) {
-    window.log.debug('scheduling conf sync job in asap');
+    window.log.debug('scheduling conf sync job ASAP');
 
     // this call will make sure that there is only one configuration sync job at all times
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() })
     );
   } else {
-    // if we did run at 100, and it is currently 110, diff is 10
+    // if we did run at t=100, and it is currently t=110, diff is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
     // but we want to run every 30, so what we need is actually `30-10` from now = 20
     const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
     window.log.debug(`scheduling conf sync job in ${leftBeforeNextTick} ms`);
 
+    // TODO we need to make the addJob wait for the previous addJob to be done before it can be called.
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() + leftBeforeNextTick })
     );
