@@ -5443,9 +5443,7 @@ async function removeKnownDraftAttachments(
   return Object.keys(lookup);
 }
 
-// Default value of 'automerge'.
-// See: https://www.sqlite.org/fts5.html#the_automerge_configuration_option
-const OPTIMIZE_FTS_PAGE_COUNT = 4;
+const OPTIMIZE_FTS_PAGE_COUNT = 64;
 
 // This query is incremental. It gets the `state` from the return value of
 // previous `optimizeFTS` call. When `state.done` is `true` - optimization is
@@ -5458,30 +5456,33 @@ async function optimizeFTS(
   if (state === undefined) {
     pageCount = -pageCount;
   }
-
   const db = getInstance();
-  const { changes } = prepare(
-    db,
-    `
-      INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
-    `
-  ).run({ pageCount });
+  const getChanges = prepare(db, 'SELECT total_changes() as changes;', {
+    pluck: true,
+  });
 
-  if (state === undefined) {
-    return {
-      changes,
-      steps: 1,
-    };
-  }
+  const changeDifference = db.transaction(() => {
+    const before: number = getChanges.get({});
 
-  const { changes: prevChanges, steps } = state;
+    prepare(
+      db,
+      `
+        INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
+      `
+    ).run({ pageCount });
 
-  if (Math.abs(changes - prevChanges) < 2) {
-    return { changes, steps, done: true };
-  }
+    const after: number = getChanges.get({});
 
-  // More work is needed.
-  return { changes, steps: steps + 1 };
+    return after - before;
+  })();
+
+  const nextSteps = (state?.steps ?? 0) + 1;
+
+  // From documentation:
+  // "If the difference is less than 2, then the 'merge' command was a no-op"
+  const done = changeDifference < 2;
+
+  return { steps: nextSteps, done };
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
