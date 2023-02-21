@@ -192,7 +192,8 @@ export class ConversationController {
     // we remove the messages left in this convo. The caller has to merge them if needed
     await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
 
-    conversation.set({ didApproveMe: false, isApproved: false });
+    await conversation.setIsApproved(false, false);
+    await conversation.setDidApproveMe(false, false);
     await conversation.commit();
   }
 
@@ -241,11 +242,12 @@ export class ConversationController {
       window.log.info(`deleteContact isPrivate, marking as inactive: ${id}`);
 
       conversation.set({
-        active_at: undefined,
-        isApproved: false,
+        hidden: true,
       });
+      // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
+      // await conversation.setIsApproved(false, false);
       await conversation.commit();
-      // the call above will mark it as hidden in the wrapper already
+      // TODO the call above won't mark the conversation as hidden in the wrapper, it will just stop being updated (which is a bad thing)
     } else {
       window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);
       // not a private conversation, so not a contact for the ContactWrapper
@@ -253,16 +255,17 @@ export class ConversationController {
 
       window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
 
+      // TODO remove group related entries from their corresponding wrappers here
       this.conversations.remove(conversation);
-      if (window?.inboxStore) {
-        window.inboxStore?.dispatch(
-          conversationActions.conversationChanged({
-            id: conversation.id,
-            data: conversation.getConversationModelProps(),
-          })
-        );
-        window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
-      }
+
+      window?.inboxStore?.dispatch(
+        conversationActions.conversationChanged({
+          id: conversation.id,
+          data: conversation.getConversationModelProps(),
+        })
+      );
+      window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
+
       window.log.info(`deleteContact !isPrivate, convo removed from store: ${id}`);
     }
   }

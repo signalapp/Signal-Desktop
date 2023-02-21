@@ -208,6 +208,7 @@ export class OpenGroupManagerV2 {
         displayNameInProfile: updatedRoom.roomName,
         isApproved: true,
         didApproveMe: true,
+        hidden: false,
         isTrustedForAttachmentDownload: true, // we always trust attachments when sent to an opengroup
       });
       await conversation.commit();

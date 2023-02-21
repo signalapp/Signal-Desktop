@@ -28,6 +28,8 @@ import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/M
 import { PubKey } from '../../types';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
+import { ConfigurationDumpSync } from '../job_runners/jobs/ConfigurationSyncDumpJob';
+import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -41,31 +43,36 @@ const writeLastSyncTimestampToDb = async (timestamp: number) =>
  * Conditionally Syncs user configuration with other devices linked.
  */
 export const syncConfigurationIfNeeded = async () => {
-  const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
-  const now = Date.now();
+  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
+    const now = Date.now();
 
-  // if the last sync was less than 2 days before, return early.
-  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 2) {
-    return;
+    // if the last sync was less than 2 days before, return early.
+    if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 2) {
+      return;
+    }
+
+    const allConvos = getConversationController().getConversations();
+
+    const configMessage = await getCurrentConfigurationMessage(allConvos);
+    try {
+      // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
+
+      await getMessageQueue().sendSyncMessage({
+        namespace: SnodeNamespaces.UserMessages,
+        message: configMessage,
+      });
+    } catch (e) {
+      window?.log?.warn('Caught an error while sending our ConfigurationMessage:', e);
+      // we do return early so that next time we use the old timestamp again
+      // and so try again to trigger a sync
+      return;
+    }
+    await writeLastSyncTimestampToDb(now);
+  } else {
+    await ConfigurationDumpSync.queueNewJobIfNeeded();
+    await ConfigurationSync.queueNewJobIfNeeded();
   }
-
-  const allConvos = getConversationController().getConversations();
-
-  const configMessage = await getCurrentConfigurationMessage(allConvos);
-  try {
-    // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
-
-    await getMessageQueue().sendSyncMessage({
-      namespace: SnodeNamespaces.UserMessages,
-      message: configMessage,
-    });
-  } catch (e) {
-    window?.log?.warn('Caught an error while sending our ConfigurationMessage:', e);
-    // we do return early so that next time we use the old timestamp again
-    // and so try again to trigger a sync
-    return;
-  }
-  await writeLastSyncTimestampToDb(now);
 };
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>

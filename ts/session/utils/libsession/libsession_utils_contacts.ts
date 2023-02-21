@@ -1,11 +1,9 @@
-import { isEmpty, isEqual } from 'lodash';
-import { UserUtils } from '..';
+import { ContactInfo } from 'session_util_wrapper';
 import { ConversationModel } from '../../../models/conversation';
+import { getContactInfoFromDBValues } from '../../../types/sqlSharedTypes';
 import { ContactsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../../conversations';
 import { PubKey } from '../../types';
-import { fromHexToArray } from '../String';
-import { ContactInfo } from 'session_util_wrapper';
 
 /**
  * This file is centralizing the management of data from the Contacts Wrapper of libsession.
@@ -40,9 +38,7 @@ async function insertAllContactsIntoContactsWrapper() {
 
   for (let index = 0; index < idsToInsert.length; index++) {
     const id = idsToInsert[index];
-    console.warn(
-      `inserting into wrapper ${id}: ${getConversationController().get(id)?.attributes.nickname}`
-    );
+
     await insertContactFromDBIntoWrapperAndRefresh(id);
   }
 }
@@ -68,21 +64,13 @@ function filterContactsToStoreInContactsWrapper(convo: ConversationModel): boole
  */
 // tslint:disable-next-line: cyclomatic-complexity
 async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<void> {
-  const us = UserUtils.getOurPubKeyStrFromCache();
-  if (id === us) {
-    window.log.info(
-      "The contact config wrapper does not handle the current user config, just his contacts'"
-    );
-    return;
-  }
-
   const foundConvo = getConversationController().get(id);
   if (!foundConvo) {
     return;
   }
 
   if (!filterContactsToStoreInContactsWrapper(foundConvo)) {
-    window.log.info(`insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved`);
+    // window.log.info(`insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved. Skipping`);
     return;
   }
 
@@ -95,36 +83,40 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbApproved = !!foundConvo.get('isApproved') || false;
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
-
-  const wrapperContact = await ContactsWrapperActions.getOrCreate(id);
-  const activeAt = foundConvo.get('active_at');
+  const hidden = foundConvo.get('hidden') || false;
   const isPinned = foundConvo.get('isPinned');
 
-  // override the values with what we have in the DB. the library will do the diff
-  wrapperContact.approved = dbApproved;
-  wrapperContact.approvedMe = dbApprovedMe;
-  wrapperContact.blocked = dbBlocked;
-  wrapperContact.name = dbName;
-  wrapperContact.nickname = dbNickname;
-  wrapperContact.hidden = !activeAt || activeAt <= 0;
-  wrapperContact.priority = !!isPinned ? 1 : 0; // TODO the priority handling is not that simple
+  const wrapperContact = getContactInfoFromDBValues({
+    id,
+    dbApproved,
+    dbApprovedMe,
+    dbBlocked,
+    dbName,
+    dbNickname,
+    dbProfileKey,
+    dbProfileUrl,
+    isPinned,
+    hidden,
+  });
 
-  if (
-    wrapperContact.profilePicture?.url !== dbProfileUrl ||
-    !isEqual(wrapperContact.profilePicture?.key, dbProfileKey)
-  ) {
-    wrapperContact.profilePicture = {
-      url: dbProfileUrl || null,
-      key: dbProfileKey && !isEmpty(dbProfileKey) ? fromHexToArray(dbProfileKey) : null,
-    };
+  try {
+    console.warn(`inserting into wrapper ${id}: `, wrapperContact);
+    await ContactsWrapperActions.set(wrapperContact);
+  } catch (e) {
+    window.log.warn(`ContactsWrapperActions.set of ${id} failed with ${e.message}`);
+    // we still let this go through
   }
-  await ContactsWrapperActions.set(wrapperContact);
 
   await refreshMappedValue(id);
 
   console.timeEnd(`ContactsWrapperActions.set ${id}`);
 }
 
+/**
+ * refreshMappedValue is used to query the Contacts Wrapper for the details of that contact and update the cached in-memory entry representing its content.
+ * @param id the pubkey to re fresh the cached value from
+ * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
+ */
 async function refreshMappedValue(id: string, duringAppStart = false) {
   const fromWrapper = await ContactsWrapperActions.get(id);
   if (fromWrapper) {

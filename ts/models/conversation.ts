@@ -258,6 +258,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return Boolean(this.get('active_at'));
   }
 
+  public isHidden() {
+    return Boolean(this.get('hidden'));
+  }
+
   public async cleanup() {
     await deleteExternalFilesOfConversation(this.attributes);
   }
@@ -310,6 +314,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       id: this.id as string,
       activeAt: this.get('active_at'),
       type: this.get('type'),
+      isHidden: !!this.get('hidden'),
     };
 
     if (isPrivate) {
@@ -561,6 +566,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPublic() && !this.isOpenGroupV2()) {
         throw new Error('Only opengroupv2 are supported now');
+      }
+
+      // we are trying to send a message to someone. If that convo is hidden in the list, make sure it is not
+      if (this.isHidden()) {
+        this.set({ hidden: false });
+        await this.commit();
       }
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
@@ -1682,7 +1693,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * profileKey MUST be a hex string
    * @param profileKey MUST be a hex string
    */
-  public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
+  public async setProfileKey(profileKey?: Uint8Array, shouldCommit = true) {
     if (!profileKey) {
       return;
     }
@@ -1695,7 +1706,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         profileKey: profileKeyHex,
       });
 
-      if (autoCommit) {
+      if (shouldCommit) {
         await this.commit();
       }
     }
@@ -2198,6 +2209,8 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   }
   // write to DB
   // TODO remove duplicates between db and wrapper (except nickname&name as we need them for search)
+
+  // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
   await Data.saveConversation(convo.attributes);
 
   const shouldBeSavedToWrapper = SessionUtilContact.filterContactsToStoreInContactsWrapper(convo);

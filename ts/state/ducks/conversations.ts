@@ -249,6 +249,7 @@ export interface ReduxConversationType {
 
   isTyping?: boolean;
   isBlocked?: boolean;
+  isHidden: boolean;
   isKickedFromGroup?: boolean;
   subscriberCount?: number;
   left?: boolean;

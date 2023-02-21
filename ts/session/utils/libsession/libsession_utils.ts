@@ -40,7 +40,9 @@ async function createConfigDumpsFromDbFirstStart(
 ): Promise<Array<ConfigWrapperObjectTypes>> {
   const justCreated: Array<ConfigWrapperObjectTypes> = [];
   try {
-    console.warn('createConfigDumpsFromDbFirstStart');
+    console.error(
+      'createConfigDumpsFromDbFirstStart should be removed as this would done in a migration'
+    );
 
     // build the userconfig
     await UserConfigWrapperActions.init(privateKeyEd25519, null);
@@ -110,6 +112,10 @@ async function initializeLibSessionUtilWrappers() {
     requiredUserDumpVariants,
     [...userVariantsBuildWithoutErrors.values()]
   );
+
+  if (missingRequiredVariants.length) {
+    throw new Error(`missingRequiredVariants: ${JSON.stringify(missingRequiredVariants)}`);
+  }
 
   for (let index = 0; index < missingRequiredVariants.length; index++) {
     const missingVariant = missingRequiredVariants[index];

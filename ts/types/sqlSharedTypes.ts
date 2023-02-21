@@ -1,4 +1,7 @@
+import { isEmpty, isEqual } from 'lodash';
+import { ContactInfo } from 'session_util_wrapper';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { fromHexToArray } from '../session/utils/String';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 
 /**
@@ -105,3 +108,54 @@ export type AttachmentDownloadMessageDetails = {
   isOpenGroupV2: boolean;
   openGroupV2Details: OpenGroupRequestCommonType | undefined;
 };
+
+/**
+ * This function returns a contactInfo for the wrapper to understand from the DB values.
+ * Created in this file so we can reuse it during the migration (node side), and from the renderer side
+ */
+export function getContactInfoFromDBValues({
+  id,
+  dbApproved,
+  dbApprovedMe,
+  dbBlocked,
+  dbName,
+  dbNickname,
+  hidden,
+  isPinned,
+  dbProfileUrl,
+  dbProfileKey,
+}: {
+  id: string;
+  dbApproved: boolean;
+  dbApprovedMe: boolean;
+  dbBlocked: boolean;
+  hidden: boolean;
+  dbNickname: string | undefined;
+  dbName: string | undefined;
+  isPinned: boolean;
+  dbProfileUrl: string | undefined;
+  dbProfileKey: string | undefined;
+}): ContactInfo {
+  const wrapperContact: ContactInfo = {
+    id,
+    approved: !!dbApproved,
+    approvedMe: !!dbApprovedMe,
+    blocked: !!dbBlocked,
+    hidden: !!hidden,
+    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+    nickname: dbNickname,
+    name: dbName,
+  };
+
+  if (
+    wrapperContact.profilePicture?.url !== dbProfileUrl ||
+    !isEqual(wrapperContact.profilePicture?.key, dbProfileKey)
+  ) {
+    wrapperContact.profilePicture = {
+      url: dbProfileUrl || null,
+      key: dbProfileKey && !isEmpty(dbProfileKey) ? fromHexToArray(dbProfileKey) : null,
+    };
+  }
+
+  return wrapperContact;
+}

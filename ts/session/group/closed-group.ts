@@ -252,6 +252,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
     | 'active_at'
     | 'left'
     | 'lastJoinedTimestamp'
+    | 'hidden'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -260,6 +261,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
+    hidden: false,
     // identityPrivateKey: isV3(details) ? details.identityPrivateKey : undefined,
   };
   console.warn('updates', updates);

@@ -102,14 +102,14 @@ export async function unblockConvoById(conversationId: string) {
   if (!conversation) {
     // we assume it's a block contact and not group.
     // this is to be able to unlock a contact we don't have a conversation with.
-    await BlockedNumberController.unblock(conversationId);
+    await BlockedNumberController.unblockAll([conversationId]);
     ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
     return;
   }
   if (!conversation.id || conversation.isPublic()) {
     return;
   }
-  await BlockedNumberController.unblock(conversationId);
+  await BlockedNumberController.unblockAll([conversationId]);
   ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
   await conversation.commit();
 }

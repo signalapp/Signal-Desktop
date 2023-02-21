@@ -7,9 +7,11 @@ import { ConversationCollection, ConversationModel } from '../models/conversatio
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
+import { StorageItem } from '../node/storage_item';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getSodiumRenderer } from '../session/crypto';
 import { PubKey } from '../session/types';
+import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import {
   AsyncWrapper,
   MsgDuplicateSearchOpenGroup,
@@ -20,8 +22,6 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Storage } from '../util/storage';
 import { channels } from './channels';
 import * as dataInit from './dataInit';
-import { StorageItem } from '../node/storage_item';
-import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import { cleanData } from './dataUtils';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
@@ -142,7 +142,7 @@ async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string): P
 
 // Conversation
 async function saveConversation(data: ConversationAttributes): Promise<void> {
-  const cleaned = cleanData(data);
+  const cleaned = cleanData(data) as ConversationAttributes;
   /**
    * Merging two conversations in `handleMessageRequestResponse` introduced a bug where we would mark conversation active_at to be -Infinity.
    * The root issue has been fixed, but just to make sure those INVALID DATE does not show up, update those -Infinity active_at conversations to be now(), once.,
@@ -150,6 +150,7 @@ async function saveConversation(data: ConversationAttributes): Promise<void> {
   if (cleaned.active_at === -Infinity) {
     cleaned.active_at = Date.now();
   }
+
   await channels.saveConversation(cleaned);
 }
 

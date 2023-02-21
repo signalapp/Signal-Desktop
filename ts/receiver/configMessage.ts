@@ -36,10 +36,12 @@ async function mergeConfigsWithIncomingUpdates(
   const toMerge = [incomingConfig.message.data];
   const wrapperId = LibSessionUtil.kindToVariant(kind);
   try {
+    window.log.warn(`${wrapperId} right before merge of ${toMerge.length} arrays`);
     await GenericWrapperActions.merge(wrapperId, toMerge);
+    window.log.warn(`${wrapperId} right after merge.`);
     const needsPush = await GenericWrapperActions.needsPush(wrapperId);
     const needsDump = await GenericWrapperActions.needsDump(wrapperId);
-    console.info(`${wrapperId} needsPush:${needsPush} needsDump:${needsDump} `);
+    window.log.info(`${wrapperId} needsPush:${needsPush} needsDump:${needsDump} `);
 
     const messageHashes = [incomingConfig.messageHash];
     const latestSentTimestamp = incomingConfig.envelopeTimestamp;
@@ -99,15 +101,13 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       let changes = false;
 
       // the display name set is handled in `updateProfileOfContact`
-
       if (wrapperConvo.nickname !== existingConvo.getNickname()) {
         await existingConvo.setNickname(wrapperConvo.nickname || null, false);
         changes = true;
       }
 
-      if (!wrapperConvo.hidden && !existingConvo.isActive()) {
-        // FIXME we need a field hidden rather than overriding the active_at here.
-        existingConvo.set('active_at', Date.now());
+      if (!wrapperConvo.hidden && !existingConvo.isHidden()) {
+        existingConvo.set({ hidden: false });
         changes = true;
       }
 
@@ -429,7 +429,7 @@ const handleContactFromConfigLegacy = async (
       }
       await BlockedNumberController.block(contactConvo.id);
     } else if (contactReceived.isBlocked === false) {
-      await BlockedNumberController.unblock(contactConvo.id);
+      await BlockedNumberController.unblockAll([contactConvo.id]);
     }
 
     await ProfileManager.updateProfileOfContact(

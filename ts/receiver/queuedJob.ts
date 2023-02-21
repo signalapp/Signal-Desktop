@@ -284,9 +284,14 @@ async function handleRegularMessage(
   }
 
   const conversationActiveAt = conversation.get('active_at');
-  if (!conversationActiveAt || (message.get('sent_at') || 0) > conversationActiveAt) {
+  if (
+    !conversationActiveAt ||
+    conversation.get('hidden') ||
+    (message.get('sent_at') || 0) > conversationActiveAt
+  ) {
     conversation.set({
       active_at: message.get('sent_at'),
+      hidden: false, // a new message was received for that conversation. If it was not it should not be hidden anymore
       lastMessage: message.getNotificationText(),
     });
   }

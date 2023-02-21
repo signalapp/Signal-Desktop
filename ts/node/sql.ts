@@ -292,8 +292,8 @@ function updateGuardNodes(nodes: Array<string>) {
 function createOrUpdateItem(data: StorageItem, instance?: BetterSqlite3.Database) {
   createOrUpdate(ITEMS_TABLE, data, instance);
 }
-function getItemById(id: string) {
-  return getById(ITEMS_TABLE, id);
+function getItemById(id: string, instance?: BetterSqlite3.Database) {
+  return getById(ITEMS_TABLE, id, instance);
 }
 function getAllItems() {
   const rows = assertGlobalInstance()
@@ -443,6 +443,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     avatarInProfile,
     displayNameInProfile,
     conversationIdOrigin,
+    hidden,
     // identityPrivateKey,
   } = formatted;
 
@@ -504,6 +505,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       displayNameInProfile,
       conversationIdOrigin,
       // identityPrivateKey,
+      hidden,
     });
 }
 
@@ -527,8 +529,8 @@ function removeConversation(id: string | Array<string>) {
     .run(id);
 }
 
-function getConversationById(id: string) {
-  const row = assertGlobalInstance()
+function getConversationById(id: string, instance?: BetterSqlite3.Database) {
+  const row = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
     .get({
       id,
@@ -610,7 +612,7 @@ function searchConversations(query: string) {
       (
         displayNameInProfile LIKE $displayNameInProfile OR
         nickname LIKE $nickname
-      ) AND active_at IS NOT NULL AND active_at > 0
+      ) AND active_at > 0
      ORDER BY active_at DESC
      LIMIT $limit`
     )
@@ -654,6 +656,10 @@ function searchMessages(query: string, limit: number) {
   }));
 }
 
+/**
+ * Search for matching messages in a specific conversation.
+ * Currently unused but kept as we want to add it back at some point.
+ */
 function searchMessagesInConversation(query: string, conversationId: string, limit: number) {
   const rows = assertGlobalInstance()
     .prepare(

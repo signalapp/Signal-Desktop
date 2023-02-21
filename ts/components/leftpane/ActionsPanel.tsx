@@ -164,11 +164,12 @@ const setupTheme = async () => {
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
 const triggerSyncIfNeeded = async () => {
+  const us = UserUtils.getOurPubKeyStrFromCache();
   await getConversationController()
-    .get(UserUtils.getOurPubKeyStrFromCache())
+    .get(us)
     .setDidApproveMe(true, true);
   await getConversationController()
-    .get(UserUtils.getOurPubKeyStrFromCache())
+    .get(us)
     .setIsApproved(true, true);
   const didWeHandleAConfigurationMessageAlready =
     (await Data.getItemById(hasSyncedInitialConfigurationItem))?.value || false;

@@ -354,7 +354,8 @@ export const _getLeftPaneLists = (
       conversation.activeAt !== undefined &&
       conversation.type === ConversationTypeEnum.PRIVATE &&
       conversation.isApproved &&
-      !conversation.isBlocked
+      !conversation.isBlocked &&
+      !conversation.isHidden
     ) {
       directConversations.push(conversation);
     }

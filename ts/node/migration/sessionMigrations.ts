@@ -1,11 +1,19 @@
 import * as BetterSqlite3 from 'better-sqlite3';
-import { compact, map, pick } from 'lodash';
+import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
+import { compact, isArray, isEmpty, map, pick } from 'lodash';
+import {
+  ContactsConfigWrapperInsideWorker,
+  UserConfigWrapperInsideWorker,
+} from 'session_util_wrapper';
 import { ConversationAttributes } from '../../models/conversationAttributes';
+import { fromHexToArray } from '../../session/utils/String';
+import { CONFIG_DUMP_TABLE, getContactInfoFromDBValues } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
   dropFtsAndTriggers,
   GUARD_NODE_TABLE,
+  ITEMS_TABLE,
   jsonToObject,
   LAST_HASHES_TABLE,
   MESSAGES_TABLE,
@@ -13,6 +21,7 @@ import {
   objectToJSON,
   OPEN_GROUP_ROOMS_V2_TABLE,
   rebuildFtsTable,
+  toSqliteBoolean,
 } from '../database_utility';
 
 import { sqlNode } from '../sql';
@@ -1224,6 +1233,118 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
+function getIdentityKeysDuringMigration(db: BetterSqlite3.Database) {
+  const row = db.prepare(`SELECT * FROM ${ITEMS_TABLE} WHERE id = $id;`).get({
+    id: 'identityKey',
+  });
+
+  if (!row) {
+    return null;
+  }
+  try {
+    const parsedIdentityKey = jsonToObject(row.json);
+    if (
+      !parsedIdentityKey?.value?.pubKey ||
+      !parsedIdentityKey?.value?.ed25519KeyPair?.privateKey
+    ) {
+      return null;
+    }
+    const publicKeyBase64 = parsedIdentityKey?.value?.pubKey;
+    const publicKeyHex = to_hex(from_base64(publicKeyBase64, base64_variants.ORIGINAL));
+
+    const ed25519PrivateKeyUintArray = parsedIdentityKey?.value?.ed25519KeyPair?.privateKey;
+
+    // TODO migrate the ed25519KeyPair for all the users already logged in to a base64 representation
+    const privateEd25519 = new Uint8Array(Object.values(ed25519PrivateKeyUintArray));
+
+    if (!privateEd25519 || isEmpty(privateEd25519)) {
+      return null;
+    }
+
+    return {
+      publicKeyHex,
+      privateEd25519,
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function insertContactIntoWrapper(
+  contact: any,
+  blockedNumbers: Array<string>,
+  contactsConfigWrapper: ContactsConfigWrapperInsideWorker
+) {
+  const dbApproved = !!contact.isApproved || false;
+  const dbApprovedMe = !!contact.didApproveMe || false;
+  const dbBlocked = blockedNumbers.includes(contact.id);
+  const hidden = contact.hidden || false;
+  const isPinned = contact.isPinned;
+
+  const wrapperContact = getContactInfoFromDBValues({
+    id: contact.id,
+    dbApproved,
+    dbApprovedMe,
+    dbBlocked,
+    dbName: contact.displayNameInProfile || undefined,
+    dbNickname: contact.nickname || undefined,
+    dbProfileKey: contact.profileKey || undefined,
+    dbProfileUrl: contact.avatarPointer || undefined,
+    isPinned,
+    hidden,
+  });
+
+  try {
+    console.info('Inserting contact into wrapper: ', wrapperContact);
+    contactsConfigWrapper.set(wrapperContact);
+  } catch (e) {
+    console.error(
+      `contactsConfigWrapper.set during migration failed with ${e.message} for id: ${contact.id}`
+    );
+    // the wrapper did not like something. Try again with just the boolean fields as it's most likely the issue is with one of the strings (which could be recovered)
+    try {
+      console.info('Inserting edited contact into wrapper: ', contact.id);
+      contactsConfigWrapper.set(
+        getContactInfoFromDBValues({
+          id: contact.id,
+          dbApproved,
+          dbApprovedMe,
+          dbBlocked,
+          dbName: undefined,
+          dbNickname: undefined,
+          dbProfileKey: undefined,
+          dbProfileUrl: undefined,
+          isPinned: false,
+          hidden,
+        })
+      );
+    } catch (e) {
+      // there is nothing else we can do here
+      console.error(
+        `contactsConfigWrapper.set during migration failed with ${e.message} for id: ${contact.id}. Skipping contact entirely`
+      );
+    }
+  }
+}
+
+function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
+  try {
+    const blockedItem = sqlNode.getItemById('blocked', db);
+    if (!blockedItem) {
+      throw new Error('no blocked contacts at all');
+    }
+    const foundBlocked = blockedItem?.value;
+    console.warn('foundBlockedNumbers during migration', foundBlocked);
+    if (isArray(foundBlocked)) {
+      return foundBlocked;
+    }
+    return [];
+  } catch (e) {
+    console.warn('failed to read blocked numbers. Considering no blocked numbers', e.stack);
+    return [];
+  }
+}
+
 function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 31;
   if (currentVersion >= targetVersion) {
@@ -1235,6 +1356,27 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
    * Create a table to store our sharedConfigMessage dumps
    */
   db.transaction(() => {
+    // when deleting a contact we now mark it as 'hidden' rather than overriding the `active_at` field.
+    // by default, conversation are hidden
+    db.exec(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hidden INTEGER NOT NULL DEFAULT ${toSqliteBoolean(
+        true
+      )} ;`
+    );
+    // mark every "active" private chats as not hidden
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
+        hidden = ${toSqliteBoolean(false)}
+        WHERE type = 'private' AND active_at > 0 AND (didApproveMe OR isApproved);`
+    ).run({});
+
+    // mark every not private chats (groups or communities) as not hidden (even if a group was left or we were kicked, we want it visible in the app)
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
+        hidden = ${toSqliteBoolean(false)}
+        WHERE type <> 'private' AND active_at > 0;`
+    ).run({});
+
     db.exec(`CREATE TABLE configDump(
       variant TEXT NOT NULL,
       publicKey TEXT NOT NULL,
@@ -1243,6 +1385,116 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       PRIMARY KEY (publicKey, variant)
       );
       `);
+
+    try {
+      const keys = getIdentityKeysDuringMigration(db);
+
+      if (!keys || !keys.privateEd25519 || isEmpty(keys.privateEd25519)) {
+        throw new Error('privateEd25519 was empty. Considering no users are logged in');
+      }
+      const { privateEd25519, publicKeyHex } = keys;
+      const userProfileWrapper = new UserConfigWrapperInsideWorker(privateEd25519, null);
+      const contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(privateEd25519, null);
+
+      /**
+       * Setup up the User profile wrapper with what is stored in our own conversation
+       */
+
+      const ourConversation = sqlNode.getConversationById(publicKeyHex, db);
+      if (!ourConversation) {
+        throw new Error('Failed to find our logged in conversation while migrating');
+      }
+
+      // Insert the user profile into the userWrappoer
+      const ourDbName = ourConversation.displayNameInProfile || '';
+      const ourDbProfileUrl = ourConversation.avatarPointer || '';
+      const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
+      userProfileWrapper.setName(ourDbName);
+
+      if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
+        userProfileWrapper.setProfilePicture(ourDbProfileUrl, ourDbProfileKey);
+      } else {
+        userProfileWrapper.setProfilePicture('', new Uint8Array());
+      }
+
+      // dump the user wrapper content and save it to the DB
+      const userDump = userProfileWrapper.dump();
+
+      db.prepare(
+        `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              combinedMessageHashes,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $combinedMessageHashes,
+            $data
+          );`
+      ).run({
+        publicKey: publicKeyHex,
+        variant: 'UserConfig',
+        combinedMessageHashes: JSON.stringify([]),
+        data: userDump,
+      });
+
+      /**
+       * Setup up the Contacts Wrapper with all the contact details which needs to be stored in it.
+       */
+      const blockedNumbers = getBlockedNumbersDuringMigration(db);
+
+      // this filter is based on the `filterContactsToStoreInContactsWrapper` function.
+      const contactsToWriteInWrapper = db
+        .prepare(
+          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND NOT hidden AND (didApproveMe OR isApproved) AND id <> $us AND id NOT LIKE '15%' ;`
+        )
+        .all({
+          us: publicKeyHex,
+        });
+
+      if (isArray(contactsToWriteInWrapper) && contactsToWriteInWrapper.length) {
+        console.warn(
+          '===================== Starting contact inserting into wrapper ======================='
+        );
+
+        console.info(
+          'Writing contacts to wrapper during migration. length: ',
+          contactsToWriteInWrapper?.length
+        );
+
+        contactsToWriteInWrapper.forEach(contact => {
+          insertContactIntoWrapper(contact, blockedNumbers, contactsConfigWrapper);
+        });
+
+        console.warn('===================== Done with contact inserting =======================');
+      }
+      const contactsDump = contactsConfigWrapper.dump();
+
+      db.prepare(
+        `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              combinedMessageHashes,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $combinedMessageHashes,
+            $data
+          );`
+      ).run({
+        publicKey: publicKeyHex,
+        variant: 'ContactsConfig',
+        combinedMessageHashes: JSON.stringify([]),
+        data: contactsDump,
+      });
+
+      // TODO we've just created the initial dumps. We have to add an initial SyncJob to the database so it is run on the next app start/
+      // or find another way of adding one on the next start (store an another item in the DB and check for it on app start?)
+    } catch (e) {
+      console.error(`failed to create initial wrapper: `, e.stack);
+    }
 
     // db.exec(`ALTER TABLE conversations
     //   ADD COLUMN lastReadTimestampMs INTEGER;

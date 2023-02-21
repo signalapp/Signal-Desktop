@@ -11,7 +11,7 @@ describe('SyncUtils', () => {
   });
 
   describe('syncConfigurationIfNeeded', () => {
-    it('sync if last sync undefined', () => {
+    it.skip('sync if last sync undefined', () => {
       // TestUtils.stubData('getItemById').resolves(undefined);
       // sandbox.stub(ConversationController, 'getConversations').returns([]);
       // const getCurrentConfigurationMessageSpy = sandbox.spy(MessageUtils, 'getCurrentConfigurationMessage');

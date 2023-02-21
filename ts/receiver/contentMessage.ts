@@ -621,7 +621,6 @@ async function handleMessageRequestResponse(
 ) {
   const { isApproved } = messageRequestResponse;
   if (!isApproved) {
-    window?.log?.error('handleMessageRequestResponse: isApproved is false -- dropping message.');
     await removeFromCache(envelope);
     return;
   }
@@ -649,6 +648,7 @@ async function handleMessageRequestResponse(
 
   conversationToApprove.set({
     active_at: mostRecentActiveAt,
+    hidden: false,
     isApproved: true,
     didApproveMe: true,
   });
@@ -708,10 +708,8 @@ async function handleMessageRequestResponse(
     );
   }
 
-  if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
-    if (conversationToApprove) {
-      await conversationToApprove.commit();
-    }
+  if (!conversationToApprove || conversationToApprove.didApproveMe()) {
+    await conversationToApprove?.commit();
     window?.log?.info(
       'Conversation already contains the correct value for the didApproveMe field.'
     );
@@ -720,14 +718,12 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  await conversationToApprove.setDidApproveMe(isApproved, true);
-  if (isApproved === true) {
-    // Conversation was not approved before so a sync is needed
-    await conversationToApprove.addIncomingApprovalMessage(
-      toNumber(envelope.timestamp),
-      unblindedConvoId
-    );
-  }
+  await conversationToApprove.setDidApproveMe(true, true);
+  // Conversation was not approved before so a sync is needed
+  await conversationToApprove.addIncomingApprovalMessage(
+    toNumber(envelope.timestamp),
+    unblindedConvoId
+  );
 
   await removeFromCache(envelope);
 }

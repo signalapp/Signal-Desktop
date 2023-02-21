@@ -246,14 +246,14 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
       // make sure the settings which should already set to `true` are
       if (
         !conversation.get('isTrustedForAttachmentDownload') ||
-        !conversation.get('isApproved') ||
-        !conversation.get('didApproveMe')
+        !conversation.isApproved() ||
+        !conversation.didApproveMe()
       ) {
         conversation.set({
           isTrustedForAttachmentDownload: true,
-          isApproved: true,
-          didApproveMe: true,
         });
+        await conversation.setDidApproveMe(true, false);
+        await conversation.setIsApproved(true, false);
         changes = true;
       }
     }
