@@ -3255,14 +3255,6 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     throw new Error('saveUnprocessedSync: id was falsey');
   }
 
-  if (attempts > MAX_UNPROCESSED_ATTEMPTS) {
-    logger.warn(
-      `saveUnprocessedSync: not saving ${id} due to exhausted attempts`
-    );
-    removeUnprocessedSync(id);
-    return id;
-  }
-
   prepare(
     db,
     `
