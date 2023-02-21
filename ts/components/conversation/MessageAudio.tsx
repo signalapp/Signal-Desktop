@@ -60,7 +60,6 @@ export type DispatchProps = Readonly<{
 export type Props = OwnProps & DispatchProps;
 
 type ButtonProps = {
-  i18n: LocalizerType;
   variant: 'play' | 'playback-rate';
   mod?: string;
   label: string;
@@ -129,7 +128,6 @@ const timeToText = (time: number): string => {
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
     const {
-      i18n,
       variant,
       mod,
       label,
@@ -189,8 +187,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           onMouseUp={() => setIsDown(false)}
           onMouseLeave={() => setIsDown(false)}
           tabIndex={0}
-          // eslint-disable-next-line local-rules/valid-i18n-keys
-          aria-label={i18n(label)}
+          aria-label={label}
         >
           {children}
         </button>
@@ -517,7 +514,6 @@ export function MessageAudio(props: Props): JSX.Element {
     button = (
       <Button
         ref={buttonRef}
-        i18n={i18n}
         variant="play"
         mod="download"
         label="MessageAudio--download"
@@ -530,10 +526,11 @@ export function MessageAudio(props: Props): JSX.Element {
     button = (
       <Button
         ref={buttonRef}
-        i18n={i18n}
         variant="play"
         mod={isPlaying ? 'pause' : 'play'}
-        label={isPlaying ? 'MessageAudio--pause' : 'MessageAudio--play'}
+        label={
+          isPlaying ? i18n('MessageAudio--pause') : i18n('MessageAudio--play')
+        }
         animateClick={false}
         onClick={toggleIsPlaying}
       />
@@ -575,8 +572,7 @@ export function MessageAudio(props: Props): JSX.Element {
         />
         <Button
           variant="playback-rate"
-          i18n={i18n}
-          label={(active && playbackRateLabels[active.playbackRate]) ?? ''}
+          label={playbackRateLabels[active?.playbackRate ?? 1]}
           visible={isPlaying && (!played || !isPlayedDotVisible)}
           onClick={() => {
             if (active) {
@@ -587,7 +583,7 @@ export function MessageAudio(props: Props): JSX.Element {
             }
           }}
         >
-          {active && playbackRateLabels[active.playbackRate]}
+          {playbackRateLabels[active?.playbackRate ?? 1]}
         </Button>
       </div>
 
