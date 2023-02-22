@@ -31,7 +31,7 @@
   "openGroupInvitation": "Community invitation",
   "joinOpenGroupAfterInvitationConfirmationTitle": "Join $roomName$?",
   "joinOpenGroupAfterInvitationConfirmationDesc": "Are you sure you want to join the $roomName$ community?",
-  "couldntFindServerMatching": "Couldn't find the corresponding opengroup server",
+  "couldntFindServerMatching": "Couldn't find the corresponding Community server",
   "enterSessionIDOrONSName": "Enter Session ID or ONS name",
   "startNewConversationBy...": "Start a new conversation by entering someone's Session ID or share your Session ID with them.",
   "loading": "Loading...",
