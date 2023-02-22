@@ -2097,6 +2097,9 @@ export class Message extends React.PureComponent<Props, State> {
                   ? 'module-message__reactions--outgoing'
                   : 'module-message__reactions--incoming'
               )}
+              onDoubleClick={ev => {
+                ev.stopPropagation();
+              }}
             >
               {toRender.map((re, i) => {
                 const isLast = i === toRender.length - 1;
