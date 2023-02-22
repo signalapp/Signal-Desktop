@@ -1270,7 +1270,7 @@ export async function startApp(): Promise<void> {
     });
 
     document.addEventListener('keydown', event => {
-      const { ctrlKey, metaKey, shiftKey } = event;
+      const { ctrlKey, metaKey, shiftKey, altKey } = event;
 
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
@@ -1286,7 +1286,7 @@ export async function startApp(): Promise<void> {
 
       // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
       // However, on linux Ctrl+/ selects all text, so we prevent that
-      if (commandOrCtrl && key === '/') {
+      if (commandOrCtrl && !altKey && key === '/') {
         window.Events.showKeyboardShortcuts();
 
         event.stopPropagation();
