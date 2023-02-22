@@ -14,7 +14,7 @@ describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {
     archivedConversations: [],
     conversations: [],
-    isAboutToSearchInAConversation: false,
+    isAboutToSearch: false,
     pinnedConversations: [],
     searchConversation: undefined,
     searchDisabled: false,
@@ -616,7 +616,7 @@ describe('LeftPaneInboxHelper', () => {
     it("returns true if we're about to search in a conversation", () => {
       const helper = new LeftPaneInboxHelper({
         ...defaultProps,
-        isAboutToSearchInAConversation: true,
+        isAboutToSearch: true,
       });
 
       assert.isTrue(helper.requiresFullWidth());

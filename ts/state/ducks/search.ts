@@ -57,6 +57,7 @@ export type MessageSearchResultLookupType = ReadonlyDeep<{
 export type SearchStateType = ReadonlyDeep<{
   startSearchCounter: number;
   searchConversationId?: string;
+  globalSearch?: boolean;
   contactIds: Array<string>;
   conversationIds: Array<string>;
   query: string;
@@ -94,7 +95,7 @@ type UpdateSearchTermActionType = ReadonlyDeep<{
 }>;
 type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
-  payload: null;
+  payload: { globalSearch: boolean };
 }>;
 type ClearSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_CLEAR';
@@ -137,7 +138,7 @@ export const actions = {
 function startSearch(): StartSearchActionType {
   return {
     type: 'SEARCH_START',
-    payload: null,
+    payload: { globalSearch: true },
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -341,6 +342,7 @@ export function reducer(
     return {
       ...state,
       searchConversationId: undefined,
+      globalSearch: true,
       startSearchCounter: state.startSearchCounter + 1,
     };
   }

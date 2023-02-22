@@ -14,6 +14,8 @@ import type { MessageSearchResultType } from '../../../state/ducks/search';
 import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search';
 import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user';
 import {
+  getIsSearching,
+  getIsSearchingGlobally,
   getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
@@ -90,6 +92,61 @@ describe('both/state/selectors/search', () => {
       };
 
       assert.isTrue(getIsSearchingInAConversation(state));
+    });
+  });
+
+  describe('#getIsSearchingGlobally', () => {
+    it('returns false if not searching', () => {
+      const state = getEmptyRootState();
+
+      assert.isFalse(getIsSearchingGlobally(state));
+    });
+
+    it('returns true if searching globally', () => {
+      const state = {
+        ...getEmptyRootState(),
+        search: {
+          ...getEmptySearchState(),
+          globalSearch: true,
+        },
+      };
+
+      assert.isTrue(getIsSearchingGlobally(state));
+    });
+  });
+
+  describe('#getIsSearching', () => {
+    it('returns false if not searching in any manner', () => {
+      const state = getEmptyRootState();
+
+      assert.isFalse(getIsSearching(state));
+    });
+
+    it('returns true if searching in a conversation', () => {
+      const state = {
+        ...getEmptyRootState(),
+        search: {
+          ...getEmptySearchState(),
+          searchConversationId: 'abc123',
+          searchConversationName: 'Test Conversation',
+          globalSearch: false,
+        },
+      };
+
+      assert.isTrue(getIsSearching(state));
+    });
+
+    it('returns true if searching globally', () => {
+      const state = {
+        ...getEmptyRootState(),
+        search: {
+          ...getEmptySearchState(),
+          searchConversationId: undefined,
+          globalSearch: true,
+        },
+      };
+
+      assert.isTrue(getIsSearchingGlobally(state));
     });
   });
 

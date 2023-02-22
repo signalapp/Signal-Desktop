@@ -104,7 +104,7 @@ const defaultModeSpecificProps = {
   pinnedConversations,
   conversations: defaultConversations,
   archivedConversations: defaultArchivedConversations,
-  isAboutToSearchInAConversation: false,
+  isAboutToSearch: false,
 };
 
 const emptySearchResultsGroup = { isLoading: false, results: [] };
@@ -278,7 +278,7 @@ export function InboxNoConversations(): JSX.Element {
           pinnedConversations: [],
           conversations: [],
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -299,7 +299,7 @@ export function InboxOnlyPinnedConversations(): JSX.Element {
           pinnedConversations,
           conversations: [],
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -320,7 +320,7 @@ export function InboxOnlyNonPinnedConversations(): JSX.Element {
           pinnedConversations: [],
           conversations: defaultConversations,
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -341,7 +341,7 @@ export function InboxOnlyArchivedConversations(): JSX.Element {
           pinnedConversations: [],
           conversations: [],
           archivedConversations: defaultArchivedConversations,
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -362,7 +362,7 @@ export function InboxPinnedAndArchivedConversations(): JSX.Element {
           pinnedConversations,
           conversations: [],
           archivedConversations: defaultArchivedConversations,
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -383,7 +383,7 @@ export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
           pinnedConversations: [],
           conversations: defaultConversations,
           archivedConversations: defaultArchivedConversations,
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -404,7 +404,7 @@ export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
           pinnedConversations,
           conversations: defaultConversations,
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
         },
       })}
     />
@@ -946,7 +946,7 @@ export function CaptchaDialogRequired(): JSX.Element {
           pinnedConversations,
           conversations: defaultConversations,
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
           searchTerm: '',
         },
         challengeStatus: 'required',
@@ -969,7 +969,7 @@ export function CaptchaDialogPending(): JSX.Element {
           pinnedConversations,
           conversations: defaultConversations,
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
           searchTerm: '',
         },
         challengeStatus: 'pending',
@@ -991,7 +991,7 @@ export const _CrashReportDialog = (): JSX.Element => (
         pinnedConversations,
         conversations: defaultConversations,
         archivedConversations: [],
-        isAboutToSearchInAConversation: false,
+        isAboutToSearch: false,
         searchTerm: '',
       },
       crashReportCount: 42,
@@ -1163,7 +1163,7 @@ export function SearchingConversation(): JSX.Element {
           pinnedConversations: [],
           conversations: defaultConversations,
           archivedConversations: [],
-          isAboutToSearchInAConversation: false,
+          isAboutToSearch: false,
           searchConversation: getDefaultConversation(),
           searchTerm: '',
         },

@@ -16,7 +16,7 @@ import { isDone as isRegistrationDone } from '../../util/registration';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
-  getIsSearchingInAConversation,
+  getIsSearching,
   getQuery,
   getSearchConversation,
   getSearchResults,
@@ -152,7 +152,7 @@ const getModeSpecificProps = (
       }
       return {
         mode: LeftPaneMode.Inbox,
-        isAboutToSearchInAConversation: getIsSearchingInAConversation(state),
+        isAboutToSearch: getIsSearching(state),
         searchConversation: getSearchConversation(state),
         searchDisabled: state.network.challengeStatus !== 'idle',
         searchTerm: getQuery(state),

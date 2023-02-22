@@ -24,7 +24,7 @@ export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
-  isAboutToSearchInAConversation: boolean;
+  isAboutToSearch: boolean;
   startSearchCounter: number;
   searchDisabled: boolean;
   searchTerm: string;
@@ -38,7 +38,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
 
-  private readonly isAboutToSearchInAConversation: boolean;
+  private readonly isAboutToSearch: boolean;
 
   private readonly startSearchCounter: number;
 
@@ -52,7 +52,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     conversations,
     archivedConversations,
     pinnedConversations,
-    isAboutToSearchInAConversation,
+    isAboutToSearch,
     startSearchCounter,
     searchDisabled,
     searchTerm,
@@ -63,7 +63,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.conversations = conversations;
     this.archivedConversations = archivedConversations;
     this.pinnedConversations = pinnedConversations;
-    this.isAboutToSearchInAConversation = isAboutToSearchInAConversation;
+    this.isAboutToSearch = isAboutToSearch;
     this.startSearchCounter = startSearchCounter;
     this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
@@ -245,7 +245,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       !this.conversations.length &&
       !this.pinnedConversations.length &&
       !this.archivedConversations.length;
-    return hasNoConversations || this.isAboutToSearchInAConversation;
+    return hasNoConversations || this.isAboutToSearch;
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneInboxPropsType>): boolean {
