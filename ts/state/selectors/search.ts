@@ -54,6 +54,18 @@ export const getIsSearchingInAConversation = createSelector(
   Boolean
 );
 
+export const getIsSearchingGlobally = createSelector(
+  getSearch,
+  (state: SearchStateType): boolean => Boolean(state.globalSearch)
+);
+
+export const getIsSearching = createSelector(
+  getIsSearchingInAConversation,
+  getIsSearchingGlobally,
+  (isSearchingInAConversation, isSearchingGlobally): boolean =>
+    isSearchingInAConversation || isSearchingGlobally
+);
+
 export const getSearchConversation = createSelector(
   getSearchConversationId,
   getConversationLookup,
