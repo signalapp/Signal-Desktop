@@ -497,6 +497,7 @@
       "!node_modules/@signalapp/ringrtc/scripts/*",
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
+      "node_modules/fs-xattr/build/Release/*.node",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/mp4box/**",
       "node_modules/mp4box/package.json",
