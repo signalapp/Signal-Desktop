@@ -15,25 +15,89 @@ import { SignalService as Proto } from '../protobuf';
 
 const execFile = promisify(rawExecFile);
 
-const TARGET = 'https://symbols.electronjs.org';
+const TARGET_URL = 'https://symbols.electronjs.org';
+const CLI_OPTIONS = [];
+const CLI_ARGS = [];
 
-const proxyServer = http
-  .createServer(({ method, url = '/' }, res) => {
-    console.log(`Proxy server got request ${method} ${url}`);
-    if (method !== 'GET') {
-      throw new Error('Unsupported');
-    }
+for (const arg of process.argv.slice(2)) {
+  if (arg.startsWith('--')) {
+    CLI_OPTIONS.push(arg.slice(2));
+  } else {
+    CLI_ARGS.push(arg);
+  }
+}
 
-    // eslint-disable-next-line no-useless-escape
-    const patchedURL = url.replace(/signal-desktop-[^\/.]+/g, 'electron');
+const [OUTPUT_DIR, ...CRASH_REPORTS] = CLI_ARGS;
 
-    https.get(`${TARGET}${patchedURL}`, remoteRes => {
-      res.writeHead(remoteRes.statusCode ?? 500, remoteRes.headers);
+main(OUTPUT_DIR, CRASH_REPORTS, CLI_OPTIONS).catch(error => {
+  console.error(error.stack);
+  process.exit(1);
+});
 
-      remoteRes.pipe(res);
-    });
-  })
-  .unref();
+async function main(
+  outDir: string,
+  fileNames: ReadonlyArray<string>,
+  options: ReadonlyArray<string>
+): Promise<void> {
+  await fs.mkdir(outDir, { recursive: true });
+
+  const substitutions = new Map<string, Buffer>();
+  await Promise.all(
+    options.map(async option => {
+      const match = option.match(/^sub:(.*)=(.*)$/);
+      if (!match) {
+        return;
+      }
+
+      substitutions.set(match[1], await fs.readFile(match[2]));
+    })
+  );
+
+  const proxyServer = http
+    .createServer(async ({ method, url = '/' }, res) => {
+      console.log(`Proxy server got request ${method} ${url}`);
+      if (method !== 'GET') {
+        throw new Error('Unsupported');
+      }
+
+      for (const [name, buffer] of substitutions) {
+        if (url.includes(name)) {
+          console.log(`Providing substitution for ${url}`);
+          res.end(buffer);
+          return;
+        }
+      }
+
+      // eslint-disable-next-line no-useless-escape
+      const patchedURL = url.replace(/signal-desktop-[^\/.]+/g, 'electron');
+
+      https.get(`${TARGET_URL}${patchedURL}`, remoteRes => {
+        res.writeHead(remoteRes.statusCode ?? 500, remoteRes.headers);
+
+        remoteRes.pipe(res);
+      });
+    })
+    .unref();
+
+  proxyServer.listen(0);
+
+  await wrapEventEmitterOnce(proxyServer, 'listening');
+  const addr = proxyServer.address();
+  strictAssert(
+    typeof addr === 'object' && addr != null,
+    'Address has to be an object'
+  );
+
+  const { port: proxyPort } = addr;
+
+  console.log(`Proxy server listening on ${proxyPort}`);
+
+  await Promise.all(
+    fileNames.map(fileName => symbolicate(outDir, fileName, proxyPort))
+  );
+
+  proxyServer.close();
+}
 
 async function symbolicate(
   outDir: string,
@@ -77,34 +141,3 @@ async function symbolicate(
     })
   );
 }
-
-async function main(
-  outDir: string,
-  fileNames: ReadonlyArray<string>
-): Promise<void> {
-  await fs.mkdir(outDir, { recursive: true });
-
-  proxyServer.listen(0);
-
-  await wrapEventEmitterOnce(proxyServer, 'listening');
-  const addr = proxyServer.address();
-  strictAssert(
-    typeof addr === 'object' && addr != null,
-    'Address has to be an object'
-  );
-
-  const { port: proxyPort } = addr;
-
-  console.log(`Proxy server listening on ${proxyPort}`);
-
-  await Promise.all(
-    fileNames.map(fileName => symbolicate(outDir, fileName, proxyPort))
-  );
-
-  proxyServer.close();
-}
-
-main(process.argv[2], process.argv.slice(3)).catch(error => {
-  console.error(error.stack);
-  process.exit(1);
-});
