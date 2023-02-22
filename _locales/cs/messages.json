@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Mikrofon byl ztlumen kvůli velkému počtu lidí v hovoru",
+    "message": "Mikrofon ztlumen kvůli velkému počtu lidí v hovoru",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1482,7 +1482,7 @@
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Zrušit ztlumení mikrofonu",
+    "message": "Zapnout mikrofon",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Zablokovali jste $name$",
+    "message": "Uživatele $name$ jste zablokovali",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Chcete-li odeslat zprávu, musíte tento kontakt odblokovat.",
+    "message": "Kontakt musíte odblokovat, abyste mu mohli poslat zprávu.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Chcete-li odeslat zprávu, musíte tuto skupinu odblokovat.",
+    "message": "Skupinu musíte odblokovat, abyste jí mohli poslat zprávu.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Zapnutí a vypnutí ztlumení zvuku",
+    "message": "Přepínání vypnutí a zapnutí zvuku",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Chcete povolit, aby vám $name$ mohl/a posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je neodblokujete.",
+    "message": "Nechat si od $name$ posílat zprávy a sdílet s nimi vaše jméno a fotografii? Dokud je neodblokujete, nebudete dostávat žádné zprávy.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Chcete odblokovat tuto skupinu a sdílet své jméno a fotografii s ostatními členy? Dokud je neodblokujete, žádné zprávy neobdržíte.",
+    "message": "Chcete odblokovat tuto skupinu a sdílet své jméno a fotografii s ostatními členy? Dokud je neodblokujete, žádné zprávy neobdržíte.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Nahlásit spam a zablokovat",
+    "message": "Nahlásit spam a zablokovat",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Nahlášeno jako spam a zablokováno.",
+    "message": "Nahlášeno jako spam a zablokováno.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Zablokovat uživatele $name$?",
+    "message": "Blokovat uživatele $name$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Zablokované osoby vám nebudou moci volat ani posílat zprávy.",
+    "message": "Blokované osoby vám nebudou moci volat ani posílat zprávy.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Zablokovat a opustit $group$?",
+    "message": "Blokovat a opustit skupinu $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,11 +3525,11 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Ztišit upozornění",
+    "message": "Vypnout oznámení",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Není ztlumeno",
+    "message": "Není vypnuto",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3537,7 +3537,7 @@
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Ztlumit na 8 hodin",
+    "message": "Ztlumit na 8 hodin",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Zahrnout ztlumené konverzace do výpočtu odznaků",
+    "message": "Zahrnout ztlumené konverzace do počtu značek",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Zrušit ztlumení tohoto chatu?",
+    "message": "Zrušit ztlumení této konverzace?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4489,7 +4489,7 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Zablokovat skupinu",
+    "message": "Blokovat skupinu",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Zablokovat a opustit skupinu „$groupName$“?",
+    "message": "Blokovat a opustit skupinu „$groupName$“?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "Zablokovat",
+    "message": "Blokovat",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Přijímat oznámení, když jste zmíněni ve ztlumených konverzacích.",
+    "message": "Přijímat oznámení, když jste zmíněni ve ztlumených konverzacích",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Neupozorňovat, pokud je ztlumeno",
+    "message": "Neoznamovat, pokud je ztlumeno",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Zablokovat žádost",
+    "message": "Blokovat žádost",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Zablokovat žádost?",
+    "message": "Blokovat žádost?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Zablokovat žádost",
+    "message": "Blokovat žádost",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} již není k dispozici. S vaším uživatelským jménem bude spárována nová sada číslic, zkuste ji znovu uložit.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Nastavení uživatelského jména v aplikaci Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Uživatelská jména jsou spárována se sadou číslic a nejsou sdílena na vašem profilu",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Každé uživatelské jméno má jedinečný odkaz, který můžete sdílet s přáteli, aby s vámi mohli zahájit konverzaci",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Vypněte funkci vyhledání telefonního čísla v nabídce Nastavení > Telefonní číslo > Kdo může najít mé číslo, abyste mohli používat své uživatelské jméno jako primární způsob, jak vás mohou ostatní kontaktovat.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Zjistit více",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Pokračovat",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Қоңыраудың өлшеміне байланысты микрофон өшірілді",
+    "message": "Қоңыраудың өлшеміне байланысты микрофон дыбысы өшірілді",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ сізге хат жіберуіне рұқсат етіп, оларға сіздің атыңыз бен фотосуретіңіз көрсетілсін бе? Оларды блоктан шығармайынша, олар хаттар ала алмайды.",
+    "message": "$name$ сізге хат жазуына рұқсат етіп, оған аты-жөніңіз бен фотосуретіңіздің көрсетілгенін қалайсыз ба? Оны блоктан шығармайынша, сіз одан бірде-бір хат алмайтын боласыз.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3529,31 +3529,31 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Дыбысы басылған жоқ",
+    "message": "Дыбысы өшірілмеген",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Бір сағатқа дыбысын басу",
+    "message": "Дыбысын бір сағатқа өшіру",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Сегіз сағатқа дыбысын өшіріп қою",
+    "message": "Дыбысын сегіз сағатқа өшіру",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Бір күнге дыбысын басу",
+    "message": "Дыбысын бір күнге өшіру",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Бір аптаға дыбысын басу",
+    "message": "Дыбысын бір аптаға өшіру",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Дыбысын біржола өшіріп тастау",
+    "message": "Дыбысын біржола өшіру",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Дыбысын шығару",
+    "message": "Дыбысын қосу",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Дыбыссыз сқхбаттарды таңба санына қосу",
+    "message": "Дыбысы өшірілген әңгімелерді таңба санына қосу",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "Бұғаттау",
+    "message": "Блоктау",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "Бұғаттан алу",
+    "message": "Блоктан шығару",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Сұрауды блоктау",
+    "message": "Өтінішті блоктау",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} енді қолжетімді емес. Цифрлардың жаңа жинағы пайдаланушы атыңызбен жұпталады, оны қайта сақтап көріңіз.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Бұғаттаулы",
+    "message": "Блокталған",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6121,7 +6121,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Дыбысын шығару",
+    "message": "Дыбысын қосу",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Signal-дағы пайдаланушы атыңызды орнатыңыз",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Пайдаланушы аттары цифрлар жинағымен жұпталады және профиліңізде көрсетілмейді",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Әр пайдаланушы атының бірегей сілтемесі болады. Оны ортақ чат ашу үшін достарыңызға жіберіңіз",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "\"Параметерлер > Телефон нөмірі > Менің нөмірімді кім таба алады\" бөлімінде телефон нөміріңізді табу функциясын өшіріп қойыңыз да, пайдаланушы атыңызды сізге хабарласудың негізгі жолы етіп қойыңыз.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Толығырақ",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Жалғастыру",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

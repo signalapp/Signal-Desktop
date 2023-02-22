@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "您已屏蔽 $name$",
+    "message": "您已屏蔽$name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "是否允许 $name$ 给您发送消息并与其分享你的名字和图片？在将其取消屏蔽之前，您不会收到他们的消息。",
+    "message": "是否允许$name$给您发送消息并与其分享您的名字和照片？在取消屏蔽之前，您不会收到对方的消息。",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "是否解除对该群组的屏蔽并与之分享您的名字和头像？解除屏蔽前您将不会收到其发来的消息。",
+    "message": "是否取消屏蔽该群组并与之分享您的名字和照片？在取消屏蔽之前，您不会收到该群组的消息。",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "取消屏蔽 $name$？",
+    "message": "要取消屏蔽$name$吗？",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,7 +3201,7 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "举报垃圾与屏蔽",
+    "message": "举报垃圾消息并屏蔽",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
@@ -3209,15 +3209,15 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "屏蔽 $name$？",
+    "message": "要屏蔽$name$吗？",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "被屏蔽的用户无法向你发起通话或给你发送消息。",
+    "message": "被屏蔽的用户无法向您发起通话或给您发送消息。",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "是否屏蔽且离开 $group$？",
+    "message": "是否要屏蔽且离开$group$？",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,23 +3529,23 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "未被静音",
+    "message": "未静音",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "静音一小时",
+    "message": "静音 1 小时",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "静音 8 个小时",
+    "message": "静音 8 小时",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "静音一天",
+    "message": "静音 1 天",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "静音一星期",
+    "message": "静音 1 星期",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "在徽章计数中包含静音对话数量",
+    "message": "未读消息数量显示包含已静音的对话",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "屏蔽并离开“$groupName$”群组？",
+    "message": "要屏蔽并离开“$groupName$”群组吗？",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "当静音聊天提及您时接收通知。",
+    "message": "当静音聊天提及您时接收通知",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "静音时取消通知",
+    "message": "静音时不通知",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username}已不可用。系统将会为您的用户名匹配一组新数字，请尝试再次保存。",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "设置您的 Signal 用户名",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "每个用户名会与一组数字匹配，并且不会显示在您的个人资料中",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "每个用户名均有一个唯一链接，您可以将此链接分享给您的朋友以开始聊天",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "您可以在设置 > 电话号码 > 谁可以查找我的电话号码中关闭电话号码搜索功能，将您的用户名用作其他人联系您的主要方式。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "了解更多",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "继续",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

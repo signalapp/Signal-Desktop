@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "নিরব",
+    "message": "মিউট",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "নিরব",
+    "message": "মিউট",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "একটি বার্তা প্রেরণ করতে এই পরিচিতি অবরোধ মুক্ত করুন।",
+    "message": "ম্যাসেজ পাঠাতে এই কন্টাক্টকে আনব্লক করুন।",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "একটি বার্তা পাঠাতে এই গ্রুপটি অবরোধ মুক্ত করুন।",
+    "message": "ম্যাসেজ পাঠাতে এই গ্রুপটিকে আনব্লক করুন।",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$-কে আপনাকে বার্তা পাঠাতে এবং আপনার নাম ও ফটো তাদের সাথে শেয়ার করতে দেবেন? আপনি তাদের আনব্লক না করা পর্যন্ত আপনি কোনও বার্তা পাবেন না।",
+    "message": "$name$-কে কি আপনাকে মেসেজ পাঠাতে দেবেন এবং আপনার নাম ও ছবি তাদের সাথে শেয়ার করবেন? তাদেরকে আনব্লক না করা পর্যন্ত আপনি কোন ম্যাসেজ পাবেন না।",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "এই গ্রুপটিকে আনব্লক করে এটির সদস্যদের সাথে আপনার নাম ও ফটো শেয়ার করবেন? আপনি তাদের আনব্লক না করা পর্যন্ত আপনি কোনও মেসেজ পাবেন না।",
+    "message": "এই গ্রুপটিকে আনব্লক করে এটির সদস্যদের সাথে আপনার নাম ও ছবি শেয়ার করবেন? তাদের আনব্লক না করা পর্যন্ত আপনি কোনো ম্যাসেজ পাবেন না।",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3201,7 +3201,7 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "স্প্যামের রিপোর্ট করুন ও ব্লক করুন",
+    "message": "স্প্যাম রিপোর্ট করুন ও ব্লক করুন",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
@@ -3209,15 +3209,15 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$-কে কি ব্লক করবেন?",
+    "message": "$name$-কে ব্লক করবেন?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "ব্লক করা লোকজন আপনাকে কল করতে বা আপনাকে মেসেজ পাঠাতে পারবেন না।",
+    "message": "ব্লক করা ব্যক্তিরা আপনাকে কল করতে বা আপনাকে ম্যাসেজ পাঠাতে পারবেন না।",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$টিকে ব্লক করবেন ও ছেড়ে যাবেন?",
+    "message": "$group$-কে ব্লক করবেন ও ছেড়ে যাবেন?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,15 +3529,15 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "নিঃশব্দ নয়",
+    "message": "মিউট করা হয়নি",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "এক ঘন্টার জন্য মিউট করুন",
+    "message": "এক ঘণ্টার জন্য মিউট করুন",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "আট ঘন্টার জন্য মিউট করুন",
+    "message": "আট ঘণ্টার জন্য মিউট করুন",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3561,7 +3561,7 @@
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$ পর্যন্ত নিঃশব্দ করা হয়েছে",
+    "message": "$duration$ পর্যন্ত মিউট করা হয়েছে",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "ব্যাজ গণনায় মিউটেড কথোপকথন অন্তর্ভুক্ত করুন",
+    "message": "ব্যাজ গণনায় মিউট করা কথোপকথন অন্তর্ভুক্ত করুন",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "গ্রুপ ব্লক করুন",
+    "message": "গ্রুপটি ব্লক করুন",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "গ্রুপ আনব্লক করুন",
+    "message": "গ্রুপটি আনব্লক করুন",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "“$groupName$” গ্রুপটি ব্লক করবেন ও এটি ছেড়ে চলে যাবেন?",
+    "message": "\"$groupName$\" গ্রুপটিকে ব্লক করবেন এবং বের হয়ে যাবেন?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "মিউট চ্যাটে আপনাকে উল্লেখ করা হলে নোটিফিকেশন পান।",
+    "message": "মিউট চ্যাটে আপনাকে উল্লেখ করা হলে নোটিফিকেশন পান",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username}-কে আর পাওয়া যাচ্ছে না। আপনার 'ইউজারনেম'-এর সাথে সংখ্যার একটি নতুন সেট যুক্ত করা হবে, অনুগ্রহ করে এটি আবার সংরক্ষণ করার চেষ্টা করুন।",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "অবরূদ্ধ আছে",
+    "message": "ব্লক করা আছে",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "আপনার Signal 'ইউজারনেম' সেট আপ করুন",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "ইউজারনেম সংখ্যার একটি সেটের সাথে সংযুক্ত থাকে এবং আপনার প্রোফাইলে তা শেয়ার করা হয় না",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "প্রতিটি ইউজারনেমের একটি বিশেষ লিঙ্ক রয়েছে যা আপনার সাথে একটি চ্যাট শুরু করতে আপনি আপনার বন্ধুদের সাথে শেয়ার করতে পারেন",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "অন্যরা আপনার সাথে যোগাযোগ করার প্রাথমিক উপায় হিসাবে আপনার 'ইউজারনেম' যাতে ব্যবহার করতে না পারে তার জন্য 'সেটিংস > গোপনীয়তা > ফোন নম্বর > কে আমার নম্বর খুঁজে পেতে পারে'-এর মধ্যে থেকে ফোন নম্বর দেখতে পাওয়ার সুযোগটি বন্ধ করুন।",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "আরো জানুন",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "চালিয়ে যান",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

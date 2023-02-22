@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Микрофон был отключён из-за размера звонка",
+    "message": "Микрофон был отключён из-за количества участников звонка",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Включить/отключить аудио",
+    "message": "Включить/отключить звук",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Разблокировать эту группу и открыть ваше имя и фото её участникам? Вы не будете получать сообщений, пока не разблокируете эту группу.",
+    "message": "Разблокировать эту группу и открыть ваше имя и фото её участникам? Вы не будете получать сообщения, пока не разблокируете эту группу.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3205,7 +3205,7 @@
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Было сообщено о спаме и пользователь был заблокирован.",
+    "message": "Было сообщено о спаме, и пользователь был заблокирован.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Звуки включены",
+    "message": "Звук включён",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Отключены навсегда",
+    "message": "Звук отключён навсегда",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Звуки отключены до $duration$",
+    "message": "Звук отключён до $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Считать разговоры с отключенными уведомлениями в счетчике на наклейке",
+    "message": "Считать разговоры с отключёнными уведомлениями в счетчике на наклейке",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} больше не доступно. Вашему имени пользователя будет придан новый набор цифр, пожалуйста, попробуйте сохранить его снова.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6121,7 +6121,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Вкл. микрофон",
+    "message": "Вкл. звук",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Настройте своё имя пользователя Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Имя пользователя состоит из набора цифр и не показывается в профиле",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Каждому имени пользователя присваивается уникальная ссылка, которой вы можете поделиться со своими друзьями, чтобы они могли начать чат с вами",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Выключите функцию обнаружения номера телефона в разделе Настройки > Номер телефона > Кто может найти мой номер, чтобы использовать ваше имя пользователя в качестве основного способа связи с вами.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Узнать больше",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Продолжить",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

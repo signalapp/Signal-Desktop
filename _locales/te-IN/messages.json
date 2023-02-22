@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "నిశబ్ధం",
+    "message": "మ్యూట్",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "కాల్ యొక్క సైజు కారణంగా మైక్రోఫోన్ మ్యూట్ చేయబడింది",
+    "message": "కాల్ కాల వ్యవధి కారణంగా మైక్రోఫోన్ మ్యూట్ చేయబడింది",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "నిశబ్ధం",
+    "message": "మ్యూట్",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "మీరు $name$ని బ్లాక్ చేసారు",
+    "message": "మీరు $name$ను బ్లాక్ చేశారు",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "సందేశం పంపడానికి ఈ పరిచయాన్ని అన్‌బ్లాక్ చేయండి.",
+    "message": "సందేశం పంపడానికి ఈ కాంటాక్ట్‌ను అన్‌బ్లాక్ చేయండి.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "సందేశం పంపడానికి ఈ గుంపును అన్‌బ్లాక్ చేయండి.",
+    "message": "సందేశం పంపడానికి ఈ గ్రూప్‌ను అన్‌బ్లాక్ చేయండి.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$మీకు సందేశం ఇవ్వనివ్వండి మరియు మీ పేరు మరియు ఫోటోను వారితో పంచుకోవాలా? మీరు వాటిని అన్‌బ్లాక్ చేసే వరకు మీకు సందేశాలు రావు.",
+    "message": "$name$ మీకు సందేశం పంపనివ్వండి మరియు మీ పేరు మరియు ఫోటోను వారితో పంచుకునేదా? మీరు వారిని అన్‌బ్లాక్ చేసేంతవరకు మీరు సందేశాలు అందుకోరు.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "ఈ గుంపును అన్‌బ్లాక్ చేసి, మీ పేరు మరియు ఫోటోను దాని సభ్యులతో పంచుకోవాలా? మీరు వాటిని అన్‌బ్లాక్ చేసే వరకు మీకు సందేశాలు రావు.",
+    "message": "ఈ గ్రూప్‌ను అన్‌బ్లాక్ చేసి, మీ పేరు మరియు ఫోటోను దాని సభ్యులతో పంచుకునేదా? మీరు వారిని అన్‌బ్లాక్ చేసేంతవరకు మీరు సందేశాలు అందుకోరు.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "నిరోధించు",
+    "message": "బ్లాక్",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "అనుమతించు",
+    "message": "అన్‌బ్లాక్",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$ ని అన్‌బ్లాక్ చేయాలా?",
+    "message": "$name$ను అన్‌బ్లాక్ చేసేదా?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "స్పామ్ మరియు బ్లాక్‌ను నివేదించండి",
+    "message": "స్పామ్‌ను నివేదించండి మరియు బ్లాక్ చేయండి",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "స్పామ్‌గా నివేదించబడింది మరియు నిరోధించబడింది.",
+    "message": "స్పామ్‌గా నివేదించబడింది మరియు బ్లాక్ చేయబడింది.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "బ్లాక్ $name$?",
+    "message": "$name$ను బ్లాక్ చేసేదా?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "అడ్డగింపబడిన వ్యక్తులు మీతో మాట్లాడడం లేదా మీకు సందేశములు పంపడం చేయలేరు.",
+    "message": "బ్లాక్ చేయబడిన వ్యక్తులు మీకు కాల్ చేయలేరు లేదా మీకు సందేశాలను పంపలేరు.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "బ్లాక్ చేసి $group$ వదిలివేయాలా?",
+    "message": "బ్లాక్ చేసి మరియు $group$ను వదిలి వెళ్ళేదా?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,27 +3525,27 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "ప్రకటనలను మ్యూట్లో ఉంచు",
+    "message": "నోటిఫికేషన్లను మ్యూట్ చేయండి",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "మ్యూట్ చేయలేదు",
+    "message": "మ్యూట్ చేయబడలేదు",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "ఒక గంట మ్యూట్ చేయండి",
+    "message": "ఒక గంట పాటు మ్యూట్ చేయండి",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "ఎనిమిది గంటలు మ్యూట్ చేయండి",
+    "message": "ఎనిమిది గంటల పాటు మ్యూట్ చేయండి",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "ఒక రోజు మ్యూట్ చేయండి",
+    "message": "ఒక రోజుంతా మ్యూట్ చేయండి",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "ఒక వారం మ్యూట్ చేయండి",
+    "message": "ఒక వారం పాటు మ్యూట్ చేయండి",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "మ్యూట్ తీసివేయి",
+    "message": "అన్‌మ్యూట్",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "బ్యాడ్జి కౌంట్‌లో మ్యూట్ చేసిన సంభాషణలను జోడించండి",
+    "message": "బ్యాడ్జి కౌంట్‌లో మ్యూట్ చేయబడిన సంభాషణలను చేర్చండి",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "ఈ చాట్‌ని అన్‌మ్యూట్ చేయాలా?",
+    "message": "ఈ చాట్‌ను అన్‌మ్యూట్ చేసేదా?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "బ్లాక్ సమూహం",
+    "message": "గ్రూప్‌ను బ్లాక్ చేయండి",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "సమూహాన్ని అన్‌బ్లాక్ చేయండి",
+    "message": "గ్రూప్‌ను అన్‌బ్లాక్ చేయండి",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" గ్రూపును అన్‌బ్లాక్ చేయాలా?",
+    "message": "\"$groupName$\" గ్రూప్‌ను అన్‌బ్లాక్ చేసేదా?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "\"$groupName$\" సమూహాన్ని బ్లాక్ చేసి వదిలేయాలా?",
+    "message": "\"$groupName$\" గ్రూప్‌ను బ్లాక్ చేసి మరియు వదిలి వెళ్ళేదా?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "నిరోధించు",
+    "message": "బ్లాక్",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "అనుమతించు",
+    "message": "అన్‌బ్లాక్",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "మ్యూటెడ్ చాట్‌ల్లో మిమ్మల్ని పేర్కొన్నప్పుడు నోటిఫికేషన్‌లను పొందండి",
+    "message": "మ్యూట్ చేయబడిన చాట్స్‌లో మీరు పేర్కొనబడినప్పుడు నోటిఫికేషన్‌లను అందుకోండి",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "మ్యూట్ చేసినట్లయితే నోటిఫై చేయవద్దు",
+    "message": "ఒకవేళ మ్యూట్ చేయబడినట్లయితే తెలియచేయకండి",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "అభ్యర్ధన బ్లాక్ చేయండి",
+    "message": "అభ్యర్ధనను బ్లాక్ చేయండి",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "అభ్యర్ధన బ్లాక్ చేయాలా?",
+    "message": "అభ్యర్ధనను బ్లాక్ చేసేదా?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "అభ్యర్ధన బ్లాక్ చేయండి",
+    "message": "అభ్యర్ధనను బ్లాక్ చేయండి",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} ఇక ఏమాత్రం అందుబాటులో లేదు. మీ యూజర్‌నేమ్‌తో కొత్త అంకెల సెట్ జతచేయబడుతుంది, దయచేసి దాన్ని మళ్ళీ సేవ్ చేయడానికి ప్రయత్నించండి.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "నిరోధించిన\n ",
+    "message": "బ్లాక్ చేయబడింది",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "నిశబ్ధం",
+    "message": "మ్యూట్",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "మ్యూట్ తీసివేయి",
+    "message": "అన్‌మ్యూట్",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "మీ Signal యూజర్‌నేమ్‌ను సెటప్ చేయండి",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "యూజర్‌నేమ్స్ అంకెల సెట్‌తో జత చేయబడ్డాయి మరియు మీ ప్రొఫైల్‌లో పంచుకోబడవు",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "మీతో చాట్ చేయడం ప్రారంభించడానికి మీ స్నేహితులతో పంచుకునేందుకు ప్రతి యూజర్‌నేమ్‌కు ఒక సాటిలేని లింక్ ఉంది",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ఇతరులు మిమ్మల్ని సంప్రదించడానికి మీ యూజర్‌నేమ్‌ను ప్రాథమిక మార్గంగా ఉపయోగించడానికి, సెట్టింగ్‌లు > ఫోన్ నెంబర్ > నా నెంబర్‌ను ఎవరు కనుగొనగలరు కింద ఫోన్ నెంబర్ కనుగొనడాన్ని ఆఫ్ చేయండి.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "మరింత తెలుసుకోండి",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "కొనసాగించండి",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

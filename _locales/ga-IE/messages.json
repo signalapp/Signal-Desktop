@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Bain an bac ón teagmhálaí seo le teachtaireacht a sheoladh.",
+    "message": "Bain an bac den teagmhálaí seo le teachtaireacht a sheoladh.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Bain an bac ón ngrúpa seo le teachtaireacht a sheoladh.",
+    "message": "Bain an bac den ghrúpa seo le teachtaireacht a sheoladh.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "An bhfuil fonn ort d'ainm agus do phictiúr a roinnt le $name$, agus cead a thabhairt dó/di teachtaireachtaí a sheoladh chugat? Ní bhfaighidh tú aon teachtaireacht go dtí go mbainfidh tú an bac de/di.",
+    "message": "Lig do $name$ teachtaireachtaí a sheoladh chugat agus d'ainm agus grianghraf a chomhroinnt leis/léi? Ní bhfaighidh tú aon teachtaireachtaí go dtí go mbainfidh tú an bac de/di.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,11 +3177,11 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "An bhfuil fonn ort d'ainm agus do phictiúr a roinnt leis an ngrúpa seo agus an bac a bhaint de? Ní bhfaighidh tú aon teachtaireacht go dtí go mbainfidh tú an bac de.",
+    "message": "Bain an bac den ghrúpa seo agus comhroinn d'ainm agus grianghraf lena bhaill? Ní bhfaighidh tú aon teachtaireachtaí go dtí go mbainfidh tú an bac de.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "Bac Nua",
+    "message": "Cuir bac",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "An bhfuil fonn ort an bac a bhaint de $name$?",
+    "message": "Bain an bac de $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,15 +3201,15 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Report Spam and Block",
+    "message": "Tuairiscigh Turscar agus Cuir Bac Air",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Reported as spam and blocked.",
+    "message": "Tuairiscithe mar thurscar agus bac curtha air.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "An bhfuil fonn ort bac a chur ar $name$?",
+    "message": "Cuir bac ar $name$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3217,7 +3217,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Cuir bac ar ⁊ fág $group$?",
+    "message": "Cuir Bac agus Imigh As $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Gan balbhú",
+    "message": "Gan bhalbhú",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3561,7 +3561,7 @@
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Muted until $duration$",
+    "message": "Balbhaithe go dtí $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Cuir bac ar an ngrúpa seo",
+    "message": "Cuir bac ar an ngrúpa",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "Bain an bac den Ghrúpa",
+    "message": "Bain an bac den ghrúpa",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Bain an bac ón nGrúpa \"$groupName$\"?",
+    "message": "Bain an bac den ghrúpa \"$groupName$\"?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "An bhfuil fonn ort bac a chur ar “$groupName$” agus an grúpa a fhágáil?",
+    "message": "Cuir bac ar “$groupName$” agus imigh as?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "Bac Nua",
+    "message": "Cuir bac",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Faigh fógraí nuair a luaitear thú i gcomhráite balbhaithe",
+    "message": "Faigh fógraí nuair a luaitear i gcomhráite balbhaithe thú",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4693,7 +4693,7 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Cuir Bac ar an Iarratas",
+    "message": "Cuir bac ar an iarratas",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Cuir Bac ar an Iarratas",
+    "message": "Cuir bac ar an iarratas",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "Níl {username} ar fáil a thuilleadh. Péireálfar tacar nua digití le d’ainm úsáideora, triail é a shábháil arís.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Bactha",
+    "message": "Bac curtha",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Socraigh d'ainm úsáideora Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Péireáiltear ainmneacha úsáideora le tacar digití agus ní chomhroinntear ar do phróifíl iad",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Tá nasc uathúil ag gach ainm úsáideora is féidir leat a chomhroinnt le do chairde chun tosú ar chomhrá leat",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Cas as aimsiú uimhreacha gutháin faoi Shocruithe >Uimhir Ghutháin > Na daoine ar féidir leo m'uimhir a aimsiú, chun d'ainm úsáideora a úsáid mar an príomhbhealach teagmháil a dhéanamh leat.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Tuilleadh Faisnéise",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Ar Aghaidh",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

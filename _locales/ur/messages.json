@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "خاموش",
+    "message": "خاموش کردہ",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "خاموش",
+    "message": "خاموش کریں",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "کال کے سائز کی وجہ سے مائیکرو فون خاموش کر دیا گیا ہے",
+    "message": "کال کے دورانیے کی وجہ سے مائیکروفون خاموش کر دیا گیا",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "خاموش",
+    "message": "خاموش کریں",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1482,7 +1482,7 @@
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "مائیک کی خاموشی ختم کریں",
+    "message": "مائیک کو غیر خاموش کریں",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "آپ نے$name$ کو مسدود کردیا ہے",
+    "message": "آپ نے $name$ کو بلاک کر دیا ہے",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "پیغام بھیجنے کے لئے اس کنٹکٹ کو ان بلاک کریں۔",
+    "message": "میسج بھیجنے کے لیے اس رابطے کو اَن بلاک کریں۔",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "پیغام بھیجنے کے لئے اس گروپ کو ان بلاک کریں۔",
+    "message": "میسج بھیجنے کے لیے اس گروپ کو اَن بلاک کریں۔",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "آپ $name$ کو پیغام دیں اور ان کے ساتھ اپنا نام اور تصویر شئیر کریں؟ آپ کو کوئی پیغامات موصول نہیں ہوگا جب تک کہ آپ ان کو غیر مسدود نہیں کردیں گے۔",
+    "message": "آپ $name$ کو خود کو میسج بھیجنے اور ان کے ساتھ اپنا نام اور تصویر شیئر کرنے کی اجازت دیں؟ جب تک آپ ان کو اَن بلاک نہیں کرتے تب تک آپ کو کوئی میسجز موصول نہیں ہوں گے۔",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "اس گروپ کو غیر مسدود کریں اور اس کے ممبروں کے ساتھ اپنا نام اور تصویر شئیر کریں؟ آپ کو کوئی پیغامات موصول نہیں ہوگا جب تک کہ آپ ان کو بلاک نہیں کردیں گے۔",
+    "message": "اس گروپ کو اَن بلاک کریں اور اس کے ممبرز کے ساتھ اپنا نام اور تصویر شیئر کریں؟ جب تک آپ ان کو اَن بلاک نہیں کرتے تب تک آپ کو کوئی میسجز موصول نہیں ہوں گے۔",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "بلاک",
+    "message": "بلاک کریں",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "ان بلاک",
+    "message": "اَن بلاک کریں",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "غیر مسدود $name$؟",
+    "message": "$name$ کو اَن بلاک کریں؟",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "اسپام اور بلاک کی اطلاع دیں",
+    "message": "اسپام رپورٹ کریں اور بلاک کریں",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "اسپام کے بطور اطلاع دی گئی اور مسدود ہے۔",
+    "message": "اسپام کے طور پر رپورٹ کیا گیا اور بلاک کر دیا گیا۔",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "مسدود$name$؟",
+    "message": "$name$ کو بلاک کریں؟",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "مسدود افراد آپ کو کال کرنے یا پیغامات بھیجنے کے اہل نہیں ہوں گے۔",
+    "message": "بلاک کردہ افراد آپ کو کال کرنے یا آپ کو میسجز بھیجنے کے قابل نہیں ہوں گے۔",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "مسدود $group$ اور چھوڑو؟",
+    "message": "$group$ کو بلاک کریں اور چھوڑ دیں؟",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,43 +3525,43 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "خاموش اطلاعات",
+    "message": "اطلاعات کو خاموش کریں",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "غیر خاموش",
+    "message": "غیر خاموش کریں",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "ایک گھنٹے کیلئے خاموش",
+    "message": "ایک گھنٹے کے لیے خاموش کریں",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "آٹھ گھنٹے خاموش کرو",
+    "message": "آٹھ گھنٹوں کے لیے خاموش کریں",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "ایک دن کیلئے خاموش",
+    "message": "ایک دن کے لیے خاموش کریں",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "ایک ہفتے کیلئے خاموش",
+    "message": "ایک ہفتے کے لیے خاموش کریں",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "ہمیشہ خاموش کرو",
+    "message": "ہمیشہ کے لیے خاموش کریں",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "غیر خاموش",
+    "message": "غیر خاموش کریں",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "ہمیشہ خاموش کیا",
+    "message": "ہمیشہ کے لیے خاموش کردہ",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$ تک mute رہیں",
+    "message": "$duration$ تک خاموش کردہ",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "بیج کاؤنٹ میں خاموش گفتگو شامل کریں",
+    "message": "بیج کاؤنٹ میں خاموش کردہ گفتگو شامل کریں",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "مسدود گروپ",
+    "message": "گروپ کو بلاک کریں",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "غیر مسدود گروپ",
+    "message": "گروپ کو اَن بلاک کریں",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" کو ان بلاک کریں؟",
+    "message": "\"$groupName$\" گروپ کو اَن بلاک کریں؟",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "\"$groupName$\" گروپ کو مسدود کریں اور چھوڑیں؟",
+    "message": "\"$groupName$\" گروپ کو بلاک کریں اور چھوڑ دیں؟",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "بلاک",
+    "message": "بلاک کریں",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "ان بلاک",
+    "message": "اَن بلاک کریں",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "خاموش کردہ چیٹس میں اپنا تذکرہ ہونے پر اطلاعات وصول کریں",
+    "message": "خاموش کردہ چیٹس میں خود کو مینشن کیے جانے پر اطلاعات موصول کریں",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "اگر خاموش کیا گیا ہے تو اطلاع نہ دیں",
+    "message": "اگر خاموش کردہ ہے تو مطلع نہ کریں",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "درخواست بلاک کریں",
+    "message": "بلاک کی درخواست",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} مزید دستیاب نہیں ہے۔ ہندسوں کے ایک نئے سیٹ کو آپ کے یوزر نیم کے ساتھ ملایا جائے گا، اسے دوبارہ محفوظ کرنے کی کوشش کریں۔",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "بلاک ہوگیا",
+    "message": "بلاک کر دیا گیا",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "خاموش",
+    "message": "خاموش کریں",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "غیر خاموش",
+    "message": "غیر خاموش کریں",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "اپنا Signal یوزر نیم سیٹ اپ کریں",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "یوزر نیمز کو ہندسوں کے ایک سیٹ کے ساتھ ملایا جاتا ہے اور یہ آپ کی پروفائل پر شیئر نہیں کیے جاتے",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "ہر یوزر نیم کا ایک منفرد لنک ہوتا ہے جسے آپ اپنے دوستوں کے ساتھ شیئر کر سکتے ہیں تاکہ وہ آپ کے ساتھ چیٹ شروع کر سکیں",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "فون نمبر کی دریافت کو سیٹنگز > فون نمبر > کون میرا نمبر تلاش کر سکتا ہے کے تحت آف کریں، تاکہ آپ کے یوزر نیم کو دوسروں کے آپ سے رابطہ کرنے کا بنیادی طریقہ بنایا جا سکے۔",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "مزید سیکھیں",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "جاری رکھیں",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

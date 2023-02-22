@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "முடக்கியது",
+    "message": "ஒலியடக்கப்பட்டது",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "முடக்கு",
+    "message": "ஒலியடக்கு",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "முடக்கு",
+    "message": "ஒலியடக்கு",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "ஒலிவாங்கியை அணைக்கவும்",
+    "message": "மைக்கை ஒலியடக்கு",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "ஒலிவாங்கியை உயிர்ப்பிக்கவும்",
+    "message": "மைக் ஒலி இயக்கு",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "நீங்கள் தடுத்துள்ளீர்கள் $name$",
+    "message": "$name$ ஐத் தடைசெய்துள்ளீர்கள்",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "செய்தி அனுப்ப இந்த தொடர்பைத் விடுவிக்கவும்.",
+    "message": "மெசேஜை அனுப்ப இந்த தொடர்பைத் தடைநீக்கவும்.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "செய்தி அனுப்ப இந்த குழுவைத் விடுவிக்கவும்.",
+    "message": "மெசேஜை அனுப்ப இந்த குழுவைத் தடைநீக்கவும்.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "நிலைமாற்று: முடக்குதலை இயக்கவும் முடக்கவும்",
+    "message": "ஒலியடக்கம் ஆன் மற்றும் ஆஃப் நிலைமாற்று",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ உங்களுக்கு செய்தி அனுப்பவும், உங்கள் பெயரையும் புகைப்படத்தையும் அவர்களுடன் பகிர்ந்து கொள்ளட்டும்? நீங்கள் அவற்றைத் தடைநீக்கு செய்யும் வரை எந்த செய்திகளையும் பெற மாட்டீர்கள்.",
+    "message": "$name$ உங்களுக்கு மெசேஜ் அனுப்பவும், உங்கள் பெயரையும் புகைப்படத்தையும் அவர்களுடன் பகிர்ந்து கொள்ள அனுமதிக்க வேண்டுமா? நீங்கள் அவற்றைத் தடைநீக்கம் செய்யும் வரை எந்த மெசேஜ்களையும் பெற மாட்டீர்கள்.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,11 +3177,11 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "இந்த குழுவைத் தடைசெய்து, உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ளலாமா? நீங்கள் அவற்றைத் தடைநீக்கு செய்யும் வரை எந்த செய்திகளையும் பெற மாட்டீர்கள்.",
+    "message": "இந்த குழுவைத் தடைநீக்கம் செய்து, உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ளலாமா? நீங்கள் அவற்றைத் தடைநீக்கம் செய்யும் வரை எந்த மெசேஜ்களையும் பெற மாட்டீர்கள்.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "தடு",
+    "message": "தடைசெய்",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$ அவரைத் தடைநீக்கு செய்க?",
+    "message": "$name$ அவரைத் தடைநீக்கம் செய்ய வேண்டுமா?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "ஸ்பேம் மற்றும் தடுப்பைப் புகாரளிக்கவும்",
+    "message": "ஸ்பேம் மற்றும் தடையைப் புகாரளிக்கவும்",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "என புகாரளிக்கப்பட்டது ஸ்பேம் மற்றும் தடுக்கப்பட்டது.",
+    "message": "ஸ்பேம் எனப் புகாரளிக்கப்பட்டு தடுக்கப்பட்டது.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$ தடு?",
+    "message": "$name$ ஐத் தடைசெய்ய வேண்டுமா?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "தடுக்கப்பட்ட நபர்கள் உங்களை அழைக்கவோ அல்லது செய்திகளை அனுப்பவோ முடியாது.",
+    "message": "தடைசெய்யப்பட்ட நபர்கள் உங்களை அழைக்கவோ அல்லது மெசேஜ்களை அனுப்பவோ முடியாது.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ குழுவைத் தடுத்து வெளியேறவும்?",
+    "message": "$group$ குழுவைத் தடுத்து வெளியேற வேண்டுமா?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,39 +3525,39 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "அறிவிப்பை ஊமையாக்கு ",
+    "message": "அறிவிப்புகளை ஒலியடக்கு",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "முடக்கப்படவில்லை",
+    "message": "ஒலியடக்கப்படவில்லை",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "ஒரு மணி நேரம் முடக்கு",
+    "message": "ஒரு மணி நேரம் ஒலியடக்கு",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "எட்டு மணி நேரம் முடக்கு",
+    "message": "எட்டு மணி நேரம் ஒலியடக்கு",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "ஒரு நாள் முடக்கு",
+    "message": "ஒரு நாள் ஒலியடக்கு",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "ஒரு வாரம் முடக்கு",
+    "message": "ஒரு வாரம் ஒலியடக்கு",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "எப்போதும் முடக்கு",
+    "message": "எப்போதும் ஒலியடக்கு",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "தடுப்புநீக்கு",
+    "message": "ஒலியடக்கம் நீக்கு",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "எப்போதும் முடக்கியது",
+    "message": "எப்போதும் ஒலியடக்கு",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "பேட்ஜ் எண்ணிக்கையில் முடக்கிய உரையாடல்களைச் சேர்க்கவும்",
+    "message": "பேட்ஜ் எண்ணிக்கையில் ஒலியடக்கப்பட்ட உரையாடல்களைச் சேர்க்கவும்",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "இந்த அரட்டையை இயக்கவதா?",
+    "message": "இந்த சாட்டின் ஒலியடக்கத்தை நீக்க வேண்டுமா?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" குழுவை தடைநீக்கலாமா?",
+    "message": "\"$groupName$\" குழுவைத் தடைநீக்கலாமா?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "தடு மற்றும் விடுங்கள் \"$groupName$\" குழு?",
+    "message": "\"$groupName$\" குழுவைத் தடுத்து விட்டு வெளியேற வேண்டுமா?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "தடு",
+    "message": "தடைசெய்",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "பெறு அறிவிப்புகள் முடக்கப்பட்ட அரட்டைகளில் நீங்கள் குறிப்பிடப்படும்போது",
+    "message": "ஒலியடக்கிய சாட்களில் நீங்கள் குறிப்பிடப்படும்போது அறிவிப்புகளைப் பெறுங்கள்",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "முடக்கப்பட்டால் அறிவிக்க வேண்டாம்",
+    "message": "ஒலியடக்கப்பட்டிருந்தால் அறிவிக்க வேண்டாம்",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "கோரிக்கையைத் தடை செய்யலாமா?",
+    "message": "கோரிக்கையைத் தடை செய்ய வேண்டுமா?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "கோரிக்கையை ரத்து செய்யவும்",
+    "message": "கோரிக்கையைத் தடைசெய்",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} இனி கிடைக்காது. புதிய இலக்கங்கள் உங்கள் பயனர்பெயருடன் இணைக்கப்படும், தயவுசெய்து அதை மீண்டும் சேமிக்க முயலவும்.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "தடுக்கப்பட்ட",
+    "message": "தடைசெய்யப்பட்டது",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "முடக்கு",
+    "message": "ஒலியடக்கு",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "ஒலியடக்கை நீக்கு",
+    "message": "ஒலியடக்கம் நீக்கு",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "உங்கள் Signal பயனர் பெயரை அமைக்கவும்",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "பயனர்பெயர்கள் இலக்கங்களின் தொகுப்புடன் இணைக்கப்பட்டு உங்கள் சுயவிவரத்தில் பகிரப்படாது",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "உங்களுடன் சாட் செய்வதற்கு உங்கள் நண்பர்களுடன் பகிர்ந்து கொள்ள ஒவ்வொரு பயனர்பெயருக்கும் தனித்துவமான இணைப்பு உள்ளது",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "மற்றவர்கள் உங்களைத் தொடர்புகொள்வதற்கு உங்கள் பயனர்பெயரை முதன்மையாகப் பயன்படுத்த, அமைப்புகள் > தொலைபேசி எண் > எனது எண்ணை யார் கண்டறியலாம் என்பதன் கீழ் ஃபோன் எண் கண்டுபிடிப்பை முடக்கவும்.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "மேலும் அறிக",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "தொடர்க",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

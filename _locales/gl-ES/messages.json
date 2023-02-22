@@ -1039,7 +1039,7 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Silenciado",
+    "message": "En silencio",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Silenciouse o micrófono debido ao numero de persoas na chamada",
+    "message": "Silenciouse o micrófono debido ao número de persoas na chamada",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Desbloquea o contacto para enviarlle mensaxes.",
+    "message": "Desbloquea este contacto para enviarlle mensaxes.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Desbloquea o grupo para enviarlle mensaxes.",
+    "message": "Desbloquea este grupo para enviar mensaxes.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Desbloquear este grupo e compartir cos seus membros o teu nome e fotografía? Non recibirás ningunha mensaxe ata que o desbloquees.",
+    "message": "Desbloquear este grupo e compartir cos seus membros o teu nome e foto? Non recibirás ningunha mensaxe ata que o desbloquees.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3537,7 +3537,7 @@
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Silenciar durante oito horas",
+    "message": "Silenciar durante 8 horas",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Silenciado sempre",
+    "message": "En silencio sempre",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Silenciado por $duration$",
+    "message": "En silencio ata $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Bloquear un grupo",
+    "message": "Bloquear grupo",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "Desbloquear un grupo",
+    "message": "Desbloquear grupo",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Non recibir notificacións en silencio",
+    "message": "Non recibir notificacións das conversas en silencio",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} xa non está dispoñible. Crearase un novo grupo de díxitos para emparellar co teu nome de usuario, tenta gardalo de novo.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Configura o teu nome de usuario de Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Os nome de usuario emparéllanse cun grupo de díxitos e non se publican no teu perfil",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Cada nome de usuario ten unha ligazón única que podes compartir cos teus amigos para iniciar unha conversa",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Desactiva a busca de número de teléfono en «Configuración > Número de teléfono > Quen pode encontrar o meu número» para usar o teu nome de usuario como forma principal de contactar contigo.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Saber máis",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Continuar",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

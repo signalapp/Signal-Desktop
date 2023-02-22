@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "ನೀವು $name$ ಬ್ಲಾಕ್ ಮಾಡಿದ್ದೀರಿ",
+    "message": "ನೀವು $name$ ಅವರನ್ನು ನಿರ್ಬಂಧಿಸಿದ್ದೀರಿ",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಈ ಸಂಪರ್ಕವನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿ.",
+    "message": "ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಈ ಸಂಪರ್ಕದ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಈ ಗ್ರೂಪ್‌ ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿ.",
+    "message": "ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಈ ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "ಮ್ಯೂಟ್ ಟಾಗಲ್ ಅನ್ನು ಆನ್ ಮತ್ತು ಆಫ್‌ ಮಾಡಿ",
+    "message": "ಮ್ಯೂಟ್ ಅನ್ನು ಆನ್ ಮತ್ತು ಆಫ್‌ಗೆ ಟಾಗಲ್ ಮಾಡಿ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ ಅವರು ನಿಮಗೆ ಮೆಸೇಜ್ ಮಾಡಲು ಮತ್ತು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ಅವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಲು ಅನುಮತಿಸುತ್ತೀರಾ? ನೀವು ಅವರನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವವರೆಗೆ ಯಾವುದೇ ಸಂದೇಶ ನಿಮಗೆ ಬರುವುದಿಲ್ಲ.",
+    "message": "$name$ ಅವರು ನಿಮಗೆ ಮೆಸೇಜ್ ಮಾಡಲು ಮತ್ತು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ಅವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಲು ಅನುಮತಿಸುತ್ತೀರಾ? ನೀವು ಅವರ ನಿರ್ಬಂಧ ತೆಗೆಯುವವರೆಗೆ ಯಾವುದೇ ಮೆಸೇಜ್ ನಿಮಗೆ ಬರುವುದಿಲ್ಲ.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "ಈ ಗುಂಪನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ ಹಾಗೂ ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ಇದರ ಸದಸ್ಯರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳುವುದೇ? ಅವರನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವವರೆಗೆ ನೀವು ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
+    "message": "ಈ ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಬೇಕೇ ಮತ್ತು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋವನ್ನು ಅದರ ಸದಸ್ಯರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಬೇಕೇ? ಅವರ ಮೇಲಿನ ನಿರ್ಬಂಧವನ್ನು ತೆಗೆಯುವವರೆಗೆ ನೀವು ಯಾವುದೇ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$ ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
+    "message": "$name$ ಅವರ ನಿರ್ಬಂಧ ತೆಗೆಯಬೇಕೇ?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಿ",
+    "message": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ ಮತ್ತು ನಿರ್ಬಂಧಿಸಿ",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "ಸ್ಪ್ಯಾಮ್ ಎಂದು ವರದಿ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಲಾಗಿದೆ.",
+    "message": "ಸ್ಪ್ಯಾಮ್ ಎಂದು ವರದಿ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$ ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
+    "message": "$name$ ಅವರನ್ನು ಬ್ಲಾಕ್ ಮಾಡಬೇಕೇ?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "ನಿರ್ಬಂಧಿಸಿದ ಜನರಿಗೆ ನಿಮಗೆ ಕರೆ ಮಾಡಲು ಅಥವಾ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
+    "message": "ನಿರ್ಬಂಧಿಸಿದ ಜನರಿಗೆ ನಿಮಗೆ ಕರೆ ಮಾಡಲು ಅಥವಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ ಬ್ಲಾಕ್ ಮಾಡಿ ತೊರೆಯುವುದೇ?",
+    "message": "$group$ ಅನ್ನು ನಿರ್ಬಂಧಿಸಿ ತೊರೆಯಬೇಕೇ?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3533,23 +3533,23 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "ಒಂದು ಗಂಟೆಗಾಗಿ ಮ್ಯೂಟ್ ಮಾಡಿ",
+    "message": "ಒಂದು ಗಂಟೆ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "ಎಂಟು ಗಂಟೆಗಳವರೆಗೆ ಮ್ಯೂಟ್ ಮಾಡಿ",
+    "message": "ಎಂಟು ಗಂಟೆಗಳ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "ಒಂದು ದಿನಕ್ಕಾಗಿ ಮ್ಯೂಟ್ ಮಾಡಿ",
+    "message": "ಒಂದು ದಿನದ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "ಒಂದು ವಾರಕ್ಕಾಗಿ ಮ್ಯೂಟ್ ಮಾಡಿ",
+    "message": "ಒಂದು ವಾರ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "ಎಂದಿಗೂ ಮ್ಯೂಟ್ ಮಾಡಿ",
+    "message": "ಯಾವಾಗಲೂ ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "ಎಂದಿಗೂ ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ",
+    "message": "ಯಾವಾಗಲೂ ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$ ವರೆಗೆ ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ",
+    "message": "$duration$ ತನಕ ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "ಈ ಚಾಟ್ ಅನ್ನು ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡುವುದೇ?",
+    "message": "ಈ ಚಾಟ್ ಅನ್ನು ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಬೇಕೇ?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "ಗುಂಪನ್ನು ನಿರ್ಬಂಧಿಸಿ",
+    "message": "ಗ್ರೂಪ್ ಅನ್ನು ನಿರ್ಬಂಧಿಸಿ",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "ಗುಂಪನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿ",
+    "message": "ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" ಗ್ರೂಪ್ ಅನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
+    "message": "\"$groupName$\" ಗ್ರೂಪ್ ಅನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಬೇಕೇ?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "\"$groupName$\" ಬ್ಲಾಕ್ ಮಾಡಿ ಗ್ರೂಪ್ ತೊರೆಯುವುದೇ?",
+    "message": "\"$groupName$\" ಗ್ರೂಪ್ ಅನ್ನು ಬ್ಲಾಕ್ ಮಾಡಿ ತೊರೆಯಬೇಕೇ?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "ನಿರ್ಬಂಧ ವಿನಂತಿ",
+    "message": "ವಿನಂತಿಯನ್ನು ನಿರ್ಬಂಧಿಸಿ",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "ನಿರ್ಬಂಧ ವಿನಂತಿ?",
+    "message": "ವಿನಂತಿಯನ್ನು ನಿರ್ಬಂಧಿಸಬೇಕೇ?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "ವಿನಂತಿ ನಿರ್ಬಂಧಿಸಿ",
+    "message": "ವಿನಂತಿಯನ್ನು ನಿರ್ಬಂಧಿಸಿ",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} ಇನ್ನುಮುಂದೆ ಲಭ್ಯವಿರುವುದಿಲ್ಲ. ಹೊಸ ಸೆಟ್ ಅಂಕಿಗಳನ್ನು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್‌ನೊಂದಿಗೆ ಜೋಡಿಸಲಾಗುತ್ತದೆ, ದಯವಿಟ್ಟು ಇದನ್ನು ಮತ್ತೊಮ್ಮೆ ಉಳಿಸಲು ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "ನಿಮ್ಮ Signal ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಒಂದು ಸೆಟ್ ಅಂಕಿಗಳೊಂದಿಗೆ ಜೋಡಿಯಾಗಿರುತ್ತವೆ ಮತ್ತು ಅವುಗಳನ್ನು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಲಾಗಿಲ್ಲ",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "ಪ್ರತಿ ಯೂಸರ್‌ನೇಮ್ ಒಂದು ಅನನ್ಯ ಲಿಂಕ್ ಹೊಂದಿದ್ದು, ಅವುಗಳನ್ನು ನಿಮ್ಮ ಸ್ನೇಹಿತರಿಗೆ ಹಂಚಿಕೊಂಡಾಗ ಅವರು ನಿಮ್ಮೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಲು ಆರಂಭಿಸಬಹುದು",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ಇತರರು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಪ್ರಾಥಮಿಕ ವಿಧಾನವಾಗಿ ಬಳಸಲು, ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಫೋನ್ ನಂಬರ್ > ಯಾರು ನನ್ನ ನಂಬರ್ ಕಂಡುಕೊಳ್ಳಬಹುದು ಅಡಿಯಲ್ಲಿ ಫೋನ್ ನಂಬರ್ ಅನ್ವೇಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಿ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "ಮುಂದುವರಿಸಿ",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

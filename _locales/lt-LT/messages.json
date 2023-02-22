@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Pranešimai išj.",
+    "message": "Nutildytas",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Be garso",
+    "message": "Nutildyti",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Mikrofonas nutildytas dėl skambutyje dalyvaujančių žmonių skaičiaus",
+    "message": "Mikrofonas išjungtas dėl skambučio dalyvių skaičiaus",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Išj. pranešimus",
+    "message": "Nutildyti",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Jūs esate užblokavę naudotoją $name$",
+    "message": "Tu užblokavai naudotoją $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Atblokuokite šį adresatą, kad išsiųstumėte žinutę.",
+    "message": "Atblokuok šį adresatą, kad išsiųstum žinutę.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Norėdami siųsti žinutę, atblokuokite šią grupę.",
+    "message": "Atblokuok šią grupę, kad išsiųstum žinutę.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Perjungti nutildymą",
+    "message": "Įjungti ir išjungti nutildymą",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Ar norite leisti, kad $name$ rašytų jums žinutes, ir bendrinti savo vardą bei nuotrauką su šiuo naudotoju? Jūs negausite jokių žinučių tol, kol neatblokuosite šio naudotojo.",
+    "message": "Ar nori leisti, kad $name$ siųstų tau žinutes, ir bendrinti su šiuo žmogumi savo vardą bei nuotrauką? Negausi žinučių, kol jo (-os) neatblokuosi.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Atblokuoti šią grupę ir bendrinti jūsų vardą bei nuotrauką su grupės nariais? Jūs negausite jokių žinučių tol, kol jų neatblokuosite.",
+    "message": "Atblokuoti šią grupę ir bendrinti tavo vardą bei nuotrauką su grupės nariais? Negausi jokių žinučių, kol neatblokuosi.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Pranešti apie brukalą ir užblokuoti",
+    "message": "Pranešti apie šlamštą ir užblokuoti",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Pranešta apie brukalą ir užblokuota.",
+    "message": "Pranešta apie šlamštą ir užblokuota.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Užblokuoti žmonės negalės jums skambinti ar siųsti žinučių.",
+    "message": "Užblokuoti žmonės negalės tau skambinti ar siųsti žinučių.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3525,43 +3525,43 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Išjungti pranešimus",
+    "message": "Nutildyti pranešimus",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Pranešimai neišjungti",
+    "message": "Nenutildytas",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Išjungti pranešimus vienai valandai",
+    "message": "Nutildyti vienai valandai",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Išjungti pranešimus aštuonioms valandoms",
+    "message": "Nutildyti aštuonioms valandoms",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Išjungti pranešimus vienai dienai",
+    "message": "Nutildyti vienai dienai",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Išjungti pranešimus vienai savaitei",
+    "message": "Nutildyti vienai savaitei",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Visada išjungti pranešimus",
+    "message": "Visada nutildyti",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Įjungti pranešimus",
+    "message": "Įjungti garsą",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Pranešimai visada išjungti",
+    "message": "Visada nutildytas",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Pranešimai išjungti iki $duration$",
+    "message": "Nutildyta iki $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Įtraukti pokalbius su išjungtais pranešimais į ženkliuke rodomą skaičių",
+    "message": "Įtraukti nutildytus pokalbius į ženkliuke rodomą skaičių",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Įjungti šio pokalbio pranešimus?",
+    "message": "Įjungti šio pokalbio garsą?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Gauti pranešimus, kai jus pamini pokalbiuose, kuriuose pranešimai yra išjungti",
+    "message": "Gauti pranešimus, kai tave pamini nutildytuose pokalbiuose",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Nepranešti, jei pranešimai išjungti",
+    "message": "Nepranešti, jei nutildytas",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} nebegalimas. Naujas skaitmenų derinys bus susietas su tavo naudotojo vardu, pabandyk jį išsaugoti dar kartą.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Užblokuotas",
+    "message": "Užblokuotieji",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Išjungti pranešimus",
+    "message": "Nutildyti",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Įjungti pranešimus",
+    "message": "Įjungti garsą",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Sukurk savo „Signal“ naudotojo vardą",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Naudotojų vardai susiejami su skaitmenų deriniais ir nėra bendrinami profilyje",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Kiekvienas naudotojo vardas turi unikalią nuorodą, kurią gali bendrinti su draugais, kad pradėtų pokalbį su tavimi",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Jei nori, kad naudotojo vardas būtų pagrindinis būdas su tavimi susisiekti, išjunk telefono numerio aptikimą per Nustatymus > Telefono numeris > Kas gali rasti mano numerį.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Sužinoti daugiau",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Tęsti",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

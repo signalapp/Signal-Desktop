@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Meldingen dempen",
+    "message": "Dempen",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Micro­foon dempen",
+    "message": "Dempen",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Deblokkeer dit contact om een bericht te verzenden.",
+    "message": "Deblokkeer dit contact om een bericht te versturen.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Deblokkeer deze groep om een bericht te verzenden.",
+    "message": "Deblokkeer deze groep om een bericht te versturen.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Dempen aan of uit zetten",
+    "message": "Dempen aan- of uitzetten",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Wil je berichten van $name$ ontvangen, en sta je toe dat hij of zij je profielnaam en -foto kan zien? Totdat je hem of haar hebt gedeblokkeerd zul je geen berichten of oproepen ontvangen en kan hij of zij veranderingen van je profiel niet zien.",
+    "message": "Wil je berichten van $name$ ontvangen en sta je toe dat diegene je profielnaam en -foto kan zien? Totdat je diegene hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kan dit contact veranderingen in je profiel niet zien.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Wil je weer berichten van deze groep ontvangen, en sta je toe dat alle leden van de groep je profielnaam en -foto kunnen zien? Totdat je de groep hebt gedeblokkeerd zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien.",
+    "message": "Wil je weer berichten van deze groep ontvangen en sta je toe dat alle leden van de groep je profielnaam en -foto kunnen zien? Totdat je de groep hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Geblokkeerde personen kunnen niet zien dat ze geblokkeerd zijn: het lijkt voor hen alsof je telefoon over gaat en alsof berichten worden afgeleverd.\nJe huidige profielnaam en -foto blijven voor geblokkeerde personen zichtbaar maar worden ze niet bijgewerkt als je een nieuwe foto of naam instelt.\nGeblokkeerde personen kunnen in groepsgesprekken de berichten die jij stuurt niet zien.",
+    "message": "Geblokkeerde contacten kunnen je niet bellen of berichten sturen.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Meldingen niet langer dempen",
+    "message": "Niet langer dempen",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "De groep  $groupName$ deblokkeren?",
+    "message": "De groep $groupName$ deblokkeren?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "De groep “$groupName$” blokkeren en verlaten?",
+    "message": "De groep $groupName$ blokkeren en verlaten?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Verzoeken blokkeren",
+    "message": "Verzoek blokkeren",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Verzoeken blokkeren?",
+    "message": "Verzoek blokkeren?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Verzoeken blokkeren",
+    "message": "Verzoek blokkeren",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} is niet meer beschikbaar. Er wordt een nieuwe reeks cijfers gekoppeld aan je gebruikersnaam. Probeer opnieuw op te slaan.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Meldingen dempen",
+    "message": "Dempen",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Meldingen niet langer dempen",
+    "message": "Niet langer dempen",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Je Signal-gebruikersnaam instellen",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Gebruikersnamen zijn gekoppeld aan een reeks cijfers en worden niet gedeeld op je profiel",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Elke gebruikersnaam heeft een unieke link die je kunt delen met je vrienden om een chat met je te starten",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Zet telefoonnummerdetectie uit in Instellingen > Telefoonnummer > Wie kan mijn nummer vinden, om je gebruikersnaam te gebruiken als de primaire manier waarop anderen contact met je kunnen opnemen.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Meer informatie",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Doorgaan",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

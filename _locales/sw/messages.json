@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Zima",
+    "message": "Nyamazisha",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Fungua wawasiliani huu ili kutuma ujumbe.",
+    "message": "Ondoa kizuizi kwa mwasiliani huyu ili kutuma ujumbe.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Fungua kikundi hiki ili kutuma ujumbe.",
+    "message": "Ondoa kizuizi kwa kikundi hiki ili kutuma ujumbe.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Geuza kitufe cha kunyamazisha ukiwashe na kuzima",
+    "message": "Badili kati ya kunyamazisha na kuzima",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Ungependa kumruhusu $name$ akutumie ujumbe na ushiriki naye jina na picha yako? Hutapokea ujumbe wowote mpaka uache kumzuia.",
+    "message": "Ungependa kumruhusu $name$ akutumie ujumbe na ushiriki naye jina na picha yako? Hutapokea ujumbe wowote mpaka uondoe kizuizi.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Ungependa kuondoa kizuizi cha kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hutapokea ujumbe wowote mpaka uache kuwazuia.",
+    "message": "Ungependa kuondoa kizuizi kwenye kikundi hiki na ushiriki jina na picha yako na washiriki wake? Hutapokea ujumbe wowote mpaka uache kuwazuia.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3185,11 +3185,11 @@
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "Fungua",
+    "message": "Ondoa kizuizi",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Ungependa kuacha kumzuia $name$?",
+    "message": "Ungependa kuondoa kizuizi kwa $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Ripoti kuwa Taka na Uizuie",
+    "message": "Ripoti kuwa Spam na Uzuie",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Umeripoti kuwa taka na umemzuia.",
+    "message": "Imeripotiwa kuwa spam na imezuiliwa.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,11 +3213,11 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Watu uliowazuia hawataweza kukupigia simu au kukutumia ujumbe.",
+    "message": "Watu waliozuiliwa hawataweza kukupigia simu au kukutumia ujumbe.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Ungependa Kuzuia na Kujiondoa kwenye $group$?",
+    "message": "Zuia na Uondoke $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,7 +3525,7 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Zima arifa",
+    "message": "Nyamazisha arifa",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
@@ -3533,11 +3533,11 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Nyamazisha kwa saa moja",
+    "message": "Nyamazisha kwa lisaa limoja",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Nyamazisha kwa saa nane",
+    "message": "Nyamazisha kwa masaa manane",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3549,7 +3549,7 @@
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Nyamazisha kila wakati",
+    "message": "Nyamazisha wakati wote",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Umenyamazisha kila wakati",
+    "message": "Imenyamazishwa wakati wote",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Umenyamazisha hadi $duration$",
+    "message": "Imenyamazishwa hadi $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Hesabu gumzo zilizonyamazishwa katika hesabu ya beji",
+    "message": "Jumuisha gumzo zilizonyamazishwa katika hesabu ya beji",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Weka sauti kwenye gumzo?",
+    "message": "Washa gumzo hii?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Ondoa kizuizi kwa kikundi cha \"$groupName$\"",
+    "message": "Ondoa kizuizi kwa kikundi cha \"$groupName$\"?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Ungependa Kuzuia na Kuondoka kwenye Kikundi cha \"$groupName$\"?",
+    "message": "Zuia na Uondoke Kikundi cha \"$groupName$\"?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} halipo tena. Seti mpya ya tarakimu itaoanishwa na jina la mtumiaji, tafadhali jaribu kuhifadhi tena.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Zuiwa",
+    "message": "Zuiliwa",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Sajili jina lako la Mtumiaji la Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Majina ya watumiaji huoanishwa na seti ya nambari na hazionyeshwi kwenye wasifu wako",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Kila jina la mtumiaji lina kiungo cha kipekee unachoweza kuwashirikisha marafiki ili kuanza gumzo na wewe",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Zima kupatikana kwa nambari ya simu katika Mipangilio > Nambari ya Simu > Nani anaweza kupata namba yangu, ili kutumia jina lako la mtumiaji kama njia kuu ya watu kuwasiliana nawe.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Jifunze Zaidi",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Endelea",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

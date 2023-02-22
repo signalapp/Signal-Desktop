@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "คุณได้ปิดกั้น $name$",
+    "message": "คุณบล็อก $name$ แล้ว",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "เลิกปิดกั้นผู้ติดต่อนี้เพื่อส่งข้อความ",
+    "message": "เลิกบล็อกผู้ติดต่อคนนี้เพื่อส่งข้อความ",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "เลิกปิดกั้นกลุ่มนี้เพื่อส่งข้อความ",
+    "message": "เลิกบล็อกกลุ่มนี้เพื่อส่งข้อความ",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "อนุญาตให้ $name$ ส่งข้อความถึงคุณและเปิดเผยชื่อของคุณและรูปภาพกับพวกเขาหรือไม่? คุณจะไม่ได้รับข้อความใดจนกว่าคุณจะเลิกปิดกั้นพวกเขา",
+    "message": "อนุญาตให้ $name$ ส่งข้อความหารวมถึงมองเห็นชื่อและรูปของคุณหรือไม่ คุณจะไม่ได้รับข้อความจนกว่าจะเลิกบล็อกผู้ใช้รายนี้",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "เลิกปิดกั้นกลุ่มนี้ และเปิดเผยชื่อและรูปภาพของคุณให้สมาชิกในกลุ่มเห็นหรือไม่? คุณจะไม่ได้รับข้อความใดจนกว่าคุณจะเลิกปิดกั้นพวกเขา",
+    "message": "คุณต้องการเลิกบล็อกกลุ่มนี้และเปิดเผยชื่อและรูปภาพให้สมาชิกในกลุ่มเห็นหรือไม่ คุณจะไม่ได้รับข้อความจนกว่าจะเลิกบล็อกกลุ่ม",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "ปิดกั้น",
+    "message": "บล็อก",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "เลิกปิดกั้น",
+    "message": "เลิกบล็อก",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "เลิกปิดกั้น $name$ หรือไม่?",
+    "message": "เลิกบล็อก $name$ หรือไม่",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "รายงานสแปมและปิดกั้น",
+    "message": "รายงานว่าเป็นสแปมและบล็อก",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "ถูกรายงานว่าเป็นสแปมและถูกปิดกั้นแล้ว",
+    "message": "รายงานว่าเป็นสแปมและบล็อกแล้ว",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "ปิดกั้น $name$ หรือไม่?",
+    "message": "บล็อก $name$ หรือไม่",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "คนที่ถูกปิดกั้นจะไม่สามารถโทรหรือส่งข้อความหาคุณได้",
+    "message": "ผู้ที่ถูกบล็อกจะไม่สามารถโทรหรือส่งข้อความหาคุณได้",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "ปิดกั้นและออกจากกลุ่ม $group$ หรือไม่?",
+    "message": "บล็อกและออกจาก $group$ หรือไม่",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "ไม่ปิดเสียง",
+    "message": "ไม่ได้ปิดเสียง",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3561,7 +3561,7 @@
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "ปิดเสียงจนกระทั่ง $duration$",
+    "message": "ปิดเสียงจนถึง $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "นับรวมการสนทนาที่ปิดเสียงในจำนวนแจ้งเตือน",
+    "message": "นับรวมการสนทนาที่ปิดเสียงไว้ในจำนวนแจ้งเตือน",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "ยกเลิกการปิดเสียงแชตนี้หรือไม่",
+    "message": "เปิดเสียงแชทนี้หรือไม่",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "ปิดกั้นกลุ่ม",
+    "message": "บล็อกกลุ่ม",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "เลิกปิดกั้นกลุ่ม",
+    "message": "เลิกบล็อกกลุ่ม",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "เลิกปิดกั้นกลุ่ม \"$groupName$\" หรือไม่?",
+    "message": "เลิกบล็อกกลุ่ม \"$groupName$\" หรือไม่",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "ต้องการปิดกั้นและออกจากกลุ่ม $groupName$ หรือไม่?",
+    "message": "บล็อกและออกจากกลุ่ม \"$groupName$\" หรือไม่",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "ปิดกั้น",
+    "message": "บล็อก",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "เลิกปิดกั้น",
+    "message": "เลิกบล็อก",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "รับการแจ้งเตือนเมื่อคุณถูกกล่าวถึงในการแชตที่ปิดเสียงไว้",
+    "message": "รับการแจ้งเตือนเมื่อคุณถูกกล่าวถึงในแชทที่ปิดเสียงไว้",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "ไม่ต้องแจ้งเตือนถ้าปิดเสียง",
+    "message": "ไม่ต้องแจ้งเตือนหากปิดเสียงอยู่",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "ปิดกั้นคำขอ",
+    "message": "บล็อกคำขอ",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "ปิดกั้นคำขอหรือไม่",
+    "message": "บล็อกคำขอหรือไม่",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "ปิดกั้นคำขอ",
+    "message": "บล็อกคำขอ",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "ชื่อผู้ใช้ {username} ไม่สามารถใช้ได้แล้ว ชื่อผู้ใช้ของคุณจะถูกผูกเข้ากับชุดตัวเลขใหม่ โปรดลองบันทึกอีกครั้ง",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "ถูกปิดกั้น",
+    "message": "ถูกบล็อก",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "ตั้งค่าชื่อผู้ใช้ Signal ของคุณ",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "ชื่อผู้ใช้จะถูกผูกเข้ากับชุดตัวเลขและจะไม่แสดงบนโปรไฟล์ของคุณ",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "ชื่อผู้ใช้แต่ละชื่อจะมีลิงก์เฉพาะที่คุณสามารถแชร์เพื่อให้เพื่อนเริ่มการสนทนากับคุณได้",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ปิดใช้งานการค้นหาด้วยหมายโทรศัพท์ โดยไปที่การตั้งค่า > หมายเลขโทรศัพท์ > ใครบ้างที่สามารถค้นหาหมายเลขโทรศัพท์ฉันได้ ซึ่งวิธีนี้จะตั้งให้ชื่อผู้ใช้ของคุณเป็นวิธีหลักที่ผู้ใช้คนอื่นจะติดต่อคุณได้",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "เรียนรู้เพิ่มเติม",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "ดำเนินการต่อ",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

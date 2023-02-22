@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Microphone coupé en raison de la longueur de l’appel",
+    "message": "Microphone coupé en raison du nombre de participants à l’appel",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Vous avez bloqué $name$",
+    "message": "Vous avez bloqué $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Autoriser $name$ à échanger des messages et partager votre nom et votre photo avec ce contact ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué.",
+    "message": "Autoriser $name$ à vous envoyer des messages et partager vos nom et photo avec ce contact ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Débloquer ce groupe et partager votre nom et votre photo avec ses membres ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué.",
+    "message": "Débloquer ce groupe et partager vos nom et photo avec ses membres ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Débloquer $name$ ?",
+    "message": "Débloquer $name$ ?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3205,11 +3205,11 @@
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Signalé comme indésirable et bloqué",
+    "message": "Signalé comme indésirable et bloqué.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Bloquer $name$ ?",
+    "message": "Bloquer $name$ ?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3217,7 +3217,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Bloquer et quitter $group$ ?",
+    "message": "Bloquer et quitter $group$ ?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Désactivée",
+    "message": "Sourdine désactivée",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Réactiver les notifications",
+    "message": "Désactiver la sourdine",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Réactiver cette conversation ?",
+    "message": "Réactiver cette conversation ?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Bloquer le groupe « $groupName$ » et le quitter ?",
+    "message": "Bloquer le groupe « $groupName$ » et le quitter ?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Bloquer la demande ?",
+    "message": "Bloquer la demande ?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} n’est plus disponible. Un nouvel ensemble de chiffres sera associé à votre nom d’utilisateur. Veuillez tenter de le sauvegarder à nouveau.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Configurer votre nom d’utilisateur Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Les noms d’utilisateur sont associés à des ensembles de chiffres et ne sont pas affichés sur votre profil",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Chaque nom d’utilisateur possède un lien unique que vous pouvez partager avec vos amis pour démarrer une conversation",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Désactivez la découverte du numéro de téléphone dans les Paramètres > Numéro de téléphone > Qui peut trouver mon numéro, pour utiliser votre nom d’utilisateur comme principal moyen pour les autres utilisateurs de vous contacter.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "En apprendre davantage",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Poursuivre",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

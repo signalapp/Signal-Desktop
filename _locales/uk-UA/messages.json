@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Без сповіщень",
+    "message": "Не сповіщати",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Мікрофон вимкнено через кількість осіб у чаті",
+    "message": "Мікрофон вимкнено через велику кількість учасників виклику",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Без сповіщень",
+    "message": "Вимкнути звук",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Ви заблокували $name$",
+    "message": "Ви заблокували користувача $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Розблокувати контакт.",
+    "message": "Розблокуйте цей контакт, щоб надіслати повідомлення.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Розблокувати цю групу щоб надіслати повідомлення.",
+    "message": "Розблокуйте цю групу, щоб надіслати повідомлення.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Включити/відключити аудіо",
+    "message": "Увімкнути або вимкнути звук",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Дозволити $name$ відправляти вам повідомлення, ділитись своїм ім'ям та фото з цією людиною? Ви не отримаєте жодних повідомлень, поки не розблокуєте його (-її).",
+    "message": "Дозволити користувачу $name$ надсилати вам повідомлення та ділитись ім'ям і фото з цим користувачем? Ви не отримаєте повідомлень, поки не розблокуєте цього користувача.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Розблокувати цю групу та поділитися своїм ім’ям та фото з її учасниками? Ви не отримаєте жодного повідомлення, поки не розблокуєте їх.",
+    "message": "Розблокувати цю групу та ділитися своїм ім’ям і фото з її учасниками? Ви не отримаєте повідомлень, поки не розблокуєте групу.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Розблокувати $name$?",
+    "message": "Розблокувати користувача $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Повідомити про спам та заблокувати",
+    "message": "Повідомити про спам і заблокувати",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Помічено як спам та заблоковано.",
+    "message": "Позначено як спам і заблоковано.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Заблокувати $name$?",
+    "message": "Заблокувати користувача $name$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Заблоковані люди не зможуть вам дзвонити чи відправляти повідомлення.",
+    "message": "Заблоковані люди не зможуть вам дзвонити чи надсилати повідомлення.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Заблокувати та покинути $group$?",
+    "message": "Заблокувати і покинути групу $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,7 +3525,7 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Вимкнути звук сповіщень",
+    "message": "Вимкнути сповіщення",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
@@ -3533,23 +3533,23 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Не сповіщати 1 годину",
+    "message": "Не сповіщати протягом години",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Стишити на 8 годин",
+    "message": "Не сповіщати протягом 8 годин",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Не сповіщати 1 день",
+    "message": "Не сповіщати протягом дня",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Не сповіщати тиждень",
+    "message": "Не сповіщати протягом тижня",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Стишити назавжди",
+    "message": "Ніколи не сповіщати",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Стишено назавжди",
+    "message": "Сповіщення завжди вимкнено",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Стишено до $duration$",
+    "message": "Сповіщення вимкнено до $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Включіть ігноровані бесіди до кількості значків",
+    "message": "Враховувати розмови без сповіщень у числі на емблемі",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4489,7 +4489,7 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Блокувати групу",
+    "message": "Заблокувати групу",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Заблокувати та покинути групу \"$groupName$\"?",
+    "message": "Заблокувати і покинути групу «$groupName$»?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Отримувати сповіщення, коли вас згадали у чатах з вимкнутими сповіщеннями",
+    "message": "Отримувати сповіщення, якщо вас згадали в чатах із вимкнутими сповіщеннями",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} більше не доступно. До вашого імені користувача буде додано нові цифри. Будь ласка, спробуйте зберегти ще раз.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Не сповіщати",
+    "message": "Вимкнути звук",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Сповіщати",
+    "message": "Увімкнути звук",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Встановіть ім'я користувача Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Імена користувачів мають кілька цифр, які не відображаються у вашому профілі",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Кожне ім’я користувача має унікальне посилання, яким можна поділитися з друзями, щоб вони могли розпочати з вами розмову",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Вимкніть виявлення номеру телефону, перейшовши в «Налаштування» > Номер телефону > «Хто може знайти мене за номером телефону», щоб використовувати своє ім'я користувача як основний спосіб зв'язку з вами.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Дізнатися більше",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Продовжити",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "بسته شد",
+    "message": "بی‌صدا شد",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "بستن",
+    "message": "بی‌صدا",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "میکروفون بدلیل حجم تماس، بسته شد.",
+    "message": "صدای میکروفون به‌دلیل تعداد زیاد کاربر حاضر در تماس قطع شد",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "بستن",
+    "message": "بی‌صدا",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "بستن صدا",
+    "message": "بی‌صدا کردن میکروفون",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "باز کردن صدا",
+    "message": "باز کردن صدای میکروفون",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "شما $name$ را مسدود کرده اید",
+    "message": "شما $name$ را مسدود کرده‌اید",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "برای ارسال پیام،‌ ابتدا این مخاطب را از مسدود بودن درآورید!",
+    "message": "برای ارسال پیام، این مخاطب را رفع مسدودیت کنید.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "برای ارسال پیام در گروه، آن را رفع انسداد کنید.",
+    "message": "برای ارسال پیام در این گروه، آن را رفع مسدودیت کنید.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "باز و بسته کردن صدا",
+    "message": "باز کردن و بستن صدا",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "آیا به $name$ اجازه می‌دهید که به شما پیام دهند و نام و عکس خود را با آن‌ها به اشتراک می‌گذارید؟ تا زمانی که آن‌ها را رفع مسدودیت نکنید هیچ پیامی دریافت نخواهید کرد.",
+    "message": "می‌خواهید به $name$ اجازه دهید به شما پیام دهد و نام و عکستان را با او به اشتراک بگذارید؟ تا وقتی او را رفع مسدودیت نکنید هیچ پیامی دریافت نخواهید کرد.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "مسدودیت این گروه را رفع کرده و نام و عکس‌ خود را با اعضای آن به اشتراک می‌گذارید؟ تا زمانی که مسدودیت آن‌ها را رفع نکنید هیچ پیامی دریافت نخواهید کرد.",
+    "message": "می‌خواهید این گروه را رفع مسدودیت کنید و نام و عکستان را با اعضای آن به اشتراک بگذارید؟ تا وقتی آن را رفع مسدودیت نکنید هیچ پیامی دریافت نخواهید کرد.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "رفع مسدودیت $name$؟",
+    "message": "$name$ رفع مسدودیت شود؟",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "گزارش اسپم و مسدود کردن",
+    "message": "گزارش هرزنامه و مسدود کردن",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "اسپم گزارش داده و مسدود شد.",
+    "message": "به‌عنوان هرزنامه گزارش و مسدود شد.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "مسدودسازی $name$؟",
+    "message": "$name$ مسدود شود؟",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "افراد مسدود شده قادر به برقراری تماس با شما یا ارسال پیام به شما نخواهند بود.",
+    "message": "افراد مسدودشده قادر به برقراری تماس با شما یا ارسال پیام به شما نخواهند بود.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "مسدود کردن و ترک $group$؟",
+    "message": "$group$ را مسدود و آن را ترک می‌کنید؟",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,43 +3525,43 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "صامت کردن اعلان‌ها",
+    "message": "بی‌صدا کردن اعلان‌ها",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "بسته شده نیست",
+    "message": "بی‌صدا نیست",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "حالت سکوت برای یک ساعت",
+    "message": "بی‌صدا برای یک ساعت",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "بستن برای ۸ ساعت",
+    "message": "بی‌صدا برای هشت ساعت",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "حالت سکوت برای یک روز",
+    "message": "بی‌صدا برای یک روز",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "حالت سکوت برای یک هفته",
+    "message": "بی‌صدا برای یک هفته",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "بستن برای همیشه",
+    "message": "همیشه بی‌صدا",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "باز کردن صدا",
+    "message": "صدادار کردن",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "بسته شده برای همیشه",
+    "message": "همیشه بی‌صدا",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "بسته شده تا $duration$",
+    "message": "بی‌صدا تا $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "شمول مکالمه‌ها‌ی بسته شده در نشانگر شمارش",
+    "message": "لحاظ کردن مکالمه‌های بی‌صداشده در نشانگر پیام‌شمار",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "مسدود کردن و ترک گروه «$groupName$»؟",
+    "message": "گروه «$groupName$» را مسدود و آن را ترک می‌کنید؟",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "دریافت اعلان وقتی به شما در گفتگوها با اعلان‌ها‌ی بسته شده اشاره می‌شود؟",
+    "message": "وقتی در گفتگوهای بی‌صداشده به شما اشاره می‌شود اعلان دریافت کنید",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "در صورت بسته بودن آگاه نکن",
+    "message": "در صورت بی‌صدا بودن اطلاع داده نشود",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "مسدود کردن درخواست؟",
+    "message": "درخواست مسدود شود؟",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} دیگر در دسترس نیست. مجموعه ارقام جدیدی با نام کاربری شما جفت خواهد شد، لطفاً دوباره آن را ذخیره کنید.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "مسدود شده",
+    "message": "مسدودشده",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "بی‌صدا",
+    "message": "بی‌صدا کردن",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "باصدا",
+    "message": "صدادار کردن",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "تنظیم نام کاربری سیگنال‌تان",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "نام‌های کاربری با مجموعه‌ای از ارقام جفت می‌شوند و در نمایه‌تان به اشتراک گذاشته نمی‌شوند",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "هر نام کاربری یک پیوند منحصربه‌فرد دارد که می‌توانید با دوستانتان به اشتراک بگذارید تا از آن برای شروع گفتگو با شما استفاده کنند",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "برای استفاده از نام کاربری‌تان به‌عنوان راه اصلی تماس افراد با شما، در «تنظیمات» > «شماره تلفن» > «چه‌کسی می‌تواند شماره‌ام را پیدا کند»، کشف شماره تلفن را خاموش کنید.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "بیشتر بدانید",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "ادامه",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

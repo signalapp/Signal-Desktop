@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Έχεις βάλει φραγή στον/ην $name$",
+    "message": "Έχεις αποκλείσει τον/την $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Βγάλε τη φραγή για αυτή την επαφή για να στείλεις μηνύματα.",
+    "message": "Κατάργησε τον αποκλεισμό για αυτή την επαφή για να στείλεις μηνύματα.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Βγάλε τη φραγή για αυτή την ομάδα για να στείλεις ένα μήνυμα.",
+    "message": "Κατάργησε τον αποκλεισμό για αυτή την ομάδα για να στείλεις ένα μήνυμα.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Να επιτραπεί στον/στην $name$ να σου στείλει μηνύματα, και να μοιραστεί το όνομα και η φωτογραφία σου μαζί του/της; Δεν θα λάβεις κανένα μήνυμα μέχρι να καταργήσεις τη φραγή του/της.",
+    "message": "Να επιτραπεί στον/στην $name$ να σου στείλει μηνύματα, και να μοιραστεί το όνομα και η φωτογραφία σου μαζί του/της; Δεν θα λάβεις κανένα μήνυμα μέχρι να καταργήσεις τον αποκλεισμό του/της.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Θέλεις να καταργηθεί η φραγή αυτής της ομάδας και να μοιραστεί το όνομα και η φωτογραφία σου με τα μέλη της; Δεν θα λάβεις κανένα μήνυμα μέχρι να καταργήσεις τη φραγή της.",
+    "message": "Θέλεις να καταργηθεί ο αποκλεισμός αυτής της ομάδας και να μοιραστεί το όνομα και η φωτογραφία σου με τα μέλη της; Δεν θα λάβεις κανένα μήνυμα μέχρι να καταργήσεις τον αποκλεισμό της.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "Φραγή",
+    "message": "Αποκλεισμός",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "Κατάργηση φραγής",
+    "message": "Κατάργηση αποκλεισμού",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Κατάργηση φραγής του/της $name$;",
+    "message": "Κατάργηση αποκλεισμού του/της $name$;",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Αναφορά ως ανεπιθύμητο και φραγή",
+    "message": "Αναφορά ως ανεπιθύμητο και αποκλεισμός",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Αναφέρθηκε ως ανεπιθύμητο και είναι σε φραγή.",
+    "message": "Αναφέρθηκε ως ανεπιθύμητο και αποκλείστηκε.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Φραγή του/της $name$;",
+    "message": "Αποκλεισμός του/της $name$;",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Τα φραγμένα άτομα δεν θα μπορούν να σε καλέσουν ή να σου στείλουν μηνύματα.",
+    "message": "Τα αποκλεισμένα άτομα δεν θα μπορούν να σε καλέσουν ή να σου στείλουν μηνύματα.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Φραγή και αποχώρηση από $group$;",
+    "message": "Αποκλεισμός και αποχώρηση από $group$;",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Μη σιγασμένο",
+    "message": "Χωρίς σίγαση",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Να συμπεριλαμβάνονται οι σιγασμένες συνομιλίες στο μετρητή ειδοποιήσεων",
+    "message": "Να συμπεριλαμβάνονται οι συνομιλίες σε σίγαση στο μετρητή ειδοποιήσεων",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Φραγή ομάδας",
+    "message": "Αποκλεισμός ομάδας",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "Κατάργηση φραγής ομάδας",
+    "message": "Κατάργηση αποκλεισμού ομάδας",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Φραγή και αποχώρηση από την ομάδα \"$groupName$\";",
+    "message": "Αποκλεισμός και αποχώρηση από την ομάδα \"$groupName$\";",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "Φραγή",
+    "message": "Αποκλεισμός",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Μπλοκάρισμα αιτήματος",
+    "message": "Αποκλεισμός αιτήματος",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Μπλοκάρισμα αιτήματος;",
+    "message": "Αποκλεισμός αιτήματος;",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Μπλοκάρισμα αιτήματος",
+    "message": "Αποκλεισμός αιτήματος",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "Ο χρήστης {username} δεν είναι πλέον διαθέσιμος. Ένα νέο σύνολο ψηφίων θα αντιστοιχιστεί με το όνομα χρήστη σου. Προσπάθησε να το αποθηκεύσεις ξανά.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Λίστα Φραγής",
+    "message": "Λίστα αποκλεισμού",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Ρύθμισε το όνομα χρήστη σου στο Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Τα ονόματα χρήστη αντιστοιχίζονται με ένα σύνολο ψηφίων και δεν κοινοποιούνται στο προφίλ σου",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Κάθε όνομα χρήστη έχει έναν μοναδικό σύνδεσμο που μπορείς να μοιραστείς με τους φίλους σου για να ξεκινήσουν μια συνομιλία μαζί σου",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Απενεργοποίησε την επιλογή της ανακάλυψης του αριθμού τηλεφώνου στις Ρυθμίσεις > Αριθμός τηλεφώνου > Ποιος μπορεί να βρει τον αριθμό μου, για να χρησιμοποιήσεις το όνομα χρήστη σου ως τον κύριο τρόπο επικοινωνίας με άλλους.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Μάθε περισσότερα",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Συνέχεια",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

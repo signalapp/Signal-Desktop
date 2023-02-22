@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "အသံပိတ်ထား",
+    "message": "အသံပိတ်ပြီး",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "အသံတိတ်ထားမည်",
+    "message": "အသံပိတ်ရန်",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "ကောလ် အရွယ်အစားကြောင့် မိုက်ခရိုဖုန်းကို အသံပိတ်ထားသည်",
+    "message": "ကောလ် အရွယ်အစားကြောင့် မိုက်ခရိုဖုန်း အသံပိတ်ထားသည်",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "အသံတိတ်ထားမည်",
+    "message": "အသံပိတ်ရန်",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1482,7 +1482,7 @@
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "မိုက် အသံဖွင့်ရန်",
+    "message": "မိုက် အသံပြန်ဖွင့်ရန်",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "သင်သည် $name$ ကို ဘလော့ထားပါသည်",
+    "message": "သင်သည် $name$ ကို ဘလော့ခ်ထားပါသည်",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Unblock this contact to send a message.",
+    "message": "မက်ဆေ့ချ်ပို့ရန် ဤအဆက်အသွယ်ကို ဘလော့ခ်ဖြေပါ။",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "မက်ဆေ့ချ် ပို့ရန် ဤအဖွဲ့ကို ဘလော့ဖြေပါ။",
+    "message": "မက်ဆေ့ချ် ပို့ရန် ဤအဖွဲ့ကို ဘလော့ခ်ဖြေပါ။",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ အား မက်ဆေ့ချ်ပို့စေပြီး သင့်အမည်နှင့် ဓာတ်ပုံကို ၎င်းနှင့် ဝေမျှပါမည်လား။ ၎င်းကို တားမြစ်မှုမှ မဖျက်မချင်း မက်ဆေ့ချ်များကို သင်လက်ခံရရှိမည် မဟုတ်ပါ။",
+    "message": "$name$ အား သင့်ထံ မက်ဆေ့ချ်ပို့ခွင့်ပြုပြီး သင်၏ အမည်နှင့် ပုံကို ၎င်းထံ မျှဝေမည်လား။ ၎င်းတို့အား ဘလော့ခ် မဖြေမချင်း မက်ဆေ့ချ်များ ရရှိမည် မဟုတ်ပါ။",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "၎င်းအဖွဲ့ကို ပိတ်ထားခြင်းမှ ပြန်ဖြည်ပြီး အဖွဲ့ဝင်များနှင့် သင်၏ အမည်နှင့် ရုပ်ပုံကို မျှဝေမည်လား? သင်မှ ပြန်ဖြည်သည်အထိ မည်သည့်မက်ဆေ့ချ်များကို မရရှိနိုင်ပါ။",
+    "message": "ဤအဖွဲ့ကို ဘလော့ခ်ဖြေပြီး ၎င်းအဖွဲ့ဝင်များထံ သင့်အမည်နှင့် ပုံကို မျှဝေမည်လား။ သင် ဘလော့ခ်မဖြေမချင်း မက်ဆေ့ချ်များ ရရှိမည် မဟုတ်ပါ။",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "တားမြစ်မည်",
+    "message": "ဘလော့ခ်ရန်",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "ပြန်ဖွင့်သည်",
+    "message": "ဘလော့ခ်ဖြေရန်",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$ အား ဘလော့ဖြေမည်လား?",
+    "message": "$name$ အား ဘလော့ခ်ဖြေမည်လား။",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "စပမ်းကို ရီပို့တ်တင်ပြီး ဘလော့ရန်",
+    "message": "စပမ်းအဖြစ် ရီပို့(တ်)လုပ်ပြီး ဘလော့ခ်ရန်",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "áá­á¯ááºáá¼á¬á¸áá®á¸ ááá±á¬á·áááº",
+    "message": "စပမ်းအဖြစ် ရီပို့(တ်)လုပ်ပြီး ဘလော့ခ်ပြီးပါပြီ။",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$ အား ဘလော့မည်လား။",
+    "message": "$name$ အား ဘလော့ခ်မည်လား။",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "ပိတ်ပယ်ထားသောသူများသည် သင့်စီသို့ ခေါ်ဆိုခြင်းနှင့် မက်ဆေ့ပို့ခြင်းများ မပြုလုပ်နိုင်ပါ။",
+    "message": "ဘလော့ခ်ထားသော လူများသည် သင့်ထံ ဖုန်းခေါ်ခြင်း သို့မဟုတ် မက်ဆေ့ချ်ပို့ခြင်းများ မလုပ်နိုင်တော့ပါ။",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ အား ဘလော့ပြီး ထွက်မည်လား။",
+    "message": "$group$ အား ဘလော့ခ်ပြီး ထွက်မည်လား။",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,27 +3525,27 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "အသိပေးချက်ကို ပိတ်ပါ",
+    "message": "အသိပေးချက် အသံပိတ်ရန်",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "အသံမပိတ်ပါ",
+    "message": "အသံ မပိတ်ထားပါ",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "တစ်နာရီအသံပိတ်မည်",
+    "message": "တစ်နာရီစာ အသံပိတ်ရန်",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "ရှစ်နာရီကြာ အသံပိတ်ရန်",
+    "message": "ရှစ်နာရီစာ အသံပိတ်ရန်",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "တစ်ရက် အသံပိတ်မည်",
+    "message": "တစ်ရက်စာ အသံပိတ်ရန်",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "တစ်ပတ် အသံပိတ်မည်",
+    "message": "တစ်ပတ်စာ အသံပိတ်ရန်",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "အသံပြန်ဖွင့်",
+    "message": "အသံပြန်ဖွင့်ရန်",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော စကားဝိုင်းများ ပါဝင်ပါသည်",
+    "message": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော စကားဝိုင်းများ ထည့်ရန်",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "အဖွဲ့အား ပိတ်ပယ်မယ်",
+    "message": "အဖွဲ့ကို ဘလော့ခ်ရန်",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "အဖွဲ့ကိုပြန်ဖွင့်မယ်",
+    "message": "အဖွဲ့ကို ဘလော့ခ်ဖြေရန်",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" အဖွဲ့ကို ဘလော့ဖြေမည်လား။",
+    "message": "\"$groupName$\" အဖွဲ့ကို ဘလော့ခ်ဖြေမည်လား။",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "\"$groupName$\" အဖွဲ့ကို ဘလော့ပြီး ထွက်မည်လား။",
+    "message": "\"$groupName$\" အဖွဲ့ကို ဘလော့ခ်ပြီး ထွက်မည်လား။",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "တားမြစ်မည်",
+    "message": "ဘလော့ခ်ရန်",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "ပြန်ဖွင့်မယ်",
+    "message": "ဘလော့ခ်ဖြေရန်",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်အား မန်းရှင်းခေါ်သည့်အခါ အသိပေးချက်များ လက်ခံရရှိပါမည်",
+    "message": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်ကို မန်းရှင်းခေါ်လျှင် အသိပေးချက်များ လက်ခံရန်",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "တောင်းဆိုချက်ကို ဘလော့လုပ်ရန်",
+    "message": "တောင်းဆိုချက်ကို ဘလော့ခ်ရန်",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "တောင်းဆိုချက်ကို ဘလော့လုပ်မည်လား။",
+    "message": "တောင်းဆိုချက်ကို ဘလော့ခ်မည်လား။",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "တောင်းဆိုချက်ကို ဘလော့လုပ်ရန်",
+    "message": "တောင်းဆိုချက်ကို ဘလော့ခ်ရန်",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} ကို သုံး၍ မရနိုင်တော့ပါ။ နံပါတ်တွဲအသစ်တစ်ခုကို သင့်သုံးစွဲသူအမည်နှင့် ချိတ်ပေးသွားပါမည်၊ ထပ်သိမ်းကြည့်ပါ။",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "ပိတ်ပယ်ထားသည်",
+    "message": "ဘလော့ခ်ထားပြီး",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "အသံတိတ်ထားမည်",
+    "message": "အသံပိတ်ရန်",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "အသံပြန်ဖွင့်မယ်",
+    "message": "အသံပြန်ဖွင့်ရန်",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "သင်၏ Signal သုံးစွဲသူအမည်ကို သတ်မှတ်ပါ",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "သုံးစွဲသူအမည်များကို နံပါတ်တွဲတစ်ခုဖြင့် ချိတ်ပေးထားပြီး သင့်ပရိုဖိုင်တွင် ဝေမျှမထားပါ",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "သုံးစွဲသူအမည်တစ်ခုစီတွင် သင်နှင့် ချက်(တ်)ရန် သင့်မိတ်ဆွေများထံ ဝေမျှနိုင်သည့် သီးသန့်လင့်ခ်တစ်ခု ရှိပါသည်",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "သင့်သုံးစွဲသူအမည်ကို သင့်ထံ ဆက်သွယ်နိုင်သည့် ပင်မနည်းလမ်းအဖြစ် သုံးရန် ဆက်တင် > ဖုန်းနံပါတ် > ကျွန်ုပ်၏ ဖုန်းနံပါတ်ကို ရှာနိုင်မည့်သူများအောက်ရှိ ဖုန်းနံပါတ် ရှာဖွေရေးကို ပိတ်ပါ။",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "ပိုမိုလေ့လာရန်",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "ဆက်လုပ်ရန်",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

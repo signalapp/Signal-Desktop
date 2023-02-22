@@ -1039,7 +1039,7 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Stlmený/á",
+    "message": "Stlmené",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Zablokovali ste $name$",
+    "message": "Zablokovali ste používateľa $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1900,7 +1900,7 @@
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Odblokujte skupinu pre poslanie správy.",
+    "message": "Pre odoslanie správy skupinu odblokujte.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Zapnúť/vypnúť stíšenie",
+    "message": "Zapnúť/vypnúť stlmenie",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Odblokovať túto skupinu a zdieľať vaše meno a foto s jej členmi? Kým ju neodblokujete, nepríjmete z nej žiadne správy.",
+    "message": "Odblokovať túto skupinu a zdieľať vaše meno a fotku s jej členmi? Kým ju neodblokujete, nepríjmete od nej žiadne správy.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Odblokovať $name$?",
+    "message": "Odblokovať používateľa $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3209,15 +3209,15 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Zablokovať $name$?",
+    "message": "Blokovať používateľa $name$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Zablokované osoby vám nebudú môcť volať ani posielať správy.",
+    "message": "Blokované osoby vám nebudú môcť volať ani posielať správy.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Zablokovať a opustiť $group$?",
+    "message": "Blokovať a opustiť $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3533,7 +3533,7 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Stlmiť na hodinu",
+    "message": "Stlmiť na jednu hodinu",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
@@ -3561,7 +3561,7 @@
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Stíšené na $duration$",
+    "message": "Stlmené do $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Chcete zrušiť ignorovanie tejto konverácie?",
+    "message": "Zrušiť stlmenie tohto četu?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Zablokovať a opustiť \"$groupName$\" skupinu?",
+    "message": "Zablokovať a opustiť skupinu „$groupName$“?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Prijímať upozornenia, keď sa o vás hovorí v stlmených rozhovoroch",
+    "message": "Dostávať upozornenia, keď vás spomenú v stlmených rozhovoroch",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Neupozorňovať, ak je stlmený",
+    "message": "Neupozorňovať, ak je stlmené",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Žiadosť o blokovanie",
+    "message": "Blokovať žiadosť",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "Používateľské meno {username} už nie je k dispozícii. S vaším používateľským menom bude spárovaná nová súprava číslic. Uložte ju znova.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Blokovaní",
+    "message": "Blokované",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6121,7 +6121,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Zapnúť zvuky",
+    "message": "Zrušiť stlmenie",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Nastavte si používateľské meno Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Používateľské mená sú spárované so súpravou číslic a nezdieľajú sa vo vašom profile",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Každé používateľské meno má jedinečný odkaz, ktorý môžete zdieľať so svojimi priateľmi, aby ste mohli začať četovať",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Vypnite vyhľadávanie podľa telefónneho čísla v časti Nastavenia > Telefónne číslo > Kto môže nájsť moje číslo, aby bolo vaše používateľské meno primárnym spôsobom, ako vás ostatní môžu kontaktovať.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Zistiť viac",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Pokračovať",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

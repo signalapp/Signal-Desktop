@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Mikrofonen är tystad på grund av samtalets storlek",
+    "message": "Mikrofonen är av på grund av samtalets storlek",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Tysta",
+    "message": "Ljud av",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Sluta blockera den här kontakten för att skicka meddelanden.",
+    "message": "Avblockera den här kontakten för att skicka meddelanden.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Sluta blockera den här gruppen för att skicka meddelanden.",
+    "message": "Avblockera den här gruppen för att skicka meddelanden.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Tillåt att $name$ meddelar dig och dela ditt namn och foto med dem? Du får inte några meddelanden förrän du har slutat blockera personen.",
+    "message": "Tillåt att $name$ skickar meddelanden till dig och dela ditt namn och foto med dem? Du får inte några meddelanden förrän du har slutat blockera personen.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Ta bort blockeringen av den här gruppen och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
+    "message": "Avblockera den här gruppen och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3185,11 +3185,11 @@
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "Sluta blockera",
+    "message": "Avblockera",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Sluta blockera $name$?",
+    "message": "Avblockera $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Av-tysta",
+    "message": "Avtysta",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Avblockera \"$groupName$\"-gruppen?",
+    "message": "Avblockera gruppen \"$groupName$\"?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Blockera och lämna \"$groupName$\"-gruppen?",
+    "message": "Blockera och lämna gruppen \"$groupName$\"?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} är inte längre tillgängligt. En ny uppsättning siffror kommer paras ihop med ditt användarnamn, försök spara det igen.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6121,7 +6121,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Av-tysta",
+    "message": "Avtysta",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Ställ in ditt Signal-användarnamn",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Användarnamn paras ihop med en uppsättning siffror och delas inte i din profil",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Varje användarnamn har en unik länk som du kan dela med dina vänner för att starta en chatt med dig",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "För att använda ditt användarnamn som det primära sättet andra kan kontakta dig på så kan du stänga av upptäckt av telefonnummer under Inställningar > Telefonnummer> Vem kan hitta mitt nummer.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Läs mer",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Fortsätt",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

@@ -1039,7 +1039,7 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "صامت",
+    "message": "دردشة مكتومة",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "هل أسمح لـ $name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه ؟ لن تصله أيّة رسالة حتى تزيل الحظر عنه.",
+    "message": "هل أسمح لـ $name$ بمراسلتك، بالإضافة إلى مشاركة اسمك وصورتك معه؟ لن تصله أيّة رسالة حتى ترفع الحظر عنه.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "إزالة الحظر عن هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها ؟ لن تصلك أي رسائل إلى حين رفعك الحظر عنهم.",
+    "message": "إزالة الحظر عن هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها؟ لن تصلك أي رسائل إلى حين رفعك الحظر عنهم.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "رفع الحظر عن $name$ ؟",
+    "message": "رفع الحظر عن $name$؟",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3205,7 +3205,7 @@
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "أُبلِغ عن الإزعاج ثم حُظر",
+    "message": "تم الإبلاغ عنه كبريد مزعج وتم حظره.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "لن يتمكن الأشخاص المحظورون من الاتصال بك ولا إرسال الرسائل إليك.",
+    "message": "لن يتمكّن الأشخاص المحظورون من الاتصال بك ولا إرسال الرسائل إليك.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3537,7 +3537,7 @@
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "اصمت لثمان ساعات",
+    "message": "كتم لـ 8 ساعات",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3549,7 +3549,7 @@
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "اكتم دائما",
+    "message": "اكتم دائمًا",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "اكتم دائما",
+    "message": "اكتم دائمًا",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "كُتم الصوت لمدة $duration$",
+    "message": "كتم دردشة حتى $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "حظر المجموعة « $groupName$ » ثم مغادرتها ؟",
+    "message": "حظر المجموعة \"$groupName$\" ثم مغادرتها ؟",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "استلام اﻹشعارات إذا ذُكر اسمك في المحادثات المكتومة",
+    "message": "استلام الإشعارات إذا ذُكر اسمك في المحادثات المكتومة",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "لا داعي لإشعاري إذا كانت صامتة",
+    "message": "لا داعي لإشعاري إذا كانت مكتومة",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "حظر الطلب ؟",
+    "message": "حظر الطلب؟",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} لم تعُد متاحة. سَيتم إقران مجموعة جديدة من الأرقام باسم المُستخدم الخاص بك، يُرجى محاولة حفظها مرة أخرى.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6117,7 +6117,7 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "كتم الصوت",
+    "message": "كتم القِصص",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "إعداد اِسم المُستخدِم الخاص بك على Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "يتم إقران أسماء المستخدمين بمجموعة من الأرقام ولا تتم مشاركتها في ملفك الشخصي",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "لكل اسم مستخدم رابط خاص يُمكنك مُشاركته مع أصدقائك لكي يبدؤوا دردشة معك",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "عطّل اكتشاف رقم الهاتف ضمن الإعدادات > رقم الهاتف > من يُمكنه العثور على رقمي، لاستخدام اسم المُستخدم الخاص بك كالطريقة الأساسية التي يُمكن للآخرين استخدامها للاتصال بك.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "معرفة المزيد",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "الاستمرار",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
