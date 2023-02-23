@@ -120,7 +120,7 @@ import type { LoggerType } from '../ts/types/Logging';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
-if (OS.isMacOS() && !isProduction(app.getVersion())) {
+if (OS.isMacOS()) {
   systemPreferences.setUserDefault(
     'SquirrelMacEnableDirectContentsWrite',
     'boolean',
