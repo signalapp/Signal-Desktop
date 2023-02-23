@@ -189,7 +189,7 @@
     "@babel/preset-react": "7.17.12",
     "@babel/preset-typescript": "7.17.12",
     "@electron/fuses": "1.5.0",
-    "@mixer/parallel-prettier": "2.0.1",
+    "@mixer/parallel-prettier": "2.0.3",
     "@signalapp/mock-server": "2.15.0",
     "@storybook/addon-a11y": "6.5.6",
     "@storybook/addon-actions": "6.5.6",
@@ -291,7 +291,7 @@
     "nyc": "11.4.1",
     "patch-package": "6.4.7",
     "playwright": "1.30.0",
-    "prettier": "2.7.1",
+    "prettier": "2.8.0",
     "sass": "1.49.7",
     "sass-loader": "10.2.0",
     "sinon": "11.1.1",
@@ -307,6 +307,7 @@
     "webpack-dev-server": "4.11.1"
   },
   "resolutions": {
+    "@mixer/parallel-prettier/prettier": "2.8.0",
     "@storybook/react/@storybook/core/node-fetch": "2.6.1",
     "@types/react": "17.0.45",
     "@types/react-dom": "17.0.17",

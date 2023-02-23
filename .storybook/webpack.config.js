@@ -39,15 +39,16 @@ module.exports = ({ config }) => {
     constants: 'commonjs constants',
     zlib: 'commonjs zlib',
     '@signalapp/libsignal-client': 'commonjs @signalapp/libsignal-client',
-    '@signalapp/libsignal-client/zkgroup': 'commonjs @signalapp/libsignal-client/zkgroup',
+    '@signalapp/libsignal-client/zkgroup':
+      'commonjs @signalapp/libsignal-client/zkgroup',
     '@signalapp/ringrtc': 'commonjs @signalapp/ringrtc',
     '@signalapp/better-sqlite3': 'commonjs @signalapp/better-sqlite3',
-    'electron': 'commonjs electron',
+    electron: 'commonjs electron',
     'fs-xattr': 'commonjs fs-xattr',
-    'fsevents': 'commonjs fsevents',
+    fsevents: 'commonjs fsevents',
     'mac-screen-capture-permissions': 'commonjs mac-screen-capture-permissions',
-    'sass': 'commonjs sass',
-    'bufferutil': 'commonjs bufferutil',
+    sass: 'commonjs sass',
+    bufferutil: 'commonjs bufferutil',
     'utf-8-validate': 'commonjs utf-8-validate',
   };
 

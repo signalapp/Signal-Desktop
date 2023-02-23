@@ -802,15 +802,16 @@ export function StoryViewer({
               ))}
             </div>
             <div className="StoryViewer__actions">
-              {sendStatus === ResolvedSendStatus.Failed && !wasManuallyRetried && (
-                <button
-                  className="StoryViewer__actions__failed"
-                  onClick={doRetryMessageSend}
-                  type="button"
-                >
-                  {i18n('StoryViewer__failed')}
-                </button>
-              )}
+              {sendStatus === ResolvedSendStatus.Failed &&
+                !wasManuallyRetried && (
+                  <button
+                    className="StoryViewer__actions__failed"
+                    onClick={doRetryMessageSend}
+                    type="button"
+                  >
+                    {i18n('StoryViewer__failed')}
+                  </button>
+                )}
               {sendStatus === ResolvedSendStatus.PartiallySent &&
                 !wasManuallyRetried && (
                   <button

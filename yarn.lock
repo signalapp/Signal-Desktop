@@ -1844,14 +1844,14 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@mixer/parallel-prettier@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@mixer/parallel-prettier/-/parallel-prettier-2.0.1.tgz#fd69bb55e38b3c1dbb2f1a534ea1a0cd3fe34946"
-  integrity sha512-bx/rdOhJ2EOxQTm4cQQBsdbg+IwaQHh/ugIZMsWNEILXLJWQukCv+6fDUBZkoIk/zEoW45uIrCugARCuuDwrWw==
+"@mixer/parallel-prettier@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@mixer/parallel-prettier/-/parallel-prettier-2.0.3.tgz#970902afcd38c8c71155e1d089e5444896abc253"
+  integrity sha512-42ImvDusmxjpQLHEmZrljV/+L9ynfmaTe5ooLMTTLyELulUJtJW8vBXCadQdodfZ5wjr2Sg3YGIzWE0rnBsfDg==
   dependencies:
     chalk "^4.1.0"
     commander "^7.0.0"
-    glob-stream "^6.1.0"
+    glob-stream "^7.0.0"
     ignore "^5.1.8"
     ora "^5.3.0"
     prettier "^2.0.4"
@@ -8089,14 +8089,14 @@ duplexify@^3.4.2, duplexify@^3.5.3:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-duplexify@^3.6.0:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
-  integrity sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==
+duplexify@^4.1.1:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-4.1.2.tgz#18b4f8d28289132fa0b9573c898d9f903f81c7b0"
+  integrity sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==
   dependencies:
-    end-of-stream "^1.0.0"
-    inherits "^2.0.1"
-    readable-stream "^2.0.0"
+    end-of-stream "^1.4.1"
+    inherits "^2.0.3"
+    readable-stream "^3.1.1"
     stream-shift "^1.0.0"
 
 ecdsa-sig-formatter@1.0.11:
@@ -10021,21 +10021,21 @@ glob-promise@^3.4.0:
   dependencies:
     "@types/glob" "*"
 
-glob-stream@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/glob-stream/-/glob-stream-6.1.0.tgz#7045c99413b3eb94888d83ab46d0b404cc7bdde4"
-  integrity sha1-cEXJlBOz65SIjYOrRtC0BMx73eQ=
+glob-stream@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/glob-stream/-/glob-stream-7.0.0.tgz#1c42227d5c0bc1aba20f36ee9b09cef7f194dc00"
+  integrity sha512-evR4kvr6s0Yo5t4CD4H171n4T8XcnPFznvsbeN8K9FPzc0Q0wYqcOWyGtck2qcvJSLXKnU6DnDyfmbDDabYvRQ==
   dependencies:
-    extend "^3.0.0"
-    glob "^7.1.1"
-    glob-parent "^3.1.0"
+    extend "^3.0.2"
+    glob "^7.2.0"
+    glob-parent "^6.0.2"
     is-negated-glob "^1.0.0"
-    ordered-read-streams "^1.0.0"
-    pumpify "^1.3.5"
-    readable-stream "^2.1.5"
-    remove-trailing-separator "^1.0.1"
-    to-absolute-glob "^2.0.0"
-    unique-stream "^2.0.2"
+    ordered-read-streams "^1.0.1"
+    pumpify "^2.0.1"
+    readable-stream "^3.6.0"
+    remove-trailing-separator "^1.1.0"
+    to-absolute-glob "^2.0.2"
+    unique-stream "^2.3.1"
 
 glob-to-regexp@^0.3.0:
   version "0.3.0"
@@ -13862,10 +13862,10 @@ ora@^5.3.0:
     strip-ansi "^6.0.0"
     wcwidth "^1.0.1"
 
-ordered-read-streams@^1.0.0:
+ordered-read-streams@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ordered-read-streams/-/ordered-read-streams-1.0.1.tgz#77c0cb37c41525d64166d990ffad7ec6a0e1363e"
-  integrity sha1-d8DLN8QVJdZBZtmQ/61+xqDhNj4=
+  integrity sha512-Z87aSjx3r5c0ZB7bcJqIgIRX5bxR7A4aSzvIbaxd0oTkWBCOoKfuGHiKj60CHVUgg1Phm5yMZzBdt8XqRs73Mw==
   dependencies:
     readable-stream "^2.0.1"
 
@@ -14746,20 +14746,15 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
-  integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
+prettier@2.8.0, prettier@^2.0.4:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.0.tgz#c7df58393c9ba77d6fba3921ae01faf994fb9dc9"
+  integrity sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==
 
 "prettier@>=2.2.1 <=2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.0.tgz#b6a5bf1284026ae640f17f7ff5658a7567fc0d18"
   integrity sha512-kXtO4s0Lz/DW/IJ9QdWhAf7/NmPWQXkFr/r/WkR3vyI+0v8amTDxiaQSLzs8NBlytfLWX/7uQUMIW677yLKl4w==
-
-prettier@^2.0.4:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.0.tgz#12f8f504c4d8ddb76475f441337542fa799207d4"
-  integrity sha512-m2FgJibYrBGGgQXNzfd0PuDGShJgRavjUoRCw1mZERIWVSXF0iLzLm+aOqTAbLnC3n6JzUhAA8uZnFVghHJ86A==
 
 pretty-error@^2.1.1:
   version "2.1.1"
@@ -14979,14 +14974,14 @@ pumpify@^1.3.3:
     inherits "^2.0.3"
     pump "^2.0.0"
 
-pumpify@^1.3.5:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/pumpify/-/pumpify-1.5.1.tgz#36513be246ab27570b1a374a5ce278bfd74370ce"
-  integrity sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==
+pumpify@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/pumpify/-/pumpify-2.0.1.tgz#abfc7b5a621307c728b551decbbefb51f0e4aa1e"
+  integrity sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==
   dependencies:
-    duplexify "^3.6.0"
+    duplexify "^4.1.1"
     inherits "^2.0.3"
-    pump "^2.0.0"
+    pump "^3.0.0"
 
 punycode@1.3.2:
   version "1.3.2"
@@ -15900,6 +15895,11 @@ remark-stringify@^9.0.1:
 remove-trailing-separator@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.0.1.tgz#615ebb96af559552d4bf4057c8436d486ab63cc4"
+
+remove-trailing-separator@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
+  integrity sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==
 
 renderkid@^2.0.1:
   version "2.0.3"
@@ -17540,10 +17540,10 @@ tmp@^0.2.0:
   dependencies:
     rimraf "^3.0.0"
 
-to-absolute-glob@^2.0.0:
+to-absolute-glob@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/to-absolute-glob/-/to-absolute-glob-2.0.2.tgz#1865f43d9e74b0822db9f145b78cff7d0f7c849b"
-  integrity sha1-GGX0PZ50sIItufFFt4z/fQ98hJs=
+  integrity sha512-rtwLUQEwT8ZeKQbyFJyomBRYXyE16U5VKuy0ftxLMK/PZb2fkOsg5r9kHdauuVDbsNdIBoC/HCthpidamQFXYA==
   dependencies:
     is-absolute "^1.0.0"
     is-negated-glob "^1.0.0"
@@ -17983,7 +17983,7 @@ unique-slug@^2.0.0:
   dependencies:
     imurmurhash "^0.1.4"
 
-unique-stream@^2.0.2:
+unique-stream@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/unique-stream/-/unique-stream-2.3.1.tgz#c65d110e9a4adf9a6c5948b28053d9a8d04cbeac"
   integrity sha512-2nY4TnBE70yoxHkDli7DMazpWiP7xMdCYqU2nBRO0UB+ZpEkGsSija7MvmvnZFUeC+mrgiUfcHSr3LmRFIg4+A==
