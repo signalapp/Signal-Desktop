@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "म्युट",
+    "message": "म्युट करें",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "म्युट",
+    "message": "म्युट करें",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "कोई मेसेज भेजने के लिए इस संपर्क को अनब्लॉक करें",
+    "message": "कोई संदेश भेजने के लिए इस संपर्क को अनब्लॉक करें।",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "मेसेज भेजने के लिए इस समूह को अनब्लॉक करें",
+    "message": "संदेश भेजने के लिए इस समूह को अनब्लॉक करें।",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ को आपको मेसेज करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी मेसेज प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
+    "message": "$name$ को आपको संदेश करने देना है और उनके साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,11 +3177,11 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी मेसेज प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
+    "message": "इस ग्रुप को अनब्लॉक करना है और इसके मेंबर्स के साथ अपना नाम और तस्वीर शेयर करनी है? आप कोई भी संदेश प्राप्त नहीं करेंगे जब तक आप उन्हें अनब्लॉक नहीं करते।",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "ब्लॉक",
+    "message": "ब्लॉक करें",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "अनम्यूट",
+    "message": "अनम्यूट करें",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "ब्लॉक",
+    "message": "ब्लॉक करें",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} अब उपलब्ध नहीं है। आपके उपयोगकर्ता नाम के साथ अंकों का एक नया सेट जोड़ा जाएगा, कृपया इसे फिर से सहेजने का प्रयास करें।",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "ब्लॉक",
+    "message": "ब्लॉक किया गया",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "म्यूट",
+    "message": "म्युट करें",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "अनम्यूट",
+    "message": "अनम्यूट करें",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "अपना Signal उपयोगकर्ता नाम सेटअप करें",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "यूज़रनेम अंकों के एक सेट के साथ जोड़े जाते हैं और आपके प्रोफाइल पर साझा नहीं किए जाते",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "प्रत्येक यूज़रनेम का एक यूनिक लिंक होता है, जिसे आप अपने दोस्तों के साथ साझा कर सकते हैं, ताकि वो आपके साथ चैट शुरू कर सकें",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "सेटिंग्स > फोन नंबर > मेरा नंबर कौन ढूंढ सकता है, में जाकर फोन नंबर खोज को बंद कर करें, ताकि अन्य आपसे संपर्क के लिए आपके यूज़रनेम का इस्तेमाल प्राथमिक साधन के रूप में कर सकें।",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "और जानें",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "आगे",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

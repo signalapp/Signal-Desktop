@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "म्यूट केलेले",
+    "message": "मूक केलेले",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "म्यूट करा",
+    "message": "मूक करा",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "कॉलच्या आकारामुळे मायक्रोफोन म्यूट करण्यात आलेला आहे",
+    "message": "कॉलच्या कालावधीमुळे मायक्रोफोन मूक करण्यात आलेला आहे",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "म्यूट करा",
+    "message": "मूक करा",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,7 +1478,7 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "माईक म्यूट करा",
+    "message": "माईक मूक करा",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "आपण $name$ला ब्लॉक केले",
+    "message": "आपण $name$ ला ब्लॉक केले",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "संदेश पाठविण्यासाठी हा संपर्क अनब्लॉक करा",
+    "message": "संदेश पाठविण्यासाठी हा संपर्क अनवरोधित करा.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "संदेश पाठविण्यासाठी हा गट अनब्लॉक करा.",
+    "message": "संदेश पाठविण्यासाठी हा गट अनवरोधित करा.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "म्यूट चालू आणि बंद करणे टॉगल करा",
+    "message": "मूक करणे चालू आणि बंद करणे टॉगल करा",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ला आपल्याला संदेश देऊ द्यायचे आणि त्यांचे नाव आणि फोटो त्यांच्यासह सामायिक करू द्यायचे का? आपण त्यांना अनब्लॉक करेपर्यंत आपल्याला कोणतेही संदेश प्राप्त होणार नाहीत.",
+    "message": "$name$ ला आपल्याला संदेश पाठऊ द्यायचे आणि त्यांचे नाव आणि फोटो त्यांच्यासह सामायिक करू द्यायचे का? आपण त्यांना अनवरोधित करेपर्यंत आपल्याला कोणतेही संदेश प्राप्त होणार नाहीत.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "हा गट अनब्लॉक करायचा आणि आपले नाव आणि फोटो त्याच्या सदस्यांसह सामायिक करायचे? आपण त्यांना अनब्लॉक करेपर्यंत आपल्याला कोणतेही संदेश प्राप्त होणार नाहीत.",
+    "message": "हा गट अनवरोधित करायचा आणि आपले नाव आणि फोटो त्याच्या सदस्यांसह सामायिक करायचे? आपण त्यांना अनवरोधित करेपर्यंत आपल्याला कोणतेही संदेश प्राप्त होणार नाहीत.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3185,11 +3185,11 @@
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "अनब्लॉक करा",
+    "message": "अनवरोधित करा",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$अनब्लॉक करायचा?",
+    "message": "$name$अनवरोधित करायचा?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "स्पॅम म्हणून रिपोर्ट करा आणि ब्लॉक करा",
+    "message": "स्पॅम म्हणून रिपोर्ट करा आणि अवरोधित करा",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "स्पॅम म्हणून रिपोर्ट केले आणि ब्लॉक केले.",
+    "message": "स्पॅम म्हणून रिपोर्ट केले आणि अवरोधित केले.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$ब्लॉक करायचा?",
+    "message": "$name$अवरोधित करायचा?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "अवरोधित लोक आपल्याला कॉल करण्यास किंवा संदेश पाठविण्यास सक्षम असणार नाहीत.",
+    "message": "अवरोधित केलेले लोक आपल्याला कॉल करण्यास किंवा संदेश पाठविण्यास सक्षम असणार नाहीत.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ब्लॉक करायचा आणि सोडायचा?",
+    "message": "$group$अवरोधित करायचा आणि सोडायचा?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,31 +3525,31 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "सूचना म्यूट करा",
+    "message": "सूचना मूक करा",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "म्यूट केलेले नाही",
+    "message": "मूक केलेले नाही",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "एक तासाकरिता म्यूट करा",
+    "message": "एक तासाकरिता मूक करा",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "आठ तासांसाठी म्यूट करा",
+    "message": "आठ तासांसाठी मूक करा",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "एक दिवसाकरिता म्यूट करा",
+    "message": "एक दिवसाकरिता मूक करा",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "एक आठवड्याकरिता म्यूट करा",
+    "message": "एक आठवड्याकरिता मूक करा",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "नेहमी म्यूट करा",
+    "message": "नेहमी मूक करा",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "नेहमी म्यूट केलेले",
+    "message": "नेहमी मूक केलेले",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$पर्यंत म्यूट केले",
+    "message": "$duration$ पर्यंत मूक केले",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "मूक (म्यूटेड) संभाषणे बॅज गणनात समाविष्ट करा",
+    "message": "मूक असलेली संभाषणे बॅज गणनेत समाविष्ट करा",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "ही चॅट मूक करू का?",
+    "message": "हे चॅट मूक करू का?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "\"$groupName$\" गटाला अनब्लॉक करायचे?",
+    "message": "\"$groupName$\" गटाला अनवरोधित करायचे?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "\"$groupName$\" गट ब्लॉक करायचा आणि सोडायचा?",
+    "message": "\"$groupName$\" गट अवरोधित करायचा आणि सोडायचा?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "अनब्लॉक करा",
+    "message": "अनवरोधित करा",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "मूक चॅट मध्ये तुमचा उल्लेख असेल तेव्हा सूचना प्राप्त करा",
+    "message": "मूक चॅटमध्ये तुमचा उल्लेख असेल तेव्हा अधिसूचना प्राप्त करा",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "म्युट असल्यास सूचित करू नका.",
+    "message": "मूक असल्यास सूचित करू नका",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "विनंती अवरोधित करायची ?",
+    "message": "विनंती अवरोधित करायची?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "विनंती रोखा",
+    "message": "विनंती अवरोधित करा",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} यापुढे उपलब्ध असणार नाही. आपल्या वापरकर्तानावासह अंकांचा एक नवीन संच जोडला जाईल, कृपया त्याला जतन करण्याचा पुन्हा प्रयत्न करा.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6117,7 +6117,7 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "म्यूट करा",
+    "message": "मूक करा",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "आपले Signal वापरकर्तानाव सेटअप करा",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "वापरकर्तानावे ही अंकांच्या संचासह जोडलेली असतात आणि ती आपल्या प्रोफाईल वर शेअर केलेली नसतात",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "आपल्यासह चॅटस् सुरू करण्यासाठी आपल्या मित्रांसह आपण शेअर करू शकता अशी एक अद्वितीय लिंक प्रत्येक वापरकर्तानावासह असते",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "इतरांना आपल्याशी संपर्क साधण्याचा प्राथमिक मार्ग म्हणून आपले वापरकर्तानाव वापरण्यास सेटिंग्ज > फोन नंबर > माझा नंबर कोण शोधू शकते खाली फोन नंबर शोध बंद करा.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "अधिक जाणा",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "सुरू ठेवा",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

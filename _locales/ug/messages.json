@@ -1291,7 +1291,7 @@
     "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "messageformat": "{phoneNumber} {conversationTitle} گە تەۋە",
     "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Microphone muted due to the size of the call",
+    "message": "چاقىرىقتىكى كىشىلەر بەك كۆپ بولغاچقا چاقىرىق ئۈنسىز قىلىندى",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Mute mic",
+    "message": "مىكروفوننى ئېتىش",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Unmute mic",
+    "message": "مىكروفوننى ئېچىش",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "You have blocked $name$",
+    "message": "$name$ نى چەكلىدىڭىز",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Unblock this contact to send a message.",
+    "message": "ئۇچۇر ئەۋەتىش ئۈچۈن بۇ ئالاقىداشنى چەكلەشنى بىكار قىلىڭ.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Unblock this group to send a message.",
+    "message": "ئۇچۇر ئەۋەتىش ئۈچۈن بۇ گۇرۇپپىنى چەكلەشنى بىكار قىلىڭ.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "ئۈنسىز ئوچۇق ياكى تاقاقنى ئالماشتۇر",
+    "message": "ئۈنسىز قىلىش ۋە ئۇنى بىكار قىلىش كۇنۇپكىسى",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ نىڭ سىزگە ئۇچۇر يوللاپ ھەمدە ئات ۋە سۈرەتلىرىڭىزنى ھەمبەھىرلەشكە يول قويامسىز؟ سىز ئۇلارنى چەكلىۋېتىشتىن ئىلگىرى ھېچقانداق ئۇچۇر تاپشۇرۇۋالمايسىز.",
+    "message": "$name$ نىڭ سىزگە ئۇچۇر يوللىشىغا ۋە ئۇلار بىلەن ئ‍ىسمىڭىز ۋە سۈرئىتىڭىزنى ئورتاقلىشىشقا رۇخسەتمۇ؟ ئۇلارنى چەكلەشتىن بىكار قىلمىغۇچە ئۇلارنىڭ ئۇچۇرىنى تاپشۇرۇۋالالمايسىز.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,19 +3177,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "بۇ گۇرۇپپىنى چەكلەپ ھەمدە ئات ۋە باش سۈرىتىڭىزنى ھەمبەھىرلەشكە يول قويامسىز؟ سىز ئۇلارنى چەكلىۋېتىشتىن ئىلگىرى ھېچقانداق ئۇچۇر تاپشۇرۇۋالمايسىز.",
+    "message": "بۇ گۇرۇپپىنى چەكلەشنى بىكار قىلىپ، ئىسمىڭىز ۋە رەسىمىڭىزنى ئورتاقلىشامسىز؟ ئۇلارنى چەكلەشتىن بىكار قىلمىغۇچە ئۇلارنىڭ ئۇچۇرىنى تاپشۇرۇۋالالمايسىز.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "چەكلە",
+    "message": "چەكلەش",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "چەكلىمە",
+    "message": "چەكلەشنى بىكار قىلىش",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "$name$چەكلىمەمدۇ؟",
+    "message": "$name$ نى چەكلەشنى بىكار قىلامسىز؟",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,7 +3201,7 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "ئەخلەت ئۇچۇرنى مەلۇم قىلىپ چەكلە",
+    "message": "ئەخلەت ئ‍ۇچۇرنى مەلۇم قىلىش ۋە چەكلەش",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
@@ -3209,7 +3209,7 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$چەكلەمدۇ؟",
+    "message": "$name$ نى چەكلەمسىز؟",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3217,7 +3217,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": " $group$چەكلەپ ۋە ئايرىلامدۇ؟",
+    "message": "$group$ نى چەكلەپ ئۇنىڭدىن ئايرىلامسىز؟",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3533,23 +3533,23 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "بىر سائەت ئۈنسىز",
+    "message": "بىر سائەت ئۈنسىز قىلىش",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Mute for eight hours",
+    "message": "سەككىز سائەت ئۈنسىز قىلىش",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "بىر كۈن ئۈنسىز",
+    "message": "بىر كۈن ئۈنسىز قىلىش",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "بىر ھەپتە ئۈنسىز",
+    "message": "بىر ھەپتە ئۈنسىز قىلىش",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Mute always",
+    "message": "داۋاملىق ئۈنسىز قىلىش",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Muted always",
+    "message": "داۋاملىق ئۈنسىز قىلىندى",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$ غىچە ئۈنسىز قىل",
+    "message": "$duration$ غىچە ئۈنسىز قىلىش",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Include muted conversations in badge count",
+    "message": "ئىزنەك سانىغاندا ئۈنسىز پاراڭلارنىمۇ قوشۇش",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Unmute this chat?",
+    "message": "بۇ پاراڭنى ئۈنلۈك قىلامسىز؟",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4489,11 +4489,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "گۇرۇپپىنى چەكلەڭ",
+    "message": "گۇرۇپپىنى چەكلەش",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "گۇرۇپپىنى چەكلەشنى بىكار قىلىڭ",
+    "message": "گۇرۇپپىنى چەكلەشنى بىكار قىلىش",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Unblock the \"$groupName$\" Group?",
+    "message": "گۇرۇپپا «$groupName$» نى چەكلەشنى بىكار قىلامسىز؟",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Block and Leave the \"$groupName$\" Group?",
+    "message": "گۇرۇپپا «$groupName$» چەكلەپ ئۇنىڭدىن ئايرىلامسىز؟",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4525,7 +4525,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "چەكلە",
+    "message": "چەكلەش",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4533,7 +4533,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "چەكلىمە",
+    "message": "چەكلەشنى بىكار قىلىش",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Receive notifications when you're mentioned in muted chats",
+    "message": "ئۈنسىز پاراڭلاردا تىلغا ئېلىنغاندا ئۇقتۇرۇش تاپشۇرۇۋېلىش",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Don't notify if muted",
+    "message": "ئۈنسىزلەنگەندە ئۇقتۇرۇش قىلىنمىسۇن",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Block request",
+    "message": "چەكلەش تەلىپى",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Block request?",
+    "message": "چەكلەشنى تەلەپ قىلامسىز؟",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Block Request",
+    "message": "چەكلەش تەلىپى",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} مەۋجۇت ئەمەس. يېڭى بىر يۈرۈش رەقەم ئىشلەتكۈچى نامىڭىز بىلەن ماسلاشتۇرۇلىدۇ، ئۇنى قايتا ساقلاپ سىناپ بېقىڭ.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Signal ئىشلەتكۈچى نامىنى بەلگىلەڭ",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "ئىشلەتكۈچى نامى بىر يۈرۈش رەقەملەر بىلەن ماسلاشتۇرۇلغان بولۇپ، ئۇ ئارخىپىڭىزدا ئورتاقلىشىلمايدۇ",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "ھەر بىر ئىشلەتكۈچى نامىنىڭ خاس ئۇلانمىسى بار بولۇپ، بۇ ئۇلانمىنى دوستلىرىڭىز بىلەن ئورتاقلىشىپ پاراڭلىشىشنى باشلىيالايسىز",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ئىشلەتكۈچى نامىڭىزنى باشقىلارنىڭ سىزنى تاپىدىغان ئاساسلىق ئۇسۇلى قىلىپ تەڭشەش ئۈچۈن، تەڭشەك > مەخپىيەتلىك > تېلېفون نومۇرى > نومۇرىمنى تاپالايدىغانلار دېگەن جايدىن تېلفون نومۇرىنى بايقاش ئىقتىدارىنى ئېتىۋېتىڭ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "تەپسىلات",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "داۋاملاشتۇرۇش",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

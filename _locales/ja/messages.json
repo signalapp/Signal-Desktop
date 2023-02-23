@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$があなたへメッセージを送信できるように、またあなたの名前とプロフィール画像が共有されるようにしますか? ブロックを解除するまでメッセージは届きません。",
+    "message": "$name$があなたへメッセージを送信できるように、またあなたの名前とプロフィール画像が共有されるようにしますか？ ブロックを解除するまでメッセージは届きません。",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3185,7 +3185,7 @@
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "ブロックを解除する",
+    "message": "ブロックを解除",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
@@ -3533,19 +3533,19 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "1時間",
+    "message": "1時間ミュート",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "8時間",
+    "message": "8時間ミュート",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "1日間",
+    "message": "1日間ミュート",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "1週間",
+    "message": "1週間ミュート",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
@@ -3553,7 +3553,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "ミュートを解除",
+    "message": "ミュート解除",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4513,7 +4513,7 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "$groupName$グループのブロックを解除しますか？",
+    "message": "「$groupName$」グループのブロックを解除しますか？",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} は利用できなくなりました。新しい数字がユーザーネームと対になります。もう一度保存してみてください。",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Signalユーザーネームを設定する",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "ユーザーネームは数字と対になっており、プロフィールで共有されることはありません",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "各ユーザーネームには固有のリンクがあり、友達と共有することでチャットを開始することができます",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "設定 > 電話番号 > 電話番号での検索を可能にする で電話番号検索をオフにすると、相手からのあなたへの連絡方法はユーザーネームの使用となります。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "詳しく見る",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "続ける",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

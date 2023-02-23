@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Утишано",
+    "message": "Обавештења су искључена",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Утишај",
+    "message": "Искључи обавештења",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Микрофон искључен због величине позива",
+    "message": "Микрофон је искључен због величине позива",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Утишај",
+    "message": "Искључи звук",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,7 +1478,7 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Утишај",
+    "message": "Искључи микрофон",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Блокирали сте $name$",
+    "message": "Блокирали сте корисника ($name$)",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Одблокирајте дописника да би послали поруку.",
+    "message": "Одблокирајте овог корисника да бисте послали поруку.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Одблокирајте групу да би послали поруку.",
+    "message": "Одблокирајте ову групу да бисте послали поруку.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Пребаци искључивање звука",
+    "message": "Укључивање и искључивање звука",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Да ли дозвољавате да вам $name$ шаље поруке и да види ваше име и слику? Неће знати да сте прочитали поруке док га не деблокирате.",
+    "message": "Желите ли да дозволите да вам $name$ шаље поруке и види ваше име и слику? Нећете примати поруке док не одблокирате овог корисника.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Да ли желите да одблокирате ову групу и да са њеним члановима поделите ваше име и слику? Нећете добити ни једну поруку док је не одблокирате.",
+    "message": "Желите ли да одблокирате ову групу и да са њеним члановима поделите своје име и слику? Нећете примати поруке док је не одблокирате.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Одблокирати $name$?",
+    "message": "Желите ли да одблокирате овог корисника ($name$)?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Пријавити нежељену пошту и блокирати",
+    "message": "Пријави спам и блокирај",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Пријављено као нежељена пошта и блокирано.",
+    "message": "Пријављено је као спам и блокирано.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Блокирати $name$?",
+    "message": "Желите ли да блокирате овог корисника ($name$)?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Блокиране особе неће бити у могућности да Вас зову или да Вам шаљу поруке.",
+    "message": "Блокирани људи неће моћи да вас зову нити да вам шаљу поруке.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Блокирај и напусти $group$?",
+    "message": "Желите ли да блокирате и напустите групу $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,31 +3525,31 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Утишај обавештења",
+    "message": "Искључи обавештења",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Није утишано",
+    "message": "Нису искључена обавештења",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Утишај на један сат",
+    "message": "Искључи обавештења на сат времена",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Утишај 8 сати",
+    "message": "Искључи обавештења на осам сати",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Утишај на један дан",
+    "message": "Искључи обавештења на један дан",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Утишај на недељу дана",
+    "message": "Искључи обавештења на недељу дана",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Утишај заувек",
+    "message": "Трајно искључи обавештења",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Заувек утишано",
+    "message": "Трајно искључена обавештења",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Утишано $duration$",
+    "message": "Обавештења су искључена до $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Уброј утишане преписке у броју значке",
+    "message": "Прикажи преписке са искљученим обавештењима у приказу броја обавештења",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Упалити звук овог ћаскања?",
+    "message": "Желите ли да укључите обавештења за ово ћаскање?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Želite li da odblokirate grupu „$groupName$“?",
+    "message": "Желите ли да одблокирате групу „$groupName$“?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Блокирај и напусти групу „$groupName$”?",
+    "message": "Желите ли да блокирате и напустите групу „$groupName$”?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Примање обавештења када сте поменути у утишаним ћаскањима",
+    "message": "Примајте обавештења када вас неко помене у ћаскањима за која су искључена обавештења",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Не обавештавај ако је Мутирано",
+    "message": "Не обавештавај ако су искључена обавештења",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4693,11 +4693,11 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Блокирати захтев",
+    "message": "Блокирај захтев",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Блокирати захтев?",
+    "message": "Желите ли да блокирате захтев?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "Корисник ({username}) више није доступан. Нови скуп цифара ће бити упарен са вашим корисничким именом. Пробајте поново да га сачувате.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Блокиран/на",
+    "message": "Контакт је блокиран",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Утишај",
+    "message": "Искључи обавештења",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Обавести",
+    "message": "Укључи обавештења",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Подесите корисничко име за Signal",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Корисничка имена су упарена са скупом цифара и не деле се на вашем профилу",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Свако корисничко име има јединствени линк који можете да поделите са пријатељима да би започели ћаскање са вама",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Искључите откривање броја телефона у одељку Подешавања > Број телефона > Ко може да пронађе мој број да бисте користили своје корисничко име као примарни начин на који други могу да вас контактирају.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Сазнајте више",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Настави",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

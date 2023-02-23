@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "靜音對話",
+    "message": "靜音",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "麥克風依通話大小而靜音",
+    "message": "因通話人數眾多而將麥克風靜音",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "靜音對話",
+    "message": "靜音",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1482,7 +1482,7 @@
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "麥克風關閉靜音",
+    "message": "取消麥克風靜音",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "解鎖聯絡人來傳送訊息。",
+    "message": "解除封鎖此聯絡人以傳送訊息。",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "解除此群組封鎖以傳送訊息。",
+    "message": "解除封鎖此群組以傳送訊息。",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "撥動靜音開或關",
+    "message": "切換靜音開關",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "讓$name$將傳給你的訊息及分享你的名稱及照片與它們分享?你將無法接收任何訊息除非你解除封鎖他們。",
+    "message": "你是否允許 $name$ 與你通訊，並分享你的名字及相片？在解除封鎖之前，你都不會收到對方的任何訊息。",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "取消封鎖此群組並與其成員分享你的名字和照片？ 除非你取消阻止它們，否則你將不會收到任何訊息。",
+    "message": "你是否要解除封鎖此群組，並與其成員分享你的名字和相片？在解除封鎖之前，你都不會收到對方的任何訊息。",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "解除封鎖$name$?",
+    "message": "要解除封鎖 $name$ 嗎？",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,23 +3201,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "回報為垃圾並封鎖",
+    "message": "舉報垃圾訊息並封鎖",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "已檢舉垃圾訊息並封鎖。",
+    "message": "已舉報垃圾訊息並封鎖。",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "封鎖$name$?",
+    "message": "要封鎖 $name$ 嗎？",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "被封鎖的人將無法給你打電話或向你傳送訊息。",
+    "message": "被封鎖的人將無法與你通話或傳送訊息。",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "封鎖或離開$group$?",
+    "message": "要封鎖並離開 $group$ 嗎？",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,11 +3525,11 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "將通知調整為靜音",
+    "message": "將通知設為靜音",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "對話未靜音",
+    "message": "非靜音",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3537,7 +3537,7 @@
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "靜音八個小時",
+    "message": "靜音八小時",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3545,7 +3545,7 @@
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "靜音一週",
+    "message": "靜音一星期",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "總是被靜音",
+    "message": "總是靜音",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "靜音直到$duration$",
+    "message": "保持靜音，直到 $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "要解除此聊天的靜音?",
+    "message": "在此聊天中取消靜音嗎?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "要解鎖「$groupName$」群組嗎？",
+    "message": "要解除封鎖「$groupName$」群組嗎？",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "封鎖並離開 “$groupName$” 群組嗎?",
+    "message": "封鎖並離開「$groupName$」群組嗎?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "當你在靜音聊天中被提到時接收通知",
+    "message": "當靜音聊天中有人提及你時接收通知",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} 不再適用。系統會用一組新的數字配對你的用戶名稱，請再儲存一次。",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6121,7 +6121,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "解除靜音",
+    "message": "取消靜音",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "設定你的 Signal 用戶名稱",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "用戶名稱與一組數字配對，並且不會在你的個人檔案上公開",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "每個用戶名稱都擁有獨一無二的連結，你可以與好友分享該連結以開始聊天",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "要關閉電話號碼搜索功能，請前往「設定」>「電話號碼」>「誰可以找到我的電話號碼」，以使用你的用戶名稱作為其他人聯絡你的主要方式。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "了解更多",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "繼續",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

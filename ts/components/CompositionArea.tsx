@@ -635,31 +635,29 @@ export function CompositionArea({
 
   return (
     <div className="CompositionArea">
-      {attachmentToEdit &&
-        'url' in attachmentToEdit &&
-        attachmentToEdit.url && (
-          <MediaEditor
-            i18n={i18n}
-            imageSrc={attachmentToEdit.url}
-            imageToBlurHash={imageToBlurHash}
-            isSending={false}
-            onClose={() => setAttachmentToEdit(undefined)}
-            onDone={({ data, contentType, blurHash }) => {
-              const newAttachment = {
-                ...attachmentToEdit,
-                contentType,
-                blurHash,
-                data,
-                size: data.byteLength,
-              };
+      {attachmentToEdit && 'url' in attachmentToEdit && attachmentToEdit.url && (
+        <MediaEditor
+          i18n={i18n}
+          imageSrc={attachmentToEdit.url}
+          imageToBlurHash={imageToBlurHash}
+          isSending={false}
+          onClose={() => setAttachmentToEdit(undefined)}
+          onDone={({ data, contentType, blurHash }) => {
+            const newAttachment = {
+              ...attachmentToEdit,
+              contentType,
+              blurHash,
+              data,
+              size: data.byteLength,
+            };
 
-              addAttachment(conversationId, newAttachment);
-              setAttachmentToEdit(undefined);
-            }}
-            installedPacks={installedPacks}
-            recentStickers={recentStickers}
-          />
-        )}
+            addAttachment(conversationId, newAttachment);
+            setAttachmentToEdit(undefined);
+          }}
+          installedPacks={installedPacks}
+          recentStickers={recentStickers}
+        />
+      )}
       <div className="CompositionArea__toggle-large">
         <button
           type="button"

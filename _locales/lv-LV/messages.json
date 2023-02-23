@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Atspējot ziņas",
+    "message": "Izslēgt",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Atspējot ziņas",
+    "message": "Izslēgt",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Izslēgt mikrofona skaņu",
+    "message": "Izslēgt mikrofonu",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Ieslēgt mikrofona skaņu",
+    "message": "Ieslēgt mikrofonu",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Atbloķēt šo kontaktpersonu, lai nosūtītu ziņu.",
+    "message": "Atbloķējiet šo kontaktu, lai nosūtītu ziņu.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Atbloķēt šo grupu, lai nosūtītu ziņu.",
+    "message": "Atbloķējiet šo grupu, lai nosūtītu ziņu.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Vai atļaut $name$ jums sūtīt ziņas un kopīgot jūsu vārdu un fotoattēlu? Jūs nesaņemsiet nevienu ziņu, kamēr šo grupu neatbloķēsiet.",
+    "message": "Vai atļaut $name$ ar jums sazināties un kopīgot jūsu vārdu un attēlu? Jūs nesaņemsiet nevienu ziņu, kamēr šo grupu neatbloķēsiet.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Atbloķēt šo grupu un dalīties ar savu vārdu un attēlu ar šiem dalībniekiem? Jūs nesaņemsiet nevienu ziņu, kamēr šo grupu neatbloķēsiet.",
+    "message": "Vai atbloķēt šo grupu un kopīgot savu vārdu un attēlu ar tās dalībniekiem? Jūs nesaņemsiet nevienu ziņu, kamēr šo grupu neatbloķēsiet.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Ziņot par nevēlamu pastu un bloķēt",
+    "message": "Ziņot par surogātpastu un bloķēt",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Lietotājs atzīmēts kā surogātpasta izplatītājs un bloķēts",
+    "message": "Lietotājs atzīmēts kā surogātpasta izplatītājs un bloķēts.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,11 +3213,11 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Bloķēti lietotāji nevarēs Jums piezvanīt vai nosūtīt ziņojumu.",
+    "message": "Bloķēti lietotāji nevarēs jums piezvanīt vai nosūtīt ziņas.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Vai bloķēt un izstāties no grupas $group$?",
+    "message": "Vai bloķēt un pamest grupu $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3525,43 +3525,43 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Noklusināt paziņojumus",
+    "message": "Izslēgt paziņojumus",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Nav atspējotas",
+    "message": "Nav izslēgti",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Atspējot ziņas uz vienu stundu",
+    "message": "Izslēgt paziņojumus uz vienu stundu",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Izslēgt skaņu uz astoņām stundām",
+    "message": "Izslēgt paziņojumus uz astoņām stundām",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Atspējot ziņas uz vienu dienu",
+    "message": "Izslēgt paziņojumus uz vienu dienu",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Atspējot ziņas uz vienu nedēļu",
+    "message": "Izslēgt paziņojumus uz vienu nedēļu",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Izslēgt skaņu vienmēr",
+    "message": "Izslēgt paziņojumus vienmēr",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Ieslēgt ziņas",
+    "message": "Ieslēgt",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Skaņa izslēgta vienmēr",
+    "message": "Paziņojumi izslēgti vienmēr",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Skaņa izslēgta līdz $duration$",
+    "message": "Paziņojumi izslēgti līdz $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Ieslēgt šīs sarunas paziņojumus?",
+    "message": "Vai ieslēgt šīs sarunas paziņojumus?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Vai bloķēt un izstāties no grupas \"$groupName$\"?",
+    "message": "Vai bloķēt un pamest grupu \"$groupName$\"?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Saņemt paziņojumus, kad jūs piemin apklusinātajās tērzēšanās",
+    "message": "Saņemt paziņojumus, kad jūs piemin apklusinātās sarunās",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Nepaziņot, ja izslēgta skaņa",
+    "message": "Nepaziņot, ja apklusināta",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4697,7 +4697,7 @@
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Bloķēt pieprasījumu?",
+    "message": "Vai bloķēt pieprasījumu?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} vairs nav pieejams. Jūsu lietotāja vārdam tiks piesaistīta jauna ciparu kombinācija, lūdzu, mēģiniet to saglabāt vēlreiz.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Izveidojiet savu Signal lietotāja vārdu",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Lietotāju vārdi tiek piesaistīti ciparu kombinācijām un netiek kopīgoti jūsu profilā",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Katram lietotāja vārdam ir unikāla saite, kuru varat kopīgot ar draugiem, lai sāktu sarunu",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Izslēdziet tālruņa numura noteikšanu sadaļā Iestatījumi > Tālruņa numurs > Kas var atrast manu numuru, lai izmantotu jūsu lietotāja vārdu kā galveno veidu, kā citi var ar jums sazināties.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Uzzināt vairāk",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Turpināt",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

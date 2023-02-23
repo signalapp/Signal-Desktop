@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Isildu mikrofonoa",
+    "message": "Mututu mikrofonoa",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Ireki mikronofoa",
+    "message": "Aktibatu mikronofoa",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Desblokeatu kontaktu hau mezua bidaltzeko.",
+    "message": "Desblokeatu kontaktu hau mezuak bidaltzeko.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Desblokeatu talde hau mezu bat bidatzeko",
+    "message": "Desblokeatu talde hau mezuak bidatzeko.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Mututzea aktibatu / desaktibatu",
+    "message": "Aktibatu/Desaktibatu mututzeko aukera",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ erabiltzaileari baimena eman nahi diozu zuri mezuak bidaltzeko eta zure izena eta argazkia beraiekin partekatzeko. Ez duzu mezurik jasoko zuk desblokeatu arte.",
+    "message": "Zuri mezuak bidaltzeko baimena eman nahi diozu $name$ erabiltzaileari, eta zure izena eta argazkia harekin partekatu? Desblokeatu arte, ez duzu mezurik jasoko.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Desblokeatu talde hau eta zure izena eta argazkia beraiekin partekatu? Ez duzu mezurik jasoko zuk desblokeatu arte.",
+    "message": "Talde hau desblokeatu nahi duzu, eta zure izena eta argazkia hartako kideekin partekatu? Desblokeatu arte, ez duzu mezurik jasoko.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3209,7 +3209,7 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "$name$ blokeatu?",
+    "message": "$name$ blokeatu nahi duzu?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3217,7 +3217,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ taldea blokeatu eta utzi?",
+    "message": "$group$ taldea blokeatu, eta bertatik irten nahi duzu?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3533,7 +3533,7 @@
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Ordu bat isildu",
+    "message": "Mututu ordubetez",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
@@ -3541,19 +3541,19 @@
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Egun bat isildu",
+    "message": "Mututu egun batez",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Aste bat isildu",
+    "message": "Mututu astebetez",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Mututu beti",
+    "message": "Mututu betiko",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Soinua aktibatu",
+    "message": "Aktibatu jakinarazpenak",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -3561,7 +3561,7 @@
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Mutututa $duration$  (e)ra arte",
+    "message": "$duration$ arte mutututa",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Sartu mutututako elkarrizketak bereizgarri kopuruan",
+    "message": "Sartu mutututako elkarrizketak irakurri gabekoen kopuruan",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Txat hau berriro aktibatu nahi duzu?",
+    "message": "Berriro aktibatu nahi dituzu txat honen jakinarazpenak?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Blokeatu eta utzi \"$groupName$\" taldea?",
+    "message": "\"$groupName$\" taldea blokeatu, eta bertatik irten nahi duzu?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} jada ez dago erabilgarri. Zifra-multzo berri bat parekatuko da zure erabiltzaile-izenarekin. Saiatu berriro gordetzen.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6117,11 +6117,11 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Isildu",
+    "message": "Mututu",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Soinua aktibatu",
+    "message": "Aktibatu jakinarazpenak",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Konfiguratu Signal-eko erabiltzaile-izena",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Erabiltzaile-izenak zifra-multzo batekin parekatzen dira, eta ez dira zure profilean partekatzen",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Erabiltzaile-izen bakoitzak zure lagunekin parteka dezakezun esteka bat du, zurekin txateatzen has daitezen",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Telefono-zenbakiaren bidez aurkitzeko aukera desaktibatzeko, joan Ezarpenak > Telefono-zenbakia > Nork aurki dezake nire zenbakia atalera. Horrela, besteek erabiltzaile-izena erabiliko dute zurekin harremanetan jartzeko modu nagusi gisa.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Informazio gehiago",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Jarraitu",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

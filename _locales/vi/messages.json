@@ -1043,7 +1043,7 @@
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Im lặng",
+    "message": "Tắt tiếng",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Microphone bị tắt do kích thước cuộc gọi quá lớn",
+    "message": "Microphone bị tắt tiếng do kích thước cuộc gọi quá lớn",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Im lặng",
+    "message": "Tắt tiếng",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,11 +1478,11 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Tắt micro",
+    "message": "Tắt tiếng micro",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Bật micro",
+    "message": "Bỏ tắt tiếng micro",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -1896,7 +1896,7 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Bỏ chặn người (liên lạc) này để gửi tin nhắn.",
+    "message": "Bỏ chặn liên hệ này để gửi tin nhắn.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Cho phép $name$ nhắn tin cho bạn và chia sẻ tên và ảnh của bạn với họ? Bạn sẽ không nhận được tin nhắn nào cho tới khi bạn ngưng chặn họ.",
+    "message": "Cho phép $name$ nhắn tin cho bạn và chia sẻ tên và ảnh của bạn với họ? Bạn sẽ không nhận được tin nhắn nào cho tới khi bạn bỏ chặn họ.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Báo cáo Tin nhắn rác và Chặn",
+    "message": "Báo cáo Spam và Chặn",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Đã chặn và báo cáo spam.",
+    "message": "Đã báo cáo spam và chặn.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Người dùng bị chặn sẽ không thể gọi hoặc gửi tin nhắn cho bạn.",
+    "message": "Người bị chặn sẽ không thể gọi hoặc gửi tin nhắn cho bạn.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3529,7 +3529,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Bỏ tắt tiếng thông báo",
+    "message": "Đã bỏ tắt tiếng",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -3537,7 +3537,7 @@
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Tắt tiếng trong tám tiếng",
+    "message": "Tắt tiếng tám giờ",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
@@ -3549,7 +3549,7 @@
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Tắt tiếng luôn luôn",
+    "message": "Tắt tiếng mãi mãi",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,7 +3557,7 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Đã tắt tiếng luôn luôn",
+    "message": "Đã tắt tiếng mãi mãi",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Bao gồm các cuộc hội thoại bị tắt tiếng vào số lượng huy hiệu",
+    "message": "Bao gồm các cuộc trò chuyện đã tắt tiếng vào số lượng hiển thị",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Bật tiếng cuộc trò chuyện này?",
+    "message": "Bỏ tắt tiếng cuộc trò chuyện này?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Nhận thông báo khi bạn được đề cập trong các cuộc trò chuyện bị tắt tiếng",
+    "message": "Nhận thông báo khi bạn được nhắc tới trong các cuộc trò chuyện đã tắt tiếng",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Không thông báo nếu bị tắt tiếng",
+    "message": "Không thông báo nếu đã tắt tiếng",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} không còn khả dụng. Một dãy số sẽ được ghép với tên người dùng của bạn, vui lòng thử lưu lại.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Đặt tên người dùng Signal của bạn",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Tên người dùng được ghép với một dãy số và không được chia sẻ trên hồ sơ của bạn",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Mỗi tên người dùng có một liên kết độc nhất bạn có thể chia sẻ với bạn mình để bắt đầu trò chuyện",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Không để người khác tìm thấy bạn qua số điện thoại bằng cách vào Cài đặt > Số điện thoại > Ai có thể tìm số điện thoại của tôi, để sử dụng tên người dùng làm phương tiện để người khác liên hệ bạn.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Tìm hiểu thêm",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Tiếp tục",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

@@ -1478,7 +1478,7 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "მიკროფონის დადუმება",
+    "message": "მიკროფონის გამორთვა",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Unblock this contact to send a message.",
+    "message": "წერილის გასაგზავნად განბლოკე ეს კონტაქტი.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "შეტყობინების გასაგზავნად განბლოკე ეს ჯგუფი.",
+    "message": "წერილის გასაგზავნად განბლოკე ეს ჯგუფი.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "მივცეთ ნება $name$ -ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? შეტყობინებებს არ მიიღებ, სანამ მას არ განბლოკავ.",
+    "message": "მივცეთ უფლება $name$-ს მოგწეროს და შენი სახელი და ფოტო გავუზიაროთ? წერილებს არ მიიღებ, სანამ მას არ განბლოკავ.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "გსურს განბლოკო ეს ჯგუფი და გაუზიარო შენი სახელი და ფოტო მის წევრებს? შეტყობინებებს არ მიიღებ, სანამ მათ არ განბლოკავ.",
+    "message": "გსურს განბლოკო ეს ჯგუფი და გაუზიარო შენი სახელი და ფოტო მის წევრებს? წერილებს არ მიიღებ, სანამ მათ არ განბლოკავ.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "სპამის დარეპორტება და დაბლოკვა",
+    "message": "სპამად დაფიქსირება და დაბლოკვა",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "აღნიშნულია, როგორც სპამი და დაბლოკილია.",
+    "message": "დაფიქსირდა როგორც სპამი და დაიბლოკა.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "ბლოკირებული ადამიანები ვეღარ შეძლებენ თქვენთან დარეკვას ან შეტყობინების გამოგზავნას.",
+    "message": "დაბლოკილი ადამიანები ვეღარ შეძლებენ შენთან დარეკვას ან წერილების გამოგზავნას.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "გავთიშოთ მდუმარე რეჟიმი?",
+    "message": "გამოვრთოთ ამ ჩატის მდუმარე რეჟიმი?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "გსურს განბლოკო \"$groupName$\" ჯგუფი?",
+    "message": "გსურს განბლოკო ჯგუფი \"$groupName$\"?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "გსურს ამ ჯგუფის \"$groupName$\" დავბლოკვა და დავტოვება?",
+    "message": "გსურს ამ ჯგუფის \"$groupName$\" დაბლოკვა და დატოვება?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} აღარ არის ხელმისაწვდომი. შენს მომხმარებლის სახელთან ციფრების ახალი ნაკრები დაწყვილდება, გთხოვთ, ხელახლა სცადო მისი შენახვა.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "შექმენი შენი Signal-ის მომხმარებლის სახელი",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "მომხმარებლის სახელები დაწყვილებულია ციფრების ნაკრებთან და შენს პროფილზე გაზიარებული არ არის",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "თითოეული მომხმარებლის სახელს აქვს უნიკალური ბმული, რომელიც შეგიძლია შენს მეგობრებს გაუზიარო, რათა შენთან მიმოწერა დაიწყონ",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "გამორთე ტელეფონის ნომრის აღმოჩენა სექციაში: პარამეტრები > ტელეფონის ნომერი > ვინ შეძლებს ჩემი ნომრის პოვნას, რათა შენი მომხმარებლის სახელი იყოს ძირითადი გზა, რომლითაც სხვები შენთან დაკავშირებას შეძლებენ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "გაიგე მეტი",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "გაგრძელება",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

@@ -1482,7 +1482,7 @@
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
-    "message": "Luba mikrofon",
+    "message": "Lülita mikrofon sisse",
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Kas lubad kasutajal $name$ sulle sõnumeid saata ja jagad enda nime ning fotot temaga? Sa ei saa enne ühtegi sõnumit kuni eemaldad blokeeringu.",
+    "message": "Kas lubad kasutajal $name$ sulle sõnumeid saata ja jagad temaga oma nime ja fotot? Sa ei saa ühtegi sõnumit enne kui blokeeringu eemaldad.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Kas eemaldada sellelt grupilt blokeering ja jagada enda nime ning fotot selle liikmetele? Sa ei saa enne ühtegi sõnumit kuni eemaldad blokeeringu.",
+    "message": "Kas soovid eemaldada sellelt grupilt blokeeringu ja jagada selle liikmetega oma nime ja fotot? Sa ei saa ühtegi sõnumit enne kui blokeeringu eemaldad.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3189,7 +3189,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Kas eemaldada $name$ blokeering?",
+    "message": "Kas eemaldada kasutaja $name$ blokeering?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3201,11 +3201,11 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Raporteeri rämpspostitus ja blokeeri",
+    "message": "Teata rämpspostitusest ja blokeeri",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Raporteeritud rämpspostitusena ja blokeeritud",
+    "message": "Rämpspostitusest teatatud ja blokeeritud.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3525,7 +3525,7 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Vaigista märguanded",
+    "message": "Vaigista teavitused",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Lisa vaigistatud grupid lugemata sõnumite arvu",
+    "message": "Arvesta vaigistatud vestlused märkide arvu hulka",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4513,11 +4513,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Kas eemaldada blokeerimine grupilt $groupName$?",
+    "message": "Kas eemaldada blokeering grupilt $groupName$?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Kas blokeerida ja lahkuda grupist \"$groupName$\"?",
+    "message": "Kas blokeerida ja lahkuda grupist $groupName$?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} ei ole enam saadaval. Sinu kasutajanimega seotakse uus kood, palun proovi uuesti salvestada.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Seadista oma Signali kasutajanimi",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Kasutajanimed on seotud arvulise koodiga ja neid ei jagata sinu profiilil",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Igal kasutajanimel on unikaalne link, mida saad oma sõpradega jagada, et nad saaksid sinuga vestlust alustada",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Lülita oma telefoninumbri nähtavus välja, valides Sätted > Telefoninumber > Kes mu numbrit näevad, ning ole leitav kasutajanime abil.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Uuri lähemalt",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Jätka",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

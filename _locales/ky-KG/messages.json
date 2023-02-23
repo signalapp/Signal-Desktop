@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Чалуунун көлөмүнө байланыштуу микрофондун үнү өчүрүлдү",
+    "message": "Чалуудагы адамдардын санына жараша микрофондун үнү өчүрүлөт",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1590,7 +1590,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Сиз $name$ байланышын бөгөттөдүңүз",
+    "message": "Бул байланышты бөгөттөдүңүз: $name$",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "$name$ сизге билдирүү жөнөтүүгө уруксат берип, аты-жөнүңүздү жана сүрөтүңүздү алар менен бөлүшөсүзбү? Сиз кабыл алмайынча, алар алардын билдирүүлөрүн көргөнүңүздү билишпейт.",
+    "message": "Бул байланышка ($name$) сизге билдирүү жөнөтүүгө уруксат берип, аты-жөнүңүздү жана сүрөтүңүздү алар менен бөлүшөсүзбү? Аларды бөгөттөн чыгармайынча, эч кандай билдирүү албайсыз.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3217,7 +3217,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "$group$ тобун бөгөттөп, чыгасызбы ?",
+    "message": "$group$ тобун бөгөттөп, чыгасызбы?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Үнсүз сүйлөшүүлөрдү төшбелги эсебине кошуу",
+    "message": "Үнү басылган сүйлөшүүлөрдү окула элек билдирүүлөр тизмесине кошуу",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Бул маектин үнү чыгарылсынбы?",
+    "message": "Бул маектин үнүн чыгарасызбы?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Үнсүз маектерде сиз тууралуу билдирмелерди алып туруңуз",
+    "message": "Үнсүз маектерде сиз тууралуу сөз болгонун билип турасыз",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Үнү өчүрүлгөн болсо, билдирбеңиз",
+    "message": "Үнү өчүрүлгөн болсо, билгим келбейт",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -4705,7 +4705,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Өтүнүчтү бөгөттөө",
+    "message": "Сурамды бөгөттөө",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} жок. Колдонуучу атыңызга жаңы сандардын топтому байланышат. Аны да сактап коюңуз.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Signal'да колдонуучу атыңызды коюңуз",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Колдонуучу аттарыңыз сандар топтому менен байланышып, профилиңизде көрүнбөйт",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Ар бир колдонуучу атынын шилтемеси болуп, аны сиз менен маектешкиси келген досторуңуз менен бөлүшө аласыз",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Телефон номерин табуу мүмкүнчүлүгүн Параметрлер > Телефон номери > Менин телефонумду кимдер таба алат деген бөлүмдө өчүрүп, башкалар сизди колдонуучу атыңыз аркылуу таба алгыдай кылсаңыз болот.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Кененирээк маалымат",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Улантуу",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {

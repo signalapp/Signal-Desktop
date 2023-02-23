@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Disenyapkan",
+    "message": "Dibisukan",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Senyap",
+    "message": "Bisukan",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Mikrofon disenyapkan karena ukurang panggilan",
+    "message": "Mikrofon dibisukan karena ukuran panggilan",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Senyap",
+    "message": "Bisukan",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1896,11 +1896,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Lepaskan blokir kontak ini untuk mengirim pesan",
+    "message": "Buka blokir kontak ini untuk mengirim pesan.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Buka blokir grup ini untuk mengirimkan pesan.",
+    "message": "Buka blokir grup ini untuk mengirim pesan.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Ganti mode senyap nyala dan mati",
+    "message": "Aktifkan dan nonaktifkan mode bisu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3169,7 +3169,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Izinkan $name$ mengirimkan Anda pesan dan berbagi nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apapun sampai Anda membuka blokir mereka.",
+    "message": "Izinkan $name$ mengirimi Anda pesan dan bagikan nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokir mereka.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -3177,7 +3177,7 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan anggotanya? Anda tidak akan menerima pesan apapun sampai Anda membuka blokirnya.",
+    "message": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan anggotanya? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokirnya.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
@@ -3213,7 +3213,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Orang yang Anda blokir tidak akan dapat menelepon atau mengirim pesan pada Anda",
+    "message": "Orang yang diblokir tidak akan bisa menelepon Anda atau mengirimi Anda pesan.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3525,43 +3525,43 @@
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
-    "message": "Senyapkan pemberitahuan",
+    "message": "Bisukan notifikasi",
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Tidak Senyap",
+    "message": "Tidak dibisukan",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Senyapkan selama satu jam",
+    "message": "Bisukan selama 1 jam",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Senyapkan selama 8 jam",
+    "message": "Bisukan selama 8 jam",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Senyap selama satu hari",
+    "message": "Bisukan selama 1 hari",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Senyap selama satu minggu",
+    "message": "Bisukan selama 1 minggu",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Senyapkan selalu",
+    "message": "Selalu bisukan",
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Tidak Senyap",
+    "message": "Bunyikan",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Disenyapkan selalu",
+    "message": "Selalu dibisukan",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "Senyapkan sampai $duration$",
+    "message": "Dibisukan hingga $duration$",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4433,7 +4433,7 @@
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Bunyikan chat ini?",
+    "message": "Bunyikan obrolan ini?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -4517,7 +4517,7 @@
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Blokir dan Tinggalkan Grup \"$groupName$\" ?",
+    "message": "Blokir dan Keluar dari Grup \"$groupName$\"?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Terima pemberitahuan saat Anda disebut dalam percakapan senyap",
+    "message": "Terima notifikasi saat Anda disebut dalam obrolan yang dibisukan",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Matikan Pemberitahuan Jika Dalam Mode Senyap",
+    "message": "Nonaktifkan notifikasi jika dibisukan",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -5225,7 +5225,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} is no longer available. A new set of digits will be paired with your username, please try saving it again.",
+    "messageformat": "{username} tidak lagi tersedia. Satu set angka baru akan dipasangkan dengan nama pengguna Anda, silakan coba simpan lagi.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "ProfileEditor--username--delete-general-error": {
@@ -5417,7 +5417,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Terblokir",
+    "message": "Diblokir",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -6117,7 +6117,7 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Senyapkan",
+    "message": "Bisukan",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
@@ -6389,27 +6389,27 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "Buat nama pengguna Signal Anda",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
+    "messageformat": "Nama pengguna dipasangkan dengan satu set angka dan tidak dibagikan di profil Anda",
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique link you can share with your friends to start a chat with you",
+    "messageformat": "Setiap nama pengguna memiliki tautan unik yang dapat Anda bagikan dengan teman untuk memulai obrolan dengan Anda",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Nonaktifkan penemuan nomor telepon di bagian Pengaturan > Nomor Telepon > Siapa yang dapat menemukan nomor saya, untuk menggunakan nama pengguna Anda sebagai cara utama orang lain dapat menghubungi Anda.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
+    "messageformat": "Pelajari Lebih Lanjut",
     "description": "Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Lanjutkan",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
