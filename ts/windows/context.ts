@@ -29,7 +29,13 @@ import { createSetting } from '../util/preload';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
-import { isWindows, isLinux, isMacOS, hasCustomTitleBar } from '../OS';
+import {
+  isWindows,
+  isLinux,
+  isMacOS,
+  hasCustomTitleBar,
+  getClassName,
+} from '../OS';
 
 const activeWindowService = new ActiveWindowService();
 activeWindowService.initialize(window.document, ipcRenderer);
@@ -79,6 +85,7 @@ export type SignalContextType = {
     isLinux: typeof isLinux;
     isMacOS: typeof isMacOS;
     hasCustomTitleBar: typeof hasCustomTitleBar;
+    getClassName: typeof getClassName;
   };
   config: RendererConfigType;
   getAppInstance: () => string | undefined;
@@ -108,6 +115,7 @@ export const SignalContext: SignalContextType = {
     isLinux,
     isMacOS,
     hasCustomTitleBar,
+    getClassName,
   },
   bytes: new Bytes(),
   config,

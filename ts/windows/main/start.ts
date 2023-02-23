@@ -15,6 +15,7 @@ import '../../backbone/reliable_trigger';
 
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
+import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
 import { start as startConversationController } from '../../ConversationController';
 import { MessageController } from '../../util/MessageController';
 import { Environment, getEnvironment } from '../../environment';
@@ -46,6 +47,8 @@ startConversationController();
 if (!isProduction(window.SignalContext.getVersion())) {
   const SignalDebug = {
     Data: window.Signal.Data,
+    cdsLookup: (options: CdsLookupOptionsType) =>
+      window.textsecure.server?.cdsLookup(options),
     getConversation: (id: string) => window.ConversationController.get(id),
     getMessageById: (id: string) => window.MessageController.getById(id),
     getReduxState: () => window.reduxStore.getState(),

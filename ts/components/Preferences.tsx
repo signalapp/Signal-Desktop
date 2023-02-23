@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import type { AudioDevice } from '@signalapp/ringrtc';
+import uuid from 'uuid';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
@@ -17,6 +18,10 @@ import type { ThemeSettingType } from '../types/StorageUIKeys';
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
+import {
+  CircleCheckbox,
+  Variant as CircleCheckboxVariant,
+} from './CircleCheckbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
@@ -159,6 +164,8 @@ type PropsFunctionType = {
   onSpellCheckChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
+  onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
+  onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
 
   // Localization
@@ -178,6 +185,7 @@ enum Page {
 
   // Sub pages
   ChatColor = 'ChatColor',
+  PNP = 'PNP',
 }
 
 const DEFAULT_ZOOM_FACTORS = [
@@ -278,6 +286,8 @@ export function Preferences({
   onSpellCheckChange,
   onThemeChange,
   onUniversalExpireTimerChange,
+  onWhoCanSeeMeChange,
+  onWhoCanFindMeChange,
   onZoomFactorChange,
   removeCustomColor,
   removeCustomColorOnConversations,
@@ -845,6 +855,20 @@ export function Preferences({
             {i18n('Preferences__button--privacy')}
           </div>
         </div>
+        {isPhoneNumberSharingSupported ? (
+          <button
+            type="button"
+            className="Preferences__link"
+            onClick={() => setPage(Page.PNP)}
+          >
+            <h3 className="Preferences__padding">
+              {i18n('icu:Preferences__pnp__row--title')}
+            </h3>
+            <div className="Preferences__padding Preferences__description">
+              {i18n('icu:Preferences__pnp__row--body')}
+            </div>
+          </button>
+        ) : null}
         <SettingsRow>
           <Control
             left={i18n('Preferences--blocked')}
@@ -859,61 +883,6 @@ export function Preferences({
             }
           />
         </SettingsRow>
-        {isPhoneNumberSharingSupported ? (
-          <SettingsRow title={i18n('Preferences__who-can--title')}>
-            <Control
-              left={i18n('Preferences--see-me')}
-              right={
-                <Select
-                  ariaLabel={i18n('Preferences--see-me')}
-                  disabled
-                  onChange={noop}
-                  options={[
-                    {
-                      text: i18n('Preferences__who-can--everybody'),
-                      value: PhoneNumberSharingMode.Everybody,
-                    },
-                    {
-                      text: i18n('Preferences__who-can--contacts'),
-                      value: PhoneNumberSharingMode.ContactsOnly,
-                    },
-                    {
-                      text: i18n('Preferences__who-can--nobody'),
-                      value: PhoneNumberSharingMode.Nobody,
-                    },
-                  ]}
-                  value={whoCanSeeMe}
-                />
-              }
-            />
-            <Control
-              left={i18n('Preferences--find-me')}
-              right={
-                <Select
-                  ariaLabel={i18n('Preferences--find-me')}
-                  disabled
-                  onChange={noop}
-                  options={[
-                    {
-                      text: i18n('Preferences__who-can--everybody'),
-                      value: PhoneNumberDiscoverability.Discoverable,
-                    },
-                    {
-                      text: i18n('Preferences__who-can--nobody'),
-                      value: PhoneNumberDiscoverability.NotDiscoverable,
-                    },
-                  ]}
-                  value={whoCanFindMe}
-                />
-              }
-            />
-            <div className="Preferences__padding">
-              <div className="Preferences__description">
-                {i18n('Preferences__privacy--description')}
-              </div>
-            </div>
-          </SettingsRow>
-        ) : null}
         <SettingsRow title={i18n('Preferences--messaging')}>
           <Checkbox
             checked={hasReadReceipts}
@@ -1120,6 +1089,82 @@ export function Preferences({
         />
       </>
     );
+  } else if (page === Page.PNP) {
+    settings = (
+      <>
+        <div className="Preferences__title">
+          <button
+            aria-label={i18n('goBack')}
+            className="Preferences__back-icon"
+            onClick={() => setPage(Page.Privacy)}
+            type="button"
+          />
+          <div className="Preferences__title--header">
+            {i18n('icu:Preferences__pnp--page-title')}
+          </div>
+        </div>
+
+        <SettingsRow title={i18n('icu:Preferences__pnp__sharing--title')}>
+          <SettingsRadio
+            onChange={onWhoCanSeeMeChange}
+            options={[
+              {
+                text: i18n('icu:Preferences__pnp__sharing__everyone'),
+                value: PhoneNumberSharingMode.Everybody,
+              },
+              {
+                text: i18n('icu:Preferences__pnp__sharing__nobody'),
+                value: PhoneNumberSharingMode.Nobody,
+              },
+            ]}
+            value={whoCanSeeMe}
+          />
+          <div className="Preferences__padding">
+            <div className="Preferences__description">
+              {whoCanSeeMe === PhoneNumberSharingMode.Everybody
+                ? i18n('icu:Preferences__pnp__sharing--description--everyone')
+                : i18n('icu:Preferences__pnp__sharing--description--nobody')}
+            </div>
+          </div>
+        </SettingsRow>
+
+        <SettingsRow
+          title={i18n('icu:Preferences__pnp__discoverability--title')}
+        >
+          <SettingsRadio
+            onChange={onWhoCanFindMeChange}
+            options={[
+              {
+                text: i18n('icu:Preferences__pnp__discoverability__everyone'),
+                value: PhoneNumberDiscoverability.Discoverable,
+              },
+              ...(whoCanSeeMe === PhoneNumberSharingMode.Nobody
+                ? [
+                    {
+                      text: i18n(
+                        'icu:Preferences__pnp__discoverability__nobody'
+                      ),
+                      value: PhoneNumberDiscoverability.NotDiscoverable,
+                    },
+                  ]
+                : []),
+            ]}
+            value={whoCanFindMe}
+          />
+          <div className="Preferences__padding">
+            <div className="Preferences__description">
+              {whoCanFindMe === PhoneNumberDiscoverability.Discoverable
+                ? i18n(
+                    'icu:Preferences__pnp__discoverability--description--everyone'
+                  )
+                : i18n(
+                    'icu:Preferences__pnp__discoverability--description--nobody'
+                  )}
+            </div>
+          </div>
+        </SettingsRow>
+      </>
+    );
   }
 
   return (
@@ -1128,6 +1173,7 @@ export function Preferences({
       theme={theme}
       executeMenuRole={executeMenuRole}
     >
+      <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
           <button
@@ -1191,7 +1237,8 @@ export function Preferences({
             className={classNames({
               Preferences__button: true,
               'Preferences__button--privacy': true,
-              'Preferences__button--selected': page === Page.Privacy,
+              'Preferences__button--selected':
+                page === Page.Privacy || page === Page.PNP,
             })}
             onClick={() => setPage(Page.Privacy)}
           >
@@ -1207,12 +1254,14 @@ export function Preferences({
 function SettingsRow({
   children,
   title,
+  className,
 }: {
   children: ReactNode;
   title?: string;
+  className?: string;
 }): JSX.Element {
   return (
-    <div className="Preferences__settings-row">
+    <div className={classNames('Preferences__settings-row', className)}>
       {title && <h3 className="Preferences__padding">{title}</h3>}
       {children}
     </div>
@@ -1248,6 +1297,49 @@ function Control({
   }
 
   return <div className="Preferences__control">{content}</div>;
+}
+
+type SettingsRadioOptionType<Enum> = Readonly<{
+  text: string;
+  value: Enum;
+}>;
+
+function SettingsRadio<Enum>({
+  value,
+  options,
+  onChange,
+}: {
+  value: Enum;
+  options: ReadonlyArray<SettingsRadioOptionType<Enum>>;
+  onChange: (value: Enum) => void;
+}): JSX.Element {
+  const htmlIds = useMemo(() => {
+    return Array.from({ length: options.length }, () => uuid());
+  }, [options.length]);
+
+  return (
+    <div className="Preferences__padding">
+      {options.map(({ text, value: optionValue }, i) => {
+        const htmlId = htmlIds[i];
+        return (
+          <label
+            className="Preferences__settings-radio__label"
+            key={htmlId}
+            htmlFor={htmlId}
+          >
+            <CircleCheckbox
+              isRadio
+              variant={CircleCheckboxVariant.Small}
+              id={htmlId}
+              checked={value === optionValue}
+              onChange={() => onChange(optionValue)}
+            />
+            {text}
+          </label>
+        );
+      })}
+    </div>
+  );
 }
 
 function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {

@@ -96,7 +96,7 @@ const getDefaultArgs = (): PropsDataType => ({
   isAutoLaunchSupported: true,
   isHideMenuBarSupported: true,
   isNotificationAttentionSupported: true,
-  isPhoneNumberSharingSupported: false,
+  isPhoneNumberSharingSupported: true,
   isSyncSupported: true,
   isSystemTraySupported: true,
   isMinimizeToAndStartInSystemTraySupported: true,
@@ -163,6 +163,8 @@ export default {
     onSpellCheckChange: { action: true },
     onThemeChange: { action: true },
     onUniversalExpireTimerChange: { action: true },
+    onWhoCanSeeMeChange: { action: true },
+    onWhoCanFindMeChange: { action: true },
     onZoomFactorChange: { action: true },
     removeCustomColor: { action: true },
     removeCustomColorOnConversations: { action: true },
@@ -194,4 +196,24 @@ CustomUniversalExpireTimer.args = {
 };
 CustomUniversalExpireTimer.story = {
   name: 'Custom universalExpireTimer',
+};
+
+export const PNPSharingDisabled = Template.bind({});
+PNPSharingDisabled.args = {
+  whoCanSeeMe: PhoneNumberSharingMode.Nobody,
+  whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
+  isPhoneNumberSharingSupported: true,
+};
+PNPSharingDisabled.story = {
+  name: 'PNP Sharing Disabled',
+};
+
+export const PNPDiscoverabilityDisabled = Template.bind({});
+PNPDiscoverabilityDisabled.args = {
+  whoCanSeeMe: PhoneNumberSharingMode.Nobody,
+  whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
+  isPhoneNumberSharingSupported: true,
+};
+PNPDiscoverabilityDisabled.story = {
+  name: 'PNP Discoverability Disabled',
 };

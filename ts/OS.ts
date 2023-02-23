@@ -36,3 +36,13 @@ export const getName = (): string => {
   }
   return 'Linux';
 };
+
+export const getClassName = (): string => {
+  if (isMacOS()) {
+    return 'os-macos';
+  }
+  if (isWindows()) {
+    return 'os-windows';
+  }
+  return 'os-linux';
+};

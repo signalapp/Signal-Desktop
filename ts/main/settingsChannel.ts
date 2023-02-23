@@ -67,8 +67,6 @@ export class SettingsChannel extends EventEmitter {
     // Getters only. These are set by the primary device
     this.installSetting('blockedCount', { setter: false });
     this.installSetting('linkPreviewSetting', { setter: false });
-    this.installSetting('phoneNumberDiscoverabilitySetting', { setter: false });
-    this.installSetting('phoneNumberSharingSetting', { setter: false });
     this.installSetting('readReceiptSetting', { setter: false });
     this.installSetting('typingIndicatorSetting', { setter: false });
 
@@ -108,6 +106,9 @@ export class SettingsChannel extends EventEmitter {
 
     this.installSetting('hasStoriesDisabled');
     this.installSetting('zoomFactor');
+
+    this.installSetting('phoneNumberDiscoverabilitySetting');
+    this.installSetting('phoneNumberSharingSetting');
 
     installPermissionsHandler({ session, userConfig });
 

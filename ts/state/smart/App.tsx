@@ -7,7 +7,7 @@ import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuActionType } from '../../types/menu';
 import { App } from '../../components/App';
-import { getName as getOSName } from '../../OS';
+import { getName as getOSName, getClassName as getOSClassName } from '../../OS';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
@@ -39,18 +39,6 @@ function renderInbox(): JSX.Element {
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
-  const { osName } = state.user;
-
-  let osClassName = '';
-
-  if (osName === 'windows') {
-    osClassName = 'os-windows';
-  } else if (osName === 'macos') {
-    osClassName = 'os-macos';
-  } else if (osName === 'linux') {
-    osClassName = 'os-linux';
-  }
-
   return {
     ...state.app,
     i18n,
@@ -60,7 +48,7 @@ const mapStateToProps = (state: StateType) => {
     menuOptions: getMenuOptions(state),
     hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
     OS: getOSName(),
-    osClassName,
+    osClassName: getOSClassName(),
     hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => (
       <ModalContainer className="module-calling__modal-container">

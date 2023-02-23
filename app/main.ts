@@ -1268,7 +1268,7 @@ async function showSettingsWindow() {
     frame: true,
     resizable: false,
     title: getResolvedMessagesLocale().i18n('signalDesktopPreferences'),
-    titleBarStyle: nonMainTitleBarStyle,
+    titleBarStyle: mainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),

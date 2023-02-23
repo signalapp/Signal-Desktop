@@ -494,6 +494,7 @@ const URL_CALLS = {
   keys: 'v2/keys',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
+  phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
   profile: 'v1/profile',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
@@ -541,6 +542,9 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
 
   // Storage
   'storageToken',
+
+  // Account V2
+  'phoneNumberDiscoverability',
 ]);
 
 type InitializeOptionsType = {
@@ -979,6 +983,7 @@ export type WebAPIType = {
       urgent?: boolean;
     }
   ) => Promise<MultiRecipient200ResponseType>;
+  setPhoneNumberDiscoverability: (newValue: boolean) => Promise<void>;
   setSignedPreKey: (
     signedPreKey: SignedPreKeyType,
     uuidKind: UUIDKind
@@ -1272,6 +1277,7 @@ export function initialize({
       sendMessages,
       sendMessagesUnauth,
       sendWithSenderKey,
+      setPhoneNumberDiscoverability,
       setSignedPreKey,
       startRegistration,
       unregisterRequestHandler,
@@ -2024,6 +2030,16 @@ export function initialize({
         urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'PUT',
         jsonData: keys,
+      });
+    }
+
+    async function setPhoneNumberDiscoverability(newValue: boolean) {
+      await _ajax({
+        call: 'phoneNumberDiscoverability',
+        httpType: 'PUT',
+        jsonData: {
+          discoverableByPhoneNumber: newValue,
+        },
       });
     }
 

@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useState } from 'react';
+import uuid from 'uuid';
 
 import type { LocalizerType } from '../../../types/Util';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
-import { Checkbox } from '../../Checkbox';
+import { CircleCheckbox, Variant } from '../../CircleCheckbox';
 import { Modal } from '../../Modal';
 import { Button, ButtonVariant } from '../../Button';
 
@@ -30,11 +31,13 @@ export function ConversationNotificationsModal({
 }: PropsType): JSX.Element {
   const muteOptions = useMemo(
     () =>
-      getMuteOptions(muteExpiresAt, i18n).map(({ disabled, name, value }) => ({
-        disabled,
-        text: name,
-        value,
-      })),
+      getMuteOptions(muteExpiresAt, i18n)
+        .map(({ disabled, name, value }) => ({
+          disabled,
+          text: name,
+          value,
+        }))
+        .filter(x => x.value > 0),
     [i18n, muteExpiresAt]
   );
 
@@ -48,6 +51,10 @@ export function ConversationNotificationsModal({
     setMuteExpiration(id, ms);
     onClose();
   };
+
+  const htmlIds = useMemo(() => {
+    return Array.from({ length: muteOptions.length }, () => uuid());
+  }, [muteOptions.length]);
 
   return (
     <Modal
@@ -67,20 +74,25 @@ export function ConversationNotificationsModal({
         </>
       }
     >
-      {muteOptions
-        .filter(x => x.value > 0)
-        .map(option => (
-          <Checkbox
+      {muteOptions.map((option, i) => (
+        <label
+          className="Preferences__settings-radio__label"
+          key={htmlIds[i]}
+          htmlFor={htmlIds[i]}
+        >
+          <CircleCheckbox
+            id={htmlIds[i]}
             checked={muteExpirationValue === option.value}
+            variant={Variant.Small}
             disabled={option.disabled}
             isRadio
-            key={option.value}
-            label={option.text}
             moduleClassName="ConversationDetails__radio"
             name="mute"
             onChange={value => value && setMuteExpirationValue(option.value)}
           />
-        ))}
+          {option.text}
+        </label>
+      ))}
     </Modal>
   );
 }

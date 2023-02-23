@@ -24,12 +24,6 @@ installSetting('blockedCount', {
 installSetting('linkPreviewSetting', {
   setter: false,
 });
-installSetting('phoneNumberDiscoverabilitySetting', {
-  setter: false,
-});
-installSetting('phoneNumberSharingSetting', {
-  setter: false,
-});
 installSetting('readReceiptSetting', {
   setter: false,
 });
@@ -63,6 +57,8 @@ installSetting('sentMediaQualitySetting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
+installSetting('phoneNumberDiscoverabilitySetting');
+installSetting('phoneNumberSharingSetting');
 
 // Media Settings
 installCallback('getAvailableIODevices');
