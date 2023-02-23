@@ -6490,5 +6490,21 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "You wouldn't download a car, but now when you download an MP3 voice note it will be saved with the proper file extension.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Quickly begin typing a message after attaching a file, or just hit Enter/Return to send the file without any extra clicks. Thanks, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "The send button in the large composition view has been brought into alignment. Thanks, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "If you are the only person in a group (so far) and you attempt to begin a group call, now you can join the call and start talking to yourself right away instead of waiting for the call to ring. Thanks, {lamemakes}!",
+    "description": "Release notes for v6.8"
   }
 }

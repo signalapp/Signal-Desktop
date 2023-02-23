@@ -31,8 +31,26 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'WhatsNew__bugfixes--5',
+      key: 'icu:WhatsNew__v6.8--0',
       components: undefined,
+    },
+    {
+      key: 'icu:WhatsNew__v6.8--1',
+      components: {
+        zyphlar: <a href="https://github.com/zyphlar">@zyphlar</a>,
+      },
+    },
+    {
+      key: 'icu:WhatsNew__v6.8--2',
+      components: {
+        hackerbirds: <a href="https://github.com/hackerbirds">@hackerbirds</a>,
+      },
+    },
+    {
+      key: 'icu:WhatsNew__v6.8--3',
+      components: {
+        lamemakes: <a href="https://github.com/lamemakes">@lamemakes</a>,
+      },
     },
   ],
 };
