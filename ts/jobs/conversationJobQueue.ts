@@ -7,7 +7,6 @@ import * as globalLogger from '../logging/log';
 
 import * as durations from '../util/durations';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { InMemoryQueues } from './helpers/InMemoryQueues';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { JobQueue } from './JobQueue';
@@ -24,7 +23,6 @@ import { sendReceipts } from './helpers/sendReceipts';
 
 import type { LoggerType } from '../types/Logging';
 import { ConversationVerificationState } from '../state/ducks/conversationsEnums';
-import { sleep } from '../util/sleep';
 import { MINUTE } from '../util/durations';
 import {
   OutgoingIdentityKeyError,
@@ -38,6 +36,8 @@ import type { Job } from './Job';
 import type { ParsedJob } from './types';
 import type SendMessage from '../textsecure/SendMessage';
 import type { UUIDStringType } from '../types/UUID';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
+import { sleeper } from '../util/sleeper';
 import { receiptSchema, ReceiptType } from '../types/Receipt';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
@@ -188,6 +188,10 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     }
   >();
 
+  override getQueues(): ReadonlySet<PQueue> {
+    return this.inMemoryQueues.allQueues;
+  }
+
   public override async add(
     data: Readonly<ConversationQueueJobData>,
     insert?: (job: ParsedJob<ConversationQueueJobData>) => Promise<void>
@@ -290,13 +294,21 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
 
       if (window.Signal.challengeHandler?.isRegistered(conversationId)) {
+        if (this.isShuttingDown) {
+          throw new Error("Shutting down, can't wait for captcha challenge.");
+        }
         log.info(
           'captcha challenge is pending for this conversation; waiting at most 5m...'
         );
         // eslint-disable-next-line no-await-in-loop
         await Promise.race([
           this.startVerificationWaiter(conversation.id),
-          sleep(5 * MINUTE),
+          // don't resolve on shutdown, otherwise we end up in an infinite loop
+          sleeper.sleep(
+            5 * MINUTE,
+            `conversationJobQueue: waiting for captcha: ${conversation.idForLogging()}`,
+            { resolveOnShutdown: false }
+          ),
         ]);
         continue;
       }
@@ -320,13 +332,22 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           return;
         }
 
+        if (this.isShuttingDown) {
+          throw new Error("Shutting down, can't wait for verification.");
+        }
+
         log.info(
           'verification is pending for this conversation; waiting at most 5m...'
         );
         // eslint-disable-next-line no-await-in-loop
         await Promise.race([
           this.startVerificationWaiter(conversation.id),
-          sleep(5 * MINUTE),
+          // don't resolve on shutdown, otherwise we end up in an infinite loop
+          sleeper.sleep(
+            5 * MINUTE,
+            `conversationJobQueue: verification pending: ${conversation.idForLogging()}`,
+            { resolveOnShutdown: false }
+          ),
         ]);
         continue;
       }

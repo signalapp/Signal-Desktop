@@ -20,4 +20,8 @@ export class InMemoryQueues {
     this.queues.set(key, newQueue);
     return newQueue;
   }
+
+  get allQueues(): ReadonlySet<PQueue> {
+    return new Set(this.queues.values());
+  }
 }

@@ -8,13 +8,13 @@ import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
 import type { LoggerType } from '../types/Logging';
 import { map } from '../util/iterables';
-import { sleep } from '../util/sleep';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { HTTPError } from '../textsecure/Errors';
+import { sleeper } from '../util/sleeper';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
@@ -94,7 +94,10 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         log.info(
           `reportSpamJobQueue: server responded with ${code} status code. Sleeping before our next attempt`
         );
-        await sleep(RETRY_WAIT_TIME);
+        await sleeper.sleep(
+          RETRY_WAIT_TIME,
+          `reportSpamJobQueue: server responded with ${code} status code`
+        );
         throw err;
       }
 

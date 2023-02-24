@@ -113,14 +113,15 @@ export class ReadSyncs extends Collection {
         // TODO DESKTOP-1509: use MessageUpdater.markRead once this is TS
         message.markRead(readAt, { skipSave: true });
 
-        const updateConversation = () => {
+        const updateConversation = async () => {
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
           //   start time as this one, so we pass the readAt value through.
           void message.getConversation()?.onReadMessage(message, readAt);
         };
 
-        if (StartupQueue.isReady()) {
+        // only available during initialization
+        if (StartupQueue.isAvailable()) {
           const conversation = message.getConversation();
           if (conversation) {
             StartupQueue.add(
@@ -130,7 +131,9 @@ export class ReadSyncs extends Collection {
             );
           }
         } else {
-          updateConversation();
+          // not awaiting since we don't want to block work happening in the
+          // eventHandlerQueue
+          void updateConversation();
         }
       } else {
         const now = Date.now();

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LoggerType } from '../../types/Logging';
-import { sleep } from '../../util/sleep';
+import { sleeper } from '../../util/sleeper';
 import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError';
 
 export async function sleepForRateLimitRetryAfterTime({
@@ -24,5 +24,9 @@ export async function sleepForRateLimitRetryAfterTime({
     `Got a 413 or 429 response code. Sleeping for ${retryAfter} millisecond(s)`
   );
 
-  await sleep(retryAfter);
+  await sleeper.sleep(
+    retryAfter,
+    'sleepForRateLimitRetryAfterTime: Got a 413 or 429 response code',
+    { resolveOnShutdown: false }
+  );
 }

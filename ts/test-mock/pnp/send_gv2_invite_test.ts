@@ -152,7 +152,6 @@ describe('pnp/send gv2 invite', function needsName() {
     let group: Group;
     {
       state = await phone.waitForStorageState({ after: state });
-
       const groups = await phone.getAllGroups(state);
       assert.strictEqual(groups.length, 1);
 

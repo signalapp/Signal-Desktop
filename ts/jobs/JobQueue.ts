@@ -54,6 +54,8 @@ export abstract class JobQueue<T> {
 
   private readonly logPrefix: string;
 
+  private shuttingDown = false;
+
   private readonly onCompleteCallbacks = new Map<
     string,
     {
@@ -65,6 +67,10 @@ export abstract class JobQueue<T> {
   private readonly defaultInMemoryQueue = new PQueue({ concurrency: 1 });
 
   private started = false;
+
+  get isShuttingDown(): boolean {
+    return this.shuttingDown;
+  }
 
   constructor(options: Readonly<JobQueueOptions>) {
     assertDev(
@@ -115,6 +121,10 @@ export abstract class JobQueue<T> {
     extra?: Readonly<{ attempt?: number; log?: LoggerType }>
   ): Promise<void>;
 
+  protected getQueues(): ReadonlySet<PQueue> {
+    return new Set([this.defaultInMemoryQueue]);
+  }
+
   /**
    * Start streaming jobs from the store.
    */
@@ -130,6 +140,10 @@ export abstract class JobQueue<T> {
 
     const stream = this.store.stream(this.queueType);
     for await (const storedJob of stream) {
+      if (this.shuttingDown) {
+        log.info(`${this.logPrefix} is shutting down. Can't accept more work.`);
+        break;
+      }
       void this.enqueueStoredJob(storedJob);
     }
   }
@@ -274,5 +288,15 @@ export abstract class JobQueue<T> {
     } else {
       reject(result.err);
     }
+  }
+
+  async shutdown(): Promise<void> {
+    const queues = this.getQueues();
+    log.info(
+      `${this.logPrefix} shutdown: stop accepting new work and drain ${queues.size} promise queues`
+    );
+    this.shuttingDown = true;
+    await Promise.all([...queues].map(q => q.onIdle()));
+    log.info(`${this.logPrefix} shutdown: complete`);
   }
 }

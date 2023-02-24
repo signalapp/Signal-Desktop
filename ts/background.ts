@@ -65,7 +65,10 @@ import { getContact, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
-import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
+import {
+  initializeAllJobQueues,
+  shutdownAllJobQueues,
+} from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { notificationService } from './services/notifications';
@@ -168,6 +171,8 @@ import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
 import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
+import { sleeper } from './util/sleeper';
+import { MINUTE } from './util/durations';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   const HOUR = 1000 * 60 * 60;
@@ -729,6 +734,46 @@ export async function startApp(): Promise<void> {
             convo.flushDebouncedUpdates()
           )
         );
+
+        sleeper.shutdown();
+
+        const shutdownQueues = async () => {
+          await Promise.allSettled([
+            StartupQueue.shutdown(),
+            shutdownAllJobQueues(),
+          ]);
+
+          await Promise.allSettled(
+            window.ConversationController.getAll().map(async convo => {
+              try {
+                await convo.shutdownJobQueue();
+              } catch (err) {
+                log.error(
+                  `background/shutdown: error waiting for conversation ${convo.idForLogging} job queue shutdown`,
+                  Errors.toLogFormat(err)
+                );
+              }
+            })
+          );
+        };
+
+        // wait for at most 2 minutes for startup queue and job queues to drain
+        let timeout: NodeJS.Timeout | undefined;
+        await Promise.race([
+          shutdownQueues(),
+          new Promise<void>((resolve, _) => {
+            timeout = setTimeout(() => {
+              log.warn(
+                'background/shutdown - timed out waiting for StartupQueue/JobQueues, continuing with shutdown'
+              );
+              timeout = undefined;
+              resolve();
+            }, 2 * MINUTE);
+          }),
+        ]);
+        if (timeout) {
+          clearTimeout(timeout);
+        }
 
         log.info('background/shutdown: waiting for all batchers');
 

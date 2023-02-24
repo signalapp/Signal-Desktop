@@ -272,6 +272,8 @@ export class ConversationModel extends window.Backbone
 
   private privVerifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
 
+  private isShuttingDown = false;
+
   override defaults(): Partial<ConversationAttributesType> {
     return {
       unreadCount: 0,
@@ -3580,13 +3582,18 @@ export class ConversationModel extends window.Backbone
     return validateConversation(attributes);
   }
 
-  queueJob<T>(
+  async queueJob<T>(
     name: string,
     callback: (abortSignal: AbortSignal) => Promise<T>
   ): Promise<T> {
-    this.jobQueue = this.jobQueue || new PQueue({ concurrency: 1 });
-
     const logId = `conversation.queueJob(${this.idForLogging()}, ${name})`;
+
+    if (this.isShuttingDown) {
+      log.warn(`${logId}: shutting down, can't accept more work`);
+      throw new Error(`${logId}: shutting down, can't accept more work`);
+    }
+
+    this.jobQueue = this.jobQueue || new PQueue({ concurrency: 1 });
 
     const taskWithTimeout = createTaskWithTimeout(callback, logId);
 
@@ -5682,6 +5689,30 @@ export class ConversationModel extends window.Backbone
     );
 
     return this.get('storySendMode') ?? StorySendMode.IfActive;
+  }
+
+  async shutdownJobQueue(): Promise<void> {
+    log.info(`conversation ${this.idForLogging()} jobQueue shutdown start`);
+
+    if (!this.jobQueue) {
+      log.info(`conversation ${this.idForLogging()} no jobQueue to shutdown`);
+      return;
+    }
+
+    // If the queue takes more than 10 seconds to get to idle, we force it by setting
+    // isShuttingDown = true which will reject incoming requests.
+    const to = setTimeout(() => {
+      log.warn(
+        `conversation ${this.idForLogging()} jobQueue stop accepting new work`
+      );
+      this.isShuttingDown = true;
+    }, 10 * SECOND);
+
+    await this.jobQueue.onIdle();
+    this.isShuttingDown = true;
+    clearTimeout(to);
+
+    log.info(`conversation ${this.idForLogging()} jobQueue shutdown complete`);
   }
 }
 
