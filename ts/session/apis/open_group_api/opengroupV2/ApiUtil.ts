@@ -1,14 +1,14 @@
-import _, { clone, compact, flatten, isString } from 'lodash';
-import { allowOnlyOneAtATime } from '../../../utils/Promise';
+import { clone, compact, flatten, isString } from 'lodash';
+import { OpenGroupData } from '../../../../data/opengroups';
 import {
   updateDefaultRooms,
   updateDefaultRoomsInProgress,
 } from '../../../../state/ducks/defaultRooms';
-import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
-import { parseOpenGroupV2 } from './JoinOpenGroupV2';
-import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
-import { OpenGroupData } from '../../../../data/opengroups';
+import { UserGroupsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../../../conversations';
+import { allowOnlyOneAtATime } from '../../../utils/Promise';
+import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
+import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 
 export type OpenGroupRequestCommonType = {
   serverUrl: string;
@@ -141,7 +141,7 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
 const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f488aaa93da7991238';
 const defaultRoom = `${defaultServer}/main?public_key=${defaultServerPublicKey}`;
 
-const loadDefaultRoomsSingle = () =>
+const loadDefaultRoomsSingle = (): Promise<Array<OpenGroupV2InfoJoinable>> =>
   allowOnlyOneAtATime('loadDefaultRoomsSingle', async () => {
     const roomInfos = parseOpenGroupV2(defaultRoom);
     if (roomInfos) {
@@ -152,16 +152,21 @@ const loadDefaultRoomsSingle = () =>
           return [];
         }
 
-        return roomsGot.map(room => {
-          return {
-            ...room,
-            completeUrl: getCompleteUrlFromRoom({
-              serverUrl: roomInfos.serverUrl,
-              serverPublicKey: roomInfos.serverPublicKey,
-              roomId: room.id,
-            }),
-          };
-        });
+        return Promise.all(
+          roomsGot.map(async room => {
+            // would be nice to get this returned by the API directly but we won't https://github.com/oxen-io/session-pysogs/issues/179
+            const completeUrl = await UserGroupsWrapperActions.buildFullUrlFromDetails(
+              roomInfos.serverUrl,
+              room.id,
+              roomInfos.serverPublicKey
+            );
+
+            return {
+              ...room,
+              completeUrl,
+            };
+          })
+        );
       } catch (e) {
         window?.log?.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
       }

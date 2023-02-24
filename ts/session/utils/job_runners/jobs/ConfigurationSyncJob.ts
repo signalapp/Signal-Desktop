@@ -1,4 +1,4 @@
-import { compact, groupBy, isArray, isEmpty, isNumber, isString, uniq } from 'lodash';
+import { compact, groupBy, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
@@ -34,7 +34,7 @@ export type SingleDestinationChanges = {
 type SuccessfulChange = {
   message: SharedConfigMessage;
   publicKey: string;
-  updatedHash: Array<string>;
+  updatedHash: string;
 };
 
 /**
@@ -99,14 +99,6 @@ function resultsToSuccessfulChange(
         continue;
       }
 
-      const didDeleteOldConfigMessages = Boolean(
-        !isEmpty(request.allOldHashes) &&
-          resultValue &&
-          resultValue?.length &&
-          request &&
-          resultValue[resultValue.length - 1].code === 200
-      );
-
       for (let j = 0; j < resultValue.length; j++) {
         const batchResult = resultValue[j];
         const messagePostedHashes = batchResult?.body?.hash;
@@ -117,13 +109,10 @@ function resultsToSuccessfulChange(
           request.messages?.[j].message &&
           request.destination
         ) {
-          // a message was posted. We need to add it to the tracked list of hashes
-          const updatedHashes: Array<string> = didDeleteOldConfigMessages
-            ? [messagePostedHashes]
-            : uniq(compact([...request.allOldHashes, messagePostedHashes]));
+          // the library keeps track of the hashes to push and pushed using the hashes now
           successfulChanges.push({
             publicKey: request.destination,
-            updatedHash: updatedHashes,
+            updatedHash: messagePostedHashes,
             message: request.messages?.[j].message,
           });
         }
@@ -140,10 +129,12 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
   for (let i = 0; i < changes.length; i++) {
     const change = changes[i];
     const variant = LibSessionUtil.kindToVariant(change.message.kind);
+    console.warn('buildAndSaveDumpsToDB: change.updatedHash: ', change.updatedHash);
     const needsDump = await LibSessionUtil.markAsPushed(
       variant,
       change.publicKey,
-      change.message.seqno.toNumber()
+      change.message.seqno.toNumber(),
+      change.updatedHash
     );
 
     if (!needsDump) {
@@ -154,7 +145,6 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
       data: dump,
       publicKey: change.publicKey,
       variant,
-      combinedMessageHashes: change.updatedHash,
     });
   }
 }
@@ -198,6 +188,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       }
       await LibSessionUtil.insertUserProfileIntoWrapper();
       await LibSessionUtil.insertAllContactsIntoContactsWrapper();
+      await LibSessionUtil.insertAllUserGroupsIntoWrapper();
 
       const singleDestChanges = await retrieveSingleDestinationChanges();
 
@@ -220,12 +211,12 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
             };
           });
           const asSet = new Set(dest.allOldHashes);
+          console.warn('asSet', [...asSet]);
           return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
         })
       );
 
-      // we do a sequence call here. If we do not have the right expected number of results, consider it
-
+      // we do a sequence call here. If we do not have the right expected number of results, consider it a failure
       if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
         return RunJobResult.RetryJobIfPossible;
       }
@@ -284,8 +275,6 @@ async function queueNewJobIfNeeded() {
     !lastRunConfigSyncJobTimestamp ||
     lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries
   ) {
-    window.log.debug('scheduling conf sync job ASAP');
-
     // this call will make sure that there is only one configuration sync job at all times
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() })
@@ -295,7 +284,6 @@ async function queueNewJobIfNeeded() {
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
     // but we want to run every 30, so what we need is actually `30-10` from now = 20
     const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
-    window.log.debug(`scheduling conf sync job in ${leftBeforeNextTick} ms`);
 
     // TODO we need to make the addJob wait for the previous addJob to be done before it can be called.
     await runners.configurationSyncRunner.addJob(

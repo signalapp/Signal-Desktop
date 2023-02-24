@@ -25,20 +25,23 @@ const defaultMaxAttempts = 2;
  */
 let lastRunConfigSyncJobDumpTimestamp: number | null = null;
 
-const variantsToSaveRegularly: Array<ConfigWrapperObjectTypes> = ['UserConfig', 'ContactsConfig'];
+const variantsToSaveRegularly: Array<ConfigWrapperObjectTypes> = [
+  'UserConfig',
+  'ContactsConfig',
+  'UserGroupsConfig',
+];
 
 async function saveDumpsNeededToDB(): Promise<boolean> {
   let savedAtLeastOne = false;
   for (let i = 0; i < variantsToSaveRegularly.length; i++) {
     const variant = variantsToSaveRegularly[i];
     const needsDump = await GenericWrapperActions.needsDump(variant);
-    console.info('saveDumpsNeededToDB()', variant, needsDump);
 
     if (!needsDump) {
       continue;
     }
     const dump = await GenericWrapperActions.dump(variant);
-    await ConfigDumpData.saveConfigDumpNoHashes({
+    await ConfigDumpData.saveConfigDump({
       data: dump,
       publicKey: UserUtils.getOurPubKeyStrFromCache(),
       variant,
@@ -96,13 +99,12 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       }
       // refresh all the data stored by the wrappers we need to store.
       // so when we call needsDump(), we know for sure that we are up to date
-      console.time('insertAll');
+      console.time('ConfigurationSyncDumpJob insertAll');
       await LibSessionUtil.insertUserProfileIntoWrapper();
       await LibSessionUtil.insertAllContactsIntoContactsWrapper();
-      console.timeEnd('insertAll');
-      console.time('saveDumpsNeededToDB');
+      await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+      console.timeEnd('ConfigurationSyncDumpJob insertAll');
       await saveDumpsNeededToDB();
-      console.timeEnd('saveDumpsNeededToDB');
       return RunJobResult.Success;
     } catch (e) {
       throw e;

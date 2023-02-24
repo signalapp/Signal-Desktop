@@ -4,6 +4,7 @@ import {
   BaseConfigWrapperInsideWorker,
   ContactsConfigWrapperInsideWorker,
   UserConfigWrapperInsideWorker,
+  UserGroupsWrapperInsideWorker,
 } from 'session_util_wrapper';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
@@ -13,8 +14,9 @@ import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functi
 // we can only have one of those so don't worry about storing them in a map for now
 let userProfileWrapper: UserConfigWrapperInsideWorker | undefined;
 let contactsConfigWrapper: ContactsConfigWrapperInsideWorker | undefined;
+let userGroupsConfigWrapper: UserGroupsWrapperInsideWorker | undefined;
 
-type UserWrapperType = 'UserConfig' | 'ContactsConfig';
+type UserWrapperType = 'UserConfig' | 'ContactsConfig' | 'UserGroupsConfig';
 
 function getUserWrapper(type: UserWrapperType): BaseConfigWrapperInsideWorker | undefined {
   switch (type) {
@@ -22,6 +24,8 @@ function getUserWrapper(type: UserWrapperType): BaseConfigWrapperInsideWorker | 
       return userProfileWrapper;
     case 'ContactsConfig':
       return contactsConfigWrapper;
+    case 'UserGroupsConfig':
+      return userGroupsConfigWrapper;
   }
 }
 
@@ -31,6 +35,7 @@ function getCorrespondingWrapper(
   switch (wrapperType) {
     case 'UserConfig':
     case 'ContactsConfig':
+    case 'UserGroupsConfig':
       const wrapper = getUserWrapper(wrapperType);
       if (!wrapper) {
         throw new Error(`${wrapperType} is not init yet`);
@@ -44,7 +49,11 @@ function isUInt8Array(value: any) {
 }
 
 function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapperType {
-  if (wrapperType !== 'ContactsConfig' && wrapperType !== 'UserConfig') {
+  if (
+    wrapperType !== 'ContactsConfig' &&
+    wrapperType !== 'UserConfig' &&
+    wrapperType !== 'UserGroupsConfig'
+  ) {
     throw new Error(`wrapperType "${wrapperType} is not of type User"`);
   }
   return wrapperType;
@@ -79,6 +88,9 @@ function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): Bas
     case 'ContactsConfig':
       contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(edSecretKey, dump);
       return contactsConfigWrapper;
+    case 'UserGroupsConfig':
+      userGroupsConfigWrapper = new UserGroupsWrapperInsideWorker(edSecretKey, dump);
+      return userGroupsConfigWrapper;
   }
 }
 

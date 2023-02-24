@@ -37,16 +37,10 @@ export type ConfigDumpRow = {
   variant: ConfigWrapperObjectTypes; // the variant this entry is about. (user pr, contacts, ...)
   publicKey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
   data: Uint8Array; // the blob returned by libsession.dump() call
-  combinedMessageHashes: Array<string>; // set of lastHashes to keep track of
   // we might need to add a `seqno` field here.
 };
 
-export type ConfigDumpRowWithoutData = Pick<
-  ConfigDumpRow,
-  'publicKey' | 'combinedMessageHashes' | 'variant'
->;
-
-export type ConfigDumpRowWithoutHashes = Pick<ConfigDumpRow, 'publicKey' | 'variant' | 'data'>;
+export type ConfigDumpRowWithoutData = Pick<ConfigDumpRow, 'publicKey' | 'variant'>;
 
 export const CONFIG_DUMP_TABLE = 'configDump';
 
@@ -57,20 +51,10 @@ export type ConfigDumpDataNode = {
     variant: ConfigWrapperObjectTypes,
     publicKey: string
   ) => Array<ConfigDumpRow>;
-  getMessageHashesByVariantAndPubkey: (
-    variant: ConfigWrapperObjectTypes,
-    publicKey: string
-  ) => Array<string>;
   saveConfigDump: (dump: ConfigDumpRow) => void;
-  saveConfigDumpNoHashes: (dump: ConfigDumpRowWithoutHashes) => void;
-  saveCombinedMessageHashesForMatching: (row: ConfigDumpRowWithoutData) => void;
 
   getAllDumpsWithData: () => Array<ConfigDumpRow>;
   getAllDumpsWithoutData: () => Array<ConfigDumpRowWithoutData>;
-  getCombinedHashesByVariantAndPubkey: (
-    variant: ConfigWrapperObjectTypes,
-    pubkey: string
-  ) => Array<string>;
 };
 
 // ========== unprocessed
@@ -158,4 +142,23 @@ export function getContactInfoFromDBValues({
   }
 
   return wrapperContact;
+}
+
+/**
+ * This function returns a CommunityInfo for the wrapper to understand from the DB values.
+ * It is created in this file so we can reuse it during the migration (node side), and from the renderer side
+ */
+export function getCommunityInfoFromDBValues({
+  isPinned,
+  fullUrl,
+}: {
+  isPinned: boolean;
+  fullUrl: string;
+}) {
+  const community = {
+    fullUrl,
+    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+  };
+
+  return community;
 }

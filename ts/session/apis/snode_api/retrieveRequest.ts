@@ -50,7 +50,8 @@ async function buildRetrieveRequest(
       if (
         namespace !== SnodeNamespaces.UserMessages &&
         namespace !== SnodeNamespaces.UserContacts &&
-        namespace !== SnodeNamespaces.UserProfile
+        namespace !== SnodeNamespaces.UserProfile &&
+        namespace !== SnodeNamespaces.UserGroups
       ) {
         throw new Error('not a legacy closed group. namespace can only be 0');
       }

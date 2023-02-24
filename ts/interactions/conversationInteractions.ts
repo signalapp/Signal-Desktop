@@ -1,18 +1,21 @@
 import {
-  getCompleteUrlFromRoom,
-  openGroupPrefixRegex,
-  openGroupV2ConversationIdRegex,
-} from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { OpenGroupData } from '../data/opengroups';
-import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../models/conversationAttributes';
+import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 
-import _ from 'lodash';
+import { SessionButtonColor } from '../components/basic/SessionButton';
+import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
+import { Data, hasLinkPreviewPopupBeenDisplayed, lastAvatarUploadTimestamp } from '../data/data';
+import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { getConversationController } from '../session/conversations';
-import { BlockedNumberController } from '../util/blockedNumberController';
+import { getSodiumRenderer } from '../session/crypto';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { fromHexToArray, toHex } from '../session/utils/String';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
+import { quoteMessage, resetConversationExternal } from '../state/ducks/conversations';
 import {
   adminLeaveClosedGroup,
   changeNickNameModal,
@@ -24,62 +27,30 @@ import {
   updateInviteContactModal,
   updateRemoveModeratorsModal,
 } from '../state/ducks/modalDialog';
-import { Data, hasLinkPreviewPopupBeenDisplayed, lastAvatarUploadTimestamp } from '../data/data';
-import { quoteMessage, resetConversationExternal } from '../state/ducks/conversations';
-import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
-import { IMAGE_JPEG } from '../types/MIME';
-import { fromHexToArray, toHex } from '../session/utils/String';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
-import { SessionButtonColor } from '../components/basic/SessionButton';
-import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
-import { perfEnd, perfStart } from '../session/utils/Performance';
-import { processNewAttachment } from '../types/MessageAttachment';
-import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { MIME } from '../types';
-import { setLastProfileUpdateTimestamp } from '../util/storage';
-import { getSodiumRenderer } from '../session/crypto';
+import { urlToBlob } from '../types/attachments/VisualAttachment';
+import { processNewAttachment } from '../types/MessageAttachment';
+import { IMAGE_JPEG } from '../types/MIME';
+import { BlockedNumberController } from '../util/blockedNumberController';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
-import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
-import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { setLastProfileUpdateTimestamp } from '../util/storage';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 
-export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
-  if (convoId.match(openGroupV2ConversationIdRegex)) {
-    // this is a v2 group, just build the url
-    const roomInfos = OpenGroupData.getV2OpenGroupRoom(convoId);
-    if (roomInfos) {
-      const fullUrl = getCompleteUrlFromRoom(roomInfos);
+export function copyPublicKeyByConvoId(convoId: string) {
+  if (OpenGroupUtils.isOpenGroupV2(convoId)) {
+    const fromWrapper = SessionUtilUserGroups.getCommunityMappedValueByConvoId(convoId);
 
-      return fullUrl;
-    }
-  }
-  return undefined;
-};
-
-export async function copyPublicKeyByConvoId(convoId: string) {
-  if (convoId.match(openGroupPrefixRegex)) {
-    // open group v1 or v2
-    if (convoId.match(openGroupV2ConversationIdRegex)) {
-      // this is a v2 group, just build the url
-      const completeUrl = await getCompleteUrlForV2ConvoId(convoId);
-      if (completeUrl) {
-        window.clipboard.writeText(completeUrl);
-
-        ToastUtils.pushCopiedToClipBoard();
-        return;
-      }
-      window?.log?.warn('copy to pubkey no roomInfo');
-      return;
+    if (!fromWrapper) {
+      throw new Error('opengroup to copy was not found in the UserGroupsWrapper');
     }
 
-    // this is a v1
-    const atIndex = convoId.indexOf('@');
-    const openGroupUrl = convoId.substr(atIndex + 1);
-    window.clipboard.writeText(openGroupUrl);
-
-    ToastUtils.pushCopiedToClipBoard();
-    return;
+    if (fromWrapper.fullUrl) {
+      window.clipboard.writeText(fromWrapper.fullUrl);
+    }
+  } else {
+    window.clipboard.writeText(convoId);
   }
-  window.clipboard.writeText(convoId);
 
   ToastUtils.pushCopiedToClipBoard();
 }

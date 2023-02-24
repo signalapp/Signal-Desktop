@@ -8,7 +8,6 @@ const channelsToMakeForOpengroupV2 = [
   'getV2OpenGroupRoom',
   'saveV2OpenGroupRoom',
   'removeV2OpenGroupRoom',
-  'getAllOpenGroupV2Conversations',
 ];
 
 const channelsToMakeForConfigDumps = [...Object.keys(ConfigDumpData)];

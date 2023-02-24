@@ -408,10 +408,6 @@ async function deleteOpenGroupMessages(
     throw new Error('cannot delete public message on a non public groups');
   }
 
-  if (!convo.isOpenGroupV2()) {
-    throw new Error('Opengroupv1 are not supported anymore');
-  }
-
   const roomInfos = convo.toOpenGroupV2();
   // on v2 servers we can only remove a single message per request..
   // so logic here is to delete each messages and get which one where not removed

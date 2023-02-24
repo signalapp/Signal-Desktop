@@ -141,7 +141,6 @@ async function filterOutMessagesInvalidSignature(
       base64EncodedData: m.data,
     };
   });
-  const startVerify = Date.now();
   const signatureValidEncodedData = (await callUtilsWorker(
     'verifyAllSignatures',
     sentToWorker
@@ -151,7 +150,6 @@ async function filterOutMessagesInvalidSignature(
       messagesFilteredBlindedIds.find(m => m.data === validData)
     )
   );
-  window.log.info(`[perf] verifyAllSignatures took ${Date.now() - startVerify}ms.`);
 
   return signaturesValidMessages;
 }

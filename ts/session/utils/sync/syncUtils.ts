@@ -1,35 +1,34 @@
-import { Data } from '../../../data/data';
-import { getMessageQueue } from '../..';
-import { getConversationController } from '../../conversations';
+import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { UserUtils } from '..';
+import { getMessageQueue } from '../..';
+import { Data } from '../../../data/data';
+import { OpenGroupData } from '../../../data/opengroups';
+import { ConversationModel } from '../../../models/conversation';
+import { SignalService } from '../../../protobuf';
 import { ECKeyPair } from '../../../receiver/keypairs';
+import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
+import { DURATION } from '../../constants';
+import { getConversationController } from '../../conversations';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
 } from '../../messages/outgoing/controlMessage/ConfigurationMessage';
-import { ConversationModel } from '../../../models/conversation';
-import { fromBase64ToArray, fromHexToArray } from '../String';
-import { SignalService } from '../../../protobuf';
-import _ from 'lodash';
+import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
+import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
+import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
 } from '../../messages/outgoing/visibleMessage/VisibleMessage';
-import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { OpenGroupData } from '../../../data/opengroups';
-import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
-import { DURATION } from '../../constants';
-import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
-import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
 import { PubKey } from '../../types';
-import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
-import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { ConfigurationDumpSync } from '../job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
+import { fromBase64ToArray, fromHexToArray } from '../String';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -119,10 +118,10 @@ const getActiveOpenGroupV2CompleteUrls = async (
     .map(c => c.id) as Array<string>;
 
   const urls = await Promise.all(
-    openGroupsV2ConvoIds.map(async opengroup => {
-      const roomInfos = OpenGroupData.getV2OpenGroupRoom(opengroup);
+    openGroupsV2ConvoIds.map(async opengroupConvoId => {
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(opengroupConvoId);
       if (roomInfos) {
-        return getCompleteUrlFromRoom(roomInfos);
+        return opengroupConvoId;
       }
       return null;
     })

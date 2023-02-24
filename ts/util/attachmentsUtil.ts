@@ -31,7 +31,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
  *
  * 10. We use the grabbed data for upload of the attachments, get an url for each of them and send the url with the attachments details to the user/opengroup/closed group
  */
-
+const DEBUG_ATTACHMENTS_SCALE = false;
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
@@ -65,7 +65,9 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
     throw new Error('Cannot autoScaleForAvatar another file than PNG,GIF or JPEG.');
   }
 
-  window.log.info('autoscale for avatar', maxMeasurements);
+  if (DEBUG_ATTACHMENTS_SCALE) {
+    window.log.info('autoscale for avatar', maxMeasurements);
+  }
   return autoScale(attachment, maxMeasurements);
 }
 
@@ -90,7 +92,10 @@ export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
       blob,
     };
   }
-  window.log.info('autoscale for incoming avatar', maxMeasurements);
+
+  if (DEBUG_ATTACHMENTS_SCALE) {
+    window.log.info('autoscale for incoming avatar', maxMeasurements);
+  }
 
   return autoScale(
     {
@@ -113,7 +118,9 @@ export async function autoScaleForThumbnail<T extends { contentType: string; blo
     maxSize: 200 * 1000, // 200 ko
   };
 
-  window.log.info('autoScaleForThumbnail', maxMeasurements);
+  if (DEBUG_ATTACHMENTS_SCALE) {
+    window.log.info('autoScaleForThumbnail', maxMeasurements);
+  }
 
   return autoScale(attachment, maxMeasurements);
 }
@@ -217,30 +224,27 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
       blob,
     };
   }
-  window.log.debug('canvas.originalWidth', {
-    canvasOriginalWidth: canvas.originalWidth,
-    canvasOriginalHeight: canvas.originalHeight,
-    maxWidth,
-    maxHeight,
-    blobsize: blob.size,
-    maxSize,
-    makeSquare,
-  });
-
+  if (DEBUG_ATTACHMENTS_SCALE) {
+    window.log.debug('canvas.originalWidth', {
+      canvasOriginalWidth: canvas.originalWidth,
+      canvasOriginalHeight: canvas.originalHeight,
+      maxWidth,
+      maxHeight,
+      blobsize: blob.size,
+      maxSize,
+      makeSquare,
+    });
+  }
   let quality = 0.95;
   const startI = 4;
   let i = startI;
   const start = Date.now();
   do {
     i -= 1;
-    window.log.info(`autoscale iteration: [${i}] for:`, attachment);
-
-    perfStart(`autoscale-canvasToBlob-${attachment.blob.size}`);
+    if (DEBUG_ATTACHMENTS_SCALE) {
+      window.log.info(`autoscale iteration: [${i}] for:`, attachment);
+    }
     const tempBlob = await canvasToBlob(canvas.image as HTMLCanvasElement, 'image/jpeg', quality);
-    perfEnd(
-      `autoscale-canvasToBlob-${attachment.blob.size}`,
-      `autoscale-canvasToBlob-${attachment.blob.size}`
-    );
 
     if (!tempBlob) {
       throw new Error('Failed to get blob during canvasToBlob.');

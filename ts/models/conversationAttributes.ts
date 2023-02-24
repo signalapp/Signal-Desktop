@@ -5,7 +5,7 @@ import { LastMessageStatusType } from '../state/ducks/conversations';
  * Private chats have always the type `Private`
  * Open groups have always the type `Group`
  * Closed group have the type `Group` when they are not v3 and the type `CLOSED_GROUP` when they v3.
- * To identity between an open or closed group before v3, we need to rely on the prefix (05 is closed groups, publicChat is opengroup)
+ * To identity between an open or closed group before v3, we need to rely on the prefix (05 is closed groups, 'http%' is opengroup)
  *
  *
  * We will need to support existing closed groups foir now, but we will be able to get rid of existing closed groups at some point.

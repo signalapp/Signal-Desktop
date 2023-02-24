@@ -546,38 +546,6 @@ function getAllConversations() {
   return (rows || []).map(formatRowOfConversation);
 }
 
-function getAllOpenGroupV2Conversations(instance?: BetterSqlite3.Database) {
-  // first _ matches all opengroupv1 (they are completely removed in a migration now),
-  // second _ force a second char to be there, so it can only be opengroupv2 convos
-
-  const rows = assertGlobalInstanceOrInstance(instance)
-    .prepare(
-      `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'publicChat:__%@%'
-     ORDER BY id ASC;`
-    )
-    .all();
-
-  return (rows || []).map(formatRowOfConversation);
-}
-
-function getAllOpenGroupV2ConversationsIds(): Array<string> {
-  // first _ matches all opengroupv1 (they are completely removed in a migration now),
-  // second _ force a second char to be there, so it can only be opengroupv2 convos
-
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'publicChat:__%@%'
-     ORDER BY id ASC;`
-    )
-    .all();
-
-  return map(rows, row => row.id);
-}
-
 function getPubkeysInPublicConversation(conversationId: string) {
   const conversation = getV2OpenGroupRoom(conversationId);
   if (!conversation) {
@@ -1921,14 +1889,21 @@ function getAllV2OpenGroupRooms(instance?: BetterSqlite3.Database): Array<OpenGr
   return rows.map(r => jsonToObject(r.json)) as Array<OpenGroupV2Room>;
 }
 
-function getV2OpenGroupRoom(conversationId: string) {
-  const row = assertGlobalInstance()
+function getV2OpenGroupRoom(conversationId: string, db?: BetterSqlite3.Database) {
+  const row = assertGlobalInstanceOrInstance(db)
     .prepare(
       `SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`
     )
     .get({
       conversationId,
     });
+
+  console.warn(
+    '=================',
+    assertGlobalInstanceOrInstance(db)
+      .prepare(`SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE};`)
+      .all()
+  );
 
   if (!row) {
     return null;
@@ -2023,7 +1998,7 @@ function cleanUpUnusedNodeForKeyEntriesOnStart() {
   const allIdsToKeep =
     assertGlobalInstance()
       .prepare(
-        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'publicChat:%'
+        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'http%'
     `
       )
       .all()
@@ -2085,7 +2060,17 @@ function cleanUpOldOpengroupsOnStart() {
     return;
   }
 
-  const v2ConvosIds = getAllOpenGroupV2ConversationsIds();
+  const rows = assertGlobalInstance()
+    .prepare(
+      `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE 'http%'
+     ORDER BY id ASC;`
+    )
+    .all();
+
+  const v2ConvosIds = map(rows, row => row.id);
+
   if (!v2ConvosIds || !v2ConvosIds.length) {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
@@ -2227,7 +2212,6 @@ export const sqlNode = {
   getConversationById,
   removeConversation,
   getAllConversations,
-  getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
   removeAllConversations,
 

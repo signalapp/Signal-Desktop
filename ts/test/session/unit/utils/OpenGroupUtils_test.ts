@@ -20,26 +20,15 @@ describe('OpenGroupUtils', () => {
       expect(prefixify('https://plop.com')).to.be.equal('https://plop.com');
     });
 
-    it('should just return if http:// is as prefix even with hasSSL = true', () => {
-      expect(prefixify('http://plop.com', true)).to.be.equal('http://plop.com');
+    it('should just return if http:// is as prefix ', () => {
+      expect(prefixify('http://plop.com')).to.be.equal('http://plop.com');
     });
-    it('should just return if https:// is as prefix even with hasSSL = true', () => {
-      expect(prefixify('https://plop.com', true)).to.be.equal('https://plop.com');
-    });
-
-    it('should just return if http:// is as prefix even with hasSSL = false', () => {
-      expect(prefixify('http://plop.com', false)).to.be.equal('http://plop.com');
-    });
-    it('should just return if https:// is as prefix even with hasSSL = false', () => {
-      expect(prefixify('https://plop.com', false)).to.be.equal('https://plop.com');
+    it('should just return if https:// is as prefix', () => {
+      expect(prefixify('https://plop.com')).to.be.equal('https://plop.com');
     });
 
     it('should prefix with http if ssl is false and no prefix', () => {
-      expect(prefixify('plop.com', false)).to.be.equal('http://plop.com');
-    });
-
-    it('should prefix with https if ssl is true and no prefix', () => {
-      expect(prefixify('plop.com', true)).to.be.equal('https://plop.com');
+      expect(prefixify('plop.com')).to.be.equal('http://plop.com');
     });
   });
 

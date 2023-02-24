@@ -11,10 +11,10 @@ const hostnameRegex = new RegExp(`(?:${hostSegment}${dot})+${hostSegment}`);
 const portRegex = ':[1-9][0-9]{0,4}';
 
 // roomIds allow up to 64 ascii numbers, letters, '_', or '-' chars
-export const roomIdV2Regex = '[0-9a-zA-Z_-]{1,64}';
-export const publicKeyRegex = '[0-9a-fA-F]{64}';
+const roomIdV2Regex = '[0-9a-zA-Z_-]{1,64}';
+const publicKeyRegex = '[0-9a-fA-F]{64}';
 export const publicKeyParam = 'public_key=';
-export const openGroupV2ServerUrlRegex = new RegExp(
+const openGroupV2ServerUrlRegex = new RegExp(
   `(?:${protocolRegex.source})?${hostnameRegex.source}(?:${portRegex})?`
 );
 
@@ -29,20 +29,11 @@ export const openGroupV2CompleteURLRegex = new RegExp(
 );
 
 /**
- * Just a constant to have less `publicChat:` everywhere.
+ * Just a constant to have less 'http' everywhere.
  * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
- * Note: It does already have the ':' included
  */
-export const openGroupPrefix = 'publicChat:';
-
-/**
- * Just a regex to match a public chat (i.e. a string starting with publicChat:)
- */
-export const openGroupPrefixRegex = new RegExp(`^${openGroupPrefix}`);
-
-export const openGroupV2ConversationIdRegex = new RegExp(
-  `${openGroupPrefix}${roomIdV2Regex}@${openGroupV2ServerUrlRegex.source}`
-);
+// tslint:disable-next-line: no-http-string
+export const openGroupPrefix = 'http'; // can be http:// or https://
 
 /**
  * This function returns a full url on an open group v2 room used for sync messages for instance.
@@ -64,13 +55,14 @@ export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
 /**
  * Prefix server with https:// if it's not already prefixed with http or https.
  */
-export function prefixify(server: string, hasSSL: boolean = true): string {
+export function prefixify(server: string): string {
   const hasPrefix = server.match('^https?://');
   if (hasPrefix) {
     return server;
   }
 
-  return `http${hasSSL ? 's' : ''}://${server}`;
+  // tslint:disable-next-line: no-http-string
+  return `http://${server}`;
 }
 
 /**
@@ -85,7 +77,7 @@ export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) 
   if (!serverUrl.match(openGroupV2ServerUrlRegex)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid serverUrl');
   }
-  return `${openGroupPrefix}${roomId}@${serverUrl}`;
+  return `${serverUrl}/${roomId}`;
 }
 
 /**
@@ -95,11 +87,20 @@ export function getOpenGroupV2FromConversationId(
   conversationId: string
 ): OpenGroupRequestCommonType {
   if (isOpenGroupV2(conversationId)) {
-    const atIndex = conversationId.indexOf('@');
-    const roomId = conversationId.slice(openGroupPrefix.length, atIndex);
-    const serverUrl = conversationId.slice(atIndex + 1);
+    const endProtocolStr = '://';
+    const startOfDoubleSlashes = conversationId.indexOf(endProtocolStr); // works for both http or https
+    if (startOfDoubleSlashes < 0) {
+      throw new Error('We need :// to be present in an opengroup URL');
+    }
+    const firstSlashAfterProtocol = conversationId.indexOf(
+      '/',
+      startOfDoubleSlashes + endProtocolStr.length + 1
+    );
+    const baseUrlWithProtocol = conversationId.substring(0, firstSlashAfterProtocol);
+    const lastSlash = conversationId.lastIndexOf('/');
+    const roomId = conversationId.slice(lastSlash + 1);
     return {
-      serverUrl,
+      serverUrl: baseUrlWithProtocol,
       roomId,
     };
   }
@@ -108,10 +109,7 @@ export function getOpenGroupV2FromConversationId(
 
 /**
  * Check if this conversation id corresponds to an OpenGroupV2 conversation.
- * No access to database are made. Only regex matches
- * @param conversationId the convo id to evaluate
- * @returns true if this conversation id matches the Opengroupv2 conversation id regex
  */
 export function isOpenGroupV2(conversationId: string) {
-  return openGroupV2ConversationIdRegex.test(conversationId);
+  return Boolean(conversationId.startsWith(openGroupPrefix));
 }

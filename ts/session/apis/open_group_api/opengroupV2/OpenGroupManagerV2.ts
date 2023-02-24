@@ -6,10 +6,12 @@ import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
-import _, { clone, isEqual } from 'lodash';
 import autoBind from 'auto-bind';
+import _, { clone, isEqual } from 'lodash';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
 import { openGroupV2GetRoomInfoViaOnionV4 } from '../sogsv3/sogsV3RoomInfos';
+import { UserGroupsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 
 let instance: OpenGroupManagerV2 | undefined;
 
@@ -111,33 +113,38 @@ export class OpenGroupManagerV2 {
     if (this.isPolling) {
       return;
     }
-    const allConvos = await OpenGroupData.getAllOpenGroupV2Conversations();
+
+    const inWrapperCommunities = SessionUtilUserGroups.getAllCommunities();
+    const inWrapperIds = inWrapperCommunities.map(m =>
+      getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)
+    );
 
     let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
 
     // this is time for some cleanup!
-    // We consider the conversations are our source-of-truth,
-    // so if there is a roomInfo without an associated convo, we remove it
-    if (allRoomInfos) {
-      await Promise.all(
-        [...allRoomInfos.values()].map(async infos => {
-          try {
-            const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
-            if (!allConvos.get(roomConvoId)) {
-              // remove the roomInfos locally for this open group room
-              await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
-              getOpenGroupManager().removeRoomFromPolledRooms(infos);
-              // no need to remove it from the ConversationController, the convo is already not there
-            }
-          } catch (e) {
-            window?.log?.warn('cleanup roomInfos error', e);
+    // We consider the wrapper is our source-of-truth,
+    // so if there is a roomInfos without an associated entry in the wrapper, we remove it from the map of opengroups rooms
+    if (allRoomInfos?.size) {
+      const roomInfosAsArray = [...allRoomInfos.values()];
+      for (let index = 0; index < roomInfosAsArray.length; index++) {
+        const infos = roomInfosAsArray[index];
+        try {
+          const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
+          if (!inWrapperIds.includes(roomConvoId)) {
+            // remove the roomInfos locally for this open group room.
+
+            await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
+            getOpenGroupManager().removeRoomFromPolledRooms(infos);
+            await getConversationController().deleteContact(roomConvoId);
           }
-        })
-      );
+        } catch (e) {
+          window?.log?.warn('cleanup roomInfos error', e);
+        }
+      }
     }
     // refresh our roomInfos list
     allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
-    if (allRoomInfos) {
+    if (allRoomInfos?.size) {
       this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }
 
@@ -160,10 +167,16 @@ export class OpenGroupManagerV2 {
       throw new Error(window.i18n('publicChatExists'));
     }
 
-    // here, the convo does not exist. Make sure the db is clean too
-    await OpenGroupData.removeV2OpenGroupRoom(conversationId);
-
     try {
+      const fullUrl = await UserGroupsWrapperActions.buildFullUrlFromDetails(
+        serverUrl,
+        roomId,
+        serverPublicKey
+      );
+      // here, the convo does not exist. Make sure the db is clean too
+      await OpenGroupData.removeV2OpenGroupRoom(conversationId);
+
+      await SessionUtilUserGroups.removeCommunityFromWrapper(conversationId, fullUrl);
       const room: OpenGroupV2Room = {
         serverUrl,
         roomId,

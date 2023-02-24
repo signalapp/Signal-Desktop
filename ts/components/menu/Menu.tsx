@@ -395,7 +395,15 @@ export const CopyMenuItem = (): JSX.Element | null => {
 
   if (showCopyId(isPublic, isPrivate, isBlinded)) {
     const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('copySessionID');
-    return <Item onClick={() => copyPublicKeyByConvoId(convoId)}>{copyIdLabel}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          copyPublicKeyByConvoId(convoId);
+        }}
+      >
+        {copyIdLabel}
+      </Item>
+    );
   }
   return null;
 };

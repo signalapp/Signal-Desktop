@@ -1,13 +1,18 @@
 import * as BetterSqlite3 from 'better-sqlite3';
 import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
-import { compact, isArray, isEmpty, map, pick } from 'lodash';
+import { compact, isArray, isEmpty, isString, map, pick } from 'lodash';
 import {
   ContactsConfigWrapperInsideWorker,
   UserConfigWrapperInsideWorker,
+  UserGroupsWrapperInsideWorker,
 } from 'session_util_wrapper';
 import { ConversationAttributes } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
-import { CONFIG_DUMP_TABLE, getContactInfoFromDBValues } from '../../types/sqlSharedTypes';
+import {
+  CONFIG_DUMP_TABLE,
+  getCommunityInfoFromDBValues,
+  getContactInfoFromDBValues,
+} from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
@@ -890,22 +895,6 @@ function updateToSessionSchemaVersion26(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function getRoomIdFromConversationAttributes(attributes?: ConversationAttributes | null) {
-  if (!attributes) {
-    return null;
-  }
-  const indexSemiColon = attributes.id.indexOf(':');
-  const indexAt = attributes.id.indexOf('@');
-  if (indexSemiColon < 0 || indexAt < 0 || indexSemiColon >= indexAt) {
-    return null;
-  }
-  const roomId = attributes.id.substring(indexSemiColon, indexAt);
-  if (roomId.length <= 0) {
-    return null;
-  }
-  return roomId;
-}
-
 function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 27;
   if (currentVersion >= targetVersion) {
@@ -917,7 +906,7 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
 
   const ipToRemove = '116.203.70.33';
 
-  // defining this function here as this is very specific to this migration and used in a few places
+  // defining these functions here as this is very specific to this migration and used in a few places
   function getNewConvoId(oldConvoId?: string) {
     if (!oldConvoId) {
       return null;
@@ -931,7 +920,37 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
     );
   }
 
-  getNewConvoId('test');
+  function getAllOpenGroupV2Conversations(instance: BetterSqlite3.Database) {
+    // first _ matches all opengroupv1 (they are completely removed in a migration now),
+    // second _ force a second char to be there, so it can only be opengroupv2 convos
+
+    const rows = instance
+      .prepare(
+        `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
+        type = 'group' AND
+        id LIKE 'publicChat:__%@%'
+       ORDER BY id ASC;`
+      )
+      .all();
+
+    return rows || [];
+  }
+
+  function getRoomIdFromConversationAttributes(attributes?: ConversationAttributes | null) {
+    if (!attributes) {
+      return null;
+    }
+    const indexSemiColon = attributes.id.indexOf(':');
+    const indexAt = attributes.id.indexOf('@');
+    if (indexSemiColon < 0 || indexAt < 0 || indexSemiColon >= indexAt) {
+      return null;
+    }
+    const roomId = attributes.id.substring(indexSemiColon, indexAt);
+    if (roomId.length <= 0) {
+      return null;
+    }
+    return roomId;
+  }
 
   // tslint:disable-next-line: max-func-body-length
   db.transaction(() => {
@@ -1026,21 +1045,12 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
      * Then, update the conversations table by doing the same thing
      */
     const allSessionV2ConvosIp = compact(
-      sqlNode.getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(ipToRemove))
+      getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(ipToRemove))
     );
     const allSessionV2ConvosDns = compact(
-      sqlNode.getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(domainNameToUse))
+      getAllOpenGroupV2Conversations(db).filter(m => m?.id.includes(domainNameToUse))
     );
 
-    const duplicatesConvosIpAndDns = allSessionV2ConvosIp.filter(ip => {
-      const roomId = getRoomIdFromConversationAttributes(ip);
-      if (!roomId) {
-        return false;
-      }
-      return allSessionV2ConvosDns.some(dns => {
-        return getRoomIdFromConversationAttributes(dns) === roomId;
-      });
-    });
     const withIpButNotDuplicateConvo = allSessionV2ConvosIp.filter(ip => {
       const roomId = getRoomIdFromConversationAttributes(ip);
       if (!roomId) {
@@ -1051,23 +1061,7 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
         return getRoomIdFromConversationAttributes(dns) === roomId;
       });
     });
-    console.info('========================================');
-    console.info(
-      'allSessionV2ConvosIp',
-      allSessionV2ConvosIp.map(m => m?.id)
-    );
-    console.info(
-      'allSessionV2ConvosDns',
-      allSessionV2ConvosDns.map(m => m?.id)
-    );
-    console.info(
-      'duplicatesConvosIpAndDns',
-      duplicatesConvosIpAndDns.map(m => m?.id)
-    );
-    console.info(
-      'withIpButNotDuplicateConvo',
-      withIpButNotDuplicateConvo.map(m => m?.id)
-    );
+
     // for those with duplicates, delete the one with the IP as we want to rely on the one with the DNS only now
     // remove the ip ones completely which are duplicated.
     // Note: this also removes the ones not duplicated, but we are recreating them just below with `saveConversation`
@@ -1095,14 +1089,6 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
         db
       );
     });
-
-    console.info(
-      'after convos update:',
-      sqlNode
-        .getAllOpenGroupV2Conversations(db)
-        .filter(m => m?.id.includes(domainNameToUse) || m?.id.includes(ipToRemove))
-        .map(m => m?.id)
-    );
 
     /**
      * Lastly, we need to take care of messages.
@@ -1327,6 +1313,54 @@ function insertContactIntoWrapper(
   }
 }
 
+function insertCommunityIntoWrapper(
+  community: { id: string; isPinned: boolean },
+  userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
+  db: BetterSqlite3.Database
+) {
+  const isPinned = community.isPinned;
+  const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
+
+  const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
+
+  if (
+    !roomDetails ||
+    isEmpty(roomDetails) ||
+    isEmpty(roomDetails.serverUrl) ||
+    isEmpty(roomDetails.roomId) ||
+    isEmpty(roomDetails.serverPublicKey)
+  ) {
+    console.info(
+      'insertCommunityIntoWrapper did not find corresponding room details',
+      convoId,
+      roomDetails
+    );
+    return;
+  }
+  console.info(
+    `building fullUrl from serverUrl:"${roomDetails.serverUrl}" roomId:"${roomDetails.roomId}" pubkey:"${roomDetails.serverPublicKey}"`
+  );
+
+  const fullUrl = userGroupConfigWrapper.buildFullUrlFromDetails(
+    roomDetails.serverUrl,
+    roomDetails.roomId,
+    roomDetails.serverPublicKey
+  );
+  const wrapperComm = getCommunityInfoFromDBValues({
+    fullUrl,
+    isPinned,
+  });
+
+  try {
+    console.info('Inserting community into wrapper: ', wrapperComm);
+    userGroupConfigWrapper.setCommunityByFullUrl(wrapperComm.fullUrl, wrapperComm.priority);
+  } catch (e) {
+    console.error(
+      `userGroupConfigWrapper.set during migration failed with ${e.message} for fullUrl: "${wrapperComm.fullUrl}". Skipping community entirely`
+    );
+  }
+}
+
 function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
   try {
     const blockedItem = sqlNode.getItemById('blocked', db);
@@ -1381,7 +1415,6 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       variant TEXT NOT NULL,
       publicKey TEXT NOT NULL,
       data BLOB,
-      combinedMessageHashes TEXT,
       PRIMARY KEY (publicKey, variant)
       );
       `);
@@ -1395,6 +1428,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const { privateEd25519, publicKeyHex } = keys;
       const userProfileWrapper = new UserConfigWrapperInsideWorker(privateEd25519, null);
       const contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(privateEd25519, null);
+      const userGroupsConfigWrapper = new UserGroupsWrapperInsideWorker(privateEd25519, null);
 
       /**
        * Setup up the User profile wrapper with what is stored in our own conversation
@@ -1424,18 +1458,15 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
               publicKey,
               variant,
-              combinedMessageHashes,
               data
           ) values (
             $publicKey,
             $variant,
-            $combinedMessageHashes,
             $data
           );`
       ).run({
         publicKey: publicKeyHex,
         variant: 'UserConfig',
-        combinedMessageHashes: JSON.stringify([]),
         data: userDump,
       });
 
@@ -1475,19 +1506,108 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
               publicKey,
               variant,
-              combinedMessageHashes,
               data
           ) values (
             $publicKey,
             $variant,
-            $combinedMessageHashes,
             $data
           );`
       ).run({
         publicKey: publicKeyHex,
         variant: 'ContactsConfig',
-        combinedMessageHashes: JSON.stringify([]),
         data: contactsDump,
+      });
+
+      const allOpengroupsConvo = db
+        .prepare(
+          `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+        type = 'group' AND
+        id LIKE 'publicChat:%'
+       ORDER BY id ASC;`
+        )
+        .all();
+
+      const allValidOpengroupsDetails = allOpengroupsConvo
+        .filter(m => isString(m.id) && m.id.indexOf('@') > 0)
+        .map(row => {
+          const roomNameStart = (row.id.indexOf(':') as number) + 1;
+          const roomNameEnd = row.id.indexOf('@');
+          const roomName = row.id.substring(roomNameStart, roomNameEnd);
+          const baseUrl = row.id.substring((roomNameEnd as number) + 1);
+
+          return { roomName, baseUrl, oldConvoId: row.id };
+        });
+
+      allValidOpengroupsDetails.forEach(convoDetails => {
+        const newId = `${convoDetails.baseUrl}/${convoDetails.roomName}`;
+        db.prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+            id = $newId
+            WHERE id = $oldId;`
+        ).run({
+          newId,
+          oldId: convoDetails.oldConvoId,
+        });
+        // do the same for messages and where else?
+
+        db.prepare(
+          `UPDATE ${MESSAGES_TABLE} SET
+            conversationId = $newId,
+            json = json_set(json,'$.conversationId', $newId)
+            WHERE conversationId = $oldConvoId;`
+        ).run({ oldConvoId: convoDetails.oldConvoId, newId });
+
+        db.prepare(
+          `UPDATE ${OPEN_GROUP_ROOMS_V2_TABLE} SET
+            conversationId = $newId,
+            json = json_set(json, '$.conversationId', $newId);`
+        ).run({ newId });
+      });
+
+      // this filter is based on the `filterUserGroupsToStoreInWrapper` function.
+      const communitiesToWriteInWrapper = db
+        .prepare(
+          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE 'http%' ;`
+        )
+        .all({});
+
+      if (isArray(communitiesToWriteInWrapper) && communitiesToWriteInWrapper.length) {
+        console.warn(
+          '===================== Starting communities inserting into wrapper ======================='
+        );
+
+        console.info(
+          'Writing communities to wrapper during migration. length: ',
+          communitiesToWriteInWrapper?.length
+        );
+
+        communitiesToWriteInWrapper.forEach(community => {
+          insertCommunityIntoWrapper(community, userGroupsConfigWrapper, db);
+
+          console.info('Writing community: ', JSON.stringify(community));
+        });
+
+        console.warn(
+          '===================== Done with communinities inserting ======================='
+        );
+        // TODO we need to do the same for closed groups
+      }
+      const userGroupsDump = userGroupsConfigWrapper.dump();
+
+      db.prepare(
+        `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $data
+          );`
+      ).run({
+        publicKey: publicKeyHex,
+        variant: 'UserGroupsConfig',
+        data: userGroupsDump,
       });
 
       // TODO we've just created the initial dumps. We have to add an initial SyncJob to the database so it is run on the next app start/

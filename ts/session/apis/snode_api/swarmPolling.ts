@@ -318,7 +318,7 @@ export class SwarmPolling {
     namespaces: Array<SnodeNamespaces>
   ): Promise<RetrieveMessagesResultsBatched | null> {
     const namespaceLength = namespaces.length;
-    if (namespaceLength > 5 || namespaceLength <= 0) {
+    if (namespaceLength <= 0) {
       throw new Error(`invalid number of retrieve namespace provided: ${namespaceLength}`);
     }
     const edkey = node.pubkey_ed25519;
@@ -436,7 +436,12 @@ export class SwarmPolling {
 
   private getUserNamespacesPolled() {
     return window.sessionFeatureFlags.useSharedUtilForUserConfig
-      ? [SnodeNamespaces.UserMessages, SnodeNamespaces.UserProfile, SnodeNamespaces.UserContacts]
+      ? [
+          SnodeNamespaces.UserMessages,
+          SnodeNamespaces.UserProfile,
+          SnodeNamespaces.UserContacts,
+          SnodeNamespaces.UserGroups,
+        ]
       : [SnodeNamespaces.UserMessages];
   }
 
@@ -453,6 +458,9 @@ export class SwarmPolling {
     hash: string;
     expiration: number;
   }): Promise<void> {
+    if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
+      return;
+    }
     const pkStr = pubkey.key;
     const cached = await this.getLastHash(edkey, pubkey.key, namespace);
 
@@ -476,6 +484,9 @@ export class SwarmPolling {
   }
 
   private async getLastHash(nodeEdKey: string, pubkey: string, namespace: number): Promise<string> {
+    if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
+      return '';
+    }
     if (!this.lastHashes[nodeEdKey]?.[pubkey]?.[namespace]) {
       const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey, namespace);
 

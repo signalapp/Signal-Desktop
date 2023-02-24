@@ -1,16 +1,16 @@
 import { Data } from '../../data/data';
+import { OpenGroupData } from '../../data/opengroups';
 import { ConversationCollection, ConversationModel } from '../../models/conversation';
+import { actions as conversationActions } from '../../state/ducks/conversations';
 import { BlockedNumberController } from '../../util';
+import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
-import { actions as conversationActions } from '../../state/ducks/conversations';
-import { OpenGroupData } from '../../data/opengroups';
-import _ from 'lodash';
-import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
+import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 
 let instance: ConversationController | null;
 
@@ -220,13 +220,20 @@ export class ConversationController {
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
         getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
+      }
 
-        // remove the roomInfos locally for this open group room
-        try {
-          await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
-        } catch (e) {
-          window?.log?.info('removeV2OpenGroupRoom failed:', e);
-        }
+      // remove the roomInfos locally for this open group room
+      try {
+        await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
+      } catch (e) {
+        window?.log?.info('removeV2OpenGroupRoom failed:', e);
+      }
+      try {
+        console.error(' plop1', SessionUtilUserGroups.getAllCommunities());
+        await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
+        console.error(' plop2', SessionUtilUserGroups.getAllCommunities());
+      } catch (e) {
+        window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
       }
     }
 
@@ -234,7 +241,7 @@ export class ConversationController {
     window.log.info(`deleteContact destroyingMessages: ${id}`);
 
     await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
-    window.log.info(`deleteContact message destroyed: ${id}`);
+    window.log.info(`deleteContact messages destroyed: ${id}`);
     // if this conversation is a private conversation it's in fact a `contact` for desktop.
     // we just want to remove everything related to it, set the active_at to undefined
     // so conversation still exists (useful for medium groups members or opengroups) but is not shown on the UI
@@ -299,8 +306,11 @@ export class ConversationController {
         console.time('refreshAllWrapperContactsData');
         for (let index = 0; index < collection.models.length; index++) {
           const convo = collection.models[index];
-          if (convo.isPrivate()) {
+          if (SessionUtilContact.filterContactsToStoreInContactsWrapper(convo)) {
             await SessionUtilContact.refreshMappedValue(convo.id, true);
+          }
+          if (SessionUtilUserGroups.filterUserCommunitiesToStoreInWrapper(convo)) {
+            await SessionUtilUserGroups.refreshCommunityMappedValue(convo.id, true);
           }
         }
         console.timeEnd('refreshAllWrapperContactsData');

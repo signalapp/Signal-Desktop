@@ -102,6 +102,7 @@ import {
   isDirectConversation,
   isOpenOrClosedGroup,
 } from './conversationAttributes';
+import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -201,8 +202,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPublic()) {
-      const opengroup = this.toOpenGroupV2();
-      return `${opengroup.serverUrl}/${opengroup.roomId}`;
+      return this.id;
     }
 
     return `group(${ed25519Str(this.id)})`;
@@ -212,7 +212,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return UserUtils.isUsFromCache(this.id);
   }
   public isPublic(): boolean {
-    return Boolean(this.id && this.id.match(OpenGroupUtils.openGroupPrefixRegex));
+    return this.isOpenGroupV2();
   }
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
@@ -351,35 +351,68 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    const foundWrapperValue = SessionUtilContact.getMappedValue(this.id);
+    const foundContact = SessionUtilContact.getMappedValue(this.id);
+    const foundCommunity = SessionUtilUserGroups.getCommunityMappedValueByConvoId(this.id);
 
-    if (foundWrapperValue) {
-      if (foundWrapperValue.name) {
-        toRet.displayNameInProfile = foundWrapperValue.name;
+    if (foundContact) {
+      if (foundContact.name) {
+        toRet.displayNameInProfile = foundContact.name;
       }
 
-      if (foundWrapperValue.nickname) {
-        toRet.nickname = foundWrapperValue.nickname;
+      if (foundContact.nickname) {
+        toRet.nickname = foundContact.nickname;
         toRet.hasNickname = !!toRet.nickname;
       }
 
-      if (foundWrapperValue.blocked) {
-        toRet.isBlocked = foundWrapperValue.blocked;
+      if (foundContact.blocked) {
+        toRet.isBlocked = foundContact.blocked;
       }
 
-      if (foundWrapperValue.approvedMe) {
-        toRet.didApproveMe = foundWrapperValue.approvedMe;
+      if (foundContact.approvedMe) {
+        toRet.didApproveMe = foundContact.approvedMe;
       }
 
-      if (foundWrapperValue.approved) {
-        toRet.isApproved = foundWrapperValue.approved;
+      if (foundContact.approved) {
+        toRet.isApproved = foundContact.approved;
       }
 
-      if (foundWrapperValue.hidden) {
-        toRet.activeAt = undefined;
+      toRet.isHidden = foundContact.hidden;
+
+      if (foundContact.priority > 0) {
+        toRet.isPinned = true; // TODO priority also handles sorting
+      }
+    } else {
+      if (this.get('displayNameInProfile')) {
+        toRet.displayNameInProfile = this.get('displayNameInProfile');
       }
 
-      if (foundWrapperValue.priority > 0) {
+      if (this.get('nickname')) {
+        toRet.nickname = this.get('nickname');
+        toRet.hasNickname = !!toRet.nickname;
+      }
+
+      if (BlockedNumberController.isBlocked(this.id)) {
+        toRet.isBlocked = true;
+      }
+
+      if (this.get('didApproveMe')) {
+        toRet.didApproveMe = this.get('didApproveMe');
+      }
+
+      if (this.get('isApproved')) {
+        toRet.isApproved = this.get('isApproved');
+      }
+      if (!this.get('active_at')) {
+        toRet.isHidden = true;
+      }
+
+      if (this.get('isPinned')) {
+        toRet.isPinned = true;
+      }
+    }
+
+    if (foundCommunity) {
+      if (foundCommunity.priority > 0) {
         toRet.isPinned = true; // TODO priority also handles sorting
       }
     }
@@ -1250,7 +1283,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isMediumGroup()) {
       await leaveClosedGroup(this.id);
     } else {
-      window?.log?.error('Cannot leave a non-medium group conversation');
       throw new Error(
         'Legacy group are not supported anymore. You need to create this group again.'
       );
@@ -2213,20 +2245,28 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
   await Data.saveConversation(convo.attributes);
 
-  const shouldBeSavedToWrapper = SessionUtilContact.filterContactsToStoreInContactsWrapper(convo);
+  const shouldBeSavedToContactsWrapper = SessionUtilContact.filterContactsToStoreInContactsWrapper(
+    convo
+  );
+  const shouldBeSavedToUserGroupsWrapper = SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
+    convo
+  );
 
-  console.warn(`should be saved to wrapper ${id}: ${shouldBeSavedToWrapper}`);
-  if (shouldBeSavedToWrapper) {
+  console.warn(`should be saved to contacts wrapper ${id}: ${shouldBeSavedToContactsWrapper}`);
+  console.warn(`should be saved to usergroups wrapper ${id}: ${shouldBeSavedToUserGroupsWrapper}`);
+  if (shouldBeSavedToContactsWrapper) {
     await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
+  } else if (shouldBeSavedToUserGroupsWrapper) {
+    await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
+  }
 
-    // save the new dump if needed to the DB asap
-    // this call throttled so we do not run this too often (and not for every .commit())
-    await ConfigurationDumpSync.queueNewJobIfNeeded();
+  // save the new dump if needed to the DB asap
+  // this call throttled so we do not run this too often (and not for every .commit())
+  await ConfigurationDumpSync.queueNewJobIfNeeded();
 
-    // if we need to sync the dump, also send add a job for syncing
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-      await ConfigurationSync.queueNewJobIfNeeded();
-    }
+  // if we need to sync the dump, also send add a job for syncing
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    await ConfigurationSync.queueNewJobIfNeeded();
   }
   convo.triggerUIRefresh();
 }

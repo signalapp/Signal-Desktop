@@ -95,7 +95,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
     const addJobChecks = job.addJobCheck(serializedNonRunningJobs);
     if (addJobChecks === 'skipAddSameJobPresent') {
-      window.log.warn(`addjobCheck returned "${addJobChecks}" so not adding it`);
+      // window.log.warn(`addjobCheck returned "${addJobChecks}" so not adding it`);
       return 'type_exists';
     }
 

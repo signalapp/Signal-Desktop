@@ -1,4 +1,4 @@
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { compact, isEmpty } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
@@ -8,6 +8,8 @@ import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
 } from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import { getOpenGroupManager } from '../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
@@ -15,6 +17,7 @@ import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { UserUtils } from '../session/utils';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { BlockedNumberController } from '../util';
@@ -23,6 +26,7 @@ import {
   ContactsWrapperActions,
   GenericWrapperActions,
   UserConfigWrapperActions,
+  UserGroupsWrapperActions,
 } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
@@ -33,12 +37,10 @@ async function mergeConfigsWithIncomingUpdates(
 ): Promise<{ kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }> {
   const { kind } = incomingConfig.message;
 
-  const toMerge = [incomingConfig.message.data];
+  const toMerge = [{ data: incomingConfig.message.data, hash: incomingConfig.messageHash }];
   const wrapperId = LibSessionUtil.kindToVariant(kind);
   try {
-    window.log.warn(`${wrapperId} right before merge of ${toMerge.length} arrays`);
     await GenericWrapperActions.merge(wrapperId, toMerge);
-    window.log.warn(`${wrapperId} right after merge.`);
     const needsPush = await GenericWrapperActions.needsPush(wrapperId);
     const needsDump = await GenericWrapperActions.needsDump(wrapperId);
     window.log.info(`${wrapperId} needsPush:${needsPush} needsDump:${needsDump} `);
@@ -153,6 +155,108 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
   return result;
 }
 
+async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
+  if (!result.needsDump) {
+    return result;
+  }
+
+  // first let's check which communities needs to be joined or left by doing a diff of what is in the wrapper and what is in the DB
+  const allCommunitiesInWrapper = await UserGroupsWrapperActions.getAllCommunities();
+  const allCommunitiesConversation = getConversationController()
+    .getConversations()
+    .filter(SessionUtilUserGroups.filterUserCommunitiesToStoreInWrapper);
+
+  const allCommunitiesIdsInDB = allCommunitiesConversation.map(m => m.id as string);
+
+  const communitiesIdsInWrapper = compact(
+    allCommunitiesInWrapper.map(m => {
+      try {
+        const builtConvoId = OpenGroupUtils.getOpenGroupV2ConversationId(
+          m.baseUrl,
+          m.roomCasePreserved
+        );
+        return builtConvoId;
+      } catch (e) {
+        return null;
+      }
+    })
+  );
+
+  const communitiesToJoinInDB = compact(
+    allCommunitiesInWrapper.map(m => {
+      try {
+        const builtConvoId = OpenGroupUtils.getOpenGroupV2ConversationId(
+          m.baseUrl,
+          m.roomCasePreserved
+        );
+        if (allCommunitiesIdsInDB.includes(builtConvoId)) {
+          return null;
+        }
+        console.warn('builtConvoId', builtConvoId, allCommunitiesIdsInDB);
+        return m;
+      } catch (e) {
+        return null;
+      }
+    })
+  );
+
+  const communitiesToLeaveInDB = compact(
+    allCommunitiesConversation.map(m => {
+      return communitiesIdsInWrapper.includes(m.id) ? null : m;
+    })
+  );
+
+  console.warn(
+    'communitiesToJoinInDB',
+    communitiesToJoinInDB.map(m => `${m.fullUrl}`)
+  );
+
+  for (let index = 0; index < communitiesToLeaveInDB.length; index++) {
+    const toLeave = communitiesToLeaveInDB[index];
+    console.warn('leaving community with convoId ', toLeave.id);
+    await getConversationController().deleteContact(toLeave.id);
+  }
+
+  // this call can take quite a long time and should not cause issues to not be awaited
+  void Promise.all(
+    communitiesToJoinInDB.map(async toJoin => {
+      console.warn('joining community with convoId ', toJoin.fullUrl);
+      return getOpenGroupManager().attemptConnectionV2OneAtATime(
+        toJoin.baseUrl,
+        toJoin.roomCasePreserved,
+        toJoin.pubkeyHex
+      );
+    })
+  );
+
+  // if the convos already exists, make sure to update the fields if needed
+  for (let index = 0; index < allCommunitiesInWrapper.length; index++) {
+    const fromWrapper = allCommunitiesInWrapper[index];
+    const convoId = OpenGroupUtils.getOpenGroupV2ConversationId(
+      fromWrapper.baseUrl,
+      fromWrapper.roomCasePreserved
+    );
+
+    const existingConvo = getConversationController().get(convoId);
+    if (fromWrapper && existingConvo) {
+      let changes = false;
+
+      //TODO priority means more than just isPinned but has an order logic in it too
+      const shouldBePinned = fromWrapper.priority > 0;
+      if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
+        await existingConvo.setIsPinned(shouldBePinned, false);
+        changes = true;
+      }
+
+      // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
+      if (changes) {
+        await existingConvo.commit();
+      }
+    }
+  }
+  return result;
+}
+
 async function processMergingResults(
   envelope: EnvelopePlus,
   result: { kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }
@@ -176,23 +280,13 @@ async function processMergingResults(
       case SignalService.SharedConfigMessage.Kind.CONTACTS:
         finalResult = await handleContactsUpdate(incomingResult);
         break;
+      case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
+        finalResult = await handleUserGroupsUpdate(incomingResult);
+        break;
       default:
         throw new Error(`processMergingResults unknown kind of contact : ${kind}`);
     }
     const variant = LibSessionUtil.kindToVariant(kind);
-    // We need to get the existing message hashes and combine them with the latest from the
-    // service node to ensure the next push will properly clean up old messages
-    const oldMessagesHashes = await ConfigDumpData.getCombinedHashesByVariantAndPubkey(
-      variant,
-      envelope.source
-    );
-
-    const allMessageHashes = [...oldMessagesHashes, ...finalResult.messageHashes];
-
-    const finalResultsHashes = new Set(finalResult.messageHashes);
-
-    // lodash does deep compare of Sets
-    const messageHashesChanged = !isEqual(oldMessagesHashes, finalResultsHashes);
 
     if (finalResult.needsDump) {
       // The config data had changes so regenerate the dump and save it
@@ -202,15 +296,6 @@ async function processMergingResults(
         data: dump,
         publicKey: pubkey,
         variant,
-        combinedMessageHashes: allMessageHashes,
-      });
-    } else if (messageHashesChanged) {
-      // The config data didn't change but there were different messages on the service node
-      // so just update the message hashes so the next sync can properly remove any old ones
-      await ConfigDumpData.saveCombinedMessageHashesForMatching({
-        publicKey: pubkey,
-        variant,
-        combinedMessageHashes: allMessageHashes,
       });
     }
 

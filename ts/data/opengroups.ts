@@ -1,5 +1,4 @@
 import { cloneDeep, isNumber, uniq } from 'lodash';
-import { ConversationCollection } from '../models/conversation';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { isOpenGroupV2 } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { channels } from './channels';
@@ -54,7 +53,6 @@ export const OpenGroupData = {
   saveV2OpenGroupRooms,
   getV2OpenGroupRoomByRoomId,
   removeV2OpenGroupRoom,
-  getAllOpenGroupV2Conversations,
   getAllOpengroupsServerPubkeys,
   getAllV2OpenGroupRooms,
 };
@@ -76,7 +74,7 @@ function getAllV2OpenGroupRoomsMap(): Map<string, OpenGroupV2Room> | undefined {
 }
 
 // this is just to make testing and stubbing easier
-async function getAllV2OpenGroupRooms() {
+async function getAllV2OpenGroupRooms(): Promise<Array<OpenGroupV2Room> | undefined> {
   return channels.getAllV2OpenGroupRooms();
 }
 
@@ -87,9 +85,7 @@ async function opengroupRoomsLoad() {
   if (cachedRooms !== null) {
     return;
   }
-  const loadedFromDB = (await OpenGroupData.getAllV2OpenGroupRooms()) as
-    | Array<OpenGroupV2Room>
-    | undefined;
+  const loadedFromDB = await OpenGroupData.getAllV2OpenGroupRooms();
 
   if (loadedFromDB) {
     cachedRooms = new Array();
@@ -174,14 +170,6 @@ async function removeV2OpenGroupRoom(conversationId: string): Promise<void> {
   if (isNumber(foundIndex) && foundIndex > -1) {
     throwIfNotLoaded().splice(foundIndex, 1);
   }
-}
-
-async function getAllOpenGroupV2Conversations(): Promise<ConversationCollection> {
-  const conversations = await channels.getAllOpenGroupV2Conversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
 }
 
 function getAllOpengroupsServerPubkeys(): Array<string> {

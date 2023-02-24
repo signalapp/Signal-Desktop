@@ -366,13 +366,11 @@ async function markAllAsReadByConversationNoExpiration(
   returnMessagesUpdated: boolean // for performance reason we do not return them because usually they are not needed
 ): Promise<Array<number>> {
   // tslint:disable-next-line: no-console
-  console.time('markAllAsReadByConversationNoExpiration');
   const messagesIds = await channels.markAllAsReadByConversationNoExpiration(
     conversationId,
     returnMessagesUpdated
   );
   // tslint:disable-next-line: no-console
-  console.timeEnd('markAllAsReadByConversationNoExpiration');
   return messagesIds;
 }
 

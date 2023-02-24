@@ -74,8 +74,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     return;
   }
 
-  console.time(`ContactsWrapperActions.set ${id}`);
-
   const dbName = foundConvo.get('displayNameInProfile') || undefined;
   const dbNickname = foundConvo.get('nickname') || undefined;
   const dbProfileUrl = foundConvo.get('avatarPointer') || undefined;
@@ -100,7 +98,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   });
 
   try {
-    console.warn(`inserting into wrapper ${id}: `, wrapperContact);
     await ContactsWrapperActions.set(wrapperContact);
   } catch (e) {
     window.log.warn(`ContactsWrapperActions.set of ${id} failed with ${e.message}`);
@@ -108,8 +105,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   }
 
   await refreshMappedValue(id);
-
-  console.timeEnd(`ContactsWrapperActions.set ${id}`);
 }
 
 /**
@@ -120,7 +115,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
 async function refreshMappedValue(id: string, duringAppStart = false) {
   const fromWrapper = await ContactsWrapperActions.get(id);
   if (fromWrapper) {
-    SessionUtilContact.setMappedValue(fromWrapper);
+    setMappedValue(fromWrapper);
     if (!duringAppStart) {
       getConversationController()
         .get(id)
@@ -137,16 +132,10 @@ function getMappedValue(id: string) {
   return mappedContactWrapperValues.get(id);
 }
 
-function removeMappedValue(id: string) {
-  mappedContactWrapperValues.delete(id);
-}
-
 export const SessionUtilContact = {
   filterContactsToStoreInContactsWrapper,
   insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
-  setMappedValue,
   getMappedValue,
-  removeMappedValue,
   refreshMappedValue,
 };
