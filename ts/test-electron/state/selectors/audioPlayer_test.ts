@@ -2,25 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { SetMessageAudioAction } from '../../../state/ducks/audioPlayer';
 import { noopAction } from '../../../state/ducks/noop';
+import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer';
 import { isPaused } from '../../../state/selectors/audioPlayer';
+import { actions } from '../../../state/ducks/audioPlayer';
 import type { StateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 
-// can't use the actual action since it's a ThunkAction
-const setActiveAudioID = (
-  id: string,
-  context: string
-): SetMessageAudioAction => ({
-  type: 'audioPlayer/SET_MESSAGE_AUDIO',
-  payload: {
-    id,
-    context,
+function voiceNoteDataForMessage(
+  messageId: string
+): VoiceNoteAndConsecutiveForPlayback {
+  return {
+    conversationId: 'convo',
+    voiceNote: {
+      id: messageId,
+      type: 'outgoing',
+      timestamp: 0,
+      url: undefined,
+      source: undefined,
+      sourceUuid: undefined,
+      messageIdForLogging: messageId,
+      isPlayed: false,
+    },
+    consecutiveVoiceNotes: [],
+    previousMessageId: undefined,
+    nextMessageTimestamp: undefined,
     playbackRate: 1,
-    duration: 100,
-  },
-});
+  };
+}
 
 describe('state/selectors/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
@@ -36,7 +45,15 @@ describe('state/selectors/audioPlayer', () => {
     it('returns false if state.audioPlayer.active is not undefined', () => {
       const state = getEmptyRootState();
 
-      const updated = rootReducer(state, setActiveAudioID('id', 'context'));
+      const updated = rootReducer(
+        state,
+        actions.loadMessageAudio({
+          voiceNoteData: voiceNoteDataForMessage('id'),
+          position: 0,
+          context: 'context',
+          ourConversationId: 'convo',
+        })
+      );
 
       assert.isFalse(isPaused(updated));
     });

@@ -100,6 +100,7 @@ export type PropsType = {
   toggleSettings: () => void;
   toggleSpeakerView: () => void;
   isConversationTooBigToRing: boolean;
+  pauseVoiceNotePlayer: () => void;
 };
 
 type ActiveCallManagerPropsType = PropsType & {
@@ -138,6 +139,7 @@ function ActiveCallManager({
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
   toggleSpeakerView,
+  pauseVoiceNotePlayer,
 }: ActiveCallManagerPropsType): JSX.Element {
   const {
     conversation,
@@ -157,6 +159,9 @@ function ActiveCallManager({
   }, [cancelCall, conversation.id]);
 
   const joinActiveCall = useCallback(() => {
+    // pause any voice note playback
+    pauseVoiceNotePlayer();
+
     startCall({
       callMode: activeCall.callMode,
       conversationId: conversation.id,
@@ -169,6 +174,7 @@ function ActiveCallManager({
     conversation.id,
     hasLocalAudio,
     hasLocalVideo,
+    pauseVoiceNotePlayer,
   ]);
 
   const getGroupCallVideoFrameSourceForActiveCall = useCallback(

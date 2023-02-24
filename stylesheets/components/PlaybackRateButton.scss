@@ -1,0 +1,68 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.PlaybackRateButton {
+  @include button-reset;
+
+  @include font-body-2-bold;
+
+  width: 38px;
+  height: 18px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 1px 2px;
+  margin: -2px 0;
+  line-height: 16px;
+  letter-spacing: 0.05px;
+  user-select: none;
+
+  &--message-incoming {
+    @include light-theme {
+      color: $color-gray-60;
+      background: $color-black-alpha-08;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+      background: $color-white-alpha-08;
+    }
+  }
+  &--message-outgoing {
+    color: $color-white-alpha-80;
+    background: $color-white-alpha-20;
+  }
+  &--mini-player {
+    @include light-theme {
+      color: $color-gray-60;
+      background: $color-black-alpha-08;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+      background: $color-white-alpha-08;
+    }
+  }
+
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 2px;
+
+    @mixin x-icon($color) {
+      @include color-svg('../images/icons/v2/x-8.svg', $color, false);
+    }
+
+    @include light-theme {
+      @include x-icon($color-gray-60);
+    }
+    @include dark-theme {
+      @include x-icon($color-gray-25);
+    }
+
+    .module-message__audio-attachment--outgoing & {
+      @include x-icon($color-white-alpha-80);
+    }
+  }
+}

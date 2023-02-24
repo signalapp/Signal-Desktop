@@ -2445,6 +2445,7 @@ function messageChanged(
     },
   };
 }
+
 function messageDeleted(
   id: string,
   conversationId: string
@@ -2457,6 +2458,7 @@ function messageDeleted(
     },
   };
 }
+
 function messageExpanded(
   id: string,
   displayLimit: number
@@ -2477,6 +2479,7 @@ function messageExpired(id: string): MessageExpiredActionType {
     },
   };
 }
+
 function messagesAdded({
   conversationId,
   isActive,

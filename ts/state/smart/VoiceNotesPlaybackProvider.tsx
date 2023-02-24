@@ -3,10 +3,10 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { GlobalAudioProvider } from '../../components/GlobalAudioContext';
+import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext';
 import type { StateType } from '../reducer';
-import { isPaused } from '../selectors/audioPlayer';
 import { getSelectedConversationId } from '../selectors/conversations';
+import { isPaused } from '../selectors/audioPlayer';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -17,4 +17,6 @@ const mapStateToProps = (state: StateType) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-export const SmartGlobalAudioProvider = smart(GlobalAudioProvider);
+export const SmartVoiceNotesPlaybackProvider = smart(
+  VoiceNotesPlaybackProvider
+);

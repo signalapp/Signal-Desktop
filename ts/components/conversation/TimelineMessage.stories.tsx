@@ -27,7 +27,7 @@ import {
 } from '../../types/MIME';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
-import { computePeaks } from '../GlobalAudioContext';
+import { computePeaks } from '../VoiceNotesPlaybackContext';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
@@ -87,6 +87,10 @@ const Template: Story<Partial<Props>> = args => {
     quote: undefined,
     ...args,
   });
+};
+
+const messageIdToAudioUrl = {
+  'incompetech-com-Agnus-Dei-X': '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
 };
 
 function getJoyReaction() {
@@ -152,14 +156,9 @@ function MessageAudioContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const loadAndPlayMessageAudio = (
-    _id: string,
-    url: string,
-    _context: string,
-    position: number
-  ) => {
+  const handlePlayMessage = (id: string, position: number) => {
     if (!active) {
-      audio.src = url;
+      audio.src = messageIdToAudioUrl[id as keyof typeof messageIdToAudioUrl];
       setIsActive(true);
     }
     if (!playing) {
@@ -176,7 +175,7 @@ function MessageAudioContainer({
     }
   };
 
-  const setPlaybackRateAction = (_conversationId: string, rate: number) => {
+  const setPlaybackRateAction = (rate: number) => {
     audio.playbackRate = rate;
     setPlaybackRate(rate);
   };
@@ -202,14 +201,12 @@ function MessageAudioContainer({
   return (
     <MessageAudio
       {...props}
-      conversationId="some-conversation-id"
       active={active}
       computePeaks={computePeaks}
       id="storybook"
-      loadAndPlayMessageAudio={loadAndPlayMessageAudio}
+      onPlayMessage={handlePlayMessage}
       played={_played}
       pushPanelForConversation={action('pushPanelForConversation')}
-      renderingContext="storybook"
       setCurrentTime={setCurrentTimeAction}
       setIsPlaying={setIsPlayingAction}
       setPlaybackRate={setPlaybackRateAction}
@@ -427,11 +424,12 @@ export function EmojiMessages(): JSX.Element {
       <br />
       <TimelineMessage
         {...createProps({
+          id: 'incompetech-com-Agnus-Dei-X',
           attachments: [
             fakeAttachment({
               contentType: AUDIO_MP3,
               fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-              url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+              url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X'],
             }),
           ],
           text: '😀',
@@ -1353,11 +1351,12 @@ export const _Audio = (): JSX.Element => {
     const [isPlayed, setIsPlayed] = React.useState(false);
 
     const messageProps = createProps({
+      id: 'incompetech-com-Agnus-Dei-X',
       attachments: [
         fakeAttachment({
           contentType: AUDIO_MP3,
           fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-          url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+          url: messageIdToAudioUrl['incompetech-com-Agnus-Dei-X'],
           path: 'somepath',
         }),
       ],

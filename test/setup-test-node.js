@@ -42,5 +42,6 @@ global.WebSocket = {};
 /* eslint max-classes-per-file: ["error", 2] */
 global.AudioContext = class {};
 global.Audio = class {
+  pause() {}
   addEventListener() {}
 };

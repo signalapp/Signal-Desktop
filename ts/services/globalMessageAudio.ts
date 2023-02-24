@@ -30,12 +30,14 @@ class GlobalMessageAudio {
 
   load({
     src,
+    playbackRate,
     onLoadedMetadata,
     onTimeUpdate,
     onDurationChange,
     onEnded,
   }: {
     src: string;
+    playbackRate: number;
     onLoadedMetadata: () => void;
     onTimeUpdate: () => void;
     onDurationChange: () => void;
@@ -50,7 +52,9 @@ class GlobalMessageAudio {
     this.#onDurationChange = onDurationChange;
     this.#onEnded = onEnded;
 
+    // changing src resets the playback rate
     this.#audio.src = src;
+    this.#audio.playbackRate = playbackRate;
   }
 
   play(): Promise<void> {

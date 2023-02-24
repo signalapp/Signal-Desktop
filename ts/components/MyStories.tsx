@@ -26,6 +26,7 @@ export type PropsType = {
   onDelete: (story: StoryViewType) => unknown;
   onForward: (storyId: string) => unknown;
   onSave: (story: StoryViewType) => unknown;
+  onMediaPlaybackStart: () => void;
   queueStoryDownload: (storyId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -43,6 +44,7 @@ export function MyStories({
   retryMessageSend,
   viewStory,
   hasViewReceiptSetting,
+  onMediaPlaybackStart,
 }: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -94,6 +96,7 @@ export function MyStories({
                 key={story.messageId}
                 onForward={onForward}
                 onSave={onSave}
+                onMediaPlaybackStart={onMediaPlaybackStart}
                 queueStoryDownload={queueStoryDownload}
                 retryMessageSend={retryMessageSend}
                 setConfirmDeleteStory={setConfirmDeleteStory}
@@ -122,6 +125,7 @@ type StorySentPropsType = Pick<
   | 'queueStoryDownload'
   | 'retryMessageSend'
   | 'viewStory'
+  | 'onMediaPlaybackStart'
 > & {
   setConfirmDeleteStory: (_: StoryViewType | undefined) => unknown;
   story: StoryViewType;
@@ -132,6 +136,7 @@ function StorySent({
   i18n,
   onForward,
   onSave,
+  onMediaPlaybackStart,
   queueStoryDownload,
   retryMessageSend,
   setConfirmDeleteStory,
@@ -177,6 +182,7 @@ function StorySent({
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
         <div className="MyStories__story__details">

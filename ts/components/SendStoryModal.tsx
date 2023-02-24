@@ -72,6 +72,7 @@ export type PropsType = {
     string,
     number
   >;
+  onMediaPlaybackStart: () => void;
 } & Pick<
   StoriesSettingsModalPropsType,
   | 'onHideMyStoriesFrom'
@@ -138,6 +139,7 @@ export function SendStoryModal({
   toggleGroupsForStorySend,
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
+  onMediaPlaybackStart,
 }: PropsType): JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
@@ -875,6 +877,7 @@ export function SendStoryModal({
             label="label"
             moduleClassName="SendStoryModal__story"
             attachment={attachment}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
         <div className="SendStoryModal__top-bar">

@@ -4,6 +4,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
+import { noop } from 'lodash';
 
 import type { PropsType } from './StoryImage';
 import { StoryImage } from './StoryImage';
@@ -32,6 +33,7 @@ function getDefaultProps(): PropsType {
     label: 'A story',
     queueStoryDownload: action('queueStoryDownload'),
     storyId: uuid(),
+    onMediaPlaybackStart: noop,
   };
 }
 

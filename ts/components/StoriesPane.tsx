@@ -64,6 +64,7 @@ export type PropsType = {
   onAddStory: (file?: File) => unknown;
   onMyStoriesClicked: () => unknown;
   onStoriesSettings: () => unknown;
+  onMediaPlaybackStart: () => void;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
   showToast: ShowToastActionCreatorType;
@@ -82,6 +83,7 @@ export function StoriesPane({
   onAddStory,
   onMyStoriesClicked,
   onStoriesSettings,
+  onMediaPlaybackStart,
   queueStoryDownload,
   showConversation,
   showToast,
@@ -159,6 +161,7 @@ export function StoriesPane({
           onClick={onMyStoriesClicked}
           queueStoryDownload={queueStoryDownload}
           showToast={showToast}
+          onMediaPlaybackStart={onMediaPlaybackStart}
         />
         {renderedStories.map(story => (
           <StoryListItem
@@ -174,6 +177,7 @@ export function StoriesPane({
               toggleStoriesView();
             }}
             onHideStory={toggleHideStories}
+            onMediaPlaybackStart={onMediaPlaybackStart}
             queueStoryDownload={queueStoryDownload}
             story={story.storyView}
             viewUserStories={viewUserStories}
@@ -204,6 +208,7 @@ export function StoriesPane({
                     toggleStoriesView();
                   }}
                   onHideStory={toggleHideStories}
+                  onMediaPlaybackStart={onMediaPlaybackStart}
                   queueStoryDownload={queueStoryDownload}
                   story={story.storyView}
                   viewUserStories={viewUserStories}

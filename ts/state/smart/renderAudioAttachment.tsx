@@ -3,7 +3,7 @@
 
 import type { ReactElement } from 'react';
 import React from 'react';
-import { GlobalAudioContext } from '../../components/GlobalAudioContext';
+import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext';
 import type { Props as MessageAudioProps } from './MessageAudio';
 import { SmartMessageAudio } from './MessageAudio';
 
@@ -13,14 +13,14 @@ export function renderAudioAttachment(
   props: AudioAttachmentProps
 ): ReactElement {
   return (
-    <GlobalAudioContext.Consumer>
-      {globalAudioProps => {
+    <VoiceNotesPlaybackContext.Consumer>
+      {voiceNotesPlaybackProps => {
         return (
-          globalAudioProps && (
-            <SmartMessageAudio {...props} {...globalAudioProps} />
+          voiceNotesPlaybackProps && (
+            <SmartMessageAudio {...props} {...voiceNotesPlaybackProps} />
           )
         );
       }}
-    </GlobalAudioContext.Consumer>
+    </VoiceNotesPlaybackContext.Consumer>
   );
 }

@@ -40,6 +40,7 @@ import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useStoriesActions } from '../ducks/stories';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
 
 export type PropsType = {
   file?: File;
@@ -91,6 +92,7 @@ export function SmartStoryCreator(): JSX.Element | null {
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
   const { onSetSkinTone } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   return (
     <StoryCreator
@@ -122,6 +124,7 @@ export function SmartStoryCreator(): JSX.Element | null {
       onSetSkinTone={onSetSkinTone}
       onUseEmoji={onUseEmoji}
       onViewersUpdated={updateStoryViewers}
+      onMediaPlaybackStart={pauseVoiceNotePlayer}
       ourConversationId={ourConversationId}
       processAttachment={processAttachment}
       recentEmojis={recentEmojis}

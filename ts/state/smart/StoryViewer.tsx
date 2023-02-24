@@ -35,6 +35,7 @@ import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 
@@ -85,6 +86,8 @@ export function SmartStoryViewer(): JSX.Element | null {
     getHasStoryViewReceiptSetting
   );
 
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
+
   const storyInfo = getStoryById(
     conversationSelector,
     selectedStoryData.messageId
@@ -134,6 +137,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       onSetSkinTone={onSetSkinTone}
       onTextTooLong={() => showToast(ToastType.MessageBodyTooLong)}
       onUseEmoji={onUseEmoji}
+      onMediaPlaybackStart={pauseVoiceNotePlayer}
       preferredReactionEmoji={preferredReactionEmoji}
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}

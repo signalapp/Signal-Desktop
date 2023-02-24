@@ -14,7 +14,7 @@ const MAX_AUDIO_DURATION = 15 * 60; // 15 minutes
 
 export type ComputePeaksResult = {
   duration: number;
-  peaks: ReadonlyArray<number>;
+  peaks: ReadonlyArray<number>; // 0 < peak < 1
 };
 
 export type Contents = {
@@ -174,9 +174,10 @@ const globalContents: Contents = {
   computePeaks,
 };
 
-export const GlobalAudioContext = React.createContext<Contents>(globalContents);
+export const VoiceNotesPlaybackContext =
+  React.createContext<Contents>(globalContents);
 
-export type GlobalAudioProps = {
+export type VoiceNotesPlaybackProps = {
   conversationId: string | undefined;
   isPaused: boolean;
   children?: React.ReactNode | React.ReactChildren;
@@ -187,21 +188,12 @@ export type GlobalAudioProps = {
  * A global context that holds Audio, AudioContext, LRU instances that are used
  * inside the conversation by ts/components/conversation/MessageAudio.tsx
  */
-export function GlobalAudioProvider({
-  conversationId,
+export function VoiceNotesPlaybackProvider({
   children,
-  unloadMessageAudio,
-}: GlobalAudioProps): JSX.Element {
-  // When moving between conversations - stop audio
-  React.useEffect(() => {
-    return () => {
-      unloadMessageAudio();
-    };
-  }, [conversationId, unloadMessageAudio]);
-
+}: VoiceNotesPlaybackProps): JSX.Element {
   return (
-    <GlobalAudioContext.Provider value={globalContents}>
+    <VoiceNotesPlaybackContext.Provider value={globalContents}>
       {children}
-    </GlobalAudioContext.Provider>
+    </VoiceNotesPlaybackContext.Provider>
   );
 }

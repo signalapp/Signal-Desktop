@@ -28,6 +28,7 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
+  onMediaPlaybackStart: () => void;
   story: StoryViewType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
@@ -88,6 +89,7 @@ export function StoryListItem({
   isHidden,
   onGoToConversation,
   onHideStory,
+  onMediaPlaybackStart,
   queueStoryDownload,
   story,
   viewUserStories,
@@ -195,6 +197,7 @@ export function StoryListItem({
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
       </ContextMenu>

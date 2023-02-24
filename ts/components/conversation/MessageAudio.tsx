@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useRef, useEffect, useState } from 'react';
-import type { RefObject, ReactNode } from 'react';
+import type { RefObject } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
@@ -13,15 +13,21 @@ import type { PushPanelForConversationActionType } from '../../state/ducks/conve
 import { isDownloaded } from '../../types/Attachment';
 import type { DirectionType, MessageStatusType } from './Message';
 
-import type { ComputePeaksResult } from '../GlobalAudioContext';
+import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext';
 import { MessageMetadata } from './MessageMetadata';
 import * as log from '../../logging/log';
 import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
+import { PlaybackRateButton } from '../PlaybackRateButton';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 
 export type OwnProps = Readonly<{
-  active: ActiveAudioPlayerStateType | undefined;
+  active:
+    | Pick<
+        ActiveAudioPlayerStateType,
+        'currentTime' | 'duration' | 'playing' | 'playbackRate'
+      >
+    | undefined;
   buttonRef: RefObject<HTMLButtonElement>;
-  renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
   collapseMetadata: boolean;
@@ -33,7 +39,6 @@ export type OwnProps = Readonly<{
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
-  conversationId: string;
   played: boolean;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -41,34 +46,25 @@ export type OwnProps = Readonly<{
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
+  onPlayMessage: (id: string, position: number) => void;
 }>;
 
 export type DispatchProps = Readonly<{
-  loadAndPlayMessageAudio: (
-    id: string,
-    url: string,
-    context: string,
-    position: number,
-    isConsecutive: boolean
-  ) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   setCurrentTime: (currentTime: number) => void;
-  setPlaybackRate: (conversationId: string, rate: number) => void;
+  setPlaybackRate: (rate: number) => void;
   setIsPlaying: (value: boolean) => void;
 }>;
 
 export type Props = OwnProps & DispatchProps;
 
 type ButtonProps = {
-  variant: 'play' | 'playback-rate';
   mod?: string;
   label: string;
   visible?: boolean;
-  animateClick?: boolean;
   onClick: () => void;
   onMouseDown?: () => void;
   onMouseUp?: () => void;
-  children?: ReactNode;
 };
 
 enum State {
@@ -92,8 +88,6 @@ const REWIND_BAR_COUNT = 2;
 const SMALL_INCREMENT = 1;
 const BIG_INCREMENT = 5;
 
-const PLAYBACK_RATES = [1, 1.5, 2, 0.5];
-
 const SPRING_CONFIG = {
   mass: 0.5,
   tension: 350,
@@ -103,48 +97,16 @@ const SPRING_CONFIG = {
 
 const DOT_DIV_WIDTH = 14;
 
-// Utils
-
-const timeToText = (time: number): string => {
-  const hours = Math.floor(time / 3600);
-  let minutes = Math.floor((time % 3600) / 60).toString();
-  let seconds = Math.floor(time % 60).toString();
-
-  if (hours !== 0 && minutes.length < 2) {
-    minutes = `0${minutes}`;
-  }
-
-  if (seconds.length < 2) {
-    seconds = `0${seconds}`;
-  }
-
-  return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
-};
-
-/**
- * Handles animations, key events, and stopping event propagation
- * for play button and playback rate button
- */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+/** Handles animations, key events, and stopping event propagation */
+const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
-    const {
-      variant,
-      mod,
-      label,
-      children,
-      onClick,
-      visible = true,
-      animateClick = true,
-    } = props;
-    const [isDown, setIsDown] = useState(false);
-
+    const { mod, label, onClick, visible = true } = props;
     const [animProps] = useSpring(
       {
         config: SPRING_CONFIG,
-        to:
-          isDown && animateClick ? { scale: 1.3 } : { scale: visible ? 1 : 0 },
+        to: { scale: visible ? 1 : 0 },
       },
-      [visible, isDown, animateClick]
+      [visible]
     );
 
     // Clicking button toggle playback
@@ -178,19 +140,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           type="button"
           ref={ref}
           className={classNames(
-            `${CSS_BASE}__${variant}-button`,
-            mod ? `${CSS_BASE}__${variant}-button--${mod}` : undefined
+            `${CSS_BASE}__play-button`,
+            mod ? `${CSS_BASE}__play-button--${mod}` : undefined
           )}
           onClick={onButtonClick}
           onKeyDown={onButtonKeyDown}
-          onMouseDown={() => setIsDown(true)}
-          onMouseUp={() => setIsDown(false)}
-          onMouseLeave={() => setIsDown(false)}
           tabIndex={0}
           aria-label={label}
-        >
-          {children}
-        </button>
+        />
       </animated.div>
     );
   }
@@ -237,10 +194,9 @@ function PlayedDot({
  * toggle Play/Pause button.
  *
  * A global audio player is used for playback and access is managed by the
- * `activeAudioID` and `activeAudioContext` properties. Whenever both
- * `activeAudioID` and `activeAudioContext` are equal to `id` and `context`
- * respectively the instance of the `MessageAudio` assumes the ownership of the
- * `Audio` instance and fully manages it.
+ * `active.content.current.id` and the `active.content.context` properties. Whenever both
+ * are equal to `id` and `context` respectively the instance of the `MessageAudio`
+ * assumes the ownership of the `Audio` instance and fully manages it.
  *
  * `context` is required for displaying separate MessageAudio instances in
  * MessageDetails and Message React components.
@@ -250,10 +206,8 @@ export function MessageAudio(props: Props): JSX.Element {
     active,
     buttonRef,
     i18n,
-    renderingContext,
     attachment,
     collapseMetadata,
-    conversationId,
     withContentAbove,
     withContentBelow,
 
@@ -270,7 +224,7 @@ export function MessageAudio(props: Props): JSX.Element {
     onCorrupted,
     computePeaks,
     setPlaybackRate,
-    loadAndPlayMessageAudio,
+    onPlayMessage,
     pushPanelForConversation,
     setCurrentTime,
     setIsPlaying,
@@ -373,10 +327,9 @@ export function MessageAudio(props: Props): JSX.Element {
       if (active) {
         setIsPlaying(true);
       } else {
-        loadAndPlayMessageAudio(id, attachment.url, renderingContext, 0, false);
+        onPlayMessage(id, 0);
       }
     } else {
-      // stop
       setIsPlaying(false);
     }
   };
@@ -401,13 +354,7 @@ export function MessageAudio(props: Props): JSX.Element {
     }
 
     if (attachment.url) {
-      loadAndPlayMessageAudio(
-        id,
-        attachment.url,
-        renderingContext,
-        progress,
-        false
-      );
+      onPlayMessage(id, progress);
     } else {
       log.warn('Waveform clicked on attachment with no url');
     }
@@ -467,7 +414,7 @@ export function MessageAudio(props: Props): JSX.Element {
       aria-valuenow={currentTimeOrZero}
       aria-valuemin={0}
       aria-valuemax={duration}
-      aria-valuetext={timeToText(currentTimeOrZero)}
+      aria-valuetext={durationToPlaybackText(currentTimeOrZero)}
     >
       {peaks.map((peak, i) => {
         let height = Math.max(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT * peak);
@@ -512,46 +459,28 @@ export function MessageAudio(props: Props): JSX.Element {
     );
   } else if (state === State.NotDownloaded) {
     button = (
-      <Button
+      <PlaybackButton
         ref={buttonRef}
-        variant="play"
         mod="download"
         label="MessageAudio--download"
-        animateClick={false}
         onClick={kickOffAttachmentDownload}
       />
     );
   } else {
     // State.Normal
     button = (
-      <Button
+      <PlaybackButton
         ref={buttonRef}
-        variant="play"
         mod={isPlaying ? 'pause' : 'play'}
         label={
           isPlaying ? i18n('MessageAudio--pause') : i18n('MessageAudio--play')
         }
-        animateClick={false}
         onClick={toggleIsPlaying}
       />
     );
   }
 
   const countDown = Math.max(0, duration - (active?.currentTime ?? 0));
-
-  const nextPlaybackRate = (currentRate: number): number => {
-    // cycle through the rates
-    return PLAYBACK_RATES[
-      (PLAYBACK_RATES.indexOf(currentRate) + 1) % PLAYBACK_RATES.length
-    ];
-  };
-
-  const playbackRateLabels: { [key: number]: string } = {
-    1: i18n('MessageAudio--playbackRate1'),
-    1.5: i18n('MessageAudio--playbackRate1p5'),
-    2: i18n('MessageAudio--playbackRate2'),
-    0.5: i18n('MessageAudio--playbackRatep5'),
-  };
 
   const metadata = (
     <div className={`${CSS_BASE}__metadata`}>
@@ -562,7 +491,7 @@ export function MessageAudio(props: Props): JSX.Element {
           `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
         )}
       >
-        {timeToText(countDown)}
+        {durationToPlaybackText(countDown)}
       </div>
 
       <div className={`${CSS_BASE}__controls`}>
@@ -570,21 +499,20 @@ export function MessageAudio(props: Props): JSX.Element {
           played={played}
           onHide={() => setIsPlayedDotVisible(false)}
         />
-        <Button
-          variant="playback-rate"
-          label={playbackRateLabels[active?.playbackRate ?? 1]}
+
+        <PlaybackRateButton
+          i18n={i18n}
+          variant={`message-${direction}`}
+          playbackRate={active?.playbackRate}
           visible={isPlaying && (!played || !isPlayedDotVisible)}
           onClick={() => {
             if (active) {
               setPlaybackRate(
-                conversationId,
-                nextPlaybackRate(active.playbackRate)
+                PlaybackRateButton.nextPlaybackRate(active.playbackRate)
               );
             }
           }}
-        >
-          {playbackRateLabels[active?.playbackRate ?? 1]}
-        </Button>
+        />
       </div>
 
       {!withContentBelow && !collapseMetadata && (

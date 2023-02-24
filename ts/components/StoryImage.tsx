@@ -35,6 +35,7 @@ export type PropsType = {
   readonly moduleClassName?: string;
   readonly queueStoryDownload: (storyId: string) => unknown;
   readonly storyId: string;
+  readonly onMediaPlaybackStart: () => void;
 };
 
 export function StoryImage({
@@ -50,6 +51,7 @@ export function StoryImage({
   moduleClassName,
   queueStoryDownload,
   storyId,
+  onMediaPlaybackStart,
 }: PropsType): JSX.Element | null {
   const shouldDownloadAttachment =
     (!isDownloaded(attachment) && !isDownloading(attachment)) ||
@@ -72,9 +74,10 @@ export function StoryImage({
     if (isPaused) {
       videoRef.current.pause();
     } else {
+      onMediaPlaybackStart();
       void videoRef.current.play();
     }
-  }, [isPaused]);
+  }, [isPaused, onMediaPlaybackStart]);
 
   useEffect(() => {
     setHasImgError(false);

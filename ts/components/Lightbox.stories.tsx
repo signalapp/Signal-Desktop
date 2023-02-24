@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
+import { noop } from 'lodash';
 
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './Lightbox';
@@ -62,6 +63,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   saveAttachment: action('saveAttachment'),
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  onMediaPlaybackStart: noop,
 });
 
 export function Multimedia(): JSX.Element {

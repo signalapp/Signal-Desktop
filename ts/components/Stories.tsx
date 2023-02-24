@@ -39,6 +39,7 @@ export type PropsType = {
   myStories: Array<MyStoryType>;
   onForwardStory: (storyId: string) => unknown;
   onSaveStory: (story: StoryViewType) => unknown;
+  onMediaPlaybackStart: () => void;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: () => JSX.Element;
@@ -67,6 +68,7 @@ export function Stories({
   myStories,
   onForwardStory,
   onSaveStory,
+  onMediaPlaybackStart,
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryCreator,
@@ -110,6 +112,7 @@ export function Stories({
             onDelete={deleteStoryForEveryone}
             onForward={onForwardStory}
             onSave={onSaveStory}
+            onMediaPlaybackStart={onMediaPlaybackStart}
             queueStoryDownload={queueStoryDownload}
             retryMessageSend={retryMessageSend}
             viewStory={viewStory}
@@ -134,6 +137,7 @@ export function Stories({
               }
             }}
             onStoriesSettings={showStoriesSettings}
+            onMediaPlaybackStart={onMediaPlaybackStart}
             queueStoryDownload={queueStoryDownload}
             showConversation={showConversation}
             showToast={showToast}

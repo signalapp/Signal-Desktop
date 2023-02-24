@@ -71,6 +71,7 @@ export type PropsType = {
     | 'toggleGroupsForStorySend'
     | 'mostRecentActiveStoryTimestampByGroupOrDistributionList'
     | 'toggleSignalConnectionsModal'
+    | 'onMediaPlaybackStart'
   > &
   Pick<
     TextStoryCreatorPropsType,
@@ -104,6 +105,7 @@ export function StoryCreator({
   onSetSkinTone,
   onUseEmoji,
   onViewersUpdated,
+  onMediaPlaybackStart,
   ourConversationId,
   processAttachment,
   recentEmojis,
@@ -194,6 +196,7 @@ export function StoryCreator({
             setDraftAttachment(undefined);
           }}
           onViewersUpdated={onViewersUpdated}
+          onMediaPlaybackStart={onMediaPlaybackStart}
           setMyStoriesToAllSignalConnections={
             setMyStoriesToAllSignalConnections
           }

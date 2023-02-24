@@ -34,6 +34,7 @@ export type PropsType = {
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex?: number;
   toggleForwardMessageModal: (messageId: string) => unknown;
+  onMediaPlaybackStart: () => void;
 };
 
 const ZOOM_SCALE = 3;
@@ -60,6 +61,7 @@ export function Lightbox({
   saveAttachment,
   selectedIndex: initialSelectedIndex = 0,
   toggleForwardMessageModal,
+  onMediaPlaybackStart,
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
   const [selectedIndex, setSelectedIndex] =
@@ -204,11 +206,12 @@ export function Lightbox({
     }
 
     if (videoElement.paused) {
+      onMediaPlaybackStart();
       void videoElement.play();
     } else {
       videoElement.pause();
     }
-  }, [videoElement]);
+  }, [videoElement, onMediaPlaybackStart]);
 
   useEffect(() => {
     const div = document.createElement('div');

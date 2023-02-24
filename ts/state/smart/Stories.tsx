@@ -25,6 +25,7 @@ import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useToastActions } from '../ducks/toast';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -66,6 +67,8 @@ export function SmartStories(): JSX.Element | null {
 
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
 
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
+
   if (!isShowingStoriesView) {
     return null;
   }
@@ -84,6 +87,7 @@ export function SmartStories(): JSX.Element | null {
           saveAttachment(story.attachment, story.timestamp);
         }
       }}
+      onMediaPlaybackStart={pauseVoiceNotePlayer}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
       retryMessageSend={retryMessageSend}

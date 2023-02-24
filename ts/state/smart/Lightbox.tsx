@@ -15,6 +15,7 @@ import { getIntl } from '../selectors/user';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLightboxActions } from '../ducks/lightbox';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import {
   getIsViewOnce,
   getMedia,
@@ -27,6 +28,7 @@ export function SmartLightbox(): JSX.Element | null {
   const { saveAttachment } = useConversationsActions();
   const { closeLightbox } = useLightboxActions();
   const { toggleForwardMessageModal } = useGlobalModalActions();
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   const conversationSelector = useSelector<StateType, GetConversationByIdType>(
     getConversationSelector
@@ -54,6 +56,7 @@ export function SmartLightbox(): JSX.Element | null {
       saveAttachment={saveAttachment}
       selectedIndex={selectedIndex || 0}
       toggleForwardMessageModal={toggleForwardMessageModal}
+      onMediaPlaybackStart={pauseVoiceNotePlayer}
     />
   );
 }

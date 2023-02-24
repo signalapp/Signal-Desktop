@@ -1,35 +1,79 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-import { pick } from 'lodash';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import { MessageAudio } from '../../components/conversation/MessageAudio';
 import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio';
-
-import { mapDispatchToProps } from '../actions';
-import type { StateType } from '../reducer';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import {
+  selectAudioPlayerActive,
+  selectVoiceNoteAndConsecutive,
+} from '../selectors/audioPlayer';
+import { useConversationsActions } from '../ducks/conversations';
+import { getUserConversationId } from '../selectors/user';
+import * as log from '../../logging/log';
 
-export type Props = Omit<MessageAudioOwnProps, 'active'>;
+export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
+  renderingContext: string;
+};
 
-const mapStateToProps = (
-  state: StateType,
-  props: Props
-): MessageAudioOwnProps => {
-  const { active } = state.audioPlayer;
+export function SmartMessageAudio({
+  renderingContext,
+  ...props
+}: Props): JSX.Element | null {
+  const active = useSelector(selectAudioPlayerActive);
+  const { loadMessageAudio, setIsPlaying, setPlaybackRate, setCurrentTime } =
+    useAudioPlayerActions();
+  const { pushPanelForConversation } = useConversationsActions();
+
+  const getVoiceNoteData = useSelector(selectVoiceNoteAndConsecutive);
+  const ourConversationId = useSelector(getUserConversationId);
 
   const messageActive: ActiveAudioPlayerStateType | undefined =
     active &&
-    active.id === props.id &&
-    active.context === props.renderingContext
-      ? pick(active, 'playing', 'playbackRate', 'currentTime', 'duration')
+    active.content &&
+    active.content.current.id === props.id &&
+    active.content.context === renderingContext
+      ? active
       : undefined;
-  return {
-    ...props,
-    active: messageActive,
-  };
-};
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-export const SmartMessageAudio = smart(MessageAudio);
+  const handlePlayMessage = useCallback(
+    (id: string, position: number) => {
+      const voiceNoteData = getVoiceNoteData(id);
+
+      if (!voiceNoteData) {
+        log.warn('SmartMessageAudio: voice note not found', {
+          message: id,
+        });
+        return;
+      }
+
+      if (!ourConversationId) {
+        log.warn('SmartMessageAudio: no ourConversationId');
+        return;
+      }
+
+      loadMessageAudio({
+        voiceNoteData,
+        position,
+        context: renderingContext,
+        ourConversationId,
+      });
+    },
+    [getVoiceNoteData, loadMessageAudio, ourConversationId, renderingContext]
+  );
+
+  return (
+    <MessageAudio
+      active={messageActive}
+      onPlayMessage={handlePlayMessage}
+      setPlaybackRate={setPlaybackRate}
+      setIsPlaying={setIsPlaying}
+      setCurrentTime={setCurrentTime}
+      pushPanelForConversation={pushPanelForConversation}
+      {...props}
+    />
+  );
+}

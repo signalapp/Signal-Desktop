@@ -1963,9 +1963,9 @@ describe('calling duck', () => {
         });
       });
 
-      it("doesn't dispatch any actions for group calls", () => {
+      it("doesn't dispatch any actions for group calls", async () => {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Group,
           conversationId: '123',
           hasLocalAudio: true,

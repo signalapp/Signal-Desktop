@@ -21,6 +21,7 @@ export type PropsType = {
   myStories: Array<MyStoryType>;
   onAddStory: () => unknown;
   onClick: () => unknown;
+  onMediaPlaybackStart: () => void;
   queueStoryDownload: (storyId: string) => unknown;
   showToast: ShowToastActionCreatorType;
 };
@@ -35,6 +36,7 @@ export function MyStoryButton({
   myStories,
   onAddStory,
   onClick,
+  onMediaPlaybackStart,
   queueStoryDownload,
   showToast,
 }: PropsType): JSX.Element {
@@ -190,6 +192,7 @@ export function MyStoryButton({
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={newestStory.messageId}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
       </div>

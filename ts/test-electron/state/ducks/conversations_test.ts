@@ -20,6 +20,7 @@ import type {
   MessageType,
   SelectedConversationChangedActionType,
   ToggleConversationInChooseMembersActionType,
+  MessageChangedActionType,
 } from '../../../state/ducks/conversations';
 import {
   SELECTED_CONVERSATION_CHANGED,
@@ -57,6 +58,7 @@ import {
   VIEWERS_CHANGED,
 } from '../../../state/ducks/storyDistributionLists';
 import { MY_STORY_ID } from '../../../types/Stories';
+import type { MessageAttributesType } from '../../../model-types.d';
 
 const {
   clearGroupCreationError,
@@ -67,7 +69,6 @@ const {
   conversationStoppedByMissingVerification,
   createGroup,
   discardMessages,
-  messageChanged,
   repairNewestMessage,
   repairOldestMessage,
   resetAllChatColors,
@@ -85,6 +86,22 @@ const {
   startSettingGroupMetadata,
   toggleConversationInChooseMembers,
 } = actions;
+
+// can't use messageChanged action creator because it's a ThunkAction
+function messageChanged(
+  messageId: string,
+  conversationId: string,
+  data: MessageAttributesType
+): MessageChangedActionType {
+  return {
+    type: 'MESSAGE_CHANGED',
+    payload: {
+      id: messageId,
+      conversationId,
+      data,
+    },
+  };
+}
 
 describe('both/state/ducks/conversations', () => {
   const UUID_1 = UUID.generate().toString();
