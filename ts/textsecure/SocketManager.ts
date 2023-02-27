@@ -34,6 +34,7 @@ const JITTER = 5 * durations.SECOND;
 
 export type SocketManagerOptions = Readonly<{
   url: string;
+  artCreatorUrl: string;
   certificateAuthority: string;
   version: string;
   proxyUrl?: string;
@@ -272,6 +273,27 @@ export class SocketManager extends EventListener {
           handler.handleRequest(req);
         },
         keepalive: { path: '/v1/keepalive/provisioning' },
+      },
+    }).getResult();
+  }
+
+  // Creates new WebSocket for Art Creator provisioning
+  public async connectExternalSocket({
+    url,
+    extraHeaders,
+  }: {
+    url: string;
+    extraHeaders?: Record<string, string>;
+  }): Promise<WebSocket> {
+    return connectWebSocket({
+      name: 'art-creator-provisioning',
+      url,
+      version: this.options.version,
+      proxyAgent: this.proxyAgent,
+      extraHeaders,
+
+      createResource(socket: WebSocket): WebSocket {
+        return socket;
       },
     }).getResult();
   }

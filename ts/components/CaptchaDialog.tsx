@@ -82,7 +82,7 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
       variant={ButtonVariant.Primary}
     >
       {isPending ? (
-        <Spinner size="22px" svgSize="small" direction="on-captcha" />
+        <Spinner size="22px" svgSize="small" direction="on-primary-button" />
       ) : (
         'Continue'
       )}

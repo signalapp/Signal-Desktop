@@ -1,0 +1,14 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package signalservice;
+
+message ArtProvisioningEnvelope {
+  optional bytes publicKey = 1;
+  optional bytes ciphertext = 2;
+}
+
+message ArtProvisioningMessage {
+  optional string username = 1;
+  optional string password = 2;
+}

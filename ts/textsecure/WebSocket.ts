@@ -24,7 +24,7 @@ export type IResource = {
 export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   name: string;
   url: string;
-  certificateAuthority: string;
+  certificateAuthority?: string;
   version: string;
   proxyAgent?: ReturnType<typeof ProxyAgent>;
   timeout?: number;

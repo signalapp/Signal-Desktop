@@ -66,6 +66,8 @@ export function SmartGlobalModalContainer(): JSX.Element {
     safetyNumberModalContactId,
     stickerPackPreviewId,
     userNotFoundModalState,
+    isAuthorizingArtCreator,
+    authArtCreatorData,
   } = useSelector<StateType, GlobalModalsStateType>(
     state => state.globalModals
   );
@@ -75,6 +77,8 @@ export function SmartGlobalModalContainer(): JSX.Element {
     hideWhatsNewModal,
     hideUserNotFoundModal,
     toggleSignalConnectionsModal,
+    cancelAuthorizeArtCreator,
+    confirmAuthorizeArtCreator,
   } = useGlobalModalActions();
 
   const renderAddUserToAnotherGroup = useCallback(() => {
@@ -143,6 +147,10 @@ export function SmartGlobalModalContainer(): JSX.Element {
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       userNotFoundModalState={userNotFoundModalState}
+      isAuthorizingArtCreator={isAuthorizingArtCreator}
+      authArtCreatorData={authArtCreatorData}
+      cancelAuthorizeArtCreator={cancelAuthorizeArtCreator}
+      confirmAuthorizeArtCreator={confirmAuthorizeArtCreator}
     />
   );
 }

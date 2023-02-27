@@ -11,6 +11,7 @@ import { load as loadLocale } from '../../../app/locale';
 import type { MenuListType } from '../../types/menu';
 
 const forceUpdate = stub();
+const openArtCreator = stub();
 const openContactUs = stub();
 const openForums = stub();
 const openJoinTheBeta = stub();
@@ -213,6 +214,7 @@ describe('createTemplate', () => {
 
   const actions = {
     forceUpdate,
+    openArtCreator,
     openContactUs,
     openForums,
     openJoinTheBeta,

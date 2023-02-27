@@ -10,11 +10,13 @@ import { ModalHost } from './ModalHost';
 import { ModalPage } from './Modal';
 import type { Theme } from '../util/theme';
 import { useAnimated } from '../hooks/useAnimated';
+import { Spinner } from './Spinner';
 
 export type ActionSpec = {
   text: string;
   action: () => unknown;
   style?: 'affirmative' | 'negative';
+  autoClose?: boolean;
 };
 
 export type OwnProps = Readonly<{
@@ -22,6 +24,7 @@ export type OwnProps = Readonly<{
   dialogName: string;
   cancelButtonVariant?: ButtonVariant;
   cancelText?: string;
+  isSpinning?: boolean;
   children?: React.ReactNode;
   hasXButton?: boolean;
   i18n: LocalizerType;
@@ -65,6 +68,7 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
   children,
   hasXButton,
   i18n,
+  isSpinning,
   moduleClassName,
   noMouseClose,
   noDefaultCancelButton,
@@ -99,7 +103,7 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
 
   const footer = (
     <>
-      {!noDefaultCancelButton ? (
+      {!isSpinning && !noDefaultCancelButton ? (
         <Button
           onClick={handleCancel}
           ref={focusRef}
@@ -114,14 +118,25 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
       {actions.map((action, i) => (
         <Button
           key={action.text}
+          disabled={isSpinning}
           onClick={() => {
             action.action();
-            close();
+            if (action.autoClose !== false) {
+              close();
+            }
           }}
           data-action={i}
           variant={getButtonVariant(action.style)}
         >
-          {action.text}
+          {isSpinning ? (
+            <Spinner
+              size="22px"
+              svgSize="small"
+              direction="on-primary-button"
+            />
+          ) : (
+            action.text
+          )}
         </Button>
       ))}
     </>

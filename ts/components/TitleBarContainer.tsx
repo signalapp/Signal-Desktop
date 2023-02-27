@@ -226,6 +226,7 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
 
         // actions
         forceUpdate: () => executeMenuAction('forceUpdate'),
+        openArtCreator: () => executeMenuAction('openArtCreator'),
         openContactUs: () => executeMenuAction('openContactUs'),
         openForums: () => executeMenuAction('openForums'),
         openJoinTheBeta: () => executeMenuAction('openJoinTheBeta'),

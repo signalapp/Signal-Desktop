@@ -417,6 +417,7 @@ async function prepareUrl(
     storageUrl: config.get<string>('storageUrl'),
     updatesUrl: config.get<string>('updatesUrl'),
     resourcesUrl: config.get<string>('resourcesUrl'),
+    artCreatorUrl: config.get<string>('artCreatorUrl'),
     cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
     cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
     certificateAuthority: config.get<string>('certificateAuthority'),
@@ -1004,6 +1005,11 @@ ipc.handle('database-ready', async () => {
   getLogger().info('sending `database-ready`');
 });
 
+ipc.handle('open-art-creator', (_event, { username, password }) => {
+  const baseUrl = config.get<string>('artCreatorUrl');
+  drop(shell.openExternal(`${baseUrl}/#auth=${username}:${password}`));
+});
+
 ipc.on('show-window', () => {
   showWindow();
 });
@@ -1407,6 +1413,25 @@ async function showStickerCreator() {
   });
 
   await safeLoadURL(stickerCreatorWindow, await appUrl);
+}
+
+async function openArtCreator() {
+  if (!(await getIsLinked())) {
+    const message = getResolvedMessagesLocale().i18n(
+      'icu:ArtCreator--Authentication--error'
+    );
+
+    await dialog.showMessageBox({
+      type: 'warning',
+      message,
+    });
+
+    return;
+  }
+
+  if (mainWindow) {
+    mainWindow.webContents.send('open-art-creator');
+  }
 }
 
 let debugLogWindow: BrowserWindow | undefined;
@@ -1963,6 +1988,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
 
     // actions
     forceUpdate,
+    openArtCreator,
     openContactUs,
     openForums,
     openJoinTheBeta,
@@ -2348,6 +2374,14 @@ function handleSgnlHref(incomingHref: string) {
         ? Buffer.from(packKeyHex, 'hex').toString('base64')
         : '';
       mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
+    } else if (command === 'art-auth') {
+      const token = args?.get('token');
+      const pubKeyBase64 = args?.get('pub_key');
+
+      mainWindow.webContents.send('authorize-art-creator', {
+        token,
+        pubKeyBase64,
+      });
     } else if (command === 'signal.group' && hash) {
       getLogger().info('Showing group from sgnl protocol link');
       mainWindow.webContents.send('show-group-via-link', { hash });
@@ -2549,6 +2583,8 @@ ipc.handle('getMenuOptions', async () => {
 ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
   if (action === 'forceUpdate') {
     drop(forceUpdate());
+  } else if (action === 'openArtCreator') {
+    drop(openArtCreator());
   } else if (action === 'openContactUs') {
     openContactUs();
   } else if (action === 'openForums') {

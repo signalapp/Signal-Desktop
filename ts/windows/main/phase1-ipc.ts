@@ -15,6 +15,7 @@ import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
+import { drop } from '../../util/drop';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -295,6 +296,24 @@ ipc.on('show-group-via-link', (_event, info) => {
   if (showGroupViaLink) {
     void showGroupViaLink(hash);
   }
+});
+
+ipc.on('open-art-creator', () => {
+  drop(window.Events.openArtCreator());
+});
+window.openArtCreator = ({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) => {
+  return ipc.invoke('open-art-creator', { username, password });
+};
+
+ipc.on('authorize-art-creator', (_event, info) => {
+  const { token, pubKeyBase64 } = info;
+  window.Events.authorizeArtCreator?.({ token, pubKeyBase64 });
 });
 
 ipc.on('show-conversation-via-signal.me', (_event, info) => {

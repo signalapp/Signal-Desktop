@@ -38,6 +38,7 @@ export const createTemplate = (
     showKeyboardShortcuts,
     showSettings,
     showStickerCreator,
+    openArtCreator,
   } = options;
 
   const template: MenuListType = [
@@ -46,7 +47,7 @@ export const createTemplate = (
       submenu: [
         {
           label: i18n('mainMenuCreateStickers'),
-          click: showStickerCreator,
+          click: isProduction ? showStickerCreator : openArtCreator,
         },
         {
           label: i18n('mainMenuSettings'),

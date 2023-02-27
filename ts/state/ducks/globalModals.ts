@@ -12,13 +12,20 @@ import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
+import * as Errors from '../../types/errors';
 import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isGroupV1 } from '../../util/whatTypeOfConversation';
+import { authorizeArtCreator } from '../../textsecure/authorizeArtCreator';
+import type { AuthorizeArtCreatorOptionsType } from '../../textsecure/authorizeArtCreator';
 import { getGroupMigrationMembers } from '../../groups';
+import * as log from '../../logging/log';
+import { ToastType } from '../../types/Toast';
+import { SHOW_TOAST } from './toast';
+import type { ShowToastActionType } from './toast';
 
 // State
 
@@ -29,6 +36,8 @@ export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: UUIDStringType;
   source?: SafetyNumberChangeSource;
 }>;
+export type AuthorizeArtCreatorDataType =
+  ReadonlyDeep<AuthorizeArtCreatorOptionsType>;
 
 type MigrateToGV2PropsType = ReadonlyDeep<{
   areWeInvited: boolean;
@@ -56,6 +65,8 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
+  isAuthorizingArtCreator?: boolean;
+  authArtCreatorData?: AuthorizeArtCreatorDataType;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -89,6 +100,12 @@ const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
+const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
+const CANCEL_AUTH_ART_CREATOR = 'globalModals/CANCEL_AUTH_ART_CREATOR';
+const CONFIRM_AUTH_ART_CREATOR_PENDING =
+  'globalModals/CONFIRM_AUTH_ART_CREATOR_PENDING';
+const CONFIRM_AUTH_ART_CREATOR_FULFILLED =
+  'globalModals/CONFIRM_AUTH_ART_CREATOR_FULFILLED';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -216,6 +233,23 @@ type ShowShortcutGuideModalActionType = ReadonlyDeep<{
   type: typeof SHOW_SHORTCUT_GUIDE_MODAL;
 }>;
 
+export type ShowAuthArtCreatorActionType = ReadonlyDeep<{
+  type: typeof SHOW_AUTH_ART_CREATOR;
+  payload: AuthorizeArtCreatorDataType;
+}>;
+
+type CancelAuthArtCreatorActionType = ReadonlyDeep<{
+  type: typeof CANCEL_AUTH_ART_CREATOR;
+}>;
+
+type ConfirmAuthArtCreatorPendingActionType = ReadonlyDeep<{
+  type: typeof CONFIRM_AUTH_ART_CREATOR_PENDING;
+}>;
+
+type ConfirmAuthArtCreatorFulfilledActionType = ReadonlyDeep<{
+  type: typeof CONFIRM_AUTH_ART_CREATOR_FULFILLED;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | StartMigrationToGV2ActionType
   | CloseGV2MigrationDialogActionType
@@ -235,6 +269,10 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowErrorModalActionType
   | CloseShortcutGuideModalActionType
   | ShowShortcutGuideModalActionType
+  | CancelAuthArtCreatorActionType
+  | ConfirmAuthArtCreatorPendingActionType
+  | ConfirmAuthArtCreatorFulfilledActionType
+  | ShowAuthArtCreatorActionType
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -270,6 +308,9 @@ export const actions = {
   showErrorModal,
   closeShortcutGuideModal,
   showShortcutGuideModal,
+  showAuthorizeArtCreator,
+  cancelAuthorizeArtCreator,
+  confirmAuthorizeArtCreator,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -540,6 +581,73 @@ function showShortcutGuideModal(): ShowShortcutGuideModalActionType {
   };
 }
 
+function cancelAuthorizeArtCreator(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CancelAuthArtCreatorActionType
+> {
+  return async (dispatch, getState) => {
+    const data = getState().globalModals.authArtCreatorData;
+
+    if (!data) {
+      return;
+    }
+
+    dispatch({
+      type: CANCEL_AUTH_ART_CREATOR,
+    });
+  };
+}
+
+export function showAuthorizeArtCreator(
+  data: AuthorizeArtCreatorDataType
+): ShowAuthArtCreatorActionType {
+  return {
+    type: SHOW_AUTH_ART_CREATOR,
+    payload: data,
+  };
+}
+
+export function confirmAuthorizeArtCreator(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ConfirmAuthArtCreatorPendingActionType
+  | ConfirmAuthArtCreatorFulfilledActionType
+  | CancelAuthArtCreatorActionType
+  | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const data = getState().globalModals.authArtCreatorData;
+
+    if (!data) {
+      dispatch({ type: CANCEL_AUTH_ART_CREATOR });
+      return;
+    }
+
+    dispatch({
+      type: CONFIRM_AUTH_ART_CREATOR_PENDING,
+    });
+
+    try {
+      await authorizeArtCreator(data);
+    } catch (err) {
+      log.error('authorizeArtCreator failed', Errors.toLogFormat(err));
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.Error,
+        },
+      });
+    }
+
+    dispatch({
+      type: CONFIRM_AUTH_ART_CREATOR_FULFILLED,
+    });
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
@@ -715,6 +823,36 @@ export function reducer(
     return {
       ...state,
       isShortcutGuideModalVisible: true,
+    };
+  }
+
+  if (action.type === CANCEL_AUTH_ART_CREATOR) {
+    return {
+      ...state,
+      authArtCreatorData: undefined,
+    };
+  }
+
+  if (action.type === SHOW_AUTH_ART_CREATOR) {
+    return {
+      ...state,
+      isAuthorizingArtCreator: false,
+      authArtCreatorData: action.payload,
+    };
+  }
+
+  if (action.type === CONFIRM_AUTH_ART_CREATOR_PENDING) {
+    return {
+      ...state,
+      isAuthorizingArtCreator: true,
+    };
+  }
+
+  if (action.type === CONFIRM_AUTH_ART_CREATOR_FULFILLED) {
+    return {
+      ...state,
+      isAuthorizingArtCreator: false,
+      authArtCreatorData: undefined,
     };
   }
 

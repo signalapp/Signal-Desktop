@@ -19,6 +19,7 @@ import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { parseSystemTraySetting } from '../types/SystemTraySetting';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
@@ -85,6 +86,7 @@ export type IPCEventsValuesType = {
 };
 
 export type IPCEventsCallbacksType = {
+  openArtCreator(): Promise<void>;
   getAvailableIODevices(): Promise<{
     availableCameras: Array<
       Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -94,6 +96,7 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
+  authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
   closeDB: () => Promise<void>;
@@ -188,6 +191,15 @@ export function createIPCEvents(
   };
 
   return {
+    openArtCreator: async () => {
+      const auth = await window.textsecure.server?.getArtAuth();
+      if (!auth) {
+        return;
+      }
+
+      window.openArtCreator(auth);
+    },
+
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
     getZoomFactor: () => window.storage.get('zoomFactor', 1),
@@ -438,6 +450,14 @@ export function createIPCEvents(
         newOverlay.remove();
       });
       document.body.prepend(newOverlay);
+    },
+    authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
+      // We can get these events even if the user has never linked this instance.
+      if (!window.Signal.Util.Registration.everDone()) {
+        log.warn('authorizeArtCreator: Not registered, returning early');
+        return;
+      }
+      window.reduxActions.globalModals.showAuthorizeArtCreator(data);
     },
     removeDarkOverlay: () => {
       const elems = document.querySelectorAll('.dark-overlay');
