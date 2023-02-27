@@ -670,10 +670,20 @@ async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
 }
 
 async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
+  let wasDestroyed = false;
+  const onDestroyed = () => {
+    wasDestroyed = true;
+  };
+
+  window.webContents.on('did-stop-loading', onDestroyed);
+  window.webContents.on('destroyed', onDestroyed);
   try {
     await window.loadURL(url);
   } catch (error) {
-    if (windowState.readyForShutdown() && error?.code === 'ERR_FAILED') {
+    if (
+      (wasDestroyed || windowState.readyForShutdown()) &&
+      error?.code === 'ERR_FAILED'
+    ) {
       getLogger().warn(
         'safeLoadURL: ignoring ERR_FAILED because we are shutting down',
         error
@@ -681,6 +691,9 @@ async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
       return;
     }
     throw error;
+  } finally {
+    window.webContents.removeListener('did-stop-loading', onDestroyed);
+    window.webContents.removeListener('destroyed', onDestroyed);
   }
 }
 
