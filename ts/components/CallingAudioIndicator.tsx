@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import type { ReactElement } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
 import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants';
 import { missingCaseError } from '../util/missingCaseError';
 
-const SPEAKING_LINGER_MS = 500;
-
+export const SPEAKING_LINGER_MS = 500;
 const BASE_CLASS_NAME = 'CallingAudioIndicator';
 const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 
@@ -104,23 +102,12 @@ function Bars({ audioLevel }: { audioLevel: number }): ReactElement {
 export function CallingAudioIndicator({
   hasAudio,
   audioLevel,
-}: Readonly<{ hasAudio: boolean; audioLevel: number }>): ReactElement {
-  const [shouldShowSpeaking, setShouldShowSpeaking] = useState(audioLevel > 0);
-
-  useEffect(() => {
-    if (audioLevel > 0) {
-      setShouldShowSpeaking(true);
-    } else if (shouldShowSpeaking) {
-      const timeout = setTimeout(() => {
-        setShouldShowSpeaking(false);
-      }, SPEAKING_LINGER_MS);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
-    return noop;
-  }, [audioLevel, shouldShowSpeaking]);
-
+  shouldShowSpeaking,
+}: Readonly<{
+  hasAudio: boolean;
+  audioLevel: number;
+  shouldShowSpeaking: boolean;
+}>): ReactElement {
   if (!hasAudio) {
     return (
       <div

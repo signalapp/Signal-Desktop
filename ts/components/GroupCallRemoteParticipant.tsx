@@ -16,13 +16,17 @@ import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
-import { CallingAudioIndicator } from './CallingAudioIndicator';
+import {
+  CallingAudioIndicator,
+  SPEAKING_LINGER_MS,
+} from './CallingAudioIndicator';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
@@ -78,6 +82,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       title,
       videoAspectRatio,
     } = props.remoteParticipant;
+
+    const isSpeaking = useValueAtFixedRate(
+      !props.isInPip ? props.audioLevel > 0 : false,
+      SPEAKING_LINGER_MS
+    );
 
     const [hasReceivedVideoRecently, setHasReceivedVideoRecently] =
       useState(false);
@@ -266,7 +275,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         )}
 
         <div
-          className="module-ongoing-call__group-call-remote-participant"
+          className={classNames(
+            'module-ongoing-call__group-call-remote-participant',
+            isSpeaking &&
+              'module-ongoing-call__group-call-remote-participant--speaking'
+          )}
           ref={intersectionRef}
           style={containerStyles}
         >
@@ -283,6 +296,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               <CallingAudioIndicator
                 hasAudio={hasRemoteAudio}
                 audioLevel={props.audioLevel}
+                shouldShowSpeaking={isSpeaking}
               />
             </div>
           )}

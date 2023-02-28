@@ -40,11 +40,15 @@ import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPerm
 import { missingCaseError } from '../util/missingCaseError';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
-import { CallingAudioIndicator } from './CallingAudioIndicator';
+import {
+  CallingAudioIndicator,
+  SPEAKING_LINGER_MS,
+} from './CallingAudioIndicator';
 import {
   useActiveCallShortcuts,
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -154,6 +158,11 @@ export function CallScreen({
     showNeedsScreenRecordingPermissionsWarning,
     showParticipantsList,
   } = activeCall;
+
+  const isSpeaking = useValueAtFixedRate(
+    localAudioLevel > 0,
+    SPEAKING_LINGER_MS
+  );
 
   useActivateSpeakerViewOnPresenting({
     remoteParticipants,
@@ -536,6 +545,7 @@ export function CallScreen({
           <CallingAudioIndicator
             hasAudio={hasLocalAudio}
             audioLevel={localAudioLevel}
+            shouldShowSpeaking={isSpeaking}
           />
         </div>
       </div>

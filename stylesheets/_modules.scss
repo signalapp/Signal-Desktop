@@ -3972,6 +3972,21 @@ button.module-image__border-overlay:focus {
     transform: translate(0, 0);
     transition: transform 200ms linear, width 200ms linear, height 200ms linear;
 
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 0 solid transparent;
+      border-radius: 5px;
+      transition: border-width 200ms, border-color 200ms;
+      transition-timing-function: ease-in-out;
+    }
+    &--speaking:after {
+      border-width: 3px;
+      border-color: $color-white;
+    }
+
     &__remote-video {
       // The background-color is seen while the video loads.
       background-color: $color-gray-75;
