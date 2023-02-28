@@ -100,17 +100,16 @@ export function connect<Resource extends IResource>({
     reject(translatedError);
   });
 
-  client.on('connectFailed', e => {
+  client.on('connectFailed', originalErr => {
     Timers.clearTimeout(timer);
 
-    reject(
-      new HTTPError('connectResource: connectFailed', {
-        code: -1,
-        headers: {},
-        response: e.toString(),
-        stack,
-      })
-    );
+    const err = new HTTPError('connectResource: connectFailed', {
+      code: -1,
+      headers: {},
+      stack,
+      cause: originalErr,
+    });
+    reject(err);
   });
 
   return new AbortableProcess<Resource>(

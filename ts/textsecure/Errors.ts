@@ -33,9 +33,10 @@ export class HTTPError extends Error {
       headers: HTTPErrorHeadersType;
       response?: unknown;
       stack?: string;
+      cause?: unknown;
     }
   ) {
-    super(`${message}; code: ${options.code}`);
+    super(`${message}; code: ${options.code}`, { cause: options.cause });
 
     const { code: providedCode, headers, response, stack } = options;
 
