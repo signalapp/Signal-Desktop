@@ -1,10 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { MiniPlayer, PlayerState } from '../../components/MiniPlayer';
-import { usePrevious } from '../../hooks/usePrevious';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import {
   selectAudioPlayerActive,
@@ -22,42 +21,12 @@ export function SmartMiniPlayer(): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);
-  const {
-    setIsPlaying,
-    setPlaybackRate,
-    unloadMessageAudio,
-    playMessageAudio,
-  } = useAudioPlayerActions();
+  const { setIsPlaying, setPlaybackRate, unloadMessageAudio } =
+    useAudioPlayerActions();
   const handlePlay = useCallback(() => setIsPlaying(true), [setIsPlaying]);
   const handlePause = useCallback(() => setIsPlaying(false), [setIsPlaying]);
-  const previousContent = usePrevious(undefined, active?.content);
 
-  useEffect(() => {
-    if (!active) {
-      return;
-    }
-
-    const { content } = active;
-
-    // if no content, stop playing
-    if (!content) {
-      if (active.playing) {
-        setIsPlaying(false);
-      }
-      return;
-    }
-
-    // if the content changed, play the new content
-    if (content.current.id !== previousContent?.current.id) {
-      playMessageAudio(content.isConsecutive);
-    }
-    // if the start position changed, play at new position
-    if (content.startPosition !== previousContent?.startPosition) {
-      playMessageAudio(false);
-    }
-  });
-
-  if (!active?.content) {
+  if (!active) {
     return null;
   }
 

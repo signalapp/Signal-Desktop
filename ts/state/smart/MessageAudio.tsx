@@ -24,7 +24,7 @@ export function SmartMessageAudio({
   ...props
 }: Props): JSX.Element | null {
   const active = useSelector(selectAudioPlayerActive);
-  const { loadMessageAudio, setIsPlaying, setPlaybackRate, setCurrentTime } =
+  const { loadMessageAudio, setIsPlaying, setPlaybackRate, setPosition } =
     useAudioPlayerActions();
   const { pushPanelForConversation } = useConversationsActions();
 
@@ -71,7 +71,7 @@ export function SmartMessageAudio({
       onPlayMessage={handlePlayMessage}
       setPlaybackRate={setPlaybackRate}
       setIsPlaying={setIsPlaying}
-      setCurrentTime={setCurrentTime}
+      setPosition={setPosition}
       pushPanelForConversation={pushPanelForConversation}
       {...props}
     />

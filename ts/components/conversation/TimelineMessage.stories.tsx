@@ -189,9 +189,9 @@ function MessageAudioContainer({
     setPlaying(value);
   };
 
-  const setCurrentTimeAction = (value: number) => {
-    audio.currentTime = value;
-    setCurrentTime(currentTime);
+  const setPosition = (value: number) => {
+    audio.currentTime = value * audio.duration;
+    setCurrentTime(audio.currentTime);
   };
 
   const active = isActive
@@ -203,11 +203,10 @@ function MessageAudioContainer({
       {...props}
       active={active}
       computePeaks={computePeaks}
-      id="storybook"
       onPlayMessage={handlePlayMessage}
       played={_played}
       pushPanelForConversation={action('pushPanelForConversation')}
-      setCurrentTime={setCurrentTimeAction}
+      setPosition={setPosition}
       setIsPlaying={setIsPlayingAction}
       setPlaybackRate={setPlaybackRateAction}
     />

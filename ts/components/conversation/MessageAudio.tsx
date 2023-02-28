@@ -51,7 +51,7 @@ export type OwnProps = Readonly<{
 
 export type DispatchProps = Readonly<{
   pushPanelForConversation: PushPanelForConversationActionType;
-  setCurrentTime: (currentTime: number) => void;
+  setPosition: (positionAsRatio: number) => void;
   setPlaybackRate: (rate: number) => void;
   setIsPlaying: (value: boolean) => void;
 }>;
@@ -226,7 +226,7 @@ export function MessageAudio(props: Props): JSX.Element {
     setPlaybackRate,
     onPlayMessage,
     pushPanelForConversation,
-    setCurrentTime,
+    setPosition,
     setIsPlaying,
   } = props;
 
@@ -239,11 +239,7 @@ export function MessageAudio(props: Props): JSX.Element {
   // if it's playing, use the duration passed as props as it might
   // change during loading/playback (?)
   // NOTE: Avoid division by zero
-  const activeDuration =
-    active?.duration && !Number.isNaN(active.duration)
-      ? active.duration
-      : undefined;
-  const [duration, setDuration] = useState(activeDuration ?? 1e-23);
+  const [duration, setDuration] = useState(active?.duration ?? 1e-23);
 
   const [hasPeaks, setHasPeaks] = useState(false);
   const [peaks, setPeaks] = useState<ReadonlyArray<number>>(
@@ -353,6 +349,14 @@ export function MessageAudio(props: Props): JSX.Element {
       progress = 0;
     }
 
+    if (active) {
+      setPosition(progress);
+      if (!active.playing) {
+        setIsPlaying(true);
+      }
+      return;
+    }
+
     if (attachment.url) {
       onPlayMessage(id, progress);
     } else {
@@ -385,12 +389,10 @@ export function MessageAudio(props: Props): JSX.Element {
       return;
     }
 
-    setCurrentTime(
-      Math.min(
-        Number.isNaN(duration) ? Infinity : duration,
-        Math.max(0, active.currentTime + increment)
-      )
-    );
+    const currentPosition = active.currentTime / duration;
+    const positionIncrement = increment / duration;
+
+    setPosition(currentPosition + positionIncrement);
 
     if (!isPlaying) {
       toggleIsPlaying();

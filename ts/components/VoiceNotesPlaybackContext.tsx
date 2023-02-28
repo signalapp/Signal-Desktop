@@ -155,11 +155,14 @@ export async function computePeaks(
 
   const pending = inProgressMap.get(computeKey);
   if (pending) {
-    log.info('GlobalAudioContext: already computing peaks for', computeKey);
+    log.info(
+      'VoiceNotesPlaybackContext: already computing peaks for',
+      computeKey
+    );
     return pending;
   }
 
-  log.info('GlobalAudioContext: queue computing peaks for', computeKey);
+  log.info('VoiceNotesPlaybackContext: queue computing peaks for', computeKey);
   const promise = computeQueue.add(() => doComputePeaks(url, barCount));
 
   inProgressMap.set(computeKey, promise);
@@ -178,10 +181,7 @@ export const VoiceNotesPlaybackContext =
   React.createContext<Contents>(globalContents);
 
 export type VoiceNotesPlaybackProps = {
-  conversationId: string | undefined;
-  isPaused: boolean;
   children?: React.ReactNode | React.ReactChildren;
-  unloadMessageAudio: () => void;
 };
 
 /**

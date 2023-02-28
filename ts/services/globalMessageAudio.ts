@@ -9,11 +9,16 @@ import { noop } from 'lodash';
  */
 class GlobalMessageAudio {
   #audio: HTMLAudioElement = new Audio();
+  #url: string | undefined;
+
+  // true immediately after play() is called, even if still loading
+  #playing = false;
 
   #onLoadedMetadata = noop;
   #onTimeUpdate = noop;
   #onEnded = noop;
   #onDurationChange = noop;
+  #onError = noop;
 
   constructor() {
     // callbacks must be wrapped by function (not attached directly)
@@ -29,40 +34,46 @@ class GlobalMessageAudio {
   }
 
   load({
-    src,
+    url,
     playbackRate,
     onLoadedMetadata,
     onTimeUpdate,
     onDurationChange,
     onEnded,
+    onError,
   }: {
-    src: string;
+    url: string;
     playbackRate: number;
     onLoadedMetadata: () => void;
     onTimeUpdate: () => void;
     onDurationChange: () => void;
     onEnded: () => void;
+    onError: (error: unknown) => void;
   }) {
-    this.#audio.pause();
-    this.#audio.currentTime = 0;
+    this.#url = url;
 
     // update callbacks
     this.#onLoadedMetadata = onLoadedMetadata;
     this.#onTimeUpdate = onTimeUpdate;
     this.#onDurationChange = onDurationChange;
     this.#onEnded = onEnded;
+    this.#onError = onError;
 
     // changing src resets the playback rate
-    this.#audio.src = src;
+    this.#audio.src = this.#url;
     this.#audio.playbackRate = playbackRate;
   }
 
-  play(): Promise<void> {
-    return this.#audio.play();
+  play(): void {
+    this.#playing = true;
+    this.#audio.play().catch(error => {
+      this.#onError(error);
+    });
   }
 
   pause(): void {
     this.#audio.pause();
+    this.#playing = false;
   }
 
   get playbackRate() {
@@ -71,6 +82,14 @@ class GlobalMessageAudio {
 
   set playbackRate(rate: number) {
     this.#audio.playbackRate = rate;
+  }
+
+  get playing() {
+    return this.#playing;
+  }
+
+  get url() {
+    return this.#url;
   }
 
   get duration() {

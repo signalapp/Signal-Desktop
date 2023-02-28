@@ -18,7 +18,8 @@ export type Props = Readonly<{
   i18n: LocalizerType;
   title: string;
   currentTime: number;
-  duration: number;
+  // not available until audio has loaded
+  duration: number | undefined;
   playbackRate: number;
   state: PlayerState;
   onPlay: () => void;
@@ -91,11 +92,13 @@ export function MiniPlayer({
       <div className="MiniPlayer__state">
         <Emojify text={title} />
         <span className="MiniPlayer__middot">&middot;</span>
-        <span>
-          {durationToPlaybackText(
-            state === PlayerState.loading ? duration : currentTime
-          )}
-        </span>
+        {duration !== undefined && (
+          <span>
+            {durationToPlaybackText(
+              state === PlayerState.loading ? duration : currentTime
+            )}
+          </span>
+        )}
       </div>
 
       <PlaybackRateButton
