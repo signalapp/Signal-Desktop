@@ -288,13 +288,6 @@ StoryVideoError.args = {
   },
 };
 
-export const StoryVideoTooLong = Template.bind({});
-StoryVideoTooLong.args = {
-  toast: {
-    toastType: ToastType.StoryVideoTooLong,
-  },
-};
-
 export const StoryVideoUnsupported = Template.bind({});
 StoryVideoUnsupported.args = {
   toast: {

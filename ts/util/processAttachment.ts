@@ -6,8 +6,13 @@ import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import { getMaximumAttachmentSizeInKb, KIBIBYTE } from './attachments';
+import {
+  getMaximumAttachmentSizeInKb,
+  getRenderDetailsForLimit,
+  KIBIBYTE,
+} from '../types/AttachmentSize';
 import * as Errors from '../types/errors';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';
 import { handleVideoAttachment } from './handleVideoAttachment';
@@ -68,26 +73,8 @@ export async function processAttachment(
   }
 }
 
-export function getRenderDetailsForLimit(limitKb: number): {
-  limit: string;
-  units: string;
-} {
-  const units = ['kB', 'MB', 'GB'];
-  let u = -1;
-  let limit = limitKb * KIBIBYTE;
-  do {
-    limit /= KIBIBYTE;
-    u += 1;
-  } while (limit >= KIBIBYTE && u < units.length - 1);
-
-  return {
-    limit: limit.toFixed(0),
-    units: units[u],
-  };
-}
-
 function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-  const limitKb = getMaximumAttachmentSizeInKb();
+  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
   // this needs to be cast properly
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

@@ -278,14 +278,6 @@ export function ToastManager({
     );
   }
 
-  if (toastType === ToastType.StoryVideoTooLong) {
-    return (
-      <Toast onClose={hideToast}>
-        {i18n('StoryCreator__error--video-too-long')}
-      </Toast>
-    );
-  }
-
   if (toastType === ToastType.StoryVideoUnsupported) {
     return (
       <Toast onClose={hideToast}>

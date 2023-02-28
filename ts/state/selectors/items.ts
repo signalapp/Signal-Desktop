@@ -63,7 +63,7 @@ const isRemoteConfigBucketEnabled = (
   return innerIsBucketValueEnabled(name, flagValue, e164, uuid);
 };
 
-const getRemoteConfig = createSelector(
+export const getRemoteConfig = createSelector(
   getItems,
   (state: ItemsStateType): ConfigMapType => state.remoteConfig || {}
 );

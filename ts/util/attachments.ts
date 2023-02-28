@@ -3,36 +3,13 @@
 
 import { omit } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
-import * as log from '../logging/log';
-import { getValue } from '../RemoteConfig';
 
-import { parseIntOrThrow } from './parseIntOrThrow';
 import { scaleImageToLevel } from './scaleImageToLevel';
 import type { AttachmentType } from '../types/Attachment';
 import { canBeTranscoded } from '../types/Attachment';
 import type { LoggerType } from '../types/Logging';
 import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
-
-export const KIBIBYTE = 1024;
-const MEBIBYTE = 1024 * 1024;
-const DEFAULT_MAX = 100 * MEBIBYTE;
-
-export const getMaximumAttachmentSizeInKb = (): number => {
-  try {
-    return (
-      parseIntOrThrow(
-        getValue('global.attachments.maxBytes'),
-        'preProcessAttachment/maxAttachmentSize'
-      ) / KIBIBYTE
-    );
-  } catch (error) {
-    log.warn(
-      'Failed to parse integer out of global.attachments.maxBytes feature flag'
-    );
-    return DEFAULT_MAX / KIBIBYTE;
-  }
-};
 
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as

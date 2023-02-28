@@ -6313,11 +6313,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Cannot post video to story because it is too long",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Cannot post video to story as it is an unsupported file format",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "Cannot post video to story because it is longer than {maxDurationInSec, plural, one {1 second} other {# seconds}}.",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Cannot post video to story because it is larger than {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Failed to load video",

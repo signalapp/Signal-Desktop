@@ -51,12 +51,14 @@ import {
   resetLinkPreview,
   suspendLinkPreviews,
 } from '../../services/LinkPreview';
-import { getMaximumAttachmentSizeInKb, KIBIBYTE } from '../../util/attachments';
-import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
 import {
+  getMaximumAttachmentSizeInKb,
   getRenderDetailsForLimit,
-  processAttachment,
-} from '../../util/processAttachment';
+  KIBIBYTE,
+} from '../../types/AttachmentSize';
+import { getValue as getRemoteConfigValue } from '../../RemoteConfig';
+import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
+import { processAttachment } from '../../util/processAttachment';
 import { hasDraftAttachments } from '../../util/hasDraftAttachments';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { isImage, isVideo, stringToMIMEType } from '../../types/MIME';
@@ -908,7 +910,7 @@ function preProcessAttachment(
     return;
   }
 
-  const limitKb = getMaximumAttachmentSizeInKb();
+  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
   if (file.size / KIBIBYTE > limitKb) {
     return {
       toastType: ToastType.FileSize,

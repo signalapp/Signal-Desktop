@@ -29,6 +29,9 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    maxAttachmentSizeInKb: {
+      defaultValue: 100 * 1024,
+    },
     me: {
       defaultValue: getDefaultConversation(),
     },

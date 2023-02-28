@@ -35,6 +35,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isStoriesSettingsVisible: boolean;
   isViewingStory: boolean;
+  maxAttachmentSizeInKb: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   onForwardStory: (storyId: string) => unknown;
@@ -64,6 +65,7 @@ export function Stories({
   i18n,
   isStoriesSettingsVisible,
   isViewingStory,
+  maxAttachmentSizeInKb,
   me,
   myStories,
   onForwardStory,
@@ -122,6 +124,7 @@ export function Stories({
             getPreferredBadge={getPreferredBadge}
             hiddenStories={hiddenStories}
             i18n={i18n}
+            maxAttachmentSizeInKb={maxAttachmentSizeInKb}
             me={me}
             myStories={myStories}
             onAddStory={file =>

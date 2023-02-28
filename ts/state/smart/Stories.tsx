@@ -8,12 +8,15 @@ import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { SmartStoryCreator } from './StoryCreator';
 import { Stories } from '../../components/Stories';
+import { getMaximumAttachmentSizeInKb } from '../../types/AttachmentSize';
+import type { ConfigKeyType } from '../../RemoteConfig';
 import { getMe } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getHasStoryViewReceiptSetting,
   getPreferredLeftPaneWidth,
+  getRemoteConfig,
 } from '../selectors/items';
 import {
   getAddStoryData,
@@ -67,6 +70,13 @@ export function SmartStories(): JSX.Element | null {
 
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
 
+  const remoteConfig = useSelector(getRemoteConfig);
+  const maxAttachmentSizeInKb = getMaximumAttachmentSizeInKb(
+    (name: ConfigKeyType) => {
+      const value = remoteConfig[name]?.value;
+      return value ? String(value) : undefined;
+    }
+  );
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   if (!isShowingStoriesView) {
@@ -79,6 +89,7 @@ export function SmartStories(): JSX.Element | null {
       getPreferredBadge={getPreferredBadge}
       hiddenStories={hiddenStories}
       i18n={i18n}
+      maxAttachmentSizeInKb={maxAttachmentSizeInKb}
       me={me}
       myStories={myStories}
       onForwardStory={toggleForwardMessageModal}
