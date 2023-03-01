@@ -8,6 +8,7 @@ import FocusTrap from 'focus-trap-react';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { LocalizerType } from '../../types/Util';
+import { getAnalogTime } from '../../util/getAnalogTime';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -18,6 +19,7 @@ export type OwnProps = {
     stickerId: number,
     url: string
   ) => unknown;
+  readonly onPickTimeSticker?: (style: 'analog' | 'digital') => unknown;
   readonly packs: ReadonlyArray<StickerPackType>;
   readonly recentStickers: ReadonlyArray<StickerType>;
   readonly showPickerHint?: boolean;
@@ -71,6 +73,7 @@ export const StickerPicker = React.memo(
         onClose,
         onClickAddPack,
         onPickSticker,
+        onPickTimeSticker,
         showPickerHint,
         style,
       }: Props,
@@ -131,7 +134,10 @@ export const StickerPicker = React.memo(
       // Focus popup on after initial render, restore focus on teardown
       const [focusRef] = useRestoreFocus();
 
-      const isEmpty = stickers.length === 0;
+      const hasPacks = packs.length > 0;
+      const isRecents = hasPacks && currentTab === 'recents';
+      const hasTimeStickers = isRecents && onPickTimeSticker;
+      const isEmpty = stickers.length === 0 && !hasTimeStickers;
       const addPackRef = isEmpty ? focusRef : undefined;
       const downloadError =
         selectedPack &&
@@ -142,14 +148,13 @@ export const StickerPicker = React.memo(
           ? selectedPack.stickerCount - stickers.length
           : 0;
 
-      const hasPacks = packs.length > 0;
-      const isRecents = hasPacks && currentTab === 'recents';
       const showPendingText = pendingCount > 0;
-      const showDownlaodErrorText = downloadError;
+      const showDownloadErrorText = downloadError;
       const showEmptyText = !downloadError && isEmpty;
       const showText =
-        showPendingText || showDownlaodErrorText || showEmptyText;
+        showPendingText || showDownloadErrorText || showEmptyText;
       const showLongText = showPickerHint;
+      const analogTime = getAnalogTime();
 
       return (
         <FocusTrap
@@ -303,46 +308,97 @@ export const StickerPicker = React.memo(
                 </div>
               ) : null}
               {!isEmpty ? (
-                <div
-                  className={classNames(
-                    'module-sticker-picker__body__content',
-                    {
+                <div className="module-sticker-picker__body__content">
+                  {isRecents && onPickTimeSticker && (
+                    <div className="module-sticker-picker__recents">
+                      <strong className="module-sticker-picker__recents__title">
+                        {i18n('icu:stickers__StickerPicker__featured')}
+                      </strong>
+                      <div className="module-sticker-picker__body__grid">
+                        <button
+                          type="button"
+                          className="module-sticker-picker__body__cell module-sticker-picker__time--digital"
+                          onClick={() => onPickTimeSticker('digital')}
+                        >
+                          {new Intl.DateTimeFormat(
+                            window.getPreferredSystemLocales(),
+                            {
+                              hour: 'numeric',
+                              minute: 'numeric',
+                            }
+                          )
+                            .formatToParts(Date.now())
+                            .filter(x => x.type !== 'dayPeriod')
+                            .reduce((acc, { value }) => `${acc}${value}`, '')}
+                        </button>
+
+                        <button
+                          aria-label={i18n(
+                            'icu:stickers__StickerPicker__analog-time'
+                          )}
+                          className="module-sticker-picker__body__cell module-sticker-picker__time--analog"
+                          onClick={() => onPickTimeSticker('analog')}
+                          type="button"
+                        >
+                          <span
+                            className="module-sticker-picker__time--analog__hour"
+                            style={{
+                              transform: `rotate(${analogTime.hour}deg)`,
+                            }}
+                          />
+                          <span
+                            className="module-sticker-picker__time--analog__minute"
+                            style={{
+                              transform: `rotate(${analogTime.minute}deg)`,
+                            }}
+                          />
+                        </button>
+                      </div>
+                      {stickers.length > 0 && (
+                        <strong className="module-sticker-picker__recents__title">
+                          {i18n('icu:stickers__StickerPicker__recent')}
+                        </strong>
+                      )}
+                    </div>
+                  )}
+                  <div
+                    className={classNames('module-sticker-picker__body__grid', {
                       'module-sticker-picker__body__content--under-text':
                         showText,
                       'module-sticker-picker__body__content--under-long-text':
                         showLongText,
-                    }
-                  )}
-                >
-                  {stickers.map(({ packId, id, url }, index: number) => {
-                    const maybeFocusRef = index === 0 ? focusRef : undefined;
+                    })}
+                  >
+                    {stickers.map(({ packId, id, url }, index: number) => {
+                      const maybeFocusRef = index === 0 ? focusRef : undefined;
 
-                    return (
-                      <button
-                        type="button"
-                        ref={maybeFocusRef}
-                        key={`${packId}-${id}`}
-                        className="module-sticker-picker__body__cell"
-                        onClick={() => onPickSticker(packId, id, url)}
-                      >
-                        <img
-                          className="module-sticker-picker__body__cell__image"
-                          src={url}
-                          alt={packTitle}
+                      return (
+                        <button
+                          type="button"
+                          ref={maybeFocusRef}
+                          key={`${packId}-${id}`}
+                          className="module-sticker-picker__body__cell"
+                          onClick={() => onPickSticker(packId, id, url)}
+                        >
+                          <img
+                            className="module-sticker-picker__body__cell__image"
+                            src={url}
+                            alt={packTitle}
+                          />
+                        </button>
+                      );
+                    })}
+                    {Array(pendingCount)
+                      .fill(0)
+                      .map((_, i) => (
+                        <div
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={i}
+                          className="module-sticker-picker__body__cell__placeholder"
+                          role="presentation"
                         />
-                      </button>
-                    );
-                  })}
-                  {Array(pendingCount)
-                    .fill(0)
-                    .map((_, i) => (
-                      <div
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={i}
-                        className="module-sticker-picker__body__cell__placeholder"
-                        role="presentation"
-                      />
-                    ))}
+                      ))}
+                  </div>
                 </div>
               ) : null}
             </div>

@@ -11,6 +11,7 @@ import { ClassyProvider } from '../ts/components/PopperRootContext';
 import { I18n } from '../sticker-creator/util/i18n';
 import { StorybookThemeContext } from './StorybookThemeContext';
 import { ThemeType } from '../ts/types/Util';
+import { setupI18n } from '../ts/util/setupI18n';
 
 export const globalTypes = {
   mode: {
@@ -36,6 +37,8 @@ export const globalTypes = {
     },
   },
 };
+
+window.i18n = setupI18n('en', messages);
 
 const withModeAndThemeProvider = (Story, context) => {
   const theme =

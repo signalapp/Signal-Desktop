@@ -27,9 +27,11 @@ import { useFabricHistory } from '../mediaEditor/useFabricHistory';
 import { usePortal } from '../hooks/usePortal';
 import { useUniqueId } from '../hooks/useUniqueId';
 
-import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush';
+import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker';
 import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect';
+import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorFabricDigitalTimeSticker';
 import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText';
+import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush';
 import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker';
 import { fabricEffectListener } from '../mediaEditor/fabricEffectListener';
 import { getRGBA, getHSL } from '../mediaEditor/util/color';
@@ -1062,6 +1064,53 @@ export function MediaEditor({
                 fabricCanvas.setActiveObject(sticker);
                 setEditMode(undefined);
               }}
+              onPickTimeSticker={(style: 'analog' | 'digital') => {
+                if (!fabricCanvas) {
+                  return;
+                }
+
+                if (style === 'digital') {
+                  const sticker = new MediaEditorFabricDigitalTimeSticker(
+                    Date.now()
+                  );
+                  sticker.setPositionByOrigin(
+                    new fabric.Point(
+                      imageState.width / 2,
+                      imageState.height / 2
+                    ),
+                    'center',
+                    'center'
+                  );
+                  sticker.setCoords();
+
+                  fabricCanvas.add(sticker);
+                  fabricCanvas.setActiveObject(sticker);
+                }
+
+                if (style === 'analog') {
+                  const sticker = new MediaEditorFabricAnalogTimeSticker();
+                  const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
+                  const size =
+                    Math.min(imageState.width, imageState.height) /
+                    STICKER_SIZE_RELATIVE_TO_CANVAS;
+
+                  sticker.scaleToHeight(size);
+                  sticker.setPositionByOrigin(
+                    new fabric.Point(
+                      imageState.width / 2,
+                      imageState.height / 2
+                    ),
+                    'center',
+                    'center'
+                  );
+                  sticker.setCoords();
+
+                  fabricCanvas.add(sticker);
+                  fabricCanvas.setActiveObject(sticker);
+                }
+
+                setEditMode(undefined);
+              }}
               receivedPacks={[]}
               recentStickers={recentStickers}
               showPickerHint={false}
@@ -1247,7 +1296,7 @@ function getNewImageStateFromCrop(
 
 function cloneFabricCanvas(original: fabric.Canvas): Promise<fabric.Canvas> {
   return new Promise(resolve => {
-    original.clone(resolve);
+    original.clone(resolve, ['data']);
   });
 }
 

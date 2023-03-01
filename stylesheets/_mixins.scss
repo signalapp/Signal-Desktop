@@ -3,8 +3,7 @@
 
 // Fonts
 
-@mixin font-family {
-  font-family: $inter;
+@mixin localized-fonts {
   /* Japanese */
   &:lang(ja) {
     font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
@@ -16,6 +15,16 @@
     font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
       Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
+}
+
+@mixin font-family {
+  font-family: $inter;
+  @include localized-fonts;
+}
+
+@mixin time-fonts {
+  font-family: Hatsuishi, $inter;
+  @include localized-fonts;
 }
 
 @mixin font-title-1 {

@@ -5433,6 +5433,10 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-sticker-picker__recents--title {
+  color: $color-gray-05;
+}
+
 .module-sticker-picker__header__button {
   width: 28px;
   height: 28px;
@@ -5616,15 +5620,18 @@ button.module-image__border-overlay:focus {
 .module-sticker-picker__body {
   position: relative;
 
+  &__grid {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 68px;
+  }
+
   &__content {
     width: 332px;
     height: 356px;
     padding: 8px 13px 16px 13px;
     overflow-y: auto;
-    display: grid;
-    grid-gap: 8px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 68px;
 
     &--under-text {
       height: 320px;
@@ -5719,6 +5726,45 @@ button.module-image__border-overlay:focus {
       top: 0;
     }
   }
+}
+
+.module-sticker-picker__time--digital {
+  @include time-fonts;
+  color: $color-white;
+  font-size: 28px;
+  line-height: 0px;
+}
+
+.module-sticker-picker__time--analog {
+  background: url(../images/analog-time/Arabic.svg) center no-repeat;
+  background-size: contain;
+  height: 64px;
+  position: relative;
+  width: 64px;
+}
+
+.module-sticker-picker__time--analog__hour {
+  background: url(../images/analog-time/Arabic-hour.svg) center no-repeat;
+  height: 14px;
+  left: 50%;
+  margin-left: -1px;
+  margin-top: -14px;
+  position: absolute;
+  top: 50%;
+  transform-origin: 50% 100%;
+  width: 2px;
+}
+
+.module-sticker-picker__time--analog__minute {
+  background: url(../images/analog-time/Arabic-minute.svg) center no-repeat;
+  height: 22px;
+  left: 50%;
+  margin-left: -1px;
+  margin-top: -22px;
+  position: absolute;
+  top: 50%;
+  transform-origin: 50% 100%;
+  width: 2px;
 }
 
 // Module: Sticker button (launches the sticker picker)
