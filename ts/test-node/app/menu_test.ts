@@ -238,6 +238,7 @@ describe('createTemplate', () => {
           devTools: true,
           includeSetup: false,
           isProduction: true,
+          isStaging: false,
           platform,
           ...actions,
         };
@@ -252,6 +253,7 @@ describe('createTemplate', () => {
           devTools: true,
           includeSetup: true,
           isProduction: true,
+          isStaging: false,
           platform,
           ...actions,
         };

@@ -1082,6 +1082,7 @@ export async function startApp(): Promise<void> {
       devTools: false,
       includeSetup: false,
       isProduction: true,
+      isStaging: false,
       platform: 'unknown',
     };
 

@@ -94,7 +94,7 @@ import type { MenuActionType } from '../ts/types/menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
-import { isProduction } from '../ts/util/version';
+import { isProduction, isStaging } from '../ts/util/version';
 import {
   isSgnlHref,
   isCaptchaHref,
@@ -1984,6 +1984,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     devTools: defaultWebPrefs.devTools,
     includeSetup: false,
     isProduction: isProduction(app.getVersion()),
+    isStaging: isStaging(app.getVersion()),
     platform,
 
     // actions

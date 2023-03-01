@@ -10,6 +10,7 @@ export type MenuOptionsType = Readonly<{
   devTools: boolean;
   includeSetup: boolean;
   isProduction: boolean;
+  isStaging: boolean;
   platform: string;
 }>;
 
