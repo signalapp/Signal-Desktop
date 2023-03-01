@@ -30,7 +30,7 @@ body {
     --titlebar-height: calc(28px / var(--zoom-factor));
     --window-width: calc(100vw - 2 * var(--window-border));
     --window-height: calc(
-      100vh - var(--titlebar-height) - 2 * var(--window-border)
+      100vh - var(--titlebar-height) - var(--window-border)
     );
   }
 }

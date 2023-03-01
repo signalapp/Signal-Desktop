@@ -60,7 +60,7 @@
   }
 
   &__content {
-    height: calc(100vh - var(--titlebar-height));
+    height: var(--window-height);
     position: relative;
     overflow: hidden;
   }
