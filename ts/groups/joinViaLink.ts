@@ -311,6 +311,7 @@ export async function joinViaLink(hash: string): Promise<void> {
                     : undefined,
                 description: groupDescription,
                 groupInviteLinkPassword: inviteLinkPassword,
+                left: true,
                 name: title,
                 revision: result.version,
                 temporaryMemberCount: memberCount,

@@ -3126,9 +3126,6 @@ async function updateGroup(
   conversation.set({
     ...newAttributes,
     active_at: activeAt,
-    temporaryMemberCount: !newAttributes.left
-      ? undefined
-      : newAttributes.temporaryMemberCount,
   });
 
   if (idChanged) {
@@ -3589,8 +3586,9 @@ async function updateGroupViaPreJoinInfo({
       secretParams
     ),
     name: decryptGroupTitle(preJoinInfo.title, secretParams),
-    members: [],
-    pendingMembersV2: [],
+    left: true,
+    members: group.members || [],
+    pendingMembersV2: group.pendingMembersV2 || [],
     pendingAdminApprovalV2: [
       {
         uuid: ourACI,
@@ -3686,14 +3684,20 @@ async function updateGroupViaSingleChange({
   const nowInGroup = !singleChangeResult.newAttributes.left;
 
   // If we were just added to the group (for example, via a join link), we go fetch the
-  //   entire group state to make sure we're up to date.
+  //   entire group state to make sure we're up to date. Note: we fetch the group state
+  //   via the log endpoint to stay at newRevision.
   if (!wasInGroup && nowInGroup) {
+    const logId = idForLogging(group.groupId);
+    log.info(
+      `updateGroupViaSingleChange/${logId}: Just joined group; fetching entire state for revision ${newRevision}.`
+    );
     const {
       newAttributes,
       members,
       groupChangeMessages: catchupMessages,
-    } = await updateGroupViaState({
+    } = await updateGroupViaLogs({
       group: singleChangeResult.newAttributes,
+      newRevision,
     });
 
     const groupChangeMessages = [...singleChangeResult.groupChangeMessages];
@@ -4148,11 +4152,12 @@ async function integrateGroupChange({
       logId
     );
 
-    const { newAttributes, newProfileKeys } = await applyGroupState({
-      group: attributes,
-      groupState: decryptedGroupState,
-      sourceUuid: isFirstFetch ? sourceUuid : undefined,
-    });
+    const { newAttributes, newProfileKeys, otherChanges } =
+      await applyGroupState({
+        group: attributes,
+        groupState: decryptedGroupState,
+        sourceUuid: isFirstFetch ? sourceUuid : undefined,
+      });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
@@ -4164,7 +4169,9 @@ async function integrateGroupChange({
 
     if (
       canApplyChange &&
-      (groupChangeMessages.length !== 0 || newMembers.length !== 0)
+      (groupChangeMessages.length !== 0 ||
+        newMembers.length !== 0 ||
+        otherChanges)
     ) {
       assertDev(
         groupChangeMessages.length === 0,
@@ -4174,8 +4181,9 @@ async function integrateGroupChange({
       log.warn(
         `integrateGroupChange/${logId}: local state was different from ` +
           'the remote final state. ' +
-          `Got ${groupChangeMessages.length} change messages, and ` +
-          `${newMembers.length} updated members`
+          `Got ${groupChangeMessages.length} change messages, ` +
+          `${newMembers.length} updated members, and ` +
+          `otherChanges=${otherChanges}`
       );
     }
 
@@ -4753,6 +4761,7 @@ type GroupChangeMemberType = {
 type GroupApplyResultType = {
   newAttributes: ConversationAttributesType;
   newProfileKeys: Array<GroupChangeMemberType>;
+  otherChanges: boolean;
 };
 
 type GroupApplyChangeResultType = GroupApplyResultType & {
@@ -4795,6 +4804,12 @@ async function applyGroupChange({
   const bannedMembers = new Map<UUIDStringType, GroupV2BannedMemberType>(
     (result.bannedMembersV2 || []).map(member => [member.uuid, member])
   );
+
+  if (result.temporaryMemberCount) {
+    log.warn(
+      `applyGroupChange(${logId}): temporaryMemberCount is set, and should not be!`
+    );
+  }
 
   // version?: number;
   result.revision = version;
@@ -5303,6 +5318,7 @@ async function applyGroupChange({
   return {
     newAttributes: result,
     newProfileKeys,
+    otherChanges: false,
     promotedAciToPniMap,
   };
 }
@@ -5394,6 +5410,22 @@ export async function applyNewAvatar(
 }
 /* eslint-enable no-param-reassign */
 
+function profileKeyHasChanged(userId: string, newProfileKey: Uint8Array) {
+  const conversation = window.ConversationController.get(userId);
+  if (!conversation) {
+    return true;
+  }
+
+  const existingBase64 = conversation.get('profileKey');
+  if (!existingBase64) {
+    return true;
+  }
+
+  const newBase64 = Bytes.toBase64(newProfileKey);
+
+  return newBase64 !== existingBase64;
+}
+
 async function applyGroupState({
   group,
   groupState,
@@ -5409,6 +5441,26 @@ async function applyGroupState({
   const version = groupState.version || 0;
   const result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
+
+  // Used to capture changes not already expressed in group notifications or profile keys
+  let otherChanges = false;
+
+  // Used to detect changes in these lists
+  const members: Record<string, GroupV2MemberType> = fromPairs(
+    (result.membersV2 || []).map(member => [member.uuid, member])
+  );
+  const pendingMembers: Record<string, GroupV2PendingMemberType> = fromPairs(
+    (result.pendingMembersV2 || []).map(member => [member.uuid, member])
+  );
+  const pendingAdminApprovalMembers: Record<
+    string,
+    GroupV2PendingAdminApprovalType
+  > = fromPairs(
+    (result.pendingAdminApprovalV2 || []).map(member => [member.uuid, member])
+  );
+  const bannedMembers = new Map<string, GroupV2BannedMemberType>(
+    (result.bannedMembersV2 || []).map(member => [member.uuid, member])
+  );
 
   // version
   result.revision = version;
@@ -5480,12 +5532,30 @@ async function applyGroupState({
         );
       }
 
-      if (member.profileKey) {
+      const previousMember = members[member.userId];
+      if (
+        member.profileKey &&
+        (!previousMember ||
+          profileKeyHasChanged(member.userId, member.profileKey))
+      ) {
         newProfileKeys.push({
           profileKey: member.profileKey,
           uuid: UUID.cast(member.userId),
         });
+      } else if (!previousMember) {
+        otherChanges = true;
       }
+
+      if (
+        previousMember &&
+        previousMember.joinedAtVersion !== member.joinedAtVersion
+      ) {
+        otherChanges = true;
+        log.warn(
+          `applyGroupState(${logId}): Member ${member.userId} had different joinedAtVersion`
+        );
+      }
+      // Note: role changes will be reflected in group update messages
 
       return {
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
@@ -5517,11 +5587,43 @@ async function applyGroupState({
           );
         }
 
-        if (member.member.profileKey) {
+        const previousMember = pendingMembers[member.member.userId];
+        if (
+          member.member.profileKey &&
+          (!previousMember ||
+            profileKeyHasChanged(
+              member.member.userId,
+              member.member.profileKey
+            ))
+        ) {
           newProfileKeys.push({
             profileKey: member.member.profileKey,
             uuid: UUID.cast(member.member.userId),
           });
+        } else if (!previousMember) {
+          otherChanges = true;
+        }
+
+        if (
+          previousMember &&
+          previousMember.addedByUserId !== member.addedByUserId
+        ) {
+          otherChanges = true;
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.member.userId} had different addedByUserId`
+          );
+        }
+        if (previousMember && previousMember.timestamp !== member.timestamp) {
+          otherChanges = true;
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.member.userId} had different timestamp`
+          );
+        }
+        if (previousMember && previousMember.role !== member.member.role) {
+          otherChanges = true;
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.member.userId} had different role`
+          );
         }
 
         return {
@@ -5538,11 +5640,25 @@ async function applyGroupState({
   if (groupState.membersPendingAdminApproval) {
     result.pendingAdminApprovalV2 = groupState.membersPendingAdminApproval.map(
       member => {
-        if (member.profileKey) {
+        const previousMember = pendingAdminApprovalMembers[member.userId];
+        if (
+          member.profileKey &&
+          (!previousMember ||
+            profileKeyHasChanged(member.userId, member.profileKey))
+        ) {
           newProfileKeys.push({
             profileKey: member.profileKey,
             uuid: UUID.cast(member.userId),
           });
+        } else if (!previousMember) {
+          otherChanges = true;
+        }
+
+        if (previousMember && previousMember.timestamp !== member.timestamp) {
+          otherChanges = true;
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.userId} had different timestamp`
+          );
         }
 
         return {
@@ -5573,15 +5689,34 @@ async function applyGroupState({
   result.announcementsOnly = groupState.announcementsOnly;
 
   // membersBanned
-  result.bannedMembersV2 = groupState.membersBanned;
+  result.bannedMembersV2 = groupState.membersBanned?.map(member => {
+    const previousMember = bannedMembers.get(member.uuid);
+    if (!previousMember) {
+      otherChanges = true;
+    }
+    if (previousMember && previousMember.timestamp !== member.timestamp) {
+      otherChanges = true;
+      log.warn(
+        `applyGroupState(${logId}): Member ${member.uuid} had different timestamp`
+      );
+    }
+
+    return member;
+  });
 
   if (result.left) {
     result.addedBy = undefined;
   }
 
+  if (result.temporaryMemberCount) {
+    log.info(`applyGroupState(${logId}): Clearing temporaryMemberCount`);
+    result.temporaryMemberCount = undefined;
+  }
+
   return {
     newAttributes: result,
     newProfileKeys,
+    otherChanges,
   };
 }
 
