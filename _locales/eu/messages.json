@@ -1039,11 +1039,11 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "muted": {
-    "message": "Mutututa",
+    "message": "Jakinarazpenak desaktibatuta",
     "description": "Shown in a button when a conversation is muted"
   },
   "mute": {
-    "message": "Mututu",
+    "message": "Desaktibatu jakinarazpenak",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
@@ -1446,7 +1446,7 @@
     "description": "Button label in the call lobby for returning to a call"
   },
   "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "message": "Deiaren tamaina dela eta, mikrofonoa mutututa dago",
+    "message": "Deiaren tamaina dela eta, mikrofonoa desaktibatuta dago",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
   "calling__call-is-full": {
@@ -1470,7 +1470,7 @@
     "description": "Button tooltip label for turning on the camera"
   },
   "calling__button--audio__label": {
-    "message": "Mututu",
+    "message": "Desaktibatu jakinarazpenak",
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
@@ -1478,7 +1478,7 @@
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
-    "message": "Mututu mikrofonoa",
+    "message": "Desaktibatu mikrofonoa",
     "description": "Button tooltip label for turning off the microphone"
   },
   "calling__button--audio-on": {
@@ -2877,7 +2877,7 @@
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
-    "message": "Aktibatu/Desaktibatu mututzeko aukera",
+    "message": "Aktibatu/Desaktibatu jakinarazpenak",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
@@ -3529,27 +3529,27 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "Ez dago mutututa",
+    "message": "Jakinarazpenak ez daude desaktibatuta",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
-    "message": "Mututu ordubetez",
+    "message": "Desaktibatu jakinarazpenak ordubetez",
     "description": "Label for muting the conversation"
   },
   "muteEightHours": {
-    "message": "Mututu zortzi orduz",
+    "message": "Desaktibatu jakinarazpenak zortzi orduz",
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Mututu egun batez",
+    "message": "Desaktibatu jakinarazpenak egun batez",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
-    "message": "Mututu astebetez",
+    "message": "Desaktibatu jakinarazpenak astebetez",
     "description": "Label for muting the conversation"
   },
   "muteAlways": {
-    "message": "Mututu betiko",
+    "message": "Desaktibatu jakinarazpenak betiko",
     "description": "Label for muting the conversation"
   },
   "unmute": {
@@ -3557,11 +3557,11 @@
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
-    "message": "Beti mutututa",
+    "message": "Jakinarazpenak beti desaktibatuta",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "muteExpirationLabel": {
-    "message": "$duration$ arte mutututa",
+    "message": "Jakinarazpenak $duration$ arte desaktibatuta",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
@@ -4393,7 +4393,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "Sartu mutututako elkarrizketak irakurri gabekoen kopuruan",
+    "message": "Sartu jakinarazpenak desaktibatuta dauzkaten elkarrizketak irakurri gabekoen kopuruan",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4585,7 +4585,7 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Jaso jakinarazpenak mutututako txatetan aipatzen zaituztenean",
+    "message": "Jakinarazpenak desaktibatuta dauzkaten txatetan aipatzen zaituztenean, jaso jakinarazpenak",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -4593,7 +4593,7 @@
     "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "message": "Ez jakinarazi mutututa badago",
+    "message": "Jakinarazpenak desaktibatuta badaude, ez jakinarazi",
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "GroupLinkManagement--clipboard": {
@@ -6117,7 +6117,7 @@
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
-    "message": "Mututu",
+    "message": "Desaktibatu jakinarazpenak",
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
