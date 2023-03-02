@@ -177,6 +177,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       return (
         <div className="module-ConversationHeader__header__info__title">
           {i18n('noteToSelf')}
+          <span className="ContactModal__official-badge" />
         </div>
       );
     }
