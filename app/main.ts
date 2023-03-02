@@ -48,6 +48,7 @@ import { consoleLogger } from '../ts/util/consoleLogger';
 import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
+import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales';
 
 import './startup_config';
 
@@ -1749,7 +1750,10 @@ app.on('ready', async () => {
   await setupCrashReports(getLogger);
 
   if (!resolvedTranslationsLocale) {
-    preferredSystemLocales = loadPreferredSystemLocales();
+    preferredSystemLocales = resolveCanonicalLocales(
+      loadPreferredSystemLocales()
+    );
+
     logger.info(
       `app.ready: preferred system locales: ${preferredSystemLocales.join(
         ', '

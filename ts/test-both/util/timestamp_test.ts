@@ -4,8 +4,9 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import moment from 'moment';
-import type { LocalizerType } from '../../types/Util';
 import { HOUR, DAY } from '../../util/durations';
+import { setupI18n } from '../../util/setupI18n';
+import enMessages from '../../../_locales/en/messages.json';
 
 import {
   formatDate,
@@ -35,30 +36,7 @@ describe('timestamp', () => {
     });
   }
 
-  const i18n = ((key: string, values: Array<string> = []): string => {
-    switch (key) {
-      case 'today':
-        return 'Today';
-      case 'yesterday':
-        return 'Yesterday';
-      case 'TimelineDateHeader--date-in-last-6-months':
-        return '[short] ddd, MMM D';
-      case 'TimelineDateHeader--date-older-than-6-months':
-        return '[long] MMM D, YYYY';
-      case 'timestampFormat__long__today':
-        return '[Today] LT';
-      case 'timestampFormat__long__yesterday':
-        return '[Yesterday] LT';
-      case 'justNow':
-        return 'Now';
-      case 'minutesAgo':
-        return `${values[0]}m`;
-      case 'timestampFormat_M':
-        return 'MMM D';
-      default:
-        throw new Error(`Unexpected key ${key}`);
-    }
-  }) as LocalizerType;
+  const i18n = setupI18n('en', enMessages);
 
   describe('formatDate', () => {
     useFakeTimers();
@@ -83,7 +61,6 @@ describe('timestamp', () => {
     it('returns a formatted timestamp for dates more recent than six months', () => {
       const m = moment().subtract(2, 'months');
       const result = formatDate(i18n, m);
-      assert.include(result, 'short');
       assert.include(result, m.format('ddd'));
       assert.include(result, m.format('MMM'));
       assert.include(result, m.format('D'));
@@ -91,16 +68,7 @@ describe('timestamp', () => {
     });
 
     it('returns a formatted timestamp for dates older than six months', () => {
-      assert.strictEqual(
-        formatDate(i18n, moment('2017-03-03')),
-        'long Mar 3, 2017'
-      );
-    });
-
-    it('returns a formatted timestamp if the i18n strings are too long', () => {
-      const longI18n = ((_: string) =>
-        Array(50).fill('MMM').join(' ')) as LocalizerType;
-      assert.include(formatDate(longI18n, moment('2017-03-03')), '2017');
+      assert.strictEqual(formatDate(i18n, moment('2017-03-03')), 'Mar 3, 2017');
     });
   });
 
@@ -119,16 +87,10 @@ describe('timestamp', () => {
     });
 
     it('formats month name, day of month, year, and time for other times', () => {
-      [
-        moment().add(1, 'week'),
-        moment().subtract(1, 'week'),
-        moment().subtract(1, 'year'),
-      ].forEach(timestamp => {
-        assert.strictEqual(
-          formatDateTimeLong(i18n, timestamp),
-          moment(timestamp).format('lll')
-        );
-      });
+      assert.strictEqual(
+        formatDateTimeLong(i18n, new Date(956216013000)),
+        'Apr 20, 2000, 7:33 AM'
+      );
     });
   });
 

@@ -4,10 +4,7 @@
 import type { Moment } from 'moment';
 import moment from 'moment';
 import type { LocalizerType } from '../types/Util';
-import * as log from '../logging/log';
 import { DAY, HOUR, MINUTE, MONTH, WEEK } from './durations';
-
-const MAX_FORMAT_STRING_LENGTH = 50;
 
 type RawTimestamp = Readonly<number | Date | Moment>;
 
@@ -40,23 +37,6 @@ export const isToday = (rawTimestamp: RawTimestamp): boolean =>
 const isYesterday = (rawTimestamp: RawTimestamp): boolean =>
   isSameDay(rawTimestamp, moment().subtract(1, 'day'));
 
-// This sanitization is probably unnecessary, but we do it just in case someone translates
-//   a super long format string and causes performance issues.
-function sanitizeFormatString(
-  rawFormatString: string,
-  fallback: string
-): string {
-  if (rawFormatString.length > MAX_FORMAT_STRING_LENGTH) {
-    log.error(
-      `Format string ${JSON.stringify(
-        rawFormatString
-      )} is too long. Falling back to ${fallback}`
-    );
-    return fallback;
-  }
-  return rawFormatString;
-}
-
 export function formatDateTimeShort(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp
@@ -66,6 +46,8 @@ export function formatDateTimeShort(
   const now = Date.now();
   const diff = now - timestamp;
 
+  const locale = window.getPreferredSystemLocales();
+
   if (diff < HOUR || isToday(timestamp)) {
     return formatTime(i18n, rawTimestamp, now);
   }
@@ -73,31 +55,57 @@ export function formatDateTimeShort(
   const m = moment(timestamp);
 
   if (diff < WEEK && m.isSame(now, 'month')) {
-    return m.format('ddd');
+    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(
+      timestamp
+    );
   }
 
   if (m.isSame(now, 'year')) {
-    return m.format(i18n('timestampFormat_M') || 'MMM D');
+    return new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'short',
+    }).format(timestamp);
   }
 
-  return m.format('ll');
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(timestamp);
 }
 
 export function formatDateTimeLong(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp
 ): string {
-  let rawFormatString: string;
-  if (isToday(rawTimestamp)) {
-    rawFormatString = i18n('timestampFormat__long__today');
-  } else if (isYesterday(rawTimestamp)) {
-    rawFormatString = i18n('timestampFormat__long__yesterday');
-  } else {
-    rawFormatString = 'lll';
-  }
-  const formatString = sanitizeFormatString(rawFormatString, 'lll');
+  const locale = window.getPreferredSystemLocales();
+  const timestamp = rawTimestamp.valueOf();
 
-  return moment(rawTimestamp).format(formatString);
+  if (isToday(rawTimestamp)) {
+    return i18n('timestampFormat__long--today', [
+      new Intl.DateTimeFormat(locale, {
+        hour: 'numeric',
+        minute: 'numeric',
+      }).format(timestamp),
+    ]);
+  }
+
+  if (isYesterday(rawTimestamp)) {
+    return i18n('timestampFormat__long--yesterday', [
+      new Intl.DateTimeFormat(locale, {
+        hour: 'numeric',
+        minute: 'numeric',
+      }).format(timestamp),
+    ]);
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(timestamp);
 }
 
 export function formatTime(
@@ -139,13 +147,22 @@ export function formatDate(
     return i18n('yesterday');
   }
 
+  const locale = window.getPreferredSystemLocales();
   const m = moment(rawTimestamp);
 
-  const rawFormatString =
-    Math.abs(m.diff(Date.now())) < 6 * MONTH
-      ? i18n('TimelineDateHeader--date-in-last-6-months')
-      : i18n('TimelineDateHeader--date-older-than-6-months');
-  const formatString = sanitizeFormatString(rawFormatString, 'LL');
+  const timestamp = rawTimestamp.valueOf();
 
-  return m.format(formatString);
+  if (Math.abs(m.diff(Date.now())) < 6 * MONTH) {
+    return new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'short',
+      weekday: 'short',
+    }).format(timestamp);
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(timestamp);
 }

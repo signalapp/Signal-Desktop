@@ -70,3 +70,5 @@ delete window.testUtilities.prepareTests;
 
   mocha.run();
 })();
+
+window.getPreferredSystemLocales = () => ['en'];

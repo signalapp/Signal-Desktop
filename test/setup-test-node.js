@@ -32,6 +32,7 @@ global.window = {
     get: key => storageMap.get(key),
     put: async (key, value) => storageMap.set(key, value),
   },
+  getPreferredSystemLocales: () => ['en'],
 };
 
 // For ducks/network.getEmptyState()
