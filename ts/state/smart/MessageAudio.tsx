@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux';
 import { MessageAudio } from '../../components/conversation/MessageAudio';
 import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
-import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import {
+  AudioPlayerContent,
+  useAudioPlayerActions,
+} from '../ducks/audioPlayer';
 import {
   selectAudioPlayerActive,
   selectVoiceNoteAndConsecutive,
@@ -14,6 +17,10 @@ import {
 import { useConversationsActions } from '../ducks/conversations';
 import { getUserConversationId } from '../selectors/user';
 import * as log from '../../logging/log';
+import {
+  getConversationByIdSelector,
+  getSelectedConversationId,
+} from '../selectors/conversations';
 
 export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
   renderingContext: string;
@@ -24,18 +31,28 @@ export function SmartMessageAudio({
   ...props
 }: Props): JSX.Element | null {
   const active = useSelector(selectAudioPlayerActive);
-  const { loadMessageAudio, setIsPlaying, setPlaybackRate, setPosition } =
+  const { loadVoiceNoteAudio, setIsPlaying, setPlaybackRate, setPosition } =
     useAudioPlayerActions();
   const { pushPanelForConversation } = useConversationsActions();
 
   const getVoiceNoteData = useSelector(selectVoiceNoteAndConsecutive);
   const ourConversationId = useSelector(getUserConversationId);
+  const getConversationById = useSelector(getConversationByIdSelector);
+  const selectedConversationId = useSelector(getSelectedConversationId);
+
+  if (!selectedConversationId) {
+    throw new Error('No selected conversation');
+  }
+  const playbackRate =
+    getConversationById(selectedConversationId)?.voiceNotePlaybackRate ?? 1;
+
+  const content = active?.content;
 
   const messageActive: ActiveAudioPlayerStateType | undefined =
-    active &&
-    active.content &&
-    active.content.current.id === props.id &&
-    active.content.context === renderingContext
+    content &&
+    AudioPlayerContent.isVoiceNote(content) &&
+    content.current.id === props.id &&
+    content.context === renderingContext
       ? active
       : undefined;
 
@@ -55,14 +72,21 @@ export function SmartMessageAudio({
         return;
       }
 
-      loadMessageAudio({
+      loadVoiceNoteAudio({
         voiceNoteData,
         position,
         context: renderingContext,
         ourConversationId,
+        playbackRate,
       });
     },
-    [getVoiceNoteData, loadMessageAudio, ourConversationId, renderingContext]
+    [
+      getVoiceNoteData,
+      loadVoiceNoteAudio,
+      ourConversationId,
+      renderingContext,
+      playbackRate,
+    ]
   );
 
   return (

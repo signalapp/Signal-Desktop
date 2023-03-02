@@ -9,6 +9,12 @@ $audio-attachment-button-margin-small: 4px;
   display: flex;
   flex-direction: column;
   margin-top: 2px;
+
+  .PlaybackButton {
+    @media (min-width: 0px) and (max-width: 799px) {
+      margin-right: $audio-attachment-button-margin-small;
+    }
+  }
 }
 
 .module-message__audio-attachment__button-and-waveform {
@@ -81,125 +87,6 @@ $audio-attachment-button-margin-small: 4px;
   }
 }
 
-.module-message__audio-attachment__playback-rate-button {
-  @include button-reset;
-  @include font-body-2-bold;
-
-  width: 38px;
-  height: 18px;
-  text-align: center;
-  font-weight: 700;
-  border-radius: 4px;
-  font-size: 11px;
-  padding: 1px 2px;
-  margin: -2px 0;
-  line-height: 16px;
-  letter-spacing: 0.05px;
-  user-select: none;
-
-  .module-message__audio-attachment--incoming & {
-    @include light-theme {
-      color: $color-gray-60;
-      background: $color-black-alpha-08;
-    }
-    @include dark-theme {
-      color: $color-gray-25;
-      background: $color-white-alpha-08;
-    }
-  }
-  .module-message__audio-attachment--outgoing & {
-    color: $color-white-alpha-80;
-    background: $color-white-alpha-20;
-  }
-
-  &::after {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-left: 2px;
-
-    @mixin x-icon($color) {
-      @include color-svg('../images/icons/v2/x-8.svg', $color, false);
-    }
-
-    .module-message__audio-attachment--incoming & {
-      @include light-theme {
-        @include x-icon($color-gray-60);
-      }
-      @include dark-theme {
-        @include x-icon($color-gray-25);
-      }
-    }
-    .module-message__audio-attachment--outgoing & {
-      @include x-icon($color-white-alpha-80);
-    }
-  }
-}
-
-.module-message__audio-attachment__play-button,
-.module-message__audio-attachment__spinner {
-  @include button-reset;
-
-  flex-shrink: 0;
-  width: $audio-attachment-button-size;
-  height: $audio-attachment-button-size;
-  margin-right: $audio-attachment-button-margin-big;
-
-  outline: none;
-  border-radius: 18px;
-
-  @media (min-width: 0px) and (max-width: 799px) {
-    margin-right: $audio-attachment-button-margin-small;
-  }
-
-  &::before {
-    display: block;
-    height: 100%;
-    content: '';
-  }
-
-  @mixin audio-icon($name, $icon, $color) {
-    &--#{$name}::before {
-      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
-    }
-  }
-
-  @mixin all-audio-icons($color) {
-    @include audio-icon(play, play-solid-20, $color);
-    @include audio-icon(pause, pause-solid-20, $color);
-    @include audio-icon(download, arrow-down-20, $color);
-    @include audio-icon(pending, audio-spinner-arc-22, $color);
-  }
-
-  &--pending {
-    cursor: auto;
-  }
-
-  &--pending::before {
-    animation: rotate 1000ms linear infinite;
-  }
-
-  .module-message__audio-attachment--incoming & {
-    @include light-theme {
-      background: $color-white;
-
-      @include all-audio-icons($color-gray-60);
-    }
-
-    @include dark-theme {
-      background: $color-gray-60;
-
-      @include all-audio-icons($color-gray-15);
-    }
-  }
-
-  .module-message__audio-attachment--outgoing & {
-    background: $color-white-alpha-20;
-    @include all-audio-icons($color-white);
-  }
-}
-
 .module-message__audio-attachment__waveform {
   flex-shrink: 0;
 
@@ -210,9 +97,8 @@ $audio-attachment-button-margin-small: 4px;
   outline: 0;
 }
 
-.module-message__audio-attachment__play-button,
-.module-message__audio-attachment__playback-rate-button,
-.module-message__audio-attachment__spinner,
+.PlaybackButton,
+.PlaybackRateButton,
 .module-message__audio-attachment__waveform {
   &:focus {
     @include keyboard-mode {
@@ -225,44 +111,6 @@ $audio-attachment-button-margin-small: 4px;
       @include keyboard-mode {
         outline: 2px solid $color-white-alpha-60;
       }
-    }
-  }
-}
-
-.module-message__audio-attachment__waveform__bar {
-  display: inline-block;
-
-  width: 2px;
-  border-radius: 2px;
-  transition: height 250ms, background 250ms;
-
-  &:not(:first-of-type) {
-    margin-left: 2px;
-  }
-
-  .module-message__audio-attachment--incoming & {
-    @include light-theme {
-      background: $color-black-alpha-40;
-
-      &--active {
-        background: $color-black-alpha-80;
-      }
-    }
-
-    @include dark-theme {
-      background: $color-white-alpha-40;
-
-      &--active {
-        background: $color-white-alpha-70;
-      }
-    }
-  }
-
-  .module-message__audio-attachment--outgoing & {
-    background: $color-white-alpha-40;
-
-    &--active {
-      background: $color-white-alpha-80;
     }
   }
 }

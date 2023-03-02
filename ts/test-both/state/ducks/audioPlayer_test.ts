@@ -12,7 +12,7 @@ import { noopAction } from '../../../state/ducks/noop';
 import type { StateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 import type { SelectedConversationChangedActionType } from '../../../state/ducks/conversations';
-import { actions } from '../../../state/ducks/audioPlayer';
+import { actions, AudioPlayerContent } from '../../../state/ducks/audioPlayer';
 import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer';
 
 const { messageDeleted, messageChanged } = conversationsActions;
@@ -50,19 +50,23 @@ describe('both/state/ducks/audioPlayer', () => {
     const state = getEmptyRootState();
     const updated = rootReducer(
       state,
-      actions.loadMessageAudio({
+      actions.loadVoiceNoteAudio({
         voiceNoteData: voiceNoteDataForMessage(MESSAGE_ID),
         position: 0,
         context: 'context',
         ourConversationId: 'convo',
+        playbackRate: 1,
       })
     );
 
-    assert.strictEqual(
-      updated.audioPlayer.active?.content?.current.id,
-      MESSAGE_ID
-    );
-    assert.strictEqual(updated.audioPlayer.active?.content?.context, 'context');
+    const content = updated.audioPlayer.active?.content;
+
+    assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+    if (content && AudioPlayerContent.isVoiceNote(content)) {
+      assert.strictEqual(content.current.id, MESSAGE_ID);
+      assert.strictEqual(content.context, 'context');
+    }
 
     return updated;
   };
@@ -74,21 +78,22 @@ describe('both/state/ducks/audioPlayer', () => {
 
       const updated = rootReducer(
         state,
-        actions.loadMessageAudio({
+        actions.loadVoiceNoteAudio({
           voiceNoteData: voiceNoteDataForMessage('test'),
           position: 0,
           context: 'context',
           ourConversationId: 'convo',
+          playbackRate: 1,
         })
       );
-      assert.strictEqual(
-        updated.audioPlayer.active?.content?.current.id,
-        'test'
-      );
-      assert.strictEqual(
-        updated.audioPlayer.active?.content?.context,
-        'context'
-      );
+
+      const content = updated.audioPlayer.active?.content;
+      assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+      if (content && AudioPlayerContent.isVoiceNote(content)) {
+        assert.strictEqual(content.current.id, 'test');
+        assert.strictEqual(content.context, 'context');
+      }
     });
   });
 
@@ -100,10 +105,12 @@ describe('both/state/ducks/audioPlayer', () => {
       payload: { id: 'any' },
     });
 
-    assert.strictEqual(
-      updated.audioPlayer.active?.content?.current.id,
-      MESSAGE_ID
-    );
+    const content = updated.audioPlayer.active?.content;
+    assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+    if (content && AudioPlayerContent.isVoiceNote(content)) {
+      assert.strictEqual(content.current.id, MESSAGE_ID);
+    }
   });
 
   it('resets active.content when message was deleted', () => {

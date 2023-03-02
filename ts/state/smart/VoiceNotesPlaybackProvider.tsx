@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux';
 import type { VoiceNotesPlaybackProps } from '../../components/VoiceNotesPlaybackContext';
 import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer';
-import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import {
+  AudioPlayerContent,
+  useAudioPlayerActions,
+} from '../ducks/audioPlayer';
 import { globalMessageAudio } from '../../services/globalMessageAudio';
 import { strictAssert } from '../../util/assert';
 import * as log from '../../logging/log';
@@ -36,8 +39,22 @@ export function SmartVoiceNotesPlaybackProvider(
   const previousStartPosition = usePrevious(undefined, active?.startPosition);
 
   const content = active?.content;
-  const current = content?.current;
-  const url = current?.url;
+  let url: undefined | string;
+  let messageId: undefined | string;
+  let messageIdForLogging: undefined | string;
+  let playNextConsecutiveSound = false;
+  let playFinishConsecutiveSound = false;
+
+  if (content && AudioPlayerContent.isVoiceNote(content)) {
+    ({ url, id: messageId } = content.current);
+    messageIdForLogging = content.current.messageIdForLogging;
+    playNextConsecutiveSound = content.isConsecutive;
+    playFinishConsecutiveSound =
+      content.isConsecutive && content.queue.length === 0;
+  }
+  if (content && AudioPlayerContent.isDraft(content)) {
+    url = content.url;
+  }
 
   const {
     messageAudioEnded,
@@ -49,7 +66,7 @@ export function SmartVoiceNotesPlaybackProvider(
   useEffect(() => {
     // if we don't have a new audio source
     // just control playback
-    if (!content || !current || !url || url === globalMessageAudio.url) {
+    if (!content || !url || url === globalMessageAudio.url) {
       if (!active?.playing && globalMessageAudio.playing) {
         globalMessageAudio.pause();
       }
@@ -65,71 +82,52 @@ export function SmartVoiceNotesPlaybackProvider(
       if (
         active &&
         active.startPosition !== undefined &&
-        active.startPosition !== previousStartPosition
+        active.startPosition !== previousStartPosition &&
+        globalMessageAudio.duration !== undefined
       ) {
         globalMessageAudio.currentTime =
           active.startPosition * globalMessageAudio.duration;
       }
+
+      if (!active?.playing && globalMessageAudio.playing) {
+        globalMessageAudio.pause();
+      }
+
+      if (active?.playing && !globalMessageAudio.playing) {
+        globalMessageAudio.play();
+      }
+
+      if (active && active.playbackRate !== globalMessageAudio.playbackRate) {
+        globalMessageAudio.playbackRate = active.playbackRate;
+      }
+
+      // if user requested a new position
+      if (
+        active &&
+        active.startPosition !== undefined &&
+        active.startPosition !== previousStartPosition &&
+        active.duration
+      ) {
+        globalMessageAudio.currentTime = active.startPosition * active.duration;
+      }
       return;
     }
 
-    // otherwise we have a new audio source
-    // we just load it and play it
-    globalMessageAudio.load({
+    // if we have a new audio source
+    loadAudio({
       url,
       playbackRate: active.playbackRate,
-      onLoadedMetadata() {
-        strictAssert(
-          !Number.isNaN(globalMessageAudio.duration),
-          'Audio should have definite duration on `loadedmetadata` event'
-        );
-        log.info(
-          'SmartVoiceNotesPlaybackProvider: `loadedmetadata` event',
-          current.id
-        );
-        if (active.startPosition !== 0) {
-          globalMessageAudio.currentTime =
-            active.startPosition * globalMessageAudio.duration;
-        }
-      },
-      onDurationChange() {
-        log.info(
-          'SmartVoiceNotesPlaybackProvider: `durationchange` event',
-          current.id
-        );
-        const reportedDuration = globalMessageAudio.duration;
-
-        // the underlying Audio element can return NaN if the audio hasn't loaded
-        // we filter out 0 or NaN as they are not useful values downstream
-        const newDuration =
-          Number.isNaN(reportedDuration) || reportedDuration === 0
-            ? undefined
-            : reportedDuration;
-        durationChanged(newDuration);
-      },
-      onTimeUpdate() {
-        currentTimeUpdated(globalMessageAudio.currentTime);
-      },
-      onEnded() {
-        if (content.isConsecutive && content.queue.length === 0) {
-          void stateChangeConfirmDownSound.play();
-        }
-        messageAudioEnded();
-      },
-      onError(error) {
-        log.error(
-          'SmartVoiceNotesPlaybackProvider: playback error',
-          current.messageIdForLogging,
-          Errors.toLogFormat(error)
-        );
-        unloadMessageAudio();
-      },
+      messageId,
+      messageIdForLogging,
+      startPosition: active.startPosition,
+      playFinishConsecutiveSound,
+      durationChanged,
+      unloadMessageAudio,
+      currentTimeUpdated,
+      messageAudioEnded,
     });
 
-    // if this message was part of the queue (consecutive, added indirectly)
-    // we play a note to let the user we're onto a new message
-    // (false for the first message in a consecutive group, since the user initiated it)
-    if (content.isConsecutive) {
+    if (playNextConsecutiveSound) {
       // eslint-disable-next-line more/no-then
       void stateChangeConfirmUpSound.play().then(() => {
         globalMessageAudio.play();
@@ -138,17 +136,101 @@ export function SmartVoiceNotesPlaybackProvider(
       globalMessageAudio.play();
     }
 
-    if (!current.isPlayed) {
-      const message = conversations.messagesLookup[current.id];
-      if (message && message.seenStatus !== SeenStatus.Unseen) {
-        markViewed(current.id);
+    if (AudioPlayerContent.isVoiceNote(content)) {
+      if (!content.current.isPlayed) {
+        const message = conversations.messagesLookup[content.current.id];
+        if (message && message.seenStatus !== SeenStatus.Unseen) {
+          markViewed(content.current.id);
+        }
+      } else {
+        log.info('SmartVoiceNotesPlaybackProvider: message already played', {
+          message: content.current.messageIdForLogging,
+        });
       }
-    } else {
-      log.info('SmartVoiceNotesPlaybackProvider: message already played', {
-        message: current.messageIdForLogging,
-      });
     }
-  });
+  }, [
+    active,
+    content,
+    conversations.messagesLookup,
+    currentTimeUpdated,
+    durationChanged,
+    messageAudioEnded,
+    messageId,
+    messageIdForLogging,
+    playFinishConsecutiveSound,
+    playNextConsecutiveSound,
+    previousStartPosition,
+    unloadMessageAudio,
+    url,
+  ]);
 
   return <VoiceNotesPlaybackProvider {...props} />;
+}
+
+function loadAudio({
+  url,
+  playbackRate,
+  messageId,
+  messageIdForLogging,
+  startPosition,
+  playFinishConsecutiveSound,
+  durationChanged,
+  currentTimeUpdated,
+  messageAudioEnded,
+  unloadMessageAudio,
+}: {
+  url: string;
+  playbackRate: number;
+  messageId: string | undefined;
+  messageIdForLogging: string | undefined;
+  startPosition: number;
+  playFinishConsecutiveSound: boolean;
+  durationChanged: (value: number | undefined) => void;
+  currentTimeUpdated: (value: number) => void;
+  messageAudioEnded: () => void;
+  unloadMessageAudio: () => void;
+}) {
+  globalMessageAudio.load({
+    url,
+    playbackRate,
+    onLoadedMetadata() {
+      strictAssert(
+        globalMessageAudio.duration !== undefined,
+        'Audio should have definite duration on `loadedmetadata` event'
+      );
+      log.info(
+        'SmartVoiceNotesPlaybackProvider: `loadedmetadata` event',
+        messageId
+      );
+      if (startPosition !== 0) {
+        globalMessageAudio.currentTime =
+          startPosition * globalMessageAudio.duration;
+      }
+      durationChanged(globalMessageAudio.duration);
+    },
+    onDurationChange() {
+      log.info(
+        'SmartVoiceNotesPlaybackProvider: `durationchange` event',
+        messageId
+      );
+      durationChanged(globalMessageAudio.duration);
+    },
+    onTimeUpdate() {
+      currentTimeUpdated(globalMessageAudio.currentTime);
+    },
+    onEnded() {
+      if (playFinishConsecutiveSound) {
+        void stateChangeConfirmDownSound.play();
+      }
+      messageAudioEnded();
+    },
+    onError(error) {
+      log.error(
+        'SmartVoiceNotesPlaybackProvider: playback error',
+        messageIdForLogging,
+        Errors.toLogFormat(error)
+      );
+      unloadMessageAudio();
+    },
+  });
 }

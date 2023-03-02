@@ -1,0 +1,84 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.PlaybackButton {
+  @include button-reset;
+
+  flex-shrink: 0;
+  margin-right: $audio-attachment-button-margin-big;
+
+  outline: none;
+  border-radius: 18px;
+
+  &::before {
+    display: block;
+    height: 100%;
+    content: '';
+  }
+
+  @mixin audio-icon($name, $icon, $color) {
+    &.PlaybackButton--#{$name}::before {
+      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
+    }
+  }
+
+  @mixin all-audio-icons($color) {
+    @include audio-icon(play, play-solid-20, $color);
+    @include audio-icon(pause, pause-solid-20, $color);
+    @include audio-icon(download, arrow-down-20, $color);
+    @include audio-icon(pending, audio-spinner-arc-22, $color);
+  }
+
+  &--variant-message {
+    width: $audio-attachment-button-size;
+    height: $audio-attachment-button-size;
+  }
+
+  &--variant-mini {
+    &::before {
+      -webkit-mask-size: 100% !important;
+    }
+    width: 14px;
+    height: 14px;
+  }
+  &--variant-draft {
+    &::before {
+      -webkit-mask-size: 100% !important;
+    }
+    width: 18px;
+    height: 18px;
+  }
+
+  &--pending {
+    cursor: auto;
+  }
+
+  &--pending::before {
+    animation: rotate 1000ms linear infinite;
+  }
+
+  @include light-theme {
+    &--context-incoming {
+      &.PlaybackButton--variant-message {
+        background: $color-white;
+      }
+    }
+    @include all-audio-icons($color-gray-60);
+  }
+
+  @include dark-theme {
+    &--context-incoming {
+      &.PlaybackButton--variant-message {
+        background: $color-gray-60;
+      }
+    }
+    @include all-audio-icons($color-gray-15);
+  }
+
+  &--context-outgoing {
+    &.PlaybackButton--variant-message {
+      background: $color-white-alpha-20;
+    }
+    @include all-audio-icons($color-white);
+  }
+}

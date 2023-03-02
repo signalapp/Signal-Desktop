@@ -136,15 +136,16 @@ import { UUIDKind } from '../../types/UUID';
 import { removeLinkPreview } from '../../services/LinkPreview';
 import type {
   ReplaceAttachmentsActionType,
+  ResetComposerActionType,
   SetFocusActionType,
   SetQuotedMessageActionType,
-  ResetComposerActionType,
 } from './composer';
 import {
   replaceAttachments,
   setComposerFocus,
   setQuoteByMessageId,
   resetComposer,
+  handleLeaveConversation,
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
 
@@ -3533,6 +3534,12 @@ function showConversation({
       }
 
       return;
+    }
+
+    // notify composer in case we need to stop recording a voice note
+    if (conversations.selectedConversationId) {
+      log.error('conversations - handleLeave');
+      dispatch(handleLeaveConversation(conversations.selectedConversationId));
     }
 
     dispatch({

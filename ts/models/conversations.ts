@@ -31,7 +31,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
-import { isGIF } from '../types/Attachment';
+import { isGIF, isVoiceMessage } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import * as Conversation from '../types/Conversation';
@@ -1015,6 +1015,7 @@ export class ConversationModel extends window.Backbone
 
   hasDraft(): boolean {
     const draftAttachments = this.get('draftAttachments') || [];
+
     return (this.get('draft') ||
       this.get('quotedMessageId') ||
       draftAttachments.length > 0) as boolean;
@@ -1031,6 +1032,12 @@ export class ConversationModel extends window.Backbone
 
     const draftAttachments = this.get('draftAttachments') || [];
     if (draftAttachments.length > 0) {
+      if (isVoiceMessage(draftAttachments[0])) {
+        return window.i18n('message--getNotificationText--text-with-emoji', {
+          text: window.i18n('message--getNotificationText--voice-message'),
+          emoji: '🎤',
+        });
+      }
       return window.i18n('Conversation--getDraftPreview--attachment');
     }
 

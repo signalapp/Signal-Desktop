@@ -37,7 +37,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import { isImageAttachment } from '../types/Attachment';
+import { isImageAttachment, isVoiceMessage } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
@@ -62,7 +62,9 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { usePrevious } from '../hooks/usePrevious';
 import { PanelType } from '../types/Panels';
+import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import type { SmartCompositionRecordingProps } from '../state/smart/CompositionRecording';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -77,7 +79,7 @@ export type OwnProps = Readonly<{
   cancelRecording: () => unknown;
   completeRecording: (
     conversationId: string,
-    onSendAudioRecording?: (rec: InMemoryAttachmentDraftType) => unknown
+    onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
   conversationId: string;
   uuid?: string;
@@ -138,6 +140,12 @@ export type OwnProps = Readonly<{
   showConversation: ShowConversationType;
   startRecording: (id: string) => unknown;
   theme: ThemeType;
+  renderSmartCompositionRecording: (
+    props: SmartCompositionRecordingProps
+  ) => JSX.Element;
+  renderSmartCompositionRecordingDraft: (
+    props: SmartCompositionRecordingDraftProps
+  ) => JSX.Element | null;
 }>;
 
 export type Props = Pick<
@@ -196,10 +204,6 @@ export function CompositionArea({
   draftAttachments,
   onClearAttachments,
   // AudioCapture
-  cancelRecording,
-  completeRecording,
-  errorDialogAudioRecorderType,
-  errorRecording,
   recordingState,
   startRecording,
   // StagedLinkPreview
@@ -266,7 +270,9 @@ export function CompositionArea({
   // SMS-only contacts
   isSMSOnly,
   isFetchingUUID,
-}: Props): JSX.Element {
+  renderSmartCompositionRecording,
+  renderSmartCompositionRecordingDraft,
+}: Props): JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
   const [attachmentToEdit, setAttachmentToEdit] = useState<
@@ -418,20 +424,9 @@ export function CompositionArea({
   const micButtonFragment = shouldShowMicrophone ? (
     <div className="CompositionArea__button-cell">
       <AudioCapture
-        cancelRecording={cancelRecording}
-        completeRecording={completeRecording}
         conversationId={conversationId}
         draftAttachments={draftAttachments}
-        errorDialogAudioRecorderType={errorDialogAudioRecorderType}
-        errorRecording={errorRecording}
         i18n={i18n}
-        recordingState={recordingState}
-        onSendAudioRecording={(
-          voiceNoteAttachment: InMemoryAttachmentDraftType
-        ) => {
-          emojiButtonRef.current?.close();
-          sendMultiMediaMessage(conversationId, { voiceNoteAttachment });
-        }}
         startRecording={startRecording}
       />
     </div>
@@ -516,6 +511,10 @@ export function CompositionArea({
       document.removeEventListener('keydown', handler);
     };
   }, [setLarge]);
+
+  const handleRecordingBeforeSend = useCallback(() => {
+    emojiButtonRef.current?.close();
+  }, [emojiButtonRef]);
 
   const clearQuote = useCallback(() => {
     if (quotedMessageId) {
@@ -631,6 +630,20 @@ export function CompositionArea({
         theme={theme}
       />
     );
+  }
+
+  if (isRecording) {
+    return renderSmartCompositionRecording({
+      onBeforeSend: handleRecordingBeforeSend,
+    });
+  }
+
+  if (draftAttachments.length === 1 && isVoiceMessage(draftAttachments[0])) {
+    const voiceNoteAttachment = draftAttachments[0];
+
+    if (!voiceNoteAttachment.pending && voiceNoteAttachment.url) {
+      return renderSmartCompositionRecordingDraft({ voiceNoteAttachment });
+    }
   }
 
   return (

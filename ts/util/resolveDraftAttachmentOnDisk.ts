@@ -32,6 +32,7 @@ export function resolveDraftAttachmentOnDisk(
       'caption',
       'contentType',
       'fileName',
+      'flags',
       'path',
       'size',
       'width',

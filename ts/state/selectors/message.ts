@@ -7,7 +7,6 @@ import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
-
 import type { StateType } from '../reducer';
 import type {
   LastMessageStatus,

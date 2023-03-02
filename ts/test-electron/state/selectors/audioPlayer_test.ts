@@ -47,11 +47,12 @@ describe('state/selectors/audioPlayer', () => {
 
       const updated = rootReducer(
         state,
-        actions.loadMessageAudio({
+        actions.loadVoiceNoteAudio({
           voiceNoteData: voiceNoteDataForMessage('id'),
           position: 0,
           context: 'context',
           ourConversationId: 'convo',
+          playbackRate: 1,
         })
       );
 

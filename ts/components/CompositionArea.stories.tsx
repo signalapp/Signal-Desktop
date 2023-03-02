@@ -126,6 +126,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   // SMS-only
   isSMSOnly: overrideProps.isSMSOnly || false,
   isFetchingUUID: overrideProps.isFetchingUUID || false,
+  renderSmartCompositionRecording: _ => <div>RECORDING</div>,
+  renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
 });
 
 export function Default(): JSX.Element {

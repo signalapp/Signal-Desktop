@@ -1,11 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { durationToPlaybackText } from '../util/durationToPlaybackText';
 import { Emojify } from './conversation/Emojify';
+import { PlaybackButton } from './PlaybackButton';
 import { PlaybackRateButton } from './PlaybackRateButton';
 
 export enum PlayerState {
@@ -60,15 +60,19 @@ export function MiniPlayer({
   }, [state, onPause, onPlay]);
 
   let label: string | undefined;
+  let mod: 'play' | 'pause' | 'pending';
   switch (state) {
     case PlayerState.playing:
       label = i18n('MessageAudio--pause');
+      mod = 'pause';
       break;
     case PlayerState.paused:
       label = i18n('MessageAudio--play');
+      mod = 'play';
       break;
     case PlayerState.loading:
       label = i18n('MessageAudio--pending');
+      mod = 'pending';
       break;
     default:
       throw new TypeError(`Missing case ${state}`);
@@ -76,17 +80,12 @@ export function MiniPlayer({
 
   return (
     <div className="MiniPlayer">
-      <button
-        type="button"
-        className={classNames(
-          'MiniPlayer__playback-button',
-          state === 'playing' && 'MiniPlayer__playback-button--pause',
-          state === 'paused' && 'MiniPlayer__playback-button--play',
-          state === 'loading' && 'MiniPlayer__playback-button--pending'
-        )}
+      <PlaybackButton
+        context="incoming"
+        variant="mini"
+        mod={mod}
+        label={label}
         onClick={handleClick}
-        aria-label={label}
-        disabled={state === PlayerState.loading}
       />
 
       <div className="MiniPlayer__state">

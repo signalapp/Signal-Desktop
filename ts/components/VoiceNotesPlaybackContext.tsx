@@ -81,7 +81,8 @@ async function doComputePeaks(
   url: string,
   barCount: number
 ): Promise<ComputePeaksResult> {
-  const existing = waveformCache.get(url);
+  const cacheKey = `${url}:${barCount}`;
+  const existing = waveformCache.get(cacheKey);
   if (existing) {
     log.info('GlobalAudioContext: waveform cache hit', url);
     return Promise.resolve(existing);
@@ -101,7 +102,7 @@ async function doComputePeaks(
       `GlobalAudioContext: audio ${url} duration ${duration}s is too long`
     );
     const emptyResult = { peaks, duration };
-    waveformCache.set(url, emptyResult);
+    waveformCache.set(cacheKey, emptyResult);
     return emptyResult;
   }
 
@@ -143,7 +144,7 @@ async function doComputePeaks(
   }
 
   const result = { peaks, duration };
-  waveformCache.set(url, result);
+  waveformCache.set(cacheKey, result);
   return result;
 }
 

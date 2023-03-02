@@ -92,8 +92,12 @@ class GlobalMessageAudio {
     return this.#url;
   }
 
-  get duration() {
-    return this.#audio.duration;
+  get duration(): number | undefined {
+    // the underlying Audio element can return NaN if the audio hasn't loaded
+    // we filter out 0 or NaN as they are not useful values downstream
+    return Number.isNaN(this.#audio.duration) || this.#audio.duration === 0
+      ? undefined
+      : this.#audio.duration;
   }
 
   get currentTime() {

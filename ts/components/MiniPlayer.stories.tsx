@@ -17,7 +17,7 @@ export default {
   component: MiniPlayer,
 };
 
-export function Basic(): JSX.Element {
+export function Default(): JSX.Element {
   const [active, setActive] = useState(false);
 
   const [playerState, setPlayerState] = useState(PlayerState.loading);

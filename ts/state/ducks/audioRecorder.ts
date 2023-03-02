@@ -14,6 +14,7 @@ import { stringToMIMEType } from '../../types/MIME';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { getComposerStateForConversation } from './composer';
+
 import * as Errors from '../../types/errors';
 import {
   ErrorDialogAudioRecorderType,
@@ -73,8 +74,9 @@ export const actions = {
   startRecording,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const useAudioRecorderActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function startRecording(
   conversationId: string
@@ -133,9 +135,9 @@ function completeRecordingAction(): CompleteRecordingAction {
   };
 }
 
-function completeRecording(
+export function completeRecording(
   conversationId: string,
-  onSendAudioRecording?: (rec: InMemoryAttachmentDraftType) => unknown
+  onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
 ): ThunkAction<
   void,
   RootStateType,
@@ -172,9 +174,7 @@ function completeRecording(
         flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
       };
 
-      if (onSendAudioRecording) {
-        onSendAudioRecording(voiceNoteAttachment);
-      }
+      onRecordingComplete(voiceNoteAttachment);
     } finally {
       dispatch(completeRecordingAction());
     }

@@ -4,7 +4,10 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { MiniPlayer, PlayerState } from '../../components/MiniPlayer';
-import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import {
+  AudioPlayerContent,
+  useAudioPlayerActions,
+} from '../ducks/audioPlayer';
 import {
   selectAudioPlayerActive,
   selectVoiceNoteTitle,
@@ -30,15 +33,25 @@ export function SmartMiniPlayer(): JSX.Element | null {
     return null;
   }
 
+  const { content } = active;
+
+  const url = AudioPlayerContent.isVoiceNote(content)
+    ? content.current.url
+    : content.url;
+
   let state = PlayerState.loading;
-  if (active.content.current.url) {
+  if (url) {
     state = active.playing ? PlayerState.playing : PlayerState.paused;
   }
 
   return (
     <MiniPlayer
       i18n={i18n}
-      title={getVoiceNoteTitle(active.content.current)}
+      title={
+        AudioPlayerContent.isDraft(content)
+          ? i18n('you')
+          : getVoiceNoteTitle(content.current)
+      }
       onPlay={handlePlay}
       onPause={handlePause}
       onPlaybackRate={setPlaybackRate}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { isBoolean } from 'lodash';
+import { isBoolean, noop } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, number, select, text } from '@storybook/addon-knobs';
@@ -134,11 +134,13 @@ function MessageAudioContainer({
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [playbackRate, setPlaybackRate] = React.useState<number>(1);
-  const [playing, setPlaying] = React.useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [_played, setPlayed] = React.useState<boolean>(played);
 
-  const audio = React.useMemo(() => {
+  const audioPlayer = React.useMemo(() => {
     const a = new Audio();
+
+    let onLoadedData: () => void = noop;
 
     a.addEventListener('timeupdate', () => {
       setCurrentTime(a.currentTime);
@@ -148,54 +150,76 @@ function MessageAudioContainer({
       setIsActive(false);
     });
 
-    a.addEventListener('loadeddata', () => {
-      a.currentTime = currentTime;
-    });
+    a.addEventListener('loadeddata', () => onLoadedData());
 
-    return a;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    function play(positionAsRatio?: number) {
+      if (positionAsRatio !== undefined) {
+        a.currentTime = positionAsRatio * a.duration;
+      }
+      void a.play();
+    }
+
+    return {
+      loadAndPlay(url: string, positionAsRatio: number) {
+        onLoadedData = () => {
+          play(positionAsRatio);
+        };
+        a.src = url;
+      },
+      play,
+      pause() {
+        a.pause();
+      },
+      set playbackRate(rate: number) {
+        a.playbackRate = rate;
+      },
+      set currentTime(value: number) {
+        a.currentTime = value;
+      },
+      get duration() {
+        return a.duration;
+      },
+    };
   }, []);
 
-  const handlePlayMessage = (id: string, position: number) => {
+  const handlePlayMessage = (id: string, positionAsRatio: number) => {
     if (!active) {
-      audio.src = messageIdToAudioUrl[id as keyof typeof messageIdToAudioUrl];
+      audioPlayer.loadAndPlay(
+        messageIdToAudioUrl[id as keyof typeof messageIdToAudioUrl],
+        positionAsRatio
+      );
       setIsActive(true);
-    }
-    if (!playing) {
-      void audio.play();
-      setPlaying(true);
+      setIsPlaying(true);
       setPlayed(true);
-    }
-
-    if (!Number.isNaN(audio.duration)) {
-      audio.currentTime = audio.duration * position;
-    }
-    if (!Number.isNaN(audio.currentTime)) {
-      setCurrentTime(audio.currentTime);
     }
   };
 
   const setPlaybackRateAction = (rate: number) => {
-    audio.playbackRate = rate;
+    audioPlayer.playbackRate = rate;
     setPlaybackRate(rate);
   };
 
   const setIsPlayingAction = (value: boolean) => {
     if (value) {
-      void audio.play();
+      audioPlayer.play();
     } else {
-      audio.pause();
+      audioPlayer.pause();
     }
-    setPlaying(value);
+    setIsPlaying(value);
   };
 
   const setPosition = (value: number) => {
-    audio.currentTime = value * audio.duration;
-    setCurrentTime(audio.currentTime);
+    audioPlayer.currentTime = value * audioPlayer.duration;
+    setCurrentTime(audioPlayer.currentTime);
   };
 
   const active = isActive
-    ? { playing, playbackRate, currentTime, duration: audio.duration }
+    ? {
+        playing: isPlaying,
+        playbackRate,
+        currentTime,
+        duration: audioPlayer.duration,
+      }
     : undefined;
 
   return (

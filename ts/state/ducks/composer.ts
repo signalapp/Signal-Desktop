@@ -34,6 +34,7 @@ import {
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
 } from './linkPreviews';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
+import { completeRecording } from './audioRecorder';
 import { RecordingState } from '../../types/AudioRecorder';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
@@ -330,6 +331,28 @@ function scrollToQuotedMessage({
     }
 
     scrollToMessage(conversationId, message.id)(dispatch, getState, undefined);
+  };
+}
+
+export function handleLeaveConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
+  return (dispatch, getState) => {
+    const { audioRecorder } = getState();
+
+    if (audioRecorder.recordingState !== RecordingState.Recording) {
+      return;
+    }
+
+    // save draft of voice note
+    dispatch(
+      completeRecording(conversationId, attachment => {
+        dispatch(
+          addPendingAttachment(conversationId, { ...attachment, pending: true })
+        );
+        dispatch(addAttachment(conversationId, attachment));
+      })
+    );
   };
 }
 
@@ -686,8 +709,23 @@ function addAttachment(
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
-      conversation.attributes.draftAttachments = nextAttachments;
-      conversation.attributes.draftChanged = true;
+      conversation.set({
+        draftAttachments: nextAttachments,
+        draftChanged: true,
+      });
+
+      // if the conversation has already unloaded
+      if (!isSelectedConversation) {
+        const now = Date.now();
+        const activeAt = conversation.get('active_at') || now;
+        conversation.set({
+          active_at: activeAt,
+          draftChanged: false,
+          draftTimestamp: now,
+          timestamp: now,
+        });
+      }
+
       window.Signal.Data.updateConversation(conversation.attributes);
     }
   };

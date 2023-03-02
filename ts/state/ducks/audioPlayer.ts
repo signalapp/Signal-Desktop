@@ -28,7 +28,14 @@ import { assertDev } from '../../util/assert';
 
 // State
 
-export type AudioPlayerContent = ReadonlyDeep<{
+/** Some audio identified by a URL (currently only used for drafts) */
+type AudioPlayerContentDraft = ReadonlyDeep<{
+  conversationId: string;
+  url: string;
+}>;
+
+/** A voice note, with a queue for consecutive playback */
+export type AudioPlayerContentVoiceNote = ReadonlyDeep<{
   conversationId: string;
   context: string;
   current: VoiceNoteForPlayback;
@@ -46,8 +53,25 @@ export type ActiveAudioPlayerStateType = ReadonlyDeep<{
   playbackRate: number;
   duration: number | undefined; // never zero or NaN
   startPosition: number;
-  content: AudioPlayerContent;
+  content: AudioPlayerContentVoiceNote | AudioPlayerContentDraft;
 }>;
+
+/* eslint-disable @typescript-eslint/no-namespace */
+export namespace AudioPlayerContent {
+  export function isVoiceNote(
+    content: ActiveAudioPlayerStateType['content']
+  ): content is AudioPlayerContentVoiceNote {
+    return (
+      ('current' as const satisfies keyof AudioPlayerContentVoiceNote) in
+      content
+    );
+  }
+  export function isDraft(
+    content: ActiveAudioPlayerStateType['content']
+  ): content is AudioPlayerContentDraft {
+    return !isVoiceNote(content);
+  }
+}
 
 export type AudioPlayerStateType = ReadonlyDeep<{
   active: ActiveAudioPlayerStateType | undefined;
@@ -58,18 +82,10 @@ export type AudioPlayerStateType = ReadonlyDeep<{
 export type SetMessageAudioAction = ReadonlyDeep<{
   type: 'audioPlayer/SET_MESSAGE_AUDIO';
   payload:
-    | {
-        conversationId: string;
-        context: string;
-        current: VoiceNoteForPlayback;
-        queue: ReadonlyArray<VoiceNoteForPlayback>;
-        isConsecutive: boolean;
-        // timestamp of the message following the last one in the queue
-        nextMessageTimestamp: number | undefined;
-        ourConversationId: string | undefined;
-        startPosition: number;
+    | ((AudioPlayerContentVoiceNote | AudioPlayerContentDraft) & {
         playbackRate: number;
-      }
+        startPosition: number;
+      })
     | undefined;
 }>;
 
@@ -115,7 +131,8 @@ type AudioPlayerActionType = ReadonlyDeep<
 // Action Creators
 
 export const actions = {
-  loadMessageAudio,
+  loadVoiceNoteAudio,
+  loadVoiceNoteDraftAudio,
   setPlaybackRate,
   currentTimeUpdated,
   durationChanged,
@@ -195,22 +212,24 @@ function setPlaybackRate(
 /**
  * Load message audio into the "content", the smart MiniPlayer will then play it
  */
-function loadMessageAudio({
+function loadVoiceNoteAudio({
   voiceNoteData,
   position,
   context,
   ourConversationId,
+  playbackRate,
 }: {
   voiceNoteData: VoiceNoteAndConsecutiveForPlayback;
   position: number;
   context: string;
   ourConversationId: string;
+  playbackRate: number;
 }): SetMessageAudioAction {
   const {
     conversationId,
     voiceNote,
     consecutiveVoiceNotes,
-    playbackRate,
+    // playbackRate,
     nextMessageTimestamp,
   } = voiceNoteData;
   return {
@@ -226,6 +245,18 @@ function loadMessageAudio({
       startPosition: position,
       playbackRate,
     },
+  };
+}
+
+export function loadVoiceNoteDraftAudio(
+  content: AudioPlayerContentDraft & {
+    playbackRate: number;
+    startPosition: number;
+  }
+): SetMessageAudioAction {
+  return {
+    type: 'audioPlayer/SET_MESSAGE_AUDIO',
+    payload: content,
   };
 }
 
@@ -272,6 +303,14 @@ export function reducer(
   if (action.type === 'audioPlayer/SET_MESSAGE_AUDIO') {
     const { payload } = action;
 
+    if (payload === undefined) {
+      return {
+        ...state,
+        active: undefined,
+      };
+    }
+
+    const { playbackRate, startPosition, ...content } = payload;
     return {
       ...state,
       active:
@@ -281,9 +320,9 @@ export function reducer(
               currentTime: 0,
               duration: undefined,
               playing: true,
-              playbackRate: payload.playbackRate,
-              content: payload,
-              startPosition: payload.startPosition,
+              playbackRate,
+              content,
+              startPosition,
             },
     };
   }
@@ -363,6 +402,10 @@ export function reducer(
       return state;
     }
 
+    if (!AudioPlayerContent.isVoiceNote(content)) {
+      return state;
+    }
+
     if (content.conversationId !== action.payload.conversationId) {
       return state;
     }
@@ -436,6 +479,13 @@ export function reducer(
       return state;
     }
 
+    if (AudioPlayerContent.isDraft(content)) {
+      return {
+        ...state,
+        active: undefined,
+      };
+    }
+
     const { queue } = content;
 
     const [nextVoiceNote, ...newQueue] = queue;
@@ -474,6 +524,10 @@ export function reducer(
       return state;
     }
     const { content } = active;
+
+    if (!AudioPlayerContent.isVoiceNote(content)) {
+      return state;
+    }
 
     // if we deleted the message currently being played
     // move on to the next message
@@ -529,6 +583,10 @@ export function reducer(
     const { content } = active;
 
     if (!content) {
+      return state;
+    }
+
+    if (AudioPlayerContent.isDraft(content)) {
       return state;
     }
 
