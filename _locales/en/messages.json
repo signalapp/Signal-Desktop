@@ -6598,5 +6598,17 @@
   "icu:WhatsNew__v6.8--3": {
     "messageformat": "If you are the only person in a group (so far) and you attempt to begin a group call, now you can join the call and start talking to yourself right away instead of waiting for the call to ring. Thanks, {lamemakes}!",
     "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Quickly see who is speaking during group calls with a new highlight feature that shows you where to look. If it's your turn to speak, you'll need to look within.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Have the time of your life with several stickers in the media editor that let you add stylized time decorations on outgoing images.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Use the voice notes mini player to continue listening to long messages even after you switch to a different chat.",
+    "description": "Release notes for v6.9"
   }
 }
