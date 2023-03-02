@@ -65,7 +65,7 @@ import type {
   StoredSignedPreKeyType,
 } from './Interface';
 import Server from './Server';
-import { isCorruptionError } from './errors';
+import { parseSqliteError, SqliteErrorKind } from './errors';
 import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
 
@@ -309,13 +309,18 @@ function makeChannel(fnName: string) {
         // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
         return await serverFn(...args);
       } catch (error) {
-        if (isCorruptionError(error)) {
+        const sqliteErrorKind = parseSqliteError(error);
+        if (sqliteErrorKind === SqliteErrorKind.Corrupted) {
           log.error(
             'Detected sql corruption in renderer process. ' +
               `Restarting the application immediately. Error: ${error.message}`
           );
           ipc?.send('database-error', error.stack);
+        } else if (sqliteErrorKind === SqliteErrorKind.Readonly) {
+          log.error(`Detected readonly sql database: ${error.message}`);
+          ipc?.send('database-readonly');
         }
+
         log.error(
           `Renderer SQL channel job (${fnName}) error ${error.message}`
         );

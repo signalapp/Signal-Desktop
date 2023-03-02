@@ -9,7 +9,7 @@ import { app } from 'electron';
 import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import type { LoggerType } from '../types/Logging';
-import { isCorruptionError } from './errors';
+import { parseSqliteError, SqliteErrorKind } from './errors';
 import type DB from './Server';
 
 const MIN_TRACE_DURATION = 40;
@@ -64,6 +64,11 @@ type PromisePair<T> = {
   reject: (error: Error) => void;
 };
 
+type KnownErrorResolverType = Readonly<{
+  kind: SqliteErrorKind;
+  resolve: (err: Error) => void;
+}>;
+
 export class MainSQL {
   private readonly worker: Worker;
 
@@ -73,9 +78,8 @@ export class MainSQL {
 
   private readonly onExit: Promise<void>;
 
-  // This promise is resolved when any of the queries that we run against the
-  // database reject with a corruption error (see `isCorruptionError`)
-  private readonly onCorruption: Promise<Error>;
+  // Promise resolve callbacks for corruption and readonly errors.
+  private errorResolvers = new Array<KnownErrorResolverType>();
 
   private seq = 0;
 
@@ -87,10 +91,6 @@ export class MainSQL {
   constructor() {
     const scriptDir = join(app.getAppPath(), 'ts', 'sql', 'mainWorker.js');
     this.worker = new Worker(scriptDir);
-
-    const { promise: onCorruption, resolve: resolveCorruption } =
-      explodePromise<Error>();
-    this.onCorruption = onCorruption;
 
     this.worker.on('message', (wrappedResponse: WrappedWorkerResponse) => {
       if (wrappedResponse.type === 'log') {
@@ -110,9 +110,7 @@ export class MainSQL {
 
       if (error) {
         const errorObj = new Error(error);
-        if (isCorruptionError(errorObj)) {
-          resolveCorruption(errorObj);
-        }
+        this.onError(errorObj);
 
         pair.reject(errorObj);
       } else {
@@ -120,9 +118,9 @@ export class MainSQL {
       }
     });
 
-    this.onExit = new Promise<void>(resolve => {
-      this.worker.once('exit', resolve);
-    });
+    const { promise: onExit, resolve: resolveOnExit } = explodePromise<void>();
+    this.onExit = onExit;
+    this.worker.once('exit', resolveOnExit);
   }
 
   public async initialize({
@@ -148,7 +146,15 @@ export class MainSQL {
   }
 
   public whenCorrupted(): Promise<Error> {
-    return this.onCorruption;
+    const { promise, resolve } = explodePromise<Error>();
+    this.errorResolvers.push({ kind: SqliteErrorKind.Corrupted, resolve });
+    return promise;
+  }
+
+  public whenReadonly(): Promise<Error> {
+    const { promise, resolve } = explodePromise<Error>();
+    this.errorResolvers.push({ kind: SqliteErrorKind.Readonly, resolve });
+    return promise;
   }
 
   public async close(): Promise<void> {
@@ -199,9 +205,8 @@ export class MainSQL {
     const { seq } = this;
     this.seq += 1;
 
-    const result = new Promise<Response>((resolve, reject) => {
-      this.onResponse.set(seq, { resolve, reject });
-    });
+    const { promise: result, resolve, reject } = explodePromise<Response>();
+    this.onResponse.set(seq, { resolve, reject });
 
     const wrappedRequest: WrappedWorkerRequest = {
       seq,
@@ -210,5 +215,25 @@ export class MainSQL {
     this.worker.postMessage(wrappedRequest);
 
     return result;
+  }
+
+  private onError(error: Error): void {
+    const errorKind = parseSqliteError(error);
+    if (errorKind === SqliteErrorKind.Unknown) {
+      return;
+    }
+
+    const resolvers = new Array<(error: Error) => void>();
+    this.errorResolvers = this.errorResolvers.filter(entry => {
+      if (entry.kind === errorKind) {
+        resolvers.push(entry.resolve);
+        return false;
+      }
+      return true;
+    });
+
+    for (const resolve of resolvers) {
+      resolve(error);
+    }
   }
 }

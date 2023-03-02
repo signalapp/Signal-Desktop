@@ -1573,6 +1573,20 @@ const runSQLCorruptionHandler = async () => {
   await onDatabaseError(Errors.toLogFormat(error));
 };
 
+const runSQLReadonlyHandler = async () => {
+  // This is a glorified event handler. Normally, this promise never resolves,
+  // but if there is a corruption error triggered by any query that we run
+  // against the database - the promise will resolve and we will call
+  // `onDatabaseError`.
+  const error = await sql.whenReadonly();
+
+  getLogger().error(
+    `Detected readonly sql database in main process: ${error.message}`
+  );
+
+  throw error;
+};
+
 async function initializeSQL(
   userDataPath: string
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
@@ -1619,6 +1633,7 @@ async function initializeSQL(
 
   // Only if we've initialized things successfully do we set up the corruption handler
   drop(runSQLCorruptionHandler());
+  drop(runSQLReadonlyHandler());
 
   return { ok: true, error: undefined };
 }
@@ -1667,6 +1682,11 @@ let sqlInitPromise:
 
 ipc.on('database-error', (_event: Electron.Event, error: string) => {
   drop(onDatabaseError(error));
+});
+
+ipc.on('database-readonly', (_event: Electron.Event, error: string) => {
+  // Just let global_errors.ts handle it
+  throw new Error(error);
 });
 
 function loadPreferredSystemLocales(): Array<string> {
