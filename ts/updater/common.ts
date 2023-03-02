@@ -18,8 +18,6 @@ import { gt, lt } from 'semver';
 import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
-import pify from 'pify';
-import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
@@ -41,7 +39,7 @@ import type { SettingsChannel } from '../main/settingsChannel';
 
 import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
-import { checkIntegrity, gracefulRename } from './util';
+import { checkIntegrity, gracefulRename, gracefulRimraf } from './util';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
 import {
   prepareDownload as prepareDifferentialDownload,
@@ -49,8 +47,6 @@ import {
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
 } from './differential';
-
-const rimrafPromise = pify(rimraf);
 
 const INTERVAL = 30 * durations.MINUTE;
 
@@ -604,7 +600,7 @@ export abstract class Updater {
         // We could have failed to update differentially due to low free disk
         // space. Remove all cached updates since we are doing a full download
         // anyway.
-        await rimrafPromise(cacheDir);
+        await gracefulRimraf(this.logger, cacheDir);
         cacheDir = await createUpdateCacheDirIfNeeded();
 
         await this.downloadAndReport(
@@ -650,7 +646,7 @@ export abstract class Updater {
       }
 
       try {
-        await deleteTempDir(restoreDir);
+        await deleteTempDir(this.logger, restoreDir);
       } catch (error) {
         this.logger.warn(
           'downloadUpdate: Failed to remove backup folder, ignoring',
@@ -661,7 +657,7 @@ export abstract class Updater {
       return { updateFilePath: targetUpdatePath, signature };
     } finally {
       if (!tempPathFailover) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(this.logger, tempDir);
       }
     }
   }
@@ -906,7 +902,10 @@ export async function createUpdateCacheDirIfNeeded(): Promise<string> {
   return targetDir;
 }
 
-export async function deleteTempDir(targetDir: string): Promise<void> {
+export async function deleteTempDir(
+  logger: LoggerType,
+  targetDir: string
+): Promise<void> {
   if (await pathExists(targetDir)) {
     const pathInfo = await stat(targetDir);
     if (!pathInfo.isDirectory()) {
@@ -923,7 +922,7 @@ export async function deleteTempDir(targetDir: string): Promise<void> {
     );
   }
 
-  await rimrafPromise(targetDir);
+  await gracefulRimraf(logger, targetDir);
 }
 
 export function getCliOptions<T>(options: ParserConfiguration['options']): T {

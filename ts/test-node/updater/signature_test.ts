@@ -17,6 +17,7 @@ import {
 } from '../../updater/signature';
 import { createTempDir, deleteTempDir } from '../../updater/common';
 import { keyPair } from '../../updater/curve';
+import * as log from '../../logging/log';
 
 describe('updater/signatures', () => {
   it('_getFileHash returns correct hash', async () => {
@@ -48,7 +49,7 @@ describe('updater/signatures', () => {
       );
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
@@ -86,7 +87,7 @@ describe('updater/signatures', () => {
       assert.strictEqual(verified, true);
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
@@ -123,7 +124,7 @@ describe('updater/signatures', () => {
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
@@ -160,7 +161,7 @@ describe('updater/signatures', () => {
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
@@ -202,7 +203,7 @@ describe('updater/signatures', () => {
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
@@ -239,7 +240,7 @@ describe('updater/signatures', () => {
       assert.strictEqual(verified, false);
     } finally {
       if (tempDir) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(log, tempDir);
       }
     }
   });
