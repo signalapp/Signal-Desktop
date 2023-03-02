@@ -180,12 +180,4 @@
     width: 12px;
     @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);
   }
-
-  &__signal-official {
-    background: url('../images/icons/v2/official-20.svg') no-repeat center;
-    display: inline-block;
-    height: 16px;
-    margin-left: 6px;
-    width: 16px;
-  }
 }

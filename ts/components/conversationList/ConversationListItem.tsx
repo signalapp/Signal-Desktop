@@ -106,9 +106,11 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     const headerName = (
       <>
         {isMe ? (
-          <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
-            {i18n('noteToSelf')}
-          </span>
+          <ContactName
+            module={HEADER_CONTACT_NAME_CLASS_NAME}
+            isMe={isMe}
+            title={i18n('noteToSelf')}
+          />
         ) : (
           <ContactName
             module={HEADER_CONTACT_NAME_CLASS_NAME}

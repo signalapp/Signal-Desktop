@@ -107,6 +107,7 @@ export function ConversationDetailsHeader({
     <div>
       <div className={bem('title')}>
         <Emojify text={isMe ? i18n('noteToSelf') : conversation.title} />
+        {isMe && (<span className="ContactModal__official-badge__large" />)}
       </div>
     </div>
   );

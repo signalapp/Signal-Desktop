@@ -68,9 +68,11 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     uuid,
   }) {
     const headerName = isMe ? (
-      <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
-        {i18n('noteToSelf')}
-      </span>
+      <ContactName
+        isMe={isMe}
+        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        title={i18n('noteToSelf')}
+      />
     ) : (
       <ContactName
         isSignalConversation={isSignalConversation({ id, uuid })}
