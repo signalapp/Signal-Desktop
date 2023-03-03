@@ -118,7 +118,7 @@ empty application. But you can use the information from your production install 
 Desktop to populate your testing application!
 
 First, exit both production and development apps (In macOS - literally quit the apps).
-Second, find your application data:
+Second, find your application data in the `userData` directory:
 
 - macOS: `~/Library/Application Support/Signal`
 - Linux: `~/.config/Signal`
@@ -150,7 +150,7 @@ Once you have the additional numbers, you can setup additional storage profiles 
 between them using the `NODE_APP_INSTANCE` environment variable.
 
 For example, to create an 'alice' profile, put a file called `local-alice.json` in the
-`config` directory:
+`config` directory for the `NODE_CONFIG_DIR` environment variable, not `userData` from above:
 
 ```
 {
