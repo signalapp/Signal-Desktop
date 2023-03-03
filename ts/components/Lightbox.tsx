@@ -424,6 +424,7 @@ export function Lightbox({
   const caption = attachment?.caption;
 
   let content: JSX.Element;
+  let hasFooter = true;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -490,6 +491,8 @@ export function Lightbox({
           <source src={objectURL} />
         </video>
       );
+
+      hasFooter = false;
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
       content = (
         <button
@@ -600,78 +603,84 @@ export function Lightbox({
                 }}
               >
                 {content}
-              </animated.div>
-              {hasPrevious && (
-                <div className="Lightbox__nav-prev">
-                  <button
-                    aria-label={i18n('previous')}
-                    className="Lightbox__button Lightbox__button--previous"
-                    onClick={onPrevious}
-                    type="button"
-                  />
-                </div>
-              )}
-              {hasNext && (
-                <div className="Lightbox__nav-next">
-                  <button
-                    aria-label={i18n('next')}
-                    className="Lightbox__button Lightbox__button--next"
-                    onClick={onNext}
-                    type="button"
-                  />
-                </div>
-              )}
-            </div>
-            <div className="Lightbox__footer">
-              {isViewOnce && videoTime ? (
-                <div className="Lightbox__timestamp">
-                  {formatDuration(videoTime)}
-                </div>
-              ) : null}
-              {caption ? (
-                <div className="Lightbox__caption">{caption}</div>
-              ) : null}
-              {media.length > 1 && (
-                <div className="Lightbox__thumbnails--container">
-                  <div
-                    className="Lightbox__thumbnails"
-                    style={{
-                      marginLeft:
-                        0 - (selectedIndex * 64 + selectedIndex * 8 + 32),
-                    }}
-                  >
-                    {media.map((item, index) => (
-                      <button
-                        className={classNames({
-                          Lightbox__thumbnail: true,
-                          'Lightbox__thumbnail--selected':
-                            index === selectedIndex,
-                        })}
-                        key={item.thumbnailObjectUrl}
-                        type="button"
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                        ) => {
-                          event.stopPropagation();
-                          event.preventDefault();
 
-                          setSelectedIndex(index);
-                        }}
-                      >
-                        {item.thumbnailObjectUrl ? (
-                          <img
-                            alt={i18n('lightboxImageAlt')}
-                            src={item.thumbnailObjectUrl}
-                          />
-                        ) : (
-                          <div className="Lightbox__thumbnail--unavailable" />
-                        )}
-                      </button>
-                    ))}
+                {hasPrevious && (
+                  <div className="Lightbox__nav-prev">
+                    <button
+                      aria-label={i18n('previous')}
+                      className="Lightbox__button Lightbox__button--previous"
+                      onClick={onPrevious}
+                      type="button"
+                    />
                   </div>
-                </div>
-              )}
+                )}
+                {hasNext && (
+                  <div className="Lightbox__nav-next">
+                    <button
+                      aria-label={i18n('next')}
+                      className="Lightbox__button Lightbox__button--next"
+                      onClick={onNext}
+                      type="button"
+                    />
+                  </div>
+                )}
+              </animated.div>
             </div>
+            {hasFooter ? (
+              <div className="Lightbox__footer">
+                {isViewOnce && videoTime ? (
+                  <div className="Lightbox__timestamp">
+                    {formatDuration(videoTime)}
+                  </div>
+                ) : null}
+                {caption ? (
+                  <div className="Lightbox__caption">{caption}</div>
+                ) : null}
+                {media.length > 1 && (
+                  <div className="Lightbox__thumbnails--container">
+                    <div
+                      className="Lightbox__thumbnails"
+                      style={{
+                        marginLeft:
+                          0 - (selectedIndex * 44 + selectedIndex * 8 + 22),
+                      }}
+                    >
+                      {media.map((item, index) => (
+                        <button
+                          className={classNames({
+                            Lightbox__thumbnail: true,
+                            'Lightbox__thumbnail--selected':
+                              index === selectedIndex,
+                          })}
+                          key={item.thumbnailObjectUrl}
+                          type="button"
+                          onClick={(
+                            event: React.MouseEvent<
+                              HTMLButtonElement,
+                              MouseEvent
+                            >
+                          ) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+
+                            setSelectedIndex(index);
+                          }}
+                        >
+                          {item.thumbnailObjectUrl ? (
+                            <img
+                              alt={i18n('lightboxImageAlt')}
+                              src={item.thumbnailObjectUrl}
+                            />
+                          ) : (
+                            <div className="Lightbox__thumbnail--unavailable" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : null}
           </div>
         </div>,
         root

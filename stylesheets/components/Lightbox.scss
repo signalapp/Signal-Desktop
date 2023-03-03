@@ -3,7 +3,7 @@
 
 .Lightbox {
   &__container {
-    background-color: $color-black-alpha-90;
+    background-color: $color-gray-90;
     bottom: 0;
     left: 0;
     position: absolute;
@@ -47,29 +47,36 @@
     position: absolute;
 
     &--container {
-      height: 64px;
-      margin-bottom: 16px;
-      margin-top: 10px;
+      height: 44px;
       position: relative;
     }
   }
 
   &__thumbnail {
     @include button-reset;
-    border-radius: 4px;
-    height: 64px;
+    position: relative;
+    border-radius: 6px;
+    height: 44px;
     margin-right: 8px;
     overflow: hidden;
-    width: 64px;
+    width: 44px;
 
     img {
       height: 100%;
       object-fit: contain;
       width: 100%;
+      opacity: 0.8;
     }
 
-    &--selected {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+    &--selected::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '';
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      box-shadow: inset 0px 0px 0px 2px $color-white;
     }
 
     &--unavailable {
@@ -84,7 +91,6 @@
       display: inline-flex;
       flex-grow: 1;
       justify-content: center;
-      margin-bottom: 12px;
       overflow: hidden;
       position: relative;
       // Using this so that the zoom cleanly goes over the footer
@@ -182,18 +188,23 @@
 
   &__nav-next,
   &__nav-prev {
-    bottom: 50%;
     position: absolute;
+    top: 0;
+    width: 25%;
+    height: 100%;
+
     // We need this so that the buttons stack above the container
     z-index: $z-index-above-base;
   }
 
   &__nav-next {
-    right: 21px;
+    right: 0;
+    padding-right: 16px;
   }
 
   &__nav-prev {
-    left: 21px;
+    left: 0;
+    padding-left: 16px;
   }
 
   &__header {
@@ -201,7 +212,7 @@
     display: flex;
     height: 56px;
     justify-content: space-between;
-    margin-top: 24px;
+    margin-top: calc(12px + var(--title-bar-drag-area-height));
     min-height: 56px;
     opacity: 1;
     padding: 0 16px;
@@ -212,7 +223,7 @@
     }
 
     &--avatar {
-      margin-right: 12px;
+      margin-right: 10px;
     }
 
     &--name {
@@ -228,7 +239,7 @@
 
   &__footer {
     opacity: 1;
-    padding: 0 16px;
+    padding: 20px 16px;
     transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
   }
 
@@ -239,12 +250,16 @@
     }
   }
 
+  &__controls {
+    display: flex;
+    gap: 32px;
+  }
+
   &__button {
     @include button-reset;
 
     border-radius: 4px;
     display: inline-block;
-    margin-left: 24px;
     height: 24px;
     width: 24px;
 
@@ -275,7 +290,7 @@
       &::before {
         transform: scaleX(-1);
         @include color-svg(
-          '../images/icons/v2/reply-solid-24.svg',
+          '../images/icons/v2/forward-outline-24.svg',
           $color-gray-15
         );
       }
@@ -284,7 +299,7 @@
     &--save {
       &::before {
         @include color-svg(
-          '../images/icons/v2/save-solid-24.svg',
+          '../images/icons/v2/download-outline-24.svg',
           $color-gray-15
         );
       }
@@ -296,22 +311,56 @@
       }
     }
 
+    &--previous,
+    &--next {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &::before {
+        width: 32px;
+        height: 32px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      outline: none;
+      &:focus {
+        outline: none;
+      }
+
+      @include keyboard-mode {
+        &:focus {
+          opacity: 1;
+        }
+      }
+      @include button-focus-outline;
+    }
+
     &--previous {
-      margin-left: 0;
+      justify-content: start;
       &::before {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
-          $color-gray-15
+          '../images/icons/v2/arrow-left-32.svg',
+          $color-gray-05
         );
       }
     }
 
     &--next {
-      margin-left: 0;
+      justify-content: end;
+
       &::before {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
-          $color-gray-15
+          '../images/icons/v2/arrow-right-32.svg',
+          $color-gray-05
         );
       }
     }
