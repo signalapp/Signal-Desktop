@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { LoadImageResult } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
 
 import type { MIMEType } from '../types/MIME';
@@ -115,16 +116,16 @@ export async function scaleImageToLevel(
   blob: Blob;
   contentType: MIMEType;
 }> {
-  let image: HTMLCanvasElement;
+  let data: LoadImageResult;
   try {
-    const data = await loadImage(fileOrBlobOrURL, {
+    data = await loadImage(fileOrBlobOrURL, {
       canvas: true,
       orientation: true,
+      meta: true, // Check if we need to strip EXIF data
     });
     if (!(data.image instanceof HTMLCanvasElement)) {
       throw new Error('image not a canvas');
     }
-    ({ image } = data);
   } catch (cause) {
     const error = new Error('scaleImageToLevel: Failed to process image', {
       cause,
@@ -139,7 +140,14 @@ export async function scaleImageToLevel(
     MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
 
   if (fileOrBlobOrURL.size <= thresholdSize) {
-    const blob = await canvasToBlob(image, contentType);
+    let blob: Blob;
+    if (data.exif != null) {
+      blob = await canvasToBlob(data.image, contentType);
+    } else {
+      // If we don't have EXIF data, we can just return the original blob
+      // to avoid occasionally making the image larger.
+      blob = fileOrBlobOrURL;
+    }
     return {
       blob,
       contentType,
@@ -154,7 +162,11 @@ export async function scaleImageToLevel(
 
     // We need these operations to be in serial
     // eslint-disable-next-line no-await-in-loop
-    const blob = await getCanvasBlobAsJPEG(image, scalableDimensions, quality);
+    const blob = await getCanvasBlobAsJPEG(
+      data.image,
+      scalableDimensions,
+      quality
+    );
     if (blob.size <= size) {
       return {
         blob,
@@ -163,7 +175,7 @@ export async function scaleImageToLevel(
     }
   }
 
-  const blob = await getCanvasBlobAsJPEG(image, MIN_DIMENSIONS, quality);
+  const blob = await getCanvasBlobAsJPEG(data.image, MIN_DIMENSIONS, quality);
   return {
     blob,
     contentType: IMAGE_JPEG,

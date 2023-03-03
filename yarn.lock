@@ -12081,9 +12081,9 @@ li@^1.3.0:
   integrity sha512-z34TU6GlMram52Tss5mt1m//ifRIpKH5Dqm7yUVOdHI+BQCs9qGPHFaCUTIzsWX7edN30aa2WrPwR7IO10FHaw==
 
 libheif-js@^1.10.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/libheif-js/-/libheif-js-1.12.0.tgz#9ad1ed16a8e6412b4d3d83565d285465a00e7305"
-  integrity sha512-hDs6xQ7028VOwAFwEtM0Q+B2x2NW69Jb2MhQFUbk3rUrHzz4qo5mqS8VrqNgYnSc8TiUGnR691LnO4uIfEE23w==
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/libheif-js/-/libheif-js-1.15.1.tgz#4693d664c2c512c6d907153c7ec4e320625470ad"
+  integrity sha512-1nIVY1IFYLglxHPuLMqMBpjx4wigEEUVnSj2d3pRzeOjzKetwXlVejHJJgomZwEARu0PZ3HeGOW7ID/hZr13cg==
 
 lines-and-columns@^1.1.6:
   version "1.2.4"
