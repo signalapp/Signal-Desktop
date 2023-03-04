@@ -1491,7 +1491,8 @@ export class ConversationModel extends window.Backbone
         }
       }
 
-      const metrics = await getMessageMetricsForConversation(conversationId, {
+      const metrics = await getMessageMetricsForConversation({
+        conversationId,
         includeStoryReplies: !isGroup(this.attributes),
       });
 
@@ -1511,7 +1512,8 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         storyId: undefined,
@@ -1564,7 +1566,8 @@ export class ConversationModel extends window.Backbone
 
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
-      const models = await getOlderMessagesByConversation(conversationId, {
+      const models = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         messageId: oldestMessageId,
@@ -1619,7 +1622,8 @@ export class ConversationModel extends window.Backbone
 
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
-      const models = await getNewerMessagesByConversation(conversationId, {
+      const models = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         receivedAt,
@@ -2188,17 +2192,15 @@ export class ConversationModel extends window.Backbone
       const first = messages ? messages[0] : undefined;
 
       // eslint-disable-next-line no-await-in-loop
-      messages = await window.Signal.Data.getOlderMessagesByConversation(
-        this.get('id'),
-        {
-          includeStoryReplies: !isGroup(this.attributes),
-          limit: 100,
-          messageId: first ? first.id : undefined,
-          receivedAt: first ? first.received_at : undefined,
-          sentAt: first ? first.sent_at : undefined,
-          storyId: undefined,
-        }
-      );
+      messages = await window.Signal.Data.getOlderMessagesByConversation({
+        conversationId: this.get('id'),
+        includeStoryReplies: !isGroup(this.attributes),
+        limit: 100,
+        messageId: first ? first.id : undefined,
+        receivedAt: first ? first.received_at : undefined,
+        sentAt: first ? first.sent_at : undefined,
+        storyId: undefined,
+      });
 
       if (!messages.length) {
         return;

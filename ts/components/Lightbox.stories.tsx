@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
@@ -55,16 +55,30 @@ function createMediaItem(
   };
 }
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  closeLightbox: action('closeLightbox'),
-  i18n,
-  isViewOnce: Boolean(overrideProps.isViewOnce),
-  media: overrideProps.media || [],
-  saveAttachment: action('saveAttachment'),
-  selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
-  onMediaPlaybackStart: noop,
-});
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [selectedIndex, setSelectedIndex] = useState(
+    number('selectedIndex', overrideProps.selectedIndex || 0)
+  );
+  const media = overrideProps.media || [];
+  return {
+    closeLightbox: action('closeLightbox'),
+    i18n,
+    isViewOnce: Boolean(overrideProps.isViewOnce),
+    media,
+    saveAttachment: action('saveAttachment'),
+    selectedIndex,
+    toggleForwardMessageModal: action('toggleForwardMessageModal'),
+    onMediaPlaybackStart: noop,
+    onPrevAttachment: () => {
+      setSelectedIndex(Math.max(0, selectedIndex - 1));
+    },
+    onNextAttachment: () => {
+      setSelectedIndex(Math.min(media.length - 1, selectedIndex + 1));
+    },
+    onSelectAttachment: setSelectedIndex,
+  };
+};
 
 export function Multimedia(): JSX.Element {
   const props = createProps({

@@ -54,6 +54,7 @@ import updateToSchemaVersion75 from './75-noop';
 import updateToSchemaVersion76 from './76-optimize-convo-open-2';
 import updateToSchemaVersion77 from './77-signal-tokenizer';
 import updateToSchemaVersion78 from './78-merge-receipt-jobs';
+import updateToSchemaVersion79 from './79-paging-lightbox';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1977,6 +1978,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion76,
   updateToSchemaVersion77,
   updateToSchemaVersion78,
+  updateToSchemaVersion79,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

@@ -41,15 +41,13 @@ async function cleanupStoryReplies(
 ): Promise<void> {
   const { messageId, receivedAt } = pagination || {};
 
-  const replies = await window.Signal.Data.getOlderMessagesByConversation(
+  const replies = await window.Signal.Data.getOlderMessagesByConversation({
     conversationId,
-    {
-      includeStoryReplies: false,
-      messageId,
-      receivedAt,
-      storyId,
-    }
-  );
+    includeStoryReplies: false,
+    messageId,
+    receivedAt,
+    storyId,
+  });
 
   if (!replies.length) {
     return;

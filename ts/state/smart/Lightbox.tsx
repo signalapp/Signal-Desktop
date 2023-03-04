@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -19,6 +19,8 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import {
   getIsViewOnce,
   getMedia,
+  getHasPrevMessage,
+  getHasNextMessage,
   getSelectedIndex,
   shouldShowLightbox,
 } from '../selectors/lightbox';
@@ -26,7 +28,12 @@ import {
 export function SmartLightbox(): JSX.Element | null {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const { saveAttachment } = useConversationsActions();
-  const { closeLightbox } = useLightboxActions();
+  const {
+    closeLightbox,
+    showLightboxForNextMessage,
+    showLightboxForPrevMessage,
+    setSelectedLightboxPath,
+  } = useLightboxActions();
   const { toggleForwardMessageModal } = useGlobalModalActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
@@ -40,7 +47,48 @@ export function SmartLightbox(): JSX.Element | null {
     StateType,
     ReadonlyArray<ReadonlyDeep<MediaItemType>>
   >(getMedia);
+  const hasPrevMessage = useSelector<StateType, boolean>(getHasPrevMessage);
+  const hasNextMessage = useSelector<StateType, boolean>(getHasNextMessage);
   const selectedIndex = useSelector<StateType, number>(getSelectedIndex);
+
+  const onPrevAttachment = useCallback(() => {
+    if (selectedIndex <= 0) {
+      if (hasPrevMessage) {
+        showLightboxForPrevMessage();
+      }
+      return;
+    }
+    setSelectedLightboxPath(media[selectedIndex - 1]?.attachment.path);
+  }, [
+    showLightboxForPrevMessage,
+    media,
+    selectedIndex,
+    setSelectedLightboxPath,
+    hasPrevMessage,
+  ]);
+
+  const onNextAttachment = useCallback(() => {
+    if (selectedIndex >= media.length - 1) {
+      if (hasNextMessage) {
+        showLightboxForNextMessage();
+      }
+      return;
+    }
+    setSelectedLightboxPath(media[selectedIndex + 1]?.attachment.path);
+  }, [
+    showLightboxForNextMessage,
+    media,
+    selectedIndex,
+    setSelectedLightboxPath,
+    hasNextMessage,
+  ]);
+
+  const onSelectAttachment = useCallback(
+    (newIndex: number) => {
+      setSelectedLightboxPath(media[newIndex]?.attachment.path);
+    },
+    [setSelectedLightboxPath, media]
+  );
 
   if (!isShowingLightbox) {
     return null;
@@ -57,6 +105,11 @@ export function SmartLightbox(): JSX.Element | null {
       selectedIndex={selectedIndex || 0}
       toggleForwardMessageModal={toggleForwardMessageModal}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
+      onPrevAttachment={onPrevAttachment}
+      onNextAttachment={onNextAttachment}
+      onSelectAttachment={onSelectAttachment}
+      hasNextMessage={hasNextMessage}
+      hasPrevMessage={hasPrevMessage}
     />
   );
 }

@@ -40,3 +40,13 @@ export const getMedia = createSelector(
   (state): ReadonlyArray<ReadonlyDeep<MediaItemType>> =>
     state.isShowingLightbox ? state.media : []
 );
+
+export const getHasPrevMessage = createSelector(
+  getLightboxState,
+  (state): boolean => state.isShowingLightbox && state.hasPrevMessage
+);
+
+export const getHasNextMessage = createSelector(
+  getLightboxState,
+  (state): boolean => state.isShowingLightbox && state.hasNextMessage
+);

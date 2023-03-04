@@ -40,6 +40,7 @@ import { cleanupMessage } from '../util/cleanup';
 import { drop } from '../util/drop';
 
 import type {
+  AdjacentMessagesByConversationOptionsType,
   AllItemsType,
   AttachmentDownloadJobType,
   ClientInterface,
@@ -674,77 +675,24 @@ function handleMessageJSON(
 }
 
 async function getNewerMessagesByConversation(
-  conversationId: string,
-  {
-    includeStoryReplies,
-    limit = 100,
-    receivedAt = 0,
-    sentAt = 0,
-    storyId,
-  }: {
-    includeStoryReplies: boolean;
-    limit?: number;
-    receivedAt?: number;
-    sentAt?: number;
-    storyId: UUIDStringType | undefined;
-  }
+  options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await channels.getNewerMessagesByConversation(
-    conversationId,
-    {
-      includeStoryReplies,
-      limit,
-      receivedAt,
-      sentAt,
-      storyId,
-    }
-  );
+  const messages = await channels.getNewerMessagesByConversation(options);
 
   return handleMessageJSON(messages);
 }
 
 async function getOlderMessagesByConversation(
-  conversationId: string,
-  {
-    includeStoryReplies,
-    limit = 100,
-    messageId,
-    receivedAt = Number.MAX_VALUE,
-    sentAt = Number.MAX_VALUE,
-    storyId,
-  }: {
-    includeStoryReplies: boolean;
-    limit?: number;
-    messageId?: string;
-    receivedAt?: number;
-    sentAt?: number;
-    storyId: string | undefined;
-  }
+  options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await channels.getOlderMessagesByConversation(
-    conversationId,
-    {
-      includeStoryReplies,
-      limit,
-      receivedAt,
-      sentAt,
-      messageId,
-      storyId,
-    }
-  );
+  const messages = await channels.getOlderMessagesByConversation(options);
 
   return handleMessageJSON(messages);
 }
 
-async function getConversationRangeCenteredOnMessage(options: {
-  conversationId: string;
-  includeStoryReplies: boolean;
-  limit?: number;
-  messageId: string;
-  receivedAt: number;
-  sentAt?: number;
-  storyId: UUIDStringType | undefined;
-}): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
+async function getConversationRangeCenteredOnMessage(
+  options: AdjacentMessagesByConversationOptionsType
+): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
   const result = await channels.getConversationRangeCenteredOnMessage(options);
 
   return {
@@ -771,7 +719,8 @@ async function removeAllMessagesInConversation(
     // Yes, we really want the await in the loop. We're deleting a chunk at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getOlderMessagesByConversation(conversationId, {
+    messages = await getOlderMessagesByConversation({
+      conversationId,
       limit: chunkSize,
       includeStoryReplies: true,
       storyId: undefined,

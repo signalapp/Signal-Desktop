@@ -325,14 +325,12 @@ function loadStoryReplies(
 ): ThunkAction<void, RootStateType, unknown, LoadStoryRepliesActionType> {
   return async (dispatch, getState) => {
     const conversation = getConversationSelector(getState())(conversationId);
-    const replies = await dataInterface.getOlderMessagesByConversation(
+    const replies = await dataInterface.getOlderMessagesByConversation({
       conversationId,
-      {
-        limit: 9000,
-        storyId: messageId,
-        includeStoryReplies: !isGroup(conversation),
-      }
-    );
+      limit: 9000,
+      storyId: messageId,
+      includeStoryReplies: !isGroup(conversation),
+    });
 
     dispatch({
       type: LOAD_STORY_REPLIES,

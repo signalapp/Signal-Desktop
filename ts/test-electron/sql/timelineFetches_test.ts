@@ -92,7 +92,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 5);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: true,
         limit: 5,
         storyId: undefined,
@@ -149,7 +150,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         storyId,
@@ -203,7 +205,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         storyId: undefined,
@@ -254,7 +257,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         receivedAt: target,
@@ -307,7 +311,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         receivedAt: target,
@@ -364,7 +369,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getOlderMessagesByConversation(conversationId, {
+      const messages = await getOlderMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         messageId: message2.id,
@@ -442,7 +448,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 5);
 
-      const messages = await getNewerMessagesByConversation(conversationId, {
+      const messages = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: true,
         limit: 5,
         storyId: undefined,
@@ -498,7 +505,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getNewerMessagesByConversation(conversationId, {
+      const messages = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         storyId,
@@ -550,7 +558,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getNewerMessagesByConversation(conversationId, {
+      const messages = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         receivedAt: target,
@@ -605,7 +614,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getNewerMessagesByConversation(conversationId, {
+      const messages = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         storyId: undefined,
@@ -658,7 +668,8 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 3);
 
-      const messages = await getNewerMessagesByConversation(conversationId, {
+      const messages = await getNewerMessagesByConversation({
+        conversationId,
         includeStoryReplies: false,
         limit: 5,
         receivedAt: target,
@@ -777,12 +788,10 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(await _getAllMessages(), 8);
 
-      const metricsInTimeline = await getMessageMetricsForConversation(
+      const metricsInTimeline = await getMessageMetricsForConversation({
         conversationId,
-        {
-          includeStoryReplies: false,
-        }
-      );
+        includeStoryReplies: false,
+      });
       assert.strictEqual(metricsInTimeline?.oldest?.id, oldest.id, 'oldest');
       assert.strictEqual(metricsInTimeline?.newest?.id, newest.id, 'newest');
       assert.strictEqual(
@@ -792,10 +801,11 @@ describe('sql/timelineFetches', () => {
       );
       assert.strictEqual(metricsInTimeline?.totalUnseen, 2, 'totalUnseen');
 
-      const metricsInStory = await getMessageMetricsForConversation(
+      const metricsInStory = await getMessageMetricsForConversation({
         conversationId,
-        { storyId, includeStoryReplies: true }
-      );
+        storyId,
+        includeStoryReplies: true,
+      });
       assert.strictEqual(
         metricsInStory?.oldest?.id,
         oldestInStory.id,

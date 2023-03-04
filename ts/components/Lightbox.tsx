@@ -32,9 +32,14 @@ export type PropsType = {
   isViewOnce?: boolean;
   media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
   saveAttachment: SaveAttachmentActionCreatorType;
-  selectedIndex?: number;
+  selectedIndex: number;
   toggleForwardMessageModal: (messageId: string) => unknown;
   onMediaPlaybackStart: () => void;
+  onNextAttachment: () => void;
+  onPrevAttachment: () => void;
+  onSelectAttachment: (index: number) => void;
+  hasPrevMessage?: boolean;
+  hasNextMessage?: boolean;
 };
 
 const ZOOM_SCALE = 3;
@@ -59,13 +64,16 @@ export function Lightbox({
   i18n,
   isViewOnce = false,
   saveAttachment,
-  selectedIndex: initialSelectedIndex = 0,
+  selectedIndex,
   toggleForwardMessageModal,
   onMediaPlaybackStart,
+  onNextAttachment,
+  onPrevAttachment,
+  onSelectAttachment,
+  hasNextMessage,
+  hasPrevMessage,
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
-  const [selectedIndex, setSelectedIndex] =
-    useState<number>(initialSelectedIndex);
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
     null
@@ -106,9 +114,9 @@ export function Lightbox({
         return;
       }
 
-      setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
+      onPrevAttachment();
     },
-    [isZoomed]
+    [isZoomed, onPrevAttachment]
   );
 
   const onNext = useCallback(
@@ -122,11 +130,9 @@ export function Lightbox({
         return;
       }
 
-      setSelectedIndex(prevSelectedIndex =>
-        Math.min(prevSelectedIndex + 1, media.length - 1)
-      );
+      onNextAttachment();
     },
-    [isZoomed, media]
+    [isZoomed, onNextAttachment]
   );
 
   const onTimeUpdate = useCallback(() => {
@@ -521,8 +527,9 @@ export function Lightbox({
     }
   }
 
-  const hasNext = !isZoomed && selectedIndex < media.length - 1;
-  const hasPrevious = !isZoomed && selectedIndex > 0;
+  const hasNext =
+    !isZoomed && (selectedIndex < media.length - 1 || hasNextMessage);
+  const hasPrevious = !isZoomed && (selectedIndex > 0 || hasPrevMessage);
 
   return root
     ? createPortal(
@@ -663,7 +670,7 @@ export function Lightbox({
                             event.stopPropagation();
                             event.preventDefault();
 
-                            setSelectedIndex(index);
+                            onSelectAttachment(index);
                           }}
                         >
                           {item.thumbnailObjectUrl ? (

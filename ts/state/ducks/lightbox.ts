@@ -18,6 +18,7 @@ import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
 import { getMessageById } from '../../messages/getMessageById';
+import type { MessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
   isImageTypeSupported,
@@ -34,6 +35,7 @@ import {
 } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import dataInterface from '../../sql/Client';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
@@ -44,11 +46,14 @@ export type LightboxStateType =
       isShowingLightbox: true;
       isViewOnce: boolean;
       media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
+      hasPrevMessage: boolean;
+      hasNextMessage: boolean;
       selectedAttachmentPath: string | undefined;
     };
 
 const CLOSE_LIGHTBOX = 'lightbox/CLOSE';
 const SHOW_LIGHTBOX = 'lightbox/SHOW';
+const SET_SELECTED_LIGHTBOX_PATH = 'lightbox/SET_SELECTED_LIGHTBOX_PATH';
 
 type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
@@ -60,9 +65,16 @@ type ShowLightboxActionType = {
   payload: {
     isViewOnce: boolean;
     media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
+    hasPrevMessage: boolean;
+    hasNextMessage: boolean;
     selectedAttachmentPath: string | undefined;
   };
 };
+
+type SetSelectedLightboxPathActionType = ReadonlyDeep<{
+  type: typeof SET_SELECTED_LIGHTBOX_PATH;
+  payload: string | undefined;
+}>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type LightboxActionType =
@@ -70,7 +82,8 @@ type LightboxActionType =
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpiredActionType
-  | ShowLightboxActionType;
+  | ShowLightboxActionType
+  | SetSelectedLightboxPathActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -112,6 +125,8 @@ function showLightboxWithMedia(
       isViewOnce: false,
       media,
       selectedAttachmentPath,
+      hasPrevMessage: false,
+      hasNextMessage: false,
     },
   };
 }
@@ -188,9 +203,19 @@ function showLightboxForViewOnceMedia(
         isViewOnce: true,
         media,
         selectedAttachmentPath: undefined,
+        hasPrevMessage: false,
+        hasNextMessage: false,
       },
     });
   };
+}
+
+function filterValidAttachments(
+  attributes: MessageAttributesType
+): Array<AttachmentType> {
+  return (attributes.attachments ?? []).filter(
+    item => item.thumbnail && !item.pending && !item.error
+  );
 }
 
 function showLightbox(opts: {
@@ -232,44 +257,48 @@ function showLightbox(opts: {
       return;
     }
 
-    const attachments: Array<AttachmentType> = message.get('attachments') || [];
-
+    const attachments = filterValidAttachments(message.attributes);
     const loop = isGIF(attachments);
 
     const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
-    const media = attachments
-      .filter(item => item.thumbnail && !item.pending && !item.error)
-      .map((item, index) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
-        path: item.path,
-        contentType: item.contentType,
-        loop,
-        index,
-        message: {
-          attachments: message.get('attachments') || [],
-          id: message.get('id'),
-          conversationId:
-            window.ConversationController.lookupOrCreate({
-              uuid: message.get('sourceUuid'),
-              e164: message.get('source'),
-              reason: 'conversation_view.showLightBox',
-            })?.id || message.get('conversationId'),
-          received_at: message.get('received_at'),
-          received_at_ms: Number(message.get('received_at_ms')),
-          sent_at: message.get('sent_at'),
-        },
-        attachment: item,
-        thumbnailObjectUrl:
-          item.thumbnail?.objectUrl ||
-          getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
-      }));
+    const authorId =
+      window.ConversationController.lookupOrCreate({
+        uuid: message.get('sourceUuid'),
+        e164: message.get('source'),
+        reason: 'conversation_view.showLightBox',
+      })?.id || message.get('conversationId');
+    const receivedAt = message.get('received_at');
+    const sentAt = message.get('sent_at');
+
+    const media = attachments.map((item, index) => ({
+      objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
+      path: item.path,
+      contentType: item.contentType,
+      loop,
+      index,
+      message: {
+        attachments: message.get('attachments') || [],
+        id: messageId,
+        conversationId: authorId,
+        received_at: receivedAt,
+        received_at_ms: Number(message.get('received_at_ms')),
+        sent_at: sentAt,
+      },
+      attachment: item,
+      thumbnailObjectUrl:
+        item.thumbnail?.objectUrl ||
+        getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
+    }));
 
     if (!media.length) {
       log.error(
         'showLightbox: unable to load attachment',
-        attachments.map(x => ({
+        sentAt,
+        message.get('attachments')?.map(x => ({
+          thumbnail: !!x.thumbnail,
           contentType: x.contentType,
+          pending: x.pending,
           error: x.error,
           flags: x.flags,
           path: x.path,
@@ -286,14 +315,161 @@ function showLightbox(opts: {
       return;
     }
 
+    const { older, newer } =
+      await dataInterface.getConversationRangeCenteredOnMessage({
+        conversationId: message.get('conversationId'),
+        messageId,
+        receivedAt,
+        sentAt,
+        limit: 1,
+        storyId: undefined,
+        includeStoryReplies: false,
+
+        // This is the critical option since we only want messages with visual
+        // attachments.
+        requireVisualMediaAttachments: true,
+      });
+
     dispatch({
       type: SHOW_LIGHTBOX,
       payload: {
         isViewOnce: false,
         media,
         selectedAttachmentPath: attachment.path,
+        hasPrevMessage:
+          older.length > 0 && filterValidAttachments(older[0]).length > 0,
+        hasNextMessage:
+          newer.length > 0 && filterValidAttachments(newer[0]).length > 0,
       },
     });
+  };
+}
+
+enum AdjacentMessageDirection {
+  Previous = 'Previous',
+  Next = 'Next',
+}
+
+function showLightboxForAdjacentMessage(
+  direction: AdjacentMessageDirection
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowLightboxActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const { lightbox } = getState();
+
+    if (!lightbox.isShowingLightbox || lightbox.media.length === 0) {
+      log.warn('showLightboxForAdjacentMessage: empty lightbox');
+      return;
+    }
+
+    const [media] = lightbox.media;
+    const {
+      id: messageId,
+      received_at: receivedAt,
+      sent_at: sentAt,
+    } = media.message;
+
+    const message = await getMessageById(messageId);
+    if (!message) {
+      log.warn('showLightboxForAdjacentMessage: original message is gone');
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.UnableToLoadAttachment,
+        },
+      });
+      return;
+    }
+    const conversationId = message.get('conversationId');
+
+    const options = {
+      conversationId,
+      messageId,
+      receivedAt,
+      sentAt,
+      limit: 1,
+      storyId: undefined,
+      includeStoryReplies: false,
+
+      // This is the critical option since we only want messages with visual
+      // attachments.
+      requireVisualMediaAttachments: true,
+    };
+
+    const [adjacent] =
+      direction === AdjacentMessageDirection.Previous
+        ? await dataInterface.getOlderMessagesByConversation(options)
+        : await dataInterface.getNewerMessagesByConversation(options);
+
+    if (!adjacent) {
+      log.warn(
+        `showLightboxForAdjacentMessage(${direction}, ${messageId}, ` +
+          `${sentAt}): no ${direction} message found`
+      );
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.UnableToLoadAttachment,
+        },
+      });
+      return;
+    }
+
+    const attachments = filterValidAttachments(adjacent);
+    if (!attachments.length) {
+      log.warn(
+        `showLightboxForAdjacentMessage(${direction}, ${messageId}, ` +
+          `${sentAt}): no valid attachments found`
+      );
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.UnableToLoadAttachment,
+        },
+      });
+      return;
+    }
+
+    dispatch(
+      showLightbox({
+        attachment:
+          direction === AdjacentMessageDirection.Previous
+            ? attachments[attachments.length - 1]
+            : attachments[0],
+        messageId: adjacent.id,
+      })
+    );
+  };
+}
+
+function showLightboxForNextMessage(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowLightboxActionType
+> {
+  return showLightboxForAdjacentMessage(AdjacentMessageDirection.Next);
+}
+
+function showLightboxForPrevMessage(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowLightboxActionType
+> {
+  return showLightboxForAdjacentMessage(AdjacentMessageDirection.Previous);
+}
+
+function setSelectedLightboxPath(
+  path: string | undefined
+): SetSelectedLightboxPathActionType {
+  return {
+    type: SET_SELECTED_LIGHTBOX_PATH,
+    payload: path,
   };
 }
 
@@ -302,6 +478,9 @@ export const actions = {
   showLightbox,
   showLightboxForViewOnceMedia,
   showLightboxWithMedia,
+  showLightboxForPrevMessage,
+  showLightboxForNextMessage,
+  setSelectedLightboxPath,
 };
 
 export const useLightboxActions = (): BoundActionCreatorsMapObject<
@@ -326,6 +505,17 @@ export function reducer(
     return {
       ...action.payload,
       isShowingLightbox: true,
+    };
+  }
+
+  if (action.type === SET_SELECTED_LIGHTBOX_PATH) {
+    if (!state.isShowingLightbox) {
+      return state;
+    }
+
+    return {
+      ...state,
+      selectedAttachmentPath: action.payload,
     };
   }
 
