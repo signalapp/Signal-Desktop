@@ -137,9 +137,10 @@ function SizedWaveformScrubber({
   onScrub,
   width,
 }: SizedWaveformScrubberProps) {
-  const handleCorrupted = () => {
+  const handleCorrupted = useCallback(() => {
     log.warn('SizedWaveformScrubber: audio corrupted');
-  };
+  }, []);
+
   const { peaks, duration } = useComputePeaks({
     audioUrl,
     activeDuration,
