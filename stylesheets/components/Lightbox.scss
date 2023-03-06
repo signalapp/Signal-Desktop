@@ -288,7 +288,6 @@
 
     &--forward {
       &::before {
-        transform: scaleX(-1);
         @include color-svg(
           '../images/icons/v2/forward-outline-24.svg',
           $color-gray-15
