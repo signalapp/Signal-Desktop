@@ -6,7 +6,6 @@ import { debounce } from 'lodash';
 import { SECOND } from '../util/durations';
 import { sleep } from '../util/sleep';
 import { drop } from '../util/drop';
-import { isProduction } from '../util/version';
 import dataInterface from '../sql/Client';
 import type { FTSOptimizationStateType } from '../sql/Interface';
 import * as log from '../logging/log';
@@ -17,10 +16,6 @@ class FTSOptimizer {
   private isRunning = false;
 
   public async run(): Promise<void> {
-    if (isProduction(window.getVersion())) {
-      return;
-    }
-
     if (this.isRunning) {
       return;
     }
