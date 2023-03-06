@@ -3981,11 +3981,14 @@ export class ConversationModel extends window.Backbone
     };
 
     drop(
-      this.enqueueMessageForSend({
-        body: undefined,
-        attachments: [],
-        sticker,
-      })
+      this.enqueueMessageForSend(
+        {
+          body: undefined,
+          attachments: [],
+          sticker,
+        },
+        { dontClearDraft: true }
+      )
     );
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
