@@ -9,7 +9,7 @@ import { useSpring, animated } from '@react-spring/web';
 import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants';
 import { missingCaseError } from '../util/missingCaseError';
 
-export const SPEAKING_LINGER_MS = 500;
+export const SPEAKING_LINGER_MS = 200;
 const BASE_CLASS_NAME = 'CallingAudioIndicator';
 const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 

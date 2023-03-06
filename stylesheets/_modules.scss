@@ -3975,16 +3975,23 @@ button.module-image__border-overlay:focus {
     &:after {
       content: '';
       position: absolute;
+      z-index: $z-index-above-above-base;
       width: 100%;
       height: 100%;
       border: 0 solid transparent;
       border-radius: 5px;
-      transition: border-width 200ms, border-color 200ms;
+      transition-property: border-width, border-color;
+      // Slow down the transition when the user stops speaking.
+      transition-duration: 300ms;
+      transition-delay: 1000ms;
       transition-timing-function: ease-in-out;
     }
     &--speaking:after {
       border-width: 3px;
       border-color: $color-white;
+      // Speed up the transition when the user starts speaking.
+      transition-duration: 50ms;
+      transition-delay: 0ms;
     }
 
     &__remote-video {
