@@ -67,7 +67,7 @@ export class SignalClipboard {
 
     const { ops } = contents;
 
-    if (ops === undefined || !ops.length) {
+    if (!ops || !ops.length) {
       return;
     }
 
