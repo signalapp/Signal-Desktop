@@ -10,13 +10,13 @@
     @include button-reset;
     @include rounded-corners;
     align-items: center;
-    bottom: 3px;
+    bottom: 4px;
     display: flex;
     flex-direction: row;
     left: 3px;
     padding: 0 3px 0 0;
     position: absolute;
-    top: 5px;
+    top: 4px;
 
     @include light-theme {
       background-color: $color-gray-25;
