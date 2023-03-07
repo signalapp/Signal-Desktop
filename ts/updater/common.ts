@@ -5,8 +5,6 @@
 import { createWriteStream } from 'fs';
 import { pathExists } from 'fs-extra';
 import { readdir, stat, writeFile, mkdir } from 'fs/promises';
-import { promisify } from 'util';
-import { execFile } from 'child_process';
 import { join, normalize, extname } from 'path';
 import { tmpdir, release as osRelease } from 'os';
 import { throttle } from 'lodash';
@@ -714,22 +712,12 @@ export abstract class Updater {
       return process.arch;
     }
 
-    try {
-      // We might be running under Rosetta
-      const flag = 'sysctl.proc_translated';
-      const { stdout } = await promisify(execFile)('sysctl', ['-i', flag]);
-
-      if (stdout.includes(`${flag}: 1`)) {
-        this.logger.info('updater: running under Rosetta');
-        return 'arm64';
-      }
-    } catch (error) {
-      this.logger.warn(
-        `updater: Rosetta detection failed with ${Errors.toLogFormat(error)}`
-      );
+    if (app.runningUnderARM64Translation) {
+      this.logger.info('updater: running under arm64 translation');
+      return 'arm64';
     }
 
-    this.logger.info('updater: not running under Rosetta');
+    this.logger.info('updater: not running under arm64 translation');
     return process.arch;
   }
 }
