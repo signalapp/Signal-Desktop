@@ -7,6 +7,7 @@ type MIMETypeSupportMap = Record<string, boolean>;
 
 // See: https://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support
 const SUPPORTED_IMAGE_MIME_TYPES: MIMETypeSupportMap = {
+  'image/avif': true,
   'image/bmp': true,
   'image/gif': true,
   'image/jpeg': true,
