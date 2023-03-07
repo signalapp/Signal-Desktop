@@ -430,7 +430,7 @@ export function Lightbox({
   const caption = attachment?.caption;
 
   let content: JSX.Element;
-  let hasFooter = true;
+  let hasControls = false;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -498,7 +498,7 @@ export function Lightbox({
         </video>
       );
 
-      hasFooter = false;
+      hasControls = true;
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
       content = (
         <button
@@ -536,6 +536,7 @@ export function Lightbox({
         <div
           className={classNames('Lightbox Lightbox__container', {
             'Lightbox__container--zoom': isZoomed,
+            'Lightbox__container--has-controls': hasControls,
           })}
           onClick={(event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
@@ -633,61 +634,58 @@ export function Lightbox({
                 )}
               </animated.div>
             </div>
-            {hasFooter ? (
-              <div className="Lightbox__footer">
-                {isViewOnce && videoTime ? (
-                  <div className="Lightbox__timestamp">
-                    {formatDuration(videoTime)}
-                  </div>
-                ) : null}
-                {caption ? (
-                  <div className="Lightbox__caption">{caption}</div>
-                ) : null}
-                {media.length > 1 && (
-                  <div className="Lightbox__thumbnails--container">
-                    <div
-                      className="Lightbox__thumbnails"
-                      style={{
-                        marginLeft:
-                          0 - (selectedIndex * 44 + selectedIndex * 8 + 22),
-                      }}
-                    >
-                      {media.map((item, index) => (
-                        <button
-                          className={classNames({
-                            Lightbox__thumbnail: true,
-                            'Lightbox__thumbnail--selected':
-                              index === selectedIndex,
-                          })}
-                          key={item.thumbnailObjectUrl}
-                          type="button"
-                          onClick={(
-                            event: React.MouseEvent<
-                              HTMLButtonElement,
-                              MouseEvent
-                            >
-                          ) => {
-                            event.stopPropagation();
-                            event.preventDefault();
+            <div className="Lightbox__footer">
+              {isViewOnce && videoTime ? (
+                <div className="Lightbox__timestamp">
+                  {formatDuration(videoTime)}
+                </div>
+              ) : null}
+              {caption ? (
+                <div className="Lightbox__caption">{caption}</div>
+              ) : null}
+              {media.length > 1 ? (
+                <div className="Lightbox__thumbnails--container">
+                  <div
+                    className="Lightbox__thumbnails"
+                    style={{
+                      marginLeft:
+                        0 - (selectedIndex * 44 + selectedIndex * 8 + 22),
+                    }}
+                  >
+                    {media.map((item, index) => (
+                      <button
+                        className={classNames({
+                          Lightbox__thumbnail: true,
+                          'Lightbox__thumbnail--selected':
+                            index === selectedIndex,
+                        })}
+                        key={item.thumbnailObjectUrl}
+                        type="button"
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => {
+                          event.stopPropagation();
+                          event.preventDefault();
 
-                            onSelectAttachment(index);
-                          }}
-                        >
-                          {item.thumbnailObjectUrl ? (
-                            <img
-                              alt={i18n('lightboxImageAlt')}
-                              src={item.thumbnailObjectUrl}
-                            />
-                          ) : (
-                            <div className="Lightbox__thumbnail--unavailable" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
+                          onSelectAttachment(index);
+                        }}
+                      >
+                        {item.thumbnailObjectUrl ? (
+                          <img
+                            alt={i18n('lightboxImageAlt')}
+                            src={item.thumbnailObjectUrl}
+                          />
+                        ) : (
+                          <div className="Lightbox__thumbnail--unavailable" />
+                        )}
+                      </button>
+                    ))}
                   </div>
-                )}
-              </div>
-            ) : null}
+                </div>
+              ) : (
+                <div className="Lightbox__thumbnails_placeholder" />
+              )}
+            </div>
           </div>
         </div>,
         root
