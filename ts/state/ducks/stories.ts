@@ -13,6 +13,7 @@ import type {
   MessageChangedActionType,
   MessageDeletedActionType,
   MessagesAddedActionType,
+  SelectedConversationChangedActionType,
 } from './conversations';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
@@ -20,6 +21,7 @@ import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
+import { SELECTED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -263,6 +265,7 @@ export type StoriesActionType =
   | ViewStoryActionType
   | StoryReplyDeletedActionType
   | RemoveAllStoriesActionType
+  | SelectedConversationChangedActionType
   | SetAddStoryDataType
   | SetStorySendingType
   | SetHasAllStoriesUnmutedType;
@@ -1772,6 +1775,17 @@ export function reducer(
     return {
       ...state,
       hasAllStoriesUnmuted: action.payload,
+    };
+  }
+
+  if (action.type === SELECTED_CONVERSATION_CHANGED) {
+    return {
+      ...state,
+      lastOpenedAtTimestamp: state.openedAtTimestamp || Date.now(),
+      openedAtTimestamp: undefined,
+      replyState: undefined,
+      sendStoryModalData: undefined,
+      selectedStoryData: undefined,
     };
   }
 

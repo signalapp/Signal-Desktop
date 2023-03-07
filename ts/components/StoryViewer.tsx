@@ -105,6 +105,7 @@ export type PropsType = {
   retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;
   story: StoryViewType;
@@ -158,6 +159,7 @@ export function StoryViewer({
   retryMessageSend,
   saveAttachment,
   setHasAllStoriesUnmuted,
+  showContactModal,
   showToast,
   skinTone,
   story,
@@ -948,6 +950,7 @@ export function StoryViewer({
             recentEmojis={recentEmojis}
             renderEmojiPicker={renderEmojiPicker}
             replies={replies}
+            showContactModal={showContactModal}
             skinTone={skinTone}
             sortedGroupMembers={group?.sortedGroupMembers}
             views={views}

@@ -58,7 +58,6 @@ const MESSAGE_DEFAULT_PROPS = {
   renderAudioAttachment: () => <div />,
   saveAttachment: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
-  showContactModal: shouldNeverBeCalled,
   showConversation: noop,
   showExpiredIncomingTapToViewToast: shouldNeverBeCalled,
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
@@ -77,12 +76,15 @@ export enum StoryViewsNRepliesTab {
 export type PropsType = {
   authorTitle: string;
   canReply: boolean;
+  deleteGroupStoryReply: (id: string) => void;
+  deleteGroupStoryReplyForEveryone: (id: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
+  group: Pick<ConversationType, 'left'> | undefined;
   hasViewReceiptSetting: boolean;
   hasViewsCapability: boolean;
   i18n: LocalizerType;
   isInternalUser?: boolean;
-  group: Pick<ConversationType, 'left'> | undefined;
+  onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
   onReact: (emoji: string) => unknown;
   onReply: (
@@ -97,24 +99,25 @@ export type PropsType = {
   recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   skinTone?: number;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;
-  onChangeViewTarget: (target: StoryViewTargetType) => unknown;
-  deleteGroupStoryReply: (id: string) => void;
-  deleteGroupStoryReplyForEveryone: (id: string) => void;
 };
 
 export function StoryViewsNRepliesModal({
   authorTitle,
   canReply,
+  deleteGroupStoryReply,
+  deleteGroupStoryReplyForEveryone,
   getPreferredBadge,
+  group,
   hasViewReceiptSetting,
   hasViewsCapability,
   i18n,
   isInternalUser,
-  group,
+  onChangeViewTarget,
   onClose,
   onReact,
   onReply,
@@ -125,13 +128,11 @@ export function StoryViewsNRepliesModal({
   recentEmojis,
   renderEmojiPicker,
   replies,
+  showContactModal,
   skinTone,
   sortedGroupMembers,
-  views,
   viewTarget,
-  onChangeViewTarget,
-  deleteGroupStoryReply,
-  deleteGroupStoryReplyForEveryone,
+  views,
 }: PropsType): JSX.Element | null {
   const [deleteReplyId, setDeleteReplyId] = useState<string | undefined>(
     undefined
@@ -274,18 +275,19 @@ export function StoryViewsNRepliesModal({
           return (
             <ReplyOrReactionMessage
               key={reply.id}
-              id={reply.id}
-              i18n={i18n}
-              isInternalUser={isInternalUser}
-              reply={reply}
+              containerElementRef={containerElementRef}
               deleteGroupStoryReply={() => setDeleteReplyId(reply.id)}
               deleteGroupStoryReplyForEveryone={() =>
                 setDeleteForEveryoneReplyId(reply.id)
               }
               getPreferredBadge={getPreferredBadge}
+              i18n={i18n}
+              id={reply.id}
+              isInternalUser={isInternalUser}
+              reply={reply}
               shouldCollapseAbove={shouldCollapse(reply, replies[index - 1])}
               shouldCollapseBelow={shouldCollapse(reply, replies[index + 1])}
-              containerElementRef={containerElementRef}
+              showContactModal={showContactModal}
             />
           );
         })}
@@ -452,17 +454,18 @@ export function StoryViewsNRepliesModal({
 }
 
 type ReplyOrReactionMessageProps = {
-  i18n: LocalizerType;
-  id: string;
-  isInternalUser?: boolean;
-  reply: ReplyType;
+  containerElementRef: React.RefObject<HTMLElement>;
   deleteGroupStoryReply: (replyId: string) => void;
   deleteGroupStoryReplyForEveryone: (replyId: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
+  i18n: LocalizerType;
+  id: string;
+  isInternalUser?: boolean;
+  onContextMenu?: (ev: React.MouseEvent) => void;
+  reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
-  containerElementRef: React.RefObject<HTMLElement>;
-  onContextMenu?: (ev: React.MouseEvent) => void;
+  showContactModal: (contactId: string, conversationId?: string) => void;
 };
 
 function ReplyOrReactionMessage({
@@ -476,6 +479,7 @@ function ReplyOrReactionMessage({
   getPreferredBadge,
   shouldCollapseAbove,
   shouldCollapseBelow,
+  showContactModal,
 }: ReplyOrReactionMessageProps) {
   const renderContent = (onContextMenu?: (ev: React.MouseEvent) => void) => {
     if (reply.reactionEmoji && !reply.deletedForEveryone) {
@@ -546,6 +550,7 @@ function ReplyOrReactionMessage({
           shouldCollapseAbove={shouldCollapseAbove}
           shouldCollapseBelow={shouldCollapseBelow}
           shouldHideMetadata={false}
+          showContactModal={showContactModal}
           text={reply.body}
           textDirection={TextDirection.Default}
           timestamp={reply.timestamp}

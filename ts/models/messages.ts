@@ -464,7 +464,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const attachments = getAttachmentsForMessage({ ...message });
     let attachment: AttachmentType | undefined = attachments?.[0];
-    if (attachment && !attachment.url) {
+    if (attachment && !attachment.url && !attachment.textAttachment) {
       attachment = undefined;
     }
 

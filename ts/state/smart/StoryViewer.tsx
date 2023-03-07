@@ -36,6 +36,7 @@ import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 
@@ -50,6 +51,7 @@ export function SmartStoryViewer(): JSX.Element | null {
   } = useConversationsActions();
   const { onSetSkinTone } = useItemsActions();
   const { showToast } = useToastActions();
+  const { showContactModal } = useGlobalModalActions();
 
   const isWindowActive = useIsWindowActive();
 
@@ -143,6 +145,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
       retryMessageSend={retryMessageSend}
+      showContactModal={showContactModal}
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}
