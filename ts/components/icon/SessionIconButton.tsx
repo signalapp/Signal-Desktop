@@ -1,6 +1,10 @@
 import React, { KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+<<<<<<< HEAD
+=======
+import { SessionNotificationCount, SessionUnreadCount } from './SessionNotificationCount';
+>>>>>>> c66b53b75d (Overlay the scroll-to-end-of-convo button with the unread message count.)
 import styled from 'styled-components';
 
 import { SessionIcon, SessionIconProps } from '.';
@@ -61,6 +65,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     dataTestIdIcon,
     style,
     tabIndex,
+    unreadCount
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {

@@ -5,13 +5,16 @@ type Props = {
   count?: number;
 };
 
-const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
+const StyledCountContainer = styled.div<{ shouldRender: boolean, unreadCount?: number }>`
   position: absolute;
   font-size: 18px;
   line-height: 1.2;
-  top: 27px;
-  left: 28px;
-  padding: 1px 4px;
+  top: ${props => (props.unreadCount ? '29' : '27')}px;
+  left: ${props => (props.unreadCount
+    ? (15 - props.unreadCount.toString().length * 2).toString()
+    : '28'
+  )}px;
+  padding: 3px 3px;
   opacity: 1;
   display: flex;
   align-items: center;
@@ -48,6 +51,17 @@ export const SessionNotificationCount = (props: Props) => {
   }
   return (
     <StyledCountContainer shouldRender={shouldRender}>
+      <StyledCount>{count}</StyledCount>
+    </StyledCountContainer>
+  );
+};
+
+export const SessionUnreadCount = (props: Props) => {
+  const { count } = props;
+  const shouldRender = Boolean(count && count > 0);
+
+  return (
+    <StyledCountContainer shouldRender={shouldRender} unreadCount={count}>
       <StyledCount>{count}</StyledCount>
     </StyledCountContainer>
   );

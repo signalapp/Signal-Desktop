@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { getShowScrollButton } from '../state/selectors/conversations';
 
 import { SessionIconButton } from './icon';
-import { Noop } from '../types/Util';
 
 const SessionScrollButtonDiv = styled.div`
   position: fixed;
@@ -18,7 +17,7 @@ const SessionScrollButtonDiv = styled.div`
   }
 `;
 
-export const SessionScrollButton = (props: { onClickScrollBottom: Noop }) => {
+export const SessionScrollButton = (props: { onClickScrollBottom: () => void, unreadCount: number }) => {
   const show = useSelector(getShowScrollButton);
 
   return (
@@ -29,6 +28,7 @@ export const SessionScrollButton = (props: { onClickScrollBottom: Noop }) => {
         isHidden={!show}
         onClick={props.onClickScrollBottom}
         dataTestId="scroll-to-bottom-button"
+        unreadCount={props.unreadCount}
       />
     </SessionScrollButtonDiv>
   );
