@@ -3981,7 +3981,7 @@ button.module-image__border-overlay:focus {
       border: 0 solid transparent;
       border-radius: 5px;
       transition-property: border-width, border-color;
-      // Slow down the transition when the user stops speaking.
+      // Turn on the transition when the user stops speaking to fade out.
       transition-duration: 300ms;
       transition-delay: 1000ms;
       transition-timing-function: ease-in-out;
@@ -3989,8 +3989,8 @@ button.module-image__border-overlay:focus {
     &--speaking:after {
       border-width: 3px;
       border-color: $color-white;
-      // Speed up the transition when the user starts speaking.
-      transition-duration: 50ms;
+      // Turn off the transition when the user starts speaking to appear instantly
+      transition-duration: 0ms;
       transition-delay: 0ms;
     }
 
