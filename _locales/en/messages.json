@@ -3188,8 +3188,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Art Creator",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
+    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
     "message": "Remove reaction",
