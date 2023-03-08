@@ -8,6 +8,7 @@ import Measure from 'react-measure';
 import { noop } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import type { ConversationWithStoriesType } from '../state/selectors/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Row } from './ConversationList';
@@ -43,7 +44,7 @@ import { strictAssert } from '../util/assert';
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
   distributionLists: Array<StoryDistributionListWithMembersDataType>;
-  groupStories: Array<ConversationType>;
+  groupStories: Array<ConversationWithStoriesType>;
   signalConnections: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   hideStoriesSettings: () => unknown;

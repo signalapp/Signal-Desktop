@@ -22,11 +22,7 @@ import type {
   StoriesStateType,
   AddStoryData,
 } from '../ducks/stories';
-import {
-  HasStories,
-  MY_STORY_ID,
-  ResolvedSendStatus,
-} from '../../types/Stories';
+import { MY_STORY_ID, ResolvedSendStatus } from '../../types/Stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { canReply } from './message';
@@ -38,7 +34,6 @@ import {
 } from './conversations';
 import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
-import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as log from '../../logging/log';
@@ -497,32 +492,6 @@ export const getStoriesNotificationCount = createSelector(
         .map(story => story.conversationId)
     ).size;
   }
-);
-
-export const getHasStoriesSelector = createSelector(
-  getStoriesEnabled,
-  getStoriesState,
-  (isEnabled, { stories }) =>
-    (conversationId?: string): HasStories | undefined => {
-      if (!isEnabled || !conversationId) {
-        return;
-      }
-
-      const conversationStories = stories.filter(
-        story => story.conversationId === conversationId
-      );
-
-      if (!conversationStories.length) {
-        return;
-      }
-
-      return conversationStories.some(
-        story =>
-          story.readStatus === ReadStatus.Unread && !story.deletedForEveryone
-      )
-        ? HasStories.Unread
-        : HasStories.Read;
-    }
 );
 
 export const getStoryByIdSelector = createSelector(

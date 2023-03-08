@@ -58,6 +58,12 @@ import { isSignalConversation } from '../../util/isSignalConversation';
 import { reduce } from '../../util/iterables';
 import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
 import type { PanelRenderType } from '../../types/Panels';
+import type { HasStories } from '../../types/Stories';
+import { getHasStoriesSelector } from './stories2';
+
+export type ConversationWithStoriesType = ConversationType & {
+  hasStories?: HasStories;
+};
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -575,15 +581,22 @@ export const selectMostRecentActiveStoryTimestampByGroupOrDistributionList =
 export const getGroupStories = createSelector(
   getConversationLookup,
   getConversationIdsWithStories,
+  getHasStoriesSelector,
   (
     conversationLookup: ConversationLookupType,
-    conversationIdsWithStories: Set<string>
-  ): Array<ConversationType> => {
-    return Object.values(conversationLookup).filter(
-      conversation =>
-        isGroupInStoryMode(conversation, conversationIdsWithStories) &&
-        !conversation.left
-    );
+    conversationIdsWithStories: Set<string>,
+    hasStoriesSelector
+  ): Array<ConversationWithStoriesType> => {
+    return Object.values(conversationLookup)
+      .filter(
+        conversation =>
+          isGroupInStoryMode(conversation, conversationIdsWithStories) &&
+          !conversation.left
+      )
+      .map(conversation => ({
+        ...conversation,
+        hasStories: hasStoriesSelector(conversation.id),
+      }));
   }
 );
 

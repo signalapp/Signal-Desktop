@@ -18,7 +18,7 @@ import {
 import { CallMode } from '../../types/Calling';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
 import { getConversationCallMode } from '../ducks/conversations';
-import { getHasStoriesSelector } from '../selectors/stories';
+import { getHasStoriesSelector } from '../selectors/stories2';
 import { getOwn } from '../../util/getOwn';
 import { getUserACI, getIntl, getTheme } from '../selectors/user';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
