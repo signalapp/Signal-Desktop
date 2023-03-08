@@ -3429,7 +3429,7 @@
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
-    "message": "Signal hovor trval $duration$",
+    "message": "Signal hovor trvá $duration$",
     "description": "Shown in the call screen to indicate how long the call has been connected"
   },
   "callingDeviceSelection__settings": {
