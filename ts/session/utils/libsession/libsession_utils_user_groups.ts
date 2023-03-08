@@ -1,17 +1,25 @@
-import { isEmpty, uniq } from 'lodash';
-import { CommunityInfo } from 'session_util_wrapper';
+import { uniq } from 'lodash';
+import { CommunityInfo, LegacyGroupInfo, UserGroupsType } from 'session_util_wrapper';
+import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
-import { getCommunityInfoFromDBValues } from '../../../types/sqlSharedTypes';
+import {
+  getCommunityInfoFromDBValues,
+  getLegacyGroupInfoFromDBValues,
+} from '../../../types/sqlSharedTypes';
 import { UserGroupsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { OpenGroupUtils } from '../../apis/open_group_api/utils';
 import { getConversationController } from '../../conversations';
 
 /**
  * The key of this map is the convoId as stored in the database.
- * Note: the wrapper clean
  */
 const mappedCommunityWrapperValues = new Map<string, CommunityInfo>();
+
+/**
+ * The key of this map is the convoId as stored in the database. So the legacy group 05 sessionID
+ */
+const mappedLegacyGroupWrapperValues = new Map<string, LegacyGroupInfo>();
 
 /**
  * Update the UserGroupsWrapper with all the data is cares about from the database.
@@ -20,19 +28,12 @@ async function insertAllUserGroupsIntoWrapper() {
   const convoIdsToInsert = uniq(
     getConversationController()
       .getConversations()
-      .filter(filterUserGroupsToStoreInWrapper)
-      .map(m => m.id)
-  );
-
-  const communitiesIdsToInsert = uniq(
-    getConversationController()
-      .getConversations()
-      .filter(filterUserCommunitiesToStoreInWrapper)
+      .filter(isUserGroupToStoreInWrapper)
       .map(m => m.id)
   );
 
   window.log.debug(
-    `UserGroupsWrapper keep tracks of ${convoIdsToInsert.length} usergroups of which ${communitiesIdsToInsert.length} are communities`
+    `UserGroupsWrapper keep tracks of ${convoIdsToInsert.length} usergroups including groups and communities`
   );
 
   for (let index = 0; index < convoIdsToInsert.length; index++) {
@@ -45,17 +46,29 @@ async function insertAllUserGroupsIntoWrapper() {
 /**
  * Returns true if that conversation is an active group
  */
-function filterUserGroupsToStoreInWrapper(convo: ConversationModel): boolean {
-  return convo.isGroup() && convo.isActive();
+function isUserGroupToStoreInWrapper(convo: ConversationModel): boolean {
+  return isCommunityToStoreInWrapper(convo) || isLegacyGroupToStoreInWrapper(convo);
 }
 
-function filterUserCommunitiesToStoreInWrapper(convo: ConversationModel): boolean {
-  return convo.isPublic() && convo.isActive();
+function isCommunityToStoreInWrapper(convo: ConversationModel): boolean {
+  return convo.isGroup() && convo.isPublic() && convo.isActive();
+}
+
+function isLegacyGroupToStoreInWrapper(convo: ConversationModel): boolean {
+  return (
+    convo.isGroup() &&
+    !convo.isPublic() &&
+    convo.id.startsWith('05') && // new closed groups won't start with 05
+    convo.isActive() &&
+    !convo.get('isKickedFromGroup') &&
+    !convo.get('left')
+  );
 }
 
 /**
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that community does not exist in the wrapper, it is created before being updated.
+ * Same applies for a legacy group.
  */
 async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise<void> {
   const foundConvo = getConversationController().get(convoId);
@@ -63,13 +76,12 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
     return;
   }
 
-  if (!filterUserGroupsToStoreInWrapper(foundConvo)) {
+  if (!isUserGroupToStoreInWrapper(foundConvo)) {
     return;
   }
 
-  if (foundConvo.isOpenGroupV2()) {
+  if (isCommunityToStoreInWrapper(foundConvo)) {
     const asOpengroup = foundConvo.toOpenGroupV2();
-    const isPinned = !!foundConvo.get('isPinned');
 
     const roomDetails = OpenGroupData.getV2OpenGroupRoomByRoomId(asOpengroup);
     if (!roomDetails) {
@@ -84,64 +96,85 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
     );
 
     const wrapperComm = getCommunityInfoFromDBValues({
-      isPinned,
+      isPinned: !!foundConvo.get('isPinned'),
       fullUrl,
     });
 
     try {
-      console.info(`inserting into usergroup wrapper ${convoId}...`);
+      console.info(`inserting into usergroup wrapper "${wrapperComm.fullUrl}"...`);
       // this does the create or the update of the matching existing community
       await UserGroupsWrapperActions.setCommunityByFullUrl(
         wrapperComm.fullUrl,
         wrapperComm.priority
       );
+      await refreshMappedValue(convoId);
     } catch (e) {
       window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
       // we still let this go through
     }
+  } else if (isLegacyGroupToStoreInWrapper(foundConvo)) {
+    const encryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(convoId);
+    const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
+      id: foundConvo.id,
+      isPinned: !!foundConvo.get('isPinned'),
+      members: foundConvo.get('members') || [],
+      groupAdmins: foundConvo.get('groupAdmins') || [],
+      expireTimer: foundConvo.get('expireTimer'),
+      displayNameInProfile: foundConvo.get('displayNameInProfile'),
+      hidden: false,
+      encPubkeyHex: encryptionKeyPair?.publicHex || '',
+      encSeckeyHex: encryptionKeyPair?.privateHex || '',
+    });
+    if (wrapperLegacyGroup.members.length === 0) {
+      debugger;
+    }
 
-    await refreshCommunityMappedValue(convoId);
-  } else {
-    // TODO
-    // throw new Error('insertGroupsFromDBIntoWrapperAndRefresh group and legacy todo');
+    try {
+      console.info(`inserting into usergroup wrapper "${foundConvo.id}"...`);
+      // this does the create or the update of the matching existing legacy group
+
+      await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
+      await refreshMappedValue(convoId);
+    } catch (e) {
+      window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
+      // we still let this go through
+    }
   }
 }
 
 /**
  * refreshMappedValue is used to query the UserGroups Wrapper for the details of that group and update the cached in-memory entry representing its content.
- * @param id the pubkey to re fresh the cached value from
+ * @param id the pubkey to re fresh the cached value from1
  * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
  */
-async function refreshCommunityMappedValue(convoId: string, duringAppStart = false) {
+async function refreshMappedValue(convoId: string, duringAppStart = false) {
   try {
-    if (!OpenGroupUtils.isOpenGroupV2(convoId)) {
-      throw new Error(`Not an opengroupv2: "${convoId}"`);
-    }
-    const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
-    if (fromWrapper) {
-      SessionUtilUserGroups.setCommunityMappedValue(convoId, fromWrapper);
-      if (!duringAppStart) {
-        getConversationController()
-          .get(convoId)
-          ?.triggerUIRefresh();
+    let refreshed = false;
+    if (OpenGroupUtils.isOpenGroupV2(convoId)) {
+      const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
+      if (fromWrapper && fromWrapper.fullUrl) {
+        mappedCommunityWrapperValues.set(convoId, fromWrapper);
       }
+      refreshed = true;
+    } else if (convoId.startsWith('05')) {
+      // currently this should only be a legacy group here
+      const fromWrapper = await UserGroupsWrapperActions.getLegacyGroup(convoId);
+      if (fromWrapper) {
+        mappedLegacyGroupWrapperValues.set(convoId, fromWrapper);
+      }
+      refreshed = true;
     }
-    return;
+
+    if (refreshed && !duringAppStart) {
+      getConversationController()
+        .get(convoId)
+        ?.triggerUIRefresh();
+    }
   } catch (e) {
-    window.log.info(`refreshCommunityMappedValue: not an opengroup convoID: ${convoId}`, e);
+    window.log.info(`refreshMappedValue: not an opengroup convoID: ${convoId}`, e);
   }
 
-  // TODO
-  // throw new Error('refreshMappedValue group and legacy todo');
-}
-
-function setCommunityMappedValue(convoId: string, info: CommunityInfo) {
-  if (isEmpty(info.fullUrl)) {
-    throw new Error(`setCommunityMappedValue needs a valid info.fullUrl ${info.fullUrl}`);
-  }
-
-  // this has the pubkey associated with it
-  mappedCommunityWrapperValues.set(convoId, info);
+  // TODO handle the new closed groups once we got them ready
 }
 
 function getCommunityMappedValueByConvoId(convoId: string) {
@@ -153,7 +186,7 @@ function getAllCommunities(): Array<CommunityInfo> {
 }
 
 /**
- * Remove the matching community from the wrapper and from the cached list of communities
+ * Removes the matching community from the wrapper and from the cached list of communities
  */
 async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutPubkey: string) {
   const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(
@@ -163,18 +196,58 @@ async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutP
   if (fromWrapper) {
     await UserGroupsWrapperActions.eraseCommunityByFullUrl(fromWrapper.fullUrl);
   }
-  // might not be there but better make sure
   mappedCommunityWrapperValues.delete(convoId);
 }
 
+function getLegacyGroupMappedValueByConvoId(convoId: string) {
+  return mappedLegacyGroupWrapperValues.get(convoId);
+}
+
+function getAllLegacyGroups(): Array<LegacyGroupInfo> {
+  return [...mappedLegacyGroupWrapperValues.values()];
+}
+
+/**
+ * Remove the matching legacy group from the wrapper and from the cached list of legacy groups
+ */
+async function removeLegacyGroupFromWrapper(groupPk: string) {
+  const fromWrapper = await UserGroupsWrapperActions.getLegacyGroup(groupPk);
+
+  if (fromWrapper) {
+    await UserGroupsWrapperActions.eraseLegacyGroup(groupPk);
+  }
+
+  mappedLegacyGroupWrapperValues.delete(groupPk);
+}
+
+/**
+ * This function can be used where there are things to do for all the types handled by this wrapper.
+ * You can do a loop on all the types handled by this wrapper and have a switch using assertUnreachable to get errors when not every case is handled.
+ *
+ *
+ * Note: Ideally, we'd like to have this type in the wrapper index.d.ts, but it would require it to be a index.ts instead, which causes a whole other bunch of issues because it is a native node module.
+ */
+function getUserGroupTypes(): Array<UserGroupsType> {
+  return ['Community', 'LegacyGroup'];
+}
+
 export const SessionUtilUserGroups = {
-  filterUserGroupsToStoreInWrapper,
-  filterUserCommunitiesToStoreInWrapper,
-  getAllCommunities,
+  // shared
+  isUserGroupToStoreInWrapper,
   insertAllUserGroupsIntoWrapper,
   insertGroupsFromDBIntoWrapperAndRefresh,
-  setCommunityMappedValue,
+  refreshMappedValue,
+  getUserGroupTypes,
+
+  // communities
+  isCommunityToStoreInWrapper,
+  getAllCommunities,
   getCommunityMappedValueByConvoId,
-  refreshCommunityMappedValue,
   removeCommunityFromWrapper,
+
+  // legacy group
+  isLegacyGroupToStoreInWrapper,
+  getLegacyGroupMappedValueByConvoId,
+  getAllLegacyGroups,
+  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
 };

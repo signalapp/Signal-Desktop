@@ -11,6 +11,8 @@ import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/con
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
+import { leaveClosedGroup } from '../group/closed-group';
+import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
 
 let instance: ConversationController | null;
 
@@ -197,7 +199,7 @@ export class ConversationController {
     await conversation.commit();
   }
 
-  public async deleteContact(id: string) {
+  public async deleteContact(id: string, fromSyncMessage: boolean) {
     if (!this._initialFetchComplete) {
       throw new Error('getConversationController().deleteContact() needs complete initial fetch');
     }
@@ -210,12 +212,17 @@ export class ConversationController {
       return;
     }
 
+    // those are the stuff to do for all conversation types
+    window.log.info(`deleteContact destroyingMessages: ${id}`);
+    await deleteAllMessagesByConvoIdNoConfirmation(id);
+    window.log.info(`deleteContact messages destroyed: ${id}`);
+
     // Closed/Medium group leaving
     if (conversation.isClosedGroup()) {
       window.log.info(`deleteContact ClosedGroup case: ${id}`);
-      await conversation.leaveClosedGroup();
+      await leaveClosedGroup(conversation.id);
       // open group v2
-    } else if (conversation.isOpenGroupV2()) {
+    } else if (conversation.isPublic()) {
       window?.log?.info('leaving open group v2', conversation.id);
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
@@ -229,24 +236,17 @@ export class ConversationController {
         window?.log?.info('removeV2OpenGroupRoom failed:', e);
       }
       try {
-        console.error(' plop1', SessionUtilUserGroups.getAllCommunities());
         await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
-        console.error(' plop2', SessionUtilUserGroups.getAllCommunities());
       } catch (e) {
         window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
       }
     }
 
-    // those are the stuff to do for all contact types
-    window.log.info(`deleteContact destroyingMessages: ${id}`);
-
-    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
-    window.log.info(`deleteContact messages destroyed: ${id}`);
-    // if this conversation is a private conversation it's in fact a `contact` for desktop.
-    // we just want to remove everything related to it, set the active_at to undefined
-    // so conversation still exists (useful for medium groups members or opengroups) but is not shown on the UI
     if (conversation.isPrivate()) {
-      window.log.info(`deleteContact isPrivate, marking as inactive: ${id}`);
+      // if this conversation is a private conversation it's in fact a `contact` for desktop.
+      // we just want to remove everything related to it and set the hidden field to true
+      // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation
+      window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
 
       conversation.set({
         hidden: true,
@@ -256,11 +256,11 @@ export class ConversationController {
       await conversation.commit();
       // TODO the call above won't mark the conversation as hidden in the wrapper, it will just stop being updated (which is a bad thing)
     } else {
-      window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);
+      window.log.info(`deleteContact NOT private, removing convo from DB: ${id}`);
       // not a private conversation, so not a contact for the ContactWrapper
       await Data.removeConversation(id);
 
-      window.log.info(`deleteContact !isPrivate, convo removed from DB: ${id}`);
+      window.log.info(`deleteContact NOT private, convo removed from DB: ${id}`);
 
       // TODO remove group related entries from their corresponding wrappers here
       this.conversations.remove(conversation);
@@ -273,7 +273,11 @@ export class ConversationController {
       );
       window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
 
-      window.log.info(`deleteContact !isPrivate, convo removed from store: ${id}`);
+      window.log.info(`deleteContact NOT private, convo removed from store: ${id}`);
+    }
+
+    if (!fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
     }
   }
 
@@ -306,18 +310,22 @@ export class ConversationController {
         console.time('refreshAllWrapperContactsData');
         for (let index = 0; index < collection.models.length; index++) {
           const convo = collection.models[index];
-          if (SessionUtilContact.filterContactsToStoreInContactsWrapper(convo)) {
+          if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
             await SessionUtilContact.refreshMappedValue(convo.id, true);
           }
-          if (SessionUtilUserGroups.filterUserCommunitiesToStoreInWrapper(convo)) {
-            await SessionUtilUserGroups.refreshCommunityMappedValue(convo.id, true);
+          if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+            await SessionUtilUserGroups.refreshMappedValue(convo.id, true);
           }
         }
         console.timeEnd('refreshAllWrapperContactsData');
 
         this._initialFetchComplete = true;
         this.conversations.forEach((conversation: ConversationModel) => {
-          if (conversation.isActive() && !conversation.get('lastMessage')) {
+          if (
+            conversation.isActive() &&
+            !conversation.isHidden() &&
+            !conversation.get('lastMessage')
+          ) {
             conversation.updateLastMessage();
           }
         });

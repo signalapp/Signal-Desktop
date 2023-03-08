@@ -37,6 +37,7 @@ import { Data } from '../../../../data/data';
 import { processMessagesUsingCache } from './sogsV3MutationCache';
 import { destroyMessagesAndUpdateRedux } from '../../../../util/expiringMessages';
 import { sogsRollingDeletions } from './sogsRollingDeletions';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -550,8 +551,21 @@ export const handleBatchPollResults = async (
         case 'outbox':
           await handleInboxOutboxMessages(subResponse.body, serverUrl, true);
           break;
+
+        case 'addRemoveModerators':
+        case 'deleteMessage':
+        case 'banUnbanUser':
+        case 'deleteAllPosts':
+        case 'updateRoom':
+        case 'deleteReaction':
+          // we do nothing for all of those, but let's make sure if we ever add something batch polled for, we include it's handling here.
+          // the assertUnreachable will fail to compile everytime we add a new batch poll endpoint without taking care of it.
+          break;
         default:
-          window.log.error('No matching subrequest response body for type: ', responseType);
+          assertUnreachable(
+            responseType,
+            `No matching subrequest response body for type: "${responseType}"`
+          );
       }
     }
   }

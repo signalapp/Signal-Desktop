@@ -1,31 +1,33 @@
-import { PubKey } from '../../types';
-import * as snodePool from './snodePool';
-import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
+import { compact, concat, difference, flatten, last, sample, toNumber, uniqBy } from 'lodash';
+import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _, { compact, concat, difference, flatten, last, sample, uniqBy } from 'lodash';
-import { Data, Snode } from '../../../data/data';
+import { PubKey } from '../../types';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
+import * as snodePool from './snodePool';
 
-import { StringUtils, UserUtils } from '../../utils';
+import pRetry from 'p-retry';
 import { ConversationModel } from '../../../models/conversation';
+import { ConfigMessageHandler } from '../../../receiver/configMessage';
+import { decryptEnvelopeWithOurKey } from '../../../receiver/contentMessage';
+import { EnvelopePlus } from '../../../receiver/types';
+import { updateIsOnline } from '../../../state/ducks/onion';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
-import { perfEnd, perfStart } from '../../utils/Performance';
+import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 import { ed25519Str } from '../../onions/onionPath';
-import { updateIsOnline } from '../../../state/ducks/onion';
-import pRetry from 'p-retry';
-import { SnodeAPIRetrieve } from './retrieveRequest';
+import { StringUtils, UserUtils } from '../../utils';
+import { perfEnd, perfStart } from '../../utils/Performance';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
+import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
 
 export function extractWebSocketContent(
   message: string,
-  options: any = {},
   messageHash: string
 ): null | {
   body: Uint8Array;
   messageHash: string;
-  options: any;
 } {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
@@ -37,12 +39,11 @@ export function extractWebSocketContent(
       return {
         body: messageBuf.request.body,
         messageHash,
-        options,
       };
     }
     return null;
   } catch (error) {
-    window?.log?.warn('processMessage Failed to handle message:', error.message);
+    window?.log?.warn('extractWebSocketContent from message failed with:', error.message);
     return null;
   }
 }
@@ -196,9 +197,9 @@ export class SwarmPolling {
     isGroup: boolean,
     namespaces: Array<SnodeNamespaces>
   ) {
-    const pkStr = pubkey.key;
+    const polledPubkey = pubkey.key;
 
-    const swarmSnodes = await snodePool.getSwarmFor(pkStr);
+    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
@@ -220,7 +221,6 @@ export class SwarmPolling {
       resultsFromAllNamespaces = null;
     }
 
-    let userConfigMessagesMerged: Array<RetrieveMessageItem> = [];
     let allNamespacesWithoutUserConfigIfNeeded: Array<RetrieveMessageItem> = [];
 
     // check if we just fetched the details from the config namespaces.
@@ -237,14 +237,29 @@ export class SwarmPolling {
             .map(r => r.messages.messages)
         )
       );
-      userConfigMessagesMerged = flatten(compact(userConfigMessages));
+
+      if (!isGroup) {
+        const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+
+        window.log.info(
+          `received userConfigMessagesMerged: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
+        );
+        try {
+          await this.handleSharedConfigMessages(userConfigMessagesMerged);
+        } catch (e) {
+          window.log.warn(
+            `handleSharedConfigMessages of ${userConfigMessagesMerged.length} failed with ${e.message}`
+          );
+          // not rethrowing
+        }
+      }
+
+      // first make sure to handle the shared user config message first
     } else {
       allNamespacesWithoutUserConfigIfNeeded = flatten(
         compact(resultsFromAllNamespaces?.map(m => m.messages.messages))
       );
     }
-
-    window.log.info(`received userConfigMessagesMerged: ${userConfigMessagesMerged.length}`);
     window.log.info(
       `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
     );
@@ -274,40 +289,76 @@ export class SwarmPolling {
         }
         return group;
       });
-    } else if (isGroup) {
-      window?.log?.info(
-        `Polled for group(${ed25519Str(
-          pubkey.key
-        )}):, but no snode returned something else than null.`
-      );
     }
 
-    perfStart(`handleSeenMessages-${pkStr}`);
+    perfStart(`handleSeenMessages-${polledPubkey}`);
     const newMessages = await this.handleSeenMessages(messages);
-    perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
+    perfEnd(`handleSeenMessages-${polledPubkey}`, 'handleSeenMessages');
 
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-      const extractedUserConfigMessage = compact(
-        userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
-          return extractWebSocketContent(m.data, {}, m.hash);
-        })
-      );
+    // trigger the handling of all the other messages, not shared config related
+    newMessages.forEach(m => {
+      const content = extractWebSocketContent(m.data, m.hash);
+      if (!content) {
+        return;
+      }
 
-      extractedUserConfigMessage.forEach(m => {
-        Receiver.handleRequest(m.body, m.options, m.messageHash);
-      });
-    }
+      Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
+    });
+  }
 
-    const extractedContentMessage = compact(
-      newMessages.map((m: RetrieveMessageItem) => {
-        const options = isGroup ? { conversationId: pkStr } : {};
-        return extractWebSocketContent(m.data, options, m.hash);
+  private async handleSharedConfigMessages(userConfigMessagesMerged: Array<RetrieveMessageItem>) {
+    const extractedUserConfigMessage = compact(
+      userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
+        return extractWebSocketContent(m.data, m.hash);
       })
     );
 
-    extractedContentMessage.forEach(m => {
-      Receiver.handleRequest(m.body, m.options, m.messageHash);
-    });
+    const allDecryptedConfigMessages: Array<IncomingMessage<
+      SignalService.ISharedConfigMessage
+    >> = [];
+
+    for (let index = 0; index < extractedUserConfigMessage.length; index++) {
+      const userConfigMessage = extractedUserConfigMessage[index];
+
+      try {
+        const envelope: EnvelopePlus = SignalService.Envelope.decode(userConfigMessage.body) as any;
+        const decryptedEnvelope = await decryptEnvelopeWithOurKey(envelope);
+        if (!decryptedEnvelope?.byteLength) {
+          continue;
+        }
+        const content = SignalService.Content.decode(new Uint8Array(decryptedEnvelope));
+        if (content.sharedConfigMessage) {
+          const asIncomingMsg: IncomingMessage<SignalService.ISharedConfigMessage> = {
+            envelopeTimestamp: toNumber(envelope.timestamp),
+            message: content.sharedConfigMessage,
+            messageHash: userConfigMessage.messageHash,
+            authorOrGroupPubkey: envelope.source,
+            authorInGroup: envelope.senderIdentity,
+          };
+          allDecryptedConfigMessages.push(asIncomingMsg);
+        } else {
+          throw new Error(
+            'received a message to a namespace reserved for user config but not containign a sharedConfigMessage'
+          );
+        }
+      } catch (e) {
+        window.log.warn(
+          `failed to decrypt message with hash "${userConfigMessage.messageHash}": ${e.message}`
+        );
+      }
+    }
+
+    try {
+      window.log.info(
+        `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
+      );
+      await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
+    } catch (e) {
+      const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
+      window.log.warn(
+        `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
+      );
+    }
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
@@ -458,9 +509,9 @@ export class SwarmPolling {
     hash: string;
     expiration: number;
   }): Promise<void> {
-    if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
-      return;
-    }
+    // if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
+    //   return;
+    // }
     const pkStr = pubkey.key;
     const cached = await this.getLastHash(edkey, pubkey.key, namespace);
 
@@ -484,9 +535,9 @@ export class SwarmPolling {
   }
 
   private async getLastHash(nodeEdKey: string, pubkey: string, namespace: number): Promise<string> {
-    if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
-      return '';
-    }
+    // if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
+    //   return '';
+    // }
     if (!this.lastHashes[nodeEdKey]?.[pubkey]?.[namespace]) {
       const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey, namespace);
 

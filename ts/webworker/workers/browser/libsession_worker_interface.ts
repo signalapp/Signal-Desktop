@@ -7,6 +7,7 @@ import {
   BaseWrapperActionsCalls,
   ContactInfo,
   ContactsWrapperActionsCalls,
+  LegacyGroupInfo,
   UserConfigWrapperActionsCalls,
   UserGroupsWrapperActionsCalls,
 } from 'session_util_wrapper';
@@ -222,6 +223,25 @@ export const UserGroupsWrapperActions: UserGroupsWrapperActionsCalls = {
       roomId,
       pubkeyHex,
     ]) as Promise<ReturnType<UserGroupsWrapperActionsCalls['buildFullUrlFromDetails']>>,
+
+  getLegacyGroup: async (pubkeyHex: string) =>
+    callLibSessionWorker(['UserGroupsConfig', 'getLegacyGroup', pubkeyHex]) as Promise<
+      ReturnType<UserGroupsWrapperActionsCalls['getLegacyGroup']>
+    >,
+  getAllLegacyGroups: async () =>
+    callLibSessionWorker(['UserGroupsConfig', 'getAllLegacyGroups']) as Promise<
+      ReturnType<UserGroupsWrapperActionsCalls['getAllLegacyGroups']>
+    >,
+
+  setLegacyGroup: async (info: LegacyGroupInfo) =>
+    callLibSessionWorker(['UserGroupsConfig', 'setLegacyGroup', info]) as Promise<
+      ReturnType<UserGroupsWrapperActionsCalls['setLegacyGroup']>
+    >,
+
+  eraseLegacyGroup: async (pubkeyHex: string) =>
+    callLibSessionWorker(['UserGroupsConfig', 'eraseLegacyGroup', pubkeyHex]) as Promise<
+      ReturnType<UserGroupsWrapperActionsCalls['eraseLegacyGroup']>
+    >,
 };
 
 const callLibSessionWorker = async (callToMake: LibSessionWorkerFunctions): Promise<unknown> => {

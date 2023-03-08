@@ -17,22 +17,22 @@ import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
+import { assertUnreachable } from '../types/sqlSharedTypes';
+import { BlockedNumberController } from '../util';
 import { ReadReceipts } from '../util/readReceipts';
 import { Storage } from '../util/storage';
 import { handleCallMessage } from './callMessage';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
-import { BlockedNumberController } from '../util';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
-    const plaintext = await decrypt(envelope, envelope.content);
+    const plaintext = await decrypt(envelope);
 
     if (!plaintext) {
       return;
@@ -48,7 +48,7 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
   }
 }
 
-async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBuffer) {
+async function decryptForClosedGroup(envelope: EnvelopePlus) {
   // case .closedGroupCiphertext: for ios
   window?.log?.info('received closed group message');
   try {
@@ -82,7 +82,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
 
         decryptedContent = await decryptWithSessionProtocol(
           envelope,
-          ciphertext,
+          envelope.content,
           encryptionKeyPair,
           true
         );
@@ -205,11 +205,15 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-async function decryptUnidentifiedSender(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
+/**
+ * This function is used to decrypt any messages send to our own pubkey.
+ * Either messages deposited into our swarm by other people, or messages we sent to ourselves, or config messages stored on the user namespaces.
+ * @param envelope the envelope contaning an encrypted .content field to decrypt
+ * @returns the decrypted content, or null
+ */
+export async function decryptEnvelopeWithOurKey(
+  envelope: EnvelopePlus
 ): Promise<ArrayBuffer | null> {
-  // window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
 
@@ -225,7 +229,11 @@ async function decryptUnidentifiedSender(
     // keep the await so the try catch works as expected
     perfStart(`decryptUnidentifiedSender-${envelope.id}`);
 
-    const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
+    const retSessionProtocol = await decryptWithSessionProtocol(
+      envelope,
+      envelope.content,
+      ecKeyPair
+    );
 
     const ret = removeMessagePadding(retSessionProtocol);
     perfEnd(`decryptUnidentifiedSender-${envelope.id}`, 'decryptUnidentifiedSender');
@@ -237,32 +245,28 @@ async function decryptUnidentifiedSender(
   }
 }
 
-async function doDecrypt(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
-): Promise<ArrayBuffer | null> {
-  if (ciphertext.byteLength === 0) {
-    throw new Error('Received an empty envelope.'); // Error.noData
-  }
-
-  switch (envelope.type) {
-    // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
-    case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
-      return decryptForClosedGroup(envelope, ciphertext);
-    case SignalService.Envelope.Type.SESSION_MESSAGE: {
-      return decryptUnidentifiedSender(envelope, ciphertext);
-    }
-    default:
-      throw new Error(`Unknown message type:${envelope.type}`);
-  }
-}
-
 // tslint:disable-next-line: max-func-body-length
-async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise<any> {
+async function decrypt(envelope: EnvelopePlus): Promise<any> {
   try {
-    const plaintext = await doDecrypt(envelope, ciphertext);
+    if (envelope.content.byteLength === 0) {
+      throw new Error('Received an empty envelope.');
+    }
+
+    let plaintext: ArrayBuffer | null = null;
+    switch (envelope.type) {
+      // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
+      case SignalService.Envelope.Type.SESSION_MESSAGE:
+        plaintext = await decryptEnvelopeWithOurKey(envelope);
+        break;
+      case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
+        plaintext = await decryptForClosedGroup(envelope);
+        break;
+      default:
+        assertUnreachable(envelope.type, `Unknown message type:${envelope.type}`);
+    }
 
     if (!plaintext) {
+      // content could not be decrypted.
       await removeFromCache(envelope);
       return null;
     }
@@ -431,20 +435,10 @@ export async function innerHandleSwarmContentMessage(
       return;
     }
     if (content.sharedConfigMessage) {
-      if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-        const asIncomingMsg: IncomingMessage<SignalService.ISharedConfigMessage> = {
-          envelopeTimestamp: sentAtTimestamp,
-          message: content.sharedConfigMessage,
-          messageHash: messageHash,
-          authorOrGroupPubkey: envelope.source,
-          authorInGroup: envelope.senderIdentity,
-        };
-        await ConfigMessageHandler.handleConfigMessageViaLibSession(envelope, asIncomingMsg);
-        return;
-      } else {
-        await removeFromCache(envelope);
-        return;
-      }
+      window.log.warn('content.sharedConfigMessage are handled outside of the receiving pipeline');
+      // this should never happen, but remove it from cache just in case something is messed up
+      await removeFromCache(envelope);
+      return;
     }
     if (content.dataExtractionNotification) {
       perfStart(`handleDataExtractionNotification-${envelope.id}`);

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { missingCaseError } from '../../util';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 
 type Props = Pick<SettingsViewProps, 'category'>;
@@ -44,8 +44,13 @@ export const SettingsHeader = (props: Props) => {
     case SessionSettingCategory.Privacy:
       categoryTitle = window.i18n('privacySettingsTitle');
       break;
+    case SessionSettingCategory.ClearData:
+    case SessionSettingCategory.MessageRequests:
+    case SessionSettingCategory.RecoveryPhrase:
+      throw new Error(`no header for should be tried to be rendered for "${category}"`);
+
     default:
-      throw missingCaseError('SettingsHeader' as never);
+      assertUnreachable(category, `SettingsHeader "${category}"`);
   }
 
   return (

@@ -16,10 +16,6 @@ import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { UnprocessedParameter } from '../types/sqlSharedTypes';
 
-export type ReqOptions = {
-  conversationId: string;
-};
-
 const incomingMessagePromises: Array<Promise<any>> = [];
 
 async function handleSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) {
@@ -73,7 +69,7 @@ function queueSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) {
 
 async function handleRequestDetail(
   plaintext: Uint8Array,
-  options: ReqOptions,
+  inConversation: string | null,
   lastPromise: Promise<any>,
   messageHash: string
 ): Promise<void> {
@@ -83,7 +79,7 @@ async function handleRequestDetail(
   //   fault, and we should handle them gracefully and tell the
   //   user they received an invalid message
   // The message is for a medium size group
-  if (options.conversationId) {
+  if (inConversation) {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const senderIdentity = envelope.source;
 
@@ -93,7 +89,7 @@ async function handleRequestDetail(
 
     // Sender identity will be lost if we load from cache, because
     // plaintext (and protobuf.Envelope) does not have that field...
-    envelope.source = options.conversationId;
+    envelope.source = inConversation;
     // tslint:disable-next-line no-parameter-reassignment
     plaintext = SignalService.Envelope.encode(envelope).finish();
     envelope.senderIdentity = senderIdentity;
@@ -124,17 +120,23 @@ async function handleRequestDetail(
   }
 }
 
+/**
+ *
+ * @param inConversation if the request is related to a group, this will be set to the group pubkey. Otherwise, it is set to null
+ */
 export function handleRequest(
   plaintext: Uint8Array,
-  options: ReqOptions,
+  inConversation: string | null,
   messageHash: string
 ): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
-  const promise = handleRequestDetail(plaintext, options, lastPromise, messageHash).catch(e => {
-    window?.log?.error('Error handling incoming message:', e && e.stack ? e.stack : e);
-  });
+  const promise = handleRequestDetail(plaintext, inConversation, lastPromise, messageHash).catch(
+    e => {
+      window?.log?.error('Error handling incoming message:', e && e.stack ? e.stack : e);
+    }
+  );
 
   incomingMessagePromises.push(promise);
 }

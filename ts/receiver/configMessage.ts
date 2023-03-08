@@ -4,6 +4,7 @@ import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
+import { ClosedGroup } from '../session';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
@@ -20,8 +21,10 @@ import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
+import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
   GenericWrapperActions,
@@ -29,33 +32,75 @@ import {
   UserGroupsWrapperActions,
 } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
-import { handleNewClosedGroup } from './closedGroups';
+import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGroups';
+import { HexKeyPair } from './keypairs';
 import { EnvelopePlus } from './types';
 
+function groupByVariant(
+  incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+) {
+  const groupedByVariant: Map<
+    ConfigWrapperObjectTypes,
+    Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+  > = new Map();
+
+  incomingConfigs.forEach(incomingConfig => {
+    const { kind } = incomingConfig.message;
+
+    const wrapperId = LibSessionUtil.kindToVariant(kind);
+
+    if (!groupedByVariant.has(wrapperId)) {
+      groupedByVariant.set(wrapperId, []);
+    }
+
+    groupedByVariant.get(wrapperId)?.push(incomingConfig);
+  });
+  return groupedByVariant;
+}
+
 async function mergeConfigsWithIncomingUpdates(
-  incomingConfig: IncomingMessage<SignalService.ISharedConfigMessage>
-): Promise<{ kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }> {
-  const { kind } = incomingConfig.message;
+  incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+): Promise<Map<ConfigWrapperObjectTypes, IncomingConfResult>> {
+  // first, group by variant so we do a single merge call
+  const groupedByVariant = groupByVariant(incomingConfigs);
 
-  const toMerge = [{ data: incomingConfig.message.data, hash: incomingConfig.messageHash }];
-  const wrapperId = LibSessionUtil.kindToVariant(kind);
+  const groupedResults: Map<ConfigWrapperObjectTypes, IncomingConfResult> = new Map();
+
+  // TODO currently we only poll for user config messages, so this can be hardcoded
+  const publicKey = UserUtils.getOurPubKeyStrFromCache();
+
   try {
-    await GenericWrapperActions.merge(wrapperId, toMerge);
-    const needsPush = await GenericWrapperActions.needsPush(wrapperId);
-    const needsDump = await GenericWrapperActions.needsDump(wrapperId);
-    window.log.info(`${wrapperId} needsPush:${needsPush} needsDump:${needsDump} `);
+    for (let index = 0; index < groupedByVariant.size; index++) {
+      const variant = [...groupedByVariant.keys()][index];
+      const sameVariant = groupedByVariant.get(variant);
+      if (!sameVariant?.length) {
+        continue;
+      }
+      const toMerge = sameVariant.map(msg => ({
+        data: msg.message.data,
+        hash: msg.messageHash,
+      }));
 
-    const messageHashes = [incomingConfig.messageHash];
-    const latestSentTimestamp = incomingConfig.envelopeTimestamp;
+      await GenericWrapperActions.merge(variant, toMerge);
+      const needsPush = await GenericWrapperActions.needsPush(variant);
+      const needsDump = await GenericWrapperActions.needsDump(variant);
+      window.log.info(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
 
-    const incomingConfResult: IncomingConfResult = {
-      latestSentTimestamp,
-      messageHashes,
-      needsDump,
-      needsPush,
-    };
+      const messageHashes = toMerge.map(m => m.hash);
+      const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
 
-    return { kind, result: incomingConfResult };
+      const incomingConfResult: IncomingConfResult = {
+        messageHashes,
+        needsDump,
+        needsPush,
+        kind: LibSessionUtil.variantToKind(variant),
+        publicKey,
+        latestEnvelopeTimestamp: latestEnvelopeTimestamp ? latestEnvelopeTimestamp : Date.now(),
+      };
+      groupedResults.set(variant, incomingConfResult);
+    }
+
+    return groupedResults;
   } catch (e) {
     window.log.error('mergeConfigsWithIncomingUpdates failed with', e);
     throw e;
@@ -155,16 +200,13 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
   return result;
 }
 
-async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
-
+async function handleCommunitiesUpdate() {
   // first let's check which communities needs to be joined or left by doing a diff of what is in the wrapper and what is in the DB
+
   const allCommunitiesInWrapper = await UserGroupsWrapperActions.getAllCommunities();
   const allCommunitiesConversation = getConversationController()
     .getConversations()
-    .filter(SessionUtilUserGroups.filterUserCommunitiesToStoreInWrapper);
+    .filter(SessionUtilUserGroups.isCommunityToStoreInWrapper);
 
   const allCommunitiesIdsInDB = allCommunitiesConversation.map(m => m.id as string);
 
@@ -189,11 +231,7 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
           m.baseUrl,
           m.roomCasePreserved
         );
-        if (allCommunitiesIdsInDB.includes(builtConvoId)) {
-          return null;
-        }
-        console.warn('builtConvoId', builtConvoId, allCommunitiesIdsInDB);
-        return m;
+        return allCommunitiesIdsInDB.includes(builtConvoId) ? null : m;
       } catch (e) {
         return null;
       }
@@ -206,15 +244,10 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
     })
   );
 
-  console.warn(
-    'communitiesToJoinInDB',
-    communitiesToJoinInDB.map(m => `${m.fullUrl}`)
-  );
-
   for (let index = 0; index < communitiesToLeaveInDB.length; index++) {
     const toLeave = communitiesToLeaveInDB[index];
     console.warn('leaving community with convoId ', toLeave.id);
-    await getConversationController().deleteContact(toLeave.id);
+    await getConversationController().deleteContact(toLeave.id, true);
   }
 
   // this call can take quite a long time and should not cause issues to not be awaited
@@ -254,86 +287,255 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
       }
     }
   }
+}
+
+async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
+  // first let's check which closed groups needs to be joined or left by doing a diff of what is in the wrapper and what is in the DB
+
+  const allLegacyGroupsInWrapper = await UserGroupsWrapperActions.getAllLegacyGroups();
+  if (allLegacyGroupsInWrapper.some(m => m.members.length === 0)) {
+    debugger;
+  }
+  const allLegacyGroupsInDb = getConversationController()
+    .getConversations()
+    .filter(SessionUtilUserGroups.isLegacyGroupToStoreInWrapper);
+
+  const allLegacyGroupsIdsInDB = allLegacyGroupsInDb.map(m => m.id as string);
+  const allLegacyGroupsIdsInWrapper = allLegacyGroupsInWrapper.map(m => m.pubkeyHex);
+
+  const legacyGroupsToJoinInDB = allLegacyGroupsInWrapper.filter(m => {
+    return !allLegacyGroupsIdsInDB.includes(m.pubkeyHex);
+  });
+
+  const legacyGroupsToLeaveInDB = allLegacyGroupsInDb.filter(m => {
+    return !allLegacyGroupsIdsInWrapper.includes(m.id);
+  });
+
+  window.log.info(
+    `we have to join ${legacyGroupsToJoinInDB.length} legacy groups in DB compared to what is in the wrapper`
+  );
+
+  window.log.info(
+    `we have to leave ${legacyGroupsToLeaveInDB.length} legacy groups in DB compared to what is in the wrapper`
+  );
+
+  for (let index = 0; index < legacyGroupsToLeaveInDB.length; index++) {
+    const toLeave = legacyGroupsToLeaveInDB[index];
+    console.warn('leaving legacy group from configuration sync message with convoId ', toLeave.id);
+    await getConversationController().deleteContact(toLeave.id, true);
+  }
+
+  for (let index = 0; index < legacyGroupsToJoinInDB.length; index++) {
+    const toJoin = legacyGroupsToJoinInDB[index];
+    console.warn(
+      'joining legacy group from configuration sync message with convoId ',
+      toJoin.pubkeyHex
+    );
+
+    // let's just create the required convo here, as we update the fields right below
+    await getConversationController().getOrCreateAndWait(
+      toJoin.pubkeyHex,
+      ConversationTypeEnum.GROUP
+    );
+  }
+  for (let index = 0; index < allLegacyGroupsInWrapper.length; index++) {
+    const fromWrapper = allLegacyGroupsInWrapper[index];
+
+    if (fromWrapper.members.length === 0) {
+      debugger;
+    }
+    const convo = getConversationController().get(fromWrapper.pubkeyHex);
+    if (!convo) {
+      // this should not happen as we made sure to create them before
+      window.log.warn(
+        'could not find legacy group which should already be there:',
+        fromWrapper.pubkeyHex
+      );
+      continue;
+    }
+
+    const members = fromWrapper.members.map(m => m.pubkeyHex);
+    const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
+    // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
+    // We only set group admins on group creation
+    const groupDetails: ClosedGroup.GroupInfo = {
+      id: fromWrapper.pubkeyHex,
+      name: fromWrapper.name,
+      members,
+      admins,
+      activeAt:
+        !!convo.get('active_at') && convo.get('active_at') < latestEnvelopeTimestamp
+          ? convo.get('active_at')
+          : latestEnvelopeTimestamp,
+      weWereJustAdded: false, // TODO to remove
+    };
+
+    await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
+
+    let changes = false;
+    if (convo.isPinned() !== fromWrapper.priority > 0) {
+      await convo.setIsPinned(fromWrapper.priority > 0, false);
+      changes = true;
+    }
+    if (!!convo.isHidden() !== !!fromWrapper.hidden) {
+      convo.set({ hidden: !!fromWrapper.hidden });
+      changes = true;
+    }
+    if (convo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
+      await convo.updateExpireTimer(
+        fromWrapper.disappearingTimerSeconds,
+        undefined,
+        latestEnvelopeTimestamp,
+        {
+          fromSync: true,
+        }
+      );
+      changes = true;
+    }
+
+    if (changes) {
+      await convo.commit();
+    }
+
+    // save the encryption keypair if needed
+    if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
+      const inWrapperKeypair: HexKeyPair = {
+        publicHex: toHex(fromWrapper.encPubkey),
+        privateHex: toHex(fromWrapper.encSeckey),
+      };
+
+      await addKeyPairToCacheAndDBIfNeeded(fromWrapper.pubkeyHex, inWrapperKeypair);
+    }
+  }
+
+  // // if the convos already exists, make sure to update the fields if needed
+  // for (let index = 0; index < allCommunitiesInWrapper.length; index++) {
+  //   const fromWrapper = allCommunitiesInWrapper[index];
+  //   const convoId = OpenGroupUtils.getOpenGroupV2ConversationId(
+  //     fromWrapper.baseUrl,
+  //     fromWrapper.roomCasePreserved
+  //   );
+
+  //   const existingConvo = getConversationController().get(convoId);
+  //   if (fromWrapper && existingConvo) {
+  //     let changes = false;
+
+  //     //TODO priority means more than just isPinned but has an order logic in it too
+  //     const shouldBePinned = fromWrapper.priority > 0;
+  //     if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
+  //       await existingConvo.setIsPinned(shouldBePinned, false);
+  //       changes = true;
+  //     }
+
+  //     // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
+  //     if (changes) {
+  //       await existingConvo.commit();
+  //     }
+  //   }
+  // }
+}
+
+async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
+  if (!result.needsDump) {
+    return result;
+  }
+
+  const toHandle = SessionUtilUserGroups.getUserGroupTypes();
+  for (let index = 0; index < toHandle.length; index++) {
+    const typeToHandle = toHandle[index];
+    switch (typeToHandle) {
+      case 'Community':
+        await handleCommunitiesUpdate();
+        break;
+
+      case 'LegacyGroup':
+        await handleLegacyGroupUpdate(result.latestEnvelopeTimestamp);
+        break;
+
+      default:
+        assertUnreachable(typeToHandle, `handleUserGroupsUpdate unhandled type "${typeToHandle}"`);
+    }
+  }
+
   return result;
 }
 
-async function processMergingResults(
-  envelope: EnvelopePlus,
-  result: { kind: SignalService.SharedConfigMessage.Kind; result: IncomingConfResult }
-) {
-  const pubkey = envelope.source;
-
-  const { kind, result: incomingResult } = result;
-
-  if (!incomingResult) {
-    await removeFromCache(envelope);
+async function processMergingResults(results: Map<ConfigWrapperObjectTypes, IncomingConfResult>) {
+  if (!results || !results.size) {
     return;
   }
 
-  try {
-    let finalResult = incomingResult;
-
-    switch (kind) {
-      case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
-        finalResult = await handleUserProfileUpdate(incomingResult);
-        break;
-      case SignalService.SharedConfigMessage.Kind.CONTACTS:
-        finalResult = await handleContactsUpdate(incomingResult);
-        break;
-      case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
-        finalResult = await handleUserGroupsUpdate(incomingResult);
-        break;
-      default:
-        throw new Error(`processMergingResults unknown kind of contact : ${kind}`);
-    }
-    const variant = LibSessionUtil.kindToVariant(kind);
-
-    if (finalResult.needsDump) {
-      // The config data had changes so regenerate the dump and save it
-
-      const dump = await GenericWrapperActions.dump(variant);
-      await ConfigDumpData.saveConfigDump({
-        data: dump,
-        publicKey: pubkey,
-        variant,
-      });
+  const keys = [...results.keys()];
+  let anyNeedsPush = false;
+  for (let index = 0; index < keys.length; index++) {
+    const wrapperType = keys[index];
+    const incomingResult = results.get(wrapperType);
+    if (!incomingResult) {
+      continue;
     }
 
-    await removeFromCache(envelope);
-  } catch (e) {
-    window.log.error(`processMergingResults failed with ${e.message}`);
-    await removeFromCache(envelope);
-    return;
+    try {
+      const { kind } = incomingResult;
+      switch (kind) {
+        case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
+          await handleUserProfileUpdate(incomingResult);
+          break;
+        case SignalService.SharedConfigMessage.Kind.CONTACTS:
+          await handleContactsUpdate(incomingResult);
+          break;
+        case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
+          await handleUserGroupsUpdate(incomingResult);
+          break;
+        default:
+          assertUnreachable(kind, `processMergingResults unsupported kind: "${kind}"`);
+      }
+      const variant = LibSessionUtil.kindToVariant(kind);
+
+      if (incomingResult.needsDump) {
+        // The config data had changes so regenerate the dump and save it
+
+        const dump = await GenericWrapperActions.dump(variant);
+        await ConfigDumpData.saveConfigDump({
+          data: dump,
+          publicKey: incomingResult.publicKey,
+          variant,
+        });
+      }
+
+      if (incomingResult.needsPush) {
+        anyNeedsPush = true;
+      }
+    } catch (e) {
+      window.log.error(`processMergingResults failed with ${e.message}`);
+      return;
+    }
   }
-
   // Now that the local state has been updated, trigger a config sync (this will push any
   // pending updates and properly update the state)
-  if (result.result.needsPush) {
+  if (anyNeedsPush) {
     await ConfigurationSync.queueNewJobIfNeeded();
   }
 }
 
-async function handleConfigMessageViaLibSession(
-  envelope: EnvelopePlus,
-  configMessage: IncomingMessage<SignalService.ISharedConfigMessage>
+async function handleConfigMessagesViaLibSession(
+  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
 ) {
   // TODO: Remove this once `useSharedUtilForUserConfig` is permanent
   if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    await removeFromCache(envelope);
     return;
   }
 
-  if (!configMessage) {
-    await removeFromCache(envelope);
-
+  if (isEmpty(configMessages)) {
     return;
   }
 
-  window?.log?.info('Handling our sharedConfig message via libsession_util.');
+  window?.log?.info(
+    `Handling our sharedConfig message via libsession_util: ${configMessages.length}`
+  );
 
-  const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessage);
+  const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
 
-  await processMergingResults(envelope, incomingMergeResult);
+  await processMergingResults(incomingMergeResult);
 }
 
 async function handleOurProfileUpdateLegacy(
@@ -564,5 +766,5 @@ async function handleConfigurationMessageLegacy(
 
 export const ConfigMessageHandler = {
   handleConfigurationMessageLegacy,
-  handleConfigMessageViaLibSession,
+  handleConfigMessagesViaLibSession,
 };

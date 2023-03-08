@@ -81,7 +81,8 @@ async function joinOpenGroupV2(
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
     window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
-    await getConversationController().deleteContact(conversationId);
+
+    await getConversationController().deleteContact(conversationId, true);
   }
 
   // Try to connect to server

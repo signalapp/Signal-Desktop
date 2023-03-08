@@ -2,7 +2,7 @@ import { isNumber } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
-import { ConfigWrapperObjectTypes } from '../../../../webworker/workers/browser/libsession_worker_functions';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION } from '../../../constants';
 import { getConversationController } from '../../../conversations';
@@ -25,16 +25,10 @@ const defaultMaxAttempts = 2;
  */
 let lastRunConfigSyncJobDumpTimestamp: number | null = null;
 
-const variantsToSaveRegularly: Array<ConfigWrapperObjectTypes> = [
-  'UserConfig',
-  'ContactsConfig',
-  'UserGroupsConfig',
-];
-
 async function saveDumpsNeededToDB(): Promise<boolean> {
   let savedAtLeastOne = false;
-  for (let i = 0; i < variantsToSaveRegularly.length; i++) {
-    const variant = variantsToSaveRegularly[i];
+  for (let i = 0; i < LibSessionUtil.userVariants.length; i++) {
+    const variant = LibSessionUtil.userVariants[i];
     const needsDump = await GenericWrapperActions.needsDump(variant);
 
     if (!needsDump) {
@@ -100,9 +94,24 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       // refresh all the data stored by the wrappers we need to store.
       // so when we call needsDump(), we know for sure that we are up to date
       console.time('ConfigurationSyncDumpJob insertAll');
-      await LibSessionUtil.insertUserProfileIntoWrapper();
-      await LibSessionUtil.insertAllContactsIntoContactsWrapper();
-      await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+
+      for (let index = 0; index < LibSessionUtil.userVariants.length; index++) {
+        const variant = LibSessionUtil.userVariants[index];
+        switch (variant) {
+          case 'UserConfig':
+            await LibSessionUtil.insertUserProfileIntoWrapper();
+            break;
+          case 'ContactsConfig':
+            await LibSessionUtil.insertAllContactsIntoContactsWrapper();
+            break;
+          case 'UserGroupsConfig':
+            await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+            break;
+
+          default:
+            assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
+        }
+      }
       console.timeEnd('ConfigurationSyncDumpJob insertAll');
       await saveDumpsNeededToDB();
       return RunJobResult.Success;
@@ -148,6 +157,9 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
  * A ConfigurationSyncJob can only be added if there is none of the same type queued already.
  */
 async function queueNewJobIfNeeded() {
+  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   if (
     !lastRunConfigSyncJobDumpTimestamp ||
     lastRunConfigSyncJobDumpTimestamp < Date.now() - defaultMsBetweenRetries

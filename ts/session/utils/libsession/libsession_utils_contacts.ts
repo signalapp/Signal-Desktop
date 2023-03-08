@@ -31,7 +31,7 @@ const mappedContactWrapperValues = new Map<string, ContactInfo>();
 async function insertAllContactsIntoContactsWrapper() {
   const idsToInsert = getConversationController()
     .getConversations()
-    .filter(filterContactsToStoreInContactsWrapper)
+    .filter(isContactToStoreInContactsWrapper)
     .map(m => m.id);
 
   window.log.debug(`ContactsWrapper keep tracks of ${idsToInsert.length} contacts`);
@@ -48,7 +48,7 @@ async function insertAllContactsIntoContactsWrapper() {
  * `isApproved` or `didApproveMe` field set.
  * So that would be all the private conversations we either sent or receive a message from, not blinded
  */
-function filterContactsToStoreInContactsWrapper(convo: ConversationModel): boolean {
+function isContactToStoreInContactsWrapper(convo: ConversationModel): boolean {
   return (
     !convo.isMe() &&
     convo.isPrivate() &&
@@ -69,7 +69,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     return;
   }
 
-  if (!filterContactsToStoreInContactsWrapper(foundConvo)) {
+  if (!isContactToStoreInContactsWrapper(foundConvo)) {
     // window.log.info(`insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved. Skipping`);
     return;
   }
@@ -133,7 +133,7 @@ function getMappedValue(id: string) {
 }
 
 export const SessionUtilContact = {
-  filterContactsToStoreInContactsWrapper,
+  isContactToStoreInContactsWrapper,
   insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
   getMappedValue,

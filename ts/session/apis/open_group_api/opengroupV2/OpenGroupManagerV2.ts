@@ -115,14 +115,15 @@ export class OpenGroupManagerV2 {
     }
 
     const inWrapperCommunities = SessionUtilUserGroups.getAllCommunities();
+
     const inWrapperIds = inWrapperCommunities.map(m =>
       getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)
     );
 
     let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
 
-    // this is time for some cleanup!
-    // We consider the wrapper is our source-of-truth,
+    // Itis time for some cleanup!
+    // We consider the wrapper to be our source-of-truth,
     // so if there is a roomInfos without an associated entry in the wrapper, we remove it from the map of opengroups rooms
     if (allRoomInfos?.size) {
       const roomInfosAsArray = [...allRoomInfos.values()];
@@ -135,7 +136,7 @@ export class OpenGroupManagerV2 {
 
             await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
             getOpenGroupManager().removeRoomFromPolledRooms(infos);
-            await getConversationController().deleteContact(roomConvoId);
+            await getConversationController().deleteContact(roomConvoId, false);
           }
         } catch (e) {
           window?.log?.warn('cleanup roomInfos error', e);

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { missingCaseError } from '../../util/missingCaseError';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
 import { ReadableMessage } from './message/message-item/ReadableMessage';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId, receivedAt, isUnread, pubkey, profileName, timespan, type, disabled } = props;
@@ -28,7 +28,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         : window.i18n('timerSetOnSync', [timespan]);
       break;
     default:
-      throw missingCaseError(type);
+      assertUnreachable(type, `TimerNotification: Missing case error "${type}"`);
   }
 
   if (!textToRender || textToRender.length === 0) {

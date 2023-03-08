@@ -3,6 +3,7 @@ import Long from 'long';
 import { UserUtils } from '..';
 import { ConfigDumpData } from '../../../data/configDump/configDump';
 import { SignalService } from '../../../protobuf';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { ConfigWrapperObjectTypes } from '../../../webworker/workers/browser/libsession_worker_functions';
 import { GenericWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
@@ -14,7 +15,7 @@ import { SessionUtilUserGroups } from './libsession_utils_user_groups';
 import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
 // TODO complete this list
-const requiredUserDumpVariants: Array<ConfigWrapperObjectTypes> = [
+const userVariants: Array<ConfigWrapperObjectTypes> = [
   'UserConfig',
   'ContactsConfig',
   'UserGroupsConfig',
@@ -24,7 +25,9 @@ export type IncomingConfResult = {
   needsPush: boolean;
   needsDump: boolean;
   messageHashes: Array<string>;
-  latestSentTimestamp: number;
+  kind: SignalService.SharedConfigMessage.Kind;
+  publicKey: string;
+  latestEnvelopeTimestamp: number;
 };
 
 export type OutgoingConfResult = {
@@ -42,7 +45,7 @@ async function initializeLibSessionUtilWrappers() {
   const privateKeyEd25519 = keypair.privKeyBytes;
   // let's plan a sync on start for now
   // TODO is this causing any issues?
-  setTimeout(() => ConfigurationSync.queueNewJobIfNeeded, 3000);
+  setTimeout(() => ConfigurationSync.queueNewJobIfNeeded, 20000);
 
   // fetch the dumps we already have from the database
   const dumps = await ConfigDumpData.getAllDumpsWithData();
@@ -75,13 +78,13 @@ async function initializeLibSessionUtilWrappers() {
   console.warn('requiredVariants: FIXME add conversation volatile wrapper as required ');
 
   const missingRequiredVariants: Array<ConfigWrapperObjectTypes> = difference(
-    requiredUserDumpVariants,
+    LibSessionUtil.userVariants,
     [...userVariantsBuildWithoutErrors.values()]
   );
 
   if (missingRequiredVariants.length) {
     // TODO this is only needed for debugging. Should be removed as we force them created right below with an empty dump
-    throw new Error(`missingRequiredVariants: ${JSON.stringify(missingRequiredVariants)}`);
+    // throw new Error(`missingRequiredVariants: ${JSON.stringify(missingRequiredVariants)}`);
   }
 
   for (let index = 0; index < missingRequiredVariants.length; index++) {
@@ -97,7 +100,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
   // Ensure we always check the required user config types for changes even if there is no dump
   // data yet (to deal with first launch cases)
   if (pubkey === us) {
-    LibSessionUtil.requiredUserDumpVariants.forEach(requiredVariant => {
+    LibSessionUtil.userVariants.forEach(requiredVariant => {
       if (!dumps.find(m => m.publicKey === us && m.variant === requiredVariant)) {
         dumps.push({
           publicKey: us,
@@ -146,7 +149,7 @@ function kindToVariant(kind: SignalService.SharedConfigMessage.Kind): ConfigWrap
     case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
       return 'UserGroupsConfig';
     default:
-      throw new Error(`kindToVariant: Unsupported variant: "${kind}"`);
+      assertUnreachable(kind, `kindToVariant: Unsupported variant: "${kind}"`);
   }
 }
 
@@ -159,7 +162,7 @@ function variantToKind(variant: ConfigWrapperObjectTypes): SignalService.SharedC
     case 'UserGroupsConfig':
       return SignalService.SharedConfigMessage.Kind.USER_GROUPS;
     default:
-      throw new Error(`variantToKind: Unsupported kind: "${variant}"`);
+      assertUnreachable(variant, `variantToKind: Unsupported kind: "${variant}"`);
   }
 }
 
@@ -181,12 +184,13 @@ async function markAsPushed(
 
 export const LibSessionUtil = {
   initializeLibSessionUtilWrappers,
-  requiredUserDumpVariants,
+  userVariants,
   pendingChangesForPubkey,
   insertUserProfileIntoWrapper: SessionUtilUserProfile.insertUserProfileIntoWrapper,
   insertAllContactsIntoContactsWrapper: SessionUtilContact.insertAllContactsIntoContactsWrapper,
   insertAllUserGroupsIntoWrapper: SessionUtilUserGroups.insertAllUserGroupsIntoWrapper,
   removeCommunityFromWrapper: SessionUtilUserGroups.removeCommunityFromWrapper,
   kindToVariant,
+  variantToKind,
   markAsPushed,
 };

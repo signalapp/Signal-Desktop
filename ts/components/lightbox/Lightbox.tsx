@@ -15,6 +15,7 @@ import { SessionIconButton, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
 import { isUndefined } from 'lodash';
 import styled from 'styled-components';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 const colorSVG = (url: string, color: string) => {
   return {
@@ -166,7 +167,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
 
       break;
     default:
-      throw new TypeError(`Invalid button type: ${type}`);
+      assertUnreachable(type, `Invalid button type: ${type}`);
   }
 
   return (

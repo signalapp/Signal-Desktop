@@ -235,7 +235,7 @@ function isV3(details: GroupInfo | GroupInfoV3): details is GroupInfoV3 {
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3) {
-  const { id, weWereJustAdded } = details;
+  const { id, weWereJustAdded, expireTimer } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -279,8 +279,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
 
   await conversation.commit();
 
-  const { expireTimer } = details;
-
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
@@ -297,10 +295,11 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
 export async function leaveClosedGroup(groupId: string) {
   const convo = getConversationController().get(groupId);
 
-  if (!convo) {
+  if (!convo || !convo.isMediumGroup()) {
     window?.log?.error('Cannot leave non-existing group');
     return;
   }
+
   const ourNumber = UserUtils.getOurPubKeyFromCache();
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 

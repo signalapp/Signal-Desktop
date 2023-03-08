@@ -106,11 +106,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   if (allInvitesSent) {
     const newHexKeypair = encryptionKeyPair.toHexKeyPair();
 
-    const isHexKeyPairSaved = await addKeyPairToCacheAndDBIfNeeded(groupPublicKey, newHexKeypair);
-
-    if (isHexKeyPairSaved) {
-      window?.log?.info('Dropping already saved keypair for group', groupPublicKey);
-    }
+    await addKeyPairToCacheAndDBIfNeeded(groupPublicKey, newHexKeypair);
 
     // Subscribe to this group id
     getSwarmPollingInstance().addGroupId(new PubKey(groupPublicKey));

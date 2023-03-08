@@ -7,11 +7,13 @@ import {
   UserGroupsWrapperInsideWorker,
 } from 'session_util_wrapper';
 import { ConversationAttributes } from '../../models/conversationAttributes';
+import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
 import {
   CONFIG_DUMP_TABLE,
   getCommunityInfoFromDBValues,
   getContactInfoFromDBValues,
+  getLegacyGroupInfoFromDBValues,
 } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
@@ -1361,6 +1363,51 @@ function insertCommunityIntoWrapper(
   }
 }
 
+function insertLegacyGroupIntoWrapper(
+  legacyGroup: Pick<
+    ConversationAttributes,
+    'hidden' | 'id' | 'isPinned' | 'expireTimer' | 'displayNameInProfile'
+  > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
+  userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
+  db: BetterSqlite3.Database
+) {
+  const {
+    isPinned,
+    id,
+    hidden,
+    expireTimer,
+    groupAdmins,
+    members,
+    displayNameInProfile,
+  } = legacyGroup;
+
+  const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
+    legacyGroup.id,
+    db
+  ) as HexKeyPair | undefined;
+
+  const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
+    id,
+    hidden,
+    isPinned,
+    expireTimer,
+    groupAdmins,
+    members,
+    displayNameInProfile,
+    encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
+    encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
+  });
+
+  try {
+    console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
+    userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
+  } catch (e) {
+    console.error(
+      `userGroupConfigWrapper.set during migration failed with ${e.message} for legacyGroup.id: "${legacyGroup.id}". Skipping that legacy group entirely`
+    );
+  }
+}
+
 function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
   try {
     const blockedItem = sqlNode.getItemById('blocked', db);
@@ -1368,13 +1415,13 @@ function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
       throw new Error('no blocked contacts at all');
     }
     const foundBlocked = blockedItem?.value;
-    console.warn('foundBlockedNumbers during migration', foundBlocked);
+    console.info('foundBlockedNumbers during migration', foundBlocked);
     if (isArray(foundBlocked)) {
       return foundBlocked;
     }
     return [];
   } catch (e) {
-    console.warn('failed to read blocked numbers. Considering no blocked numbers', e.stack);
+    console.info('failed to read blocked numbers. Considering no blocked numbers', e.stack);
     return [];
   }
 }
@@ -1411,7 +1458,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         WHERE type <> 'private' AND active_at > 0;`
     ).run({});
 
-    db.exec(`CREATE TABLE configDump(
+    db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(
       variant TEXT NOT NULL,
       publicKey TEXT NOT NULL,
       data BLOB,
@@ -1419,10 +1466,58 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       );
       `);
 
+    const allOpengroupsConvo = db
+      .prepare(
+        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE 'publicChat:%'
+     ORDER BY id ASC;`
+      )
+      .all();
+
+    const allValidOpengroupsDetails = allOpengroupsConvo
+      .filter(m => isString(m.id) && m.id.indexOf('@') > 0)
+      .map(row => {
+        const roomNameStart = (row.id.indexOf(':') as number) + 1;
+        const roomNameEnd = row.id.indexOf('@');
+        const roomName = row.id.substring(roomNameStart, roomNameEnd);
+        const baseUrl = row.id.substring((roomNameEnd as number) + 1);
+
+        return { roomName, baseUrl, oldConvoId: row.id };
+      });
+
+    allValidOpengroupsDetails.forEach(convoDetails => {
+      const newId = `${convoDetails.baseUrl}/${convoDetails.roomName}`;
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+          id = $newId
+          WHERE id = $oldId;`
+      ).run({
+        newId,
+        oldId: convoDetails.oldConvoId,
+      });
+      // do the same for messages and where else?
+
+      db.prepare(
+        `UPDATE ${MESSAGES_TABLE} SET
+          conversationId = $newId,
+          json = json_set(json,'$.conversationId', $newId)
+          WHERE conversationId = $oldConvoId;`
+      ).run({ oldConvoId: convoDetails.oldConvoId, newId });
+
+      db.prepare(
+        `UPDATE ${OPEN_GROUP_ROOMS_V2_TABLE} SET
+          conversationId = $newId,
+          json = json_set(json, '$.conversationId', $newId);`
+      ).run({ newId });
+    });
+
     try {
       const keys = getIdentityKeysDuringMigration(db);
 
-      if (!keys || !keys.privateEd25519 || isEmpty(keys.privateEd25519)) {
+      const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
+
+      if (!userAlreadyCreated) {
         throw new Error('privateEd25519 was empty. Considering no users are logged in');
       }
       const { privateEd25519, publicKeyHex } = keys;
@@ -1475,17 +1570,17 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
        */
       const blockedNumbers = getBlockedNumbersDuringMigration(db);
 
-      // this filter is based on the `filterContactsToStoreInContactsWrapper` function.
+      // this filter is based on the `isContactToStoreInContactsWrapper` function.
       const contactsToWriteInWrapper = db
         .prepare(
-          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND NOT hidden AND (didApproveMe OR isApproved) AND id <> $us AND id NOT LIKE '15%' ;`
+          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND NOT hidden AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' ;`
         )
         .all({
           us: publicKeyHex,
         });
 
       if (isArray(contactsToWriteInWrapper) && contactsToWriteInWrapper.length) {
-        console.warn(
+        console.info(
           '===================== Starting contact inserting into wrapper ======================='
         );
 
@@ -1498,7 +1593,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
           insertContactIntoWrapper(contact, blockedNumbers, contactsConfigWrapper);
         });
 
-        console.warn('===================== Done with contact inserting =======================');
+        console.info('===================== Done with contact inserting =======================');
       }
       const contactsDump = contactsConfigWrapper.dump();
 
@@ -1518,53 +1613,11 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         data: contactsDump,
       });
 
-      const allOpengroupsConvo = db
-        .prepare(
-          `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
-        type = 'group' AND
-        id LIKE 'publicChat:%'
-       ORDER BY id ASC;`
-        )
-        .all();
+      /**
+       * Setup up the UserGroups Wrapper with all the comunities details which needs to be stored in it.
+       */
 
-      const allValidOpengroupsDetails = allOpengroupsConvo
-        .filter(m => isString(m.id) && m.id.indexOf('@') > 0)
-        .map(row => {
-          const roomNameStart = (row.id.indexOf(':') as number) + 1;
-          const roomNameEnd = row.id.indexOf('@');
-          const roomName = row.id.substring(roomNameStart, roomNameEnd);
-          const baseUrl = row.id.substring((roomNameEnd as number) + 1);
-
-          return { roomName, baseUrl, oldConvoId: row.id };
-        });
-
-      allValidOpengroupsDetails.forEach(convoDetails => {
-        const newId = `${convoDetails.baseUrl}/${convoDetails.roomName}`;
-        db.prepare(
-          `UPDATE ${CONVERSATIONS_TABLE} SET
-            id = $newId
-            WHERE id = $oldId;`
-        ).run({
-          newId,
-          oldId: convoDetails.oldConvoId,
-        });
-        // do the same for messages and where else?
-
-        db.prepare(
-          `UPDATE ${MESSAGES_TABLE} SET
-            conversationId = $newId,
-            json = json_set(json,'$.conversationId', $newId)
-            WHERE conversationId = $oldConvoId;`
-        ).run({ oldConvoId: convoDetails.oldConvoId, newId });
-
-        db.prepare(
-          `UPDATE ${OPEN_GROUP_ROOMS_V2_TABLE} SET
-            conversationId = $newId,
-            json = json_set(json, '$.conversationId', $newId);`
-        ).run({ newId });
-      });
-
-      // this filter is based on the `filterUserGroupsToStoreInWrapper` function.
+      // this filter is based on the `isCommunityToStoreInWrapper` function.
       const communitiesToWriteInWrapper = db
         .prepare(
           `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE 'http%' ;`
@@ -1572,26 +1625,52 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         .all({});
 
       if (isArray(communitiesToWriteInWrapper) && communitiesToWriteInWrapper.length) {
-        console.warn(
-          '===================== Starting communities inserting into wrapper ======================='
-        );
-
         console.info(
-          'Writing communities to wrapper during migration. length: ',
-          communitiesToWriteInWrapper?.length
+          `===================== Starting communities inserting into wrapper ${communitiesToWriteInWrapper?.length} =======================`
         );
 
         communitiesToWriteInWrapper.forEach(community => {
-          insertCommunityIntoWrapper(community, userGroupsConfigWrapper, db);
-
-          console.info('Writing community: ', JSON.stringify(community));
+          try {
+            console.info('Writing community: ', JSON.stringify(community));
+            insertCommunityIntoWrapper(community, userGroupsConfigWrapper, db);
+          } catch (e) {
+            console.info(`failed to insert community with ${e.message}`, community);
+          }
         });
 
-        console.warn(
+        console.info(
           '===================== Done with communinities inserting ======================='
         );
-        // TODO we need to do the same for closed groups
       }
+
+      // this filter is based on the `isLegacyGroupToStoreInWrapper` function.
+      const legacyGroupsToWriteInWrapper = db
+        .prepare(
+          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE '05%' AND NOT isKickedFromGroup AND NOT left ;`
+        )
+        .all({});
+
+      if (isArray(legacyGroupsToWriteInWrapper) && legacyGroupsToWriteInWrapper.length) {
+        console.info(
+          `===================== Starting legacy group inserting into wrapper length: ${legacyGroupsToWriteInWrapper?.length} =======================`
+        );
+
+        legacyGroupsToWriteInWrapper.forEach(legacyGroup => {
+          try {
+            console.info('Writing legacy group: ', JSON.stringify(legacyGroup));
+
+            insertLegacyGroupIntoWrapper(legacyGroup, userGroupsConfigWrapper, db);
+          } catch (e) {
+            console.info(`failed to insert legacy group with ${e.message}`, legacyGroup);
+          }
+        });
+
+        console.info(
+          '===================== Done with legacy group inserting ======================='
+        );
+      }
+      // TODO we need to do the same for new groups once they are available
+
       const userGroupsDump = userGroupsConfigWrapper.dump();
 
       db.prepare(
@@ -1627,8 +1706,6 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     // Didn't find any reference to this serverTimestamp in the unprocessed table needed.
     db.exec(`ALTER TABLE unprocessed DROP COLUMN serverTimestamp;`);
 
-    // we need to populate those fields with the current state of the conversation so let's throw null until this is done
-    // throw new Error('update me');
     writeSessionSchemaVersion(targetVersion, db);
   })();
 

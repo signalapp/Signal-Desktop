@@ -76,6 +76,7 @@ export const syncConfigurationIfNeeded = async () => {
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
   new Promise(resolve => {
+    // TODO  this should check for feature flag and queue a ConfigurationSyncJob
     const allConvos = getConversationController().getConversations();
     // if we hang for more than 10sec, force resolve this promise.
     setTimeout(() => {

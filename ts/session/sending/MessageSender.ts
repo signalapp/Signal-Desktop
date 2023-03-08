@@ -223,7 +223,6 @@ async function sendMessagesDataToSnode(
         })
       : null;
 
-  console.error('oldMessageHashes', oldMessageHashes);
   const snode = sample(swarm);
   if (!snode) {
     throw new EmptySwarmError(destination, 'Ran out of swarm nodes to query');

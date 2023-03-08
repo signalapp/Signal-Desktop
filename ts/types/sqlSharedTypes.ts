@@ -1,5 +1,7 @@
-import { isEmpty, isEqual } from 'lodash';
-import { ContactInfo } from 'session_util_wrapper';
+import { from_hex } from 'libsodium-wrappers-sumo';
+import { isArray, isEmpty, isEqual } from 'lodash';
+import { ContactInfo, LegacyGroupInfo, LegacyGroupMemberInfo } from 'session_util_wrapper';
+import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { fromHexToArray } from '../session/utils/String';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
@@ -161,4 +163,72 @@ export function getCommunityInfoFromDBValues({
   };
 
   return community;
+}
+
+function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string> {
+  try {
+    if (isArray(arr)) {
+      return arr;
+    }
+
+    const parsed = JSON.parse(arr);
+    if (isArray(parsed)) {
+      return parsed;
+    }
+    return [];
+  } catch (e) {
+    return [];
+  }
+}
+
+export function getLegacyGroupInfoFromDBValues({
+  id,
+  hidden,
+  isPinned,
+  members: maybeMembers,
+  displayNameInProfile,
+  expireTimer,
+  encPubkeyHex,
+  encSeckeyHex,
+  groupAdmins: maybeAdmins,
+}: Pick<
+  ConversationAttributes,
+  'hidden' | 'id' | 'isPinned' | 'displayNameInProfile' | 'expireTimer'
+> & {
+  encPubkeyHex: string;
+  encSeckeyHex: string;
+  members: string | Array<string>;
+  groupAdmins: string | Array<string>;
+}) {
+  const admins: Array<string> = maybeArrayJSONtoArray(maybeAdmins);
+  const members: Array<string> = maybeArrayJSONtoArray(maybeMembers);
+
+  const wrappedMembers: Array<LegacyGroupMemberInfo> = (members || []).map(m => {
+    return {
+      isAdmin: admins.includes(m),
+      pubkeyHex: m,
+    };
+  });
+  const legacyGroup: LegacyGroupInfo = {
+    pubkeyHex: id,
+    disappearingTimerSeconds: !expireTimer ? 0 : expireTimer,
+    hidden: !!hidden,
+    name: displayNameInProfile || '',
+    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+    members: wrappedMembers,
+    encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
+    encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
+  };
+
+  console.warn('legacyGroup', legacyGroup);
+  return legacyGroup;
+}
+
+/**
+ * This function can be used to make sure all the possible values as input of a switch as taken care off, without having a default case.
+ *
+ */
+export function assertUnreachable(_x: never, message: string): never {
+  console.info(`assertUnreachable: Didn't expect to get here with "${message}"`);
+  throw new Error("Didn't expect to get here");
 }

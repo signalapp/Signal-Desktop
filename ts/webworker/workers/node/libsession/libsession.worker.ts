@@ -1,4 +1,4 @@
-import _, { isEmpty, isNull } from 'lodash';
+import { isEmpty, isNull } from 'lodash';
 import {
   BaseConfigWrapper,
   BaseConfigWrapperInsideWorker,
@@ -64,7 +64,7 @@ function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapp
  */
 function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): BaseConfigWrapper {
   const wrapper = getUserWrapper(wrapperType);
-  console.warn('initUserWrapper: ', wrapperType);
+  console.warn('initUserWrapper: ', wrapperType, options);
   if (wrapper) {
     throw new Error(`${wrapperType} already init`);
   }

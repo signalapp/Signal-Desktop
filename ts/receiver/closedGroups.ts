@@ -319,7 +319,6 @@ export async function handleNewClosedGroup(
   convo.updateLastMessage();
 
   await convo.commit();
-  // sanity checks validate this
   // tslint:disable: no-non-null-assertion
   const ecKeyPair = new ECKeyPair(encryptionKeyPair!.publicKey, encryptionKeyPair!.privateKey);
   window?.log?.info(`Received the encryptionKeyPair for new group ${groupId}`);

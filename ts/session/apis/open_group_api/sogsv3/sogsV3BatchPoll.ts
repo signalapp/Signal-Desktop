@@ -1,14 +1,15 @@
+import { AbortSignal } from 'abort-controller';
+import { flatten, isEmpty, isNumber, isObject } from 'lodash';
 import { OpenGroupData } from '../../../../data/opengroups';
-import _, { flatten, isEmpty, isNumber, isObject } from 'lodash';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
+import { Reactions } from '../../../../util/reactions';
 import { OnionSending, OnionV4JSONSnodeResponse } from '../../../onions/onionSend';
 import {
   OpenGroupPollingUtils,
   OpenGroupRequestHeaders,
 } from '../opengroupV2/OpenGroupPollingUtils';
-import { addJsonContentTypeToHeaders } from './sogsV3SendMessage';
-import { AbortSignal } from 'abort-controller';
 import { roomHasBlindEnabled } from './sogsV3Capabilities';
-import { Reactions } from '../../../../util/reactions';
+import { addJsonContentTypeToHeaders } from './sogsV3SendMessage';
 
 type BatchFetchRequestOptions = {
   method: 'POST' | 'PUT' | 'GET' | 'DELETE';
@@ -228,7 +229,8 @@ export type OpenGroupBatchRow =
 const makeBatchRequestPayload = (
   options: OpenGroupBatchRow
 ): BatchSubRequest | Array<BatchSubRequest> | null => {
-  switch (options.type) {
+  const type = options.type;
+  switch (type) {
     case 'capabilities':
       return {
         method: 'GET',
@@ -323,7 +325,7 @@ const makeBatchRequestPayload = (
         path: `/room/${options.deleteReaction.roomId}/reactions/${options.deleteReaction.messageId}/${options.deleteReaction.reaction}`,
       };
     default:
-      throw new Error('Invalid batch request row');
+      assertUnreachable(type, 'Invalid batch request row');
   }
 
   return null;

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { SpacerLG } from '../basic/Text';
+import React from 'react';
+import styled from 'styled-components';
 import { getConversationController } from '../../session/conversations';
+import { leaveClosedGroup } from '../../session/group/closed-group';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerLG } from '../basic/Text';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
@@ -21,15 +22,9 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
   const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
   const okText = window.i18n('leaveAndRemoveForEveryone');
   const cancelText = window.i18n('cancel');
-  const [_isLoading, setIsLoading] = useState(false);
 
   const onClickOK = async () => {
-    setIsLoading(true);
-    await getConversationController()
-      .get(props.conversationId)
-      .leaveClosedGroup();
-    setIsLoading(false);
-
+    await leaveClosedGroup(props.conversationId);
     closeDialog();
   };
 

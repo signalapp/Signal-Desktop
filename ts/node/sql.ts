@@ -1809,17 +1809,23 @@ function getMessagesCountByConversation(
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param groupPublicKey string | PubKey
  */
-function getAllEncryptionKeyPairsForGroup(groupPublicKey: string | PubKey) {
-  const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
+function getAllEncryptionKeyPairsForGroup(
+  groupPublicKey: string | PubKey,
+  db?: BetterSqlite3.Database
+) {
+  const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey, db);
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey: string | PubKey) {
+function getAllEncryptionKeyPairsForGroupRaw(
+  groupPublicKey: string | PubKey,
+  db?: BetterSqlite3.Database
+) {
   const pubkeyAsString = (groupPublicKey as PubKey).key
     ? (groupPublicKey as PubKey).key
     : groupPublicKey;
-  const rows = assertGlobalInstance()
+  const rows = assertGlobalInstanceOrInstance(db)
     .prepare(
       `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`
     )
@@ -1830,8 +1836,11 @@ function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey: string | PubKey) {
   return rows;
 }
 
-function getLatestClosedGroupEncryptionKeyPair(groupPublicKey: string) {
-  const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey);
+function getLatestClosedGroupEncryptionKeyPair(
+  groupPublicKey: string,
+  db?: BetterSqlite3.Database
+) {
+  const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey, db);
   if (!rows || rows.length === 0) {
     return undefined;
   }

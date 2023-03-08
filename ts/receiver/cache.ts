@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Data } from '../data/data';
 import { UnprocessedParameter } from '../types/sqlSharedTypes';
 
-export async function removeFromCache(envelope: EnvelopePlus) {
+export async function removeFromCache(envelope: Pick<EnvelopePlus, 'id'>) {
   return Data.removeUnprocessed(envelope.id);
 }
 
@@ -91,10 +91,10 @@ export async function getAllFromCacheForSource(source: string) {
 }
 
 export async function updateCacheWithDecryptedContent(
-  envelope: EnvelopePlus,
+  envelope: Pick<EnvelopePlus, 'id' | 'senderIdentity' | 'source'>,
   plaintext: ArrayBuffer
 ): Promise<void> {
-  const { id } = envelope;
+  const { id, senderIdentity, source } = envelope;
   const item = await Data.getUnprocessedById(id);
   if (!item) {
     window?.log?.error(
@@ -103,11 +103,11 @@ export async function updateCacheWithDecryptedContent(
     return;
   }
 
-  item.source = envelope.source;
+  item.source = source;
 
   // For medium-size closed groups
   if (envelope.senderIdentity) {
-    item.senderIdentity = envelope.senderIdentity;
+    item.senderIdentity = senderIdentity;
   }
 
   item.decrypted = StringUtils.decode(plaintext, 'base64');

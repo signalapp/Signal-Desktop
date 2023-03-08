@@ -2,6 +2,7 @@ import { compact, groupBy, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
 import { getConversationController } from '../../../conversations';
@@ -129,7 +130,11 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
   for (let i = 0; i < changes.length; i++) {
     const change = changes[i];
     const variant = LibSessionUtil.kindToVariant(change.message.kind);
-    console.warn('buildAndSaveDumpsToDB: change.updatedHash: ', change.updatedHash);
+    console.warn(
+      `ConfigurationSyncJob.saveDumpToDB: "${variant}" updatedHash: "${
+        change.updatedHash
+      }:${change.message.seqno.toNumber()}"`
+    );
     const needsDump = await LibSessionUtil.markAsPushed(
       variant,
       change.publicKey,
@@ -186,9 +191,23 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         window.log.warn('did not find our own conversation');
         return RunJobResult.PermanentFailure;
       }
-      await LibSessionUtil.insertUserProfileIntoWrapper();
-      await LibSessionUtil.insertAllContactsIntoContactsWrapper();
-      await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+      for (let index = 0; index < LibSessionUtil.userVariants.length; index++) {
+        const variant = LibSessionUtil.userVariants[index];
+        switch (variant) {
+          case 'UserConfig':
+            await LibSessionUtil.insertUserProfileIntoWrapper();
+            break;
+          case 'ContactsConfig':
+            await LibSessionUtil.insertAllContactsIntoContactsWrapper();
+            break;
+          case 'UserGroupsConfig':
+            await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+            break;
+
+          default:
+            assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
+        }
+      }
 
       const singleDestChanges = await retrieveSingleDestinationChanges();
 
@@ -211,7 +230,6 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
             };
           });
           const asSet = new Set(dest.allOldHashes);
-          console.warn('asSet', [...asSet]);
           return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
         })
       );
@@ -271,6 +289,9 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
  * A ConfigurationSyncJob can only be added if there is none of the same type queued already.
  */
 async function queueNewJobIfNeeded() {
+  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    return;
+  }
   if (
     !lastRunConfigSyncJobTimestamp ||
     lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries

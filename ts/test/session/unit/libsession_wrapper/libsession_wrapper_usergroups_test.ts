@@ -25,49 +25,120 @@ describe('libsession_groups', () => {
       Sinon.restore();
     });
 
-    it('includes public group/community', () => {
-      expect(
-        SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
-          new ConversationModel({ ...validArgs } as any)
-        )
-      ).to.be.eq(true);
+    describe('communities', () => {
+      it('includes public group/community', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({ ...validArgs } as any)
+          )
+        ).to.be.eq(true);
+      });
+
+      it('excludes public group/community inactive', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({ ...validArgs, active_at: undefined } as any)
+          )
+        ).to.be.eq(false);
+      });
     });
 
-    it('excludes public group/community inactive', () => {
-      expect(
-        SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
-          new ConversationModel({ ...validArgs, active_at: undefined } as any)
-        )
-      ).to.be.eq(false);
+    describe('legacy closed groups', () => {
+      const validLegacyGroupArgs = {
+        ...validArgs,
+        type: ConversationTypeEnum.GROUP,
+        id: '05123456564',
+      } as any;
+
+      it('includes legacy group', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({
+              ...validLegacyGroupArgs,
+            })
+          )
+        ).to.be.eq(true);
+      });
+
+      it('exclude legacy group left', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({
+              ...validLegacyGroupArgs,
+              left: true,
+            })
+          )
+        ).to.be.eq(false);
+      });
+      it('exclude legacy group kicked', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({
+              ...validLegacyGroupArgs,
+              isKickedFromGroup: true,
+            })
+          )
+        ).to.be.eq(false);
+      });
+
+      it('exclude legacy group not active', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({
+              ...validLegacyGroupArgs,
+              active_at: undefined,
+            })
+          )
+        ).to.be.eq(false);
+      });
+
+      it('include hidden legacy group', () => {
+        expect(
+          SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+            new ConversationModel({
+              ...validLegacyGroupArgs,
+              hidden: true,
+            })
+          )
+        ).to.be.eq(true);
+      });
     });
 
-    it('includes closed group', () => {
+    it('excludes closed group v3 (for now)', () => {
       expect(
-        SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
-          new ConversationModel({
-            ...validArgs,
-            type: ConversationTypeEnum.GROUP,
-            id: '05123456564',
-          } as any)
-        )
-      ).to.be.eq(true);
-    });
-
-    it('includes closed group v3', () => {
-      expect(
-        SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
+        SessionUtilUserGroups.isUserGroupToStoreInWrapper(
           new ConversationModel({
             ...validArgs,
             type: ConversationTypeEnum.GROUPV3,
             id: '03123456564',
           } as any)
         )
-      ).to.be.eq(true);
+      ).to.be.eq(false);
+    });
+
+    it('excludes empty id', () => {
+      expect(
+        SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: '',
+          } as any)
+        )
+      ).to.be.eq(false);
+
+      expect(
+        SessionUtilUserGroups.isUserGroupToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: '9871',
+          } as any)
+        )
+      ).to.be.eq(false);
     });
 
     it('excludes private', () => {
       expect(
-        SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
+        SessionUtilUserGroups.isUserGroupToStoreInWrapper(
           new ConversationModel({
             ...validArgs,
             id: '0511111',

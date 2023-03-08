@@ -18,7 +18,6 @@ import {
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
-import { leaveClosedGroup } from '../session/group/closed-group';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
@@ -103,6 +102,7 @@ import {
   isOpenOrClosedGroup,
 } from './conversationAttributes';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
+import { Registration } from '../util/registration';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -339,10 +339,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (isPublic) {
       toRet.isPublic = true;
     }
-    if (isTyping) {
-      toRet.isTyping = true;
-    }
-
     if (isTyping) {
       toRet.isTyping = true;
     }
@@ -1277,16 +1273,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       type: 'incoming',
       direction: 'outgoing',
     });
-  }
-
-  public async leaveClosedGroup() {
-    if (this.isMediumGroup()) {
-      await leaveClosedGroup(this.id);
-    } else {
-      throw new Error(
-        'Legacy group are not supported anymore. You need to create this group again.'
-      );
-    }
   }
 
   /**
@@ -2241,31 +2227,31 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   }
   // write to DB
   // TODO remove duplicates between db and wrapper (except nickname&name as we need them for search)
-
   // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
+
   await Data.saveConversation(convo.attributes);
 
-  const shouldBeSavedToContactsWrapper = SessionUtilContact.filterContactsToStoreInContactsWrapper(
+  const shouldBeSavedToContactsWrapper = SessionUtilContact.isContactToStoreInContactsWrapper(
     convo
   );
-  const shouldBeSavedToUserGroupsWrapper = SessionUtilUserGroups.filterUserGroupsToStoreInWrapper(
-    convo
+  const shouldBeSavedToUserGroupsWrapper = SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo);
+
+  console.warn(
+    `should be saved to wrapper ${id}: contacts:${shouldBeSavedToContactsWrapper}; usergroups:${shouldBeSavedToUserGroupsWrapper}`
   );
 
-  console.warn(`should be saved to contacts wrapper ${id}: ${shouldBeSavedToContactsWrapper}`);
-  console.warn(`should be saved to usergroups wrapper ${id}: ${shouldBeSavedToUserGroupsWrapper}`);
   if (shouldBeSavedToContactsWrapper) {
     await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
   } else if (shouldBeSavedToUserGroupsWrapper) {
     await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
   }
 
-  // save the new dump if needed to the DB asap
-  // this call throttled so we do not run this too often (and not for every .commit())
-  await ConfigurationDumpSync.queueNewJobIfNeeded();
+  if (Registration.isDone()) {
+    // save the new dump if needed to the DB asap
+    // this call throttled so we do not run this too often (and not for every .commit())
+    await ConfigurationDumpSync.queueNewJobIfNeeded();
 
-  // if we need to sync the dump, also send add a job for syncing
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    // if we need to sync the dump, also send add a job for syncing
     await ConfigurationSync.queueNewJobIfNeeded();
   }
   convo.triggerUIRefresh();

@@ -36,6 +36,7 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
+import { leaveClosedGroup } from '../session/group/closed-group';
 
 export function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -203,7 +204,7 @@ export function showLeaveGroupByConvoId(conversationId: string) {
         title,
         message,
         onClickOk: async () => {
-          await conversation.leaveClosedGroup();
+          await leaveClosedGroup(conversation.id);
           onClickClose();
         },
         onClickClose,

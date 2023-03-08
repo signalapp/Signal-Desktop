@@ -309,6 +309,7 @@ describe('libsession_contacts', () => {
       id: '051111567890acbdef',
       type: ConversationTypeEnum.PRIVATE,
       isApproved: true,
+      active_at: 123,
       didApproveMe: true,
     };
     beforeEach(() => {
@@ -320,7 +321,7 @@ describe('libsession_contacts', () => {
 
     it('excludes ourselves', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({ ...validArgs, id: ourNumber } as any)
         )
       ).to.be.eq(false);
@@ -328,7 +329,7 @@ describe('libsession_contacts', () => {
 
     it('excludes non private', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({ ...validArgs, type: ConversationTypeEnum.GROUP } as any)
         )
       ).to.be.eq(false);
@@ -336,15 +337,27 @@ describe('libsession_contacts', () => {
 
     it('includes private', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({ ...validArgs, type: ConversationTypeEnum.PRIVATE } as any)
+        )
+      ).to.be.eq(true);
+    });
+
+    it('includes hidden private', () => {
+      expect(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            type: ConversationTypeEnum.PRIVATE,
+            hidden: true,
+          } as any)
         )
       ).to.be.eq(true);
     });
 
     it('excludes blinded', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({
             ...validArgs,
             type: ConversationTypeEnum.PRIVATE,
@@ -356,7 +369,7 @@ describe('libsession_contacts', () => {
 
     it('excludes non approved by us nor did approveme', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({
             ...validArgs,
             didApproveMe: false,
@@ -368,7 +381,7 @@ describe('libsession_contacts', () => {
 
     it('includes approved only by us ', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({
             ...validArgs,
             didApproveMe: false,
@@ -377,9 +390,23 @@ describe('libsession_contacts', () => {
         )
       ).to.be.eq(true);
     });
+
+    it('excludes not active ', () => {
+      expect(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
+          new ConversationModel({
+            ...validArgs,
+            didApproveMe: false,
+            isApproved: true,
+            active_at: undefined,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
     it('includes approved only by them ', () => {
       expect(
-        SessionUtilContact.filterContactsToStoreInContactsWrapper(
+        SessionUtilContact.isContactToStoreInContactsWrapper(
           new ConversationModel({
             ...validArgs,
             didApproveMe: true,

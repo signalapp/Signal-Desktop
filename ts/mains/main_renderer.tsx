@@ -188,10 +188,14 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
-    try {
-      await LibSessionUtil.initializeLibSessionUtilWrappers();
-    } catch (e) {
-      window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+    if (Registration.isDone()) {
+      try {
+        await LibSessionUtil.initializeLibSessionUtilWrappers();
+      } catch (e) {
+        window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+        // TODO what should we do if this happens?
+        throw e;
+      }
     }
     await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();

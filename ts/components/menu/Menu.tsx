@@ -225,7 +225,7 @@ export const DeleteContactMenuItem = () => {
           onClickClose,
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await getConversationController().deleteContact(convoId);
+            await getConversationController().deleteContact(convoId, false);
           },
         })
       );
