@@ -6,7 +6,10 @@ import React, { useCallback, useState } from 'react';
 
 import { ButtonVariant } from '../Button';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { BaseConversationListItem } from './BaseConversationListItem';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Spinner } from '../Spinner';
 
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
@@ -87,19 +90,33 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
 
     return (
       <>
-        <BaseConversationListItem
-          acceptedMessageRequest={false}
-          color={AvatarColors[0]}
-          conversationType="direct"
-          headerName={phoneNumber.userInput}
-          i18n={i18n}
-          isMe={false}
-          isSelected={false}
-          onClick={boundOnClick}
-          phoneNumber={phoneNumber.userInput}
-          shouldShowSpinner={isFetching}
-          sharedGroupNames={[]}
+        <ListTile
+          leading={
+            <Avatar
+              acceptedMessageRequest={false}
+              color={AvatarColors[0]}
+              conversationType="direct"
+              searchResult
+              i18n={i18n}
+              isMe={false}
+              title={phoneNumber.userInput}
+              size={AvatarSize.THIRTY_TWO}
+              badge={undefined}
+              sharedGroupNames={[]}
+            />
+          }
           title={phoneNumber.userInput}
+          onClick={boundOnClick}
+          trailing={
+            isFetching ? (
+              <Spinner
+                size="20px"
+                svgSize="small"
+                moduleClassName={SPINNER_CLASS_NAME}
+                direction="on-progress-dialog"
+              />
+            ) : undefined
+          }
         />
         {modal}
       </>

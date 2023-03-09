@@ -261,7 +261,7 @@ describe('pnp/username', function needsName() {
     await searchInput.type(`@${CARL_USERNAME}`);
 
     debug('starting lookup');
-    await window.locator(`button >> "${CARL_USERNAME}"`).click();
+    await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
 
     debug('sending a message');
     {
