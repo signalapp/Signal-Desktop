@@ -74,6 +74,49 @@ export function formatDateTimeShort(
   }).format(timestamp);
 }
 
+export function formatDateTimeForAttachment(
+  i18n: LocalizerType,
+  rawTimestamp: RawTimestamp
+): string {
+  const timestamp = rawTimestamp.valueOf();
+
+  const now = Date.now();
+  const diff = now - timestamp;
+
+  const locale = window.getPreferredSystemLocales();
+
+  if (diff < HOUR || isToday(timestamp)) {
+    return formatTime(i18n, rawTimestamp, now);
+  }
+
+  const m = moment(timestamp);
+
+  if (diff < WEEK && m.isSame(now, 'month')) {
+    return new Intl.DateTimeFormat(locale, {
+      weekday: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(timestamp);
+  }
+
+  if (m.isSame(now, 'year')) {
+    return new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(timestamp);
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(timestamp);
+}
+
 export function formatDateTimeLong(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp

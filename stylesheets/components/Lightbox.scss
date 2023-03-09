@@ -52,10 +52,6 @@
     }
   }
 
-  &__thumbnails_placeholder {
-    height: 44px;
-  }
-
   &__thumbnail {
     @include button-reset;
     position: relative;

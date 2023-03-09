@@ -4,7 +4,6 @@
 import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { createPortal } from 'react-dom';
 import { noop } from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
@@ -20,9 +19,11 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import * as log from '../logging/log';
 import { Avatar, AvatarSize } from './Avatar';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
+import { formatDateTimeForAttachment } from '../util/timestamp';
 import { formatDuration } from '../util/formatDuration';
 import { isGIF } from '../types/Attachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
+import { usePrevious } from '../hooks/usePrevious';
 
 export type PropsType = {
   children?: ReactNode;
@@ -56,6 +57,17 @@ const INITIAL_IMAGE_TRANSFORM = {
   },
 };
 
+const THUMBNAIL_SPRING_CONFIG = {
+  mass: 1,
+  tension: 986,
+  friction: 64,
+  velocity: 0,
+};
+
+const THUMBNAIL_WIDTH = 44;
+const THUMBNAIL_PADDING = 8;
+const THUMBNAIL_FULL_WIDTH = THUMBNAIL_WIDTH + THUMBNAIL_PADDING;
+
 export function Lightbox({
   children,
   closeLightbox,
@@ -73,6 +85,9 @@ export function Lightbox({
   hasNextMessage,
   hasPrevMessage,
 }: PropsType): JSX.Element | null {
+  const hasThumbnails = media.length > 1;
+  const hadThumbnails = usePrevious(hasThumbnails, hasThumbnails);
+  const justGotThumbnails = !hadThumbnails && hasThumbnails;
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
@@ -270,6 +285,43 @@ export function Lightbox({
   const [{ scale, translateX, translateY }, springApi] = useSpring(
     () => INITIAL_IMAGE_TRANSFORM
   );
+
+  const thumbnailsMarginLeft =
+    0 - (selectedIndex * THUMBNAIL_FULL_WIDTH + THUMBNAIL_WIDTH / 2);
+
+  const [thumbnailsStyle, thumbnailsAnimation] = useSpring(
+    {
+      config: THUMBNAIL_SPRING_CONFIG,
+      to: {
+        marginLeft: thumbnailsMarginLeft,
+        opacity: hasThumbnails ? 1 : 0,
+      },
+    },
+    [selectedIndex, hasThumbnails]
+  );
+
+  useEffect(() => {
+    if (!justGotThumbnails) {
+      return;
+    }
+
+    thumbnailsAnimation.stop();
+    thumbnailsAnimation.set({
+      marginLeft:
+        thumbnailsMarginLeft +
+        (selectedIndex === 0 ? -1 : 1) * THUMBNAIL_FULL_WIDTH,
+      opacity: 0,
+    });
+    thumbnailsAnimation.start({
+      marginLeft: thumbnailsMarginLeft,
+      opacity: 1,
+    });
+  }, [
+    justGotThumbnails,
+    selectedIndex,
+    thumbnailsMarginLeft,
+    thumbnailsAnimation,
+  ]);
 
   const maxBoundsLimiter = useCallback(
     (x: number, y: number): [number, number] => {
@@ -643,48 +695,46 @@ export function Lightbox({
               {caption ? (
                 <div className="Lightbox__caption">{caption}</div>
               ) : null}
-              {media.length > 1 ? (
-                <div className="Lightbox__thumbnails--container">
-                  <div
-                    className="Lightbox__thumbnails"
-                    style={{
-                      marginLeft:
-                        0 - (selectedIndex * 44 + selectedIndex * 8 + 22),
-                    }}
-                  >
-                    {media.map((item, index) => (
-                      <button
-                        className={classNames({
-                          Lightbox__thumbnail: true,
-                          'Lightbox__thumbnail--selected':
-                            index === selectedIndex,
-                        })}
-                        key={item.thumbnailObjectUrl}
-                        type="button"
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                        ) => {
-                          event.stopPropagation();
-                          event.preventDefault();
+              <div className="Lightbox__thumbnails--container">
+                <animated.div
+                  className="Lightbox__thumbnails"
+                  style={thumbnailsStyle}
+                >
+                  {hasThumbnails
+                    ? media.map((item, index) => (
+                        <button
+                          className={classNames({
+                            Lightbox__thumbnail: true,
+                            'Lightbox__thumbnail--selected':
+                              index === selectedIndex,
+                          })}
+                          key={item.thumbnailObjectUrl}
+                          type="button"
+                          onClick={(
+                            event: React.MouseEvent<
+                              HTMLButtonElement,
+                              MouseEvent
+                            >
+                          ) => {
+                            event.stopPropagation();
+                            event.preventDefault();
 
-                          onSelectAttachment(index);
-                        }}
-                      >
-                        {item.thumbnailObjectUrl ? (
-                          <img
-                            alt={i18n('lightboxImageAlt')}
-                            src={item.thumbnailObjectUrl}
-                          />
-                        ) : (
-                          <div className="Lightbox__thumbnail--unavailable" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="Lightbox__thumbnails_placeholder" />
-              )}
+                            onSelectAttachment(index);
+                          }}
+                        >
+                          {item.thumbnailObjectUrl ? (
+                            <img
+                              alt={i18n('lightboxImageAlt')}
+                              src={item.thumbnailObjectUrl}
+                            />
+                          ) : (
+                            <div className="Lightbox__thumbnail--unavailable" />
+                          )}
+                        </button>
+                      ))
+                    : undefined}
+                </animated.div>
+              </div>
             </div>
           </div>
         </div>,
@@ -703,6 +753,8 @@ function LightboxHeader({
   message: ReadonlyDeep<MediaItemMessageType>;
 }): JSX.Element {
   const conversation = getConversation(message.conversationId);
+
+  const now = Date.now();
 
   return (
     <div className="Lightbox__header--container">
@@ -726,7 +778,7 @@ function LightboxHeader({
       <div className="Lightbox__header--content">
         <div className="Lightbox__header--name">{conversation.title}</div>
         <div className="Lightbox__header--timestamp">
-          {moment(message.received_at_ms).format('L LT')}
+          {formatDateTimeForAttachment(i18n, message.received_at_ms ?? now)}
         </div>
       </div>
     </div>
