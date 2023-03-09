@@ -509,9 +509,6 @@ export class SwarmPolling {
     hash: string;
     expiration: number;
   }): Promise<void> {
-    // if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
-    //   return;
-    // }
     const pkStr = pubkey.key;
     const cached = await this.getLastHash(edkey, pubkey.key, namespace);
 
@@ -535,9 +532,6 @@ export class SwarmPolling {
   }
 
   private async getLastHash(nodeEdKey: string, pubkey: string, namespace: number): Promise<string> {
-    // if (!SnodeNamespace.isNamespaceAlwaysPolled(namespace)) {
-    //   return '';
-    // }
     if (!this.lastHashes[nodeEdKey]?.[pubkey]?.[namespace]) {
       const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey, namespace);
 

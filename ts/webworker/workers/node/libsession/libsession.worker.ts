@@ -3,10 +3,21 @@ import {
   BaseConfigWrapper,
   BaseConfigWrapperInsideWorker,
   ContactsConfigWrapperInsideWorker,
+  ConvoInfoVolatileWrapperInsideWorker,
   UserConfigWrapperInsideWorker,
   UserGroupsWrapperInsideWorker,
 } from 'session_util_wrapper';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
+
+/**
+ *
+ * @param _x Looks like we need to duplicate this function here as we cannot import the existing one from a webworker context
+ * @param message
+ */
+function assertUnreachable(_x: never, message: string): never {
+  console.info(`assertUnreachable: Didn't expect to get here with "${message}"`);
+  throw new Error("Didn't expect to get here");
+}
 
 /* eslint-disable no-console */
 /* eslint-disable strict */
@@ -15,10 +26,9 @@ import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functi
 let userProfileWrapper: UserConfigWrapperInsideWorker | undefined;
 let contactsConfigWrapper: ContactsConfigWrapperInsideWorker | undefined;
 let userGroupsConfigWrapper: UserGroupsWrapperInsideWorker | undefined;
+let convoInfoVolatileConfigWrapper: ConvoInfoVolatileWrapperInsideWorker | undefined;
 
-type UserWrapperType = 'UserConfig' | 'ContactsConfig' | 'UserGroupsConfig';
-
-function getUserWrapper(type: UserWrapperType): BaseConfigWrapperInsideWorker | undefined {
+function getUserWrapper(type: ConfigWrapperObjectTypes): BaseConfigWrapperInsideWorker | undefined {
   switch (type) {
     case 'UserConfig':
       return userProfileWrapper;
@@ -26,6 +36,10 @@ function getUserWrapper(type: UserWrapperType): BaseConfigWrapperInsideWorker | 
       return contactsConfigWrapper;
     case 'UserGroupsConfig':
       return userGroupsConfigWrapper;
+    case 'ConvoInfoVolatileConfig':
+      return convoInfoVolatileConfigWrapper;
+    default:
+      assertUnreachable(type, `getUserWrapper: Missing case error "${type}"`);
   }
 }
 
@@ -36,11 +50,17 @@ function getCorrespondingWrapper(
     case 'UserConfig':
     case 'ContactsConfig':
     case 'UserGroupsConfig':
+    case 'ConvoInfoVolatileConfig':
       const wrapper = getUserWrapper(wrapperType);
       if (!wrapper) {
         throw new Error(`${wrapperType} is not init yet`);
       }
       return wrapper;
+    default:
+      assertUnreachable(
+        wrapperType,
+        `getCorrespondingWrapper: Missing case error "${wrapperType}"`
+      );
   }
 }
 
@@ -48,11 +68,12 @@ function isUInt8Array(value: any) {
   return value.constructor === Uint8Array;
 }
 
-function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapperType {
+function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): ConfigWrapperObjectTypes {
   if (
     wrapperType !== 'ContactsConfig' &&
     wrapperType !== 'UserConfig' &&
-    wrapperType !== 'UserGroupsConfig'
+    wrapperType !== 'UserGroupsConfig' &&
+    wrapperType !== 'ConvoInfoVolatileConfig'
   ) {
     throw new Error(`wrapperType "${wrapperType} is not of type User"`);
   }
@@ -62,7 +83,12 @@ function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): UserWrapp
 /**
  * This function can be used to initialize a wrapper which takes the private ed25519 key of the user and a dump as argument.
  */
-function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): BaseConfigWrapper {
+function initUserWrapper(
+  options: Array<any>,
+  wrapperType: ConfigWrapperObjectTypes
+): BaseConfigWrapper {
+  const userType = assertUserWrapperType(wrapperType);
+
   const wrapper = getUserWrapper(wrapperType);
   console.warn('initUserWrapper: ', wrapperType, options);
   if (wrapper) {
@@ -80,7 +106,6 @@ function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): Bas
   if (!isNull(dump) && !isUInt8Array(dump)) {
     throw new Error(`${wrapperType} init needs a valid dump`);
   }
-  const userType = assertUserWrapperType(wrapperType);
   switch (userType) {
     case 'UserConfig':
       userProfileWrapper = new UserConfigWrapperInsideWorker(edSecretKey, dump);
@@ -91,6 +116,11 @@ function initUserWrapper(options: Array<any>, wrapperType: UserWrapperType): Bas
     case 'UserGroupsConfig':
       userGroupsConfigWrapper = new UserGroupsWrapperInsideWorker(edSecretKey, dump);
       return userGroupsConfigWrapper;
+    case 'ConvoInfoVolatileConfig':
+      convoInfoVolatileConfigWrapper = new ConvoInfoVolatileWrapperInsideWorker(edSecretKey, dump);
+      return convoInfoVolatileConfigWrapper;
+    default:
+      assertUnreachable(userType, `initUserWrapper: Missing case error "${userType}"`);
   }
 }
 

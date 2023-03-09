@@ -103,6 +103,7 @@ import {
 } from './conversationAttributes';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { Registration } from '../util/registration';
+import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -2235,9 +2236,12 @@ export async function commitConversationAndRefreshWrapper(id: string) {
     convo
   );
   const shouldBeSavedToUserGroupsWrapper = SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo);
+  const shouldBeSavedToConvoInfoVolatileWrapper = SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(
+    convo
+  );
 
   console.warn(
-    `should be saved to wrapper ${id}: contacts:${shouldBeSavedToContactsWrapper}; usergroups:${shouldBeSavedToUserGroupsWrapper}`
+    `should be saved to wrapper ${id}: contacts:${shouldBeSavedToContactsWrapper}; usergroups:${shouldBeSavedToUserGroupsWrapper}, volatile:${shouldBeSavedToConvoInfoVolatileWrapper}`
   );
 
   if (shouldBeSavedToContactsWrapper) {
@@ -2246,12 +2250,13 @@ export async function commitConversationAndRefreshWrapper(id: string) {
     await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
   }
 
+  if (shouldBeSavedToConvoInfoVolatileWrapper) {
+    await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
+  }
   if (Registration.isDone()) {
     // save the new dump if needed to the DB asap
     // this call throttled so we do not run this too often (and not for every .commit())
     await ConfigurationDumpSync.queueNewJobIfNeeded();
-
-    // if we need to sync the dump, also send add a job for syncing
     await ConfigurationSync.queueNewJobIfNeeded();
   }
   convo.triggerUIRefresh();

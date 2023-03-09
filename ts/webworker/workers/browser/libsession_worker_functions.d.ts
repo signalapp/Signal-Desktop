@@ -3,16 +3,20 @@ import {
   ContactsConfigActionsType,
   UserConfigActionsType,
   UserGroupsConfigActionsType,
+  ConvoInfoVolatileConfigActionsType,
 } from 'session_util_wrapper';
 
-type UserConfig = 'UserConfig'; // we can only have one of those wrapper for our current user (but we can have a few configs for it to be merged into one)
+// we can only have one of those wrapper for our current user (but we can have a few configs for it to be merged into one)
+type UserConfig = 'UserConfig';
 type ContactsConfig = 'ContactsConfig';
 type UserGroupsConfig = 'UserGroupsConfig';
+type ConvoInfoVolatileConfig = 'ConvoInfoVolatileConfig';
 
-// type ClosedGroupConfigPrefix = 'ClosedGroupConfig-03'; // we can have a bunch of those wrapper as we need to be able to send them to a different swarm for each group
-// type ClosedGroupConfig = `${ClosedGroupConfigPrefix}${string}`;
-// | ClosedGroupConfig;
-export type ConfigWrapperObjectTypes = UserConfig | ContactsConfig | UserGroupsConfig;
+export type ConfigWrapperObjectTypes =
+  | UserConfig
+  | ContactsConfig
+  | UserGroupsConfig
+  | ConvoInfoVolatileConfig;
 
 type UserConfigFunctions =
   | [UserConfig, ...BaseConfigActions]
@@ -20,12 +24,15 @@ type UserConfigFunctions =
 type ContactsConfigFunctions =
   | [ContactsConfig, ...BaseConfigActions]
   | [ContactsConfig, ...ContactsConfigActionsType];
-
 type UserGroupsConfigFunctions =
   | [UserGroupsConfig, ...BaseConfigActions]
   | [UserGroupsConfig, ...UserGroupsConfigActionsType];
+type ConvoInfoVolatileConfigFunctions =
+  | [ConvoInfoVolatileConfig, ...BaseConfigActions]
+  | [ConvoInfoVolatileConfig, ...ConvoInfoVolatileConfigActionsType];
 
 export type LibSessionWorkerFunctions =
   | UserConfigFunctions
   | ContactsConfigFunctions
-  | UserGroupsConfigFunctions;
+  | UserGroupsConfigFunctions
+  | ConvoInfoVolatileConfigFunctions;

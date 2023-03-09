@@ -13,6 +13,7 @@ import { SessionUtilContact } from '../utils/libsession/libsession_utils_contact
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 import { leaveClosedGroup } from '../group/closed-group';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 
 let instance: ConversationController | null;
 
@@ -315,6 +316,13 @@ export class ConversationController {
           }
           if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
             await SessionUtilUserGroups.refreshMappedValue(convo.id, true);
+          }
+          if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
+            await SessionUtilConvoInfoVolatile.refreshMappedValue(
+              convo.id,
+              Boolean(convo.isClosedGroup() && convo.id.startsWith('05')),
+              true
+            );
           }
         }
         console.timeEnd('refreshAllWrapperContactsData');

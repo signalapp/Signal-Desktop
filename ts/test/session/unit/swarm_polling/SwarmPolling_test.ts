@@ -1,24 +1,23 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 
 import chai from 'chai';
-import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
+import Sinon, * as sinon from 'sinon';
 
 import chaiAsPromised from 'chai-as-promised';
-import { TestUtils } from '../../../test-utils';
-import { UserUtils } from '../../../../session/utils';
-import { getConversationController } from '../../../../session/conversations';
+import { ConversationCollection, ConversationModel } from '../../../../models/conversation';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSwarmPollingInstance, SnodePool } from '../../../../session/apis/snode_api';
+import { resetHardForkCachedValues } from '../../../../session/apis/snode_api/hfHandling';
+import { SnodeAPIRetrieve } from '../../../../session/apis/snode_api/retrieveRequest';
 import { SwarmPolling } from '../../../../session/apis/snode_api/swarmPolling';
 import { SWARM_POLLING_TIMEOUT } from '../../../../session/constants';
-import { ConversationCollection, ConversationModel } from '../../../../models/conversation';
+import { getConversationController } from '../../../../session/conversations';
 import { PubKey } from '../../../../session/types';
-import { generateFakeSnodes, stubData } from '../../../test-utils/utils';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
-import { resetHardForkCachedValues } from '../../../../session/apis/snode_api/hfHandling';
+import { UserUtils } from '../../../../session/utils';
 import { sleepFor } from '../../../../session/utils/Promise';
-import { SnodeAPIRetrieve } from '../../../../session/apis/snode_api/retrieveRequest';
-import { SnodeNamespace } from '../../../../session/apis/snode_api/namespaces';
+import { TestUtils } from '../../../test-utils';
+import { generateFakeSnodes, stubData } from '../../../test-utils/utils';
 // tslint:disable: chai-vague-errors
 
 chai.use(chaiAsPromised as any);
@@ -676,24 +675,6 @@ describe('SwarmPolling', () => {
           expect(pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         });
       });
-    });
-  });
-
-  describe('isNamespaceAlwaysPolled', () => {
-    it('cares only for non config hashes', () => {
-      for (let namespace = -20; namespace < 20; namespace++) {
-        if (namespace === 2 || namespace === 3 || namespace === 5 || namespace === 1) {
-          expect(SnodeNamespace.isNamespaceAlwaysPolled(namespace)).to.be.eq(
-            false,
-            `should be false for any non "message" namespace ${namespace}`
-          );
-        } else {
-          expect(SnodeNamespace.isNamespaceAlwaysPolled(namespace)).to.be.eq(
-            true,
-            `should be true for the "message" namespaces ${namespace}`
-          );
-        }
-      }
     });
   });
 });

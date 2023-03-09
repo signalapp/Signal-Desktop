@@ -291,11 +291,7 @@ async function handleCommunitiesUpdate() {
 
 async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   // first let's check which closed groups needs to be joined or left by doing a diff of what is in the wrapper and what is in the DB
-
   const allLegacyGroupsInWrapper = await UserGroupsWrapperActions.getAllLegacyGroups();
-  if (allLegacyGroupsInWrapper.some(m => m.members.length === 0)) {
-    debugger;
-  }
   const allLegacyGroupsInDb = getConversationController()
     .getConversations()
     .filter(SessionUtilUserGroups.isLegacyGroupToStoreInWrapper);
@@ -341,9 +337,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   for (let index = 0; index < allLegacyGroupsInWrapper.length; index++) {
     const fromWrapper = allLegacyGroupsInWrapper[index];
 
-    if (fromWrapper.members.length === 0) {
-      debugger;
-    }
     const convo = getConversationController().get(fromWrapper.pubkeyHex);
     if (!convo) {
       // this should not happen as we made sure to create them before
@@ -460,6 +453,34 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
   return result;
 }
 
+async function handleConvoInfoVolatileUpdate(
+  result: IncomingConfResult
+): Promise<IncomingConfResult> {
+  if (!result.needsDump) {
+    return result;
+  }
+  console.error('handleConvoInfoVolatileUpdate : TODO ');
+
+  // const toHandle = SessionUtilUserGroups.getUserGroupTypes();
+  // for (let index = 0; index < toHandle.length; index++) {
+  //   const typeToHandle = toHandle[index];
+  //   switch (typeToHandle) {
+  //     case 'Community':
+  //       await handleCommunitiesUpdate();
+  //       break;
+
+  //     case 'LegacyGroup':
+  //       await handleLegacyGroupUpdate(result.latestEnvelopeTimestamp);
+  //       break;
+
+  //     default:
+  //       assertUnreachable(typeToHandle, `handleUserGroupsUpdate unhandled type "${typeToHandle}"`);
+  //   }
+  // }
+
+  return result;
+}
+
 async function processMergingResults(results: Map<ConfigWrapperObjectTypes, IncomingConfResult>) {
   if (!results || !results.size) {
     return;
@@ -486,8 +507,15 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
         case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
           await handleUserGroupsUpdate(incomingResult);
           break;
+        case SignalService.SharedConfigMessage.Kind.CONVO_INFO_VOLATILE:
+          await handleConvoInfoVolatileUpdate(incomingResult);
+          break;
         default:
-          assertUnreachable(kind, `processMergingResults unsupported kind: "${kind}"`);
+          try {
+            assertUnreachable(kind, `processMergingResults unsupported kind: "${kind}"`);
+          } catch (e) {
+            window.log.warn('assertUnreachable failed', e.message);
+          }
       }
       const variant = LibSessionUtil.kindToVariant(kind);
 

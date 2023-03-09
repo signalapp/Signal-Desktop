@@ -4,6 +4,7 @@ import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
 import {
+  assertUnreachable,
   getCommunityInfoFromDBValues,
   getLegacyGroupInfoFromDBValues,
 } from '../../../types/sqlSharedTypes';
@@ -80,71 +81,80 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
     return;
   }
 
-  if (isCommunityToStoreInWrapper(foundConvo)) {
-    const asOpengroup = foundConvo.toOpenGroupV2();
+  const convoType: UserGroupsType = isCommunityToStoreInWrapper(foundConvo)
+    ? 'Community'
+    : 'LegacyGroup';
 
-    const roomDetails = OpenGroupData.getV2OpenGroupRoomByRoomId(asOpengroup);
-    if (!roomDetails) {
-      return;
-    }
+  switch (convoType) {
+    case 'Community':
+      const asOpengroup = foundConvo.toOpenGroupV2();
 
-    // we need to build the full URL with the pubkey so we can add it to the wrapper. Let's reuse the exposed method from the wrapper for that
-    const fullUrl = await UserGroupsWrapperActions.buildFullUrlFromDetails(
-      roomDetails.serverUrl,
-      roomDetails.roomId,
-      roomDetails.serverPublicKey
-    );
+      const roomDetails = OpenGroupData.getV2OpenGroupRoomByRoomId(asOpengroup);
+      if (!roomDetails) {
+        return;
+      }
 
-    const wrapperComm = getCommunityInfoFromDBValues({
-      isPinned: !!foundConvo.get('isPinned'),
-      fullUrl,
-    });
-
-    try {
-      console.info(`inserting into usergroup wrapper "${wrapperComm.fullUrl}"...`);
-      // this does the create or the update of the matching existing community
-      await UserGroupsWrapperActions.setCommunityByFullUrl(
-        wrapperComm.fullUrl,
-        wrapperComm.priority
+      // we need to build the full URL with the pubkey so we can add it to the wrapper. Let's reuse the exposed method from the wrapper for that
+      const fullUrl = await UserGroupsWrapperActions.buildFullUrlFromDetails(
+        roomDetails.serverUrl,
+        roomDetails.roomId,
+        roomDetails.serverPublicKey
       );
-      await refreshMappedValue(convoId);
-    } catch (e) {
-      window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
-      // we still let this go through
-    }
-  } else if (isLegacyGroupToStoreInWrapper(foundConvo)) {
-    const encryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(convoId);
-    const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
-      id: foundConvo.id,
-      isPinned: !!foundConvo.get('isPinned'),
-      members: foundConvo.get('members') || [],
-      groupAdmins: foundConvo.get('groupAdmins') || [],
-      expireTimer: foundConvo.get('expireTimer'),
-      displayNameInProfile: foundConvo.get('displayNameInProfile'),
-      hidden: false,
-      encPubkeyHex: encryptionKeyPair?.publicHex || '',
-      encSeckeyHex: encryptionKeyPair?.privateHex || '',
-    });
-    if (wrapperLegacyGroup.members.length === 0) {
-      debugger;
-    }
 
-    try {
-      console.info(`inserting into usergroup wrapper "${foundConvo.id}"...`);
-      // this does the create or the update of the matching existing legacy group
+      const wrapperComm = getCommunityInfoFromDBValues({
+        isPinned: !!foundConvo.get('isPinned'),
+        fullUrl,
+      });
 
-      await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
-      await refreshMappedValue(convoId);
-    } catch (e) {
-      window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
-      // we still let this go through
-    }
+      try {
+        console.info(`inserting into usergroup wrapper "${wrapperComm.fullUrl}"...`);
+        // this does the create or the update of the matching existing community
+        await UserGroupsWrapperActions.setCommunityByFullUrl(
+          wrapperComm.fullUrl,
+          wrapperComm.priority
+        );
+        await refreshMappedValue(convoId);
+      } catch (e) {
+        window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
+        // we still let this go through
+      }
+      break;
+
+    case 'LegacyGroup':
+      const encryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(convoId);
+      const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
+        id: foundConvo.id,
+        isPinned: !!foundConvo.get('isPinned'),
+        members: foundConvo.get('members') || [],
+        groupAdmins: foundConvo.get('groupAdmins') || [],
+        expireTimer: foundConvo.get('expireTimer'),
+        displayNameInProfile: foundConvo.get('displayNameInProfile'),
+        hidden: false, // TODO we do not handle hidden yet for groups
+        encPubkeyHex: encryptionKeyPair?.publicHex || '',
+        encSeckeyHex: encryptionKeyPair?.privateHex || '',
+      });
+
+      try {
+        console.info(`inserting into usergroup wrapper "${foundConvo.id}"...`);
+        // this does the create or the update of the matching existing legacy group
+
+        await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
+        await refreshMappedValue(convoId);
+      } catch (e) {
+        window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
+        // we still let this go through
+      }
+      break;
+
+    default:
+      assertUnreachable(
+        convoType,
+        `insertGroupsFromDBIntoWrapperAndRefresh case not handeld "${convoType}"`
+      );
   }
 }
 
 /**
- * refreshMappedValue is used to query the UserGroups Wrapper for the details of that group and update the cached in-memory entry representing its content.
- * @param id the pubkey to re fresh the cached value from1
  * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
  */
 async function refreshMappedValue(convoId: string, duringAppStart = false) {

@@ -191,8 +191,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         window.log.warn('did not find our own conversation');
         return RunJobResult.PermanentFailure;
       }
-      for (let index = 0; index < LibSessionUtil.userVariants.length; index++) {
-        const variant = LibSessionUtil.userVariants[index];
+      for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+        const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
           case 'UserConfig':
             await LibSessionUtil.insertUserProfileIntoWrapper();
@@ -203,7 +203,9 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
           case 'UserGroupsConfig':
             await LibSessionUtil.insertAllUserGroupsIntoWrapper();
             break;
-
+          case 'ConvoInfoVolatileConfig':
+            await LibSessionUtil.insertAllConvoInfoVolatileIntoWrapper();
+            break;
           default:
             assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
         }

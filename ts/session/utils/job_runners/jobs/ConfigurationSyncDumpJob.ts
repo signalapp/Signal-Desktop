@@ -27,8 +27,8 @@ let lastRunConfigSyncJobDumpTimestamp: number | null = null;
 
 async function saveDumpsNeededToDB(): Promise<boolean> {
   let savedAtLeastOne = false;
-  for (let i = 0; i < LibSessionUtil.userVariants.length; i++) {
-    const variant = LibSessionUtil.userVariants[i];
+  for (let i = 0; i < LibSessionUtil.requiredUserVariants.length; i++) {
+    const variant = LibSessionUtil.requiredUserVariants[i];
     const needsDump = await GenericWrapperActions.needsDump(variant);
 
     if (!needsDump) {
@@ -95,8 +95,8 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       // so when we call needsDump(), we know for sure that we are up to date
       console.time('ConfigurationSyncDumpJob insertAll');
 
-      for (let index = 0; index < LibSessionUtil.userVariants.length; index++) {
-        const variant = LibSessionUtil.userVariants[index];
+      for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+        const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
           case 'UserConfig':
             await LibSessionUtil.insertUserProfileIntoWrapper();
@@ -107,7 +107,9 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
           case 'UserGroupsConfig':
             await LibSessionUtil.insertAllUserGroupsIntoWrapper();
             break;
-
+          case 'ConvoInfoVolatileConfig':
+            await LibSessionUtil.insertAllConvoInfoVolatileIntoWrapper();
+            break;
           default:
             assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
         }

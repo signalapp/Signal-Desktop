@@ -40,10 +40,10 @@ message MessageRequestResponse {
 
 message SharedConfigMessage {
   enum Kind {
-    USER_PROFILE            = 1;
-    CONTACTS                = 2;
-   // CONVO_INFO_VOLATILE       = 3;
-    USER_GROUPS    = 4;
+    USER_PROFILE              = 1;
+    CONTACTS                  = 2;
+    CONVO_INFO_VOLATILE       = 3;
+    USER_GROUPS               = 4;
    // CLOSED_GROUP_INFO       = 5;
    // CLOSED_GROUP_MEMBERS    = 6;
    // ENCRYPTION_KEYS         = 7;

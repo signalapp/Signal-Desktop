@@ -108,8 +108,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
 }
 
 /**
- * refreshMappedValue is used to query the Contacts Wrapper for the details of that contact and update the cached in-memory entry representing its content.
- * @param id the pubkey to re fresh the cached value from
  * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
  */
 async function refreshMappedValue(id: string, duringAppStart = false) {

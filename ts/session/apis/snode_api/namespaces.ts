@@ -1,3 +1,5 @@
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
+
 export enum SnodeNamespaces {
   /**
    * This is the namespace anyone can deposit a message for us
@@ -12,6 +14,10 @@ export enum SnodeNamespaces {
    * This is the namespace used to sync our contacts
    */
   UserContacts = 3,
+  /**
+   * This is the namespace used to sync our contacts
+   */
+  ConvoInfoVolatile = 4,
 
   /**
    *  This is the namespace used to sync our user groups and communities
@@ -47,30 +53,24 @@ export type SnodeNamespacesUser = PickEnum<
  * Returns true if that namespace is associated with the config of a user (not his messages, only configs)
  */
 function isUserConfigNamespace(namespace: SnodeNamespaces) {
-  return (
-    namespace === SnodeNamespaces.UserContacts ||
-    namespace === SnodeNamespaces.UserProfile ||
-    namespace === SnodeNamespaces.UserGroups
-  );
-}
+  switch (namespace) {
+    case SnodeNamespaces.UserMessages:
+      // user messages is not hosting config based messages
+      return false;
+    case SnodeNamespaces.UserContacts:
+    case SnodeNamespaces.UserProfile:
+    case SnodeNamespaces.UserGroups:
+    case SnodeNamespaces.ConvoInfoVolatile:
+      return true;
+    case SnodeNamespaces.ClosedGroupInfo:
+    case SnodeNamespaces.ClosedGroupMessage:
+      return false;
 
-/**
- * Returns true if that namespace is associated with the config of a closed group (not its messages, only configs)
- */
-function isGroupConfigNamespace(namespace: SnodeNamespaces) {
-  return namespace === SnodeNamespaces.ClosedGroupInfo;
-}
-
-/**
- * Returns true if that specific namespace hashes should be tracked.
- * We do not care about hash tracking for any of the config namespaces as we poll for all of them each poll event.
- */
-function isNamespaceAlwaysPolled(namespace: SnodeNamespaces) {
-  return !isUserConfigNamespace(namespace) && !isGroupConfigNamespace(namespace);
+    default:
+      assertUnreachable(namespace, `isUserConfigNamespace case not handled: ${namespace}`);
+  }
 }
 
 export const SnodeNamespace = {
   isUserConfigNamespace,
-  isGroupConfigNamespace,
-  isNamespaceAlwaysPolled,
 };

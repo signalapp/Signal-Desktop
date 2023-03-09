@@ -11,14 +11,16 @@ import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { SessionUtilContact } from './libsession_utils_contacts';
+import { SessionUtilConvoInfoVolatile } from './libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from './libsession_utils_user_groups';
 import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
 // TODO complete this list
-const userVariants: Array<ConfigWrapperObjectTypes> = [
+const requiredUserVariants: Array<ConfigWrapperObjectTypes> = [
   'UserConfig',
   'ContactsConfig',
   'UserGroupsConfig',
+  'ConvoInfoVolatileConfig',
 ];
 
 export type IncomingConfResult = {
@@ -74,21 +76,14 @@ async function initializeLibSessionUtilWrappers() {
     }
   }
 
-  // TODO
-  console.warn('requiredVariants: FIXME add conversation volatile wrapper as required ');
-
   const missingRequiredVariants: Array<ConfigWrapperObjectTypes> = difference(
-    LibSessionUtil.userVariants,
+    LibSessionUtil.requiredUserVariants,
     [...userVariantsBuildWithoutErrors.values()]
   );
 
-  if (missingRequiredVariants.length) {
-    // TODO this is only needed for debugging. Should be removed as we force them created right below with an empty dump
-    // throw new Error(`missingRequiredVariants: ${JSON.stringify(missingRequiredVariants)}`);
-  }
-
   for (let index = 0; index < missingRequiredVariants.length; index++) {
     const missingVariant = missingRequiredVariants[index];
+    window.log.warn('initializeLibSessionUtilWrappers: missingRequiredVariants: ', missingVariant);
     await GenericWrapperActions.init(missingVariant, privateKeyEd25519, null);
   }
 }
@@ -100,7 +95,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
   // Ensure we always check the required user config types for changes even if there is no dump
   // data yet (to deal with first launch cases)
   if (pubkey === us) {
-    LibSessionUtil.userVariants.forEach(requiredVariant => {
+    LibSessionUtil.requiredUserVariants.forEach(requiredVariant => {
       if (!dumps.find(m => m.publicKey === us && m.variant === requiredVariant)) {
         dumps.push({
           publicKey: us,
@@ -148,6 +143,8 @@ function kindToVariant(kind: SignalService.SharedConfigMessage.Kind): ConfigWrap
       return 'ContactsConfig';
     case SignalService.SharedConfigMessage.Kind.USER_GROUPS:
       return 'UserGroupsConfig';
+    case SignalService.SharedConfigMessage.Kind.CONVO_INFO_VOLATILE:
+      return 'ConvoInfoVolatileConfig';
     default:
       assertUnreachable(kind, `kindToVariant: Unsupported variant: "${kind}"`);
   }
@@ -161,6 +158,8 @@ function variantToKind(variant: ConfigWrapperObjectTypes): SignalService.SharedC
       return SignalService.SharedConfigMessage.Kind.CONTACTS;
     case 'UserGroupsConfig':
       return SignalService.SharedConfigMessage.Kind.USER_GROUPS;
+    case 'ConvoInfoVolatileConfig':
+      return SignalService.SharedConfigMessage.Kind.CONVO_INFO_VOLATILE;
     default:
       assertUnreachable(variant, `variantToKind: Unsupported kind: "${variant}"`);
   }
@@ -184,11 +183,12 @@ async function markAsPushed(
 
 export const LibSessionUtil = {
   initializeLibSessionUtilWrappers,
-  userVariants,
+  requiredUserVariants,
   pendingChangesForPubkey,
   insertUserProfileIntoWrapper: SessionUtilUserProfile.insertUserProfileIntoWrapper,
   insertAllContactsIntoContactsWrapper: SessionUtilContact.insertAllContactsIntoContactsWrapper,
   insertAllUserGroupsIntoWrapper: SessionUtilUserGroups.insertAllUserGroupsIntoWrapper,
+  insertAllConvoInfoVolatileIntoWrapper: SessionUtilConvoInfoVolatile.insertAllConvosIntoWrapper,
   removeCommunityFromWrapper: SessionUtilUserGroups.removeCommunityFromWrapper,
   kindToVariant,
   variantToKind,
