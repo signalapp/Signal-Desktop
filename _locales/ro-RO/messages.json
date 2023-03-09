@@ -2580,6 +2580,18 @@
     "message": "Autocolantele utilizate recente vor apărea aici.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Recente",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Promovate",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Timp analog",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Pachet autocolante",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Conversație marcată ca necitită",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Vrei să deschizi Signal Sticker Pack Creator?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Confirmă",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Revocare",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Creator pachet cu autocolante",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Te rugăm să configurezi Signal pe telefonul și desktopul tău pentru a utiliza creatorul de autocolante",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Te rugăm să configurezi Signal pe telefonul și desktopul tău pentru a utiliza creatorul de stickere de artă",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Elimină reacția",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Cine poate...",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Pentru a modifica aceste setări, deschide aplicația Signal pe dispozitivul tău mobil și mergi la Setări > Confidențialitate",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Toată lumea",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Contactele mele",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Nimeni",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Număr de telefon",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Alege cine îți poate vedea numărul de telefon și cine te poate contacta pe Signal cu el.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Cine îmi poate vedea numărul",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Numărul tău de telefon va fi vizibil pentru persoanele și grupurile către care trimiți mesaje. Persoanele care au numărul tău de telefon în lista lor de contacte îl vor vedea și pe Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Nimeni nu va vedea numărul tău de telefon pe Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Număr de telefon",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Toată lumea",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Nimeni",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Cine mă poate găsi după număr",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Oricine are numărul tău de telefon în agenda lor te va vedea ca un contact pe Signal. Alte persoane vor putea să te apeleze pe numărul de telefon când încep o nouă conversație sau un nou grup.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Nimeni de pe Signal nu va putea să te găsească cu numărul de telefon.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Toată lumea",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Nimeni",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Mesagerie",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "S-a produs o eroare la salvarea setărilor tale. Te rugăm să încerci din nou.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Mai multe stiluri",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Desenează",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Nu se poate posta videoclipul la poveste pentru că e prea lung",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Nu se poate posta videoclipul la poveste pentru că este un format de fișier neacceptat",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Nu se poate posta videoclipul la poveste pentru că e mai lung de o secundă.} few {Nu se poate posta videoclipul la poveste pentru că e mai lung de {maxDurationInSec,number} secunde.} other {Nu se poate posta videoclipul la poveste pentru că e mai lung de {maxDurationInSec,number} de secunde.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Nu se poate posta videoclipul la poveste pentru că e mai lung de {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Nu s-a putut încărca videoclipul",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Ajută-ne să testăm câteva îmbunătățiri de performanță și fiabilitate pentru apeluri de voce și video. Faza aceasta beta include și câteva soluționări de bug-uri și câteva actualizări micuțe UI (vezi îmbunătățirile noi de previzualizarea linkului!). Îți mulțumim că ești tester beta și te invităm să ne contactezi pe forumul comunității dacă observi bug-uri.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Nu ai descărca o mașină, dar acum, când descărcați o notă vocală MP3, aceasta va fi salvată cu extensia de fișier adecvată.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Începe rapid să tastezi un mesaj după atașarea unui fișier sau apasă Enter/Return pentru a trimite fișierul fără clicuri suplimentare. Mersi, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Butonul de trimitere din vizualizarea mare de compoziție a fost aliniat. Mersi, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Dacă ești singura persoană dintr-un grup (până în prezent) și încerci să începi un apel de grup, acum te poți alătura apelului și poți începe să vorbești cu tine în loc să aștepți să sune apelul. Mersi, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Vezi rapid cine vorbește în timpul apelurilor de grup cu o nouă funcție de evidențiere care îți arată unde să cauți. Dacă e rândul tău să vorbești, va trebui să te uiți înăuntru.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Distrează-te cu mai multe stickere în editorul media care îți permit să adaugi decorațiuni stilizate de timp pe imaginile trimise.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Folosește mini playerul de note vocale pentru a continua să asculți mesaje lungi chiar și după ce treci la un alt chat.",
+    "description": "Release notes for v6.9"
   }
 }

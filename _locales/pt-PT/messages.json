@@ -2580,6 +2580,18 @@
     "message": "Os autocolantes recentemente utilizados irão aparecer aqui",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Recentes",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Em destaque",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Hora analógica",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Pacote de autocolantes",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Conversa marcada como por ler",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Quer abrir o Criador de pacotes de autocolantes do Signal?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Confirmar",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Ignorar",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Criador de pacotes de autocolantes",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Por favor, defina o Signal no seu telemóvel e desktop para utilizar o 'Criador de pacotes de autocolantes'",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Configure o Signal no seu telemóvel e desktop para utilizar o Criador de arte de autocolantes",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Remover reação",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Quem pode…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Para alterar estas definições, abra a aplicação Signal no seu dispositivo móvel e navegue até Definições > Privacidade",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Todos",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Os meus contactos",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Ninguém",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "N.º de telemóvel",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Escolha quem pode ver o seu número de telemóvel e quem o pode usar para o contactar no Signal.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Quem pode ver o seu número",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "O seu número de telefone será visível para as pessoas e grupos com quem troca mensagens. As pessoas que tenham o seu número de telefone nos seus contactos, também o verão no Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Ninguém verá o seu número de telemóvel no Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "N.º de telemóvel",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Todos",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Ninguém",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Quem me pode encontrar através do número",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Qualquer pessoa que tenha o seu número de telemóvel nos contactos poderá vê-lo como contacto do Signal. As outras pessoas poderão entrar em contacto consigo através do seu número ao começarem um novo chat ou grupo.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Ninguém no Signal o poderá encontrar através do seu número de telemóvel.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Todos",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Ninguém",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Mensagens",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Ocorreu um erro ao tentar guardar as suas definições. Por favor, tente novamente.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Mais estilos",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Desenhar",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "O vídeo é demasiado longo para ser publicado na história",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "O vídeo não pode ser publicado na história porque está num formato de ficheiro não-suportado",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Não é possível publicar o vídeo na história dado que ele tem mais de 1 segundo.} other {Não é possível publicar o vídeo na história dado que ele tem mais de {maxDurationInSec,number} segundos.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Não é possível publicar o vídeo na história dado que ele tem mais de {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Falha ao carregar o vídeo",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Ajude-nos a testar várias melhorias de fiabilidade e desempenho para chamadas de voz e vídeo. Este lançamento beta também inclui algumas correções de erros e pequenas melhorias da UI (veja as melhorias na pré-visualização de links!). Obrigado por testar a versão beta, contacte-nos no fórum da comunidade se vir algum erro.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Não faria download de um carro, mas agora, quando descarregar uma nota de voz em MP3, esta será guardada com a extensão de ficheiro correta.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Comece rapidamente a escrever uma mensagem depois de anexar um ficheiro, ou basta clicar em Enter/Return para enviar o ficheiro sem ter de clicar em mais nada. Obrigado, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "O botão de envio na vista de composição grande foi alinhado. Obrigado, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Se for a única pessoa de um grupo (para já) e tentar iniciar uma chamada de grupo, agora pode juntar-se à chamada e começar a falar consigo mesmo imediatamente, em vez de esperar que a chamada toque. Obrigado, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Veja rapidamente quem está a falar durante chamadas de grupo, com uma funcionalidade de destaque que lhe mostra para onde olhar. Se for a sua vez de falar, não se esqueça de olhar para o seu eu interior.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Divirta-se à brava com vários autocolantes no editor de multimédia, permitindo-lhe adicionar decorações estilizadas a imagens a ser enviadas.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Utilize o minileitor de notas de voz para continuar a ouvir mensagens longas mesmo depois de mudar para um chat diferente.",
+    "description": "Release notes for v6.9"
   }
 }

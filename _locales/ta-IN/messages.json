@@ -2580,6 +2580,18 @@
     "message": "சமீபத்தில் பயன்படுத்தப்பட்ட ஸ்டிக்கர்கள் இங்கே தோன்றும்.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "அண்மையில்",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "இடம்பெற்றது",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "அனலாக் நேரம்",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "ஸ்டிக்கர் பேக்",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "உரையாடல் படிக்கப்படாததாகக் குறிக்கப்பட்டுள்ளது",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Signal ஸ்டிக்கர் பேக் கிரியேட்டரைத் திறக்க விரும்புகிறீர்களா?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "உறுதிப்படுத்துக",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "நிராகரி",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "ஓட்டி தொகுப்பு தயாரிப்பாளர்",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "ஓட்டி தொகுப்பு கிரியேட்டரைப் பயன்படுத்த உங்கள் தொலைபேசி மற்றும் டெஸ்க்டாப்பில் Signal சிக்னலை அமைக்கவும்",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "ஸ்டிக்கர் ஆர்ட் கிரியேட்டரைப் பயன்படுத்த, உங்கள் ஃபோன் மற்றும் டெஸ்க்டாப்பில் Signalஐ அமைக்கவும்",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "எதிர்வினையை அகற்று",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "யாரால் முடியும்…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "இந்த அமைப்புகளை மாற்ற, உங்கள் மொபைல் சாதனத்தில் சிக்னல் பயன்பாட்டைத் திறந்து, அமைப்புகள் > தனியுரிமை என்பதற்குச் செல்லவும்",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "எல்லோரும்",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "எனது தொடர்புகள்",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "ஒருவருமில்லை",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "ஃபோன் எண்",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "உங்கள் ஃபோன் எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை Signal இல் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "எனது எண்ணை யார் பார்க்கலாம்",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "நீங்கள் செய்தி அனுப்பும் நபர்களுக்கும் குழுக்களுக்கும் உங்கள் ஃபோன் எண் தெரியும். ஃபோன் தொடர்புகளில் உங்கள் எண்ணை வைத்திருப்பவர்கள் அதை Signal இலும் பார்ப்பார்கள்.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Signal இல் உங்கள் ஃபோன் எண்ணை யாரும் பார்க்க மாட்டார்கள்.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "ஃபோன் எண்",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "எல்லோரும்",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "ஒருவருமில்லை",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "எண் மூலம் என்னை யார் கண்டுபிடிக்க முடியும்",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "உங்கள் ஃபோன் எண்ணை தங்கள் தொடர்புகளில் வைத்திருக்கும் எவரும் உங்களை Signal இல் ஒரு தொடர்பாக பார்ப்பார்கள். மற்றவர்கள் புதிய சாட் அல்லது குழுவைத் தொடங்கும்போது உங்கள் ஃபோன் எண்ணுடன் உங்களைத் தொடர்புகொள்ள முடியும்.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Signal இல் உள்ள யாரும் உங்கள் ஃபோன் எண்ணுடன் உங்களைத் தொடர்பு கொள்ள முடியாது.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "எல்லோரும்",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "ஒருவருமில்லை",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "செய்தி அனுப்புதல்",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "உங்கள் அமைப்புகளைச் சேமிக்கும் போது பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "மேலும் ஸ்டைல்கள்",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "வரை",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "வீடியோ மிக நீளமாக இருப்பதால் ஸ்டோரியில் போஸ்ட் போட முடியாது",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ஆதரிக்கப்படாத கோப்பு வடிவமாக இருப்பதால் வீடியோவை ஸ்டோரியில் போஸ்ட் போட முடியாது",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {வீடியோ 1 வினாடிக்கு மேல் மிக நீளமாக இருப்பதால் ஸ்டோரியில் போஸ்ட் போட முடியாது.} other {வீடியோ {maxDurationInSec,number} வினாடிகளுக்கு மேல் மிக நீளமாக இருப்பதால் ஸ்டோரியில் போஸ்ட் போட முடியாது.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "{limit}{units} விட பெரியதாக இருப்பதால் வீடியோவை ஸ்டோரியில் போஸ்ட் போட முடியாது.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "வீடியோவை ஏற்ற முடியவில்லை",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "குரல் மற்றும் வீடியோ அழைப்புகளுக்கான பல நம்பகத்தன்மை மற்றும் செயல்திறன் மேம்பாடுகளைச் சோதிக்க எங்களுக்கு உதவுங்கள். இந்த பீட்டா வெளியீட்டில் சில பிழைத் திருத்தங்கள் மற்றும் சில சிறிய UI புதுப்பிப்புகளும் அடங்கும் (புதிய இணைப்பு முன்னோட்ட மேம்பாடுகளைப் பார்க்கவும்!). பீட்டா சோதனையாளராக இருப்பதற்கு நன்றி, மேலும் ஏதேனும் பிழைகள் இருந்தால் சமூக மன்றத்தில் எங்களைத் தொடர்பு கொள்ளவும்.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "நீங்கள் காரைப் பதிவிறக்க மாட்டீர்கள், ஆனால் இப்போது நீங்கள் MP3 குரல் குறிப்பைப் பதிவிறக்கும் போது அது சரியான கோப்பு நீட்டிப்புடன் சேமிக்கப்படும்.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "கோப்பினை இணைத்த பிறகு செய்தியை விரைவாக டைப் செய்யத் தொடங்குங்கள் அல்லது கூடுதல் கிளிக்குகள் இல்லாமல் கோப்பை அனுப்ப Enter/Return ஐ அழுத்தவும். நன்றி, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "பெரிய கலவை காட்சியில் உள்ள அனுப்பு பொத்தான் சீரமைக்கப்பட்டுள்ளது. நன்றி, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "நீங்கள் ஒரு குழுவில் (இதுவரை) ஒரே நபராக இருந்து, குழு அழைப்பைத் தொடங்க முயற்சித்தால், அழைப்பு வரும் வரை காத்திருப்பதற்குப் பதிலாக, இப்போது அழைப்பில் சேர்ந்து, உங்களுடன் பேசத் தொடங்கலாம். நன்றி, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "குழு அழைப்புகளின் போது யார் பேசுகிறார்கள் என்பதை விரைவாகப் பார்க்கவும், புதிய ஹைலைட் அம்சத்துடன் நீங்கள் எங்கு பார்க்க வேண்டும் என்பதைக் காட்டும். பேசுவது உங்கள் முறை என்றால், நீங்கள் உள்ளே பார்க்க வேண்டும்.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "வெளிச்செல்லும் படங்களில் பகட்டான நேர அலங்காரங்களைச் சேர்க்க உங்களை அனுமதிக்கும் மீடியா எடிட்டரில் பல ஸ்டிக்கர்களுடன் உங்கள் வாழ்க்கையில் சந்தோஷமாக இருங்கள்.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "நீங்கள் வேறு சாட்டுக்கு மாறிய பிறகும் நீண்ட செய்திகளைக் கேட்பதற்கு குரல் குறிப்புகள் மினி பிளேயரைப் பயன்படுத்தவும்.",
+    "description": "Release notes for v6.9"
   }
 }

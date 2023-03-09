@@ -2580,6 +2580,18 @@
     "message": "ఇటీవల ఉపయోగించిన స్టిక్కర్లు ఇక్కడ కనిపిస్తాయి.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "ఇటీవలివి",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "ఫీచర్ చేయబడింది",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "అనలాగ్ సమయం",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "స్టిక్కర్ ప్యాక్",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "సంభాషణ చదవనిదిగా గుర్తించబడింది",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "మీరు Signal స్టిక్కర్ ప్యాక్ క్రియేటర్‌ను తెరవాలని అనుకుంటున్నారా?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "నిర్ధారించండి",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "రద్దుచేసే",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "స్టిక్కర్ ప్యాక్ సృష్టికర్త",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "స్టిక్కర్ ప్యాక్ సృష్టికర్తను ఉపయోగించడానికి దయచేసి మీ ఫోన్ మరియు డెస్క్‌టాప్‌లో Signal ను సెటప్ చేయండి",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "స్టిక్కర్ ఆర్ట్ క్రియేటర్‌ను ఉపయోగించడానికి దయచేసి మీ ఫోన్ మరియు డెస్క్‌టాప్‌లో Signal ను సెటప్ చేయండి",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "ప్రతిస్పందనను తొలగించండి",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "ఎవరు చేయగలరు...",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "ఈ సెట్టింగ్‌లను మార్చడానికి, మీ మొబైల్ పరికరంపై Signal యాప్‌ని ఓపెన్ చేయండి మరియు సెట్టింగ్‌లు > గోప్యతకు వెళ్లండి.",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "ప్రతి ఒక్కరూ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "నా పరిచయాలు",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "యెవరు లేరు",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "ఫోన్ నంబరు",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "మీ ఫోన్ నంబర్‌ను ఎవరు చూడగలరు మరియు దానితో Signal లో మిమ్మల్ని ఎవరు సంప్రదించగలరో ఎంచుకోండి.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "నా నంబర్‌ను ఎవరు చూడగలరు",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "మీరు సందేశం పంపే వ్యక్తులు మరియు గ్రూప్‌లకు మీ ఫోన్ నంబర్ కనిపిస్తుంది. వారి ఫోన్ పరిచయాలలో మీ నంబర్ ఉన్న వ్యక్తులు కూడా దీన్ని Signal‌లో చూస్తారు.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Signal లో మీ ఫోన్ నంబర్‌ను ఎవరూ చూడలేరు.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "ఫోన్ నంబరు",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "ప్రతి ఒక్కరూ",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "ఎవరు కాదు",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "నంబర్ ద్వారా నన్ను ఎవరు కనుగొనగలరు",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "వారి పరిచయాలలో మీ ఫోన్ నంబర్ ఉన్న ఎవరైనా మిమ్మల్ని Signal లో పరిచయంగా చూస్తారు. ఇతరులు కొత్త చాట్ లేదా గ్రూప్ ప్రారంభించినప్పుడు మీ ఫోన్ నంబర్‌తో మిమ్మల్ని సంప్రదించగలగుతారు.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Signal లో ఎవరూ కూడా మీ ఫోన్ నంబర్‌తో మిమ్మల్ని చేరుకోలేరు.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "ప్రతి ఒక్కరూ",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "ఎవరు కాదు",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "సందేశం",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "మీ సెట్టింగ్‌లను సేవ్ చేసేటప్పుడు ఒక దోషం ఏర్పడింది, దయచేసి మళ్లీ ప్రయత్నించండి.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "మరిన్ని స్టైల్స్",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "డ్రా",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది చాలా పొడవుగా ఉంది",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మాట్ కావడం వల్ల కథకు వీడియోను పోస్ట్ చేయలేము",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది 1 క్షణము కంటే ఎక్కువ సమయం ఉంది.} other {కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది {maxDurationInSec,number} క్షణాల కంటే ఎక్కువ సమయం ఉంది.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది {limit}{units} కంటే పెద్దగా ఉంది.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "వీడియోను లోడ్ చేసేందుకు విఫలమైంది",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "ధ్వని మరియు వీడియో కాల్స్ కోసం అనేక విశ్వసనీయత మరియు పనితీరు మెరుగుదలలను పరీక్షించడంలో మాకు సహాయపడండి. ఈ బీటా విడుదల కొన్ని బగ్ పరిష్కారాలు మరియు కొన్ని చిన్న UI అప్‌డేట్‌లను కూడా కలిగి ఉంది (కొత్త లింక్ ప్రివ్యూ మెరుగుదలల కోసం చూడండి!). బీటా పరీక్షకుడిగా ఉన్నందుకు మీకు ధన్యవాదాలు, మరియు ఒకవేళ మీరు ఏవైనా బగ్‌లను గుర్తించినట్లయితే కమ్యూనిటీ ఫోరమ్‌పై దయచేసి మమ్మల్ని సంప్రదించండి.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "మీరు కారును డౌన్‌లోడ్ చేయరు, కానీ ఇప్పుడు మీరు MP3 వాయిస్ నోట్ డౌన్‌లోడ్ చేసినప్పుడు అది సరైన ఫైల్ ఎక్స్‌టెన్షన్‌తో సేవ్ చేయబడుతుంది.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "ఫైల్‌ను జత చేసిన తరువాత సందేశాన్ని త్వరగా టైప్ చేయడం ప్రారంభించండి లేదా ఎటువంటి అదనపు క్లిక్‌లు లేకుండా ఫైల్ పంపడానికి కేవలం ఎంటర్/రిటర్న్‌ను నొక్కండి. ధన్యవాదాలు, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "లార్జ్ కంపోజిషన్ వ్యూలోని పంపే బటన్‌ అలైన్‌మెంట్‌లోకి తీసుకొనిరాబడింది. ధన్యవాదాలు, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "ఒక గ్రూప్‌లో (ఇప్పటివరకు) ఒకవేళ మీరు ఒక్కరే ఉండి, గ్రూప్ కాల్ ప్రారంభించడానికి మీరు ప్రయత్నిస్తే, ఇప్పుడు మీరు కాల్‌లో చేరవచ్చు మరియు కాల్ రింగ్ అయ్యే వరకు వేచి ఉండడం కంటే వెంటనే మీతో మీరు మాట్లాడటం ప్రారంభించవచ్చు. ధన్యవాదాలు, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "మీరు ఎక్కడ చూడాలనేది చూపించే కొత్త హైలైట్ ఫీచర్‌తో గ్రూప్ కాల్స్ సమయంలో ఎవరు మాట్లాడుతున్నారనేది త్వరగా చూడండి. ఒకవేళ మాట్లాడటం మీ వంతు అయితే, మీరు లోపల చూడవలసి ఉంటుంది.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "అవుట్‌గోయింగ్ చిత్రాలపై స్టైల్‌గా ఉండే సమయ అలంకరణలను జోడించేందుకు అనుమతించే మీడియా ఎడిటర్‌లోని అనేక స్టిక్కర్‌లతో మీ జీవిత సమయాన్ని ఆనందించండి.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "మీరు వేరే చాట్‌కు మారిన తర్వాత కూడా సుదీర్ఘ సందేశాలను వినడం కొనసాగించడానికి వాయిస్ నోట్స్ మినీ ప్లేయర్‌ను ఉపయోగించండి.",
+    "description": "Release notes for v6.9"
   }
 }

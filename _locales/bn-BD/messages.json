@@ -2580,6 +2580,18 @@
     "message": "সম্প্রতি ব্যবহৃত স্টিকারগুলি এখানে দেখা যাবে।",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "সাম্প্রতিক",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "ফিচারকৃত",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "অ্যানালাগ সময়",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "স্টিকার প্যাক",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "কথোপকথন অপঠিত হিসাবে চিহ্নিত হয়েছে",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "আপনি কি Signal স্টিকার প্যাক ক্রিয়েটর খুলতে চান?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "নিশ্চিত করুন",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "বাতিল করুন",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "স্টিকার প্যাক ক্রিয়েটর",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "স্টিকার প্যাক ক্রিয়েটর ব্যবহার করতে অনুগ্রহ করে আপনার ফোন ও ডেস্কটপে Signal সেট আপ করুন",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "স্টিকার প্যাক ক্রিয়েটর ব্যবহার করতে অনুগ্রহ করে আপনার ফোন ও ডেস্কটপে Signal সেট আপ করুন",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "প্রতিক্রিয়া সরিয়ে ফেলুন",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "কে পারে…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "এই সেটিংস পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > গোপনীয়তায় নেভিগেট করুন",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "সবাই",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "আমার কন্ট্যাক্ট",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "কেউ না",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "ফোন নম্বর",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "আপনার ফোন নম্বর কে দেখতে পাবেন এবং এটি ব্যবহার করে Signal-এ কে আপনার সাথে যোগাযোগ করতে পারবেন তা নির্বাচন করুন।",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "আমার নম্বর কে দেখতে পাবেন",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "আপনি যেসব লোকজন ও গ্রুপকে মেসেজ পাঠাবেন তারা আপনার ফোন নম্বরটি দেখতে পাবেন। যেসকল লোকের ফোনের কন্টাক্টে আপনার ফোন নম্বরটি রয়েছে তারাও Signal-এ সেটি দেখতে পাবেন।",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "কেউ Signal-এ আপনার ফোন নম্বর দেখতে পাবেন না।",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "ফোন নম্বর",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "সবাই",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "কেউ না",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "নম্বরের মাধ্যমে কে আমাকে খুঁজে পাবেন",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "যাদের কন্টাক্ট লিস্টে আপনার ফোন নম্বর আছে তারা আপনাকে Signal-এ একজন কন্টাক্ট হিসেবে দেখতে পাবেন। অন্যরা একটি নতুন চ্যাট বা গ্রুপ শুরু করলে আপনার ফোন নম্বর দিয়ে তারা আপনার সাথে যোগাযোগ করতে সক্ষম হবেন।",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Signal-এ থাকা কোন ব্যক্তিই আপনার ফোন নম্বরের মাধ্যমে আপনাকে খুঁজে পাবেন না।",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "সবাই",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "কেউ না",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "মেসেজিং",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "আপনার সেটিংস সংরক্ষণ করার সময় একটি ত্রুটি ছিল। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "আরো স্টাইল",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "আঁকুন",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না, কারণ এটি আকারে অনেক বড়",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না, কারণ ফাইলের এই ফরম্যাট সমর্থনযোগ্য নয়",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {স্টোরিতে ভিডিওটি পোস্ট করা যাবে না, কারণ এর দৈর্ঘ্য 1 সেকেন্ডের বেশি।} other {স্টোরিতে ভিডিওটি পোস্ট করা যাবে না, কারণ এর দৈর্ঘ্য {maxDurationInSec,number} সেকেন্ডের বেশি।}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "স্টোরিতে ভিডিওটি পোস্ট করা যাবে না, কারণ এর আকার {limit}{units}-এর চেয়ে বড়।",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "ভিডিওটি লোড করতে ব্যর্থ হয়েছে",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "ভয়েস এবং ভিডিও কলের জন্য বেশ কিছু নির্ভরযোগ্যতা ও পারফর্মেন্স বৃদ্ধির পরীক্ষা করতে আমাদের সাহায্য করুন। এই বিটা রিলিজে কিছু বাগ সংশোধন করা হয়েছে এবং কিছু ছোট UI আপডেটও রয়েছে (নতুন লিংক প্রিভিউর উন্নয়নটি দেখুন!)। একজন বিটা টেস্টার হওয়ার জন্য আপনাকে ধন্যবাদ এবং আপনি যদি কোনো বাগ খুঁজে পান তবে অনুগ্রহ করে কমিউনিটি ফোরামে আমাদের সাথে যোগাযোগ করুন।",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "আপনি একটি গাড়ি ডাউনলোড করবেন না, কিন্তু এখন আপনি যখন একটি এমপিথ্রি ভয়েস নোট ডাউনলোড করবেন তখন এটি সঠিক ফাইল এক্সটেনশনের সাথে সংরক্ষণ করা হবে।",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "একটি ফাইল সংযুক্ত করার পরে দ্রুত একটি ম্যাসেজ লেখা শুরু করুন, অথবা কোনো অতিরিক্ত ক্লিক ছাড়াই ফাইলটি পাঠাতে প্রবেশ করুন/ফিরে যান চাপুন। ধন্যবাদ, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "বড় কম্পোজিশন ভিউয়ের 'পাঠান' বাটনটি অ্যালাইনমেন্টে আনা হয়েছে। ধন্যবাদ, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "আপনি যদি একটি গ্রুপের একমাত্র ব্যক্তি হয়ে থাকেন (এখন পর্যন্ত) এবং একটি গ্রুপ কল শুরু করার চেষ্টা করেন, তবে আপনি কলটিতে যোগ দিতে পারেন ও কল রিং হবার জন্য অপেক্ষা না করেই তৎক্ষণাৎ নিজের সাথে কথা বলা শুরু করে দিতে পারবেন। ধন্যবাদ, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "গ্রুপ কলের সময় কে কথা বলছে তা এমন একটি নতুন হাইলাইট ফিচারের মাধ্যমে দ্রুত দেখে নিন, যা আপনাকে কোথায় দেখতে হবে তা নির্দেশ করে। এখন যদি আপনার কথা বলার পালা হয়ে থাকে তবে আপনাকে এর ভিতর থেকে দেখে নিতে হবে।",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "মিডিয়া এডিটরে তৈরি বেশ কিছু স্টিকার দিয়ে মজার কিছু সময় কাটান, যা আপনাকে বাইরে শেয়ার করা হবে এমন ছবিগুলোতে স্টাইলাইজড টাইম ডেকোরেশন যোগ করতে দেয়।",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "আপনি একটি চ্যাটে ভয়েস নোট শোনা অবস্থায় ভিন্ন চ্যাটে চলে গেলেও দীর্ঘ ম্যাসেজটি শোনা চালিয়ে যেতে ভয়েস নোট মিনি প্লেয়ার ব্যবহার করুন।",
+    "description": "Release notes for v6.9"
   }
 }

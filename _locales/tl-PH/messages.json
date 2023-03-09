@@ -2580,6 +2580,18 @@
     "message": "Lalabas dito ang recently used stickers.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Recents",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Featured",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Analog time",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Sticker Pack",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Conversation marked unread",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Gusto mo bang buksan ang Signal Sticker Pack Creator?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Kumpirmahin",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "I-dismiss",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Sticker pack creator",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "I-set up ang Signal sa iyong phone at desktop para magamit ang Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "I-set up ang Signal sa iyong phone at desktop para magamit ang Sticker Pack Creator",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Tanggalin ang reaction",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Sino ang pwedeng…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Para mabago itong mga settings, buksan ang Signal app sa iyong mobile device at pumunta sa Settings > Privacy",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Everybody",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "My contacts",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Nobody",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Phone Number",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Piliin kung sinong pwedeng makakita ng phone number mo at kung sinong pwedeng kumontak sa 'yo sa Signal gamit ito.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Sinong makakakita ng number ko",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Makikita ng lahat ng tao at groups na mine-message mo ang iyong phone number. Makikita ka sa Signal bilang isang contact ng sinumang may phone number mo sa kanilang contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Walang makakakita ng phone number mo sa Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Phone Number",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Lahat",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Wala",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Sinong makakahanap sa 'kin gamit ang number ko",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Makikita ka sa Signal bilang isang contact ng sinumang may phone number mo sa kanilang contacts. Pwedeng ka namang kontakin ng iba gamit ang phone number mo 'pag nagsimula sila ng bagong chat o group.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Walang sinuman sa Signal ang makakahanap sa 'yo gamit ang phone number mo.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Lahat",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Wala",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Messaging",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Nagkaroon ng error when saving your settings. Subukan ulit.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Iba pang styles",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Draw",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Hindi ma-post ang video sa story dahil masyado itong mahaba",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Hindi ma-post ang video sa story dahil hindi suportado ang file format nito",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Hindi ma-post ang video sa story dahil mas mahaba ito sa 1 second.} other {Hindi ma-post ang video sa story dahil mas mahaba ito sa {maxDurationInSec,number} seconds.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Hindi ma-post ang video sa story dahil mas malaki ito sa {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Hindi ma-load ang video",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Tulungan kaming i-test ang ilang reliability at performance improvements para sa voice at video calls. Kasama sa beta release na ito ang bug fixes at ilang UI updates (hanapin ang new link preview enhancements!). Maraming salamat sa pagiging isang beta tester, at mangyaring kontakin kami sa community forum kung may makita kang bugs.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Kapag nag-download ka ngayon ng isang MP3 voice note, naka-save ito na may tamang file extension.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Simulan agad ang pag-type ng message pagkatapos mag-attach ng file, o pindutin ang Enter/Return para i-send agad ang file. Maraming salamat, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Inayos na ang send button sa large composition view. Maraming salamat, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Kung ikaw pa lang ang member sa group (sa ngayon) at gusto mong magsimula ng group call, pwede ka nang sumali sa tawag and kausapin agad ang sarili mo sa halip na maghintay para mag-ring ang tawag. Maraming salamat, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Makita agad kung sinong nagsasalita sa group calls sa bagong highlight feature na ipinapakita kung saan ka dapat tumingin. Makikita mo rin kung ikaw na ang nagsasalita.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Sabihin ang iniisip mo gamit ang stickers sa media editor na pwede mong lagyan ng stylized time decorations sa outgoing images.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Gamitin ang voice notes mini player para patuloy mong mapakinggan ang mahahabang messages kahit lumipat ka na sa ibang convo.",
+    "description": "Release notes for v6.9"
   }
 }

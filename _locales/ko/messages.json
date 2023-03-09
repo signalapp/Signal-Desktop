@@ -2580,6 +2580,18 @@
     "message": "최근 사용한 스티커가 여기에 표시됩니다.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "최근",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "추천",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "아날로그 시간",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "스티커 팩",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "대화를 읽지 않음으로 표시",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Signal 스티커 팩 생성기를 열까요?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "확인",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "취소",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "스티커 팩 제조기",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "스티커 팩 생성기를 사용하려면 휴대전화와 데스크톱에서 Signal을 설정하세요.",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "스티커 아트 생성기를 사용하려면 휴대전화와 데스크톱에서 Signal을 설정하세요.",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "반응 제거",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "나를 볼 수 있는 사람",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "이 설정을 변경하려면 모바일 기기에서 Signal 앱을 열고 설정 > 개인정보로 이동합니다.",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "모두에게 허용",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "내 연락처",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "모두에게 금지",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "전화번호",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "내 전화번호를 볼 수 있고, Signal에서 내 전화번호로 나한테 연락할 수 있는 사람을 선택하세요.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "내 전화번호를 볼 수 있는 사람",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "내가 메시지를 보낸 사람 또는 그룹에 내 휴대전화 번호가 표시됩니다. 내 번호를 휴대전화 연락처에 가지고 있는 사람도 Signal에서 나를 볼 수 있습니다.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "아무도 Signal에서 내 전화번호를 볼 수 없습니다.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "전화번호",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "모두",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "모두 금지",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "전화번호로 나를 찾을 수 있는 사람",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "연락처에 내 전화번호를 저장한 사람들에게는 Signal에서 내가 연락처로 표시됩니다. 그 외 사람들은 새로운 채팅이나 그룹을 시작할 때 내 전화번호로 나를 찾을 수 있습니다.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "누구도 Signal에서 내 전화번호로 나를 찾을 수 없습니다.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "모두",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "모두 금지",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "메시징",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "설정 저장 중 문제가 발생했습니다. 다시 시도하세요.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "더 많은 스타일",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "그리기",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "동영상이 너무 길어 스토리에 게시할 수 없습니다.",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "동영상이 지원되지 않는 파일 형식을 사용하여 스토리에 게시할 수 없습니다.",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, other {동영상 길이가 {maxDurationInSec,number}초를 초과하여 동영상을 스토리에 게시할 수 없습니다.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "동영상 크기가 {limit}{units}을(를) 초과하여 동영상을 스토리에 게시할 수 없습니다.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "동영상을 로드하지 못했습니다.",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "음성 및 음성 통화와 관련한 몇 가지 안정성 및 성능 개선을 테스트할 수 있도록 도와주세요. 이 베타 릴리스는 몇 가지 버그 수정 사항과 사소한 UI 업데이트도 포함합니다(새로운 링크 미리 보기 개선 사항을 확인해 보세요!). 베타 테스터로 활약해 주셔서 감사합니다. 버그를 목격하면 커뮤니티 포럼을 통해 알려주세요.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "이제 MP3 음성 메시지를 다운로드하면(항상 저작권을 준수해야 하는 거 아시죠?) 적절한 파일 확장명을 사용하여 저장됩니다.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "파일을 첨부한 뒤 간편하게 메시지를 입력하기 시작하거나, Enter/반환 키를 눌러 추가 클릭 없이 파일을 보내세요. 고마워요, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "큰 작성 창의 보내기 버튼이 이제 제대로 정렬되어 표시됩니다. 고마워요, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "이제 그룹에 본인만 있는 상태에서 그룹 통화를 시작하면 전화벨이 울리길 기다리지 않고 바로 본인과 통화를 시작할 수 있습니다. 고마워요, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "어디에 주목해야 할지 표시해 주는 새로운 하이라이트 기능으로 통화 중에 누가 얘기 중인지 빠르게 확인하세요. 내 차례가 언제인지는 내면의 목소리에 귀 기울이면 알 수 있을 거예요.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "전송 이미지에 스타일이 지정된 시간 장식을 추가할 수 있는 미디어 편집기의 여러 가지 스티커로 그 어느 때보다 즐거운 시간을 보내세요.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "음성 메시지 미니 플레이어를 사용하여 다른 채팅으로 전환한 후에도 계속해서 긴 메시지를 들으세요.",
+    "description": "Release notes for v6.9"
   }
 }

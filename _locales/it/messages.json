@@ -2580,6 +2580,18 @@
     "message": "Gli adesivi usati recentemente appariranno qui.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Recenti",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "In evidenza",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Ora analogica",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Pacchetto di adesivi",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Segna conversazione come non letta",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Vuoi aprire il creatore di pacchetti di sticker Signal?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Conferma",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Chiudi",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Creatore di pacchetti di adesivi",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di sticker",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Rimuovi reazione",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Chi può…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni > Privacy",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Tutti",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "I miei contatti",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Nessuno",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Numero di telefono",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Scegli chi può vedere il tuo numero di telefono e chi può contattarti su Signal tramite il tuo numero.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Chi può vedere il mio numero di telefono",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Il tuo numero di telefono sarà visibile a tutte le persone e ai gruppi a cui invii messaggi. Le persone che hanno il tuo numero tra i loro contatti lo vedranno anche su Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Nessuno vedrà il tuo numero di telefono su Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Numero di telefono",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Chiunque",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Nessuno",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Chi può trovarmi tramite il mio numero",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Chiunque abbia il tuo numero di telefono salvato fra i contatti ti visualizzerà come un contatto su Signal. Le altre persone invece potranno trovarti cercando il tuo numero nell'app solo dopo aver iniziato una chat privata o di gruppo con te.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Nessuno potrà trovarti su Signal cercando il tuo numero di telefono.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Chiunque",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Nessuno",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Messaggistica",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Si è verificato un errore durante il salvataggio delle impostazioni. Si prega di riprovare.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Più stili",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Disegna",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Impossibile pubblicare il video sulla Storia perché è troppo lungo",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Impossibile pubblicare il video sulla Storia perché il file è in un formato non supportato",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Impossibile pubblicare il video sulla Storia perché è più lungo di 1 secondo.} other {Impossibile pubblicare il video sulla Storia perché è più lungo di {maxDurationInSec,number} secondi.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Impossibile pubblicare il video sulla Storia perché le dimensioni del file sono superiori a {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Caricamento del video non riuscito",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Aiutaci a testare gli aggiornamenti legati alla stabilità e alle performance per le chiamate audio e video. Questa versione beta include anche dei bug risolti e qualche piccolo cambiamento nell'interfaccia utente di alcune funzioni (come l'anteprima dei link!). Grazie per il tuo ruolo da beta tester e ricorda che puoi sempre contattarci sul forum dedicato alla community di Signal per segnalare qualsiasi bug.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Da ora quando scaricherai un vocale in formato MP3, verrà salvato con la giusta estensione.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Comincia subito a scrivere il tuo messaggio dopo aver allegato un file oppure premi su Invio per mandare il file senza clic aggiuntivi. Grazie, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Il pulsante d'invio nel campo per il testo è stato sistemato e allineato con il resto dell'interfaccia. Grazie, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Se sei l'unica persona in un gruppo (per il momento) e provi a iniziare una chiamata di gruppo, da ora puoi unirti subito alla chiamata senza attendere lo squillo. Grazie, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Scopri subito chi sta parlando in una chiamata di gruppo grazie alla nuova funzione apposita. Non dovrai più cercare freneticamente tra i loro volti: ti diciamo noi dove guardare.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Divertiti con gli sticker nel media editor che ti permette di modificare e aggiungere decorazioni di vario tipo sulle immagini che vuoi inviare.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Usa il mini riproduttore per i messaggi vocali così da poter ascoltare i messaggi più lunghi anche quando esci dalla chat.",
+    "description": "Release notes for v6.9"
   }
 }

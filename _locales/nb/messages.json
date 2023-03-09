@@ -2580,6 +2580,18 @@
     "message": "Nylig brukte klistremerker vises her.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Sist brukte",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Utvalgte",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Analog tid",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Klistremerkepakke",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Samtale merket som lest",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Vil du åpne verktøyet for opprettelse av Signal-klistremerkepakker?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Bekreft",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Avbryt",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Klistremerke-skaperen",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Sett opp Signal på telefonen og desktop for å bruke Klistremerke-skaperen",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Konfigurer Signal på telefonen og skrivebordet ditt for å bruke verktøyet for opprettelse av klistremerkepakke",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Fjern reaksjonen",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Hvem kan …",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Åpne Signal på mobilenheten din og gå til Innstillinger > Personvern for å endre disse innstillingene",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Alle",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Mine kontakter",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Ingen",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Telefonnummer",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Velg hvem som kan se telefonnummeret ditt og bruke det til å komme i kontakt med deg på Signal.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Hvem kan se telefonnummeret mitt?",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Telefonnummeret ditt vil være synlig for personer og grupper du sender meldinger til. Personer som har nummeret ditt i kontaktlisten på telefonen sin, vil også kunne se det på Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Ingen kan se telefonnummeret ditt på Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Telefonnummer",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Alle",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Ingen",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Hvem kan finne meg ved å søke opp telefonnummeret mitt?",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Alle som har telefonnummeret ditt i kontaktlisten sin, kan se deg som en kontakt på Signal. Andre kan nå deg ved å søke opp telefonnummeret ditt når de starter en ny samtale eller gruppe.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Ingen kan finne deg på Signal ved å søke opp telefonnummeret ditt.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Alle",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Ingen",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Meldinger",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Kunne ikke lagre innstillingene. Prøv igjen.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Flere stilarter",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Tegn",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Videoen er for lang til å legges ut som story",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Videoen kan ikke legges ut som story fordi det er feil filtype",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Videoen kan ikke legges ut som story fordi den er lenger enn 1 sekund.} other {Videoen kan ikke legges ut som story fordi den er lenger enn {maxDurationInSec,number} sekunder.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Videoen kan ikke legges ut som story fordi den er lenger enn {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Kunne ikke laste opp videoen",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Hjelp oss med å teste noen endringer vi har gjort i ytelsen og påliteligheten til lyd- og videosamtalene. Denne betaversjonen kommer også med et par feilrettinger og små grensesnitt-oppdateringer (se etter de nye forbedringene av forhåndsvisningene av lenker!) Tusen takk for at du vil være en av betatesterne våre! Ta kontakt med oss via fellesskapsforumet hvis du oppdager noen feil.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Nå kan du laste ned et MP3-talenotat og få det lagret med riktig filutvidelse.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Skriv en melding når du har lagt ved filen din, eller bare trykk på Enter/Return for å sende filen uten ekstra klikk. Takk, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Send-knappen befinner seg nå på riktig plass i den store komposisjonsvisningen. Takk, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Hvis du er den eneste personen i en gruppe (så langt) og starter et gruppeanrop, kan du nå bli med i samtalen og snakke med deg selv uten å måtte vente på at det ringer. Takk, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Med vår nye markering kan du raskt få øye på hvem som snakker i en gruppesamtale. Hvis det er din tur å snakke, må du holde et øye med deg selv.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Ha det gøyere enn noensinne med de nye klistremerkene som lar deg legge til tidsur og andre tidsriktige dekorasjoner i bilder.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Bruk avspilleren for talenotater for å høre på lange meldinger selv etter at du har hoppet over til en annen samtale.",
+    "description": "Release notes for v6.9"
   }
 }

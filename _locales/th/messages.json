@@ -2580,6 +2580,18 @@
     "message": "สติกเกอร์ที่เพิ่งใช้จะปรากฏตรงนี้",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "ล่าสุด",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "แนะนำ",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "เวลาแบบแอนะล็อก",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "ชุดสติกเกอร์",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "การสนทนาถูกทำเครื่องหมายว่ายังไม่อ่าน",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "คุณต้องการเปิดหน้าศูนย์สร้างสรรค์ชุดสติกเกอร์ Signal (Sticker Pack Creator) หรือไม่",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "ยืนยัน",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "ปิด",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "ผู้สร้างสรรค์ชุดสติกเกอร์",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "กรุณาตั้งค่า Signal บนโทรศัพท์และเดสก์ท็อปของคุณให้ใช้ Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "กรุณาติดตั้ง Signal บนมือถือและเดสก์ท็อป เพื่อใช้งานศูนย์สร้างสรรค์ Sticker Art",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "ลบการแสดงความรู้สึก",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "ใครสามารถ…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "เพื่อเปลี่ยนแปลงการตั้งค่าเหล่านี้ เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่ การตั้งค่า > ความเป็นส่วนตัว",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "ทุกคน",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "ผู้ติดต่อของฉัน",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "คนที่คุณไม่รู้จัก",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "หมายเลขโทรศัพท์",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "เลือกว่าจะให้ใครเห็นหมายเลขโทรศัพท์ของคุณและใช้หมายเลขโทรศัพท์นั้นติดต่อคุณบน Signal ได้",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "คนที่สามารถเห็นหมายเลขโทรศัพท์ของฉัน",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "ผู้ใช้และกลุ่มที่คุณส่งข้อความหาจะสามารถเห็นหมายเลขโทรศัพท์ของคุณ และคนที่มีหมายเลขโทรศัพท์ของคุณอยู่ในรายชื่อผู้ติดต่อบนโทรศัพท์ก็จะสามารถเห็นหมายเลขของคุณบน Signal ด้วยเช่นกัน",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "จะไม่มีใครเห็นหมายเลขโทรศัพท์ของคุณบน Signal",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "หมายเลขโทรศัพท์",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "ทุกคน",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "ไม่อนุญาตให้ใครเห็น",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "คนที่สามารถใช้หมายเลขโทรศัพท์ค้นหาฉันได้",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "ใครก็ตามที่มีหมายเลขโทรศัพท์ของคุณอยู่ในรายชื่อผู้ติดต่อ จะเห็นคุณเป็นผู้ติดต่อบน Signal เช่นกัน ส่วนผู้ใช้คนอื่นจะสามารถติดต่อคุณได้โดยใช้หมายเลขโทรศัพท์ เมื่อผู้ใช้เริ่มแชทหรือสร้างกลุ่มใหม่",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "จะไม่มีใครใช้หมายเลขโทรศัพท์ของคุณในการติดต่อคุณบน Signal ได้",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "ทุกคน",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "ไม่อนุญาตให้ใครเห็น",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "การส่งข้อความ",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "เกิดข้อผิดพลาดขณะบันทึกการตั้งค่าของคุณ โปรดลองอีกครั้ง",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "รูปแบบอื่นๆ",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "วาด",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "ไม่สามารถโพสต์วิดีโอลงสตอรี่ได้ เนื่องจากมีความยาวเกินกำหนด",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ไม่สามารถโพสต์วิดีโอลงสตอรี่ได้ เนื่องจากเป็นรูปแบบไฟล์ที่ไม่รองรับ",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, other {ไม่สามารถโพสต์วิดีโอลงสตอรี่ได้ เนื่องจากมีความยาวเกิน {maxDurationInSec,number} วินาที}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "ไม่สามารถโพสต์วิดีโอลงสตอรี่ได้ เนื่องจากมีขนาดใหญ่เกิน {limit}{units}",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "โหลดวิดีโอไม่สำเร็จ",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "ช่วยเราทดสอบการปรับปรุงเสถียรภาพและการพัฒนาประสิทธิภาพการใช้งานของการโทรด้วยเสียงและวิดีโอคอล รุ่นเบต้านี้มีการแก้ไขบั๊กหลายตัวและการปรับโฉมรูปแบบการใช้งาน (UI) เล็กน้อย (อย่างการอัปเดตหน้าตาตัวอย่างลิงก์) Signal ขอขอบคุณที่ร่วมทดสอบรุ่นเบต้ากับเรา กรุณาติดต่อเราทางฟอรั่มชุมชนหากคุณพบบั๊กหรือเจอปัญหาในการใช้งาน",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "คุณสามารถดาวน์โหลดข้อความเสียงที่เป็นไฟล์ MP3 ได้แล้ว! ระบบจะบันทึกเป็นนามสกุลไฟล์ข้อความเสียงที่ถูกต้อง ดาวน์โหลดได้สะดวกแถมจัดเก็บเป็นระเบียบยิ่งขึ้น",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "เมื่อเลือกไฟล์แนบได้แล้ว คุณสามารถเลือกต่อว่าจะพิมพ์ข้อความเพิ่มเติม หรือแค่กดปุ่ม Enter หรือ Return เพื่อส่งไฟล์ทันทีโดยไม่ต้องคลิกอะไรอีก ขอบคุณ {zyphlar} สำหรับการปรับปรุงครั้งนี้!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "ปรับการจัดตำแหน่งปุ่มส่งในหน้าจอช่องเขียนข้อความแบบขยายให้สวยงามและขนานกับหน้าต่าง ขอบคุณ {hackerbirds} สำหรับการปรับปรุงครั้งนี้!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "หากคุณเป็นสมาชิกเพียงคนเดียวในกลุ่มและต้องการเริ่มการโทรกลุ่ม คุณสามารถเข้าร่วมสายและเริ่มคุยกับตัวเองได้ทันทีโดยไม่ต้องรอให้มีการส่งเสียงเรียกเข้าอีกต่อไป ขอบคุณ {lamemakes} สำหรับการปรับปรุงครั้งนี้!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "มองเห็นได้ทันทีว่าสมาชิกคนไหนเป็นคนพูดอยู่ในสายโทรกลุ่มด้วยฟีเจอร์ไฮไลท์ใหม่ล่าสุด ไม่ต้องสับสนอีกต่อไปว่าจะต้องมองไปที่ใคร และเมื่อถึงเวลาที่คุณอยากพูด ก็แค่มองสบตากับเหล่าผู้ฟัง (หรือจะใช้โอกาสนี้มองลึกเข้าไปในใจตัวเองก็ได้…)",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "ถึงเวลาสนุก! ด้วยสติกเกอร์หลากหลายรูปแบบในโปรแกรมตัดต่อสื่อที่ให้คุณเพิ่มตัวบอกเวลาลงในรูปภาพก่อนส่งเพื่อเป็นกิมมิกเก๋ๆ ที่ไม่เหมือนใคร",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "ใช้ตัวเล่นข้อความเสียงขนาดมินิเพื่อเปิดฟังข้อความขนาดยาวได้อย่างต่อเนื่องแม้คุณจะสลับไปดูแชทอื่นแล้ว",
+    "description": "Release notes for v6.9"
   }
 }

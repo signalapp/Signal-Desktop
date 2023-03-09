@@ -2580,6 +2580,18 @@
     "message": "ស្ទីកគ័រដែលបានប្រើប្រស់ថ្មីៗ នឹងបង្ហាញទីនេះ។",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "ថ្មីៗ",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "ពិសេស",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "ម៉ោងនាឡិកាទ្រនិច",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "កញ្ចប់ស្ទីកគ័រ",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "ការសន្ទនាត្រូវបានសម្គាល់ថាមិនទាន់អាន",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "តើអ្នកចង់បើកឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ Signal ឬទេ?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "បញ្ជាក់",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "បិទ",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "សូមដំឡើង Signal នៅលើទូរស័ព្ទរបស់អ្នក និងកុំព្យូទ័រ ដើម្បីប្រើប្រាស់កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "សូមរៀបចំ Signal នៅលើទូរសព្ទ និងកុំព្យូទ័ររបស់អ្នក ដើម្បីប្រើប្រាស់ឧបករណ៍បង្កើតសិល្បៈស្ទីគ័រ",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "ដកប្រតិកម្មចេញ",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "អ្នកដែលអាច…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់ទាំងនេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "អ្នកទាំងអស់គ្នា",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "លេខទំនាក់ទំនងរបស់ខ្ញុំ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "គ្មាននរណា",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "លេខទូរសព្ទ",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "ជ្រើសរើសអ្នកដែលអាចមើលឃើញលេខទូរសព្ទរបស់អ្នក និងអ្នកណាដែលអាចប្រើវាទាក់ទងអ្នកបាននៅលើ Signal។",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "អ្នកដែលអាចមើលឃើញលេខរបស់ខ្ញុំ",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "មនុស្ស និងក្រុមទាំងឡាយដែលអ្នកផ្ញើសារទៅនឹងអាចមើលឃើញលេខទូរសព្ទរបស់អ្នក។ អ្នកទាំងឡាយដែលមានលេខទូរសព្ទរបស់អ្នកនៅក្នុងបញ្ជីទំនាក់ទំនងរបស់ពួកគេក៏នឹងអាចមើលវាឃើញនៅលើ Signal ដែរ។",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "គ្មាននរណាម្នាក់មើលឃើញលេខទូរសព្ទរបស់អ្នកនៅលើ Signal ទេ។",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "លេខទូរសព្ទ",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "អ្នករាល់គ្នា",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "គ្មាននរណាម្នាក់",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "អ្នកដែលអាចរកខ្ញុំឃើញតាមលេខរបស់ខ្ញុំ",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "នរណាដែលមានលេខទូរសព្ទរបស់អ្នកនៅក្នុងបញ្ជីទំនាក់ទំនងរបស់ពួកគេនឹងមើលឃើញអ្នកជាឈ្មោះទំនាក់ទំនងនៅលើ Signal។ អ្នកផ្សេងទៀតនឹងអាចទាក់ទងអ្នកតាមលេខទូរសព្ទរបស់អ្នកបាន នៅពេលពួកគេចាប់ផ្តើមការជែក ឬក្រុមថ្មី។",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "គ្មាននរណាម្នាក់នៅលើ Signal នឹងអាចទាក់ទងអ្នកតាមលេខទូរសព្ទរបស់អ្នកបានទេ។",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "អ្នករាល់គ្នា",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "គ្មាននរណាម្នាក់",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "ការផ្ញើសារ",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "មានបញ្ហាមួយកើតឡើងនៅពេលរក្សាទុកការកំណត់របស់អ្នក។ សូមព្យាយាមម្តងទៀត។",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "ស្តាយល៍ជាច្រើនទៀត",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "គូរ",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេដោយសារវាវែងពេក",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេ ព្រោះវាជាទម្រង់ឯកសារដែលកម្មវិធីមិនស្គាល់",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, other {មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេដោយសារវាវែងជាង {maxDurationInSec,number} វិនាទី។}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេដោយសារវាធំជាង {limit} {units}។",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "មិនអាចផ្ទុកវីដេអូបាន",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "ជួយយើងធ្វើតេស្តសាកល្បងទៅលើការកែលម្អមួយចំនួនចំពោះសមត្ថភាពដំណើរការ និងភាពគួរឲ្យទុកចិត្តបាន សម្រាប់ការហៅទូរសព្ទជាសំឡេង និងជាវីដេអូ។ ការចេញផ្សាយបេតានេះក៏រួមបញ្ចូលផងដែរនូវការកែតម្រូវបញ្ហាមួយចំនួនតូច និងការធ្វើបច្ចុប្បន្នភាពបន្តិចបន្តួចទៅលើ UI មួយចំនួន (សូមរកមើលការកែលម្អថ្មីៗចំពោះការមើលតំណភ្ជាប់ជាមុន!)។ សូមអរគុណដែលបានធ្វើជាអ្នកសាកល្បងបេតា ហើយសូមទាក់ទងមកពួកយើងនៅលើវេទិកាសហគមន៍ ប្រសិនបើអ្នកឃើញមានបញ្ហាណាមួយ។",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "ឥឡូវនេះ នៅពេលដែលអ្នកទាញយកកំណត់សម្គាល់ជាសំឡេង MP3 វានឹងត្រូវបានរក្សាទុក ដោយមានកន្ទុយឯកសារត្រឹមត្រូវ។",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "ចាប់ផ្តើមវាយសារភ្លាមៗបន្ទាប់ពីភ្ជាប់ឯកសារ ឬគ្រាន់តែចុច Enter/Return ដើម្បីផ្ញើឯកសារដោយមិនចាំបាច់ចុចបន្ថែម។ អរគុណ {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "ប៊ូតុងផ្ញើនៅក្នុងទិដ្ឋភាពជាប្លង់ធំត្រូវបានដាក់ឲ្យស្របគ្នាហើយ។ អរគុណ {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "ប្រសិនបើអ្នកគឺជាមនុស្សតែម្នាក់គត់នៅក្នុងក្រុម (រហូតមកដល់ពេលនេះ) ហើយអ្នកព្យាយាមចាប់ផ្តើមហៅទូរសព្ទជាក្រុម ឥឡូវនេះអ្នកអាចចូលរួមការហៅទូរសព្ទនេះបានហើយ រួចចាប់ផ្តើមនិយាយជាមួយខ្លួនឯងបានភ្លាមៗ ដោយមិនចាំបាច់រង់ចាំឲ្យឮសំឡេងទូរសព្ទរោទ៍នោះទេ។ អរគុណ {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "មើលឃើញភ្លាមៗថាអ្នកណាកំពុងនិយាយអំឡុងពេលហៅទូរសព្ទជាក្រុម ដោយប្រើមុខងាររំលេចថ្មីដែលបង្ហាញអ្នកពីកន្លែងដែលត្រូវមើល។ ប្រសិនបើដល់វេនដែលអ្នកត្រូវនិយាយ អ្នកត្រូវមើលទៅតាមនោះដែរហើយ។",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "សូមរីករាយម៉ាស្រឡាញ់ជាមួយនឹងស្ទីគ័រជាច្រើននៅក្នុងកម្មវិធីកែមេឌៀដែលអាចឲ្យអ្នកបញ្ចូលរូបពេលវេលាទៅតាមការរចនាផ្សេងៗ នៅលើរូបភាពដែលផ្ញើចេញ។",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "ប្រើកម្មវិធីចាក់កំណត់សម្គាល់ជាសំឡេងខ្នាតតូច ដើម្បីបន្តស្តាប់សារវែងៗ សូម្បីតែក្រោយពេលដែលអ្នកប្តូរទៅការជជែកផ្សេងក៏ដោយ។",
+    "description": "Release notes for v6.9"
   }
 }

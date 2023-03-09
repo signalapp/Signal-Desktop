@@ -2580,6 +2580,18 @@
     "message": "استیکر های که جدیدا استفاده شده اند در اینجا پدیدار خواهند شد.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "موارد اخیر",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "ویژه",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "ساعت عقربه‌ای",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "پک استیکر",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "مکالمه به صورت خوانده نشده علامت زده شد",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "می‌خواهید «سازنده بسته استیکر سیگنال» را باز کنید؟",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "تأیید",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "رد کردن",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "سازنده بسته استیکر",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "لطفاً سیگنال را روی تلفن و دسکتاپ خود نصب کنید تا از ایجادکنندهٔ بستهٔ استیکر استفاده کنید",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "برای استفاده از «سازنده استیکر هنری»، لطفاً سیگنال را روی تلفن و دسکتاپ خود راه‌اندازی کنید",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "حذف واکنش",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "چه کسی می‌تواند....",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "برای تغییر این تنظیمات، برنامهٔ سیگنال را روی دستگاه تلفن همراه خود باز کنید و به تنظیمات > حریم خصوصی بروید",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "همه",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "مخاطبین من",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "هیچ‌کس",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "شماره تلفن",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "انتخاب کنید که چه‌کسی بتواند شماره تلفن شما را ببیند و از طریق شماره تلفن‌تان در سیگنال با شما تماس بگیرد.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "چه‌کسی می‌تواند شماره من را ببیند",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "شماره‌تلفن شما برای افراد و گروه‌هایی که به آن‌ها پیام می‌دهید قابل مشاهده خواهد بود. افرادی که شماره شما را در مخاطبان تلفن خود دارند نیز آن را در سیگنال خواهند دید.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "هیچکس شماره‌تلفن شما را در سیگنال نخواهد دید.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "شماره تلفن",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "همه",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "هیچ‌کس",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "چه‌کسی می‌تواند من را با شماره تلفنم پیدا کند",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "هرکسی که شماره‌تلفن شما را در مخاطبان خود داشته باشد، شما را به‌عنوان یک مخاطب در سیگنال خواهد دید. دیگران می‌توانند با شروع گفتگو یا گروه جدید، از طریق شماره تلفنتان به شما پیام بدهند.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "هیچ‌کسی در سیگنال نمی‌تواند شما را با جستجوی شماره‌تلفن‌تان پیدا کند.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "همه",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "هیچ‌کس",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "‌پیام‌رسانی",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "خطایی در زمان ذخیره‌سازی تنظیمات شما رخ داد. لطفاً مجددا تلاش کنید",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "سبک‌های بیشتر",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "کشیدن",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "پست ویدیو در استوری ممکن نیست، چون بسیار طولانی است",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "پست ویدیو در استوری ممکن نیست، چون فرمت فایل پشتیبانی نشده است",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {امکان پست کردن ویدیو در استوری وجود ندارد، چون طولانی‌تر از ۱ ثانیه است.} other {امکان پست کردن ویدیو در استوری وجود ندارد، چون طولانی‌تر از {maxDurationInSec,number} ثانیه است.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "امکان پست کردن ویدیو در استوری وجود ندارد، چون طولانی‌تر از {limit}{units} است.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "ویدیو بارگیری نشد",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "به ما کمک کنید چند بهبود عملکرد و اطمینان‌پذیری را برای تماس‌های صوتی و تصویری آزمایش کنیم. این نسخه بتا چند رفع اشکال و چند به‌روزرسانی جزئی رابط کاربری را نیز شامل می‌شود (بهبودهای جدید پیش‌نمایش پیوند را ببینید!). از اینکه آزمایش‌کننده بتا هستید سپاسگزاریم؛ لطفاً در صورت پیدا کردن هرگونه اشکال، با ما در تالار گفتگوی انجمن در تماس باشید.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "شما که محتوای ناقض کپی‌رایت بارگیری نمی‌کنید، اما حالا هر یادداشت صوتی MP3 که بارگیری می‌کنید با افزونه فایل مناسب ذخیره خواهد شد.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "بلافاصله پس از پیوست کردن فایل، شروع به نوشتن پیام کنید یا برای ارسال فایل بدون کلیک بیشتر، روی «اینتر/ریترن» بزنید. سپاس، {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "دکمه ارسال در نمای نگارش بزرگ، تراز شده است. سپاس، {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "اگر (فعلاً) تنها فرد گروه هستید و سعی دارید تماس گروهی برقرار کنید، حالا می‌توانید به جای اینکه منتظر زنگ خوردن تماس بمانید، بلافاصله به تماس بپیوندید و با خودتان حرف بزنید. سپاس، {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "با قابلیت برجسته‌سازی جدید که نشان‌‌تان می‌دهد کجا را باید نگاه کنید، در تماس‎‌های گروهی سریعاً بفهمید که چه‌کسی در حال صحبت کردن است. اگر نوبت شماست که صحبت کنید، باید حواستان باشد.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "با استیکرهای متعدد در ویرایش‌گر رسانه که به شما امکان تزئینات شکیل ساعت روی تصاویر ارسالی را می‌دهد، حسابی کیف کنید.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "با استفاده از پخش‌کننده کوچک یادداشت صوتی به گوش کردن به پیام‌های طولانی ادامه بدهید، حتی وقتی از یک گفتگو به گفتگویی دیگر می‌روید.",
+    "description": "Release notes for v6.9"
   }
 }

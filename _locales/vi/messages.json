@@ -2580,6 +2580,18 @@
     "message": "Các nhãn dán mói được sử dụng sẽ xuất hiện ở đây.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Gần đây",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Nổi bật",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Đồng hồ analog",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Gói Nhãn dán",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Cuộc trò chuyện đã được đánh dấu chưa đọc",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Bạn có muốn mở Công Cụ Tạo Gói Nhãn Dán Signal?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Xác nhận",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Bỏ qua",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Tác giả gói nhãn dán",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Vui lòng cài Signal trên điện thoại và máy tính để sử dụng Công cụ tạo nhãn dán Signal",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Vui lòng cài Signal trên điện thoại và máy tính để sử dụng Công Cụ Tạo Nhãn Dán Signal",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Gỡ biểu cảm",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Ai có thể…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Để thay đổi các cài đặt này, hãy mở ứng dụng Signal trên thiết bị di động của bạn và điều hướng đến Cài đặt> Quyền riêng tư",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Tất cả mọi người",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Liên hệ của Tôi",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Không ai",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Số Điện Thoại",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Chọn người có thể thấy số điện thoại của bạn và người có thể liên hệ với bạn trên Signal với số đó.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Ai Có Thể Thấy Số Điện Thoại Của Tôi",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Số điện thoại của bạn sẽ hiện lên cho những người và nhóm bạn nhắn tin. Những người có số điện thoại của bạn trong danh bạ điện thoại của họ cũng sẽ thấy nó trên Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Không ai sẽ có thấy số điện thoại của bạn trên Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Số Điện Thoại",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Bất cứ ai",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Không ai",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Ai Có Thể Tìm Tôi Bằng Số Điện Thoại",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Bất kỳ ai có số điện thoại của bạn trong danh bạ của họ sẽ thấy bạn là một liên hệ trên Signal. Những người khác sẽ có thể liên hệ bạn với số điện thoại của bạn khi họ bắt đầu một cuộc trò chuyện hay nhóm mới.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Không có ai trên Signal có thể liên hệ với bạn với số điện thoại của bạn.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Bất cứ ai",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Không ai",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Nhắn tin",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Đã xảy ra lỗi khi lưu cài đặt của bạn. Vui lòng thử lại.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Thêm phong cách",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Kéo",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Không thể đăng video vào story vì video quá dài",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Không thể đăng video vào story vì video có định dạng không được hỗ trợ",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, other {Không thể đăng đăng video vào story vì video có độ dài hơn {maxDurationInSec,number} giây.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Không thể đăng đăng video vào story vì video có độ dài hơn {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Tải video không thành công",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Giúp chúng tôi kiểm tra độ tin cậy và các cải thiện về mặt hiệu năng của cuộc gọi thoại và cuộc gọi video. Bản beta này cũng bao gồm một số sửa lỗi và cập nhật UI nhỏ (giao diện xem trước đường dẫn đã được nâng cấp!). Cảm ơn bạn vì đã giúp thử nghiệm bản beta, và hãy liên hệ với chúng tôi thông qua diễn đàn dành cho cộng đồng nếu bạn gặp bất kỳ lỗi nào.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Tệp ghi chú định dạng MP3 tải về sẽ được lưu với phần mở rộng chính xác.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Có thể nhanh chóng bắt đầu nhập nội dung sau khi đính kèm tệp, hoặc ấn nút Enter để gửi tệp mà không cần thao tác thêm. Cảm ơn, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Nút gửi trong giao diện lớn nay đã được tinh chỉnh. Cảm ơn, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Nếu bạn là người duy nhất trong nhóm và bạn bắt đầu cuộc gọi nhóm, giờ đây bạn có thể tham gia ngay vào cuộc gọi chỉ có một mình bạn và không cần chờ đổ chuông. Cảm ơn, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Dễ dàng thấy được ai là người đang nói trong cuộc gọi nhóm với tính năng làm nổi bật mới để bạn biết cần nhìn ở vị trí nào. Trải nghiệm cuộc gọi nhóm nay càng tuyệt hơn.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Thoải mái sáng tạo với nhiều gói nhãn dán trong công cụ chỉnh sửa cho phép bạn thêm các chi tiết trang trí lên hình ảnh sẵn có.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Dùng công cụ nghe ghi chú âm thanh để tiếp tục nghe các tin nhắn dài ngay cả khi bạn chuyển sang cuộc trò chuyện khác.",
+    "description": "Release notes for v6.9"
   }
 }

@@ -2341,7 +2341,7 @@
     "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
   },
   "icu:message--donation--unopened--outgoing": {
-    "messageformat": "Просмотрите это сообщение на своём телефоне, чтобы увидеть ваше пожертвование",
+    "messageformat": "Просмотрите это сообщение на своём телефоне, чтобы увидеть своё пожертвование",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "message--giftBadge--unopened--label": {
@@ -2373,7 +2373,7 @@
     "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--unopened": {
-    "messageformat": "{sender} пожертвовал(-а) за вас",
+    "messageformat": "{sender} пожертвовал(-а) от вашего имени",
     "description": "Shown to label the donation badge in notifications and the left pane."
   },
   "message--giftBadge--preview--redeemed": {
@@ -2389,7 +2389,7 @@
     "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "Вы пожертвовали за {recipient}",
+    "messageformat": "Вы пожертвовали от имени {recipient}",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
@@ -2441,7 +2441,7 @@
     "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
   },
   "icu:message--donation--expired": {
-    "messageformat": "Истёк",
+    "messageformat": "Истекло",
     "description": "Shows that a donation badge is expired"
   },
   "message--giftBadge--view": {
@@ -2457,7 +2457,7 @@
     "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
   },
   "icu:message--donation--redeemed": {
-    "messageformat": "Принят",
+    "messageformat": "Принято",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
   "modal--giftBadge--title": {
@@ -2579,6 +2579,18 @@
   "stickers--StickerPicker--NoRecents": {
     "message": "Недавно использованные стикеры появятся здесь.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
+  },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Недавние",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Избранные",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Аналоговое время",
+    "description": "aria-label for the analog time sticker"
   },
   "stickers--StickerPreview--Title": {
     "message": "Набор стикеров",
@@ -2948,6 +2960,18 @@
     "message": "Разговор был отмечен непрочитанным",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Хотите открыть редактор наборов стикеров Signal?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Подтвердить",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Закрыть",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Редактор наборов стикеров",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Пожалуйста, настройте Signal на вашем телефоне и ПК, чтобы использовать редактор наборов стикеров",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Пожалуйста, настройте Signal на вашем телефоне и ПК, чтобы использовать художественный редактор стикеров",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Убрать реакцию",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Кто может…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Чтобы изменить эти настройки, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Конфиденциальность",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Все",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Мои контакты",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Никто",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Номер телефона",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Выберите, кто может видеть ваш номер телефона и связываться с вами в Signal с его помощью.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Кто может видеть мой номер",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Ваш номер телефона будет виден людям и группам, которым вы отправляете сообщения. Люди, у которых есть ваш номер в телефонных контактах, также увидят его в Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Никто не будет видеть ваш номер телефона в Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Номер телефона",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Все",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Никто",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Кто может найти меня по номеру?",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Любой, у кого есть в контактах ваш номер телефона, будет видеть вас в качестве контакта в Signal. Другие смогут найти вас по вашему номеру в поиске, когда начнут новый чат или создадут группу.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Никто не сможет найти вас в Signal по вашему номеру телефона.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Все",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Никто",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Общение",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Произошла ошибка при сохранении ваших настроек. Пожалуйста, попробуйте еще раз.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Другие стили",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Нарисовать",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Не удается опубликовать видео в истории, поскольку оно слишком длинное",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Невозможно опубликовать видео в истории, так как данный тип файла не поддерживается",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Не удается опубликовать видео в истории, поскольку оно длиннее 1 секунды.} few {Не удается опубликовать видео в истории, поскольку оно длиннее {maxDurationInSec,number} секунд.} many {Не удается опубликовать видео в истории, поскольку оно длиннее {maxDurationInSec,number} секунд.} other {Не удается опубликовать видео в истории, поскольку оно длиннее {maxDurationInSec,number} секунды.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Не удается опубликовать видео в истории, поскольку оно длиннее {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Не удалось загрузить видео",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Помогите нам протестировать несколько улучшений надежности и производительности аудио- и видеозвонков. Этот бета-релиз включает также ряд исправлений ошибок и небольшие обновления пользовательского интерфейса (обратите внимание: мы снова улучшили просмотр ссылок!). Благодарим вас за участие в бета-тесте и просим связаться с нами на форуме сообщества, если вы заметите какие-либо ошибки.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Вы бы не стали скачивать автомобиль, но теперь, при скачивании голосовой заметки в формате MP3, она будет сохранена с соответствующим расширением файла.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Быстро приступайте к набору сообщения, прикрепив файл, или просто нажмите Ввод/Назад, чтобы отправить его без лишних нажатий. Спасибо, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Кнопка отправки в крупном формате композиции была приведена в соответствие. Спасибо, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Если вы единственный участник группы (временно) и пытаетесь начать групповой звонок, то теперь вы сразу можете присоединиться к звонку и начать разговор с самим собой, а не ждать сигнала вызова. Спасибо, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Оперативно выяснить, кто говорит во время группового звонка, можно с помощью новой функции выделения, которая показывает говорящего. Если ваша очередь говорить, сначала взгляните на себя.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Поэкспериментируйте со стикерами в редакторе медиафайлов, который позволяет добавлять стилизованные временные украшения к исходящему изображению.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Используйте мини-плеер голосовых заметок, чтобы продолжать прослушивать длинные сообщения даже после переключения на другой чат.",
+    "description": "Release notes for v6.9"
   }
 }

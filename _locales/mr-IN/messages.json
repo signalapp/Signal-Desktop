@@ -2580,6 +2580,18 @@
     "message": "अलीकडील वापरलेले स्टिकर पॅक येथे दिसतील.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "अलीकडील",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "वैशिष्ट्यीकृत",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "अ‍ॅनालॉग वेळ",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "स्टिकर पॅक",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "संभाषण न वाचलेले प्रमाणे चिन्हांकित केला गेला",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "आपणाला Signal स्टिकर पॅक निर्माता उघडणे आवडेल का?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "पुष्टी करा",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "रद्द करा",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "स्टिकर पॅक उत्पादक",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "स्टिकर पॅक उत्पादक वापरण्यासाठी कृपया आपल्या फोन आणि डेस्कटॉपवर Signal सेट करा",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "स्टिकर पॅक निर्माता वापरण्यासाठी कृपया आपल्या फोन आणि डेस्कटॉपवर Signal सेट अप करा",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "प्रतिक्रिया काढून टाका",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "कोण करू शकतो…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "ही सेटिंग्ज बदलण्यासाठी, तुमच्या मोबाईल डिव्हाइसवर Signal ॲप उघडा आणि सेटिंग्ज>गोपनीयता कडे जा",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "सर्वजण",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "माझे संपर्क",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "कोणीही नाही",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "फोन नंबर",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "आपला फोन नंबर कोण पाहू शकते आणि त्याच्यासह Signal वर आपणाला कोण संपर्क करू शकते ते निवडा.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "माझा नंबर कोण पाहू शकते",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "आपण संदेश पाठवलेल्या व्यक्ती आणि गटांना आपला फोन नंबर दृश्यमान असेल. ज्या व्यक्तींकडे आपला नंबर त्यांच्या फोन संपर्कामध्ये आहे ते देखील Signal वर तो पाहू शकतील.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Signal वर कुणीही आपला फोन नंबर पाहणार नाही.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "फोन नंबर",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "प्रत्येकजण",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "कुणीही नाही",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "मला फोन नंबरद्वारे कोण शोधू शकते",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "आपला फोन नंबर ज्यांच्या संपर्कांमध्ये आहे ते कोणीही आपणाला Signal वर संपर्क म्हणून पाहू शकतील. इतर लोक जेव्हा नवीन चॅट किंवा गट सुरू करतील तेव्हा ते आपल्यापर्यंत आपल्या फोनसह पोहचू शकतील.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Signal वरील कोणीही आपणापर्यंत आपल्या फोन नंबरसह पोहचू शकणार नाही.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "प्रत्येकजण",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "कुणीही नाही",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "संदेशन",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "तुमची सेव्हिंग्ज सेव्ह करतांना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "अधिक शैली",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "रेखाटा",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "व्हिडीओ खूप मोठा असल्याने तो स्टोरी वर पोस्ट केला जाऊ शकत नाही",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "व्हिडीओ हा असमर्थित फाईल स्वरुपामध्ये असल्याने तो स्टोरीवर पोस्ट केला जाऊ शकत नाही",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {स्टोरीज 1 सेकंदापेक्षा जास्त वेळेचा असल्या कारणाने स्टोरीज वर व्हिडीओ पोस्ट करु शकत नाही.} other {व्हिडीओ {maxDurationInSec,number} सेकंदापेक्षा जास्त वेळेचा असल्या कारणाने स्टोरीज वर पोस्ट करु शकत नाही.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "व्हिडीओ {limit}{units} पेक्षा जास्त वेळेचा असल्या कारणाने स्टोरीज वर पोस्ट करु शकत नाही.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "व्हिडीओ लोड करण्यात अयशस्वी",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "व्हाईस आणि व्हिडीओ कॉल्स साठी असंख्य विश्वसनीयता व कामगिरी सुधारणांची चाचणी करण्यासाठी आम्हाला मदत करा. या बीटा रीलिज मध्ये काही दोष निराकरणे आणि काही लहान UI अद्यतनांचा (नवीन लिंक पूर्वावलोकन सुधारणांचा शोध घ्या!) देखील समावेश होतो. एक बीटा टेस्टर बनल्याबद्दल आभारी आहोत, आणि आपणाला काही दोष आढळून आला असल्यास आमच्याशी सामुदायिक फोरम वर संपर्क साधा.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "आपण कार डाउनलोड करु शकत नाही, परंतु आता जेव्हा आपण एक MP3 व्हाईस नोट डाउनलोड कराल तेव्हा ती योग्य प्रकारच्या फाईल एक्सटेन्शनसह जतन करण्यात येईल.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "फाईल जोडल्यानंतर संदेश टाईप करण्यास तत्काळ प्रारंभ करा, किंवा कोणत्याही अतिरिक्त क्लिक्सशिवाय फाईल पाठवण्यास फक्त एंटर/रिर्टन दाबा. धन्यवाद, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "मोठ्या रचना दृश्य मधील पाठवा बटण संरेखनामध्ये आणण्यात आलेले आहे. धन्यवाद, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "आपण जर ग्रुप मधील(आता पर्यंत) एकमेव व्यक्ती असाल आणि आपण एक ग्रुप कॉल करण्याचा प्रयत्न केल्यास, आता आपण कॉल जॉईन करु शकता आणि कॉलची रिंग होण्याची वाट पाहण्याऐवजी स्वतःशीच बोलण्यास सुरुवात करू शकता. धन्यवाद, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "ग्रुप कॉलदरम्यान कोण बोलत आहे हे लगेचच पाहण्यास एका नवीन ठळक करा वैशिष्ट्य जे आपण कोठे पाहावे हे दाखवते. जर आपली बोलण्याची वेळ असल्यास, आपणाला त्यामध्ये पाहण्याची गरज असेल.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "मिडीया संपादकामध्ये असंख्य स्टिकर्ससह आपल्या आयुष्यातील वेळ घालवा जे आपणाला शैलीबद्ध वेळ सजावटी जोडू देते.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "आपण वेगवेगळ्या चॅटस् वर स्वीच केलेले असले तरी देखील दीर्घ संदेशांना ऐकणे सुरु ठेवण्यासाठी व्हाईस नोट्स मिनी प्लेअर वापरा.",
+    "description": "Release notes for v6.9"
   }
 }

@@ -2580,6 +2580,18 @@
     "message": "Tu bodo prikazane pred kratkim uporabljene nalepke.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Nedavni",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Predstavljene",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Analogni čas",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Paket nalepk",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Pogovor označen kot neprebran",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Ali želite odpreti Signalov Ustvarjalnik paketov nalepk?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Potrdi",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Prekini",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Urejevalnik paketov nalepk",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Če želite uporabljati urejevalnik paketov nalepk, prosimo povežite aplikacijo Signal na svojem telefonu s tisto na računalniku.",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Če želite uporabljati Ustvarjalnik nalepk, povežite aplikacijo Signal na svojem telefonu s tisto na računalniku",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Odstrani reakcijo",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Uporabniki_ce, ki lahko ...",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Za spremembo te nastavitve odprite Signal na vaši mobilni napravi in pojdite na Nastavitve > Zasebnost",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Vsi",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Moji stiki",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Nikogar",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Telefonska številka",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Izberite, kdo lahko vidi vašo telefonsko številko in kdo vas lahko z njo kontaktira v Signalu.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Kdo lahko vidi mojo številko",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Vaša telefonska številka bo vidna osebam in skupinam, ki jim pošiljate sporočila. Ljudje, ki imajo vašo številko v svojih telefonskih stikih, jo bodo videli tudi v Signalu.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Vaše telefonske številke ne bo videl nihče v Signalu.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Telefonska številka",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Kdorkoli",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Nihče",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Kdo me lahko najde preko telefonske številke",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Vsakdo, ki ima vašo telefonsko številko v svojih stikih, vas bo videl kot stik na Signalu. Drugi vas bodo lahko poklicali na vašo telefonsko številko, ko bodo začeli nov klepet ali skupino.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Nihče v Signalu vas ne bo mogel najti z vašo telefonsko številko.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Kdorkoli",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Nihče",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Sporočanje",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Prišlo je do napake pri shranjevanju nastavitev. Poskusite znova.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Več stilov",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Riši",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Videoposnetek je predolg za objavo v zgodbi",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Videoposnetka ni mogoče objaviti v zgodbi, ker gre za nepodprto obliko datoteke",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Videoposnetka ni mogoče objaviti v Zgodbi, ker je daljši od 1 sekunde.} two {Videoposnetka ni mogoče objaviti v Zgodbi, ker je daljši od {maxDurationInSec,number} sekund.} few {Videoposnetka ni mogoče objaviti v Zgodbi, ker je daljši od {maxDurationInSec,number} sekund.} other {Videoposnetka ni mogoče objaviti v Zgodbi, ker je daljši od {maxDurationInSec,number} sekund.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Videoposnetka ni mogoče objaviti v Zgodbi, ker je večji od {limit} {units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Nalaganje videa ni uspelo",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Pomagajte nam preizkusiti več izboljšav zanesljivosti in zmogljivosti za glasovne in video klice. Ta izdaja beta vključuje tudi nekaj popravkov napak in nekaj majhnih posodobitev uporabniškega vmesnika (poiščite nove izboljšave predogleda povezave!). Hvala, ker ste preizkuševalec_ka različice beta. Če opazite kakršnekoli napake, se obrnite na nas na forumu skupnosti.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Ko prenesete glasovno beležko MP3, bo ta shranjena z ustrezno pripono datoteke.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Hitro začnite tipkati sporočilo, potem ko pripnete datoteko, ali preprosto pritisnite Enter/Nazaj, da pošljete datoteko brez dodatnih klikov. Hvala, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Gumb za pošiljanje v velikem pogledu je bil poravnan. Hvala, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Če ste edina oseba v skupini (zaenkrat) in poskušate začeti skupinski klic, se zdaj lahko pridružite klicu in začnete takoj govoriti sami s seboj, namesto da čakate, da zazvoni. Hvala, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Hitro si oglejte, kdo govori med skupinskimi klici, z novo funkcijo osvetlitve, ki vam pokaže, kje iskati. Če ste na vrsti, da govorite, boste morali pogledati vase.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Preživite čas svojega življenja z več nalepkami v urejevalniku medijev, ki vam omogočajo dodajanje stiliziranih časovnih okraskov na poslane slike.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Uporabite mini predvajalnik glasovnih zapiskov, da nadaljujete s poslušanjem dolgih sporočil, tudi ko preklopite na drug klepet.",
+    "description": "Release notes for v6.9"
   }
 }

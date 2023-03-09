@@ -2580,6 +2580,18 @@
     "message": "Последно използваните стикери ще се появяват тук.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Скорошни",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Представени",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Аналогов час",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Пакет стикери",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Разговорът беше маркиран като непрочетен",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Искате ли да отворите Signal Sticker Pack Creator?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Потвърждение",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Отказ",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Създател на пакета със стикери",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Настройте Signal на телефона и на компютъра, за да създавате пакети със стикери",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Моля, настройте Signal на вашите телефон и компютър, за да използвате Sticker Art Creator",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Премахване на реакция",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Кой може…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "За да промените тези настройки, отворете приложението Signal на мобилното си устройство и отидете в „Настройки > Поверителност“",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Всички",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Моите контакти",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Никой",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Телефонен номер",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Изберете кой може да вижда телефонния ви номер и кой може да се свързва с вас в Signal чрез него.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Кой може да вижда номера ми",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Вашият телефонен номер ще се вижда от хората и групите, на които пращате съобщения. Хората, които имат вашия номер в контактите на телефона си, ще го виждат и в Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Никой няма да вижда телефонния ви номер в Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Телефонен номер",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Всички",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Никой",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Кой може да ме намери по номер",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Всеки, който има номера ви в контактите си, ще ви вижда като контакт в Signal. Останалите ще могат да ви намират чрез телефонния ви номер, когато започват нов чат или група.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Никой в Signal няма да може да ви намери по номера ви.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Всички",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Никой",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Съобщения",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Възникна грешка при запазването на настройките ви. Моля, опитайте отново.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Още стилове",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Рисуване",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Не можем да публикуваме видеото в история, тъй като е прекалено дълго",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Не можем да публикуваме видеото в история, тъй като не поддържаме формата на файла",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Не можем да публикуваме видеото в история, тъй като е по-дълго от 1 секунда.} other {Не можем да публикуваме видеото в история, тъй като е по-дълго от {maxDurationInSec,number} секунди.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Не можем да публикуваме видеото в история, тъй като е по-голямо от {limit} {units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Неуспешно зареждане на видео",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Помогнете ни да тестваме няколко подобрения на работата и надеждността при гласови и видео разговори. Тази бета версия включва няколко корекции на бъгове и дребни актуализации по потребителския интерфейс (огледайте се за новите подобрения за преглед на линкове!). Благодарим ви, че участвате в бета тестовете, и ви молим да се свържете с нас във форума на общността, ако забележите бъгове.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Тегленето на MP3-ойки вече не е толкова на мода, но пък вие можете спокойно да теглите гласови бележки във формат MP3 с правилното разширение на файла.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Започнете бързо да пишете съобщение, след като прикачите файл, или просто натиснете Enter/Return, за да изпратите файла без допълнителни кликове. Благодарим, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Бутонът за изпращане в разширения изглед е подравнен. Благодарим, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Ако (за момента) сте единственият човек в дадена група и се опитате да започнете групово повикване, вече можете да се присъедините към повикването и да започнете да говорите със себе си веднага, вместо да се налага да изчакате звънене. Благодарим, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Вижте бързо кой говори по време на групови разговори с нова функция за маркиране, която ви показва къде да гледате. Но когато е ваш ред да говорите, ще трябва да обърнете поглед навътре.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Повеселете се с няколко стикера в мултимедийния редактор, които ви позволяват да добавяте стилизирани времеви декорации към изходящите изображения.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Използвайте миниплейъра за гласови бележки, за да продължите да слушате дълги съобщения дори след като превключите към друг чат.",
+    "description": "Release notes for v6.9"
   }
 }

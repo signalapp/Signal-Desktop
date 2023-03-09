@@ -2580,6 +2580,18 @@
     "message": "Viimeksi käytetyt tarrat näytetään tässä.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Viimeisimmät",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Esittelyssä",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Analoginen aika",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Tarrapaketti",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Keskustelu on merkitty lukemattomaksi",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Haluatko avata Signal-tarrapaketin luontityökalun?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Vahvista",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Hylkää",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Tarrapaketin luonti",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Asenna Signal puhelimeesi ja tietokoneelle, jotta voit käyttää tarrapakettityökalua",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Asenna Signal puhelimeesi ja tietokoneelle, jotta voit käyttää tarrakuvien luontityökalua",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Poista reaktio",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Kuka voi…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Näitä asetuksia voi muuttaa Signal-mobiilisovelluksessa kohdassa Asetukset > Tietosuoja.",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Kaikki",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Yhteystietoni",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Ei kukaan",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Puhelinnumero",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Valitse, kuka voi nähdä puhelinnumerosi ja kuka voi ottaa sinuun yhteyttä Signalissa sen avulla.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Kuka voi nähdä numeroni",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Puhelinnumerosi näkyy henkilöille ja ryhmille, joille lähetät viestejä. Henkilöt, joilla on puhelinnumerosi puhelimensa yhteystiedoissa, näkevät sen myös Signalissa.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Kukaan ei näe puhelinnumeroasi Signalissa.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Puhelinnumero",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Kaikki",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Ei kukaan",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Kuka voi löytää minut puhelinnumerolla",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Kuka tahansa, jolla on puhelinnumerosi yhteystiedoissaan, näkee sinut yhteystietona Signalissa. Muut voivat löytää sinut puhelinnumerollasi, kun he aloittavat uuden keskustelun tai ryhmän.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Kukaan Signalissa ei voi löytää sinua puhelinnumerosi avulla.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Kaikki",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Ei kukaan",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Viestintä",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Asetuksia tallentaessa tapahtui virhe. Yritä uudelleen.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Lisää tyylejä",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Piirrä",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Videota ei voi julkaista tarinaan, sillä se on liian pitkä",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Videota ei voi julkaista tarinaan, sillä sen tiedostomuotoa ei tueta",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Videota ei voi julkaista tarinaan, koska sen pituus on yli 1 sekuntia.} other {Videota ei voi julkaista tarinaan, koska sen pituus on yli {maxDurationInSec,number} sekuntia.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Videota ei voi julkaista tarinaan, koska sen koko on yli {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Videon lataaminen epäonnistui",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Auta meitä testaamaan useita ääni- ja videopuheluiden luotettavuuteen ja suorituskykyyn liittyviä parannuksia. Tämä beetaversio sisältää myös muutamia virheenkorjauksia ja pieniä käyttöliittymäpäivityksiä (tarkista linkin esikatseluun tehdyt parannukset!). Kiitos, että toimit beetatestaajana. Ota meihin yhteyttä yhteisön keskustelupalstalla, jos huomaat virheitä.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Kun nyt lataat MP3-äänimuistiinpanon, se tallennetaan oikealla tiedostotunnisteella.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Voit aloittaa viestin kirjoittamisen nopeasti tiedoston liittämisen jälkeen tai lähettää tiedoston napsauttamalla vain Enter/Return-painiketta. Kiitos {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Lähetyspainikkeen asettelua suuressa luontinäkymässä on muokattu. Kiitos {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Jos olet (toistaiseksi) ryhmän ainoa jäsen ja yrität aloittaa ryhmäpuhelun, voit nyt liittyä puheluun ja aloittaa itsellesi puhumisen heti odottamatta puhelun soimista. Kiitos {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Uuden korostusominaisuuden ansiosta voit nyt nopeasti nähdä, kuka puhuu ryhmäpuhelun aikana. Jos on sinun vuorosi puhua, sinun on katsottava itseäsi.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Nyt on aika pitää hauskaa: mediaeditorin tarroilla voit lisätä tyylikkäitä aikakoristeluja lähteviin kuviin.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Jatka pitkien viestien kuuntelua äänimuistiinpanojen minisoittimella jopa silloin, kun siirryt toiseen keskusteluun.",
+    "description": "Release notes for v6.9"
   }
 }

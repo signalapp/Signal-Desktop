@@ -2580,6 +2580,18 @@
     "message": "Recent gebruikte stickers verschijnen hier.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Recentelijk gebruikt",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Uitgelicht",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Analoge tijd",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Stickerpakket",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2960,18 @@
     "message": "Gesprek gemarkeerd als ongelezen",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Wil je de Signal Sticker Pack Creator openen?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Bevestigen",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Sluiten",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Stickerpakketmaker",
     "description": "The title of the Sticker Pack Creator window"
@@ -3147,6 +3171,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voor je de stickermaker kunt gebruiken",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Je moet eerst Signal instellen op je telefoon en op je desktop voordat je de stickermaker kunt gebruiken",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Art Creator"
   },
   "Reactions--remove": {
     "message": "Reactie verwijderen",
@@ -5430,23 +5458,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Wie kan …",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Privacy om deze instellingen te veranderen",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Iedereen",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Mijn contactpersonen",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Niemand",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Telefoonnummer",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Kies wie je telefoonnummer kan zien en wie ermee contact met je kan opnemen op Signal.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Wie kan mijn nummer zien",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Je telefoonnummer zal zichtbaar zijn voor iedereen en elke groep waar je een bericht naar stuurt. Mensen die jouw telefoonnummer hebben in hun contactenlijst zullen je ook zien op Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Niemand zal jouw telefoonnummer zien op Signal.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Telefoonnummer",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Iedereen",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Niemand",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Wie kan mij vinden via mijn nummer",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Iedereen die jouw telefoonnummer in hun contacten heeft, ziet jou als contact op Signal. Anderen kunnen je bereiken via je telefoonnummer als ze een nieuwe chat of groep starten.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Niemand op Signal kan je vinden met jouw telefoonnummer.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Iedereen",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Niemand",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Berichten",
@@ -5551,6 +5631,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Er is een fout opgetreden bij het opslaan van je instellingen. Probeer het opnieuw.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Meer stijlen",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Tekenen",
@@ -6246,11 +6330,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Kan verhaal niet posten omdat het te lang is",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Kan video niet in verhaal posten omdat het bestandsformaat niet wordt ondersteund",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {Kan video niet in verhaal plaatsen omdat deze langer is dan 1 seconde.} other {Kan video niet in verhaal plaatsen omdat deze langer is dan{maxDurationInSec,number} seconde.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "Kan video niet in verhaal plaatsen omdat deze groter is dan {limit}{units}.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Laden van video mislukt",
@@ -6491,5 +6583,33 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Help ons verschillende betrouwbaarheids- en prestatieverbeteringen voor spraak- en videogesprekken te testen. Deze bètarelease bevat ook enkele bugfixes en kleine UI-updates (check onze nieuwe verbeteringen voor previews van de links!). Bedankt dat je een bètatester bent. Neem contact met ons op via het communityforum als je bugs tegenkomt.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Je zou geen auto downloaden, maar als je een MP3-spraaknotitie downloadt, wordt deze nu opgeslagen met de juiste bestandsextensie.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Begin snel een bericht te typen nadat je een bestand hebt bijgevoegd, of druk gewoon op Enter/Return om het bestand zonder extra klikken te versturen. Bedankt, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "De verzendknop in de grote compositieweergave is uitgelijnd. Bedankt, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Als je (tot nu toe) de enige persoon in een groep bent en je probeert een groepsgesprek te starten, kun je nu deelnemen aan het gesprek en meteen tegen jezelf beginnen te praten in plaats van te wachten tot het gesprek overgaat. Bedankt, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Zie snel wie er aan het woord is tijdens groepsgesprekken met een nieuwe markeringsfunctie die je laat zien waar je moet kijken. Als het jouw beurt is om te spreken, moet je even bij jezelf te rade gaan.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Ga los met verschillende stickers in de media-editor waarmee je gestileerde tijdsdecoraties kunt toevoegen aan uitgaande afbeeldingen.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Gebruik de minispeler voor spraaknotities om naar lange berichten te blijven luisteren, zelfs nadat je naar een andere chat bent overgeschakeld.",
+    "description": "Release notes for v6.9"
   }
 }
