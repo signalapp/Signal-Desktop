@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as log from '../logging/log';
 import { getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
 import { DurationInSeconds } from './durations';
@@ -13,6 +14,7 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
   );
 
   if (!existingOnboardingStoryMessageIds) {
+    log.warn('markOnboardingStoryAsRead: no existing messages');
     return;
   }
 
@@ -37,6 +39,8 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
       return message.attributes;
     })
     .filter(isNotNil);
+
+  log.info('markOnboardingStoryAsRead: marked viewed');
 
   await window.Signal.Data.saveMessages(messageAttributes, {
     ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),

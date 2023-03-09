@@ -111,6 +111,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         seenStatus: SeenStatus.Unseen,
         sent_at: timestamp,
         serverTimestamp: timestamp,
+        sourceDevice: 1,
         sourceUuid: signalConversation.get('uuid'),
         timestamp,
         type: 'story',

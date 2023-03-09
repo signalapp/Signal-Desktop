@@ -385,6 +385,7 @@ function markStoryRead(
       log.warn(`markStoryRead: no message found ${messageId}`);
       return;
     }
+
     const authorId = message.attributes.sourceUuid;
     strictAssert(
       authorId,
@@ -394,16 +395,18 @@ function markStoryRead(
     const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
 
     if (isSignalOnboardingStory) {
-      void markOnboardingStoryAsRead();
+      drop(markOnboardingStoryAsRead());
       return;
     }
 
     const storyReadDate = Date.now();
 
     message.set(markViewed(message.attributes, storyReadDate));
-    void window.Signal.Data.saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
+    drop(
+      dataInterface.saveMessage(message.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      })
+    );
 
     const conversationId = message.get('conversationId');
 
