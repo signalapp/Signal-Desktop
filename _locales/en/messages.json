@@ -6626,5 +6626,21 @@
   "icu:WhatsNew__v6.9--2": {
     "messageformat": "Use the voice notes mini player to continue listening to long messages even after you switch to a different chat.",
     "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.10--0": {
+    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--1": {
+    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--2": {
+    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--3": {
+    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "description": "Release notes for v6.10"
   }
 }
