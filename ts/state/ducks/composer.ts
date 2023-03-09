@@ -1147,6 +1147,7 @@ function saveDraft(
   }
 
   if (messageText !== conversation.get('draft')) {
+    log.info(`saveDraft(${conversation.idForLogging()})`);
     const now = Date.now();
     let activeAt = conversation.get('active_at');
     let timestamp = conversation.get('timestamp');

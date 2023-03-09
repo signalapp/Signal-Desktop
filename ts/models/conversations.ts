@@ -4205,6 +4205,9 @@ export class ConversationModel extends window.Backbone
 
         this.doAddSingleMessage(model, { isJustSent: true });
 
+        log.info(
+          `enqueueMessageForSend(${this.idForLogging()}): clearDraft(${!dontClearDraft})`
+        );
         const draftProperties = dontClearDraft
           ? {}
           : {
