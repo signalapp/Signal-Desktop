@@ -161,6 +161,10 @@
       margin: 0;
       margin-bottom: 8px;
     }
+
+    &--pnp-sharing {
+      min-height: 185px;
+    }
   }
 
   &__settings-row:not(:last-child) {

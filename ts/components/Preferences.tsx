@@ -1104,7 +1104,13 @@ export function Preferences({
           </div>
         </div>
 
-        <SettingsRow title={i18n('icu:Preferences__pnp__sharing--title')}>
+        <SettingsRow
+          title={i18n('icu:Preferences__pnp__sharing--title')}
+          className={classNames('Preferences__settings-row--pnp-sharing', {
+            'Preferences__settings-row--pnp-sharing--nobody':
+              whoCanSeeMe === PhoneNumberSharingMode.Nobody,
+          })}
+        >
           <SettingsRadio
             onChange={onWhoCanSeeMeChange}
             options={[
