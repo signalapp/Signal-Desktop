@@ -3,6 +3,8 @@
 
 /* eslint-disable max-classes-per-file */
 
+import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
+
 import { parseRetryAfter } from '../util/parseRetryAfter';
 
 import type { CallbackResultType } from './Types.d';
@@ -76,12 +78,13 @@ export class OutgoingIdentityKeyError extends ReplayableError {
   public readonly identifier: string;
 
   // Note: Data to resend message is no longer captured
-  constructor(incomingIdentifier: string) {
+  constructor(incomingIdentifier: string, cause?: LibSignalErrorBase) {
     const identifier = incomingIdentifier.split('.')[0];
 
     super({
       name: 'OutgoingIdentityKeyError',
       message: `The identity of ${identifier} has changed.`,
+      cause,
     });
 
     this.identifier = identifier;
