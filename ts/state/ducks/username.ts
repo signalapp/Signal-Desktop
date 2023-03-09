@@ -433,6 +433,7 @@ export function reducer(
       return {
         ...state,
         usernameReservation: {
+          reservation: state.usernameReservation.reservation,
           state: UsernameReservationState.Open,
           error: UsernameReservationError.ConflictOrGone,
         },

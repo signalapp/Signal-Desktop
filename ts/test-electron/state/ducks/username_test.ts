@@ -389,7 +389,10 @@ describe('electron/state/ducks/username', () => {
         getUsernameReservationState(state),
         UsernameReservationState.Open
       );
-      assert.strictEqual(getUsernameReservationObject(state), undefined);
+      assert.strictEqual(
+        getUsernameReservationObject(state),
+        DEFAULT_RESERVATION
+      );
       assert.strictEqual(
         getUsernameReservationError(state),
         UsernameReservationError.ConflictOrGone
