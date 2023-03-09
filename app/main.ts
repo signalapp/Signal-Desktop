@@ -694,8 +694,13 @@ async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
     }
     throw error;
   } finally {
-    window.webContents.removeListener('did-stop-loading', onDestroyed);
-    window.webContents.removeListener('destroyed', onDestroyed);
+    try {
+      window.webContents.removeListener('did-stop-loading', onDestroyed);
+      window.webContents.removeListener('destroyed', onDestroyed);
+    } catch {
+      // We already logged or thrown an error - don't bother with handling the
+      // error here.
+    }
   }
 }
 
