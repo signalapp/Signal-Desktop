@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usernames } from '@signalapp/libsignal-client';
+import { usernames, LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import { ToastFailedToFetchUsername } from '../components/ToastFailedToFetchUsername';
 import { ToastFailedToFetchPhoneNumber } from '../components/ToastFailedToFetchPhoneNumber';
@@ -15,7 +15,6 @@ import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
 import { getUuidsForE164s } from './getUuidsForE164s';
-import { isValidUsername } from './Username';
 
 export type LookupConversationWithoutUuidActionsType = Readonly<{
   lookupConversationWithoutUuid: typeof lookupConversationWithoutUuid;
@@ -137,10 +136,6 @@ export async function lookupConversationWithoutUuid(
 async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
-  if (!isValidUsername(username)) {
-    return undefined;
-  }
-
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server is not available!');
@@ -161,11 +156,15 @@ async function checkForUsername(
       username,
     };
   } catch (error) {
-    if (!(error instanceof HTTPError)) {
-      throw error;
+    if (error instanceof HTTPError) {
+      if (error.code === 404) {
+        return undefined;
+      }
     }
 
-    if (error.code === 404) {
+    // Invalid username
+    if (error instanceof LibSignalErrorBase) {
+      log.error('checkForUsername: invalid username');
       return undefined;
     }
 

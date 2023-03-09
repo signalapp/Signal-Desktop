@@ -11,11 +11,6 @@ import {
 } from '../../types/Username';
 import * as usernameServices from '../../services/username';
 import type { ReserveUsernameResultType } from '../../services/username';
-import {
-  isValidNickname,
-  getMinNickname,
-  getMaxNickname,
-} from '../../util/Username';
 import { missingCaseError } from '../../util/missingCaseError';
 import { sleep } from '../../util/sleep';
 import { assertDev } from '../../util/assert';
@@ -163,17 +158,6 @@ export function reserveUsername(
 > {
   return (dispatch, getState) => {
     if (!nickname) {
-      return;
-    }
-
-    if (!isValidNickname(nickname)) {
-      const error = getNicknameInvalidError(nickname);
-      if (error) {
-        dispatch(setUsernameReservationError(error));
-      } else {
-        assertDev(false, 'This should not happen');
-        dispatch(setUsernameReservationError(UsernameReservationError.General));
-      }
       return;
     }
 
@@ -364,6 +348,14 @@ export function reducer(
         stateError = UsernameReservationError.CheckCharacters;
       } else if (error === ReserveUsernameError.Conflict) {
         stateError = UsernameReservationError.UsernameNotAvailable;
+      } else if (error === ReserveUsernameError.NotEnoughCharacters) {
+        stateError = UsernameReservationError.NotEnoughCharacters;
+      } else if (error === ReserveUsernameError.TooManyCharacters) {
+        stateError = UsernameReservationError.TooManyCharacters;
+      } else if (error === ReserveUsernameError.CheckStartingCharacter) {
+        stateError = UsernameReservationError.CheckStartingCharacter;
+      } else if (error === ReserveUsernameError.CheckCharacters) {
+        stateError = UsernameReservationError.CheckCharacters;
       } else {
         throw missingCaseError(error);
       }
@@ -484,31 +476,4 @@ export function reducer(
   }
 
   return state;
-}
-
-// Helpers
-
-function getNicknameInvalidError(
-  nickname: string | undefined
-): UsernameReservationError | undefined {
-  if (!nickname) {
-    return undefined;
-  }
-
-  if (nickname.length < getMinNickname()) {
-    return UsernameReservationError.NotEnoughCharacters;
-  }
-
-  if (!/^[0-9a-z_]+$/.test(nickname)) {
-    return UsernameReservationError.CheckCharacters;
-  }
-  if (!/^[a-z_]/.test(nickname)) {
-    return UsernameReservationError.CheckStartingCharacter;
-  }
-
-  if (nickname.length > getMaxNickname()) {
-    return UsernameReservationError.TooManyCharacters;
-  }
-
-  return undefined;
 }

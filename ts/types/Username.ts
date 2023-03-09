@@ -10,6 +10,12 @@ export type UsernameReservationType = Readonly<{
 export enum ReserveUsernameError {
   Unprocessable = 'Unprocessable',
   Conflict = 'Conflict',
+
+  // Maps to UsernameReservationError in state/ducks/usernameEnums.ts
+  NotEnoughCharacters = 'NotEnoughCharacters',
+  TooManyCharacters = 'TooManyCharacters',
+  CheckStartingCharacter = 'CheckStartingCharacter',
+  CheckCharacters = 'CheckCharacters',
 }
 
 export enum ConfirmUsernameResult {

@@ -131,36 +131,6 @@ describe('electron/state/ducks/username', () => {
       );
     });
 
-    const NICKNAME_ERROR_COMBOS = [
-      ['x', UsernameReservationError.NotEnoughCharacters],
-      ['x'.repeat(128), UsernameReservationError.TooManyCharacters],
-      ['#$&^$)(', UsernameReservationError.CheckCharacters],
-      ['1abcdefg', UsernameReservationError.CheckStartingCharacter],
-    ];
-    for (const [nickname, error] of NICKNAME_ERROR_COMBOS) {
-      // eslint-disable-next-line no-loop-func
-      it(`should dispatch ${error} error for "${nickname}"`, async () => {
-        const clock = sandbox.useFakeTimers();
-
-        const doReserveUsername = sinon.stub().resolves(DEFAULT_RESERVATION);
-        const dispatch = sinon.spy();
-
-        actions.reserveUsername(nickname, {
-          doReserveUsername,
-        })(dispatch, () => emptyState, null);
-
-        await clock.runToLastAsync();
-
-        sinon.assert.calledOnce(dispatch);
-        sinon.assert.calledWith(dispatch, {
-          type: 'username/SET_RESERVATION_ERROR',
-          payload: {
-            error,
-          },
-        });
-      });
-    }
-
     it('should update reservation on success', () => {
       let state = emptyState;
 

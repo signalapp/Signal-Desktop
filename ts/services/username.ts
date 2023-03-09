@@ -1,7 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usernames } from '@signalapp/libsignal-client';
+import {
+  usernames,
+  LibSignalErrorBase,
+  ErrorCode,
+} from '@signalapp/libsignal-client';
 
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
@@ -100,6 +104,35 @@ export async function reserveUsername(
         await sleep(time, abortSignal);
 
         return reserveUsername(options);
+      }
+    }
+    if (error instanceof LibSignalErrorBase) {
+      if (
+        error.code === ErrorCode.CannotBeEmpty ||
+        error.code === ErrorCode.NicknameTooShort
+      ) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.NotEnoughCharacters,
+        };
+      }
+      if (error.code === ErrorCode.NicknameTooLong) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.TooManyCharacters,
+        };
+      }
+      if (error.code === ErrorCode.CannotStartWithDigit) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.CheckStartingCharacter,
+        };
+      }
+      if (error.code === ErrorCode.BadNicknameCharacter) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.CheckCharacters,
+        };
       }
     }
     throw error;
