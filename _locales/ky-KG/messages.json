@@ -52,6 +52,14 @@
     "message": "$contact$ кошулууда...",
     "description": "Shown in toast while a user is being added to a group"
   },
+  "icu:RecordingComposer__cancel": {
+    "messageformat": "Cancel",
+    "description": "Label of cancel button on voice note recording UI"
+  },
+  "icu:RecordingComposer__send": {
+    "messageformat": "Send",
+    "description": "Label of send button on voice note recording UI"
+  },
   "GroupListItem__message-default": {
     "message": "$count$ мүчө",
     "description": "Shown below the group name when selecting a group to invite a contact to"
@@ -1881,15 +1889,23 @@
   },
   "timestampFormat_M": {
     "message": "D MMM",
-    "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "timestampFormat__long--today": {
+    "message": "Today $time$",
+    "description": "Timestamp format string for displaying \"Today\" and the time"
+  },
+  "timestampFormat__long--yesterday": {
+    "message": "Yesterday $time$",
+    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
     "message": "[Бүгүн] LT",
-    "description": "Timestamp format string for displaying \"Today\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long__yesterday": {
     "message": "[Кечээ] LT",
-    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "messageBodyTooLong": {
     "message": "Билдирүүнүн тексти өтө узун.",
@@ -2580,6 +2596,18 @@
     "message": "Бул жерде жакында колдонулган стикерлер пайда болот.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "Соңкулар",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "Өзгөчөлөнгөндөр",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "Аналог убакыты",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "Стикерлер топтому",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2976,18 @@
     "message": "Сүйлөшүү окула элек деп белгиленди",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "Signal стикерлер топтомун түзгүчтү ачасызбы?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "Ырастоо",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "Жок",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "Стикерлер топтомун жаратуучусу",
     "description": "The title of the Sticker Pack Creator window"
@@ -3146,6 +3186,10 @@
   },
   "StickerCreator--Authentication--error": {
     "message": "Стикерлер топтомун жаратуучуну колдонуу үчүн телефонуңузга жана иш тактаңызга Signal'ды орнотуңуз",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -4854,11 +4898,11 @@
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, D MMM",
-    "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
     "message": "D MMM YYYY",
-    "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
     "message": "Кененирээк маалымат",
@@ -5430,23 +5474,75 @@
   },
   "Preferences__who-can--title": {
     "message": "Ким...",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "Бул тууралооңузду өзгөртүү үчүн мобилдик түзмөгүңүздө Signal колдонмосун ачып, Тууралоо > Купуялык дегенге өтүңүз",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "Баары",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "Менин байланыштарым",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "Эч ким",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "Телефон номериңиз",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "Телефон номериңиз кимдерге көрүнүп, Signal'да сиз менен кимдер байланыша алышат.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "Менин номерим кимге көрүнөт",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "Телефон номериңиз ким менен жазышсаңыз ошолорго көрүнөт. Байланыштар тизмесинде камтылган телефон номери Signal кызматында да көрүнөт.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Номериңиз Signal'да эч кимге көрүнбөйт.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "Телефон номериңиз",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "Баарына",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "Эч ким",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "Номерим аркылуу мени ким таба алат",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "Байланыштар тизмесинде телефон номериңиз камтылган адамдарга сиз Signal байланышы катары көрүнөсүз. Башкалар жаңы маек же топ баштаганда, сиз менен телефон номериңиз аркылуу байланыша алышат.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Сизди эч ким Signal'да телефон номериңиз аркылуу таба албайт.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "Баарына",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "Эч ким",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "Билдирүү алмашуу",
@@ -5551,6 +5647,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "Тууралооңузду сактоодо ката кетти. Сураныч, кайра аракет кылыңыз.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "Дагы башка стилдер",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "Тартуу",
@@ -6246,11 +6346,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "Видео өтө узун болгондуктан, окуя катары жарыялоого болбойт",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Видеонун форматы колдоого алынбагандыктан, окуя катары жарыялоого болбойт",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, other {Видеонун узактыгы {maxDurationInSec,number} секунддан ашып кеткендиктен, окуя катары жарыялай албайсыз.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "{limit}{units} ашып кеткендиктен, видеону окуя катары жарыялай албайсыз.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "Видео жүктөлгөн жок",
@@ -6401,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Телефон номерин табуу мүмкүнчүлүгүн Параметрлер > Телефон номери > Менин телефонумду кимдер таба алат деген бөлүмдө өчүрүп, башкалар сизди колдонуучу атыңыз аркылуу таба алгыдай кылсаңыз болот.",
+    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6491,5 +6599,49 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "Аудио жана видео чалуулардын ишенимдүүлүгүн жана майнаптуулугун жакшырткан бир катар мүмкүнчүлүктөрдү сынаганга жардам бериңиз. Бул бета версияда бир катар мүчүлүштүктөр оңдолуп, интерфейс бир аз жаңыланды (жаңы өзгөрүүлөр камтылган шилтемени караңыз). Бета версияны сынап бергениңиз үчүн чоң рахмат! Эгер кандайдыр бир мүчүлүштүктөрдү байкап калсаңыз, коомдоштук форумубуздан кабарлап коюңуз.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "Унааны жүктөй албаганыңыз менен, MP3 үн билдирүүсүн жүктөп алып, тийиштүү файл кеңейтүүсүндө сактап койсоңуз болот.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "Файл тиркегенден кийин билдирүү терип баштасаңыз болот же файлды жөнөтүү үчүн жөн гана Enter/Return баскычын басып коюңуз. Чоң рахмат {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "Чоңураак көрүнүштөгү жөнөтүү баскычы ишке киргизилди. Чоң рахмат {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "Топто жалгыз катышуучу болуп (азырынча), топтун ичинде чалганы жатсаңыз, ким чалат деп күтүп отурбастан, чалууга өзүңүз кошулуп, өзүңүз менен сүйлөшө берсеңиз болот. Чоң рахмат {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "Топтун ичинде ким сүйлөп жатканын көрсөтүп турган жаңы функция чыкты. Эгер өзүңүз сүйлөй турган болсоңуз, өзүңүздү караңыз.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "Медиа түзөтүүчүдөгү бир катар стикерлер менен сүрөттөрдү кооздоп жөнөтүп, жашооңузду кызыктуу кыла аласыз.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "Башка маекке которулсаңыз да, узак билдирүүлөрдү уга берүү үчүн үн билдирүүлөрүнүн чакан ойноткучун колдонсоңуз болот.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.10--0": {
+    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--1": {
+    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--2": {
+    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--3": {
+    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "description": "Release notes for v6.10"
   }
 }

@@ -52,6 +52,14 @@
     "message": "$contact$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Shown in toast while a user is being added to a group"
   },
+  "icu:RecordingComposer__cancel": {
+    "messageformat": "Cancel",
+    "description": "Label of cancel button on voice note recording UI"
+  },
+  "icu:RecordingComposer__send": {
+    "messageformat": "Send",
+    "description": "Label of send button on voice note recording UI"
+  },
   "GroupListItem__message-default": {
     "message": "$count$ ਮੈਂਬਰ",
     "description": "Shown below the group name when selecting a group to invite a contact to"
@@ -1881,15 +1889,23 @@
   },
   "timestampFormat_M": {
     "message": "MMM D",
-    "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "timestampFormat__long--today": {
+    "message": "Today $time$",
+    "description": "Timestamp format string for displaying \"Today\" and the time"
+  },
+  "timestampFormat__long--yesterday": {
+    "message": "Yesterday $time$",
+    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
     "message": "[ਅੱਜ] LT",
-    "description": "Timestamp format string for displaying \"Today\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long__yesterday": {
     "message": "[ਬੀਏ ਕੱਲ੍ਹ] LT",
-    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "messageBodyTooLong": {
     "message": "ਸੁਨੇਹੇ ਦਾ ਅਕਾਰ ਬਹੁਤ ਲੰਬਾ ਹੈ।",
@@ -2580,6 +2596,18 @@
     "message": "ਹਾਲ ਹੀ ਵਿੱਚ ਵਰਤੇ ਗਏ ਸਟਿੱਕਰ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੇ।",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "ਹਾਲੀਆ",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "ਖਾਸ",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "ਐਨਾਲਾਗ ਸਮਾਂ",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "ਸਟਿੱਕਰ ਪੈਕ",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2976,18 @@
     "message": "ਗੱਲਬਾਤ ਨੂੰ ਪੜ੍ਹੀ ਗਈ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਾਇਆ ਗਿਆ",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "ਕੀ ਤੁਸੀਂ Signal ਸਟਿੱਕਰ ਪੈਕ ਕ੍ਰੀਏਟਰ ਨੂੰ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "ਖਾਰਜ ਕਰੋ",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "ਸਟਿਕੱਰ ਪੈਕ ਨਿਰਮਾਤਾ",
     "description": "The title of the Sticker Pack Creator window"
@@ -3146,6 +3186,10 @@
   },
   "StickerCreator--Authentication--error": {
     "message": "ਸਟਿੱਕਰ ਪੈਕ ਤਿਆਰਕਰਤਾ ਨੂੰ ਵਰਤਣ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਫ਼ੋਨ ਅਤੇ ਡੈਸਕਟਾੱਪ ’ਤੇ Signal ਸਥਾਪਤ ਕਰੋ",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -4854,11 +4898,11 @@
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, D MMM",
-    "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
     "message": "D MMM, YYYY",
-    "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
     "message": "ਜਿਆਦਾ ਜਾਣੋ",
@@ -5430,23 +5474,75 @@
   },
   "Preferences__who-can--title": {
     "message": "ਇਹ ਕੌਣ ਕਰ ਸਕਦਾ ਹੈ…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "ਇਸ ਸੈਟਿੰਗ ਨੂੰ ਬਦਲਣ ਲਈ, ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ Signal ਐਪ ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ > ਪਰਦੇਦਾਰੀ 'ਤੇ ਜਾਓ",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "ਹਰ ਕੋਈ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "ਮੇਰੇ ਸੰਪਰਕ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "ਕੋਈ ਵੀ ਨਹੀਂ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "ਫ਼ੋਨ ਨੰਬਰ",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "ਚੁਣੋ ਕਿ ਤੁਹਾਡਾ ਫ਼ੋਨ ਨੰਬਰ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ ਅਤੇ ਕੌਣ ਤੁਹਾਡੇ ਨਾਲ Signal 'ਤੇ ਸੰਪਰਕ ਕਰ ਸਕਦਾ ਹੈ।",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "ਮੇਰਾ ਨੰਬਰ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "ਤੁਹਾਡਾ ਫ਼ੋਨ ਨੰਬਰ ਉਹਨਾਂ ਲੋਕਾਂ ਅਤੇ ਗਰੁੱਪਾਂ ਨੂੰ ਦਿਖਾਈ ਦੇਵੇਗਾ ਜਿਹਨਾਂ ਨੂੰ ਤੁਸੀਂ ਸੁਨੇਹਾ ਭੇਜਦੇ ਹੋ। ਜਿਹਨਾਂ ਲੋਕਾਂ ਦੇ ਫ਼ੋਨ ਵਿੱਚ ਤੁਹਾਡਾ ਫ਼ੋਨ ਨੰਬਰ ਸੇਵ ਕੀਤਾ ਹੋਇਆ ਹੈ, ਉਹ ਵੀ ਤੁਹਾਨੂੰ Signal ਉੱਤੇ ਦੇਖ ਸਕਣਗੇ।",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "ਕੋਈ ਵੀ Signal ਉੱਤੇ ਤੁਹਾਡੇ ਫ਼ੋਨ ਨੰਬਰ ਨਹੀਂ ਦੇਖ ਸਕੇਗਾ।",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "ਫ਼ੋਨ ਨੰਬਰ",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "ਸਾਰੇ",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "ਕੋਈ ਵੀ ਨਹੀਂ",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "ਮੈਨੂੰ ਮੇਰੇ ਨੰਬਰ ਨਾਲ ਕੌਣ ਲੱਭ ਸਕਦਾ ਹੈ",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "ਜਿਸ ਵਿਅਕਤੀ ਦੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਤੁਹਾਡਾ ਫ਼ੋਨ ਨੰਬਰ ਮੌਜੂਦ ਹੈ, ਉਹ ਤੁਹਾਨੂੰ Signal ਉੱਤੇ ਆਪਣੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਦੇਖ ਸਕਦਾ ਹੈ। ਹੋਰ ਲੋਕ ਕੋਈ ਨਵੀਂ ਚੈਟ ਜਾਂ ਗਰੁੱਪ ਸ਼ੁਰੂ ਕਰਨ 'ਤੇ ਤੁਹਾਡੇ ਫ਼ੋਨ ਨੰਬਰ ਰਾਹੀਂ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰ ਸਕਣਗੇ।",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "Signal ਉੱਤੇ ਕੋਈ ਵੀ ਤੁਹਾਡੇ ਨੰਬਰ ਰਾਹੀਂ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਨਹੀਂ ਕਰ ਸਕੇਗਾ।",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "ਸਾਰੇ",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "ਕੋਈ ਵੀ ਨਹੀਂ",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "ਸੁਨੇਹੇ ਲੈਣ-ਦੇਣ",
@@ -5551,6 +5647,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "ਤੁਹਾਡੀਆਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਸੇਵ ਕਰਦੇ ਸਮੇਂ ਕ੍ਇੱਕੋਈ ਗੜਬੜੀ ਪੇਸ਼ ਆ ਗਈ ਸੀ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ ਕਰੋ।",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "ਹੋਰ ਸ਼ੈਲੀਆਂ",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "ਖਿੱਚੋ",
@@ -6246,11 +6346,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "ਵੀਡੀਓ ਨੂੰ ਸਟੋਰੀ ਵਿੱਚ ਪੋਸਟ ਨਹੀਂ ਕੀਤਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ ਬਹੁਤ ਲੰਮੀ ਹੈ",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ਵੀਡੀਓ ਨੂੰ ਸਟੋਰੀ ਵਿੱਚ ਪੋਸਟ ਨਹੀਂ ਕੀਤਾ ਸਕਦਾ ਕਿਉਂਕਿ ਫਾਈਲ ਦਾ ਫਾਰਮੈਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {ਵੀਡੀਓ ਨੂੰ ਸਟੋਰੀ ਵਿੱਚ ਪੋਸਟ ਨਹੀਂ ਕੀਤਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ 1 ਸਕਿੰਟ ਤੋਂ ਲੰਮੀ ਹੈ।} other {ਵੀਡੀਓ ਨੂੰ ਸਟੋਰੀ ਵਿੱਚ ਪੋਸਟ ਨਹੀਂ ਕੀਤਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ {maxDurationInSec,number} ਸਕਿੰਟ ਲੰਮੀ ਹੈ।}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "ਵੀਡੀਓ ਨੂੰ ਸਟੋਰੀ ਵਿੱਚ ਪੋਸਟ ਨਹੀਂ ਕੀਤਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ {limit}{units} ਤੋਂ ਲੰਮੀ ਹੈ।",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "ਵੀਡੀਓ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਫਲ ਰਹੇ",
@@ -6401,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "ਹੋਰ ਲੋਕ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰ ਸਕਣ, ਇਸਦੇ ਲਈ ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੀ ਵਰਤੋਂ ਮੁੱਖ ਤਰੀਕੇ ਵਜੋਂ ਕਰਨ ਲਈ, ਸੈਟਿੰਗਾਂ > ਫ਼ੋਨ ਨੰਬਰ > ਮੇਰਾ ਨੰਬਰ ਕੌਣ ਲੱਭ ਸਕਦਾ ਹੈ, ਵਿੱਚ ਜਾ ਕੇ ਫ਼ੋਨ ਨੰਬਰ ਖੋਜ ਨੂੰ ਬੰਦ ਕਰੋ।",
+    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6491,5 +6599,49 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਕਈ ਭਰੋਸੇਯੋਗ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਸੁਧਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ। ਇਸ ਬੀਟਾ ਰੀਲੀਜ਼ ਵਿੱਚ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ UI ਵਿੱਚ ਛੋਟੇ-ਮੋਟੇ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ ਹਨ (ਨਵੇਂ ਲਿੰਕ ਦੀ ਝਲਕ ਵਾਲੇ ਸੁਧਾਰਾਂ ਲਈ ਦੇਖੋ!) ਬੀਟਾ ਟੈਸਟਰ ਬਣਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ, ਅਤੇ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਖ਼ਰਾਬੀ ਲੱਭਦੀ ਹੈ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਕਮਿਊਨਿਟੀ ਫੋਰਮ 'ਤੇ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "ਤੁਸੀਂ ਕੋਈ ਫਾਲਤੂ ਚੀਜ਼ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰੋਗੇ, ਪਰ ਹੁਣ ਜਦੋਂ ਤੁਸੀਂ MP3 ਵੌਇਸ ਨੋਟ ਡਾਊਨਲੋਡ ਕਰਦੇ ਹੋ ਤਾਂ ਉਸਨੂੰ ਇੱਕ ਸਹੀ ਫ਼ਾਈਲ ਐਕਸਟੈਂਸ਼ਨ ਨਾਲ ਸੇਵ ਕੀਤਾ ਜਾਵੇਗਾ।",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "ਫ਼ਾਈਲ ਅਟੈਚ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਰੰਤ ਸੁਨੇਹਾ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ, ਜਾਂ ਬਿਨਾਂ ਕਿਸੇ ਵਾਧੂ ਕਲਿੱਕ ਦੇ ਫ਼ਾਈਲ ਭੇਜਣ ਲਈ ਐਂਟਰ/ਰਿਟਰਨ ਬਟਨ ਦਬਾਓ। ਧੰਨਵਾਦ, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "ਵੱਡੇ ਕੰਪੋਜਿਸ਼ਨ ਵਿਊ ਵਿੱਚ ਭੇਜੋ ਬਟਨ ਨੂੰ ਅਲਾਈਨਮੈਂਟ ਵਿੱਚ ਲਿਆਂਦਾ ਗਿਆ ਹੈ। ਧੰਨਵਾਦ, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "ਜੇਕਰ ਗਰੁੱਪ ਵਿੱਚ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਹੋ (ਹੁਣ ਤੱਕ) ਅਤੇ ਤੁਸੀਂ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ, ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਸਕਦੇ ਹੋ ਅਤੇ ਕਾਲ ਦੀ ਰਿੰਗ ਵੱਜਣ ਦੀ ਉਡੀਕ ਕਰਨ ਦੀ ਬਜਾਏ ਤੁਰੰਤ ਖੁਦ ਨਾਲ ਗੱਲ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰ ਸਕਦੇ ਹੋ। ਧੰਨਵਾਦ, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "ਨਵੇਂ ਹਾਈਲਾਈਟ ਫੀਚਰ ਨਾਲ ਤੁਰੰਤ ਜਾਣੋ ਕਿ ਗਰੁੱਪ ਕਾਲ ਦੇ ਦੌਰਾਨ ਕੌਣ ਬੋਲ ਰਿਹਾ ਹੈ, ਇਸ ਨਾਲ ਤੁਹਾਨੂੰ ਪਤਾ ਲੱਗੇਗਾ ਕਿ ਕਿੱਥੇ ਦੇਖਣਾ ਹੈ। ਜੇਕਰ ਬੋਲਣ ਦੀ ਵਾਰੀ ਤੁਹਾਡੀ ਹੈ, ਤਾਂ ਤੁਹਾਨੂੰ ਹਾਈਲਾਈਟ ਵੱਲ ਦੇਖਣਾ ਹੋਵੇਗਾ।",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "ਮੀਡੀਆ ਐਡੀਟਰ ਵਿੱਚ ਭਿੰਨ-ਭਿੰਨ ਸਟਿੱਕਰਾਂ ਨਾਲ ਆਪਣੀ ਜ਼ਿੰਦਗੀ ਨੂੰ ਮਜ਼ੇਦਾਰ ਬਣਾਓ, ਇਸ ਨਾਲ ਤੁਸੀਂ ਭੇਜੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਤਸਵੀਰਾਂ 'ਤੇ ਵੱਖਰੇ-ਵੱਖਰੇ ਸਟਾਈਲ ਵਾਲੀਆਂ ਸਜਾਵਟਾਂ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ।",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "ਕਿਸੇ ਵੱਖਰੀ ਚੈਟ 'ਤੇ ਸਵਿੱਚ ਕਰਨ ਤੋਂ ਬਾਅਦ ਵੀ ਵੌਇਸ ਨੋਟਸ ਮਿੰਨੀ ਪਲੇਅਰ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਲੰਬੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਸੁਣਨਾ ਜਾਰੀ ਰੱਖੋ।",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.10--0": {
+    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--1": {
+    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--2": {
+    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--3": {
+    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "description": "Release notes for v6.10"
   }
 }

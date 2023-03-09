@@ -52,6 +52,14 @@
     "message": "ვამატებთ $contact$-ს…",
     "description": "Shown in toast while a user is being added to a group"
   },
+  "icu:RecordingComposer__cancel": {
+    "messageformat": "Cancel",
+    "description": "Label of cancel button on voice note recording UI"
+  },
+  "icu:RecordingComposer__send": {
+    "messageformat": "Send",
+    "description": "Label of send button on voice note recording UI"
+  },
   "GroupListItem__message-default": {
     "message": "$count$ წევრი",
     "description": "Shown below the group name when selecting a group to invite a contact to"
@@ -1881,15 +1889,23 @@
   },
   "timestampFormat_M": {
     "message": "MMM D",
-    "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "timestampFormat__long--today": {
+    "message": "Today $time$",
+    "description": "Timestamp format string for displaying \"Today\" and the time"
+  },
+  "timestampFormat__long--yesterday": {
+    "message": "Yesterday $time$",
+    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
     "message": "[დღეს] LT",
-    "description": "Timestamp format string for displaying \"Today\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long__yesterday": {
     "message": "[გუშინ] LT",
-    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
+    "description": "(deleted 01/25/2023) Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "messageBodyTooLong": {
     "message": "შეტყობინების ზომა ზედმეტად დიდია.",
@@ -2580,6 +2596,18 @@
     "message": "ბოლოს გამოყენებული სტიკერები აქ გამოჩნდა.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
+  "icu:stickers__StickerPicker__recent": {
+    "messageformat": "ბოლოს გამოყენებული",
+    "description": "Title for all of the recent stickers"
+  },
+  "icu:stickers__StickerPicker__featured": {
+    "messageformat": "გამორჩეული",
+    "description": "Title for featured stickers"
+  },
+  "icu:stickers__StickerPicker__analog-time": {
+    "messageformat": "დროის ანალოგი",
+    "description": "aria-label for the analog time sticker"
+  },
   "stickers--StickerPreview--Title": {
     "message": "სტიკერების ნაკრები",
     "description": "The title that appears in the sticker pack preview modal."
@@ -2948,6 +2976,18 @@
     "message": "მიმოწერა მონიშნულია წაუკითხავად",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
+  "icu:AuthArtCreator--dialog--message": {
+    "messageformat": "გსურს, გახსნა Signal-ის Sticker Pack Creator?",
+    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+  },
+  "icu:AuthArtCreator--dialog--confirm": {
+    "messageformat": "დადასტურება",
+    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+  },
+  "icu:AuthArtCreator--dialog--dismiss": {
+    "messageformat": "გაუქმება",
+    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+  },
   "StickerCreator--title": {
     "message": "სტიკერების ნაკრების შემქმნელი",
     "description": "The title of the Sticker Pack Creator window"
@@ -3146,6 +3186,10 @@
   },
   "StickerCreator--Authentication--error": {
     "message": "გთხოვთ, დააყენო Signal-ი შენს მობილურსა და კომპიუტერზე Sticker Pack Creator გამოსაყენებლად",
+    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "icu:ArtCreator--Authentication--error": {
+    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -4854,11 +4898,11 @@
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM დ",
-    "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
     "message": "D MMM, YYYY",
-    "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    "description": "(deleted 01/25/2023) Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
     "message": "გაიგე მეტი",
@@ -5430,23 +5474,75 @@
   },
   "Preferences__who-can--title": {
     "message": "ვის შეუძლია…",
-    "description": "Title for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
     "message": "ამ პარამეტრების შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და გადადი პარამეტრებში, შემდეგ კი > კონფიდენციალურობა",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
   },
   "Preferences__who-can--everybody": {
     "message": "ყველას",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--contacts": {
     "message": "ჩემს კონტაქტებს",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
   },
   "Preferences__who-can--nobody": {
     "message": "არავინ",
-    "description": "Option for who can see my X select"
+    "description": "(deleted 2022/02/14) Option for who can see my X select"
+  },
+  "icu:Preferences__pnp__row--title": {
+    "messageformat": "ტელეფონის ნომერი",
+    "description": "Title of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--body": {
+    "messageformat": "შეარჩიე, ვის შეუძლია ნახოს შენი ტელეფონის ნომერი და ვინ შეიძლება დაგიკავშირდეს Signal-ზე მისი დახმარებით.",
+    "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__sharing--title": {
+    "messageformat": "ვის შეუძლია ჩემი ნომრის ნახვა",
+    "description": "Title for the phone number sharing setting row"
+  },
+  "icu:Preferences__pnp__sharing--description--everyone": {
+    "messageformat": "შენი ტელეფონის ნომერი ხილული იქნება ყველა ადამიანისა და ჯგუფისთვის, რომელთაც სწერ. ადამიანები, რომლებსაც შენი ნომერი სატელეფონო კონტაქტებში აქვთ, მას Signal-ზეც ნახავენ.",
+    "description": "Description for the phone number sharing setting row when the value is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody": {
+    "messageformat": "Signal-ზე შენი ტელეფონის ნომერს ვერავინ ნახავს.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody"
+  },
+  "icu:Preferences__pnp--page-title": {
+    "messageformat": "ტელეფონის ნომერი",
+    "description": "Title of the page in Phone Number Privacy settings"
+  },
+  "icu:Preferences__pnp__sharing__everyone": {
+    "messageformat": "ყველა",
+    "description": "Option for sharing phone number with everyone"
+  },
+  "icu:Preferences__pnp__sharing__nobody": {
+    "messageformat": "არავინ",
+    "description": "Option for sharing phone number with nobody"
+  },
+  "icu:Preferences__pnp__discoverability--title": {
+    "messageformat": "ვის შეუძლია ნომრით მიპოვოს",
+    "description": "Title for the phone number discoverability setting row"
+  },
+  "icu:Preferences__pnp__discoverability--description--everyone": {
+    "messageformat": "ნებისმიერი, ვისაც შენი ტელეფონის ნომერი კონტაქტებში აქვს, Signal-ზე კონტაქტის სახით გნახავს. სხვები შენთან დაკავშირებას შენი ტელეფონის ნომრით შეძლებენ, როცა ისინი ახალ ჩატს ან ჯგუფს დაიწყებენ.",
+    "description": "Description for the phone number discoverability setting row wth the value is everyone"
+  },
+  "icu:Preferences__pnp__discoverability--description--nobody": {
+    "messageformat": "ვერავინ შეძლებს Signal-ზე შენს მოძებნას მობილურის ნომრით.",
+    "description": "Description for the phone number discoverability setting row wth the value is nobody"
+  },
+  "icu:Preferences__pnp__discoverability__everyone": {
+    "messageformat": "ყველა",
+    "description": "Option for letting everyone discover you by phone number"
+  },
+  "icu:Preferences__pnp__discoverability__nobody": {
+    "messageformat": "არავინ",
+    "description": "Option for letting nobody discover you by phone number"
   },
   "Preferences--messaging": {
     "message": "მიმოწერა",
@@ -5551,6 +5647,10 @@
   "CustomizingPreferredReactions__had-save-error": {
     "message": "შენი პარამეტრების შენახვისას მოხდა შეცდომა. გთხოვთ კიდევ სცადო.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__clock-more-styles": {
+    "messageformat": "მეტი ვარიანტი",
+    "description": "Action button for switching up the clock styles"
   },
   "MediaEditor__control--draw": {
     "message": "ხატვა",
@@ -6246,11 +6346,19 @@
   },
   "StoryCreator__error--video-too-long": {
     "message": "ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან ის ზედმეტად გრძელია",
-    "description": "Error string for when a video post to story fails"
+    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან მისი ფაილის ფორმატს მხარდაჭერა არ აქვს",
     "description": "Error string for when a video post to story fails"
+  },
+  "icu:StoryCreator__error--video-too-long": {
+    "messageformat": "{maxDurationInSec, plural, one {ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან ის 1 წამზე გრძელია.} other {ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან ის {maxDurationInSec,number} წამზე გრძელია.}}",
+    "description": "Error string for when a video post to story fails because video's duration is too long"
+  },
+  "icu:StoryCreator__error--video-too-big": {
+    "messageformat": "ვიდეოს Story-ში დაპოსტვა ვერ მოხერხდა, რადგან ის {limit}{units}-ზე დიდია.",
+    "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
     "message": "ვიდეოს ჩატვირთვა ვერ მოხერხდა",
@@ -6401,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "გამორთე ტელეფონის ნომრის აღმოჩენა სექციაში: პარამეტრები > ტელეფონის ნომერი > ვინ შეძლებს ჩემი ნომრის პოვნას, რათა შენი მომხმარებლის სახელი იყოს ძირითადი გზა, რომლითაც სხვები შენთან დაკავშირებას შეძლებენ.",
+    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6491,5 +6599,49 @@
   "icu:WhatsNew__v6.6--0": {
     "messageformat": "დაგვეხმარე ხმოვანი და ვიდეო ზარების საიმედოობისა და პერფორმანსის რამდენიმე გაუმჯობესების გატესტვაში. ამ ბეტა გამოშვებაში ასევე შედის რამდენიმე ბაგის გასწორება და UI ინტერფეისის მცირე განახლება (მოძებნე ბმულის გადახედვის გაუმჯობესებული ფუნქცია!). მადლობას გიხდით იმისთვის, რომ ბეტა ტესტერი ხარ და თუ რაიმე შეცდომას შეამჩნევ, გთხოვთ საზოგადოების ფორუმზე დაგვიკავშირდე.",
     "description": "Release notes for v6.6"
+  },
+  "icu:WhatsNew__v6.8--0": {
+    "messageformat": "მანქანას ვერ გადმოიწერდი, მაგრამ ახლა როდესაც MP3 ხმოვან შეტყობინებას ჩამოტვირთავ, ის ფაილის სათანადო გაფართოებით შეინახება.",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--1": {
+    "messageformat": "სწრაფად დაიწყე შეტყობინეის აკრეფა ფაილის მიმაგრების შემდეგ, ან უბრალოდ დააჭირე შესვლას/უკან დაბრუნებას, რომ ფაილი დამატებითი დაწკაპუნების გარეშე გაგზავნო. მადლობა, {zyphlar}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--2": {
+    "messageformat": "გავასწორეთ გაგზავნის ღილაკი დიდი კომპოზიციის ხედში. მადლობა, {hackerbirds}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.8--3": {
+    "messageformat": "თუ ჯგუფში ერთადერთი ადამიანი ხარ (ჯერჯერობით) და ჯგუფური ზარის დაწყებას ცდილობ, ახლა უკვე შეგიძლია, ზარის ხმის ლოდინის ნაცვლად, ზარს შეუერთდე და საუბარი დაუყოვნებლივ დაიწყო. მადლობა, {lamemakes}!",
+    "description": "Release notes for v6.8"
+  },
+  "icu:WhatsNew__v6.9--0": {
+    "messageformat": "მარტივად ნახე ვინ საუბრობს ჯგუფური ზარების დროს, გამოკვეთის ახალი ფუნქციით, რომელიც გიჩვენებს თუ ვის უნდა უყურო. თუ შენი ჯერი დადგა ილაპარაკო, მაშინ შეიგნით უნდა შეიხედო.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--1": {
+    "messageformat": "გაატარე დაუვიწყარი დრო მედიის რედაქტორში არსებული რამდენიმე სტიკერის დახმარებით, რომელიც საშუალებას გაძლევს, დაამატო სტილიზებული დროის დეკორაციები გაგზავნილ სურათებზე.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.9--2": {
+    "messageformat": "გამოიყენე ხმოვანი შეტყობინებების მინი ფლეიერი, რათა გრძელი შეტყობინებების მოსმენა გააგრძელო მაშინაც კი, როდესაც სხვა ჩატში გადახვალ.",
+    "description": "Release notes for v6.9"
+  },
+  "icu:WhatsNew__v6.10--0": {
+    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--1": {
+    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--2": {
+    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.10--3": {
+    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "description": "Release notes for v6.10"
   }
 }
