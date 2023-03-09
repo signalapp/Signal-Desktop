@@ -309,7 +309,7 @@ export function Lightbox({
     thumbnailsAnimation.set({
       marginLeft:
         thumbnailsMarginLeft +
-        (selectedIndex === 0 ? -1 : 1) * THUMBNAIL_FULL_WIDTH,
+        (selectedIndex === 0 ? 1 : -1) * THUMBNAIL_FULL_WIDTH,
       opacity: 0,
     });
     thumbnailsAnimation.start({
