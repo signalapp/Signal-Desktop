@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import { getClassNamesFor } from '../util/getClassNamesFor';
@@ -53,6 +53,13 @@ export function CircleCheckbox({
     throw missingCaseError(variant);
   }
 
+  const onChangeWrapped = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(ev.target.checked);
+    },
+    [onChange]
+  );
+
   return (
     <div className={classNames(getClassName('__checkbox'), variantModifier)}>
       <input
@@ -61,7 +68,7 @@ export function CircleCheckbox({
         aria-disabled={disabled}
         id={id}
         name={name}
-        onChange={onChange && (ev => onChange(ev.target.checked))}
+        onChange={onChangeWrapped}
         onClick={onClick}
         type={isRadio ? 'radio' : 'checkbox'}
       />

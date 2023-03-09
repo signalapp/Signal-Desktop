@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
@@ -204,6 +204,11 @@ export function ConversationDetails({
   const cannotLeaveBecauseYouAreLastAdmin =
     isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
 
+  const onCloseModal = useCallback(() => {
+    setModalState(ModalState.NothingOpen);
+    setEditGroupAttributesRequestState(RequestState.Inactive);
+  }, []);
+
   let modalNode: ReactNode;
   switch (modalState) {
     case ModalState.NothingOpen:
@@ -242,10 +247,7 @@ export function ConversationDetails({
               },
             });
           }}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-            setEditGroupAttributesRequestState(RequestState.Inactive);
-          }}
+          onClose={onCloseModal}
           requestState={editGroupAttributesRequestState}
           title={conversation.title}
           deleteAvatarFromDisk={deleteAvatarFromDisk}
@@ -289,10 +291,7 @@ export function ConversationDetails({
           }}
           maxGroupSize={maxGroupSize}
           maxRecommendedGroupSize={maxRecommendedGroupSize}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-            setEditGroupAttributesRequestState(RequestState.Inactive);
-          }}
+          onClose={onCloseModal}
           requestState={addGroupMembersRequestState}
         />
       );
@@ -303,9 +302,7 @@ export function ConversationDetails({
           i18n={i18n}
           id={conversation.id}
           muteExpiresAt={conversation.muteExpiresAt}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-          }}
+          onClose={onCloseModal}
           setMuteExpiration={setMuteExpiration}
         />
       );
@@ -324,9 +321,7 @@ export function ConversationDetails({
           hasXButton
           i18n={i18n}
           title={i18n('ConversationDetails__unmute--title')}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-          }}
+          onClose={onCloseModal}
         >
           {getMutedUntilText(Number(conversation.muteExpiresAt), i18n)}
         </ConfirmationDialog>
