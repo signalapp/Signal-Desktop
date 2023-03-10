@@ -4384,11 +4384,15 @@ export class ConversationModel extends window.Backbone
     }
 
     const currentTimestamp = this.get('timestamp') || null;
-    const timestamp = activityMessage
-      ? activityMessage.get('sent_at') ||
-        activityMessage.get('received_at') ||
-        currentTimestamp
-      : currentTimestamp;
+
+    let timestamp = currentTimestamp;
+    if (activityMessage) {
+      const receivedAt = activityMessage.get('received_at_ms');
+      timestamp = receivedAt
+        ? Math.min(activityMessage.get('sent_at'), receivedAt)
+        : activityMessage.get('sent_at');
+    }
+    timestamp = timestamp || currentTimestamp;
 
     this.set({
       lastMessage:
