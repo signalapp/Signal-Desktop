@@ -10,7 +10,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { noop, omit } from 'lodash';
+import { omit } from 'lodash';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
 import type { ListRowProps } from 'react-virtualized';
@@ -340,9 +340,9 @@ export function ChooseGroupMembersModal({
             toggleConversationInChooseMembers={conversationId =>
               handleContactClick(conversationId, undefined)
             }
-            showUserNotFoundModal={noop}
+            showUserNotFoundModal={showUserNotFoundModal}
             setIsFetchingUUID={setIsFetchingUUID}
-            lookupConversationWithoutUuid={() => Promise.resolve(undefined)}
+            lookupConversationWithoutUuid={lookupConversationWithoutUuid}
           />
         );
         break;

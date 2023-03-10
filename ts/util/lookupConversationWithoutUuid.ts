@@ -136,6 +136,14 @@ export async function lookupConversationWithoutUuid(
 async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
+  let hash: Buffer;
+  try {
+    hash = usernames.hash(username);
+  } catch (error) {
+    log.error('checkForUsername: invalid username', Errors.toLogFormat(error));
+    return undefined;
+  }
+
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server is not available!');
@@ -143,7 +151,7 @@ async function checkForUsername(
 
   try {
     const account = await server.getAccountForUsername({
-      hash: usernames.hash(username),
+      hash,
     });
 
     if (!account.uuid) {
