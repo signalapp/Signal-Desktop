@@ -9,13 +9,14 @@ import { Data } from '../../ts/data/data';
 
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
-import { showMessageRequestBanner } from '../state/ducks/userConfig';
+import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -258,9 +259,9 @@ async function handleRegularMessage(
       if (
         conversation.isIncomingRequest() &&
         isFirstRequestMessage &&
-        window.inboxStore?.getState().userConfig.hideMessageRequests
+        getHideMessageRequestBannerOutsideRedux()
       ) {
-        window.inboxStore?.dispatch(showMessageRequestBanner());
+        showMessageRequestBannerOutsideRedux();
       }
 
       // For edge case when messaging a client that's unable to explicitly send request approvals

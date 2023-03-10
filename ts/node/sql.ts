@@ -428,10 +428,6 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     groupAdmins,
     groupModerators,
     isKickedFromGroup,
-    subscriberCount,
-    readCapability,
-    writeCapability,
-    uploadCapability,
     is_medium_group,
     avatarPointer,
     avatarImageId,
@@ -444,11 +440,10 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     displayNameInProfile,
     conversationIdOrigin,
     hidden,
-    // identityPrivateKey,
+    markedAsUnread,
   } = formatted;
 
-  console.warn('FIXME omit(formatted, identityPrivateKey);');
-  const omited = omit(formatted, 'identityPrivateKey', 'markedAsUnread');
+  const omited = omit(formatted);
   const keys = Object.keys(omited);
   const columnsCommaSeparated = keys.join(', ');
   const valuesArgs = keys.map(k => `$${k}`).join(', ');
@@ -488,10 +483,6 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       groupModerators:
         groupModerators && groupModerators.length ? arrayStrToJson(groupModerators) : '[]',
       isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
-      subscriberCount,
-      readCapability: toSqliteBoolean(readCapability),
-      writeCapability: toSqliteBoolean(writeCapability),
-      uploadCapability: toSqliteBoolean(uploadCapability),
 
       is_medium_group: toSqliteBoolean(is_medium_group),
       avatarPointer,
@@ -504,8 +495,8 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       avatarInProfile,
       displayNameInProfile,
       conversationIdOrigin,
-      // identityPrivateKey,
       hidden,
+      markedAsUnread: toSqliteBoolean(markedAsUnread),
     });
 }
 
@@ -536,14 +527,14 @@ function getConversationById(id: string, instance?: BetterSqlite3.Database) {
       id,
     });
 
-  return formatRowOfConversation(row);
+  return formatRowOfConversation(row, 'getConversationById');
 }
 
 function getAllConversations() {
   const rows = assertGlobalInstance()
     .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
-  return (rows || []).map(formatRowOfConversation);
+  return (rows || []).map(m => formatRowOfConversation(m, 'getAllConversations'));
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
@@ -590,7 +581,7 @@ function searchConversations(query: string) {
       limit: 50,
     });
 
-  return (rows || []).map(formatRowOfConversation);
+  return (rows || []).map(m => formatRowOfConversation(m, 'searchConversations'));
 }
 
 // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
@@ -1089,9 +1080,7 @@ function getUnreadCountByConversation(conversationId: string) {
     });
 
   if (!row) {
-    throw new Error(
-      `getUnreadCountByConversation: Unable to get unread count of ${conversationId}`
-    );
+    throw new Error(`Unable to get unread count of ${conversationId}`);
   }
 
   return row['count(*)'];
@@ -2131,12 +2120,15 @@ function cleanUpOldOpengroupsOnStart() {
             start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
         );
 
-        const unreadCount = getUnreadCountByConversation(convoId);
-        const convoProps = getConversationById(convoId);
-        if (convoProps) {
-          convoProps.unreadCount = unreadCount;
-          saveConversation(convoProps);
-        }
+        // no need to update the `unreadCount` during the migration anymore.
+        // `saveConversation` is broken when called with a argument without all the required fields.
+        // and this makes little sense as the unreadCount will be updated on opening
+        // const unreadCount = getUnreadCountByConversation(convoId);
+        // const convoProps = getConversationById(convoId);
+        // if (convoProps) {
+        //   convoProps.unreadCount = unreadCount;
+        //   saveConversation(convoProps);
+        // }
       } else {
         console.info(
           `Not cleaning messages older than 6 months in public convo: ${convoId}. message count: ${messagesInConvoBefore}`

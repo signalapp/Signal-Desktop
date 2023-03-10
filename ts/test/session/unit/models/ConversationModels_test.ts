@@ -84,21 +84,6 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('subscriberCount', () => {
-    it('initialize subscriberCount if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'subscriberCount',
-        0
-      );
-    });
-
-    it('do not override subscriberCount if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({ subscriberCount: 123 } as ConversationAttributes)
-      ).to.have.deep.property('subscriberCount', 123);
-    });
-  });
-
   describe('expireTimer', () => {
     it('initialize expireTimer if not given', () => {
       expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(

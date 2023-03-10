@@ -17,7 +17,11 @@ import {
 } from '../../interactions/conversationInteractions';
 import { Constants } from '../../session';
 import { closeRightPanel } from '../../state/ducks/conversations';
-import { getSelectedConversation, isRightPanelShowing } from '../../state/selectors/conversations';
+import {
+  getCurrentSubscriberCount,
+  getSelectedConversation,
+  isRightPanelShowing,
+} from '../../state/selectors/conversations';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -189,6 +193,7 @@ export const SessionRightPanelWithDetails = () => {
 
   const selectedConversation = useSelector(getSelectedConversation);
   const isShowing = useSelector(isRightPanelShowing);
+  const subscriberCount = useSelector(getCurrentSubscriberCount);
 
   useEffect(() => {
     let isRunning = true;
@@ -229,7 +234,6 @@ export const SessionRightPanelWithDetails = () => {
 
   const {
     id,
-    subscriberCount,
     displayNameInProfile,
     isKickedFromGroup,
     left,

@@ -80,6 +80,8 @@ import { ed25519Str } from '../session/onions/onionPath';
 import { ConfigurationDumpSync } from '../session/utils/job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
+import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
+import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
 import { getOurProfile } from '../session/utils/User';
 import { createLastMessageUpdate } from '../types/Conversation';
@@ -90,8 +92,10 @@ import {
 } from '../types/MessageAttachment';
 import { IMAGE_JPEG } from '../types/MIME';
 import { Reaction } from '../types/Reaction';
+import { assertUnreachable } from '../types/sqlSharedTypes';
 import { Notifications } from '../util/notifications';
 import { Reactions } from '../util/reactions';
+import { Registration } from '../util/registration';
 import { Storage } from '../util/storage';
 import {
   ConversationAttributes,
@@ -101,13 +105,14 @@ import {
   isDirectConversation,
   isOpenOrClosedGroup,
 } from './conversationAttributes';
-import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
-import { Registration } from '../util/registration';
-import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
-import { assertUnreachable } from '../types/sqlSharedTypes';
 
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { SessionUtilUserProfile } from '../session/utils/libsession/libsession_utils_user_profile';
+import { ReduxSogsRoomInfos } from '../state/ducks/sogsRoomInfo';
+import {
+  getCanWriteOutsideRedux,
+  getSubscriberCountOutsideRedux,
+} from '../state/selectors/sogsRoomInfo';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -307,7 +312,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isTyping = !!this.typingTimer;
     const unreadCount = this.get('unreadCount') || undefined;
     const mentionedUs = this.get('mentionedUs') || undefined;
-    const subscriberCount = this.get('subscriberCount');
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
     const expireTimer = this.get('expireTimer');
@@ -435,10 +439,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.left = left;
     }
 
-    if (subscriberCount) {
-      toRet.subscriberCount = subscriberCount;
-    }
-
     if (groupAdmins && groupAdmins.length) {
       toRet.groupAdmins = uniq(groupAdmins);
     }
@@ -470,16 +470,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const room = OpenGroupData.getV2OpenGroupRoom(this.id);
       if (room && isArray(room.capabilities) && room.capabilities.length) {
         toRet.capabilities = room.capabilities;
-      }
-
-      if (this.get('writeCapability')) {
-        toRet.writeCapability = this.get('writeCapability');
-      }
-      if (this.get('readCapability')) {
-        toRet.readCapability = this.get('readCapability');
-      }
-      if (this.get('uploadCapability')) {
-        toRet.uploadCapability = this.get('uploadCapability');
       }
     }
 
@@ -1375,13 +1365,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     read = filter(read, m => Boolean(m.sender));
     const realUnreadCount = await this.getUnreadCount();
     if (read.length === 0) {
-      const cachedUnreadCountOnConvo = this.get('unreadCount');
-      if (cachedUnreadCountOnConvo !== realUnreadCount) {
+      if (this.get('unreadCount') !== realUnreadCount) {
         // reset the unreadCount on the convo to the real one coming from markRead messages on the db
         this.set({ unreadCount: realUnreadCount });
         await this.commit();
-      } else {
-        // window?.log?.info('markRead(): nothing newly read.');
       }
       return;
     }
@@ -1624,21 +1611,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await this.commit();
   }
 
-  public async setSubscriberCount(count: number) {
-    if (this.get('subscriberCount') !== count) {
-      this.set({ subscriberCount: count });
-      await this.commit();
-    }
-    // Not sure if we care about updating the database
-  }
-
   /**
    * Saves the infos of that room directly on the conversation table.
    * This does not write anything to the db if no changes are detected
    */
   // tslint:disable-next-line: cyclomatic-complexity
   public async setPollInfo(infos?: {
-    subscriberCount: number;
+    active_users: number;
     read: boolean;
     write: boolean;
     upload: boolean;
@@ -1655,29 +1634,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     let hasChange = false;
-    const { read, write, upload, subscriberCount, details } = infos;
+    const { write, active_users, details } = infos;
+
     if (
-      isNumber(infos.subscriberCount) &&
-      infos.subscriberCount !== 0 &&
-      this.get('subscriberCount') !== subscriberCount
+      isFinite(infos.active_users) &&
+      infos.active_users !== 0 &&
+      getSubscriberCountOutsideRedux(this.id) !== active_users
     ) {
-      hasChange = true;
-      this.set('subscriberCount', subscriberCount);
+      ReduxSogsRoomInfos.setSubscriberCountOutsideRedux(this.id, active_users);
     }
 
-    if (Boolean(this.get('readCapability')) !== Boolean(read)) {
-      hasChange = true;
-      this.set('readCapability', Boolean(read));
-    }
-
-    if (Boolean(this.get('writeCapability')) !== Boolean(write)) {
-      hasChange = true;
-      this.set('writeCapability', Boolean(write));
-    }
-
-    if (Boolean(this.get('uploadCapability')) !== Boolean(upload)) {
-      hasChange = true;
-      this.set('uploadCapability', Boolean(upload));
+    if (getCanWriteOutsideRedux(this.id) !== !!write) {
+      ReduxSogsRoomInfos.setCanWriteOutsideRedux(this.id, !!write);
     }
 
     const adminChanged = await this.handleModsOrAdminsChanges({

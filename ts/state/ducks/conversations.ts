@@ -251,7 +251,6 @@ export interface ReduxConversationType {
   isBlocked?: boolean;
   isHidden: boolean;
   isKickedFromGroup?: boolean;
-  subscriberCount?: number;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and admins for open groups
@@ -271,9 +270,6 @@ export interface ReduxConversationType {
 
   // Should only be present on opengroups - the capabilities we have on this room.
   capabilities?: Array<string>;
-  readCapability?: boolean;
-  writeCapability?: boolean;
-  uploadCapability?: boolean;
 }
 
 export interface NotificationForConvoOption {

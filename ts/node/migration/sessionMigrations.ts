@@ -96,7 +96,6 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion28,
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
-  updateToSessionSchemaVersion31,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -604,23 +603,26 @@ function updateToSessionSchemaVersion20(currentVersion: number, db: BetterSqlite
       console.info('found column friendRequestStatus. Dropping it');
       db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN friendRequestStatus;`);
     }
-    // looking for all private conversations, with a nickname set
-    const rowsToUpdate = db
-      .prepare(
-        `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
-      )
-      .all();
-    // tslint:disable-next-line: no-void-expression
-    (rowsToUpdate || []).forEach(r => {
-      const obj = jsonToObject(r.json);
+    // disable those updates as sqlNode.saveConversation will break if called without the right type of arguments.
+    // and when called during a migration we won't have the expected arguments. Plus, this migration is almost a year old already
 
-      // obj.profile.displayName is the display as this user set it.
-      if (obj?.nickname?.length && obj?.profile?.displayName?.length) {
-        // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
-        obj.name = obj.profile.displayName;
-        sqlNode.saveConversation(obj as ConversationAttributes, db);
-      }
-    });
+    // looking for all private conversations, with a nickname set
+    // const rowsToUpdate = db
+    //   .prepare(
+    //     `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
+    //   )
+    //   .all();
+    // tslint:disable-next-line: no-void-expression
+    // (rowsToUpdate || []).forEach(r => {
+    //   const obj = jsonToObject(r.json);
+
+    //   // obj.profile.displayName is the display as this user set it.
+    //   if (obj?.nickname?.length && obj?.profile?.displayName?.length) {
+    //     // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
+    //     obj.name = obj.profile.displayName;
+    //     sqlNode.saveConversation(obj as ConversationAttributes, db);
+    //   }
+    // });
     writeSessionSchemaVersion(targetVersion, db);
   });
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
@@ -1203,24 +1205,6 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 30;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
-  // this column will only be set when this is a closed group v3 and we are the admin/got promoted to admin
-  db.transaction(() => {
-    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE}
-      ADD COLUMN identityPrivateKey TEXT;
-      `);
-    writeSessionSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
-}
-
 function getIdentityKeysDuringMigration(db: BetterSqlite3.Database) {
   const row = db.prepare(`SELECT * FROM ${ITEMS_TABLE} WHERE id = $id;`).get({
     id: 'identityKey',
@@ -1426,8 +1410,8 @@ function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
   }
 }
 
-function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 31;
+function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 30;
   if (currentVersion >= targetVersion) {
     return;
   }
@@ -1442,8 +1426,16 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     db.exec(
       `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hidden INTEGER NOT NULL DEFAULT ${toSqliteBoolean(
         true
-      )} ;`
+      )};
+      `
     );
+    // drop unused readCapability & uploadCapability columns. Also move `writeCapability` to memory only value.
+    db.exec(`
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN readCapability;
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN writeCapability;
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN uploadCapability;
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN subscriberCount;
+      `);
     // mark every "active" private chats as not hidden
     db.prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET

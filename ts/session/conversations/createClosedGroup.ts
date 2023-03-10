@@ -25,6 +25,10 @@ import { getConversationController } from './ConversationController';
 export async function createClosedGroup(groupName: string, members: Array<string>, isV3: boolean) {
   const setOfMembers = new Set(members);
 
+  if (isV3) {
+    throw new Error('groupv3 is not supported yet');
+  }
+
   const us = UserUtils.getOurPubKeyStrFromCache();
 
   const identityKeyPair = await generateGroupV3Keypair();
@@ -63,17 +67,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
     expireTimer: existingExpireTimer,
   };
 
-  const groupDetailsV3: ClosedGroup.GroupInfoV3 = {
-    id: groupPublicKey,
-    identityPrivateKey: isV3 ? identityKeyPair.privateKey : undefined,
-    isV3: true,
-    name: groupName,
-    members: listOfMembers,
-    admins,
-    activeAt: Date.now(),
-    expireTimer: existingExpireTimer,
-  };
-
   // used for UI only, adding of a message to remind who is in the group and the name of the group
   const groupDiff: ClosedGroup.GroupDiff = {
     newName: groupName,
@@ -83,7 +76,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   const dbMessage = await ClosedGroup.addUpdateMessage(convo, groupDiff, us, Date.now());
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
-  await ClosedGroup.updateOrCreateClosedGroup(isV3 ? groupDetailsV3 : groupDetails);
+  await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
   await convo.commit();
   convo.updateLastMessage();
 

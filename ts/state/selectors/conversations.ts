@@ -37,6 +37,7 @@ import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversa
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -74,22 +75,21 @@ export const getSelectedConversationIsPublic = createSelector(
   }
 );
 
-export const getIsTypingEnabled = createSelector(
-  getConversations,
-  getSelectedConversationKey,
-  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
-    if (!selectedConvoPubkey) {
-      return false;
-    }
-    const selectedConvo = state.conversationLookup[selectedConvoPubkey];
-    if (!selectedConvo) {
-      return false;
-    }
-    const { isBlocked, isKickedFromGroup, left, isPublic, writeCapability } = selectedConvo;
-
-    return !(isBlocked || isKickedFromGroup || left || (isPublic && !writeCapability));
+export function getIsTypingEnabled(state: StateType) {
+  const selectedConvoPubkey = getSelectedConversationKey(state);
+  if (!selectedConvoPubkey) {
+    return false;
   }
-);
+  const selectedConvo = state.conversations.conversationLookup[selectedConvoPubkey];
+  if (!selectedConvo) {
+    return false;
+  }
+  const canWrite = getCanWrite(state, selectedConvoPubkey);
+  const { isBlocked, isKickedFromGroup, left, isPublic } = selectedConvo;
+
+  return !(isBlocked || isKickedFromGroup || left || (isPublic && !canWrite));
+}
+
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected
@@ -551,23 +551,32 @@ export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): n
   return state.unreadCount;
 });
 
-export const getConversationHeaderTitleProps = createSelector(getSelectedConversation, (state):
-  | ConversationHeaderTitleProps
-  | undefined => {
-  if (!state) {
+export const getConversationHeaderTitleProps = (
+  state: StateType
+): ConversationHeaderTitleProps | undefined => {
+  const convo = getSelectedConversation(state);
+  if (!convo) {
     return undefined;
   }
+
   return {
-    isKickedFromGroup: !!state.isKickedFromGroup,
-    conversationKey: state.id,
-    isMe: !!state.isMe,
-    members: state.members || [],
-    isPublic: !!state.isPublic,
-    subscriberCount: state.subscriberCount,
-    isGroup: isOpenOrClosedGroup(state.type),
-    currentNotificationSetting: state.currentNotificationSetting,
+    isKickedFromGroup: !!convo.isKickedFromGroup,
+    conversationKey: convo.id,
+    isMe: !!convo.isMe,
+    members: convo.members || [],
+    isPublic: !!convo.isPublic,
+    isGroup: isOpenOrClosedGroup(convo.type),
+    currentNotificationSetting: convo.currentNotificationSetting,
   };
-});
+};
+
+export const getCurrentSubscriberCount = (state: StateType): number | undefined => {
+  const convo = getSelectedConversation(state);
+  if (!convo) {
+    return undefined;
+  }
+  return getSubscriberCount(state, convo.id);
+};
 
 /**
  * Returns the formatted text for notification setting.

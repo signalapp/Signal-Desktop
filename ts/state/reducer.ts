@@ -7,6 +7,7 @@ import { reducer as theme } from './ducks/theme';
 import { reducer as primaryColor } from './ducks/primaryColor';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
+import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo';
 import { callReducer as call, CallStateType } from './ducks/call';
 
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
@@ -33,6 +34,7 @@ export type StateType = {
   timerOptions: TimerOptionsState;
   stagedAttachments: StagedAttachmentsStateType;
   call: CallStateType;
+  sogsRoomInfo: SogsRoomInfoState;
 };
 
 export const reducers = {
@@ -49,6 +51,7 @@ export const reducers = {
   timerOptions,
   stagedAttachments,
   call,
+  sogsRoomInfo: ReduxSogsRoomInfos.sogsRoomInfoReducer,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

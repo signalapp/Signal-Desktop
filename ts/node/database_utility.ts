@@ -61,10 +61,6 @@ const allowedKeysFormatRowOfConversation = [
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
-  'subscriberCount',
-  'readCapability',
-  'writeCapability',
-  'uploadCapability',
   'expireTimer',
   'active_at',
   'id',
@@ -76,12 +72,14 @@ const allowedKeysFormatRowOfConversation = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
-  'identityPrivateKey',
   'markedAsUnread',
   'hidden',
 ];
 // tslint:disable: cyclomatic-complexity
-export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
+export function formatRowOfConversation(
+  row: Record<string, any>,
+  from: string
+): ConversationAttributes | null {
   if (!row) {
     return null;
   }
@@ -93,7 +91,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
 
   if (foundInRowButNotInAllowed?.length) {
     console.error(
-      'formatRowOfConversation: foundInRowButNotInAllowed: ',
+      `formatRowOfConversation: "from:${from}" foundInRowButNotInAllowed: `,
       foundInRowButNotInAllowed
     );
 
@@ -131,9 +129,6 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   convo.mentionedUs = Boolean(convo.mentionedUs);
   convo.isKickedFromGroup = Boolean(convo.isKickedFromGroup);
   convo.left = Boolean(convo.left);
-  convo.readCapability = Boolean(convo.readCapability);
-  convo.writeCapability = Boolean(convo.writeCapability);
-  convo.uploadCapability = Boolean(convo.uploadCapability);
   convo.markedAsUnread = Boolean(convo.markedAsUnread);
   convo.hidden = Boolean(convo.hidden);
 
@@ -161,10 +156,6 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     convo.lastJoinedTimestamp = 0;
   }
 
-  if (!convo.subscriberCount) {
-    convo.subscriberCount = 0;
-  }
-
   if (!convo.expireTimer) {
     convo.expireTimer = 0;
   }
@@ -172,11 +163,6 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   if (!convo.active_at) {
     convo.active_at = 0;
   }
-
-  // convo.identityPrivateKey = row.identityPrivateKey;
-  // if (!convo.identityPrivateKey) {
-  //   convo.identityPrivateKey = undefined;
-  // }
 
   return convo;
 }
@@ -199,10 +185,6 @@ const allowedKeysOfConversationAttributes = [
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
-  'subscriberCount',
-  'readCapability',
-  'writeCapability',
-  'uploadCapability',
   'expireTimer',
   'active_at',
   'id',
@@ -214,7 +196,6 @@ const allowedKeysOfConversationAttributes = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
-  'identityPrivateKey',
   'markedAsUnread',
   'hidden',
 ];

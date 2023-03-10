@@ -8,6 +8,7 @@ import { ConversationNotificationSettingType } from '../../models/conversationAt
 import {
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
+  getCurrentSubscriberCount,
   getIsSelectedActive,
   getIsSelectedBlocked,
   getIsSelectedNoteToSelf,
@@ -54,37 +55,6 @@ export interface TimerOption {
   name: string;
   value: number;
 }
-
-export type ConversationHeaderProps = {
-  conversationKey: string;
-  name?: string;
-
-  profileName?: string;
-  avatarPath: string | null;
-
-  isMe: boolean;
-  isGroup: boolean;
-  isPrivate: boolean;
-  isPublic: boolean;
-  weAreAdmin: boolean;
-
-  // We might not always have the full list of members,
-  // e.g. for open groups where we could have thousands
-  // of members. We'll keep this for now (for closed chats)
-  members: Array<any>;
-
-  // not equal members.length (see above)
-  subscriberCount?: number;
-
-  expirationSettingName?: string;
-  currentNotificationSetting: ConversationNotificationSettingType;
-  hasNickname: boolean;
-
-  isBlocked: boolean;
-
-  isKickedFromGroup: boolean;
-  left: boolean;
-};
 
 const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
@@ -276,7 +246,6 @@ export type ConversationHeaderTitleProps = {
   isGroup: boolean;
   isPublic: boolean;
   members: Array<any>;
-  subscriberCount?: number;
   isKickedFromGroup: boolean;
   currentNotificationSetting?: ConversationNotificationSettingType;
 };
@@ -295,17 +264,19 @@ export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX
 };
 
 const ConversationHeaderTitle = () => {
+  const dispatch = useDispatch();
+
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
   const isRightPanelOn = useSelector(isRightPanelShowing);
-
   const convoName = useConversationUsername(headerTitleProps?.conversationKey);
-  const dispatch = useDispatch();
+  const subscriberCount = useSelector(getCurrentSubscriberCount);
+
   if (!headerTitleProps) {
     return null;
   }
 
-  const { isGroup, isPublic, members, subscriberCount, isMe, isKickedFromGroup } = headerTitleProps;
+  const { isGroup, isPublic, members, isMe, isKickedFromGroup } = headerTitleProps;
 
   const { i18n } = window;
 

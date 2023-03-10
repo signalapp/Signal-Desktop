@@ -31,6 +31,7 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 // moment does not support es-419 correctly (and cause white screen on app start)
 import moment from 'moment';
 import styled from 'styled-components';
+import { initialSogsRoomInfoState } from '../state/ducks/sogsRoomInfo';
 
 // Default to the locale from env. It will be overriden if moment
 // does not recognize it with what moment knows which is the closest.
@@ -117,10 +118,14 @@ export class SessionInboxView extends React.Component<any, State> {
       },
       stagedAttachments: getEmptyStagedAttachmentsState(),
       call: initialCallState,
+      sogsRoomInfo: initialSogsRoomInfoState,
     };
 
     this.store = createStore(initialState);
     window.inboxStore = this.store;
+
+    console.warn('initialState', JSON.stringify(initialState));
+    console.warn('this.store', JSON.stringify(this.store.getState()));
 
     window.openConversationWithMessages = openConversationWithMessages;
 

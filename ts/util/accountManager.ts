@@ -179,8 +179,13 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
 async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info('registration done');
 
+  // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
-
+  try {
+    await LibSessionUtil.initializeLibSessionUtilWrappers();
+  } catch (e) {
+    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+  }
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(
     ourPubkey,
@@ -199,11 +204,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
   await Registration.markDone();
-  try {
-    await LibSessionUtil.initializeLibSessionUtilWrappers();
-  } catch (e) {
-    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
-  }
+
   window?.log?.info('dispatching registration event');
   trigger('registration_done');
 }

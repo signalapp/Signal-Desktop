@@ -36,6 +36,14 @@ export function isDirectConversation(conversationType: ConversationTypeEnum) {
 export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
 export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
 
+/**
+ * Soem fields are retrieved from the database as a select, but should not be saved in a commit()
+ */
+export type ConversationAttributesNotSaved = {
+  mentionedUs: boolean;
+  unreadCount: number;
+};
+
 export interface ConversationAttributes {
   id: string;
   type: ConversationTypeEnum.PRIVATE | ConversationTypeEnum.GROUPV3 | ConversationTypeEnum.GROUP;
@@ -68,11 +76,6 @@ export interface ConversationAttributes {
   groupModerators: Array<string>; // for sogs only, this is the moderator in that room.
   isKickedFromGroup: boolean;
 
-  subscriberCount: number;
-  readCapability: boolean;
-  writeCapability: boolean;
-  uploadCapability: boolean;
-
   is_medium_group: boolean;
 
   avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
@@ -89,11 +92,6 @@ export interface ConversationAttributes {
   conversationIdOrigin?: string;
 
   markedAsUnread: boolean;
-
-  /**
-   * When we create a closed group v3 or get promoted to admim, we need to save the private key of that closed group.
-   */
-  // identityPrivateKey?: string;
 
   hidden: boolean;
 }
@@ -114,7 +112,6 @@ export const fillConvoAttributesWithDefaults = (
 
     unreadCount: 0,
     lastJoinedTimestamp: 0,
-    subscriberCount: 0,
     expireTimer: 0,
     active_at: 0,
 

@@ -119,7 +119,7 @@ async function handlePollInfoResponse(
     read,
     write,
     upload,
-    subscriberCount: active_users,
+    active_users: active_users,
     details: pick(
       details,
       'admins',

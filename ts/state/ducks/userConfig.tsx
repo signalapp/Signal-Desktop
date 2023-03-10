@@ -26,9 +26,6 @@ const userConfigSlice = createSlice({
     disableRecoveryPhrasePrompt: state => {
       state.showRecoveryPhrasePrompt = false;
     },
-    toggleMessageRequests: state => {
-      state.hideMessageRequests = !state.hideMessageRequests;
-    },
     showMessageRequestBanner: state => {
       state.hideMessageRequests = false;
     },
@@ -42,8 +39,10 @@ const { actions, reducer } = userConfigSlice;
 export const {
   toggleAudioAutoplay,
   disableRecoveryPhrasePrompt,
-  toggleMessageRequests,
-  showMessageRequestBanner,
   hideMessageRequestBanner,
 } = actions;
 export const userConfigReducer = reducer;
+
+export function showMessageRequestBannerOutsideRedux() {
+  window.inboxStore?.dispatch(actions.showMessageRequestBanner());
+}
