@@ -1032,7 +1032,7 @@ function getUnreadByConversation(conversationId: string) {
      ORDER BY received_at DESC;`
     )
     .all({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
     });
 
@@ -1055,7 +1055,7 @@ function markAllAsReadByConversationNoExpiration(
   conversationId = $conversationId;`
       )
       .all({
-        unread: 1,
+        unread: toSqliteBoolean(true),
         conversationId,
       });
     toReturn = compact(messagesUnreadBefore.map(row => jsonToObject(row.json).sent_at));
@@ -1069,7 +1069,7 @@ function markAllAsReadByConversationNoExpiration(
       conversationId = $conversationId;`
     )
     .run({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
     });
 
@@ -1084,7 +1084,7 @@ function getUnreadCountByConversation(conversationId: string) {
     conversationId = $conversationId;`
     )
     .get({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
     });
 

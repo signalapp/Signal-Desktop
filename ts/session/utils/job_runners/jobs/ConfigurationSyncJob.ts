@@ -195,7 +195,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
           case 'UserConfig':
-            await LibSessionUtil.insertUserProfileIntoWrapper();
+            await LibSessionUtil.insertUserProfileIntoWrapper(us);
             break;
           case 'ContactsConfig':
             await LibSessionUtil.insertAllContactsIntoContactsWrapper();

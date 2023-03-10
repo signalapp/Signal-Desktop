@@ -217,6 +217,14 @@ function getAllLegacyGroups(): Array<ConvoInfoVolatileLegacyGroup> {
   return [...mappedLegacyGroupWrapperValues.values()];
 }
 
+function getFromAny(convoId: string) {
+  return (
+    mapped1o1WrapperValues.get(convoId) ||
+    mappedLegacyGroupWrapperValues.get(convoId) ||
+    mappedCommunityWrapperValues.get(convoId)
+  );
+}
+
 /**
  * This function can be used where there are things to do for all the types handled by this wrapper.
  * You can do a loop on all the types handled by this wrapper and have a switch using assertUnreachable to get errors when not every case is handled.
@@ -250,4 +258,5 @@ export const SessionUtilConvoInfoVolatile = {
   getAllCommunities,
   getCommunityMappedValueByConvoId,
   // removeCommunityFromWrapper,
+  getFromAny,
 };

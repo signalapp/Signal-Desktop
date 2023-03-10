@@ -4,7 +4,10 @@ import { UserConfigWrapperActions } from '../../../webworker/workers/browser/lib
 import { getConversationController } from '../../conversations';
 import { fromHexToArray } from '../String';
 
-async function insertUserProfileIntoWrapper() {
+async function insertUserProfileIntoWrapper(convoId: string) {
+  if (!isUserProfileToStoreInContactsWrapper(convoId)) {
+    return;
+  }
   const us = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = getConversationController().get(us);
 
@@ -24,6 +27,16 @@ async function insertUserProfileIntoWrapper() {
   }
 }
 
+function isUserProfileToStoreInContactsWrapper(convoId: string) {
+  try {
+    const us = UserUtils.getOurPubKeyStrFromCache();
+    return convoId === us;
+  } catch (e) {
+    return false;
+  }
+}
+
 export const SessionUtilUserProfile = {
   insertUserProfileIntoWrapper,
+  isUserProfileToStoreInContactsWrapper,
 };

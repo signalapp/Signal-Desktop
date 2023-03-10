@@ -104,6 +104,10 @@ import {
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { Registration } from '../util/registration';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
+import { assertUnreachable } from '../types/sqlSharedTypes';
+
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { SessionUtilUserProfile } from '../session/utils/libsession/libsession_utils_user_profile';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -350,6 +354,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const foundContact = SessionUtilContact.getMappedValue(this.id);
     const foundCommunity = SessionUtilUserGroups.getCommunityMappedValueByConvoId(this.id);
+    const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupMappedValueByConvoId(this.id);
+    const foundVolatileInfo = SessionUtilConvoInfoVolatile.getFromAny(this.id);
 
     if (foundContact) {
       if (foundContact.name) {
@@ -408,11 +414,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    if (foundCommunity) {
-      if (foundCommunity.priority > 0) {
-        toRet.isPinned = true; // TODO priority also handles sorting
-      }
-    }
+    // if (foundCommunity) {
+    //   if (foundCommunity.priority > 0) {
+    //     toRet.isPinned = true; // TODO priority also handles sorting
+    //   }
+    // }
 
     if (unreadCount) {
       toRet.unreadCount = unreadCount;
@@ -445,10 +451,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.members = uniq(members);
     }
 
-    if (zombies && zombies.length) {
-      toRet.zombies = uniq(zombies);
-    }
-
     if (expireTimer) {
       toRet.expireTimer = expireTimer;
     }
@@ -458,6 +460,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       currentNotificationSetting !== ConversationNotificationSetting[0]
     ) {
       toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
+    if (zombies && zombies.length) {
+      toRet.zombies = uniq(zombies);
     }
 
     if (this.isOpenGroupV2()) {
@@ -2232,27 +2238,40 @@ export async function commitConversationAndRefreshWrapper(id: string) {
 
   await Data.saveConversation(convo.attributes);
 
-  const shouldBeSavedToContactsWrapper = SessionUtilContact.isContactToStoreInContactsWrapper(
-    convo
-  );
-  const shouldBeSavedToUserGroupsWrapper = SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo);
-  const shouldBeSavedToConvoInfoVolatileWrapper = SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(
-    convo
-  );
+  for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+    const variant = LibSessionUtil.requiredUserVariants[index];
 
-  console.warn(
-    `should be saved to wrapper ${id}: contacts:${shouldBeSavedToContactsWrapper}; usergroups:${shouldBeSavedToUserGroupsWrapper}, volatile:${shouldBeSavedToConvoInfoVolatileWrapper}`
-  );
+    switch (variant) {
+      case 'UserConfig':
+        if (SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id)) {
+          await SessionUtilUserProfile.insertUserProfileIntoWrapper(convo.id);
+        }
+        break;
+      case 'ContactsConfig':
+        if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
+          await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
+      case 'UserGroupsConfig':
+        if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+          await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
 
-  if (shouldBeSavedToContactsWrapper) {
-    await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
-  } else if (shouldBeSavedToUserGroupsWrapper) {
-    await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
+      case 'ConvoInfoVolatileConfig':
+        if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
+          await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
+
+      default:
+        assertUnreachable(
+          variant,
+          `commitConversationAndRefreshWrapper unhandled case "${variant}"`
+        );
+    }
   }
 
-  if (shouldBeSavedToConvoInfoVolatileWrapper) {
-    await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
-  }
   if (Registration.isDone()) {
     // save the new dump if needed to the DB asap
     // this call throttled so we do not run this too often (and not for every .commit())
