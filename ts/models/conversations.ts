@@ -2662,8 +2662,10 @@ export class ConversationModel extends window.Backbone
       await this.initialPromise;
       const verified = await this.safeGetVerified();
 
-      if (this.get('verified') !== verified) {
+      const oldVerified = this.get('verified');
+      if (oldVerified !== verified) {
         this.set({ verified });
+        this.captureChange(`updateVerified from=${oldVerified} to=${verified}`);
         window.Signal.Data.updateConversation(this.attributes);
       }
 
@@ -2730,7 +2732,9 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
 
     if (beginningVerified !== verified) {
-      this.captureChange(`verified from=${beginningVerified} to=${verified}`);
+      this.captureChange(
+        `_setVerified from=${beginningVerified} to=${verified}`
+      );
     }
 
     const didVerifiedChange = beginningVerified !== verified;
@@ -2861,7 +2865,9 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    return window.textsecure.storage.protocol.setApproval(uuid, true);
+    return this.queueJob('setApproved', async () => {
+      return window.textsecure.storage.protocol.setApproval(uuid, true);
+    });
   }
 
   safeIsUntrusted(timestampThreshold?: number): boolean {

@@ -627,7 +627,7 @@ export default class OutgoingMessage {
           error instanceof LibSignalErrorBase &&
           error.code === ErrorCode.UntrustedIdentity
         ) {
-          newError = new OutgoingIdentityKeyError(identifier);
+          newError = new OutgoingIdentityKeyError(identifier, error);
           log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             identifier,
@@ -736,7 +736,7 @@ export default class OutgoingMessage {
         error instanceof LibSignalErrorBase &&
         error.code === ErrorCode.UntrustedIdentity
       ) {
-        const newError = new OutgoingIdentityKeyError(identifier);
+        const newError = new OutgoingIdentityKeyError(identifier, error);
         this.registerError(identifier, 'Untrusted identity', newError);
       } else {
         this.registerError(
