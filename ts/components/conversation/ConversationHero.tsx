@@ -195,7 +195,7 @@ export function ConversationHero({
               title={title}
             />
           )}
-          {isMe && (<span className="ContactModal__official-badge__large" />)}
+          {isMe && <span className="ContactModal__official-badge__large" />}
         </h1>
         {about && !isMe && (
           <div className="module-about__container">
