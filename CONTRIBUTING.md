@@ -150,7 +150,7 @@ Once you have the additional numbers, you can setup additional storage profiles 
 between them using the `NODE_APP_INSTANCE` environment variable.
 
 For example, to create an 'alice' profile, put a file called `local-alice.json` in the
-`config` directory, a child of the Signal directory, not `appData` from above:
+`/config` subdirectory of your project checkout where you'll find other `.json` config files:
 
 ```
 {
