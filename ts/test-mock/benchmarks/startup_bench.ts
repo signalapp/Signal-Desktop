@@ -10,127 +10,115 @@ const MESSAGE_BATCH_SIZE = 1000; // messages
 
 const ENABLE_RECEIPTS = Boolean(process.env.ENABLE_RECEIPTS);
 
-void (async () => {
-  const bootstrap = new Bootstrap({
-    benchmark: true,
-  });
-
-  await bootstrap.init();
+Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   await bootstrap.linkAndClose();
 
-  try {
-    const { server, contacts, phone, desktop } = bootstrap;
+  const { server, contacts, phone, desktop } = bootstrap;
 
-    const messagesPerSec = new Array<number>();
+  const messagesPerSec = new Array<number>();
 
-    for (let runId = 0; runId < RUN_COUNT; runId += 1) {
-      // Generate messages
-      const messagePromises = new Array<Promise<Buffer>>();
-      debug('started generating messages');
+  for (let runId = 0; runId < RUN_COUNT; runId += 1) {
+    // Generate messages
+    const messagePromises = new Array<Promise<Buffer>>();
+    debug('started generating messages');
 
-      for (let i = 0; i < MESSAGE_BATCH_SIZE; i += 1) {
-        const contact = contacts[Math.floor(i / 2) % contacts.length];
-        const direction = i % 2 ? 'message' : 'reply';
+    for (let i = 0; i < MESSAGE_BATCH_SIZE; i += 1) {
+      const contact = contacts[Math.floor(i / 2) % contacts.length];
+      const direction = i % 2 ? 'message' : 'reply';
 
-        const messageTimestamp = bootstrap.getTimestamp();
+      const messageTimestamp = bootstrap.getTimestamp();
 
-        if (direction === 'message') {
-          messagePromises.push(
-            contact.encryptText(
-              desktop,
-              `Ping from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
-              {
-                timestamp: messageTimestamp,
-                sealed: true,
-              }
-            )
-          );
-
-          if (ENABLE_RECEIPTS) {
-            messagePromises.push(
-              phone.encryptSyncRead(desktop, {
-                timestamp: bootstrap.getTimestamp(),
-                messages: [
-                  {
-                    senderUUID: contact.device.uuid,
-                    timestamp: messageTimestamp,
-                  },
-                ],
-              })
-            );
-          }
-          continue;
-        }
-
+      if (direction === 'message') {
         messagePromises.push(
-          phone.encryptSyncSent(
+          contact.encryptText(
             desktop,
-            `Pong from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
+            `Ping from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
             {
               timestamp: messageTimestamp,
-              destinationUUID: contact.device.uuid,
+              sealed: true,
             }
           )
         );
 
         if (ENABLE_RECEIPTS) {
           messagePromises.push(
-            contact.encryptReceipt(desktop, {
+            phone.encryptSyncRead(desktop, {
               timestamp: bootstrap.getTimestamp(),
-              messageTimestamps: [messageTimestamp],
-              type: ReceiptType.Delivery,
-            })
-          );
-          messagePromises.push(
-            contact.encryptReceipt(desktop, {
-              timestamp: bootstrap.getTimestamp(),
-              messageTimestamps: [messageTimestamp],
-              type: ReceiptType.Read,
+              messages: [
+                {
+                  senderUUID: contact.device.uuid,
+                  timestamp: messageTimestamp,
+                },
+              ],
             })
           );
         }
+        continue;
       }
 
-      debug('ended generating messages');
+      messagePromises.push(
+        phone.encryptSyncSent(
+          desktop,
+          `Pong from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
+          {
+            timestamp: messageTimestamp,
+            destinationUUID: contact.device.uuid,
+          }
+        )
+      );
 
-      const messages = await Promise.all(messagePromises);
-
-      // Open the flood gates
-      {
-        debug('got synced, sending messages');
-
-        // Queue all messages
-        const queue = async (): Promise<void> => {
-          await Promise.all(
-            messages.map(message => {
-              return server.send(desktop, message);
-            })
-          );
-        };
-
-        const run = async (): Promise<void> => {
-          const app = await bootstrap.startApp();
-          const appLoadedInfo = await app.waitUntilLoaded();
-
-          console.log('run=%d info=%j', runId, appLoadedInfo);
-
-          messagesPerSec.push(appLoadedInfo.messagesPerSec);
-
-          await app.close();
-        };
-
-        await Promise.all([queue(), run()]);
+      if (ENABLE_RECEIPTS) {
+        messagePromises.push(
+          contact.encryptReceipt(desktop, {
+            timestamp: bootstrap.getTimestamp(),
+            messageTimestamps: [messageTimestamp],
+            type: ReceiptType.Delivery,
+          })
+        );
+        messagePromises.push(
+          contact.encryptReceipt(desktop, {
+            timestamp: bootstrap.getTimestamp(),
+            messageTimestamps: [messageTimestamp],
+            type: ReceiptType.Read,
+          })
+        );
       }
     }
 
-    // Compute human-readable statistics
-    if (messagesPerSec.length !== 0) {
-      console.log('stats info=%j', { messagesPerSec: stats(messagesPerSec) });
+    debug('ended generating messages');
+
+    const messages = await Promise.all(messagePromises);
+
+    // Open the flood gates
+    {
+      debug('got synced, sending messages');
+
+      // Queue all messages
+      const queue = async (): Promise<void> => {
+        await Promise.all(
+          messages.map(message => {
+            return server.send(desktop, message);
+          })
+        );
+      };
+
+      const run = async (): Promise<void> => {
+        const app = await bootstrap.startApp();
+        const appLoadedInfo = await app.waitUntilLoaded();
+
+        console.log('run=%d info=%j', runId, appLoadedInfo);
+
+        messagesPerSec.push(appLoadedInfo.messagesPerSec);
+
+        await app.close();
+      };
+
+      await Promise.all([queue(), run()]);
     }
-  } catch (error) {
-    await bootstrap.saveLogs();
-    throw error;
-  } finally {
-    await bootstrap.teardown();
   }
-})();
+
+  // Compute human-readable statistics
+  if (messagesPerSec.length !== 0) {
+    console.log('stats info=%j', { messagesPerSec: stats(messagesPerSec) });
+  }
+});

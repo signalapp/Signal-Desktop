@@ -6,11 +6,13 @@ import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
 import createDebug from 'debug';
+import pTimeout from 'p-timeout';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
 import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
+import { drop } from '../util/drop';
 import { App } from './playwright';
 
 export { App };
@@ -111,6 +113,7 @@ export class Bootstrap {
   private privDesktop?: Device;
   private storagePath?: string;
   private timestamp: number = Date.now() - durations.WEEK;
+  private lastApp?: App;
 
   constructor(options: BootstrapOptions = {}) {
     this.server = new Server({
@@ -178,6 +181,13 @@ export class Bootstrap {
     debug('setting storage path=%j', this.storagePath);
   }
 
+  public static benchmark(
+    fn: (bootstrap: Bootstrap) => Promise<void>,
+    timeout = 5 * durations.MINUTE
+  ): void {
+    drop(Bootstrap.runBenchmark(fn, timeout));
+  }
+
   public get logsDir(): string {
     assert(
       this.storagePath !== undefined,
@@ -191,10 +201,13 @@ export class Bootstrap {
     debug('tearing down');
 
     await Promise.race([
-      this.storagePath
-        ? fs.rm(this.storagePath, { recursive: true })
-        : Promise.resolve(),
-      this.server.close(),
+      Promise.all([
+        this.storagePath
+          ? fs.rm(this.storagePath, { recursive: true })
+          : Promise.resolve(),
+        this.server.close(),
+        this.lastApp?.close(),
+      ]),
       new Promise(resolve => setTimeout(resolve, CLOSE_TIMEOUT).unref()),
     ]);
   }
@@ -260,6 +273,13 @@ export class Bootstrap {
 
     await app.start();
 
+    this.lastApp = app;
+    app.on('close', () => {
+      if (this.lastApp === app) {
+        this.lastApp = undefined;
+      }
+    });
+
     return app;
   }
 
@@ -269,7 +289,7 @@ export class Bootstrap {
     return result;
   }
 
-  public async saveLogs(app?: App): Promise<void> {
+  public async saveLogs(app: App | undefined = this.lastApp): Promise<void> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
       // eslint-disable-next-line no-console
@@ -333,6 +353,26 @@ export class Bootstrap {
   //
   // Private
   //
+
+  private static async runBenchmark(
+    fn: (bootstrap: Bootstrap) => Promise<void>,
+    timeout: number
+  ): Promise<void> {
+    const bootstrap = new Bootstrap({
+      benchmark: true,
+    });
+
+    await bootstrap.init();
+
+    try {
+      await pTimeout(fn(bootstrap), timeout);
+    } catch (error) {
+      await bootstrap.saveLogs();
+      throw error;
+    } finally {
+      await bootstrap.teardown();
+    }
+  }
 
   private async generateConfig(port: number): Promise<string> {
     const url = `https://127.0.0.1:${port}`;

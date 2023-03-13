@@ -3,6 +3,7 @@
 
 import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
+import { EventEmitter } from 'events';
 
 import type {
   IPCRequest as ChallengeRequestType,
@@ -39,10 +40,12 @@ export type AppOptionsType = Readonly<{
   config: string;
 }>;
 
-export class App {
+export class App extends EventEmitter {
   private privApp: ElectronApplication | undefined;
 
-  constructor(private readonly options: AppOptionsType) {}
+  constructor(private readonly options: AppOptionsType) {
+    super();
+  }
 
   public async start(): Promise<void> {
     this.privApp = await electron.launch({
@@ -54,6 +57,8 @@ export class App {
       },
       locale: 'en',
     });
+
+    this.privApp.on('close', () => this.emit('close'));
   }
 
   public async waitForProvisionURL(): Promise<string> {
@@ -110,6 +115,29 @@ export class App {
   public async getWindow(): Promise<Page> {
     return this.app.firstWindow();
   }
+
+  // EventEmitter types
+
+  public override on(type: 'close', callback: () => void): this;
+
+  public override on(
+    type: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (...args: Array<any>) => void
+  ): this {
+    return super.on(type, listener);
+  }
+
+  public override emit(type: 'close'): boolean;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public override emit(type: string | symbol, ...args: Array<any>): boolean {
+    return super.emit(type, ...args);
+  }
+
+  //
+  // Private
+  //
 
   private async waitForEvent<T>(event: string): Promise<T> {
     const window = await this.getWindow();
