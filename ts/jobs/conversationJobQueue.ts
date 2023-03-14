@@ -39,6 +39,10 @@ import type { UUIDStringType } from '../types/UUID';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sleeper } from '../util/sleeper';
 import { receiptSchema, ReceiptType } from '../types/Receipt';
+import { sendResendRequest } from './helpers/sendResendRequest';
+import { sendNullMessage } from './helpers/sendNullMessage';
+import { sendSenderKeyDistribution } from './helpers/sendSenderKeyDistribution';
+import { sendSavedProto } from './helpers/sendSavedProto';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -48,8 +52,12 @@ export const conversationQueueJobEnum = z.enum([
   'DirectExpirationTimerUpdate',
   'GroupUpdate',
   'NormalMessage',
+  'NullMessage',
   'ProfileKey',
   'Reaction',
+  'ResendRequest',
+  'SavedProto',
+  'SenderKeyDistribution',
   'Story',
   'Receipts',
 ]);
@@ -115,6 +123,13 @@ export type NormalMessageSendJobData = z.infer<
   typeof normalMessageSendJobDataSchema
 >;
 
+const nullMessageJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.NullMessage),
+  conversationId: z.string(),
+  idForTracking: z.string().optional(),
+});
+export type NullMessageJobData = z.infer<typeof nullMessageJobDataSchema>;
+
 const profileKeyJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.ProfileKey),
   conversationId: z.string(),
@@ -131,6 +146,41 @@ const reactionJobDataSchema = z.object({
   revision: z.number().optional(),
 });
 export type ReactionJobData = z.infer<typeof reactionJobDataSchema>;
+
+const resendRequestJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.ResendRequest),
+  conversationId: z.string(),
+  contentHint: z.number().optional(),
+  groupId: z.string().optional(),
+  plaintext: z.string(),
+  receivedAtCounter: z.number(),
+  receivedAtDate: z.number(),
+  senderUuid: z.string(),
+  senderDevice: z.number(),
+  timestamp: z.number(),
+});
+export type ResendRequestJobData = z.infer<typeof resendRequestJobDataSchema>;
+
+const savedProtoJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.SavedProto),
+  conversationId: z.string(),
+  contentHint: z.number(),
+  groupId: z.string().optional(),
+  protoBase64: z.string(),
+  story: z.boolean(),
+  timestamp: z.number(),
+  urgent: z.boolean(),
+});
+export type SavedProtoJobData = z.infer<typeof savedProtoJobDataSchema>;
+
+const senderKeyDistributionJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.SenderKeyDistribution),
+  conversationId: z.string(),
+  groupId: z.string(),
+});
+export type SenderKeyDistributionJobData = z.infer<
+  typeof senderKeyDistributionJobDataSchema
+>;
 
 const storyJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.Story),
@@ -156,8 +206,12 @@ export const conversationQueueJobDataSchema = z.union([
   expirationTimerUpdateJobDataSchema,
   groupUpdateJobDataSchema,
   normalMessageSendJobDataSchema,
+  nullMessageJobDataSchema,
   profileKeyJobDataSchema,
   reactionJobDataSchema,
+  resendRequestJobDataSchema,
+  savedProtoJobDataSchema,
+  senderKeyDistributionJobDataSchema,
   storyJobDataSchema,
   receiptsJobDataSchema,
 ]);
@@ -408,11 +462,23 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         case jobSet.NormalMessage:
           await sendNormalMessage(conversation, jobBundle, data);
           break;
+        case jobSet.NullMessage:
+          await sendNullMessage(conversation, jobBundle, data);
+          break;
         case jobSet.ProfileKey:
           await sendProfileKey(conversation, jobBundle, data);
           break;
         case jobSet.Reaction:
           await sendReaction(conversation, jobBundle, data);
+          break;
+        case jobSet.ResendRequest:
+          await sendResendRequest(conversation, jobBundle, data);
+          break;
+        case jobSet.SavedProto:
+          await sendSavedProto(conversation, jobBundle, data);
+          break;
+        case jobSet.SenderKeyDistribution:
+          await sendSenderKeyDistribution(conversation, jobBundle, data);
           break;
         case jobSet.Story:
           await sendStory(conversation, jobBundle, data);

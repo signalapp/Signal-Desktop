@@ -312,3 +312,5 @@ export class UnknownRecipientError extends Error {}
 export class IncorrectSenderKeyAuthError extends Error {}
 
 export class WarnOnlyError extends Error {}
+
+export class NoSenderKeyError extends Error {}

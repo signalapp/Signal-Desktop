@@ -55,6 +55,7 @@ import {
   SignedPreKeyRotationError,
   SendMessageProtoError,
   HTTPError,
+  NoSenderKeyError,
 } from './Errors';
 import type { BodyRangesType, StoryContextType } from '../types/Util';
 import type {
@@ -2123,63 +2124,18 @@ export default class MessageSender {
     });
   }
 
-  static getNullMessage({
-    uuid,
-    e164,
-    padding,
-  }: Readonly<{
-    uuid?: string;
-    e164?: string;
-    padding?: Uint8Array;
-  }>): SingleProtoJobData {
+  static getNullMessage(
+    options: Readonly<{
+      padding?: Uint8Array;
+    }> = {}
+  ): Proto.Content {
     const nullMessage = new Proto.NullMessage();
-
-    const identifier = uuid || e164;
-    if (!identifier) {
-      throw new Error('sendNullMessage: Got neither uuid nor e164!');
-    }
-
-    nullMessage.padding = padding || MessageSender.getRandomPadding();
+    nullMessage.padding = options.padding || MessageSender.getRandomPadding();
 
     const contentMessage = new Proto.Content();
     contentMessage.nullMessage = nullMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return {
-      contentHint: ContentHint.RESENDABLE,
-      identifier,
-      isSyncMessage: false,
-      protoBase64: Bytes.toBase64(
-        Proto.Content.encode(contentMessage).finish()
-      ),
-      type: 'nullMessage',
-      urgent: false,
-    };
-  }
-
-  async sendRetryRequest({
-    groupId,
-    options,
-    plaintext,
-    uuid,
-  }: Readonly<{
-    groupId?: string;
-    options?: SendOptionsType;
-    plaintext: PlaintextContent;
-    uuid: string;
-  }>): Promise<CallbackResultType> {
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return this.sendMessageProtoAndWait({
-      timestamp: Date.now(),
-      recipients: [uuid],
-      proto: plaintext,
-      contentHint: ContentHint.DEFAULT,
-      groupId,
-      options,
-      urgent: false,
-    });
+    return contentMessage;
   }
 
   // Group sends
@@ -2358,7 +2314,7 @@ export default class MessageSender {
               distributionId
             );
             if (!key) {
-              throw new Error(
+              throw new NoSenderKeyError(
                 `getSenderKeyDistributionMessage: Distribution ${distributionId} was not in database as expected`
               );
             }

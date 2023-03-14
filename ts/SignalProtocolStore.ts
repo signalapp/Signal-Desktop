@@ -54,10 +54,9 @@ import type { Address } from './types/Address';
 import type { QualifiedAddressStringType } from './types/QualifiedAddress';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
-import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import * as Errors from './types/errors';
-import MessageSender from './textsecure/SendMessage';
 import { MINUTE } from './util/durations';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -1437,13 +1436,13 @@ export class SignalProtocolStore extends EventEmitter {
       await this.archiveSession(qualifiedAddress);
 
       // Enqueue a null message with newly-created session
-      await singleProtoJobQueue.add(
-        MessageSender.getNullMessage({
-          uuid: uuid.toString(),
-        })
-      );
+      await conversationJobQueue.add({
+        type: 'NullMessage',
+        conversationId: conversation.id,
+        idForTracking: id,
+      });
     } catch (error) {
-      // If we failed to do the session reset, then we'll allow another attempt sooner
+      // If we failed to queue the session reset, then we'll allow another attempt sooner
       //   than one hour from now.
       delete sessionResets[id];
       await window.storage.put('sessionResets', sessionResets);

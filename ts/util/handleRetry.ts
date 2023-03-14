@@ -5,14 +5,12 @@ import {
   DecryptionErrorMessage,
   PlaintextContent,
 } from '@signalapp/libsignal-client';
-import { isBoolean, isNumber } from 'lodash';
+import { isNumber } from 'lodash';
 
 import * as Bytes from '../Bytes';
 import dataInterface from '../sql/Client';
 import { isProduction } from './version';
 import { strictAssert } from './assert';
-import { getSendOptions } from './getSendOptions';
-import { handleMessageSend } from './handleMessageSend';
 import { isGroupV2 } from './whatTypeOfConversation';
 import { isOlderThan } from './timestamp';
 import { parseIntOrThrow } from './parseIntOrThrow';
@@ -37,16 +35,12 @@ import type {
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import MessageSender from '../textsecure/SendMessage';
+import type MessageSender from '../textsecure/SendMessage';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import { drop } from './drop';
+import { conversationJobQueue } from '../jobs/conversationJobQueue';
 
 const RETRY_LIMIT = 5;
-
-// Note: Neither of the the two functions onRetryRequest and onDecrytionError use a job
-//   queue to make sure sends are reliable. That's unnecessary because these tasks are
-//   tied to incoming message processing queue, and will only confirm() completion on
-//   successful send.
 
 // Entrypoints
 
@@ -175,23 +169,17 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     requesterUuid,
     'private'
   );
-  const sendOptions = await getSendOptions(recipientConversation.attributes, {
-    story,
-  });
-  const promise = messaging.sendMessageProtoAndWait({
+  const protoToSend = new Proto.Content(contentProto);
+
+  await conversationJobQueue.add({
+    type: 'SavedProto',
+    conversationId: recipientConversation.id,
     contentHint,
     groupId,
-    options: sendOptions,
-    proto: new Proto.Content(contentProto),
-    recipients: [requesterUuid],
+    protoBase64: Bytes.toBase64(Proto.Content.encode(protoToSend).finish()),
+    story,
     timestamp,
     urgent,
-    story,
-  });
-
-  await handleMessageSend(promise, {
-    messageIds: [],
-    sendType: 'resendFromLog',
   });
 
   confirm();
@@ -313,7 +301,6 @@ async function sendDistributionMessageOrNullMessage(
     requesterUuid,
     'private'
   );
-  const sendOptions = await getSendOptions(conversation.attributes);
 
   if (groupId) {
     const group = window.ConversationController.get(groupId);
@@ -331,23 +318,15 @@ async function sendDistributionMessageOrNullMessage(
       );
 
       try {
-        await handleMessageSend(
-          messaging.sendSenderKeyDistributionMessage(
-            {
-              distributionId,
-              groupId,
-              identifiers: [requesterUuid],
-              throwIfNotInDatabase: true,
-              urgent: false,
-            },
-            sendOptions
-          ),
-          { messageIds: [], sendType: 'senderKeyDistributionMessage' }
-        );
+        await conversationJobQueue.add({
+          type: 'SenderKeyDistribution',
+          conversationId: conversation.id,
+          groupId,
+        });
         sentDistributionMessage = true;
       } catch (error) {
         log.error(
-          `sendDistributionMessageOrNullMessage/${logId}: Failed to send sender key distribution message`,
+          `sendDistributionMessageOrNullMessage/${logId}: Failed to queue sender key distribution message`,
           Errors.toLogFormat(error)
         );
       }
@@ -368,24 +347,13 @@ async function sendDistributionMessageOrNullMessage(
 
     // Enqueue a null message using the newly-created session
     try {
-      const nullMessage = MessageSender.getNullMessage({
-        uuid: requesterUuid,
+      await conversationJobQueue.add({
+        type: 'NullMessage',
+        conversationId: conversation.id,
       });
-      await handleMessageSend(
-        messaging.sendIndividualProto({
-          ...nullMessage,
-          options: sendOptions,
-          proto: Proto.Content.decode(
-            Bytes.fromBase64(nullMessage.protoBase64)
-          ),
-          timestamp: Date.now(),
-          urgent: isBoolean(nullMessage.urgent) ? nullMessage.urgent : true,
-        }),
-        { messageIds: [], sendType: nullMessage.type }
-      );
     } catch (error) {
       log.error(
-        'sendDistributionMessageOrNullMessage: Failed to send null message',
+        'sendDistributionMessageOrNullMessage: Failed to queue null message',
         Errors.toLogFormat(error)
       );
     }
@@ -606,16 +574,12 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
 
   // 1. Find the target conversation
 
-  const group = groupId
-    ? window.ConversationController.get(groupId)
-    : undefined;
   const sender = window.ConversationController.getOrCreate(
     senderUuid,
     'private'
   );
-  const conversation = group || sender;
 
-  // 2. Send resend request
+  // 2. Prepare resend request
 
   if (!cipherTextBytes || !isNumber(cipherTextType)) {
     log.warn(
@@ -625,84 +589,37 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     return;
   }
 
-  try {
-    const message = DecryptionErrorMessage.forOriginal(
-      Buffer.from(cipherTextBytes),
-      cipherTextType,
-      timestamp,
-      senderDevice
-    );
+  const message = DecryptionErrorMessage.forOriginal(
+    Buffer.from(cipherTextBytes),
+    cipherTextType,
+    timestamp,
+    senderDevice
+  );
 
-    const plaintext = PlaintextContent.from(message);
-    const options = await getSendOptions(conversation.attributes);
-    const result = await handleMessageSend(
-      messaging.sendRetryRequest({
-        plaintext,
-        options,
-        groupId,
-        uuid: senderUuid,
-      }),
-      { messageIds: [], sendType: 'retryRequest' }
-    );
-    if (result && result.errors && result.errors.length > 0) {
-      throw result.errors[0];
-    }
+  const plaintext = PlaintextContent.from(message);
+
+  // 3. Queue resend request
+
+  try {
+    await conversationJobQueue.add({
+      type: 'ResendRequest',
+      contentHint,
+      conversationId: sender.id,
+      groupId,
+      plaintext: Bytes.toBase64(plaintext.serialize()),
+      receivedAtCounter,
+      receivedAtDate,
+      senderUuid,
+      senderDevice,
+      timestamp,
+    });
   } catch (error) {
     log.error(
-      `requestResend/${logId}: Failed to send retry request, failing over to automatic reset`,
+      `requestResend/${logId}: Failed to queue resend request, failing over to automatic reset`,
       Errors.toLogFormat(error)
     );
     startAutomaticSessionReset(decryptionError);
-    return;
   }
-
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-  // 3. Determine how to represent this to the user. Three different options.
-
-  // We believe that it could be successfully re-sent, so we'll add a placeholder.
-  if (contentHint === ContentHint.RESENDABLE) {
-    const { retryPlaceholders } = window.Signal.Services;
-    strictAssert(retryPlaceholders, 'requestResend: adding placeholder');
-
-    log.info(`requestResend/${logId}: Adding placeholder`);
-
-    const state = window.reduxStore.getState();
-    const selectedId = state.conversations.selectedConversationId;
-    const wasOpened = selectedId === conversation.id;
-
-    await retryPlaceholders.add({
-      conversationId: conversation.get('id'),
-      receivedAt: receivedAtDate,
-      receivedAtCounter,
-      sentAt: timestamp,
-      senderUuid,
-      wasOpened,
-    });
-
-    return;
-  }
-
-  // This message cannot be resent. We'll show no error and trust the other side to
-  //   reset their session.
-  if (contentHint === ContentHint.IMPLICIT) {
-    log.info(`requestResend/${logId}: contentHint is IMPLICIT, doing nothing.`);
-    return;
-  }
-
-  log.warn(`requestResend/${logId}: No content hint, adding error immediately`);
-  drop(
-    conversation.queueJob('addDeliveryIssue', async () => {
-      drop(
-        conversation.addDeliveryIssue({
-          receivedAt: receivedAtDate,
-          receivedAtCounter,
-          senderUuid,
-          sentAt: timestamp,
-        })
-      );
-    })
-  );
 }
 
 function scheduleSessionReset(senderUuid: string, senderDevice: number) {
@@ -726,7 +643,12 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
   );
 }
 
-function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
+export function startAutomaticSessionReset(
+  decryptionError: Pick<
+    DecryptionErrorEventData,
+    'senderUuid' | 'senderDevice' | 'timestamp'
+  >
+): void {
   const { senderUuid, senderDevice, timestamp } = decryptionError;
   const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
@@ -740,7 +662,7 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
   });
   if (!conversation) {
     log.warn(
-      'onLightSessionReset: No conversation, cannot add message to timeline'
+      'startAutomaticSessionReset: No conversation, cannot add message to timeline'
     );
     return;
   }
@@ -749,12 +671,10 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
   const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
   drop(
     conversation.queueJob('addChatSessionRefreshed', async () => {
-      drop(
-        conversation.addChatSessionRefreshed({
-          receivedAt,
-          receivedAtCounter,
-        })
-      );
+      await conversation.addChatSessionRefreshed({
+        receivedAt,
+        receivedAtCounter,
+      });
     })
   );
 }
