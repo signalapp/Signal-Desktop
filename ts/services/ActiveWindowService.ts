@@ -16,7 +16,7 @@ const ACTIVE_EVENTS = [
   'wheel',
 ];
 
-export class ActiveWindowService {
+class ActiveWindowService {
   // This starting value might be wrong but we should get an update from the main process
   //  soon. We'd rather report that the window is inactive so we can show notifications.
   private isInitialized = false;
@@ -112,4 +112,38 @@ export class ActiveWindowService {
       }
     }
   }
+}
+
+export type ActiveWindowServiceType = {
+  isActive(): boolean;
+  registerForActive(callback: () => void): void;
+  unregisterForActive(callback: () => void): void;
+  registerForChange(callback: (isActive: boolean) => void): void;
+  unregisterForChange(callback: (isActive: boolean) => void): void;
+};
+
+export function getActiveWindowService(
+  document: EventTarget,
+  ipc: NodeJS.EventEmitter
+): ActiveWindowServiceType {
+  const activeWindowService = new ActiveWindowService();
+  activeWindowService.initialize(document, ipc);
+
+  return {
+    isActive(): boolean {
+      return activeWindowService.isActive();
+    },
+    registerForActive(callback: () => void): void {
+      return activeWindowService.registerForActive(callback);
+    },
+    unregisterForActive(callback: () => void): void {
+      return activeWindowService.unregisterForActive(callback);
+    },
+    registerForChange(callback: (isActive: boolean) => void): void {
+      return activeWindowService.registerForChange(callback);
+    },
+    unregisterForChange(callback: (isActive: boolean) => void): void {
+      return activeWindowService.unregisterForChange(callback);
+    },
+  };
 }

@@ -10,6 +10,7 @@ import type { Theme } from '../util/theme';
 import { themeClassName } from '../util/theme';
 import { refMerger } from '../util/refMerger';
 import { offsetDistanceModifier } from '../util/popperUtil';
+import { getInteractionMode } from '../services/InteractionMode';
 
 type EventWrapperPropsType = {
   children: React.ReactNode;
@@ -35,7 +36,7 @@ const TooltipEventWrapper = React.forwardRef<
   }, [onHoverChanged]);
 
   const onFocus = React.useCallback(() => {
-    if (window.getInteractionMode() === 'keyboard') {
+    if (getInteractionMode() === 'keyboard') {
       on();
     }
   }, [on]);

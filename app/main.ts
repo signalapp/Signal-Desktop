@@ -1253,7 +1253,7 @@ async function showAbout() {
       nodeIntegrationInWorker: false,
       sandbox: false,
       contextIsolation: true,
-      preload: join(__dirname, '../ts/windows/about/preload.js'),
+      preload: join(__dirname, '../about.preload.bundle.js'),
       nativeWindowOpen: true,
     },
   };
@@ -2355,6 +2355,11 @@ ipc.on('get-built-in-images', async () => {
 ipc.on('locale-data', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().messages;
+});
+
+ipc.on('getHasCustomTitleBar', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = OS.hasCustomTitleBar();
 });
 
 ipc.on('user-config-key', event => {

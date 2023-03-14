@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { EventEmitter } from 'events';
 
-import { ActiveWindowService } from '../../services/ActiveWindowService';
+import { getActiveWindowService } from '../../services/ActiveWindowService';
 
 describe('ActiveWindowService', () => {
   const fakeIpcEvent = {};
@@ -23,16 +23,17 @@ describe('ActiveWindowService', () => {
   }
 
   it('is inactive at the start', () => {
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), new EventEmitter());
+    const service = getActiveWindowService(
+      createFakeDocument(),
+      new EventEmitter()
+    );
 
     assert.isFalse(service.isActive());
   });
 
   it('becomes active after focusing', () => {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -41,8 +42,7 @@ describe('ActiveWindowService', () => {
 
   it('becomes inactive after 15 seconds without interaction', function test() {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -61,8 +61,7 @@ describe('ActiveWindowService', () => {
       it(`is inactive even in the face of ${eventName} events if unfocused`, function test() {
         const fakeDocument = createFakeDocument();
         const fakeIpc = new EventEmitter();
-        const service = new ActiveWindowService();
-        service.initialize(fakeDocument, fakeIpc);
+        const service = getActiveWindowService(fakeDocument, fakeIpc);
 
         fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
 
@@ -73,8 +72,7 @@ describe('ActiveWindowService', () => {
       it(`stays active if focused and receiving ${eventName} events`, function test() {
         const fakeDocument = createFakeDocument();
         const fakeIpc = new EventEmitter();
-        const service = new ActiveWindowService();
-        service.initialize(fakeDocument, fakeIpc);
+        const service = getActiveWindowService(fakeDocument, fakeIpc);
 
         fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -94,8 +92,7 @@ describe('ActiveWindowService', () => {
 
   it('calls callbacks when going from unfocused to focused', () => {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);
@@ -108,8 +105,7 @@ describe('ActiveWindowService', () => {
   it('calls callbacks when receiving a click event after being focused', function test() {
     const fakeDocument = createFakeDocument();
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(fakeDocument, fakeIpc);
+    const service = getActiveWindowService(fakeDocument, fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -125,8 +121,7 @@ describe('ActiveWindowService', () => {
 
   it('only calls callbacks every 5 seconds; it is throttled', function test() {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);
@@ -150,8 +145,7 @@ describe('ActiveWindowService', () => {
   it('can remove callbacks', () => {
     const fakeDocument = createFakeDocument();
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(fakeDocument, fakeIpc);
+    const service = getActiveWindowService(fakeDocument, fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);

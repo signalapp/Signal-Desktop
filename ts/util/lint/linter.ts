@@ -24,6 +24,8 @@ const excludedFilesRegexp = RegExp(
   [
     '^release/',
     '^preload.bundle.js(LICENSE.txt|map)?',
+    '^about.browser.bundle.js(LICENSE.txt|map)?',
+    '^about.preload.bundle.js(LICENSE.txt|map)?',
     '^storybook-static/',
 
     // Non-distributed files

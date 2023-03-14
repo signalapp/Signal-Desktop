@@ -3,28 +3,28 @@
 
 import React from 'react';
 
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { LocalizerType } from '../types/Util';
+import { TitleBarContainer } from './TitleBarContainer';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useTheme } from '../hooks/useTheme';
-import { TitleBarContainer } from './TitleBarContainer';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 
 export type PropsType = {
   closeAbout: () => unknown;
   environment: string;
+  executeMenuRole: ExecuteMenuRoleType;
+  hasCustomTitleBar: boolean;
   i18n: LocalizerType;
   version: string;
-  hasCustomTitleBar: boolean;
-  executeMenuRole: ExecuteMenuRoleType;
 };
 
 export function About({
   closeAbout,
-  i18n,
   environment,
-  version,
-  hasCustomTitleBar,
   executeMenuRole,
+  hasCustomTitleBar,
+  i18n,
+  version,
 }: PropsType): JSX.Element {
   useEscapeHandling(closeAbout);
 

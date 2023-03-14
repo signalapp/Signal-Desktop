@@ -98,3 +98,18 @@ main().catch(error => {
   console.error(error.stack);
   process.exit(1);
 });
+
+// About bundle
+esbuild.build({
+  ...bundleDefaults,
+  mainFields: ['browser', 'main'],
+  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.tsx')],
+  outfile: path.join(ROOT_DIR, 'about.browser.bundle.js'),
+});
+
+esbuild.build({
+  ...bundleDefaults,
+  mainFields: ['browser', 'main'],
+  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts')],
+  outfile: path.join(ROOT_DIR, 'about.preload.bundle.js'),
+});

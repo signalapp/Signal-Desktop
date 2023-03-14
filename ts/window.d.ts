@@ -3,6 +3,7 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
+import type { MenuItemConstructorOptions } from 'electron';
 import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type PQueue from 'p-queue/dist';
@@ -101,7 +102,16 @@ export type FeatureFlagType = {
   GV2_MIGRATION_DISABLE_INVITE: boolean;
 };
 
+type AboutWindowType = {
+  environmentText: string;
+  executeMenuRole: (role: MenuItemConstructorOptions['role']) => Promise<void>;
+  hasCustomTitleBar: boolean;
+  i18n: LocalizerType;
+  version: string;
+};
+
 export type SignalCoreType = {
+  AboutWindow?: AboutWindowType;
   Crypto: typeof Crypto;
   Curve: typeof Curve;
   Data: typeof Data;

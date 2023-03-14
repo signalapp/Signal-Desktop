@@ -1,8 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+type InteractionModeType = 'mouse' | 'keyboard';
+
 let initialized = false;
-let interactionMode: 'mouse' | 'keyboard' = 'mouse';
+let interactionMode: InteractionModeType = 'mouse';
 
 export function startInteractionMode(): void {
   if (initialized) {
@@ -66,6 +68,8 @@ export function startInteractionMode(): void {
   );
   document.addEventListener('wheel', window.enterMouseMode, true);
   document.addEventListener('mousedown', window.enterMouseMode, true);
+}
 
-  window.getInteractionMode = () => interactionMode;
+export function getInteractionMode(): InteractionModeType {
+  return interactionMode;
 }

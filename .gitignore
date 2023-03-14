@@ -26,6 +26,8 @@ libtextsecure/components.js
 stylesheets/*.css
 /storybook-static/
 preload.bundle.*
+about.browser.bundle.*
+about.preload.bundle.*
 ts/sql/mainWorker.bundle.js.LICENSE.txt
 
 # React / TypeScript

@@ -8,6 +8,6 @@ if (window.SignalContext.OS.hasCustomTitleBar()) {
 
 if (window.SignalContext.renderWindow) {
   window.SignalContext.renderWindow();
-} else {
+} else if (window.SignalContext.log) {
   window.SignalContext.log.error('renderWindow is undefined!');
 }

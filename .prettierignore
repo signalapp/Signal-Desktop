@@ -43,3 +43,5 @@ js/WebAudioRecorderMp3.js
 stylesheets/_intlTelInput.scss
 
 preload.bundle.*
+about.browser.bundle.*
+about.preload.bundle.*

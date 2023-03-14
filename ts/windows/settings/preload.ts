@@ -16,7 +16,7 @@ import {
 import { awaitObject } from '../../util/awaitObject';
 import { DurationInSeconds } from '../../util/durations';
 import { createSetting, createCallback } from '../../util/preload';
-import { startInteractionMode } from '../startInteractionMode';
+import { startInteractionMode } from '../../services/InteractionMode';
 
 function doneRendering() {
   ipcRenderer.send('settings-done-rendering');

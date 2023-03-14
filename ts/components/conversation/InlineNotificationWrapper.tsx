@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { getInteractionMode } from '../../services/InteractionMode';
 
 export type PropsType = {
   id: string;
@@ -22,7 +23,7 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
   };
 
   public handleFocus = (): void => {
-    if (window.getInteractionMode() === 'keyboard') {
+    if (getInteractionMode() === 'keyboard') {
       this.setSelected();
     }
   };

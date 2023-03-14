@@ -148,7 +148,7 @@ import { deleteAllLogs } from './util/deleteAllLogs';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { showToast } from './util/showToast';
-import { startInteractionMode } from './windows/startInteractionMode';
+import { startInteractionMode } from './services/InteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';

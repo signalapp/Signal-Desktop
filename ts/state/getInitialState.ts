@@ -36,6 +36,7 @@ import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import { getInitialState as stickers } from '../types/Stickers';
 import { getThemeType } from '../util/getThemeType';
+import { getInteractionMode } from '../services/InteractionMode';
 
 export function getInitialState({
   badges,
@@ -137,7 +138,7 @@ export function getInitialState({
       ...user(),
       attachmentsPath: window.BasePaths.attachments,
       i18n: window.i18n,
-      interactionMode: window.getInteractionMode(),
+      interactionMode: getInteractionMode(),
       isMainWindowFullScreen: mainWindowStats.isFullScreen,
       isMainWindowMaximized: mainWindowStats.isMaximized,
       localeMessages: window.SignalContext.localeMessages,
