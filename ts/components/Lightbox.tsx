@@ -86,8 +86,9 @@ export function Lightbox({
   hasPrevMessage,
 }: PropsType): JSX.Element | null {
   const hasThumbnails = media.length > 1;
-  const hadThumbnails = usePrevious(hasThumbnails, hasThumbnails);
-  const justGotThumbnails = !hadThumbnails && hasThumbnails;
+  const messageId = media[0].message.id;
+  const prevMessageId = usePrevious(messageId, messageId);
+  const needsAnimation = messageId !== prevMessageId;
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
@@ -301,7 +302,7 @@ export function Lightbox({
   );
 
   useEffect(() => {
-    if (!justGotThumbnails) {
+    if (!needsAnimation) {
       return;
     }
 
@@ -317,7 +318,7 @@ export function Lightbox({
       opacity: 1,
     });
   }, [
-    justGotThumbnails,
+    needsAnimation,
     selectedIndex,
     thumbnailsMarginLeft,
     thumbnailsAnimation,
