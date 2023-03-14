@@ -190,8 +190,11 @@
   &__nav-prev {
     position: absolute;
     top: 0;
+    display: flex;
+    flex-direction: column;
     width: 25%;
     height: 100%;
+    justify-content: center;
 
     // We need this so that the buttons stack above the container
     z-index: $z-index-above-base;
@@ -199,12 +202,12 @@
 
   &__nav-next {
     right: 0;
-    padding-right: 16px;
+    align-items: end;
   }
 
   &__nav-prev {
     left: 0;
-    padding-left: 16px;
+    align-items: start;
   }
 
   &__header {
@@ -326,6 +329,8 @@
     &--next {
       width: 100%;
       height: 100%;
+      max-width: 96px;
+      max-height: 224px;
       opacity: 0;
       transition: opacity 200ms ease-in-out;
 
@@ -357,6 +362,8 @@
 
     &--previous {
       justify-content: start;
+      padding-left: 16px;
+
       &::before {
         @include color-svg(
           '../images/icons/v2/arrow-left-32.svg',
@@ -367,6 +374,7 @@
 
     &--next {
       justify-content: end;
+      padding-right: 16px;
 
       &::before {
         @include color-svg(
