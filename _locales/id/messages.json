@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Batal",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Kirim",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Sebuah pesan, stiker, tanggapan, tanda pesan terbaca atau media tidak dapat Anda terima dari$sender$. Mereka mungkin mencoba mengirimkannya secara langsung, atau di dalam grup.",
+    "message": "Sebuah pesan, stiker, tanggapan, bukti pesan terbaca, atau media tidak dapat Anda terima dari $sender$. Mereka mungkin mencoba mengirimkannya langsung kepada Anda, atau di dalam grup.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Sebuah pesan, stiker, tanggapan, tanda pesan terbaca atau media tidak dapat dikirim ke Anda dari $sender$ dalam percakapan ini.",
+    "message": "Sebuah pesan, stiker, tanggapan, bukti pesan terbaca, atau media tidak dapat Anda terima dari $sender$ dalam obrolan ini.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ memberi tanggapan $emoji$ pada pesan Anda"
+    "message": "$sender$ menanggapi $emoji$ pada pesan Anda"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ memberi tanggapan $emoji$ pada: $message$"
+    "message": "$sender$ menanggapi $emoji$ pada: $message$"
   },
   "sendFailed": {
     "message": "Pengiriman gagal",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Hari ini $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Kemarin $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Sambungkan kembali"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Pembaruan tersedia"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Ulangi pembaruan"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Alihkan pemilih tanggapan-emoji untuk pesan yang dipilih",
+    "message": "Ganti pemilih tanggapan emoji untuk pesan yang dipilih",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Siapkan Signal di ponsel dan komputer Anda untuk menggunakan Pembuat Paket Stiker",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Gagal mengirim tanggapan. Silahkan coba lagi.",
+    "message": "Gagal mengirim tanggapan. Silakan coba lagi.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Pembaruan $version$ tersedia",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal tidak dapat ditutup.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6457,15 +6465,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "Memberi tanggapan $emoji$ ke cerita Anda",
+    "message": "Menanggapi $emoji$ pada cerita Anda",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "Anda memberi tanggapan $emoji$ ke cerita $name$",
+    "message": "Anda menanggapi $emoji$ pada cerita $name$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "Anda memberi tanggapan $emoji$ ke sebuah cerita",
+    "message": "Anda menanggapi $emoji$ pada sebuah cerita",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Nonaktifkan penemuan nomor telepon di Pengaturan > Privasi > Nomor Telepon > Siapa bisa menemukan nomor saya, untuk menggunakan nama pengguna sebagai cara utama orang lain dapat menghubungi Anda.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Kami berupaya memperbaiki bug dan memberikan peningkatan performa lain agar aplikasi bisa berjalan lancar untuk Anda.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Mulai gunakan dan uji fitur cerita baru kami. Anda bisa menggunakan fitur ini bersama para penguji beta lainnya dan beri tahu kami pengalaman Anda menggunakannya.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Cerita kini hadir di Signal! Bagikan kabar dengan teman atau grup tertentu, berupa teks, gambar & video yang akan hilang otomatis setelah 24 jam. Bagi yang suka berbagi cerita, inilah cara untuk melakukannya secara privat dan tanpa melihat iklan apa pun. Jika Anda tidak ingin melihat atau membagikan cerita, Anda dapat menonaktifkannya di menu Preferensi > Privasi.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Saat Anda memulai panggilan grup untuk grup kecil (maksimal 16 orang), Anda dapat memilih untuk mengirimkan notifikasi dering. Anggota grup akan mendengar dering jika mereka menggunakan iOS beta atau menggunakan Desktop atau Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Klik dua kali baris pesan apa pun dalam obrolan untuk memulai balasan yang dikutip. Ini seperti jalan pintas untuk pemikiran baru tentang ide lama. Terima kasih kepada {whynothugo} dan komunitas Signal telah menerapkan fitur ini dan memberikan masukan.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Sekarang lebih mudah mengeklik di luar gambar untuk menutup tampilan galeri tanpa memperbesar. Terkadang Anda hanya ingin menutup, tetapi justru jadi terlalu dekat. Terima kasih kepada {jojomatik} untuk perbaikannya!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Percepat waktu respons Anda. Sekarang Anda dapat menanggapi lebih cepat dengan mengeklik emoji apa pun saat membalas cerita.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Kini Anda dapat mencari riwayat pesan untuk tiap karakter dalam bahasa Mandarin dan Jepang.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Bantu kami menguji beberapa penyempurnaan reliabilitas dan kinerja untuk panggilan suara dan video. Rilisan beta ini juga mencakup beberapa perbaikan bug dan beberapa pembaruan kecil pada UI (cari penyempurnaan pratinjau tautan baru!). Terima kasih telah menjadi penguji beta, dan hubungi kami di forum komunitas jika Anda menemukan bug apa pun.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Kini bila Anda mengunduh catatan suara MP3, catatan suara tersebut akan disimpan dengan ekstensi file yang sesuai.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Langsung mulai ketik pesan setelah melampirkan file, atau cukup tekan Enter/Return untuk mengirim file tanpa mengeklik apa pun lagi. Terima kasih, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Tombol kirim dalam tampilan komposisi besar telah disesuaikan. Terima kasih, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Jika Anda satu-satunya orang dalam grup (sejauh ini) dan mencoba untuk memulai panggilan grup, kini Anda dapat bergabung dengan panggilan tersebut dan langsung mulai berbicara ke diri sendiri, dan tidak perlu menunggu panggilan berdering. Terima kasih, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Dengan fitur sorotan baru, Anda bisa dengan cepat melihat siapa yang sedang berbicara selama panggilan grup, sehingga Anda tahu harus melihat ke arah mana. Jika tiba giliran Anda berbicara, Anda bisa melihat ke diri sendiri.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Seru-seruan dengan beberapa stiker di editor media yang memungkinkan Anda menambahkan dekorasi waktu dengan gaya tertentu pada gambar yang akan dikirim.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Gunakan pemutar mini catatan suara untuk bisa tetap lanjut mendengarkan pesan yang panjang sekalipun Anda telah beralih ke obrolan lain.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klik gambar atau video mana pun dan gunakan tombol Maju dan Mundur yang baru di penampil media untuk melihat-lihat kembali kenangan Anda.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Pesan suara kini disimpan sebagai draf jika Anda beralih ke obrolan lain saat perekaman sedang berlangsung.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Mengirim stiker tidak lagi menyebabkan teks draf terhapus. Terima kasih, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Kami juga ingin berterima kasih kepada {norstbox} karena telah menyesuaikan kembali ikon bilah pencarian percakapan.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "キャンセル",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "送信",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "メッセージにリアクション",
+    "message": "メッセージにリアクションする",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ からのメッセージ、ステッカー、リアクション、既読通知またはメディアを、あなたに配信できませんでした。直接またはグループで、送信しようとしているかもしれません。",
+    "message": "$sender$ さんからのメッセージ、ステッカー、リアクション、既読通知またはメディアを、あなたに配送できませんでした。直接送信しようとしたか、グループで送ろうとしたかもしれません。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "このチャットで $sender$ からのメッセージ、ステッカー、リアクション、既読通知またはメディアを、あなたに配信できませんでした。",
+    "message": "このチャットで、$sender$さんからのメッセージ、ステッカー、リアクション、既読通知またはメディアを、あなたに配信できませんでした。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ があなたのメッセージに $emoji$"
+    "message": "$sender$さんがあなたのメッセージに $emoji$のリアクションをしました"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ が「$message$」に $emoji$"
+    "message": "$sender$さんが「$message$」に $emoji$のリアクションをしました"
   },
   "sendFailed": {
     "message": "送信できませんでした",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "今日 $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "昨日 $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "再リンク"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "アップデートがあります"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "アップデートを再試行"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Sticker Pack Creatorを使うには、Signalを携帯電話とデスクトップで設定してください。",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "リアクションを送信に失敗しました。再度お試しください。",
+    "message": "リアクションの送信に失敗しました。再度お試しください。",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "バージョン$version$へのアップデートがあります",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signalを終了できません。",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6281,7 +6289,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ストーリーへのリアクション",
+    "message": "ストーリーにリアクションする",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "設定 > プライバシー > 電話番号 >「電話番号での検索を可能にする」で電話番号検索をオフにすると、他のユーザーからあなたへの基本の連絡方法はユーザーネームの使用となります。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "アプリがスムーズに動作するよう、バグの修正とその他のパフォーマンスの向上に努めています。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "新機能「ストーリー」の使用とテストを開始します。ベータ版の「ストーリー」機能をご利用いただき、ご使用感をお知らせください。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signalにストーリーが登場しました！！24時間後に自動的に消えるテキスト、画像、動画などのアップデートを、選択した友達やグループと共有できます。ストーリーの共有が大好きな皆様のために、広告なしにプライベートで共有する方法をご紹介します。設定 > プライバシーから、ストーリーを見たり共有したりしないようにできます。",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "小人数(最大16人)でグル－プ通話を開始する時、呼び出し通知の送信を選択できます。iOSベータ版、デスクトップ、Androidを使用してるグループメンバーには呼び出し音が聞こえます。",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "チャット内のいずれかのメッセージ行をダブルクリックすると、引用返信をすることができます。従来の概念に対して新しい発想をするためのショートカットのようなものです。この機能を搭載し、フィードバックを提供してくれた{whynothugo}とSignalコミュニティにお礼を申し上げます。",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "画像の外側をクリックしてギャラリービューを解除することができるようになりました。画像が拡大されることはありません。画像を閉じたいのにむしろ拡大される、なんて真逆でしたよね。修正してくれた {jojomatik}に感謝します！",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "返信を、より速くストーリーに返信するときに、お好きな絵文字をクリックすることで、より速くリアクションできるようになりました。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "中国語と日本語で、1文字単位でのメッセージ履歴検索が可能になりました。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "音声通話とビデオ通話の信頼を高め、パフォーマンスを向上させるためのいくつかのテストにご協力ください。このベータ版のリリースには、いくつかのバグ修正と一部のUIアップデートも含まれています (新しいリンクプレビューの改良にもご注目ください！)。ベータテスターになっていただきありがとうございます。バグを発見された場合は、コミュニティフォーラムでご連絡ください。",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "おかしなダウンロードをすることはないでしょうが、MP3の音声メモをダウンロードすると、最適なファイル拡張子で保存されます。",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ファイル添付後すぐにメッセージを入力することや、余分なクリック不要でEnter/Returnキーを押すだけでのファイル送信ができます。ありがとう、{zyphlar}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "大きなコンポジションビューの送信ボタンを一列に並べました。ありがとう、{hackerbirds}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "グループ内に自分しかいない(今のところ)状態でグループ通話を始めると、呼び出し音は鳴らずに、そのまま自分との通話状態になります。ありがとう、{lamemakes}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "どこを見ればいいかを示す新しいハイライト機能で、グループ通話中に、今誰が話しているかをすばやく確認することができます。あなたが話す番かどうかは、空気を読んでくださいね。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "メディアエディター内の複数のステッカーを使って、送信する画像を自分スタイルに装飾しましょう。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "音声メモミニプレーヤーを使えば、他のチャットに切り替えても長いメッセージを中断せずに聞くことができます。",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "写真または動画をクリックして、メディアビューアーの新しい進むボタンと戻るボタンで懐かしい記憶をたどりましょう。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "録音中に別のチャットに切り替えた場合でも、その音声メッセージは下書きとして保存されるようになりました。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ステッカーを送信しても、下書きが消えなくなりました。ありがとう、{lamemakes}！",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "そして、会話検索バーのアイコンを再調整してくれた{norstbox}にも感謝します。",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

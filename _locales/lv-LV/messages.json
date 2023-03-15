@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Atcelt",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Sūtīt",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1789,7 +1789,7 @@
     "message": "$sender$ uz jūsu ziņu reaģēja ar $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reaģēja ar$emoji$: $message$"
+    "message": "$sender$ reaģēja ar $emoji$ uz: $message$"
   },
   "sendFailed": {
     "message": "Sūtīšana neizidevās",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Šodien, $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Vakar, $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Atkārtoti saistīt"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Pieejams atjauninājums"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Vēlreiz mēģināt atjaunināt"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Pārslēgt emociju izpausmes izvēli uz atlasīto ziņu",
+    "message": "Pārslēgt emociju reakciju izvēli atlasītajai ziņai",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Lai izmantotu uzlīmju komplekta veidotāju, iestatiet Signal savā tālrunī un datorā",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Neizdevās nosūtīt emociju izpausmi. Mēģiniet vēlreiz.",
+    "message": "Neizdevās nosūtīt reakciju. Mēģiniet vēlreiz.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Pieejams atjauninājums uz versiju $version$",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Neizdodas aizvērt Signal.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Pielāgot emociju izpausmes",
+    "message": "Pielāgot reakcijas",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Izslēdziet tālruņa numura noteikšanu sadaļā Iestatījumi > Privātums > > Tālruņa numurs > Kas var atrast manu numuru, lai izmantotu jūsu lietotāja vārdu kā galveno veidu, kā citi var ar jums sazināties.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Sāciet izmantot un testēt mūsu jauno stāstu funkciju. Varat izmantot šo funkciju kopā ar citiem beta testētājiem un paziņot mums, kā tā darbojas.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Tagad Signal ir pieejami stāsti! Kopīgojiet tekstu, attēlus un video ar noteiktiem draugiem vai grupām. Kopīgotais saturs automātiski pazudīs pēc 24 stundām. Ikviens, kam patīk dalīties ar stāstiem, var to paveikt privāti un bez reklāmām. Ja nevēlaties redzēt vai kopīgot stāstus, varat atteikties no šīs funkcijas sadaļā Preferences > Privātums.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Kad sākat grupas zvanu nelielā grupā (līdz 16 personām), varat izvēlēties nosūtīt zvana paziņojumu. Grupas dalībnieki dzirdēs zvana signālu, ja viņi izmanto iOS beta, Desktop vai Android versiju.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Veiciet dubultklikšķi uz jebkuras ziņas rindas sarunā, lai sāktu citēto atbildi. Tas ir ātrs veids, kā dalīties ar jaunām domām par vecajām idejām. Paldies {whynothugo} un Signal kopienai par šīs funkcijas ieviešanu un atsauksmju sniegšanu.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Tagad ir vieglāk noklikšķināt ārpus attēla, lai aizvērtu galerijas skatu bez tuvināšanas. Iepriekš varēja gadīties, ka jūs vienkārši gribējāt aizvērt skatu, bet tā vietā pietuvinājāt attēlu. Paldies {jojomatik} par labojumu!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Atbildiet ātrāk. Kad atbildat uz stāstu, varat reaģēt ātrāk, pieskaroties pie jebkuras emocijzīmes.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Tagad ziņu vēsturē ir iespējams meklēt atsevišķas rakstzīmes ķīniešu un japāņu valodā.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Palīdziet mums pārbaudīt vairākus balss un videozvanu stabilitātes un veiktspējas uzlabojumus. Šajā beta versijā ir iekļauti arī daži kļūdu labojumi un daži nelieli lietotāju interfeisa atjauninājumi (meklējiet jaunos saišu priekšskatījuma uzlabojumus!). Paldies, ka esat beta testētājs. Ja pamanāt kļūdas, lūdzu, sazinieties ar mums kopienas forumā.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Tagad, lejupielādējot MP3 balss piezīmi, tā tiks saglabāta ar atbilstošu faila paplašinājumu.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Pēc faila pievienošanas ātri sāciet rakstīt ziņu vai vienkārši nospiediet taustiņu Enter/Return, lai nosūtītu failu bez papildu klikšķiem. Paldies, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Nosūtīšanas poga lielajā ziņas sastādīšanas skatā ir izlīdzināta. Paldies, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Ja esat vienīgā persona grupā (pagaidām) un mēģināt sākt grupas zvanu, tagad varat pievienoties zvanam un sākt runāt ar sevi uzreiz, negaidot, kamēr atskanēs zvans. Paldies, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Ātri uzziniet, kurš runā grupas zvana laikā, izmantojot jaunu izcelšanas funkciju, kas parāda runātāju. Ja ir jūsu kārta runāt, ieskatieties sevī.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Padariet dzīvi krāšņāku ar dažādām uzlīmēm multivides redaktorā, kas ļauj nosūtītajiem attēliem pievienot stilizētas laika dekorācijas.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Izmantojiet balss piezīmju mini atskaņotāju, lai turpinātu klausīties garas ziņas pat pēc pārslēgšanās uz citu sarunu.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Noklikšķiniet uz jebkura attēla vai video un izmantojiet jaunās pogas Uz priekšu un Atpakaļ multivides skatītājā, lai vizuāli gremdētos atmiņās.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Ja ierakstīšanas laikā pārslēdzaties uz citu sarunu, balss ziņas tagad tiek saglabātas kā melnraksti.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Nosūtot uzlīmi, melnraksta teksts vairs netiek notīrīts. Paldies, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Vēlamies arī pateikties lietotājam {norstbox} par sarunu meklēšanas joslas ikonu izlīdzināšanu.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

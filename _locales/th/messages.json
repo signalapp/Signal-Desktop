@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "ยกเลิก",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ส่ง",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "ตอบสนองข้อความ",
+    "message": "แสดงความรู้สึกต่อข้อความ",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "ข้อความ สติกเกอร์ การตอบสนอง การตอบรับเมื่ออ่าน หรือสื่อไม่สามารถส่งให้คุณได้จาก $sender$ พวกเขาอาจลองส่งให้คุณโดยตรงหรือในกลุ่มแล้ว",
+    "message": "มีข้อความ สติกเกอร์ การแสดงความรู้สึก การแจ้งว่าอ่านแล้ว หรือสื่อจาก $sender$ ที่ไม่สามารถส่งถึงคุณได้ ผู้ใช้คนนี้อาจลองส่งให้คุณโดยตรงหรือส่งเข้ากลุ่มแล้ว",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ข้อความ สติกเกอร์ การตอบสนอง การตอบรับเมื่ออ่าน หรือสื่อไม่สามารถส่งให้คุณจาก $sender$ ในแชตนี้",
+    "message": "มีข้อความ สติกเกอร์ การแสดงความรู้สึก การแจ้งว่าอ่านแล้ว หรือสื่อจาก $sender$ ที่ไม่สามารถส่งถึงคุณได้ในแชทนี้",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ตอบ  $emoji$ กลับให้ข้อความของคุณ"
+    "message": "$sender$ แสดงความรู้สึก $emoji$ ต่อข้อความของคุณ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ตอบกลับ  $emoji$ ถึง:  $message$"
+    "message": "$sender$ แสดงความรู้สึก $emoji$ ต่อ: $message$"
   },
   "sendFailed": {
     "message": "การส่งล้มเหลว",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "วันนี้ $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "เมื่อวาน $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "หมายเหตุส่วนตัว",
+    "message": "บันทึกส่วนตัว",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "เชื่อมโยงอีกครั้ง"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "การปรับรุ่นพร้อมให้บริการ"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "ลองปรับรุ่นอีกครั้ง"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "เปิดปิดตัวเลือกการตอบอีโมจิสำหรับข้อความที่เลือก",
+    "message": "เปิดปิดตัวเลือกการแสดงความรู้สึกด้วยอีโมจิสำหรับข้อความที่เลือก",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "กรุณาติดตั้ง Signal บนมือถือและเดสก์ท็อป เพื่อใช้งานศูนย์สร้างสรรค์ชุดสติกเกอร์ (Sticker Pack Creator)",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "การส่งการตอบสนองล้มเหลว กรุณาลองอีกครั้ง",
+    "message": "ไม่สามารถส่งการแสดงความรู้สึกได้ กรุณาลองอีกครั้ง",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "ปรับรุ่นเป็น $version$",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "ไม่สามารถปิด Signal ได้",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "ปรับแต่งการตอบสนอง",
+    "message": "ปรับแต่งการแสดงความรู้สึก",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -6457,15 +6465,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "แสดงความรู้สึกต่อสตอรี่ของคุณด้วย $emoji$",
+    "message": "แสดงความรู้สึก $emoji$ ต่อสตอรี่ของคุณ",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "คุณแสดงความรู้สึกด้วย $emoji$ ต่อสตอรี่ของ $name$",
+    "message": "คุณแสดงความรู้สึก $emoji$ ต่อสตอรี่ของ $name$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "คุณแสดงความรู้สึกต่อสตอรี่ด้วย $emoji$",
+    "message": "คุณแสดงความรู้สึก $emoji$ ต่อสตอรี่",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ปิดใช้งานการค้นหาด้วยหมายโทรศัพท์ โดยไปที่การตั้งค่า > ความเป็นส่วนตัว > หมายเลขโทรศัพท์ > ใครบ้างที่สามารถค้นหาหมายเลขโทรศัพท์ฉันได้ ซึ่งวิธีนี้จะตั้งให้ชื่อผู้ใช้ของคุณเป็นวิธีหลักที่ผู้ใช้คนอื่นจะติดต่อคุณได้",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "เรามุ่งมั่นทุ่มเททำงานอย่างหนักเพื่อแก้ไขบั๊กต่างๆ และปรับปรุงประสิทธิภาพอื่นๆ เพื่อให้แอปทำงานได้ราบรื่นไร้ปัญหา",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "เริ่มใช้และทดสอบฟีเจอร์สตอรี่ใหม่ของเรา คุณสามารถใช้ฟีเจอร์นี้กับผู้ทดสอบรุ่นเบต้าคนอื่นๆ แล้วบอกให้เราทราบว่าคุณถูกใจหรือมีส่วนไหนที่ควรปรับปรุง",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal ให้คุณสนุกกับสตอรี่ได้แล้ววันนี้! แชร์ข้อความ รูปภาพ หรือวิดีโอในสตอรี่กับเพื่อนคนสนิทหรือกลุ่มเฉพาะที่คุณเลือกเองได้ สตอรี่จะหายไปโดยอัตโนมัติภายใน 24 ชั่วโมง ถูกใจคนชอบแชร์สตอรี่ ด้วยความเป็นส่วนตัวอีกขั้น แถมยังไม่มีโฆษณามากวนใจ แต่หากคุณไม่ใช่สายสตอรี่ที่ไม่ต้องการรับชมหรือแชร์ ก็สามารถปิดใช้งานได้ง่ายๆ ที่ค่ากำหนด > ความเป็นส่วนตัว",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "เมื่อคุณเริ่มการโทรแบบกลุ่มกับกลุ่มขนาดเล็ก (สมาชิกไม่เกิน 16 คน) คุณสามารถเลือกได้ว่าจะส่งเสียงแจ้งเตือนหรือไม่ สมาชิกในกลุ่มที่ใช้ iOS รุ่นเบต้า หรือใช้แอปบนเดสก์ท็อปหรือ Android จะได้ยินเสียงโทรเข้า",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "ดับเบิลคลิกที่ข้อความฝั่งใดก็ได้ในแชทเพื่อตอบกลับข้อความนั้นๆ นี่เป็นเหมือนทางลัดที่เชื่อมโยงความคิดใหม่กลับไปยังคำพูดก่อนหน้านี้ เราขอขอบคุณ {whynothugo} และชุมชน Signal ที่นำฟีเจอร์นี้เข้ามาใช้และคอยให้ข้อเสนอแนะ",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "ปิดหน้าต่างที่แสดงรูปภาพแบบเต็มจอได้ง่ายขึ้น เพียงคลิกนอกขอบเขตรูป แอปจะพาคุณกลับมายังหน้าเดิม และไม่ซูมเข้าอีกต่อไป เพราะบางครั้งคุณแค่อยากกลับไปหน้าเก่า แต่รูปบนจอดันขยายหลายเท่าจนตกใจ ต้องขอบคุณ {jojomatik} ที่ช่วยแก้ไขปัญหานี้!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "ตอบกลับทันใจ ถ่ายทอดความรู้สึกได้ทันที ตอบกลับสตอรี่ได้รวดเร็วยิ่งกว่าเดิม แค่คลิกอีโมจิที่ตอบโจทย์เพื่อแสดงความรู้สึกของคุณ",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ตอนนี้คุณสามารถใช้ตัวอักษรภาษาจีนและภาษาญี่ปุ่นตัวหนึ่งตัวใดในการค้นหาประวัติการส่งข้อความได้แล้ว",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "ช่วยเราทดสอบการปรับปรุงเสถียรภาพและการพัฒนาประสิทธิภาพการใช้งานของการโทรด้วยเสียงและวิดีโอคอล รุ่นเบต้านี้มีการแก้ไขบั๊กหลายตัวและการปรับโฉมรูปแบบการใช้งาน (UI) เล็กน้อย (อย่างการอัปเดตหน้าตาตัวอย่างลิงก์) Signal ขอขอบคุณที่ร่วมทดสอบรุ่นเบต้ากับเรา กรุณาติดต่อเราทางฟอรั่มชุมชนหากคุณพบบั๊กหรือเจอปัญหาในการใช้งาน",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "คุณสามารถดาวน์โหลดข้อความเสียงที่เป็นไฟล์ MP3 ได้แล้ว! ระบบจะบันทึกเป็นนามสกุลไฟล์ข้อความเสียงที่ถูกต้อง ดาวน์โหลดได้สะดวกแถมจัดเก็บเป็นระเบียบยิ่งขึ้น",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "เมื่อเลือกไฟล์แนบได้แล้ว คุณสามารถเลือกต่อว่าจะพิมพ์ข้อความเพิ่มเติม หรือแค่กดปุ่ม Enter หรือ Return เพื่อส่งไฟล์ทันทีโดยไม่ต้องคลิกอะไรอีก ขอบคุณ {zyphlar} สำหรับการปรับปรุงครั้งนี้!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "ปรับการจัดตำแหน่งปุ่มส่งในหน้าจอช่องเขียนข้อความแบบขยายให้สวยงามและขนานกับหน้าต่าง ขอบคุณ {hackerbirds} สำหรับการปรับปรุงครั้งนี้!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "หากคุณเป็นสมาชิกเพียงคนเดียวในกลุ่มและต้องการเริ่มการโทรกลุ่ม คุณสามารถเข้าร่วมสายและเริ่มคุยกับตัวเองได้ทันทีโดยไม่ต้องรอให้มีการส่งเสียงเรียกเข้าอีกต่อไป ขอบคุณ {lamemakes} สำหรับการปรับปรุงครั้งนี้!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "มองเห็นได้ทันทีว่าสมาชิกคนไหนเป็นคนพูดอยู่ในสายโทรกลุ่มด้วยฟีเจอร์ไฮไลท์ใหม่ล่าสุด ไม่ต้องสับสนอีกต่อไปว่าจะต้องมองไปที่ใคร และเมื่อถึงเวลาที่คุณอยากพูด ก็แค่มองสบตากับเหล่าผู้ฟัง (หรือจะใช้โอกาสนี้มองลึกเข้าไปในใจตัวเองก็ได้…)",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "ถึงเวลาสนุก! ด้วยสติกเกอร์หลากหลายรูปแบบในโปรแกรมตัดต่อสื่อที่ให้คุณเพิ่มตัวบอกเวลาลงในรูปภาพก่อนส่งเพื่อเป็นกิมมิกเก๋ๆ ที่ไม่เหมือนใคร",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "ใช้ตัวเล่นข้อความเสียงขนาดมินิเพื่อเปิดฟังข้อความขนาดยาวได้อย่างต่อเนื่องแม้คุณจะสลับไปดูแชทอื่นแล้ว",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ดื่มด่ำกับภาพความทรงจำแบบไม่มีสะดุด เพียงคลิกที่รูปภาพหรือวิดีโอในแชท แล้วใช้ฟีเจอร์ปุ่มแบบใหม่ที่จะให้คุณเลื่อนดูสื่อก่อนหน้าหรือหลังจากนั้นได้ทันใจและสะดวกกว่าเดิม",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "สามารถบันทึกข้อความเสียงเป็นฉบับร่างไว้ก่อนได้ในกรณีที่คุณสลับไปเปิดแชทอีกแชทในระหว่างที่บันทึกเสียงอยู่",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "การกดส่งสติกเกอร์จะไม่ทำให้ข้อความที่คุณพิมพ์ค้างไว้หายวับไปกับตาอีกแล้ว ขอบคุณ {lamemakes} สำหรับการปรับปรุงครั้งนี้!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "เราอยากขอบคุณ {norstbox} ด้วยเช่นกันที่ทำให้ไอคอนแถบค้นหาการสนทนากลับมาขนานและดูดีเหมือนที่เคย",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

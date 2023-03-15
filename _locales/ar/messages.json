@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "إلغاء",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "أرسلْ",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,7 +1259,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "تعذر توصيل رسالة – نصية، ملصقة، رد فعل، وصل القراءة، أو وسيط – من $sender$. يُحتمَل أنها أُرسلَت إليك مباشرة أو أنها قد أُرسلَت في مجموعة.",
+    "message": "لم يتمكن $sender$ من توصيل رسالة أو ملصقة أو رد فعل أو وصل القراءة أو وسيط إليك. يُحتمَل أنها أُرسلَت إليك مباشرة أو أنها قد أُرسلَت في مجموعة.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "اليوم $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "البارحة $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "إعادة الربط"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "هناك تحديث جديد"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "إعادة محاولة التحديث"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "يُرجى إعداد Signal في هاتفك وفي الحاسوب لاستخدام مُنشئ حزم الملصقات",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "فشل إرسال التفاعل. عليك بالمحاولة مرة أخرى.",
+    "message": "تعذر إرسال التفاعل. يرجى المحاولة مرة أخرى.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "إن اﻹصدار $version$ متاح حاليا",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "‫لم يتمكن من إغلاق Signal",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6449,7 +6457,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "تفاعلت مع قصة $name$",
+    "message": "تفاعل مع قصة من طرف $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "عطّل اكتشاف رقم الهاتف ضمن الإعدادات > الخصوصية > رقم الهاتف > من يُمكنه العثور على رقمي، لاستخدام اسم المُستخدم الخاص بك كالطريقة الأساسية التي يُمكن للآخرين استخدامها للاتصال بك.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "ندعوك إلى استخدام واختبار ميزة قِصصنا الجديدة. يُمكنك استخدام الميزة مع الأشخاص الآخرين الذين يختبرون النسخة التجريبية وإعلامنا بأدائها.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "أصبحت القِصص الآن على Signal! شارك الرسائل والصور ومستجدات الفيديو التي تختفي تلقائيًا بعد 24 ساعة مع أصدقاء أو مجموعات مُختارة. لِكل من يُحب مشاركة القصص، إليك طريقة للقيام بذلك بشكل خاص وبدون مشاهدة أي إعلانات. إذا لم تكن ترغب في رؤية أو مشاركة القصص، يُمكنك إلغاء ذلك في إعداداتك > الخصوصية.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "عندما تقوم ببدء مُكالمة مجموعة لمجموعات صغيرة (حتى 16 شخصًا)، يمكنك اختيار إرسال إشعار رنّان. سيسمع أعضاء المجموعة رنينًا إذا كانوا يستخدمون iOS beta أو Desktop أو Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "انقر مرتين على أي صف رسائل في دردشة لِبدء رد مقتبس. إنه بمثابة اختصار للخواطر الجديدة عن الأفكار القديمة. شكرًا لـ {whynothugo} ومجتمع Signal على تفعيل هذه الميزة وتقديم الملاحظات.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "أصبح من السهل الآن النقر خارج صورة لتجاهل العرض الكامل دون تكبير الصورة. أحيانًا كنت تودّ فقط أن تغلق الصورة لكن بدلا من ذلك تقترب. شكرًا لـ {jojomatik} على التصليح!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "سرّع وقت استجابتك. يُمكنك الآن التفاعل بسرعة عبر النقر على أيٍ من الرموز التعبيرية عند الردّ على قصة.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "يُمكنك الآن البحث في سِجل رسائلك عن أحرف فردية باللغتين الصينية واليابانية.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "ساعدنا في اختبار عدد من تحسينات الموثوقية والأداء لمُكالمات الصوت والفيديو. يَتضمن هذا الإصدار التجريبي أيضًا بعض إصلاحات الأخطاء وبعض التحديثات الصغيرة لواجهة المُستخدم (ابحث عن تحسينات العرض المُسبق للروابط الجديدة!). نشكرك لأنك أحد مختبري الإصدار التجريبي، ويُرجى التواصل معنا على منتدى المجتمع إذا لاحظت أي أخطاء.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "لن تقوم بتنزيل سيارة، لكن عندما تقوم بتنزيل ملاحظة صوتية بصيغة MP3 الآن، ستُحفظ باستخدام ملحق الملف المناسب.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ابدأ كتابة رسالة بسرعة بعد إرفاق ملف، أو اضغط على Enter/Return فقط لترسل الملف دون أي نقرة إضافية. شكرًا، {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "لقد تم تقريب زر الإرسال في عرض التحرير الكبير ليصبح منسجمًا. شكرًا، {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "إذا كنت الشخص الوحيد في مجموعة (حتى الآن) وحاولت بدء مكالمة مجموعة، يُمكنك الآن الانضمام إلى المكالمة والتحدّث مع نفسك مباشرة بدلاً من انتظار رنين المكالمة. شكرًا، {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "تعرف على من يتحدث خلال مكالمات المجموعة مع ميزة جديدة تُريك أين يجب أن تنظر. إذا كان دورك في الحديث، سَيتعين عليك النظر إلى الداخل.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "استمتع بوقتك مع العديد من الملصقات في مُحرر الوسائط التي تُتيح لك إضافة زخارف زمنية مُنمقة على الصور الصادرة.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "استخدم مشغل الملاحظات الصوتية الصغير لمواصلة الاستماع إلى الرسائل الطويلة حتى بعد التبديل إلى محادثة مُختلفة.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "انقر فوق أية صورة أو فيديو واستخدم زرّيْ الأمام والخلف الجديدين في عارض الوسائط للقيام بجولة مرئية في الذكريات.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "يتم حفظ الرسائل الآن بمثابة مُسودّات إذا قمت بالتبديل إلى دردشة أخرى بينما يجري تسجيل ما.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "لم يعد إرسال ملصق يتسبب في مسح نص المُسودّة. شكرًا، {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "نودّ أيضًا شُكر {norstbox} على إعادة تحقيق انسجام رموز شريط بحث المحادثة.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "ביטול",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "שליחה",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "הגב אל הודעה",
+    "message": "תגובה להודעה",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "הודעה, מדבקה, תגובה, אישור קריאה או מדיה לא יכלו להימסר אליך מאת $sender$. הצד השני ניסה אולי לשלוח זאת ישירות אליך, או בקבוצה.",
+    "message": "לא ניתן היה למסור לך הודעה, סטיקר, תגובה, אישור קריאה או מדיה מאת $sender$. יתכן שהצד השני ניסה לשלוח לך את זה ישירות, או בקבוצה.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "הודעה, מדבקה, תגובה, אישור קריאה או מדיה לא יכלו להימסר אליך מאת $sender$ בהתכתבות זו.",
+    "message": "לא ניתן היה למסור לך הודעה, סטיקר, תגובה, אישור קריאה או מדיה מאת $sender$ בצ׳אט זה.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ הגיב עם  $emoji$ אל ההודעה שלך"
+    "message": "$sender$ הגיב/ה $emoji$ להודעה שלך"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ הגיב עם  $emoji$ אל:  $message$"
+    "message": "$sender$ הגיב/ה $emoji$ ל: $message$"
   },
   "sendFailed": {
     "message": "שליחה נכשלה",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "היום $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "אתמול $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "הערה לעצמי",
+    "message": "הערות לעצמי",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "קשר מחדש"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "עדכון זמין"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "נסה שוב עדכון"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "עורר בוחר תגובת אמוג'י עבור הודעה נבחרת",
+    "message": "הצגת/הסתרת בוחר תגובת–אמוג'י עבור הודעה נבחרת",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "צריך להגדיר את Signal בטלפון שלך ובשולחן העבודה כדי להשתמש ביוצר חבילות הסטיקרים",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "נכשל בשליחת תגובה. אנא נסה שוב.",
+    "message": "שליחת תגובה נכשלה. כדאי לנסות שוב.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "עדכון אל גרסה $version$ זמין",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal לא יכול להיסגר.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "התאם אישית תגובות",
+    "message": "התאמה אישית של תגובות",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "שולח תגובה…",
+    "message": "שולחים תגובה…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5989,11 +5997,11 @@
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "אפשור תשובות ותגובות",
+    "message": "הפעלת תשובות ותגובות",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "אפשר לתת לאנשים שרואים את הסטורי שלך להגיב ולשלוח תשובות.",
+    "message": "אפשר לתת לאנשים שרואים את הסטורי שלך להגיב ולהשיב.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "אפשר לכבות את גילוי מספר הטלפון תחת הגדרות > פרטיות > מספר טלפון > מי יכול למצוא את המספר שלי, כדי להשתמש בשם המשתמש שלך בתור הדרך העיקרית שבה אנשים יכולים ליצור איתך קשר.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "עובדים קשה על תיקוני באגים ושיפור הביצועים בעוד דרכים כדי לוודא שהאפליקציה שלך תמשיך לרוץ חלק.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "יש לך אפשרות להתחיל להשתמש ולבדוק בפיצ׳ר הסטוריז החדש שלנו ולבדוק אותו. אפשר להשתמש בפיצ׳ר עם בודקי בטא אחרים ולספר לנו איך הוא עובד.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "סטוריז: עכשיו ב–Signal! משתפים עדכונים נעלמים של טקסט, תמונות וסרטונים עם קבוצות וחברים נבחרים שנעלמים אוטומטית אחרי 24 שעות. לכל מי שאוהב לשתף סטוריז, הנה דרך לעשות את זה בפרטיות ובלי לראות מודעות בכלל. אם אינך רוצה לראות או לשתף סטוריז, אפשר לבטל את האפשרות הזו בהעדפות > פרטיות.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "כשמתחילים שיחה קבוצתית לקבוצות קטנות (עד 16 אנשים), אפשר לבחור לשלוח התראת צלצול. חברי הקבוצה ישמעו צלצול אם הם משתמשים ב–iOS beta או בגרסאות שולחן העבודה או Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "אפשר ללחוץ פעמיים על כל שורת טקסט בצ׳אט כדי ליצור תשובה מצוטטת. זה כמו קיצור דרך למחשבות חדשות על רעיונות ישנים. תודה ל–{whynothugo} ולקהילת Signal על יישום הפיצ׳ר הזה ומתן פידבק.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "עכשיו קל יותר ללחוץ מחוץ לתמונה כדי לסגור את תצוגת הגלריה בלי לעשות זום אין. לפעמים פשוט בא לסגור עניין וזהו. תודה ל–{jojomatik} על התיקון!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "מאיצים את זמן התגובה שלך. עכשיו אפשר להגיב מהר יותר באמצעות לחיצה על כל אימוג׳י שהוא בזמן שליחת תגובה לסטורי.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "עכשיו אפשר לחפש בהיסטוריית ההודעות שלך תווים בודדים בסינית ויפנית.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "נשמח לעזרתך בבדיקת כמה שיפורי אמינות וביצוע לשיחות קוליות ושיחות וידאו. מהדורת בטא זו כוללת גם כמה תיקוני באגים וכמה עדכוני ממשק משתמש קטנים (כדאי לחפש את השיפורים החדשים לתצוגה מקדימה של קישורים!). תודה על העזרה בבדיקת הבטא, ונשמח לשמוע ממך בפורום הקהילה שלנו אם זיהית באגים כלשהם.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "כשמורידים הודעה קולית בפורמט MP3 היא תישמר עם סיומת הקובץ המתאימה.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "אפשר להתחיל להקליד הודעה במהירות אחרי שמצרפים קובץ, או פשוט ללחוץ על אנטר/Return כדי לשלוח את הקובץ בלי לחיצות נוספות. תודה, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "יישרנו את כפתור השליחה בתצוגה המוגדלת. תודה, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "אם מצאת את עצמך לבד בקבוצה (בינתיים) ובא לך להתחיל שיחת טלפון קבוצתית, עכשיו אפשר להצטרף לשיחה ולהתחיל לדבר עם עצמך מיד במקום לחכות שהטלפון יצלצל. תודה, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "אפשר לראות במהירות מי מדבר במהלך שיחות קבוצתיות עם פיצ׳ר הדגשה חדש שמראה לך איפה לחפש. אם זה תורך לדבר, אז צריך לחפש עמוק בפנים.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "חבל לך על הזמן! יש כמה סטיקרים בעורך המדיה שמאפשרים לך להוסיף עיצובי זמן מסוגננים לתמונות יוצאות.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "אפשר להשתמש במיני–נגן של הודעות קוליות כדי להמשיך להקשיב להודעות ארוכות אפילו אחרי שעברת לצ׳אט אחר.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "אפשר ללחוץ על כל תמונה או סרטון ולהשתמש בכפתורי ה׳קדימה׳ ו׳אחורה׳ החדשים בנגן המדיה כדי לצאת לטיול ויזואלי בין הזיכרונות.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "הודעות קוליות נשמרות עכשיו כטיוטות אם מחליפים לצ׳אט אחר בזמן הקלטת ההודעה.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "שליחת סטיקר כבר לא גורמת לטיוטת הודעה להימחק. תודה, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "חשוב לנו גם להודות ל{norstbox} על יישור הסמלים בשורת החיפוש.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

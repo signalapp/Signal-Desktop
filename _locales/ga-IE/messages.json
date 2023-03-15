@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Cuir ar ceal",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Seol",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+    "message": "Níorbh fhéidir teachtaireacht, greamán, freagairt, admháil léite nó meán a sheachadadh chugat ó $sender$. Seans go ndearna an duine iarracht í/é a sheoladh chugat go díreach, nó i ngrúpa.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "A message, sticker, reaction, read receipt or  media couldn’t be delivered to you from $sender$ in this chat.",
+    "message": "Níorbh fhéidir teachtaireacht, greamán, freagairt, admháil léite nó meán a sheachadadh chugat ó $sender$ sa chomhrá seo.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Inniu $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Inné $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Nóta Pearsanta",
+    "message": "Nóta Chugam Féin",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Athnasc"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Nuashonrú ar fáil"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Atriail nuashonrú"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Socraigh Signal ar do ghuthán agus ríomhaire deisce leis an gCruthaitheoir Beart Greamán a úsáid",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "Nuashonrú chuig an leagan $version$ ar fáil",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Ní féidir Signal a dhúnadh.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5985,11 +5993,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Freagraí agus Freagairtí",
+    "message": "Freagraí agus freagairtí",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Ceadaigh Freagraí agus Freagairtí",
+    "message": "Ceadaigh freagraí agus freagairtí",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6281,11 +6289,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Tabhair freagairt ar an scéal",
+    "message": "Tabhair freagairt do scéal",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Tugadh freagairt ar an scéal",
+    "message": "Tugadh freagairt don scéal",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,11 +6457,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Tugadh freagairt ar scéal ó $name$",
+    "message": "Tugadh freagairt do scéal le $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Tugadh freagairt ar scéal",
+    "message": "Tugadh freagairt do scéal",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Cas as aimsiú uimhreacha gutháin faoi Shocruithe > Príobháideachas > Uimhir Ghutháin > Na daoine ar féidir leo m'uimhir a aimsiú, chun d'ainm úsáideora a úsáid mar an príomhbhealach ag daoine chun teagmháil a dhéanamh leat.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Ag obair go crua ar fhabhtanna a réiteach agus ar fheabhsúcháin feidhmíochta eile chun an aip a choinneáil ar rith gan stró duit.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Tosaigh ar úsáid agus ar thástáil ár ngné scéalta nua. Is féidir leat an ghné a úsáid i gcomhar le tástálaithe eile béite agus sinn a chur ar an eolas maidir lena feidhmiú.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Tá Scéalta in Signal anois! Comhroinn le cairde nó grúpaí ar leith téacs, íomhánna agus nuashonruithe ar fhíseáin a imíonn as radharc go huathoibríoch tar éis 24 uair an chloig. Seo bealach chun scéalta a chomhroinnt go príobháideach agus gan aon fhógraí a fheiceáil, dóibh siúd go léir ar breá leo scéalta a chomhroinnt. Mura mian leat scéalta a fheiceáil ná a chomhroinnt, is féidir leat gan an méid uile a roghnú i Sainroghanna > Príobháideachas.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Nuair a thosaíonn tú ar ghlao grúpa do ghrúpaí beaga (suas le 16 duine), is féidir leat a roghnú fógra glaoigh a sheoladh. Cluinfidh baill den ghrúpa glaoch má tá siad ar an mbéite iOS nó ag úsáid Ríomhaire deisce nó Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Cliceáil faoi dhó ar aon ró teachtaireachta i gcomhrá chun tús a chur le freagra luaite. Tá sé mar a bheadh aicearra le haghaidh smaointe nua faoi sheanchuimhnimh. Buíochas le {whynothugo} agus le pobal Signal as an ngné seo a chur i bhfeidhm agus aiseolas a thabhairt.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Tá sé níos éasca anois cliceáil ag imeall íomhá le hamharc an ghailearaí a ruaigeadh gan zúmáil isteach. Uaireanta b'fhearr leat rudaí a dhúnadh, in ionad a bheith iomarcach. Buíochas le {jojomatik} as an réiteach!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Luathaigh d'am freagartha. Anois is féidir leat freagairt níos tapa a thabhairt ach cliceáil ar aon emoji ar fhreagairt do scéal.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Is féidir stair do theachtaireachtaí a chuardach anois le haghaidh carachtair aonair sa tSínis agus sa tSeapáinis.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Cabhraigh linn roinnt feabhsuithe ar iontaofacht agus ar fheidhmíocht guthghlaonna agus físghlaonna a thástáil. Áirítear leis an eisiúint bhéite freisin cúpla réiteach ar fhabhtanna agus roinnt nuashonruithe beaga ar chomhéadan úsáideora (cuardaigh feabhsuithe nua don réamhamharc ar nasc!). Buíochas leat as a bheith i do thástálaí béite, agus déan teagmháil linn ar an bhfóram pobail má fheiceann tú aon fhabht.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Nuair a íoslódálann tú nóta gutha MP3 sábhálfar é leis an iarmhír chomhadainm cheart.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Tosaigh go gasta ar theachtaireacht a scríobh tar éis comhad a chur i gceangal, nó buail Enter/Return leis an gcomhad a sheoladh gan aon chliceáil sa bhreis. Le buíochas, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Rinneadh an cnaipe Seol a ailíniú sa radharc, cumadóireacht mhór. Le buíochas, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Más tusa an t-aon duine i ngrúpa (go dtí seo) agus má dhéanann tú iarracht tosú ar ghrúpghlao, is féidir leat dul isteach sa ghlao agus labhairt leat féin go díreach in ionad fanacht ar bhualadh an ghlao. Le buíochas, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Féach an duine atá ag labhairt i ngrúpghlaonna go gasta leis an ngné nua aibhsithe a thaispeánann an áit le féachaint. Más leatsa an seal le labhairt, beidh ort féin é a fháil amach.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Bíodh craic iontach agat le cúpla greamán san eagarthóir meán a ligeann duit maisíochtaí ama stílithe a chur le híomhánna a sheoltar amach.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Úsáid an mionseinnteoir nótaí gutha le leanúint le héisteacht le teachtaireachtaí fada fiú má aistríonn tú chuig comhrá eile.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Cliceáil ar aon phictiúr nó físeán leis na cnaipí nua Ar Aghaidh agus Siar a úsáid san amharcóir meán le féachaint siar ar do chuimhní cinn.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Sábháiltear glórphost mar dhréachtaí anois má aistríonn tú chuig comhrá eile agus taifeadadh ar bun agat.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Ní ghlantar dréacht-théacs a thuilleadh mar thoradh ar ghreamán a sheoladh. Le buíochas, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Buíochas le {norstbox} freisin as na deilbhíní ar an mbarra cuardaigh comhráite a thabhairt ar ais san ailíniú.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

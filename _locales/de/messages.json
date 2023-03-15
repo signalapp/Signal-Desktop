@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Abbrechen",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Senden",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Heute, $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Gestern, $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Erneut koppeln"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Aktualisierung verfügbar"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Versuche die Aktualisierung erneut"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Creator zu verwenden",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "Aktualisierung auf Version $version$ verfügbar",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal kann nicht geschlossen werden.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6285,7 +6293,7 @@
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Auf Story reagiert",
+    "message": "Hat auf Story reagiert",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,15 +6457,15 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Auf eine Story von $name$ reagiert",
+    "message": "Hat auf eine Story von $name$ reagiert",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Auf eine Story reagiert",
+    "message": "Hat auf eine Story reagiert",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "$emoji$ haben auf deine Story reagiert",
+    "message": "Hat mit $emoji$ auf deine Story reagiert",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Deaktiviere die Rufnummernerkennung unter Einstellungen > Datenschutz > Rufnummer > Wer kann meine Nummer finden, um deinen Nutzernamen als primäre Methode festzulegen, über die dich andere kontaktieren können.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Wir arbeiten hart daran, Fehler zu beheben und andere Leistungsverbesserungen vorzunehmen, damit die App für dich reibungslos läuft.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Nutze und teste unsere neue Story-Funktion. Du kannst die Funktion mit anderen Beta-Testern nutzen und uns mitteilen, wie sie sich bewährt.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Jetzt gibt es Storys bei Signal! Teile Nachrichten, Bilder und Video-Updates, die nach 24 Stunden automatisch verschwinden, mit Freunden oder Gruppen. Für alle, die gerne Storys teilen, gibt es hier eine Möglichkeit, dies privat und ohne Werbung zu tun. Wenn du keine Storys sehen oder teilen möchtest, kannst du dies unter Einstellungen > Datenschutz deaktivieren.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Wenn du einen Gruppenanruf für kleine Gruppen (bis zu 16 Personen) startest, kannst du wählen, ob du eine Klingelbenachrichtigung senden möchtest. Die Gruppenmitglieder hören ein Klingeln, wenn sie auf iOS Beta sind bzw. wenn sie Desktop oder Android nutzen.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Klicke zweimal auf eine beliebige Nachrichtenzeile in einer Unterhaltung, um eine zitierte Antwort zu erstellen. Das ist wie eine Abkürzung für neue Gedanken zu alten Ideen. Danke an {whynothugo} und die Signal-Community für die Implementierung dieser Funktion und das Feedback.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Jetzt ist es einfacher, die Galerie-Ansicht durch Klicken außerhalb eines Bildes zu schließen, ohne hineinzuzoomen. Manchmal wolltest du einfach nur abschalten, aber stattdessen kamen dir die Dinge zu nahe. Danke an {jojomatik} für den Lösungsvorschlag!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Verkürze deine Antwortzeit. Jetzt kannst du noch schneller reagieren, indem du auf ein beliebiges Emoji klickst, um auf eine Story zu antworten.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Es ist jetzt möglich, deinen Nachrichtenverlauf nach einzelnen Zeichen auf Chinesisch und Japanisch zu durchsuchen.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Hilf uns, verschiedene Verbesserungen hinsichtlich Zuverlässigkeit und Leistung bei Sprach- und Videoanrufen zu testen. Diese Beta-Version enthält außerdem einige Fehlerkorrekturen und kleine UI-Updates (achte auf die verbesserte Link-Vorschau!). Vielen Dank, dass du als Beta-Tester/in mitmachst. Bitte melde dich im Community-Forum, falls du irgendwelche Fehler entdeckst.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Du würdest wohl kaum ein Auto herunterladen, aber wenn du jetzt eine MP3-Sprachnotiz herunterlädst, wird sie mit der richtigen Dateierweiterung gespeichert.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Beginne schnell, eine Nachricht zu schreiben, nachdem du eine Datei angehängt hast, oder klicke einfach auf Enter/Zurück, um die Datei ohne weitere Klicks zu senden. Danke, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Die Schaltfläche »Senden« im großen Eingabefeld wurde angeglichen. Danke, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Wenn du (vorerst) die einzige Person in einer Gruppe bist und versuchst, einen Gruppenanruf zu starten, kannst du jetzt sofort dem Anruf beitreten und mit dir selbst sprechen, anstatt zu warten, bis es klingelt. Danke, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Mit der neuen Markierungsfunktion, die dir zeigt, wo du hinschauen musst, kannst du bei Gruppenanrufen schnell erkennen, wer gerade spricht. Wenn du das Wort ergreifen willst, musst du dich selbst ins Visier nehmen.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Richtig viel Spaß wirst du mit den verschiedenen Stickern im Medien-Editor haben, dank denen du ausgehende Bilder mit stilisierten Uhrzeitangaben schmücken kannst.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Mit dem Miniplayer für Sprachnotizen kannst du lange Nachrichten weiter anhören, nachdem du zu einer anderen Unterhaltung gewechselt bist.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klicke auf ein beliebiges Bild oder Video und benutze die neuen Schaltflächen »Vor« und »Zurück« im Medienbetrachter, um eine visuelle Reise in die Vergangenheit zu unternehmen.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Sprachnachrichten werden jetzt als Entwürfe gespeichert, wenn du zu einer anderen Unterhaltung wechselst, während eine Aufnahme läuft.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Das Senden eines Stickers führt nicht mehr dazu, dass der Textentwurf gelöscht wird. Danke, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Wir möchten uns auch bei {norstbox} für die Anpassung der Symbole in der Unterhaltungssuche bedanken.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

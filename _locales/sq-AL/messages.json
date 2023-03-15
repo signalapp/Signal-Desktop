@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Anulo",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Dërgo",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Reagoni ndaj Mesazhit",
+    "message": "Reago ndaj mesazhit",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "S’u dërgua dot te ju një mesazh, ngjitës, reagim, dëftesë leximi ose media nga $sender$. Mund të ketë provuar ta dërgojë drejtpërsëdrejti për ju, ose në një grup.",
+    "message": "Një mesazh, ngjitës, reagim, verifikim leximi ose media i $sender$ nuk u dërgua dot te ti. Mund të ketë provuar ta dërgojë drejtpërsëdrejti te ti ose në një grup.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "S’u dorëzua dot për ju një mesazh, ngjitës, reagim, dëftesë leximi ose media nga $sender$ në këtë fjalosje.",
+    "message": "Një mesazh, ngjitës, reagim, verifikim leximi ose media i $sender$ në këtë bisedë, nuk u dërgua dot te ti.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tuaj"
+    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tënd"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagoi $emoji$ te: $message$"
+    "message": "$sender$ reagoi me $emoji$ te: $message$"
   },
   "sendFailed": {
     "message": "Dërgimi dështoi",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Sot $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Dje $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Shënim për Veten",
+    "message": "Shënim për veten",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Rilidhe"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Ka përditësim të gatshëm"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Riprovoni përditësim"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Shfaq/fshih zgjedhës reagimi me emoji për mesazhin e përzgjedhur",
+    "message": "Ndrysho zgjedhësin e reagimit me emoji për mesazhin e përzgjedhur",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Të lutem, konfiguro Signal në telefon dhe desktop që të përdorësh Krijuesin e Paketës së Ngjitëseve",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "S’u arrit të dërgohej reagim. Ju lutemi, riprovoni.",
+    "message": "Dërgimi i reagimit dështoi. Të lutem provo përsëri.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Ka të gatshëm përditësim me versionin $version$",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal-i s’mund të mbyllet.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Përshtatni reagime",
+    "message": "Personalizo reagimet",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5985,7 +5993,7 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Përgjigje & reagime",
+    "message": "Përgjigjet & reagimet",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Çaktivizo zbulimin e numrit të telefonit te Parametrat > Privatësia > Numri i telefonit > Kush mund ta gjejë numrin tim, për të përdorur emrin e përdoruesit si mënyrën kryesore për të të kontaktuar.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Punojmë fort për të rregulluar problemet dhe për të bërë përmirësime të tjera të mbarëvajtjes, që aplikacioni të funksionojë pa probleme.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Fillo të përdorësh dhe testosh funksionin tonë të ri të postimeve të përkohshme. Mund ta përdorësh funksionin me testues të tjerë beta dhe të na thuash si funksionon.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Tani postimet e përkohshme janë në Signal! Shpërndaj me miq ose grupe të caktuara përditësimet e teksteve, imazheve dhe videove që zhduken automatikisht pas 24 orësh. Për këdo që do të ndajë postimet e përkohshme, ja një mënyrë për ta bërë atë privatisht dhe pa parë asnjë reklamë. Nëse nuk dëshiron të shohësh ose të ndash postimet e përkohshme, mund të dalësh nga të gjitha te Preferencat > Privatësia.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Kur nis një telefonatë në grup për grupe të vogla (deri në 16 persona), mund të zgjedhësh të dërgosh një njoftim me zile. Anëtarët e grupit do të dëgjojnë një zile nëse kanë versionin beta të iOS ose nëse përdorin Desktop ose Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Kliko dy herë në çdo rresht mesazhi në një bisedë për të filluar një përgjigje të cituar. Është si një lidhje e shkurtër për mendime të reja rreth ideve të vjetra. Faleminderit {whynothugo} dhe komunitetit Signal për zbatimin e kësaj veçorie dhe mundësimin e komenteve.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Tani është më e lehtë të klikosh jashtë një imazhi për të hequr pamjen e galerisë pa e zmadhuar. Ndonjëherë thjesht doje ta mbyllje, por në vend të kësaj gjërat zmadhoheshin. Faleminderit {jojomatik} për rregullimin!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Përshpejto kohën e përgjigjes. Tani mund të reagosh më shpejt duke klikuar në çdo emoji, kur i përgjigjesh një postimi të përkohshëm.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Tani është e mundur të kërkosh historikun e mesazheve për karaktere individuale në gjuhën kineze dhe japoneze.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Na ndihmo të testojmë disa përmirësime besueshmërie dhe mbarëvajtjeje për thirrjet zanore dhe video. Ky version beta përfshin gjithashtu disa rregullime të gabimeve dhe disa përditësime të vogla të faqes së përdoruesit (kërkoni përmirësimet e reja të pamjes paraprake të lidhjes!). Faleminderit që je një testues beta dhe të lutemi të na shkruash në forumin e komunitetit nëse vëren ndonjë defekt.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Ti nuk do mund të shkarkosh pafund por tani kur ti të shkarkosh një shënim zanor MP3, ai do të ruhet me shtesën e duhur të skedarit.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Nis me shpejtësi të shkruash një mesazh pasi të bashkëngjitësh një skedar, ose thjesht shtyp Enter/Return për të dërguar skedarin pa asnjë klik shtesë. Faleminderit, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Butoni i dërgimit në pamjen e madhe është sjellë në vijë të drejtë. Faleminderit, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Nëse je i vetmi person në një grup (deri më tani) dhe përpiqesh të fillosh një telefonatë në grup, tani mund t'i bashkohesh telefonatës dhe të fillosh të flasësh menjëherë me veten në vend që të presësh tringëllimën e telefonatës. Faleminderit, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Shih shpejt se kush po flet gjatë telefonatave në grup me një veçori të re theksuese që të tregon se ku të shikosh. Nëse është radha jote për të folur, duhet të shikosh brenda.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Argëtohu pa fund me disa ngjitëse në redaktuesin e medias që do të të lejojnë të shtosh zbukurime të stilizuara të kohës në imazhet dalëse.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Përdor luajtësin e vogël të shënimeve zanore për të dëgjuar mesazhe të gjata edhe pasi të kalosh në një bisedë tjetër.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Kliko në çdo foto ose video dhe përdor butonat e rinj Përpara dhe Prapa në shikuesin e medias për të nisur një rrugëtim pamor në fillin e kujtesës.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Mesazhet zanore tani ruhen si skica, nëse kaloni në një bisedë tjetër ndërsa po bëni një regjistrim.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Dërgimi i një ngjitëseje nuk shkakton më pastrimin e tekstit draft. Faleminderit, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Dëshirojmë gjithashtu të falënderojmë {norstbox} për vendosjen e ikonave të shiritit të kërkimit të bisedave në rradhë.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

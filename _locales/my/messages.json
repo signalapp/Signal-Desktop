@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "မလုပ်တော့ပါ",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ပေးပို့ရန်",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "မက်ဆေ့ချ်၊ စတစ်ကာ၊ တုံ့ပြန်မှု၊ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် မီဒီယာသည် $sender$ မှ သင့်ထံသို့ မရောက်သွားပါ။ သင့်ထံ တိုက်ရိုက် သို့မဟုတ် အဖွဲ့တွင် ပေးပို့ခြင်းဖြစ်နိုင်ပါသည်။",
+    "message": "မက်ဆေ့ချ်၊ စတစ်ကာ၊ တုံ့ပြန်မှု၊ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် မီဒီယာကို $sender$ မှ သင့်ထံသို့ ပေးပို့၍ မရနိုင်ခဲ့ပါ။ သင့်ထံ တိုက်ရိုက် သို့မဟုတ် အဖွဲ့တွင် ပေးပို့ရန် ကြိုးစားခဲ့ခြင်း ဖြစ်နိုင်ပါသည်။",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "မက်ဆေ့ချ်၊ စတစ်ကာ၊ တုံ့ပြန်မှု၊ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် မီဒီယာသည် ဤချက်(တ်)တွင် $sender$ မှ သင့်ထံသို့ မရောက်သွားပါ။",
+    "message": "မက်ဆေ့ချ်၊ စတစ်ကာ၊ တုံ့ပြန်မှု၊ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် မီဒီယာကို ဤချက်(တ်)တွင် $sender$ မှ သင့်ထံသို့ ပေးပို့၍ မရနိုင်ခဲ့ပါ။",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ သည် သင့်မက်ဆေ့ချ်တွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်"
+    "message": "$sender$ သည် သင့်မက်ဆေ့ချ်ကို $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ သည် ဖော်ပြပါတွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်- $message$"
+    "message": "$sender$ သည် ဖော်ပြပါကို $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်- $message$"
   },
   "sendFailed": {
     "message": "ပေးပို့ခြင်း မအောင်မြင်ပါ",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ယနေ့ $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ယမန်နေ့ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "အပ်ဒိတ်လုပ်ဆောင်မှု ပြန်ကြိုးစားရန်"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "ရွေးချယ်ထားသော မက်ဆေ့ချ်အတွက် ရွေးချယ်ထားသော အီမိုဂျိ တုံ့ပြန်မှုကို နှိပ်ရန်",
+    "message": "ရွေးချယ်ထားသော မက်ဆေ့ချ်အတွက် ကြိုက်ရာ အီမိုဂျိ တုံ့ပြန်မှုကို နှိပ်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Sticker Pack Creator ကို သုံးရန် သင့်ဖုန်းနှင့် Desktop တွင် Signal ကို စီစဉ်သတ်မှတ်ပေးပါ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "ဗားရှင်း $version$ အတွက် အပ်ဒိတ် ရရှိပါပြီ",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal ကို ပိတ်၍ မရနိုင်ပါ။",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "တုံ့ပြန်ချက် ပို့နေဆဲ...",
+    "message": "တုံ့ပြန်မှု ပို့နေဆဲ...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "သင့်သုံးစွဲသူအမည်ကို သင့်ထံ ဆက်သွယ်နိုင်သည့် ပင်မနည်းလမ်းအဖြစ် သုံးရန် ဆက်တင် > ကိုယ်ပိုင်အချက်အလက် > ဖုန်းနံပါတ် > ကျွန်ုပ်၏ ဖုန်းနံပါတ်ကို ရှာနိုင်မည့်သူများအောက်ရှိ ဖုန်းနံပါတ် ရှာဖွေရေးကို ပိတ်ပါ။",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "အက်ပ်အား သင့်အတွက် ချောမွေ့စွာ အလုပ်လုပ်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများကို ကြိုးစားလုပ်ဆောင်ထားပြီး အခြားသော စွမ်းဆောင်ရည် မွမ်းမံမှုများကို ပြုလုပ်ထားပါသည်။",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "ကျွန်ုပ်တို့၏ စတိုရီ လုပ်ဆောင်ချက်အင်္ဂါရပ် အသစ်ကို စတင်သုံးစွဲပြီး စမ်းသပ်လိုက်ပါ။ သင်သည် အခြား Beta စမ်းသပ်သုံးစွဲသူများနှင့်အတူ ဤလုပ်ဆောင်ချက်အင်္ဂါရပ်ကို သုံးစွဲနိုင်ပြီး ၎င်းအလုပ်လုပ်ပုံအကြောင်း ကျွန်ုပ်တို့အား အသိပေးပါ။",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "ယခုအခါ Signal တွင် စတိုရီများ ရှိနေပါပြီ။ 24 နာရီကြာပြီးနောက် အော်တိုပျောက်သွားမည့် စာသား၊ ပုံနှင့် ဗီဒီယို အပ်ဒိတ်များကို ရွေးထားသည့် မိတ်ဆွေများ၊ အဖွဲ့များထံ ဝေမျှလိုက်ပါ။ စတိုရီများ ဝေမျှရသည်ကို သဘောကျသူတိုင်းအတွက် ကြော်ငြာများ မပါဘဲ သီးသန့်လုပ်ဆောင်နိုင်မည့် နည်းလမ်း ဒီမှာရှိနေပါပြီ။ စတိုရီများကို မမြင်လိုပါက၊ မဝေမျှလိုပါက ဆက်တင်၌ ပိတ်ထားနိုင်ပါသည်။",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "အဖွဲ့ငယ် (လူ 16 ဦးအထိ) အတွက် အဖွဲ့ကောလ်ကို စတင်သည့်အခါ ဖုန်းမြည်သံ အသိပေးချက် ပို့ရန် ရွေးချယ်နိုင်ပါသည်။ အဖွဲ့ဝင်များသည် iOS beta သို့မဟုတ် ဒတ်ခ်စတော့(ပ်) သို့မဟုတ် Android ကို သုံးနေပါက ဖုန်းမြည်သံကို ကြားရပါမည်။",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Quote လုပ်ထားသော အကြောင်းပြန်စာကို စတင်ရန် ချက်(တ်)ရှိ မက်ဆေ့ချ် တစ်ခုခုကို နှစ်ချက်နှိပ်ပါ။ ယင်းသည် အိုင်ဒီယာဟောင်းများနှင့်ပတ်သက်သော အတွေးသစ်များအတွက် ရှော့တ်ကတ်ဖြစ်ပါသည်။ ဤအင်္ဂါရပ်ကို အကောင်အထည်ဖော်၍ တုံ့ပြန်ချက်ပေးသည့်အတွက် {whynothugo} နှင့် Signal အဖွဲ့အစည်းကို ကျေးဇူးတင်ပါသည်။",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "ဇူးမ် မချဲ့ဘဲ ပုံပြခန်းကြည့်ရှုမှုကို ဖယ်ရန် ပုံပြင်ပကို နှိပ်ရသည်မှာ ယခုဆို ပိုမိုလွယ်ကူသွားပါသည်။ တစ်ခါတစ်ရံ ပိတ်ချလိုက်လိုသော်လည်း ထိုအစား မျက်စိမှောက်နေတတ်သည်။ ပြုပြင်ပေးမှုအတွက် {jojomatik} ကို ကျေးဇူးတင်ပါသည်။",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "သင့်တုံ့ပြန်ချိန်ကို တိုးမြှင့်ပါ။ ယခုအခါ စတိုရီကို အကြောင်းပြန်သည့်အခါ မည်သည့်အီမိုဂျိကိုမဆို နှိပ်၍ ပိုမိုမြန်ဆန်စွာ တုံ့ပြန်နိုင်ပါပြီ။",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ယခုအခါ တရုတ်အက္ခရာနှင့် ဂျပန်အက္ခရာ တစ်လုံးစီအတွက် သင့်မက်ဆေ့ချ်မှတ်တမ်းကို ရှာ၍ ရနိုင်ပါပြီ။",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "အော်ဒီယိုနှင့် ဗီဒီယို ကောလ်များအတွက် စွမ်းဆောင်ရည် မြှင့်တင်မှုများနှင့် ယုံကြည်စိတ်ချရမှု အချို့ကို စမ်းသပ်ရန် ကျွန်ုပ်တို့အား ကူညီပေးပါ။ ဤစမ်းသပ်ထုတ်ဝေမှုတွင် ချို့ယွင်းချက်ပြင်ဆင်မှု အနည်းငယ်နှင့် UI အပ်ဒိတ်အသေးစားအချို့ (လင့်ခ်ကြိုတင်ကြည့်ရှုမှု အဆင့်မြှင့်တင်မှု အသစ်များကို ရှာရန်) လည်း ပါဝင်ပါသည်။ စမ်းသပ်သုံးစွဲသူအဖြစ် ဆောင်ရွက်ပေးသည့်အတွက် ကျေးဇူးတင်ပါသည်၊ ချို့ယွင်းချက်တစ်ခုခု တွေ့ရှိပါက ကွန်မြူနတီဖိုရမ်မှတစ်ဆင့် ကျွန်ုပ်တို့ထံ ဆက်သွယ်ပါ။",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "သင်သည် ကားတစ်စီးကို ဒေါင်းလုဒ်လုပ်မည် မဟုတ်သော်လည်း MP3 အသံမှတ်စုတစ်ခုကို ယခု ဒေါင်းလုဒ်လုပ်လိုက်သောအခါ သင့်လျော်သော ဖိုင်အမျိုးအစားဖြင့် ၎င်းကို သိမ်းဆည်းပါမည်။",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "အပိုနှိပ်စရာ မလိုဘဲ ဖိုင်ပေးပို့ရန် ဖိုင်တစ်ဖိုင်ကို တွဲထည့်ပြီးနောက် မက်ဆေ့ချ်ကို လျင်မြန်စွာ စတင် ရိုက်ထည့်ပါ သို့မဟုတ် Enter/Return ကို နှိပ်လိုက်ပါ။ ကျေးဇူးတင်ပါသည် {zyphlar}။",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "ရေးသားမှုမြင်ကွင်းအကြီးရှိ ပေးပို့မှုခလုတ်ကို နေရာမှန်ဖြစ်အောင် ချိန်ညှိထားပါသည်။ ကျေးဇူးတင်ပါသည် {hackerbirds}။",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "အဖွဲ့အတွင်းတွင် (ယခုအချိန်အထိ) သင်တစ်ဦးတည်းသာ ပါဝင်ပြီး အဖွဲ့ခေါ်ဆိုမှုတစ်ခုကို စတင်ရန် ကြိုးပမ်းပါက ယခုဆိုလျှင် ဖုန်းခေါ်ဆိုမှု အသံမြည်ရန် စောင့်ဆိုင်းရမည့်အစား ခေါ်ဆိုမှုတွင် ချက်ချင်းပါဝင်ပြီး မိမိကိုယ်ကို စကားစပြောနိုင်ပါပြီ။ ကျေးဇူးတင်ပါသည် {lamemakes}။",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "မည်သည့်နေရာသို့ ကြည့်ရမည်ဖြစ်ကြောင်း သင့်ကို ပြသည့် အသားပေးဖော်ပြမှု အင်္ဂါရပ်အသစ်ဖြင့် အဖွဲ့ခေါ်ဆိုမှုများအတွင်း စကားပြောနေသူများကို လျင်မြန်စွာကြည့်ရှုလိုက်ပါ။ သင် ပြောရမည့်အလှည့် ဖြစ်ပါက ထိုနေရာအတွင်းသို့ ကြည့်ရန် လိုပါမည်။",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "အထွက်ရုပ်ပုံများတွင် စတိုင်ကျကျဖန်တီးထားသော အချိန်အလှဆင်မှုများကို ထည့်သွင်းနိုင်စေသည့် မီဒီယာတည်းဖြတ်ကိရိယာရှိ စတစ်ကာအများအပြားဖြင့် ဘဝ၏ အကောင်းဆုံးအချိန်ကို ရယူလိုက်ပါ။",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "အခြားချက်(တ်)တစ်ခုသို့ သင် ကူးပြောင်းလိုက်ပြီးလျှင်ပင် မက်ဆေ့ချ်အရှည်များကို ဆက်လက်နားထောင်ရန် အသံမှတ်စု အသေးစားပလေယာကို သုံးလိုက်ပါ။",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ရုပ်ပုံ အမှတ်တရများကို ပြန်လည်ကြည့်ရှုရန် ပုံ သို့မဟုတ် ဗီဒီယို တစ်ခုခုကို နှိပ်ပြီး မီဒီယာ ကြည့်ရှုမှုမြင်ကွင်းရှိ ရှေ့သို့၊ နောက်သို့ ခလုတ်သစ်များကို သုံးပါ။",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ယခုအခါ အသံသွင်းနေစဉ် အခြားချက်(တ်)သို့ ပြောင်းလိုက်ပါက အသံမက်ဆေ့ချ်များကို ဖိုင်ကြမ်းအဖြစ် သိမ်းထားပေးပါသည်။",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "စတစ်ကာ ပေးပို့မှုကြောင့် စာကြမ်းများ ရှင်းလင်းခံရခြင်း မဖြစ်တော့ပါ။ ကျေးဇူးပါ {lamemakes}။",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "စကားဝိုင်း ရှာဖွေမှုဘား အိုင်ကွန်များကို ပြန်လည်ချိန်ညှိပေးထားသည့်အတွက် {norstbox} ကိုလည်း ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

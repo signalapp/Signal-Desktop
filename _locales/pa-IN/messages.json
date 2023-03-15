@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "ਰੱਦ ਕਰੋ",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ਭੇਜੋ",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "ਸੁਨੇਹੇ ਲਈ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿਓ",
+    "message": "ਸੁਨੇਹੇ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿਓ",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ ਤੋਂ ਤੁਹਾਨੂੰ ਕੋਈ ਸੁਨੇਹਾ, ਸਟਿੱਕਰ, ਪ੍ਰਤਿਕਿਰਿਆ, ਪੜ੍ਹਨ ਦੀ ਰਸੀਦ ਜਾਂ ਮੀਡੀਆ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਉਹਨਾਂ ਨੇ ਤੁਹਾਨੂੰ ਸਿੱਧੇ ਤੌਰ ’ਤੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਹੋਵੇ।",
+    "message": "$sender$ ਵੱਲੋਂ ਆਇਆ ਕੋਈ ਸੁਨੇਹਾ, ਸਟਿੱਕਰ, ਰਿਐਕਸ਼ਨ, ਪੜ੍ਹਨ ਦੀ ਸੂਚਨਾ ਜਾਂ ਮੀਡੀਆ ਤੁਹਾਨੂੰ ਡਿਲੀਵਰ ਨਹੀਂ ਕਰ ਜਾ ਸਕੇ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਉਹਨਾਂ ਨੇ ਤੁਹਾਨੂੰ ਸਿੱਧਾ, ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਇਸਨੂੰ ਭੇਜਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਹੋਵੇ।",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ਇਸ ਚੈਟ ਵਿੱਚ $sender$ ਤੋਂ ਤੁਹਾਨੂੰ ਕੋਈ ਸੁਨੇਹਾ, ਸਟਿੱਕਰ, ਪ੍ਰਤਿਕਿਰਿਆ, ਪੜ੍ਹਨ ਦੀ ਰਸੀਦ ਜਾਂ ਮੀਡੀਆ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।",
+    "message": "ਇਸ ਚੈਟ ਵਿੱਚ $sender$ ਵੱਲੋਂ ਆਇਆ ਕੋਈ ਸੁਨੇਹਾ, ਸਟਿੱਕਰ, ਰਿਐਕਸ਼ਨ, ਪੜ੍ਹਨ ਦੀ ਸੂਚਨਾ ਜਾਂ ਮੀਡੀਆ ਤੁਹਾਨੂੰ ਡਿਲੀਵਰ ਨਹੀਂ ਕਰ ਜਾ ਸਕੇ।",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ਨੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ’ਤੇ $emoji$ ਨਾਲ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ"
+    "message": "$sender$ ਨੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਉੱਤੇ $emoji$ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ਨੇ $message$ ਨੂੰ ਇਹ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ: $emoji$"
+    "message": "$message$: ਉੱਤੇ $sender$ ਨੇ $emoji$ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "sendFailed": {
     "message": "ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ਅੱਜ $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ਬੀਤੇ ਕੱਲ੍ਹ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "ਆਪਣੇ ਆਪ ਨੂੰ ਨੋਟ",
+    "message": "ਖੁਦ ਲਈ ਨੋਟ",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "ਮੁੜ-ਲਿੰਕ ਕਰੋ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "ਦੁਬਾਰਾ ਅੱਪਡੇਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਇਮੋਜੀ-ਪ੍ਰਤਿਕਿਰਿਆ ਚੋਣਕਾਰ ਦੀ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
+    "message": "ਚੁਣੇ ਹੋਏ ਸੁਨੇਹੇ ਲਈ ਇਮੋਜੀ-ਰਿਐਕਸ਼ਨ ਚੋਣਕਾਰ ਦੀ ਅਦਲਾ-ਬਦਲੀ ਕਰੋ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "ਸਟਿੱਕਰ ਪੈਕ ਕ੍ਰੀਏਟਰ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਫ਼ੋਨ ਅਤੇ ਡੈਸਕਟਾਪ ਉੱਤੇ Signal ਨੂੰ ਸੈੱਟ ਅੱਪ ਕਰੋ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "ਪ੍ਰਤਿਕਿਰਿਆ ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "message": "ਰਿਐਕਸ਼ਨ ਭੇਜਣ ਵਿੱਚ ਅਸਫਲ ਰਹੇ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "$version$ਵਰਜ਼ਨ ਲਈ ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal ਨੂੰ ਬੰਦ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "ਪ੍ਰਤਿਕਿਰਿਆਵਾਂ ਨੂੰ ਪਸੰਦ ਅਨੁਸਾਰ ਬਣਾਓ",
+    "message": "ਰਿਐਕਸ਼ਨ ਕਸਟਮਾਈਜ਼ ਕਰੋ",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "ਪ੍ਰਤੀਕਿਰਿਆ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ…",
+    "message": "ਰਿਐਕਸ਼ਨ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5989,7 +5997,7 @@
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "ਜਵਾਬ ਅਤੇ ਰਿਐਕਸ਼ਨ ਭੇਜਣ ਦੀ ਮਨਜ਼ੂਰੀ ਦਿਓ",
+    "message": "ਜਵਾਬ ਅਤੇ ਰਿਐਕਸ਼ਨ ਭੇਜਣ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6465,7 +6473,7 @@
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "ਤੁਸੀਂ ਸਟੋਰੀ ਉੱਤੇ $emoji$ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
+    "message": "ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ $emoji$ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ਹੋਰ ਲੋਕ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰ ਸਕਣ, ਇਸਦੇ ਲਈ ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੀ ਵਰਤੋਂ ਮੁੱਖ ਤਰੀਕੇ ਵਜੋਂ ਕਰਨ ਲਈ, ਸੈਟਿੰਗਾਂ > ਪਰਦੇਦਾਰੀ > ਫ਼ੋਨ ਨੰਬਰ > ਮੇਰਾ ਨੰਬਰ ਕੌਣ ਲੱਭ ਸਕਦਾ ਹੈ, ਵਿੱਚ ਜਾ ਕੇ ਫ਼ੋਨ ਨੰਬਰ ਖੋਜ ਨੂੰ ਬੰਦ ਕਰੋ।",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "ਤੁਹਾਡੇ ਲਈ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕਰਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕਰਨ ਲਈ ਨਿਰੰਤਰ ਮਿਹਨਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "ਸਾਡੇ ਨਵੇਂ ਸਟੋਰੀ ਫੀਚਰ ਨੂੰ ਵਰਤਣਾ ਅਤੇ ਟੈਸਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ। ਤੁਸੀਂ ਹੋਰ ਬੀਟਾ ਟੈਸਟਰਾਂ ਨਾਲ ਫੀਚਰ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਸਾਨੂੰ ਦੱਸ ਸਕਦੇ ਹੋ ਕਿ ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ।",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal ਵਿੱਚ ਹੁਣ ਸਟੋਰੀ ਫੀਚਰ ਉਪਲਬਧ ਹੈ!\n\n ਆਪਣੇ ਖਾਸ ਦੋਸਤਾਂ ਜਾਂ ਗਰੁੱਪਾਂ ਨਾਲ ਟੈਕਸਟ, ਤਸਵੀਰ ਜਾਂ ਵੀਡੀਓ ਅੱਪਡੇਟ ਸਾਂਝੀ ਕਰੋ ਜੋ 24 ਘੰਟੇ ਬਾਅਦ ਗਾਇਬ ਹੋ ਜਾਵੇਗੀ। ਜੋ ਲੋਕ ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰਨਾ ਪਸੰਦ ਕਰਦੇ ਹਨ, ਉਹ ਹੁਣ ਨਿੱਜੀ ਤੌਰ 'ਤੇ ਅਤੇ ਬਿਨਾਂ ਕਿਸੇ ਇਸ਼ਤਿਹਾਰ ਦੇ ਅਜਿਹਾ ਕਰ ਸਕਣਗੇ। ਜੇਕਰ ਤੁਸੀਂ ਸਟੋਰੀਆਂ ਨੂੰ ਦੇਖਣਾ ਜਾਂ ਸਾਂਝਾ ਨਹੀਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੀਆਂ ਪਸੰਦਾਂ > ਪਰਦੇਦਾਰੀ ਵਿੱਚ ਇਸ ਫੀਚਰ ਨੂੰ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "ਜਦੋਂ ਤੁਸੀਂ ਛੋਟੇ ਗਰੁੱਪ (ਵੱਧ ਤੋਂ ਵੱਧ 16 ਲੋਕ) ਲਈ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਰਿੰਗ ਰਾਹੀਂ ਸੂਚਨਾ ਭੇਜਣ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ। ਜੇਕਰ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ iOS ਬੀਟਾ ਜਾਂ Desktop ਜਾਂ Android ਐਪ ਦੀ ਵਰਤੋਂ ਕਰ ਰਹੇ ਹਨ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਰਿੰਗ ਸੁਣਾਈ ਦੇਵੇਗੀ।",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "ਕਿਸੇ ਸੁਨੇਹੇ ਦਾ ਹਵਾਲਾ ਦਿੰਦੇ ਹੋਏ ਉਸਦਾ ਜਵਾਬ ਦੇਣ ਲਈ ਚੈਟ ਵਿੱਚ ਕਿਸੇ ਵੀ ਸੁਨੇਹੇ 'ਤੇ ਦੋ ਵਾਰ ਕਲਿੱਕ ਕਰੋ। ਇਹ ਕਿਸੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਬਾਰੇ ਕੋਈ ਨਵੀਂ ਗੱਲ ਕਰਨ ਲਈ ਇੱਕ ਸ਼ਾਰਟਕੱਟ ਵਾਂਗ ਹੈ। ਇਸ ਫੀਚਰ ਨੂੰ ਲਾਗੂ ਕਰਨ ਅਤੇ ਇਸ ਬਾਰੇ ਫੀਡਬੈਕ ਪ੍ਰਦਾਨ ਕਰਨ ਲਈ {whynothugo} ਅਤੇ Signal ਭਾਈਚਾਰੇ ਦਾ ਧੰਨਵਾਦ।",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "ਹੁਣ ਜ਼ੂਮ ਇਨ ਕੀਤੇ ਬਿਨਾਂ ਗੈਲਰੀ ਵਿਊ ਵਿੱਚੋਂ ਆਸਾਨੀ ਨਾਲ ਬਾਹਰ ਜਾਣ ਲਈ ਤੁਸੀਂ ਤਸਵੀਰ ਦੇ ਬਾਹਰ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੈ। ਕਈ ਵਾਰ ਤੁਸੀਂ ਬਸ ਤਸਵੀਰ ਨੂੰ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਪਰ ਗਲਤੀ ਨਾਲ ਜ਼ੂਮ ਹੋ ਜਾਂਦਾ ਹੈ। ਇਸ ਸਮੱਸਿਆ ਨੂੰ ਠੀਕ ਕਰਨ ਲਈ {jojomatik} ਦਾ ਧੰਨਵਾਦ!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "ਫਟਾ-ਫਟ ਜਵਾਬ ਦਿਓ। ਹੁਣ ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਦਾ ਜਵਾਬ ਦੇਣ ਵੇਲੇ ਕਿਸੇ ਵੀ ਇਮੋਜੀ 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਤੇਜ਼ੀ ਨਾਲ ਰਿਐਕਸ਼ਨ ਦੇ ਸਕਦੇ ਹੋ।",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ਹੁਣ ਚੀਨੀ ਅਤੇ ਜਾਪਾਨੀ ਭਾਸ਼ਾ ਦੇ ਇੱਕ-ਇੱਕ ਅੱਖਰ ਨਾਲ ਵੀ ਤੁਹਾਡੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਖੋਜਣਾ ਸੰਭਵ ਹੋ ਗਿਆ ਹੈ।",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਕਈ ਭਰੋਸੇਯੋਗ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਸੁਧਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ। ਇਸ ਬੀਟਾ ਰੀਲੀਜ਼ ਵਿੱਚ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ UI ਵਿੱਚ ਛੋਟੇ-ਮੋਟੇ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ ਹਨ (ਨਵੇਂ ਲਿੰਕ ਦੀ ਝਲਕ ਵਾਲੇ ਸੁਧਾਰਾਂ ਲਈ ਦੇਖੋ!) ਬੀਟਾ ਟੈਸਟਰ ਬਣਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ, ਅਤੇ ਜੇਕਰ ਤੁਹਾਨੂੰ ਕੋਈ ਖ਼ਰਾਬੀ ਲੱਭਦੀ ਹੈ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਕਮਿਊਨਿਟੀ ਫੋਰਮ 'ਤੇ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "ਤੁਸੀਂ ਕੋਈ ਫਾਲਤੂ ਚੀਜ਼ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰੋਗੇ, ਪਰ ਹੁਣ ਜਦੋਂ ਤੁਸੀਂ MP3 ਵੌਇਸ ਨੋਟ ਡਾਊਨਲੋਡ ਕਰਦੇ ਹੋ ਤਾਂ ਉਸਨੂੰ ਇੱਕ ਸਹੀ ਫ਼ਾਈਲ ਐਕਸਟੈਂਸ਼ਨ ਨਾਲ ਸੇਵ ਕੀਤਾ ਜਾਵੇਗਾ।",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ਫ਼ਾਈਲ ਅਟੈਚ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਰੰਤ ਸੁਨੇਹਾ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ, ਜਾਂ ਬਿਨਾਂ ਕਿਸੇ ਵਾਧੂ ਕਲਿੱਕ ਦੇ ਫ਼ਾਈਲ ਭੇਜਣ ਲਈ ਐਂਟਰ/ਰਿਟਰਨ ਬਟਨ ਦਬਾਓ। ਧੰਨਵਾਦ, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "ਵੱਡੇ ਕੰਪੋਜਿਸ਼ਨ ਵਿਊ ਵਿੱਚ ਭੇਜੋ ਬਟਨ ਨੂੰ ਅਲਾਈਨਮੈਂਟ ਵਿੱਚ ਲਿਆਂਦਾ ਗਿਆ ਹੈ। ਧੰਨਵਾਦ, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "ਜੇਕਰ ਗਰੁੱਪ ਵਿੱਚ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਹੋ (ਹੁਣ ਤੱਕ) ਅਤੇ ਤੁਸੀਂ ਗਰੁੱਪ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ, ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਸਕਦੇ ਹੋ ਅਤੇ ਕਾਲ ਦੀ ਰਿੰਗ ਵੱਜਣ ਦੀ ਉਡੀਕ ਕਰਨ ਦੀ ਬਜਾਏ ਤੁਰੰਤ ਖੁਦ ਨਾਲ ਗੱਲ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰ ਸਕਦੇ ਹੋ। ਧੰਨਵਾਦ, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "ਨਵੇਂ ਹਾਈਲਾਈਟ ਫੀਚਰ ਨਾਲ ਤੁਰੰਤ ਜਾਣੋ ਕਿ ਗਰੁੱਪ ਕਾਲ ਦੇ ਦੌਰਾਨ ਕੌਣ ਬੋਲ ਰਿਹਾ ਹੈ, ਇਸ ਨਾਲ ਤੁਹਾਨੂੰ ਪਤਾ ਲੱਗੇਗਾ ਕਿ ਕਿੱਥੇ ਦੇਖਣਾ ਹੈ। ਜੇਕਰ ਬੋਲਣ ਦੀ ਵਾਰੀ ਤੁਹਾਡੀ ਹੈ, ਤਾਂ ਤੁਹਾਨੂੰ ਹਾਈਲਾਈਟ ਵੱਲ ਦੇਖਣਾ ਹੋਵੇਗਾ।",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "ਮੀਡੀਆ ਐਡੀਟਰ ਵਿੱਚ ਭਿੰਨ-ਭਿੰਨ ਸਟਿੱਕਰਾਂ ਨਾਲ ਆਪਣੀ ਜ਼ਿੰਦਗੀ ਨੂੰ ਮਜ਼ੇਦਾਰ ਬਣਾਓ, ਇਸ ਨਾਲ ਤੁਸੀਂ ਭੇਜੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਤਸਵੀਰਾਂ 'ਤੇ ਵੱਖਰੇ-ਵੱਖਰੇ ਸਟਾਈਲ ਵਾਲੀਆਂ ਸਜਾਵਟਾਂ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ।",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "ਕਿਸੇ ਵੱਖਰੀ ਚੈਟ 'ਤੇ ਸਵਿੱਚ ਕਰਨ ਤੋਂ ਬਾਅਦ ਵੀ ਵੌਇਸ ਨੋਟਸ ਮਿੰਨੀ ਪਲੇਅਰ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਲੰਬੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਸੁਣਨਾ ਜਾਰੀ ਰੱਖੋ।",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ਕਿਸੇ ਵੀ ਤਸਵੀਰ ਜਾਂ ਵੀਡੀਓ 'ਤੇ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਪੁਰਾਣੀਆਂ ਯਾਦਾਂ ਉੱਤੇ ਝਾਤ ਮਾਰਨ ਲਈ ਮੀਡੀਆ ਵਿਊਅਰ ਵਿੱਚ ਅੱਗੇ ਅਤੇ ਪਿੱਛੇ ਜਾਣ ਵਾਲੇ ਨਵੇਂ ਬਟਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ।",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਵੌਇਸ ਸੁਨੇਹਾ ਰਿਕਾਰਡ ਕਰਨ ਦੌਰਾਨ ਕਿਸੇ ਹੋਰ ਚੈਟ 'ਤੇ ਚਲੇ ਜਾਂਦੇ ਹੋ ਤਾਂ ਉਸ ਵੌਇਸ ਸੁਨੇਹੇ ਨੂੰ ਹੁਣ ਡਰਾਫਟ ਦੇ ਤੌਰ 'ਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਜਾਵੇਗਾ।",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ਸਟਿੱਕਰ ਭੇਜਣ ਨਾਲ ਹੁਣ ਡਰਾਫਟ ਟੈਕਸਟ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾਵੇਗਾ। ਧੰਨਵਾਦ, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "ਅਸੀਂ ਗੱਲਬਾਤ ਖੋਜਣ ਵਾਲੇ ਬਾਰ ਆਈਕਨਾਂ ਨੂੰ ਅਲਾਈਨਮੈਂਟ ਵਿੱਚ ਵਾਪਸ ਲਿਆਉਣ ਲਈ {norstbox} ਦਾ ਧੰਨਵਾਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹਾਂ।",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

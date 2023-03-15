@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Ghairi",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Tuma",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Jibu Ujumbe",
+    "message": "React kwa Ujumbe",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Ujumbe, kibandiko, majibu, ripoti ya kusoma au media haikuweza kuwasilishwa kwako kutoka kwa $sender$. Labda alijaribu kukutumia moja kwa moja, au kwenye kikundi.",
+    "message": "Ujumbe, kibandiko, reaction, risiti za kusoma au video haikuweza kuwasilishwa kwako kutoka kwa $sender$. Labda walijaribu kukutumia moja kwa moja, au kwenye kikundi.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Ujumbe, vibandiko, majibu, ripoti ya kusomwa au media haikuweza kuwasilishwa kwako kutoka kwa %$sender$ katika gumzo hii.",
+    "message": "Ujumbe, kibandiko, reaction, risiti ya kusoma au video haikuweza kuwasilishwa kwako kutoka kwa $sender$ katika gumzo hii.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ameijibu $emoji$ ujumbe wako"
+    "message": "$sender$ ame-react $emoji$ kwa ujumbe wako"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ amejibu kwa kutuma $emoji$ kwa $message$"
+    "message": "$sender$ ame-react kwa kutuma $emoji$ kwa: $message$"
   },
   "sendFailed": {
     "message": "Kutuma kumeshindwa",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Leo $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Jana $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Kidokezo kwake mwenyewe",
+    "message": "Kikumbusho Kwangu",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Unganisha upya"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Sasisho jipya la Signal linapatikana"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Jaribu tena sasisho"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Tafadhali weka Signal kwenye simu yako na kompyuta ya mezani ili utumie Kiumbaji cha Pakiti ya Vibandiko ya Signal",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Imeshindwa kutuma majibu. Tafadhali jaribu tena.",
+    "message": "Imeshindwa kutuma reaction. Tafadhali jaribu tena.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Sasisha toleo $version$ lililopo",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal haiwezi kufungwa.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Badilisha majibu yakufae",
+    "message": "Badilisha reactions",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Tuma reaction...",
+    "message": "Unatuma reaction...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,11 +5993,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Majibu & reactions",
+    "message": "Majibu na reactions",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Ruhusu majibu & reactions",
+    "message": "Ruhusu majibu na reactions",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6457,7 +6465,7 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "$emoji$ ame-react kwa stori yako",
+    "message": "Ame-react $emoji$ kwa stori yako",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Zima kupatikana kwa nambari ya simu katika Mipangilio > Nambari ya Simu > Nani anaweza kupata nambari yangu, ili kutumia jina lako la mtumiaji kama njia kuu ya watu kuwasiliana nawe.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Tunafanya kazi kwa bidii kurekebisha hitilafu na maboresho mengine ya kiutendaji ili kuifanya programu iwe vizuri kwa ajili yako.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Anza kutumia na kujaribu kipengele chetu kipya cha stori. Unaweza kutumia kipengele hiki na vijaribio vingine vya beta na kutujulisha namna inavyofanya kazi.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Stori sasa zipo Signal! Share jumbe zinazotoweka, masasisho ya picha na video na marafiki na vikundi utakavyochagua, ambayo yatatoweka baada ya saa 24. Kwa kila mtu anayependa kushiriki stori, hii ndiyo njia ya kuifanya kwa kibinafsi na bila kuona matangazo yoyote. Kama hutaki kuona au ku-share stori, unaweza kujiondoa katika Mapendeleo yako > Faragha.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Unapopiga simu ya kikundi kwa vikundi vidogo (vya hadi watu 16), unaweza kuchagua kutuma arifa ya mlio. Wana kikundi watasikia mlio ikiwa wanatumia toleo la beta la iOS au wanatumia Desktop au Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Bofya mara mbili kwenye safu yoyote ya ujumbe ili kujibu kwa kunukuu. Ni kama njia ya mkato ya mawazo mapya kuhusu mawazo ya zamani. Shukrani kwa {whynothugo} na jumuiya ya Signal kwa kutekeleza kipengele hiki na kutoa mrejesho.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Sasa ni rahisi kubofya nje ya picha ili kuondosha muonekano wa galeri bila kukuza zaidi. Wakati mwingine ulitaka tu kufunga, na badala yake mambo yakaharibika zaidi. Shukrani kwa {jojomatik} kwa kutuwezesha!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Harakisha muda wako wa majibu. Sasa unaweza ku-react haraka zaidi kwa kugusa emoji yoyote unapokuwa unajibu stori.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Sasa inawezekana kutafuta historia yako ya jumbe kwa herufi moja moja za Kichina na Kijapani.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Tusaidie kupima maboresho kadhaa ya utegemeajwi na utendaji wa simu za kawaida na simu za video. Toleo hili la beta pia linajumuisha urekebishwaji mchache wa hitilafu na masasisho madogo ya UI (tafuta maboresho mapya ya mtazamo wa kiungo!). Asante kwa kuwa mpimaji wetu wa beta, na tafadhali tueleze kwenye jukwaa la jumuiya endapo utaona hitilafu zozote.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Hungepakua gari, lakini sasa unapopakua MP3 itahifadhiwa kwa faili inayofaa.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Anza kuandika ujumbe kwa kasi baada ya kuambatisha faili, au bonyeza Enter/Return ili kutuma faili bila kubofya zaidi. Asante {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Kitufe cha kutuma katika mwonekano mkubwa kimewekwa katika mpangilio. Asante, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Ikiwa wewe ndiye mtu pekee kwenye kikundi (hadi sasa) na unajaribu kuanzisha simu ya kikundi, sasa unaweza kujiunga na simu hiyo na kuanza kujiongelesha mara moja badala ya kungoja simu ilie. Asante, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Angalia kwa haraka nani anayezungumza katika simu za kikundi na kipengele kipya cha kuangazia kinachokuonyesha unapopaswa kuangalia. Kama ni zamu yako kuongea, utahitajika kuangalia ndani.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Kuwa na kipindi kizuri maishani na vibandiko kadhaa kwenye media editor inayokuwezesha kuongeza mapambo kwa picha zinazoondoka.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Tumia voice notes kuendelea kusikiliza ujumbe mrefu hata baada ya kuanzisha gumzo tofauti.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Bofya kwenye picha au video yoyote na utumie vitufe vipya vya Kusonga Mbele na Kurudi Nyuma kwenye kitazamaji cha media ili kukumbuka kumbukumbu njema.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Jumbe za sauti sasa hivi zimehifadhiwa kwenye kikasha kama utahamia kwenye gumzo jingine wakati zoezi la kurekodi linaendelea.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Kutuma kibandiko kamwe hakufuti ujumbe ambao haujatumwa. Shukran, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Pia tungependa kuwashukuru {norstbox} kwa kurejesha aikoni za upau wa utafutaji wa maongezi kwenye utaratibu.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "بىكار قىلىش",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "يوللاش",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "بۈگۈن $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "تۈنۈگۈن $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "قايتا ئۇلاش"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "يېڭىلاشقا بولىدۇ"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "يېڭىلاشنى قايتا سىناش"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "تاللىغان ئۇچۇرغا چىراي بەلگە ئىنكاسى تاللىغۇچنى ئالماشتۇر",
+    "message": "تاللىغان ئۇچۇر ئۈچۈن چىراي ئىپادە ۋە ئىنكاس تاللىغۇچنى ئالماشتۇرۇش",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "چاپلاق بوغچىسى قۇرغۇچىنى ئىشلىتىش ئۈچۈن تېلېفونىڭىز ۋە كومپيۇتېرىڭىزغا Signal نى سەپلەڭ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "$version$ نەشرىنى يېڭىلاشقا بولىدۇ",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal نى ئەتكىلى بولمىدى.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "ئىختىيارىچە ئىنكاس",
+    "message": "ئىنكاس خاسلاشتۇرۇش",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ئىشلەتكۈچى نامىڭىزنى باشقىلارنىڭ سىزنى تاپىدىغان ئاساسلىق ئۇسۇلى قىلىپ تەڭشەش ئۈچۈن، تەڭشەك > مەخپىيەتلىك > تېلېفون نومۇرى > نومۇرىمنى تاپالايدىغانلار دېگەن جايدىن تېلفون نومۇرىنى بايقاش ئىقتىدارىنى ئېتىۋېتىڭ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "سىز ئۈچۈن ئەپنىڭ راۋان ئىجرا بولۇشى ئۈچۈن كاشىلىلارنى ھەل قىلىش ئۈچۈن ۋە باشقا ئىقتىدارلارنى ئەلالاشتۇرۇش ئۈچۈن زور تىرىشچانلىقلارنى ئېلىپ باردۇق.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "يېڭى ھېكايە ئىقتىدارىنى ئىشلىتىپ سىناپ بېقىڭ. بۇ ئىقتىدارنى باشقا سىناق ئىشلەتكۈچىلەر بىلەن بىرلىكتە ئىشلىتىپ، ئۇنىڭ قانداق ئىشلەۋاتقانلىقىنى بىز بىلەن ئورتاقلىشىڭ.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal غا ھېكايە ئىقتىدارى قوشۇلدى! تېكىست، رەسىم ۋە ۋىدېيولۇق يېڭىلىقلارنى بەلگىلىگەن دوستلىرىڭىز ۋە گۇرۇپپىلار بىلەن ئورتاقلىشالايسىز. ھېكايە مەزمۇنى 24 سائەتتىن كېيىن ئاپتوماتىك يوقاپ كېتىدۇ. ھېكايىلىرىنى ئورتاقلىشىشنى ياقتۇرىدىغانلار ئۈچۈن بۇ بىر خىل ئېلاندىن خالىي، شەخسىي ئورتاقلىشىش ئۇسۇلى ھېسابلىنىدۇ. ئەگەر ھېكايە ئورتاقلىشىشنى ياكى كۆرۈشنى خالىمىسىڭىز، «مايىللىقلار» > «مەخپىيەتلىك» دە ئۇنى تاقىۋەتسىڭىز بولىدۇ.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "كىچىك گۇرۇپپىدا (كۆپ بولغاندا 16 كىشى) گۇرۇپپا چاقىرىقى قىلسىڭىز، قوڭغۇراق ئارقىلىق ئۇقتۇرۇش قىلىشنى تاللىسىڭىز بولىدۇ. ئەگەر گۇرۇپپا ئەزالىرى iOS سىناق نەشرى ياكى ئۈستەليۈزى نەشرى ياكى Android نەشرى ئىشلىتىۋاتقان بولسا، ئۇلار قوڭغۇراق ئاۋازىنى ئاڭلايدۇ.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "پاراڭدىكى خالىغان ئۇچۇرنى قوش چېكىپ، ئۇنى نەقىل كەلتۈرۈپ جاۋاب قايتۇرالايسىز. بۇ خۇددى كونا خيالغا يېڭى ئوي-پىكىر ئىپادىلەشنىڭ ئاددىي ئۇسۇلىغا ئوخشاش. {whynothugo} ۋە Signal مەھەللىسىنىڭ بۇ ئىقتىدارنى قوللانغانلىقىغا ۋە تەكلىپ-پىكىر بەرگەنلىكىگە رەھمەت بىلدۈرىمىز.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "ھازىر رەسىمنى چوڭايتماي تۇرۇپلا رەسىمنىڭ يان تەرىپىگە چېكىپ، ئالبوم كۆرۈنۈشىدىن چېكىنىشكە بولىدۇ. بەزىدە چوڭايتماي تۇرۇپلا تاقاشنى خالاپ قالىسىز. «{jojomatik}» نىڭ بۇ مەسىلىنى ھەل قىلغانلىقىغا رەھمەت!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "ئىنكاس ۋاقتى قىسقارتىلدى. ھازىر مەلۇم بىر ھېكايىگە emoji نى چېكىپلا ناھايىتى تېز ئىنكاس قالدۇرالايسىز.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ھازىر ياپونچە ياكى خەنزۇچە خەتلەرنى كىرگۈزۈپ ئۇچۇرلىشىش خاتىرىڭىزدىكى يەككە خەتلەرنى ئىزدەپ تاپالايسىز.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "ئاۋازلىق ۋە ۋىدېيولۇق سۆزلىشىش ئىقتىدارىغا ئېلىپ بارغان ئىشەنچلىكلىك ۋە ئىقتىدار جەھەتتىكى ئىلغارلاشتۇرۇش نەتىجىسىنى سىناپ كۆرۈشكە ياردەم قىلىڭ. بۇ سىناق نەشرىدە بىر قانچە مەسىلىگە تۈزىتىش كىرگۈزۈلدى ۋە UI ئازىراق يېڭىلاندى (ئالدىن كۆرۈش ئىقتىدارى ئۈچۈن يېڭى ئۇلانمىغا قاراڭ). سىناق ئىشلەتكۈچى بولغانلىقىڭىز ئۈچۈن رەھمەت. ئەگەر بىرەر مەسىلە بايقىسىڭىز مەھەللە مۇنبىرىدە بىز بىلەن ئالاقىلىشىڭ.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "MP3 ئاۋاز خاتىرىسىنى چۈشۈرسىڭىز ئۇ مۇۋاپىق ھۆججەت كېڭەيتمە نامى بىلەن ساقلىنىدىغان بولۇپ، نەشر ھوقۇقىغا دەخلى -تەرۈز يەتكۈزۈشتىن ساقلىنالايسىز.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ھۆججەتنى قىستۇرۇپ بولغاندىن كېيىنلا تېكىست كىرگۈزۈشنى باشلىسىڭىز ياكى Enter/Return نى بېسىپ ھۆججەتنى يوللىسىڭىز بولىدۇ، باشقا چېكىشنىڭ ھاجىتى يوق. رەھمەت، {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "چوڭ تەركىب كۆرۈنۈشىدىكى يوللاش كۇنۇپكىسى ئۇدۇل كەلتۈرۈلدى. رەھمەت، {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "ئەگەر (ھازىرچە) سىز گۇرۇپپىدىكى بىردىنبىر كىشى بولسىڭىز ۋە بىر گۇرۇپپا چاقىرىقى باشلىماقچى بولسىڭىز، قوڭغۇراقنىڭ جىرىڭلىشىنى ساقلىمايلا چاقىرىققا قوشۇلۇپ ئۆزىڭىزگە گەپ قىلىشنى باشلىسىڭىز بولىدۇ. رەھمەت، {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "يېڭى ئىقتىدار ئارقىلىق گۇرۇپپا چاقىرىقىدا كىمنىڭ گەپ قىلىۋاتقانلىقىنى ئاسانلا كۆرەلەيسىز، بۇ ئىقتىدار قەيەرگە قاراش ئىكەنلىكىنى كۆرسىتىپ بېرىدۇ. ئەگەر سۆزلەش نۆۋىتى سىزگە كەلسە، پەقەت كۆرسىتىلگەن يەرگە قاراپ سۆزلىسىڭىزلا بولىدۇ.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "مېدىيا تەھرىرلىگۈچتىكى ھەر خىل چاپلاقلار ئارقىلىق يوللىغان رەسىملەرگە ئۇسلۇب كىرگۈزۈلگەن ۋاقىت بېزەكلىرىنى قوشۇپ، بۇ مىنۇتلاردىن ياخشى ھۇزۇرلىنىڭ.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "ئاۋاز خاتىرىسى كىچىك قويغۇچنى ئىشلىتىپ، باشقا پاراڭغا ئالماشقاندىن كېيىنمۇ يەنە ئۇزۇن ئۇچۇرلارنى داۋاملىق ئاڭلىسىڭىز بولىدۇ.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ھەرقانداق رەسىم ياكى ۋىدېيونى چېكىپ، مېدىيا كۆرگۈچتىكى «ئالدىغا» ۋە «ئارقىغا» كۇنۇپكىسى ئارقىلىق بارلىق رەسىم ۋە ۋىدېيولارنى كۆزدىن كەچۈرۈپ چىقالايسىز.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ئاۋازنى خاتىرىلەۋاتقان ۋاقىتتا باشقا ئەپكە ئالماشسىڭىز، ئاۋازلىق ئۇچۇر ئارگىنال بولۇپ ساقلىنىپ تۇرىدۇ.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "چاپلاق يوللىسىڭىز ئارگىنال تېكىست ئەمدى ئۆچۈرۈلۈپ كەتمەيدۇ. رەھمەت، {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "بىز يەنە «{norstbox}» نىڭ سۆھبەت ئىزدەش رامكىسىدىكى سىنبەلگىلەرنى بىرلىككە كەلتۈرگەنلىكىگە رەھمەت بىلدۈرىمىز.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

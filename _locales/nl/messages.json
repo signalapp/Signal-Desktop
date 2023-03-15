@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Annuleren",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Uploaden",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reageerde op je bericht met  $emoji$"
+    "message": "$sender$ reageerde op je bericht met $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reageerde met  $emoji$ op:  $message$"
+    "message": "$sender$ reageerde met $emoji$ op: $message$"
   },
   "sendFailed": {
     "message": "Verzenden mislukt",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Vandaag $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Gisteren $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Opnieuw koppelen"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Nieuwe versie beschikbaar"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Probeer Signal opnieuw bij te werken"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voor je de stickermaker kunt gebruiken",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "De emoji reactie verzenden is mislukt. Probeer het opnieuw.",
+    "message": "De emoji-reactie verzenden is mislukt. Probeer het opnieuw.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Nieuwe versie $version$ is beschikbaar",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal kan niet automatisch worden afgesloten.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Zet telefoonnummerdetectie uit in Instellingen > Privacy > Telefoonnummer > Wie kan mijn nummer vinden, om je gebruikersnaam te gebruiken als de primaire manier waarop anderen contact met je kunnen opnemen.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "We zijn hard aan het werk om bugs te verhelpen en andere prestatieverbeteringen door te voeren om de app soepel voor je te laten werken.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Gebruik en test onze nieuwe verhalenfunctie. Gebruik de functie samen met andere bètatesters en laat ons weten wat je ervan vindt.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal heeft nu verhalen! Deel verdwijnende teksten, afbeeldingen, en video-updates met geselecteerde vrienden of groepen die automatisch na 24 uur verdwijnen. Voor iedereen die graag verhalen deelt, is hier een manier om dat privé en zonder advertenties te doen. Als je geen verhalen wilt zien of delen, dan kun je dit uitzetten in je Instellingen > Privacy.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Als je een groepsgesprek start voor kleine groepen (tot 16 personen), kun je ervoor kiezen om een oproepmelding te versturen. Groepsleden zullen dan een belletje horen als ze op iOS-bèta zitten of Desktop of Android gebruiken.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Dubbelklik op een berichtrij in een chat om een geciteerd antwoord te starten. Het is een soort hulpmiddel voor nieuwe gedachten over oude ideeën. Met dank aan {whynothugo} en de Signal-community voor het implementeren van deze functie en het geven van feedback.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Het is nu gemakkelijker om buiten een afbeelding te klikken om de galerijweergave te sluiten zonder in te zoomen. Soms wil je je scherm gewoon sluiten, en in plaats daarvan kwamen de dingen te dichtbij. Met dank aan {jojomatik} voor de oplossing!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Reageer sneller. Je kunt nu sneller reageren door op een emoji te klikken wanneer je op een verhaal reageert.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Je kunt nu in je berichtengeschiedenis zoeken naar individuele tekens in het Chinees en Japans.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Help ons verschillende betrouwbaarheids- en prestatieverbeteringen voor spraak- en videogesprekken te testen. Deze bètarelease bevat ook enkele bugfixes en kleine UI-updates (check onze nieuwe verbeteringen voor previews van de links!). Bedankt dat je een bètatester bent. Neem contact met ons op via het communityforum als je bugs tegenkomt.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Je zou geen auto downloaden, maar als je een MP3-spraaknotitie downloadt, wordt deze nu opgeslagen met de juiste bestandsextensie.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Begin snel een bericht te typen nadat je een bestand hebt bijgevoegd, of druk gewoon op Enter/Return om het bestand zonder extra klikken te versturen. Bedankt, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "De verzendknop in de grote compositieweergave is uitgelijnd. Bedankt, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Als je (tot nu toe) de enige persoon in een groep bent en je probeert een groepsgesprek te starten, kun je nu deelnemen aan het gesprek en meteen tegen jezelf beginnen te praten in plaats van te wachten tot het gesprek overgaat. Bedankt, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Zie snel wie er aan het woord is tijdens groepsgesprekken met een nieuwe markeringsfunctie die je laat zien waar je moet kijken. Als het jouw beurt is om te spreken, moet je even bij jezelf te rade gaan.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Ga los met verschillende stickers in de media-editor waarmee je gestileerde tijdsdecoraties kunt toevoegen aan uitgaande afbeeldingen.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Gebruik de minispeler voor spraaknotities om naar lange berichten te blijven luisteren, zelfs nadat je naar een andere chat bent overgeschakeld.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klik op een foto of video en gebruik de nieuwe knoppen Vooruit en Achteruit in de mediaviewer om een visuele wandeling door het verleden te maken.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Spraakberichten worden nu opgeslagen als concepten als je overschakelt naar een andere chat terwijl een opname bezig is.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Je kunt nu stickers sturen zonder dat concepttekst wordt gewist. Bedankt, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "We willen ook {norstbox} bedanken voor het weer samenbrengen van de zoekbalkiconen voor gesprekken.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

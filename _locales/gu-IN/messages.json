@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "રદ કરો",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "મોકલો",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "મેસેજ પર પ્રતિક્રિયા",
+    "message": "મેસેજ પર પ્રતિક્રિયા આપો",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ તરફથી તમને મેસેજ, સ્ટીકર, રિએક્શન, રીસીપ્ટ અથવા મીડિયા પહોંચાડી શકાયું નથી. તેઓએ તેને સીધા તમને અથવા ગ્રુપ માં મોકલવાનો પ્રયત્ન કર્યો હશે.",
+    "message": "$sender$ તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચી લીધાનું નિશાન અથવા મીડિયા મોકલી શકાયું નથી. તેઓએ તેને સીધા તમને અથવા ગ્રૂપમાં મોકલવાનો પ્રયત્ન કર્યો હશે.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "આ ચેટ માં $sender$ તરફથી તમને મેસેજ, સ્ટીકર, રિએકશન, રીડ રસીદ અથવા મીડિયા પહોંચાડી શકાયું નથી.",
+    "message": "આ ચેટમાં $sender$ તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચ્યાની રસીદ અથવા મીડિયા ડિલિવર થઈ શકશે નહીં.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "તમારા મેસેજ પર $sender$ પ્રતિક્રિયા $emoji$"
+    "message": "$sender$ એ તમારા મેસેજ પર $emoji$ પ્રતિક્રિયા આપી"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ એ $emoji$ ને પ્રતિક્રિયા આપી: $message$"
+    "message": "$sender$ એ $message$માં $emoji$ પ્રતિક્રિયા આપી"
   },
   "sendFailed": {
     "message": "મોકલવામાં નિષ્ફળ",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "આજે $time$ વાગ્યે",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ગઈકાલે $time$ વાગ્યે",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "પોતાના માટે નોટ",
+    "message": "પોતાના માટે નોંધ",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "ફરીથી લિંક કરો"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "અપડેટ ઉપલબ્ધ છે"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "અપડેટ કરવાનો ફરી પ્રયાસ કરો"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "પસંદ કરેલા મેસેજ માટે ઈમોજી-રિએક્શન પીકરને ટોગલ કરો",
+    "message": "પસંદ કરેલા મેસેજ માટે ઇમોજી-પ્રતિક્રિયા પીકરને ટોગલ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "સ્ટીકર પેક સર્જકનો ઉપયોગ કરવા માટે કૃપા કરીને તમારા ફોન અને ડેસ્કટોપ પર Signal સેટ કરો",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "પ્રતિક્રિયા મોકલવામાં નિષ્ફળ. મેહરબાની કરીને ફરીથી પ્રયાસ કરો.",
+    "message": "પ્રતિક્રિયા મોકલવામાં નિષ્ફળ. કૃપા કરીને ફરીથી પ્રયાસ કરો.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "વર્ઝન $version$ માટેનું અપડેટ ઉપલબ્ધ છે",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal બંધ ન થઈ શક્યું",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "પ્રતિક્રિયાઓ કસ્ટમાઇઝ કરો",
+    "message": "પ્રતિક્રિયાઓ કસ્ટમાઇઝ કરો",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -6461,11 +6469,11 @@
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "તમે $name$ ની સ્ટોરી પર $emoji$ પ્રતિક્રિયા આપી",
+    "message": "તમે $name$ની સ્ટોરી પર $emoji$ પ્રતિક્રિયા આપી",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "તમે એક સ્ટોરી પર $emoji$ પ્રતિક્રિયા આપી",
+    "message": "તમે કોઈ સ્ટોરી પર $emoji$ પ્રતિક્રિયા આપી",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "અન્ય લોકો તમારો સંપર્ક કરી શકે તેની પ્રાથમિક રીત તરીકે તમારા યુઝરનેમનો ઉપયોગ કરવા માટે સેટિંગ્સ > ગોપનીયતા > ફોન નંબર > મારો નંબર કોણ શોધી શકે છે પર જઈને ફોન નંબરની શોધ બંધ કરો.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "ઍપને તમારા માટે સરળતાથી ચાલતી રાખવા માટે ભૂલો સુધારવાનું અને અન્ય પ્રદર્શન સુધારણા કરવાનું કામ કરવામાં સખત મહેનત કરી.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "અમારા નવા સ્ટોરી ફીચરનો ઉપયોગ અને પરીક્ષણ કરવાનું શરૂ કરો. તમે અન્ય બીટા ટેસ્ટરો સાથે ફીચરનો ઉપયોગ કરી શકો છો અને અમને જણાવો કે તે કેવું કાર્ય કરે છે.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "સ્ટોરી હવે Signalમાં છે! 24 કલાક પછી આપમેળે અદૃશ્ય થઈ જતાં ટેક્સ્ટ, ઇમેજ અને વીડિયો અપડેટને પસંદ કરેલા મિત્રો અથવા ગ્રુપ સાથે શેર કરો. સ્ટોરી શેર કરવાનું પસંદ હોય તેવા દરેક માટે, તેને ખાનગી રીતે અને કોઈપણ જાહેરાતો જોયા વગર કરવાની પણ એક રીત છે. જો તમે સ્ટોરી જોવા અથવા શેર કરવા માંગતા ન હો, તો તમે તમારી પસંદગીઓ > ગોપનીયતામાંથી આ બધું નાપસંદ કરી શકો છો.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "જ્યારે તમે નાના ગ્રુપ (16 લોકો સુધી) માટે ગ્રુપ કૉલ શરૂ કરો છો, ત્યારે તમે રિંગિંગ નોટિફિકેશન મોકલવાનું પસંદ કરી શકો છો. જો ગ્રુપના સભ્યો iOS બીટા પર હોય અથવા ડેસ્કટૉપ અથવા Androidનો ઉપયોગ કરતા હોય તો તેઓને રિંગ સંભળાશે.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "અવતરિત જવાબ શરૂ કરવા માટે ચેટમાં મેસેજની કોઈ પણ પંક્તિ પર ડબલ-ક્લિક કરો. તે જૂની તરકીબો વિશેના નવા વિચારો માટેના શોર્ટકટ જેવું છે. આ ફીચરનો અમલ કરવા અને પ્રતિસાદ આપવા બદલ {whynothugo} અને Signal કોમ્યુનિટીનો આભાર.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "હવે ઝૂમ ઇન કર્યા વિના ગેલેરી વ્યૂને કાઢી નાખવા માટે ફોટાની બહાર ક્લિક કરવું વધુ સરળ છે. કેટલીક વાર તમે ફક્ત બંધ કરવા માગતા હતા અને તેના બદલે વસ્તુઓ ખૂબ નજીક આવી જતી હતી. આને ઉકેલવા માટે {jojomatik} નો આભાર!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "તમારા પ્રતિભાવ સમયને ઝડપી બનાવો. હવે તમે સ્ટોરીનો જવાબ આપતી વખતે કોઈપણ ઇમોજી પર ક્લિક કરીને ઝડપથી પ્રતિક્રિયા આપી શકો છો.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ચાઇનીઝ અને જાપાનીઝમાં વ્યક્તિગત અક્ષરો માટે તમારી મેસેજ હિસ્ટ્રીમાં શોધવાનું હવે શક્ય છે.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "વોઇસ અને વીડિયો કૉલ માટે કેટલીક વિશ્વસનીયતા અને પ્રદર્શન સુધારણાઓનું પરીક્ષણ કરવામાં અમારી સહાય કરો. આ બીટા રિલીઝમાં થોડી ભૂલ સુધારણાઓ અને કેટલાક નાના UI અપડેટ પણ શામેલ છે (નવી લિંક પ્રિવ્યૂ એન્હાન્સમેન્ટ્સ જુઓ!). બીટા ટેસ્ટર બનવા બદલ આપનો આભાર, અને જો તમને કોઈ બગ દેખાય તો કૃપા કરીને કોમ્યુનિટી ફોરમ પર અમારો સંપર્ક કરો.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "તમે કાર ડાઉનલોડ કરશો નહીં, પરંતુ હવે જ્યારે તમે MP3 વૉઇસ નોટ ડાઉનલોડ કરશો ત્યારે તે યોગ્ય ફાઇલ એક્સટેન્શન સાથે સાચવવામાં આવશે.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ફાઈલ જોડ્યા પછી ઝડપથી મેસેજ ટાઇપ કરવાનું શરૂ કરો અથવા કોઈ પણ વધારાના ક્લિક્સ વગર ફાઈલ મોકલવા માટે Enter/Return દબાવો. આભાર, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "મોટા કમ્પોઝિશન વ્યૂમાં 'મોકલો' બટનને બરાબર ગોઠવવામાં આવ્યું છે. આભાર, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "જો તમે ગ્રૂપમાં એકમાત્ર વ્યક્તિ છો (હમણાં સુધી) અને તમે ગ્રૂપ કૉલ શરૂ કરવાનો પ્રયાસ કરો છો, તો હવે તમે કૉલમાં જોડાઈ શકો છો અને કૉલની રિંગની રાહ જોયા વગર તરત જ તમારી સાથે વાત કરવાનું શરૂ કરી શકો છો. આભાર, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "નવી હાઇલાઇટ સુવિધા સાથે ગ્રૂપ કૉલ દરમિયાન કોણ બોલે છે તે ઝડપથી જુઓ જે તમને ક્યાં જોવું તે બતાવે છે. જો બોલવાનો વારો તમારો હોય, તો તમારે અંદર જ જોવાની જરૂર પડશે.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "મીડિયા એડિટરમાં કેટલાક સ્ટિકરો સાથે તમારો થોડો સમય પસાર કરો જેમાં તમે મોકલવામાં આવતા ફોટા પર સ્ટાઇલ સાથે સમયની સજાવટ ઉમેરી શકો છો.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "તમે કોઈ અલગ ચેટ પર સ્વિચ કરો પછી પણ લાંબા મેસેજ સાંભળવાનું ચાલુ રાખવા માટે વૉઇસ નોટ મિની પ્લેયરનો ઉપયોગ કરો.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "યાદોના માર્ગ પર એક ઉડતી નજર કરવા માટે કોઈ પણ ચિત્ર અથવા વીડિયો પર ક્લિક કરો અને મીડિયા વ્યૂઅરમાં નવા ફોરવર્ડ અને બેકવર્ડ બટનનો ઉપયોગ કરો.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "જો રેકોર્ડિંગ ચાલુ હોય ત્યારે તમે બીજી ચેટ પર સ્વિચ કરો છો તો વૉઇસ મેસેજ હવે ડ્રાફ્ટ તરીકે સેવ કરવામાં આવે છે.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "સ્ટિકર મોકલવાથી હવે ડ્રાફ્ટ ટેક્સ્ટ ક્લિયર થઈ જતો નથી. આભાર, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "અમે વાતચીત શોધ બારના આઇકનને પાછા અલાઇન્મેન્ટમાં લાવવા બદલ {norstbox}નો પણ આભાર વ્યક્ત કરીએ છીએ.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

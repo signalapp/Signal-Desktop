@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Hủy",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Gửi",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Hôm nay $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Hôm qua $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Tái liên kết"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Cập nhật có sẵn"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Thử cập nhật lại"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Vui lòng cài Signal trên điện thoại và máy tính để sử dụng Công Cụ Tạo Nhãn Dán Signal",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Lỗi trong việc gửi sự bày tỏ. Xin thử lại",
+    "message": "Lỗi trong việc gửi bày tỏ cảm xúc. Xin thử lại.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Cập nhật liên phiên bản $version$ có sẵn",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal không thể đóng",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Không để người khác tìm thấy bạn qua số điện thoại bằng cách vào Cài đặt > Riêng tư > Số điện thoại > Ai có thể tìm số điện thoại của tôi, để sử dụng tên người dùng làm phương tiện để người khác liên hệ bạn.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Nỗ lực sửa các lỗi và cải thiện hiệu năng để ứng dụng của bạn có thể chạy một cách trơn tru.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Bắt đầu sử dụng và thử nghiệm tính năng story mới của chúng tôi. Bạn có thể sử dụng tính năng này cùng các thành viên thử nghiệm phiên bản beta khác và cho chúng tôi biết tính năng hoạt động có ổn không.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Story đã có mặt trên Signal! Chia sẻ các cập nhật văn bản, hình ảnh, và video với những người bạn hoặc nhóm bạn chọn, tự động biến mất sau 24 giờ. Với những thành viên thích story, đây là một cách chia sẻ riêng tư và không có quảng cáo. Nếu bạn không muốn chia sẻ hoặc thấy story, bạn có thể tắt tính năng này trong mục Cài đặt > Riêng tư.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Khi bạn bắt đầu cuộc gọi nhóm cho nhóm nhỏ (đến 16 người), bạn có thể chọn thông báo bằng cách đổ chuông. Các thành viên nhóm sẽ nghe thấy tiếng chuông báo nếu đang sử dụng phiên bản iOS beta hoặc bản Desktop hay Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Nhấn đúp vào bất kỳ dòng tin nhắn nào để trả lời với trích dẫn. Một cách để nhanh chóng chia sẻ suy nghĩ của mình về một vấn đề được thảo luận ở trên. Cảm ơn thành viên {whynothugo} và cộng đồng Signal đã giúp triển khai và đóng góp phản hồi cho tính năng này.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Giờ đây bạn có thể dễ dàng nhấn phía ngoài một bức ảnh để thoát khỏi chế độ xem ảnh lớn. Thao tác này trước đây chỉ giúp phóng to ảnh hơn. Cảm ơn thành viên {jojomatik} đã giúp khắc phục điểm này!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Giúp thời gian phản hồi của bạn nhanh hơn. Giờ đây bạn có thể bày tỏ cảm xúc nhanh hơn bằng cách bấm vào bất kỳ emoji nào khi trả lời một story.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Người dùng nay có thể tìm kiếm lịch sử tin nhắn bằng các ký tự riêng lẻ của tiếng Trung và tiếng Nhật.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Giúp chúng tôi kiểm tra độ tin cậy và các cải thiện về mặt hiệu năng của cuộc gọi thoại và cuộc gọi video. Bản beta này cũng bao gồm một số sửa lỗi và cập nhật UI nhỏ (giao diện xem trước đường dẫn đã được nâng cấp!). Cảm ơn bạn vì đã giúp thử nghiệm bản beta, và hãy liên hệ với chúng tôi thông qua diễn đàn dành cho cộng đồng nếu bạn gặp bất kỳ lỗi nào.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Tệp ghi chú định dạng MP3 tải về sẽ được lưu với phần mở rộng chính xác.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Có thể nhanh chóng bắt đầu nhập nội dung sau khi đính kèm tệp, hoặc ấn nút Enter để gửi tệp mà không cần thao tác thêm. Cảm ơn, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Nút gửi trong giao diện lớn nay đã được tinh chỉnh. Cảm ơn, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Nếu bạn là người duy nhất trong nhóm và bạn bắt đầu cuộc gọi nhóm, giờ đây bạn có thể tham gia ngay vào cuộc gọi chỉ có một mình bạn và không cần chờ đổ chuông. Cảm ơn, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Dễ dàng thấy được ai là người đang nói trong cuộc gọi nhóm với tính năng làm nổi bật mới để bạn biết cần nhìn ở vị trí nào. Trải nghiệm cuộc gọi nhóm nay càng tuyệt hơn.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Thoải mái sáng tạo với nhiều gói nhãn dán trong công cụ chỉnh sửa cho phép bạn thêm các chi tiết trang trí lên hình ảnh sẵn có.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Dùng công cụ nghe ghi chú âm thanh để tiếp tục nghe các tin nhắn dài ngay cả khi bạn chuyển sang cuộc trò chuyện khác.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Bấm vào bất kỳ ảnh hoặc video nào và sử dụng các nút Tua tới và Tua lùi trong công cụ xem tệp đa phương tiện để thuận tiện trong việc xem.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Tin nhắn thoại giờ đây được lưu ở dạng bản nháp nếu bạn chuyển qua một cuộc trò chuyện khác trong lúc đang ghi âm.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Việc gửi nhãn dán sẽ không làm mất nội dung tin nhắn văn bản bạn đang soạn. Cảm ơn, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Chúng tôi cũng muốn cảm ơn {norstbox} vì đã giúp điều chỉnh đồng đều các biểu tượng của thanh tìm kiếm.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

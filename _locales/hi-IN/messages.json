@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "रद्द करें",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "भेजें",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "आज $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "कल $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "फिर से लिंक"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "अपडेट उपलब्ध"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "अपडेट का फिर से प्रयास करें"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "स्टिकर पैक क्रिएटर का उपयोग करने के लिए कृपया अपने फोन और डेस्कटॉप पर Signal को सेट अप करें",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "$version$ में अपडेट करने का वर्शन उपलब्ध",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "सिग्नल बंद नहीं किया जा सकता.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6465,7 +6473,7 @@
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "आपने एक स्टोरी पर $emoji$ की प्रतिक्रिया दी।",
+    "message": "आपने एक स्टोरी पर $emoji$ की प्रतिक्रिया दी",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "सेटिंग्स > निजता > फोन नंबर > मेरा नंबर कौन ढूंढ सकता है, में जाकर फोन नंबर खोज को बंद कर करें, ताकि अन्य आपसे संपर्क के लिए आपके यूज़रनेम का इस्तेमाल प्राथमिक साधन के रूप में कर सकें।",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "आपके लिए ऐप को आराम से चलाते रहने के लिए कुछ मुश्किल बग फ़िक्स करना और प्रदर्शन संबंधी अन्य सुधार करना।",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "हमारे नए स्टोरीज़ फ़ीचर को इस्तेमाल करना शुरू करें व उसका परीक्षण करें। आप अन्य बीटा परीक्षकों के साथ इस फ़ीचर का इस्तेमाल कर सकते हैं और हमें बता सकते हैं कि यह कैसा काम कर रहा है।",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "अब Signal में भी मिलेंगी स्टोरीज़! चुनिंदा दोस्तों या ग्रुप्स के साथ 24 घंटे बाद अपने आप गायब हो जानेवाले टेक्स्ट, इमेज, और वीडियो अपडेट शेयर करें। स्टोरीज़ शेयर करना पसंद करनेवाला हर व्यक्ति अब इस तरीक़े से इसे निजी रूप से, बिना कोई विज्ञापन देखे कर सकता है। यदि आप स्टोरीज़ देखना या शेयर करना नहीं चाहते तो अपनी वरीयताएँ > निजता में जा कर इससे बाहर रहना चुन सकते हैं।",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "जब आप छोटे समूहों (16 लोगों तक वाले) के लिए ग्रुप कॉल शुरू करते हैं तब आप एक रिंग होनेवाला नोटिफ़िकेशन भेजने का चुनाव कर सकते हैं। समूह के सदस्य यही iOS बीटा पर हों या डेस्कटॉप या ऐंड्रॉयड का इस्तेमाल कर रहे हों तो उन्हें एक रिंग सुनाई देगी।",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "कुओटेड रिप्लाई शुरू करने के लिए चैट में किसी भी संदेश पंक्ति पर डबल-क्लिक करें। यह पुराने विचारों के बारे में नए विचारों के शॉर्टकट की तरह है। इस फ़ीचर को लागू करने और फीडबैक प्रदान करने के लिए {whynothugo} और Signal समुदाय का धन्यवाद।",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "अब ज़ूम इन किए बिना गैलरी व्यू को डिसमिस करने के लिए छवि के बाहर क्लिक करना आसान हो गया है। कभी-कभी आप बस बंद करना चाहते थे, और इसके बजाये चीजें बहुत करीब आ गईं। इसे दुरुस्त करने के लिए {jojomatik} का धन्यवाद!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "तेजी से उत्तर दें। आप किसी स्टोरी का जवाब देते समय किसी भी इमोजी पर टैप करके तेजी से उत्तर दें सकते हैं।",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "अब चीनी और जापानी भाषा में अलग-अलग कैरेक्टर के लिए अपना संदेश इतिहास खोजना संभव है।",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "वॉयस और वीडियो कॉल के लिए कई विश्वसनीयता और प्रदर्शन सुधारों को टेस्ट करने में हमारी सहायता करें। इस बीटा रिलीज़ में कुछ बग फिक्स और कुछ छोटे UI अपडेट भी शामिल हैं (नए लिंक प्रीव्यू एन्हांसमेंट के लिए देखें!)। बीटा टेस्टर बनने के लिए धन्यवाद, और यदि आपको कोई बग दिखाई देता है तो कृपया कम्युनिटी फोरम पर हमसे संपर्क करें।",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "आप कार डाउनलोड नहीं कर पाएंगे, लेकिन अब जब आप MP3 वॉयस नोट डाउनलोड करेंगे, तो यह उचित फाइल एक्सटेंशन के साथ सहेजा जाएगा।",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "फाइल संलग्न करने के बाद जल्दी से संदेश टाइप करना शुरू करें, या बिना किसी अतिरिक्त क्लिक के फाइल भेजने के लिए एंटर/रिटर्न दबाएं। धन्यवाद, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "बड़े कम्पोजीशन व्यू में भेजें बटन को एलाइनमेंट में लाया गया है। धन्यवाद, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "यदि आप ग्रुप (अब तक) में एकमात्र व्यक्ति हैं और आप ग्रुप कॉल शुरू करने का प्रयास करते हैं, तो अब आप कॉल में शामिल हो सकते हैं और कॉल की घंटी बजने की प्रतीक्षा करने के बजाय तुरंत खुद बात करना शुरू कर सकते हैं। धन्यवाद, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "एक नए हाइलाइट फीचर की मदद से तुरंत देखें कि ग्रुप कॉल के दौरान कौन बोल रहा है, इससे आपको पता चलता है कि कहां देखना है। यदि बोलने की बारी आपकी है, तो आपको इसमें देखना होगा।",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "मीडिया एडिटर में मौजूद स्टिकर्स का आनंद उठाएं, जो आपको आउटगोइंग छवियों पर स्टाइलाइज़्ड टाइम डेकोरेशन जोड़ने देते हैं।",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "किसी दूसरी चैट पर स्विच करने के बाद भी लंबे संदेशों को सुनना जारी रखने के लिए वॉयस नोट्स मिनी प्लेयर इस्तेमाल करें।",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "किसी भी तस्वीर या वीडियो पर क्लिक करें और मीडिया व्यूअर में नए फॉरवर्ड और बैकवर्ड बटन का उपयोग करें ताकि मेमोरी लेन में विजुअल वॉक किया जा सके।",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "यदि आप रिकॉर्डिंग के दौरान किसी अन्य चैट पर स्विच करते हैं तो ध्वनि संदेश अब ड्राफ्ट के रूप में सहेजे जाते हैं।",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "स्टिकर भेजने से अब ड्राफ्ट टेक्स्ट क्लियर नहीं होगा। धन्यवाद, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "हम {norstbox} को वार्तालाप खोज बार आइकन को वापस संरेखण में लाने के लिए भी धन्यवाद देना चाहते हैं।",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "റദ്ദാക്കുക",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "അയയ്‌ക്കുക",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ നിങ്ങൾക്ക് $sender$-ൽ നിന്ന് നൽകാൻ കഴിയില്ല. അവർ അത് നിങ്ങൾക്ക് നേരിട്ടോ ഒരു ഗ്രൂപ്പിലോ അയയ്ക്കാൻ ശ്രമിച്ചിരിക്കാം.",
+    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ നിങ്ങൾക്ക് $sender$ എന്നയാളിൽ നിന്ന് ലഭിക്കില്ല. അവർ അത് നിങ്ങൾക്ക് നേരിട്ടോ ഒരു ഗ്രൂപ്പിലോ അയയ്ക്കാൻ ശ്രമിച്ചിരിക്കാം.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ ഈ ചാറ്റിലെ -$sender$ൽ നിന്ന് നിങ്ങൾക്ക് നൽകാൻ കഴിയില്ല.",
+    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ ഈ ചാറ്റിലെ $sender$ എന്നയാളിൽ നിന്ന് നിങ്ങൾക്ക് ലഭിക്കില്ല.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു"
+    "message": "$sender$ നിങ്ങളുടെ സന്ദേശത്തോട് $emoji$ നൽകി പ്രതികരിച്ചു"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ നിങ്ങളുടെ $message$-ത്തോട് $emoji$ പ്രതികരിച്ചു"
+    "message": "$sender$ നിങ്ങളുടെ $message$ എന്ന സന്ദേശത്തിനോട് $emoji$ നൽകി പ്രതികരിച്ചു"
   },
   "sendFailed": {
     "message": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ഇന്ന് $time$ മണിക്ക്",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ഇന്നലെ $time$ മണിക്ക്",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "വീണ്ടും ലിങ്ക്"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "അപ്‌ഡേറ്റ് ലഭ്യമാണ്"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "അപ്‌ഡേറ്റ് ചെയ്യാൻ വീണ്ടും ശ്രമിക്കുക"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "തിരഞ്ഞെടുത്ത സന്ദേശം-ത്തിനായി ഇമോജി-റിയാക്ഷൻ പിക്കർ ടോഗിൾ ചെയ്യുക",
+    "message": "തിരഞ്ഞെടുത്ത സന്ദേശത്തിനായി ഇമോജി റിയാക്ഷൻ പിക്കർ ടോഗിൾ ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് സ്രഷ്ടാവ് ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "പ്രതികരണം അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+    "message": "പ്രതികരണം അയയ്ക്കാനായില്ല. വീണ്ടും ശ്രമിക്കുക.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "$version$ എന്ന പതിപ്പിലേക്കുള്ള അപ്‌ഡേറ്റ് ലഭ്യമാണ്",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal അടയ്‌ക്കാനായില്ല.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6457,15 +6465,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് നിങ്ങൾ $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് നിങ്ങൾ $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "നിങ്ങൾ ഒരു സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "നിങ്ങൾ ഒരു സ്റ്റോറിയോട് $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "മറ്റുള്ളവർക്ക് നിങ്ങളെ കോൺടാക്റ്റ് ചെയ്യാനുള്ള പ്രാഥമിക മാർഗം ഉപയോക്തൃനാമമാക്കാൻ ക്രമീകരണം > ഫോൺ നമ്പർ > ആർക്കൊക്കെ എന്‍റെ നമ്പർ കണ്ടെത്താനാകും എന്നതിലേക്ക് പോയി ഫോൺ നമ്പർ ഡിസ്‌ക്കവറി ഓഫാക്കുക.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "ഞങ്ങളുടെ പുതിയ സ്റ്റോറികൾ സവിശേഷത ഉപയോഗിക്കാനും പരീക്ഷിക്കാനും ആരംഭിക്കുക. നിങ്ങൾക്ക് മറ്റ് ബീറ്റാ ടെസ്റ്റർമാർക്കൊപ്പം സവിശേഷത ഉപയോഗിക്കാനും അത് എങ്ങനെ പ്രവർത്തിക്കുന്നുവെന്ന് ഞങ്ങളെ അറിയിക്കാനും കഴിയും.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "സ്റ്റോറികൾ ഇപ്പോൾ Signal-ൽ ലഭ്യമാണ്! 24 മണിക്കൂറിൽ അപ്രത്യക്ഷമാകുന്ന ടെക്‌സ്റ്റ്, ഇമേജുകൾ, വീഡിയോ അപ്‌ഡേറ്റുകൾ എന്നിവ ഏതാനും സുഹൃത്തുക്കളുമായോ ഗ്രൂപ്പുകളുമായോ പങ്കിടുക. സ്റ്റോറികൾ പങ്കിടാൻ ഇഷ്‌ടപ്പെടുന്ന എല്ലാവർക്കും, അത് പരസ്യങ്ങളൊന്നും കാണാതെ സ്വകാര്യമായി ചെയ്യാനുള്ള ഒരു മാർഗ്ഗമിതാ. സ്റ്റോറികൾ കാണാനോ പങ്കിടാനോ താൽപ്പര്യമില്ലെങ്കിൽ, നിങ്ങളുടെ ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിൽ നിങ്ങൾക്ക് അവയിൽ നിന്നെല്ലാം ഒഴിവാകാൻ കഴിയും.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "നിങ്ങൾ ചെറിയ ഗ്രൂപ്പുകൾക്കായി (16 ആളുകൾ വരെയുള്ളത്) ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിക്കുമ്പോൾ, നിങ്ങൾക്ക് ഒരു റിംഗിംഗ് അറിയിപ്പ് അയയ്ക്കാൻ തീരുമാനിക്കാം. ഗ്രൂപ്പ് അംഗങ്ങൾ iOS ബീറ്റയിലാണെങ്കിലോ അല്ലെങ്കിൽ ഡെസ്‌ക്ടോപ്പ് അല്ലെങ്കിൽ Android ഉപയോഗിക്കുകയാണെങ്കിലോ അവർ ഒരു റിംഗ് കേൾക്കും.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "ലഭിച്ച ചാറ്റിനെ ഉദ്ധരിച്ച് മറുപടി നൽകാൻ ഏതെങ്കിലും സന്ദേശത്തിന്‍റെ വരിയിൽ ഡബിൾ ക്ലിക്ക് ചെയ്യുക. പഴയ ആശയങ്ങളിലെ പുതിയൊരു ചിന്തയ്ക്കുള്ള കുറുക്കുവഴി പോലെയാണത്. ഈ ഫീച്ചർ കൊണ്ടുവന്നതിനും ഫീഡ്ബാക്ക് നൽകിയതും {whynothugo} എന്നതിനും Signal കമ്മ്യൂണിറ്റിക്കും നന്ദി.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "സൂം ചെയ്യാതെ തന്നെ ഗ്യാലറി കാഴ്ച്ച നിരാകരിക്കാൻ ഒരു ചിത്രത്തിന് പുറത്ത് ക്ലിക്ക് ചെയ്യാൻ ഇപ്പോൾ വളരെ എളുപ്പമാണ്. നിങ്ങൾക്കത് അടയ്ക്കണമെന്ന് തോന്നിയാലും ചിലത് വല്ലാതങ്ങ് പറ്റിച്ചേർന്നിരിക്കുന്നതിനാൽ സാധിച്ചിരുന്നില്ല. ഈ പരിഹാരത്തിന് {jojomatik} എന്നതിന് നന്ദി!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "നിങ്ങളുടെ പ്രതികരണ സമയത്തിന്‍റെ വേഗത കൂട്ടൂ. സ്റ്റോറിക്ക് മറുപടി നൽകുമ്പോൾ ഏതെങ്കിലും ഇമോജിയിൽ ക്ലിക്ക് ചെയ്ത് നിങ്ങൾക്കിപ്പോൾ വേഗത്തിൽ പ്രതികരിക്കാം.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ഇപ്പോൾ ചൈനീസ്, ജാപ്പനീസ് ഭാഷകളിലെ അക്ഷരങ്ങൾക്കായി നിങ്ങളുടെ സന്ദേശ ചരിത്രത്തിൽ തിരയാനാകും.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "വോയ്‌സ്, വീഡിയോ കോളുകൾക്ക് വിശ്വാസ്യത, പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്താനായി പരിശോധിക്കാൻ ഞങ്ങളെ സഹായിക്കൂ. ഈ ബീറ്റാ റിലീസിൽ ഏതാനും ചെറിയ ബഗ് പരിഹരിക്കലുകളും ഏതാനും ചെറിയ യുഐ അപ്ഡേറ്റുകളും (പുതിയ ലിങ്ക് പ്രിവ്യു മെച്ചപ്പെടുത്തലുകൾക്കായി നോക്കൂ) ഉൾപ്പെടുന്നു. ബീറ്റാ ടെസ്റ്റർ ആയതിന് നന്ദി, എന്തെങ്കിലും ബഗ്ഗുകൾ കണ്ടെത്തിയാൽ കമ്മ്യൂണിറ്റി ഫോറത്തിലൂടെ ഞങ്ങളെ ബന്ധപ്പെടൂ.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "നിങ്ങളൊരു MP3 വോയ്‌സ് നോട്ട് ഡൗൺലോഡ് ചെയ്യുമ്പോൾ കൃത്യമായ ഫയൽ എക്സ്റ്റൻഷലിൽ അത് സംരക്ഷിക്കും.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ഫയൽ അറ്റാച്ച് ചെയ്തതിന് ശേഷം ഉടനടി സന്ദേശം ടൈപ്പ് ചെയ്യാൻ തുടങ്ങൂ അല്ലെങ്കിൽ അധിക ക്ലിക്കുകൾ കൂടാതെ ഫയൽ അയയ്ക്കാൻ Enter/Return കീ അമർത്തുക. നന്ദി, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "വലിയ കോമ്പോസിഷൻ വ്യൂവിലുള്ള അയയ്ക്കുക ബട്ടൺ അലൈൻമെന്‍റിലേക്ക് കൊണ്ടുവന്നു. നന്ദി, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "നിങ്ങൾ മാത്രമാണ് (ഇതുവരെ) ഗ്രൂപ്പിലുള്ളതെങ്കിലും നിങ്ങളൊരു ഗ്രൂപ്പ് കോൾ തുടങ്ങുകയുമാണെങ്കിൽ, നിങ്ങൾക്കിപ്പോൾ കോൾ റിംഗ് ചെയ്യാൻ കാത്തുനിൽക്കാതെ ആ കോളിൽ ചേരാനും നിങ്ങളോട് തന്നെ സംസാരിക്കാനും സാധിക്കും. നന്ദി, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "ഗ്രൂപ്പ് കോളുകളിൽ ആരാണ് സംസാരിക്കുന്നതെന്നും എവിടേക്കാണ് നോക്കേണ്ടതെന്നും വേഗത്തിൽ കാണാൻ പുതിയ ഹൈലൈറ്റ് ഫീച്ചർ ഉപയോഗിക്കാം. സംസാരിക്കാനുള്ള ഊഴം നിങ്ങളുടേതാണെങ്കിൽ, നിങ്ങൾ സ്ക്രീനിലേക്ക് നോക്കേണ്ടതുണ്ട്.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "മറ്റുള്ളവർക്ക് അയയ്ക്കുന്ന ചിത്രങ്ങളിൽ സ്റ്റൈൽ ചെയ്ത ടൈം ഡെക്കറേഷനുകൾ ചേർക്കാൻ നിങ്ങളെ അനുവദിക്കുന്ന മീഡിയാ എഡിറ്ററിലെ നിരവധി സ്റ്റിക്കറുകളിലൂടെ സമയം ലാഭിക്കൂ.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "മറ്റൊരു ചാറ്റിലേക്ക് മാറിയതിന് ശേഷവും ദൈർഘ്യമുള്ള വോയ്‌സ് നോട്ടുകൾ കേൾക്കുന്നത് തുടരാൻ വോയ്‌സ് നോട്ട്സ് മിനി പ്ലേയർ ഉപയോഗിക്കൂ.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "മീഡിയാ വ്യൂവറിൽ പുതുതായി ചേർത്ത ഫോർവേർഡ്, ബാക്ക്‌വേർഡ് ബട്ടണുകൾ ഉപയോഗിക്കാൻ ഏതെങ്കിലും ചിത്രത്തിലോ വീഡിയോയിലോ ക്ലിക്ക് ചെയ്യൂ.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "വോയിസ് റെക്കോർഡ് ചെയ്‌തു കൊണ്ടിരിക്കുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്ക് മാറിയാൽ വോയിസ് മെസേജുകൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിക്കും.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "സ്റ്റിക്കർ അയച്ചാൽ ഇനി ഡ്രാഫ്റ്റ് ടെക്സ്റ്റ് ഇല്ലാതാകില്ല. നന്ദി, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "കോൺവർസേഷൻ സെർച്ച് ബാർ ഐക്കണുകൾ അലൈൻമെന്‍റിലേക്ക് മടക്കി കൊണ്ടുവന്നതിന് {norstbox} എന്നതിനോടും ഞങ്ങൾക്ക് നന്ദി പറയേണ്ടതുണ്ട്.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

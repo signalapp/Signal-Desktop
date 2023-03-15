@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Cancel·la",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Envia",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Reaccioneu al missatge",
+    "message": "Reaccionar al missatge",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "No s'ha pogut lliurar cap missatge, adhesiu, reacció, rebut de lectura o contingut multimèdia de $sender$. És possible que hagin intentat enviar-vos-ho directament o en grup.",
+    "message": "No se t'ha pogut entregar un missatge, sticker, reacció, confirmació de lectura o arxiu multimèdia de $sender$. És possible que hagin intentat enviar-t'ho directament o a través d'un grup.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "No se us ha pogut lliurar un missatge, adhesiu, reacció, rebut de lectura o mitjà de $sender$ en aquesta conversa.",
+    "message": "No se t'ha pogut entregar un missatge, sticker, reacció, confirmació de lectura o arxiu multimèdia de $sender$ en aquest xat.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ha reaccionat  $emoji$ al vostre missatge."
+    "message": "$sender$ ha reaccionat amb $emoji$ al teu missatge"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ha reaccionat  $emoji$ a: $message$"
+    "message": "$sender$ ha reaccionat amb $emoji$ a: $message$"
   },
   "sendFailed": {
     "message": "L'enviament ha fallat",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Avui $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Ahir $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Notifica-m'ho",
+    "message": "Notes personals",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Torna a enllaçar"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Actualització disponible"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Torneu a intentar d'actualitzar"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Commuta el selector de reaccions d'emoticones per al missatge seleccionat",
+    "message": "Commuta el seleccionador de reaccions d'emoticones per al missatge seleccionat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Configura Signal al telèfon i a la versió d'escriptori per poder utilitzar el Creador de paquets de stickers.",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Suprimeix la reacció",
+    "message": "Elimina la reacció",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Ha fallat enviar la reacció. Torneu-ho a provar.",
+    "message": "No s'ha pogut enviar la reacció. Torna-ho a provar.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Actualització a la versió $version$ disponible",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "No es pot tancar el Signal.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6449,7 +6457,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Ha reaccionat a una història de$name$",
+    "message": "Ha reaccionat a una història de $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Desactiva el descobriment de números de telèfon a Ajustos > Privacitat > Número de telèfon > Qui pot trobar el meu número, per utilitzar el teu àlies com a manera principal de contactar amb tu.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Treballant força per tal de corregir errors i fer altres tasques de millora de rendiment per aconseguir que l'aplicació funcioni sense problemes.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Comença a utilitzar i provar la nostra nova funció d'històries. Pots fer servir la funció amb altres provadors beta i fer-nos saber com funciona.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Ja han arribat les històries a Signal! Comparteix històries de text, imatge i vídeo amb qui tu vulguis. Les històries desapareixeran automàticament al cap de 24 hores. Per a aquelles persones que no poden viure sense compartir històries, aquí hi ha la forma de fer-ho amb privacitat i sense anuncis. Si no vols veure o compartir històries, pots desactivar aquesta funció a Preferències > Privacitat.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "A l'inici d'una trucada de grup per a grups petits (fins a 16 persones), tindràs l'opció d'enviar una notificació de trucada. Els membres del grup sentiran un timbre si tenen la versió beta d'iOS o si utilitzen les versions d'escriptori o Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Fes doble clic a qualsevol missatge d'un xat per iniciar una resposta citada. És com una drecera per afegir nous pensaments sobre idees velles. Gràcies a {whynothugo} i a la comunitat de Signal per implementar aquesta funció i enviar comentaris.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Ara és més fàcil fer clic fora d'una imatge per sortit de la visualització de la galeria sense fer zoom. De vegades només volies tancar i, en canvi, augmentaves el contingut. Gràcies a {jojomatik} per la correcció!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Accelera el teu temps de resposta. Ara pots reaccionar més ràpidament fent clic a qualsevol emoji quan responguis a una història.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Ara és possible cercar caràcters individuals a l'historial de missatges en xinès i japonès.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Ajuda'ns a provar diverses millores de fiabilitat i rendiment de les trucades de veu i de vídeo. Aquesta versió beta també inclou algunes correccions d'errors i algunes petites actualitzacions de la interfície d'usuari (descobreix les noves millores de previsualització d'enllaços!). Gràcies per ser un provador beta i, si detectes cap error, fes-nos-ho saber a través del fòrum de la comunitat.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Ara, quan baixis una nota de veu MP3, es desarà amb l'extensió de fitxer adequada.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Comença ràpidament a escriure un missatge després d'adjuntar un fitxer o simplement prem Entern/Retorn per enviar el fitxer sense cap clic addicional. Gràcies, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "El botó d'Enviar en vista completa s'ha alineat. Gràcies, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Si ets l'única persona d'un grup (fins ara) i intentes iniciar una trucada de grup, ara pots unir-te a la trucada i començar a parlar amb tu mateix immediatament en lloc d'esperar que soni la trucada. Us donem les gràcies, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Comprova ràpidament qui està parlant durant les trucades de grup amb una nova funció destacada que et mostra on has de mirar. Si et toca parlar, hauràs de mirar dins.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Passa-t'ho bomba amb els stickers a l'editor d'arxius multimèdia afegint decoracions de temps estilitzades a les imatges sortints.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Utilitza el minirreproductor de notes de veu per continuar escoltant missatges llargs inclús després d'haver canviat de xat.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Fes clic a qualsevol imatge o vídeo i utilitza els nous botons Endavant i Enrere del visualitzador d'arxius multimèdia per fer una passejada visual pels racons de la memòria.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Les notes de veu ara es desaran com a esborranys si canvies a un altre xat mentre hi ha una gravació en curs.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Enviar un sticker ja no farà que s'esborri el text que estaves escrivint. Gràcies, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "També ens agradaria donar les gràcies a{norstbox} per tornar a alinear les icones de la barra de cerca de converses.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

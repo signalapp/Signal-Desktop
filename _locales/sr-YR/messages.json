@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Одустани",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Пошаљи",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Реаговати на Поруку",
+    "message": "Реагујте на поруку",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Порука, налепница, реакција, потврда о читању или медиј од $sender$ није могло да се испоручи. Можда су то покушали да вам пошаљу директно или у групи.",
+    "message": "Порука, налепница, реакција, потврда о читању или садржај који шаље $sender$ није вам достављен. Овај корисник је можда покушао да вам пошаље директно или у групи.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Порука, налепница, реакција, потврда о читању или медиј од $sender$ није вам достављен.",
+    "message": "Порука, налепница, реакција, потврда о читању или садржај који шаље $sender$ није вам достављен у овом ћаскању.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ реаговао $emoji$ на вашу поруку"
+    "message": "$sender$ је реаговао/ла $emoji$ на вашу поруку"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ реаговао $emoji$ на: $message$"
+    "message": "$sender$ је реаговао/ла $emoji$ на: $message$"
   },
   "sendFailed": {
     "message": "Слање неуспешно",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Данас $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Јуче $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Поново вежи"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Ажурирање је доступно"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Поновити ажурирање"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Пребаци бирач реакција на емоџи за одабрану поруку",
+    "message": "Активирајте бирач реакције емоџијима за одабрану поруку",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Подесите Signal на телефону и рачунару да бисте користили креатор пакета налепница",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Слање реакције није успело. Молим вас, покушајте поново.",
+    "message": "Слање реакције није успело. Пробајте поново.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Доступно ажурирање на верзији $version$",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal не може да се затвори.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Slanje reakcije…",
+    "message": "Шаљемо реакцију…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,11 +5993,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Odgovori i reakcije",
+    "message": "Одговори и реакције",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Dozvoli odgovore i reakcije",
+    "message": "Активирај одговоре и реакције",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Искључите откривање броја телефона у одељку Подешавања > Приватност > Број телефона > Ко може да пронађе мој број, да бисте користили своје корисничко име као примарни начин на који други могу да вас контактирају.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Вредно радимо на томе да исправимо грешке и побољшамо перформансе како би вам апликација радила несметано.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Почните да користите и тестирате нашу нову функцију прича. Можете да користите ову функцију са другим бета тестерима и обавестите нас како функционише.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Приче су сада на Signal-у! Са одабраним пријатељима или групама делите поруке, слике и видео снимке који аутоматски нестају након 24 сата. Свима који воле да деле приче, ево начина да то урадите приватно и без гледања огласа. Ако не желите да видите или делите приче, можете да их искључите у менију Подешавања > Приватност.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Када започнете групни позив у малим групама (до 16 особа), можете да пошаљете обавештење у виду звона. Чланови групе ће чути звоно ако су на бета верзији за iOS или ако користе верзију за рачунар или Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Двапут кликните на било који ред поруке у ћаскању да бисте започели цитирани одговор. То је као пречица за нова размишљања о старим идејама. Хвала програмеру {whynothugo} и Signal заједници што су применили ову функцију и пружили повратне информације.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Сада је можете да кликнете изван слике да бисте одбацили приказ галерије без потребе да зумирате. Можете да затворите слику без претераног приближавања. Хвала програмеру {jojomatik} на овој поправци!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Убрзајте време одговора. Сада можете брже да реагујете тако што ћете кликнути на било који емоџи када одговарате на причу.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Сада је могуће претраживати историју порука помоћу појединачних знакова на кинеском и јапанском.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Помозите нам да тестирамо неколико побољшања поузданости и перформанси гласовних и видео позива. Ово бета издање такође обухвата неколико исправки грешака и нека мала ажурирања корисничког интерфејса (погледајте нова побољшања приказа линкова). Хвала вам што сте бета тестер! Обратите нам се на форуму заједнице ако приметите грешке.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Можда не можете да преузмете аутомобил, али сада када преузимате гласовне белешке у формату MP3, биће сачувана са одговарајућом екстензијом фајла.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Одмах почните да куцате поруку након што приложите фајл или само притисните тастер „Enter“ да пошаљете фајл без додатних кликова. Хвала, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Дугме за слање у великом приказу за састављање порука је поравнато. Хвала, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Ако сте једина особа у групи (до сада) и покушавате да започнете групни позив, сада можете да се придружите позиву и одмах почнете да разговарате са собом уместо да чекате да позив зазвони. Хвала, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Брзо видите ко говори током групних позива помоћу нове функције истицања која вам показује где да гледате. А када је ваш ред да говорите, мораћете да гледате у себе.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Бескрајно се забавите уз помоћ неколико налепница у уређивачу медија које вам омогућавају да додате стилизоване временске декорације на одлазне слике.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Користите мини плејер за гласовне белешке да наставите да слушате дуге поруке чак и након што пређете на друго ћаскање.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Кликните на било коју слику или видео и користите нову дугмад „Напред“ и „Назад“ у приказивачу садржаја да бисте визуелно прошли кроз сећања.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Гласовне поруке се сада чувају као нацрти ако пређете на друго ћаскање док је снимање у току.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Слање налепнице више не доводи до брисања нацрта текста. Хвала, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Такође желимо да се захвалимо програмеру {norstbox} што је поравнао иконе траке за претрагу конверзације.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

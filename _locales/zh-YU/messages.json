@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "取消",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "傳送",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "對訊息俾心情回應",
+    "message": "對訊息傳送心情回應",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "傳送唔到 $sender$ 俾您嘅訊息、貼圖、心情回應、已讀標記或者媒體檔案。佢哋可能係直接或者喺群組入面傳送俾你嘅。",
+    "message": "系統傳送唔到 $sender$ 俾你嘅訊息、貼圖、心情回應、已讀標記或者媒體檔案。佢哋可能係直接或者透過群組傳送俾你嘅。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "喺呢個聊天入面傳送唔到 $sender$ 俾你嘅訊息、貼圖、心情回應、已讀標記或者媒體檔案。",
+    "message": "系統冇辦法喺呢個聊天度傳送 $sender$ 俾你嘅訊息、貼圖、心情回應、已讀標記或者媒體檔案。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "今日 $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "琴日 $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "重新連結"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "更新版本有得下載喇"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "再試吓更新"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "切換選定訊息嘅表情符號回應選擇器",
+    "message": "切換選定訊息嘅表情符號心情回應選擇器",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "如果要用貼圖包製作器嘅話，請你喺手機同桌面電腦設定 Signal。",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "更新版本 $version$ 已經推出咗",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "閂唔到 Signal。",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5993,7 +6001,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "睇到你嘅限時動態嘅人都可以俾心情回應同回覆。",
+    "message": "睇到你限時動態嘅人都可以俾心情回應同回覆。",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6457,15 +6465,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "用 $emoji$ 回應咗你嘅限時動態",
+    "message": "對你嘅限時動態傳送咗 $emoji$ 心情回應",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "你對 $name$ 嘅限時動態傳送咗 $emoji$ 回應",
+    "message": "你對 $name$ 嘅限時動態傳送咗 $emoji$ 心情回應",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "你對限時動態傳送咗 $emoji$ 回應",
+    "message": "你對一個限時動態傳送咗 $emoji$ 心情回應",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "如果要用你嘅用戶名稱嚟做其他人聯絡你嘅主要方式，請你去「設定」>「私隱」>「電話號碼」>「邊個可以搵到我嘅電話號碼」度關閉電話號碼搜尋功能。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "我哋好努力咁修復錯誤同埋加強程式功能，確保應用程式可以順暢運作。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "開始使用同測試我哋全新嘅限時動態功能。你可以同其他測試版嘅用戶一齊試用呢個功能，話俾我哋知你對呢個功能有咩意見。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal 推出限時動態功能！同你選定嘅好友或者群組分享自動銷毀嘅訊息、圖像同埋影片更新，呢啲內容會喺 24 小時後自動銷毀。鍾意分享限時動態嘅你，可以透過呢種方法私下分享，仲唔使睇到任何廣告。如果你唔想瀏覽或者分享限時動態，可以去「偏好設定」> 「私隱」關閉所有相關功能。",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "當你為小組 (最多 16 人) 發起群組通話嘅時候，可以選擇發送鈴聲通知。如果群組成員用緊 iOS 測試版、桌面版或者 Android，佢哋就會聽到鈴聲。",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "喺聊天入面任何一行訊息度㩒兩吓就可以開始引用回覆，就好似接通新舊想法嘅捷徑。多謝 {whynothugo} 同埋 Signal 社群積極推動呢個功能並且提供意見。",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "用戶而家只需要點擊圖片以外嘅位置，無需放大畫面，就可以輕鬆關閉圖庫檢視模式。有時候，你只係希望關閉畫面，而唔係想將畫面放得太大。多謝 {jojomatik} 修復咗呢個功能！",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "縮短你嘅回應時間。你而家可以點擊任何表情符號，更快回覆限時動態。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "你而家可以喺訊息紀錄入面搜尋中文同日文單字喇。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "協助我哋測試多項經改善嘅語音同視像通話功能嘅可靠度同性能。呢個測試版仲包含幾項錯誤修復同埋用戶介面嘅小型更新 (請特別留意全新嘅連結預覽加強功能！)。多謝你試用測試版。如果你發現任何錯誤，請喺社群討論區同我哋聯絡。",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "冇人會想俾人話「成個樂壇俾你攪軭晒啦」，而家當你下載 MP3 語音筆記嘅時候，個檔案會用啱嘅副檔名儲存喇。",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "附加檔案之後即刻開始輸入訊息，或者簡單㩒一下輸入/返回鍵就可以傳送檔案，唔使再㩒其他掣。唔該晒，{zyphlar}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "大型撰寫檢視模式入面嘅傳送按鈕已經對齊返。唔該晒， {hackerbirds}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "如果群組入面 (暫時) 得你一個，而你又想嘗試開始群組通話嘅話，而家唔使再等個通話鈴聲響完喇。你即刻就可以加入通話，同埋開始同自己講嘢喇。唔該晒， {lamemakes}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "全新嘅重點顯示功能會話你知你要留意嘅位置，幫你快速睇到群組通話期間邊個講緊嘢。輪到你講嘢嗰陣，你就要望向中間。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "你可以喺媒體編輯器入面用唔同嘅貼圖，為傳送出去嘅圖片加入個人風格。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "想轉去另一個聊天嘅時候，可以用語音筆記迷你播放器繼續收聽長訊息。",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "只要㩒一吓任何圖片或者影片，然後用媒體瀏覽器入面新增嘅「快轉」同「倒轉」按鈕，就可以回顧難忘嘅影像內容。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "而家如果你喺錄製語音訊息期間切換到另一個聊天，系統就會將你嘅語音訊息儲存做草稿。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "而家即使發送貼圖都唔會再令你嘅文字草稿消失。{lamemakes}，多謝你！",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "我哋仲要多謝 {norstbox} 將對話搜尋列嘅圖標重新對齊。",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

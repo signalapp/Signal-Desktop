@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Loobu",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Saada",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili kontaktilt $sender$ sulle saatmine ei õnnestunud. Nad võisid püüda saata seda sulle otse või grupi kaudu.",
+    "message": "Kontakt $sender$ saatis sulle sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili, kuid see ei jõudnud pärale. Ta võis püüda saata seda sulle otse või grupi kaudu.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili selles vestluses sulle saatmine kontaktilt $sender$ ei õnnestunud.",
+    "message": "Kontakt $sender$ saatis sulle sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili, kuid see ei jõudnud pärale.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reageeris $emoji$ sinu sõnumile"
+    "message": "$sender$ reageeris sinu sõnumile: $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reageeris $emoji$ sõnumile: $message$"
+    "message": "$sender$ reageeris sõnumile $message$: $emoji$"
   },
   "sendFailed": {
     "message": "Saatmine ei õnnestunud",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Täna $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Eile $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Märkus endale",
+    "message": "Meelespea endale",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Ühenda uuesti"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Uuendus on saadaval"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Proovi uuesti uuendada"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Kleebiste komplekti loomiskeskkonna kasutamiseks pead seadistama Signali nii enda telefonis kui arvutis",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "Versioonile $version$ on uuendus saadaval",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signalit ei saa sulgeda.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Lülita oma telefoninumbri nähtavus välja, valides Sätted > Privaatsus > Telefoninumber > Kes mu numbrit näevad, et muuta kasutajanimi peamiseks viisiks, mille abil sind leida.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Anname endast parima, et vigu parandada ning jõudlust suurendada, muutes nii rakenduse tööd sujuvamaks.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Proovi ja testi meie uut lugude funktsiooni. Saad seda funktsiooni koos teiste beetatestijatega proovidega ning meiega oma kogemusi jagada.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Lood on Signalisse jõudnud! Jaga valitud sõprade või gruppidega kaduvaid sõnumeid, pilte ja videoid, mis 24 tunni pärast automaatselt kustutatakse. Kõigil, kellele meeldib lugusid jagada, on nüüd võimalus teha seda privaatselt ja ilma reklaame nägemata. Kui sa ei taha lugusid näha või jagada, võid teha vastava valiku siin: Sätted > Privaatsus",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Kui alustad grupikõnet väikese grupiga (kuni 16 inimest), on sul võimalik saata heliteavitus. Grupi liikmed kuulevad helinat, kui nad kasutavad iOS betat, Desktopi või Androidi.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Kui soovid sõnumit tsiteerida ja sellele vastata, topeltklõpsa mis tahes sõnumireale vestluses. See on nagu otsetee, millega vanade ideede kohta uusi mõtteid väljendada. Täname selle funktsiooni elluviimise ja tagasisidestamise eest kasutajat {whynothugo} ja Signali kogukonda.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Nüüd on lihtsam pildi välisservale toksata ja galeriivaatest väljuda, selle asemel et pilti suurendada. Enne kippus juhtuma, et kui sina püüdsid pilti sulgeda, näitas rakendus seda sulle veel lähemalt. Täname kasutajat {jojomatik}, kes asja korda tegi!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Vasta kiiremini. Nüüd saad kiiremini reageerida. Selleks klõpsa loole vastates ükskõik millisele emojile.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Nüüd saad oma sõnumite ajaloost otsida konkreetseid hiina ja jaapani kirjamärke.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Aita meil testida hääl- ja videokõnede usaldusväärsust ja toimimist. Selles beetaväljalaskes on mõned veaparandused ja mõned väikesed kasutajaliidese uuendused (vt täiustusi uue lingi eelvaatest). Aitäh, et oled meie beetatestija ning palun anna meile kogukonnafoorumis märku, kui mõne vea leiad.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Nüüd salvestatakse alla laetud häälsõnum õige faililaiendiga.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Alusta kohe pärast faili lisamist sõnumit trükkimist või klõpsa lihtsalt Enter/Return, et saata fail teele ilma ühegi lisaliigutuseta. Aitäh, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Saatmisnupp tekstiakna suures vaates on joondatud. Aitäh, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Kui oled (seni) ainus grupiliige ja tahad alustada grupikõnet, saad nüüd kohe kõnega liituda ja endaga rääkima hakata, ilma et peaksid helisemist ära ootama. Aitäh, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Näe grupikõnes kohe, kes räägib. Uus esiletõstu funktsioon näitab sulle, millises suunas vaadata. Kui on sinu kord rääkida, pead lihtsalt enesesse vaatama.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Ole loov ja lisa saadetavatele piltidele meedia redigeerimise tööriistas erinevaid kleebiseid ja kaunistusi.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Kuula pikki sõnumeid häälsõnumite minipleieriga edasi, isegi kui oled ise juba teise vestluse avanud.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klõpsa mis tahes pildile või videole ning taaskülasta meediavaaturis Edasi ja Tagasi nuppude abil oma mäletusi.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Kui avad häälsõnumi salvestamise ajal teise vestluse, salvestatakse häälsõnum nüüd mustandina.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Mustandis olnud tekst ei kustu enam kleebise saatmisel. Aitäh, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Täname ka kasutajat {norstbox}, kes parandas vestluse otsinguriba ikoonide joondatuse.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

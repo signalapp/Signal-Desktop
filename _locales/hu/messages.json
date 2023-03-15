@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Mégse",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Küldés",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Reagálás az üzenetre",
+    "message": "Reakció az üzenetre",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$  $emoji$ reakciót küldött az üzenetedre"
+    "message": "$sender$ $emoji$ reakciót küldött az üzenetedre"
   },
   "notificationReactionMessage": {
-    "message": "$sender$  $emoji$-val reagált a következő üzenetre:  $message$"
+    "message": "$sender$ $emoji$ reakciót küldött erre: $message$"
   },
   "sendFailed": {
     "message": "Küldés sikertelen",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Ma $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Tegnap $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Újrapárosítás"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Frissítés érhető el"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Frissítés újra"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "A matricacsomag létrehozásához állítsd be a Signalt a telefonodon, valamint az asztali alkalmazáson is",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Nem sikerült a reakció elküldése. Kérlek próbáld újra!",
+    "message": "Nem sikerült a reakció elküldése. Kérjük, próbáld újra!",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "Elérhető frissítés a $version$ verzióra",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Nem sikerült bezárni a Signalt.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6285,7 +6293,7 @@
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reakció elküldve a Történetre",
+    "message": "Reagált a Történetre",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Kapcsold ki a telefonszám alapján történő elérés lehetőségét a Beállítások > Adatvédelem > Telefonszám > Ki láthatja a telefonszámomat? menüpontban, hogy a felhasználóneved legyen az elsődleges módja annak, hogy mások kapcsolatba léphessenek veled.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Keményen dolgoztunk a hibák helyrehozásán és egyéb teljesítményjavításokon, hogy az alkalmazás zökkenőmentesen működjön.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Kezdd el használni és teszteld az új Történetfunkciót. A funkciót más béta tesztelőkkel is használhatod, és megoszthatod velünk, hogyan működik.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Megérkeztek a Történetek a Signalba! Ossz meg szövegeket, képeket és videókat az általad kiválasztott ismerőseiddel vagy csoportjaiddal, amelyek aztán 24 óra elteltével automatikusan eltűnnek. Mindenki számára, aki szeret Történeteket megosztani, itt a módja annak, hogy privátban, hirdetések nélkül tegye meg. Ha nem szeretnél Történeteket látni vagy megosztani, a Beállítások > Adatvédelem menüpontban kikapcsolhatod a funkciót.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Amikor csoportos hívást indítasz kis csoportok számára (max. 16 fő), eldöntheted, hogy küldesz-e csengő értesítést. A csoport tagjai csengetést fognak hallani, ha iOS bétaverziót, asztali számítógépet vagy Android-eszközt használnak.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Kattints duplán bármelyik üzenetsorra a csevegésben az idézett válasz indításához. Olyan, mint egy parancsikon a régi ötletekkel kapcsolatos új gondolatokhoz. Köszönet {whynothugo} partnerünknek és a Signal-közösségnek a funkció megvalósításáért és a visszajelzésért.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Mostantól egyszerűbb kikattintani egy képből, hogy nagyítás nélkül kilépj a Galérianézetből. Van, hogy csak be akarsz zárni valamit, de helyette ráközelítesz. Köszönjük a javítást, {jojomatik}!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Gyorsítsd fel a válaszidőt. Mostantól gyorsabban reagálhatsz, ha rákattintasz valamely hangulatjelre, amikor válaszolsz egy Történetre.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Mostantól lehetőséged van rákeresni az egyes kínai és japán karakterekre az üzenetelőzményekben.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Segíts nekünk tesztelni a hang- és videohívások számos megbízhatósági és teljesítménybeli fejlesztését. Ez a béta verzió hibajavításokat és néhány kisebb felhasználói felület-frissítést is tartalmaz (keresd az új linkelőnézeti fejlesztéseket!). Köszönjük, hogy béta-tesztelő vagy! Ha hibát észlelsz, fordulj hozzánk a közösségi fórumon keresztül.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Mostantól, amikor letöltesz egy MP3-hangjegyzetet, a rendszer a megfelelő fájlkiterjesztéssel menti el.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Gyorsan kezdj el beírni egy üzenetet egy fájl csatolása után, vagy egyszerűen csak nyomd meg az Enter/Return billentyűt a fájl elküldéséhez minden további kattintás nélkül. Köszi, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "A nagy kompozíciós nézetben a küldés gomb kiigazításra került. Köszi, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Ha te vagy az egyetlen személy egy csoportban (eddig), és csoportos hívást próbálsz indítani, most csatlakozhatsz a híváshoz, és azonnal elkezdhetsz beszélni magadban, ahelyett, hogy megvárnád, hogy kicsengjen a hívás. Köszi, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Az új kiemelés funkcióval gyorsan megtekintheted, hogy ki beszél a csoportos hívások során, amelynek hála tudni fogod, hova nézz. Ha rajtad a sor, hogy beszélj, akkor aztán tényleg magadba kell nézned.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Élvezd ki az életet a médiaszerkesztőben megtalálható matricákkal, amelyekkel stílusos időpont kijelző dekort adhatsz a kimenő képeidhez.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Használd a hangjegyzetek minilejátszóját a hosszú üzenetek meghallgatásához, még akkor is, ha ezután egy másik csevegésre váltasz.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Kattints bármelyik képre vagy videóra, és használd a médianézegető új Előre és Vissza gombjait, hogy zökkenőmentesen nosztalgiázhass.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "A hangüzeneteket a rendszer mostantól piszkozatként menti el, ha felvétel közben másik csevegésre váltasz.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Matrica elküldése a továbbiakban nem törli a piszkozat szövegét. Köszi, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Ezúton is szeretnénk köszönetet mondani {norstbox} számára, hogy visszaállította a beszélgetés keresősávjának ikonjait.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

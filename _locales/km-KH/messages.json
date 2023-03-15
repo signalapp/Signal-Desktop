@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "បោះបង់",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ផ្ញើ",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "ប្រតិកម្មទៅសារ",
+    "message": "ប្រតិកម្មទៅនឹងសារ",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកបានទេ។ ពួកគេប្រហែលជាបានព្យាយាមផ្ញើវាទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
+    "message": "សារ ស្ទីគ័រ ប្រតិកម្ម មុខងារអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកបានទេ។ គេប្រហែលជាបានសាកល្បងផ្ញើវាទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុង​ការជជែកនេះបានទេ។",
+    "message": "សារ ស្ទីគ័រ ប្រតិកម្ម មុខងារអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុងការជជែកនេះបានទេ។",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅសាររបស់អ្នក"
+    "message": "$sender$ បានប្រតិកម្ម $emoji$ ទៅនឹងសាររបស់អ្នក"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅ៖ $message$"
+    "message": "$sender$ បានប្រតិកម្ម $emoji$ ទៅនឹង៖ $message$"
   },
   "sendFailed": {
     "message": "ផ្ញើបរាជ័យ",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ថ្ងៃនេះ $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ម្សិលមិញ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "កំណត់ចំណាំ",
+    "message": "កំណត់ចំណាំខ្លួនឯង",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "តភ្ជាប់ឡើងវិញ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "មានកំណែថ្មី"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "ព្យាយាមដំឡើងកំណែថ្មីម្តងទៀត"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "បិទ/បើក​កម្មវិធី​ជ្រើស​រើសប្រតិកម្ម​-រូបអារម្មណ៍​សម្រាប់​សារ​ដែល​បាន​ជ្រើសរើស",
+    "message": "បិទ/បើកផ្ទាំងជ្រើសរើសរូបអារម្មណ៍-ប្រតិកម្មសម្រាប់សារដែលបានជ្រើសរើស",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "សូមរៀបចំ Signal នៅលើទូរសព្ទ និងកុំព្យូទ័ររបស់អ្នក ដើម្បីប្រើប្រាស់ឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "បរាជ័យក្នុងការផ្ញើប្រតិកម្ម។ សូមសាកល្បងម្តងទៀត។",
+    "message": "មិនអាចផ្ញើប្រតិកម្មបាន។ សូមព្យាយាមម្តងទៀត។",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "ដំឡើងកំណែទៅ $version$ ដែលមាន",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "មិនអាចបិទ Signal បានទេ។",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "ដាក់រូបប្រតិកម្មតាមចំនូលចិត្ត",
+    "message": "ដាក់រូបប្រតិកម្មតាមបំណង",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "កំពុង​ផ្ញើ​ប្រតិកម្ម…",
+    "message": "កំពុងផ្ញើប្រតិកម្ម…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -6449,7 +6457,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវពី $name$",
+    "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវមួយពី $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6461,11 +6469,11 @@
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវពី $name$",
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវមួយពី $name$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវ",
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវមួយ",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "បិទការស្វែងរកលេខទូរសព្ទនៅក្រោម ការកំណត់ > ឯកជនភាព > លេខទូរសព្ទ > អ្នកដែលអាចស្វែងរកលេខរបស់ខ្ញុំបាន ដើម្បីប្រើប្រាស់ឈ្មោះអ្នកប្រើរបស់អ្នកជាវិធីចម្បងសម្រាប់ឲ្យអ្នកដទៃអាចទាក់ទងអ្នកបាន។",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "ចាប់ផ្តើមប្រើ និងធ្វើតេស្តសាកល្បងមុខងាររឿងរ៉ាវថ្មីរបស់យើង។ អ្នកអាចប្រើមុខងារនេះជាមួយកម្មវិធីសាកល្បងបេតាផ្សេងទៀត ហើយប្រាប់ឲ្យយើងបានដឹងថាតើវាដំណើរការយ៉ាងណាដែរ។",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "ឥឡូវរឿងរ៉ាវមាននៅក្នុង Signal ហើយ! ចែករំលែកបច្ចុប្បន្នភាពនៃអត្ថបទ រូបភាព និងវីដេអូដែលបាត់ទៅវិញ ជាមួយមិត្តភក្តិ ឬក្រុមជាក់លាក់ដែលបាត់ដោយស្វ័យប្រវត្តិបន្ទាប់ពី 24 ម៉ោង។ សម្រាប់អ្នករាល់គ្នាដែលចូលចិត្តចែករំលែករឿងរ៉ាវ នេះគឺជាវិធីដែលអាចធ្វើវាបានជាលក្ខណៈឯកជន និងដោយមិនឃើញពាណិជ្ជកម្មណាមួយឡើយ។ ប្រសិនបើអ្នកមិនចង់ឃើញ ឬចែករំលែករឿងរ៉ាវទេ អ្នកអាចផ្តាច់ចេញពីវាបានទាំងអស់នៅក្នុងចំណូលចិត្តរបស់អ្នក > ឯកជនភាព។",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "នៅពេលអ្នកចាប់ផ្តើមការហៅទូរសព្ទជាក្រុមសម្រាប់ក្រុមត្រូចៗ (រហូតដល់ទៅ 16 នាក់) អ្នកអាចជ្រើសរើសផ្ញើការជូនដំណឹងភ្ជាប់ជាមួយសំឡេងរោទ៍បាន។ សមាជិកក្រុមនឹងឮសំឡេងរោទ៍ប្រសិនបើពួកគេប្រើ iOS បេតា ឬកំពុងប្រើកម្មវិធីសម្រាប់កុំព្យូទ័រ ឬ Android។",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "ចុចពីរដងលើជួរសារណាមួយនៅក្នុងការជជែក ដើម្បីចាប់ផ្តើមការឆ្លើយតបចំពោះសារដកស្រង់ណាមួយ។ វាដូចជាផ្លូវកាត់សម្រាប់គំនិតថ្មីៗអំពីគំនិតចាស់ៗ។ សូមអរគុណដល់ {whynothugo} និងសហគមន៍ Signal ចំពោះការប្រើប្រាស់មុខងារនេះ និងផ្តល់ជាមតិកែលម្អ។",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "ឥឡូវនេះកាន់តែងាយស្រួលក្នុងការចុចនៅខាងក្រៅរូបភាពដើម្បីបិទទិដ្ឋភាពសាលរូបភាពដោយមិនបាច់ពង្រីក។ កាលពីមុន ពេលខ្លះអ្នកគ្រាន់តែចង់បិទវាទេ ប៉ុន្តែវាបែរជាពង្រីកមកជិតខ្លាំងពេកទៅវិញ។ សូមអរគុណដល់ {jojomatik} ចំពោះការកែលម្អនេះ!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "ផ្តល់ការឆ្លើយតបរបស់អ្នកបានលឿនជាងមុន។ ឥឡូវនេះ អ្នកអាចប្រតិកម្មបានកាន់តែលឿនជាងមុន ដោយចុចលើរូបអារម្មណ៍ណាមួយនៅពេលឆ្លើយតបទៅនឹងរឿងរ៉ាវ។",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "ឥឡូវនេះ អ្នកអាចស្វែងរកប្រវត្តិសាររបស់អ្នកសម្រាប់តួអក្សរនីមួយៗជាភាសាចិន និងជប៉ុន។",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "ជួយយើងធ្វើតេស្តសាកល្បងទៅលើការកែលម្អមួយចំនួនចំពោះសមត្ថភាពដំណើរការ និងភាពគួរឲ្យទុកចិត្តបាន សម្រាប់ការហៅទូរសព្ទជាសំឡេង និងជាវីដេអូ។ ការចេញផ្សាយបេតានេះក៏រួមបញ្ចូលផងដែរនូវការកែតម្រូវបញ្ហាមួយចំនួនតូច និងការធ្វើបច្ចុប្បន្នភាពបន្តិចបន្តួចទៅលើ UI មួយចំនួន (សូមរកមើលការកែលម្អថ្មីៗចំពោះការមើលតំណភ្ជាប់ជាមុន!)។ សូមអរគុណដែលបានធ្វើជាអ្នកសាកល្បងបេតា ហើយសូមទាក់ទងមកពួកយើងនៅលើវេទិកាសហគមន៍ ប្រសិនបើអ្នកឃើញមានបញ្ហាណាមួយ។",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "ឥឡូវនេះ នៅពេលដែលអ្នកទាញយកកំណត់សម្គាល់ជាសំឡេង MP3 វានឹងត្រូវបានរក្សាទុក ដោយមានកន្ទុយឯកសារត្រឹមត្រូវ។",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "ចាប់ផ្តើមវាយសារភ្លាមៗបន្ទាប់ពីភ្ជាប់ឯកសារ ឬគ្រាន់តែចុច Enter/Return ដើម្បីផ្ញើឯកសារដោយមិនចាំបាច់ចុចបន្ថែម។ អរគុណ {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "ប៊ូតុងផ្ញើនៅក្នុងទិដ្ឋភាពជាប្លង់ធំត្រូវបានដាក់ឲ្យស្របគ្នាហើយ។ អរគុណ {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "ប្រសិនបើអ្នកគឺជាមនុស្សតែម្នាក់គត់នៅក្នុងក្រុម (រហូតមកដល់ពេលនេះ) ហើយអ្នកព្យាយាមចាប់ផ្តើមហៅទូរសព្ទជាក្រុម ឥឡូវនេះអ្នកអាចចូលរួមការហៅទូរសព្ទនេះបានហើយ រួចចាប់ផ្តើមនិយាយជាមួយខ្លួនឯងបានភ្លាមៗ ដោយមិនចាំបាច់រង់ចាំឲ្យឮសំឡេងទូរសព្ទរោទ៍នោះទេ។ អរគុណ {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "មើលឃើញភ្លាមៗថាអ្នកណាកំពុងនិយាយអំឡុងពេលហៅទូរសព្ទជាក្រុម ដោយប្រើមុខងាររំលេចថ្មីដែលបង្ហាញអ្នកពីកន្លែងដែលត្រូវមើល។ ប្រសិនបើដល់វេនដែលអ្នកត្រូវនិយាយ អ្នកត្រូវមើលទៅតាមនោះដែរហើយ។",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "សូមរីករាយម៉ាស្រឡាញ់ជាមួយនឹងស្ទីគ័រជាច្រើននៅក្នុងកម្មវិធីកែមេឌៀដែលអាចឲ្យអ្នកបញ្ចូលរូបពេលវេលាទៅតាមការរចនាផ្សេងៗ នៅលើរូបភាពដែលផ្ញើចេញ។",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "ប្រើកម្មវិធីចាក់កំណត់សម្គាល់ជាសំឡេងខ្នាតតូច ដើម្បីបន្តស្តាប់សារវែងៗ សូម្បីតែក្រោយពេលដែលអ្នកប្តូរទៅការជជែកផ្សេងក៏ដោយ។",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ចុចលើរូបភាព ឬវីដេអូណាមួយ ហើយប្រើប៊ូតុងថ្មី ទៅមុខ និង ថយក្រោយ នៅក្នុងកម្មវិធីមើលមេឌៀដើម្បីរំលឹកអនុស្សាវរីយ៍។",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ឥឡូវនេះ សារជាសំឡេងត្រូវបានរក្សាទុកជាសេចក្តីព្រាង ប្រសិនបើអ្នកប្តូរទៅការជជែកមួយទៀត ពេលដែលការថតកំពុងដំណើរការ។",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ការផ្ញើស្ទីគ័រលែងធ្វើឲ្យអត្ថបទព្រាងត្រូវបានលុបទៀតហើយ។ អរគុណ {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "យើងក៏សូមអរគុណដល់ {norstbox} ផងដែរដែលបានធ្វើឲ្យមានរូបរបារស្វែងរកការសន្ទនាមកវិញ។",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

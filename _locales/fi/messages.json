@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Peruuta",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Lähetä",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1789,7 +1789,7 @@
     "message": "$sender$ lähetti reaktion $emoji$ viestiisi"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ lähetti reaktion $emoji$ viestiin $message$"
+    "message": "$sender$ lähetti reaktion $emoji$ viestiin: $message$"
   },
   "sendFailed": {
     "message": "Lähetys epäonnistui",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Tänään $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Eilen $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "Yhdistä uudelleen"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Päivitys saatavilla"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Yritä päivitystä uudelleen"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Asenna Signal puhelimeesi ja tietokoneelle, jotta voit käyttää tarrapakettityökalua",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "Päivitä saatavilla olevaan versioon $version$",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signalia ei voi sulkea.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5993,7 +6001,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Anna tarinasi katsoneiden ihmisten reagoida ja vastata.",
+    "message": "Anna henkilöiden, jotka voivat nähdä tarinasi, reagoida ja vastata.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6461,7 +6469,7 @@
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "Lähetit reaktion $emoji$ käyttäjän $name$ tarinaan",
+    "message": "Lähetit reaktion $emoji$ henkilön $name$ tarinaan",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Poista puhelinnumerohaku käytöstä kohdassa Asetukset > Yksityisyys > Puhelinnumero > Kuka voi löytää numeroni, jos haluat käyttää käyttäjänimeä ensisijaisena tapana, jonka avulla muut voivat ottaa sinuun yhteyttä.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Teemme kovasti töitä korjataksemme virheitä ja parantaaksemme suorituskykyä, jotta sinä voisit käyttää sovellusta entistä sujuvammin.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Aloita uuden Tarinat-ominaisuuden käyttö ja kokeilu. Voit käyttää ominaisuutta muiden beetaversion käyttäjien kanssa ja antaa meille palautetta sen toiminnasta.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Tarinat ovat nyt käytettävissä Signalissa! Jaa katoavia teksti-, kuva- ja videopäivityksiä valituille ystäville tai ryhmille. Tarinat katoavat automaattisesti 24 tunnin kuluttua. Jos pidät tarinoiden jakamisesta, näin voit tehdä sen yksityisesti ja ilman mainoksia. Jos et halua nähdä tai jakaa tarinoita, voit poistaa ne kokonaan käytöstä kohdassa Asetukset > Yksityisyys.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Kun aloitat ryhmäpuhelun pienelle ryhmälle (enintään 16 henkilöä), voit halutessasi lähettää soittoilmoituksen. Ryhmän jäsenet kuulevat soittoäänen, jos he käyttävät iOS-beetaversiota, työpöytäversiota tai Androidia.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Aloita lainattu vastaus kaksoisnapsauttamalla keskustelussa mitä tahansa viestiriviä. Se toimii kuin oikotie: vanhoista ideoista syntyy uusia ajatuksia. Kiitos {whynothugo} ja Signal-yhteisö tämän ominaisuuden toteuttamisesta ja palautteesta.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Nyt voit helpommin poistua gallerianäkymästä napsauttamalla kuvan ulkopuolella, sillä napsautus ei enää lähennä kuvaa. Joskus ehkä halusit vain sulkea kuvan etkä suurentaa sitä entisestään. Kiitos {jojomatik}, että korjasit ongelman!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Reagoi nopeammin. Voit nyt reagoida nopeammin napsauttamalla mitä tahansa emojia tarinaan vastatessasi.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Viestihistoriasta voi nyt hakea yksittäisiä kiinan- ja japaninkielisiä merkkejä.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Auta meitä testaamaan useita ääni- ja videopuheluiden luotettavuuteen ja suorituskykyyn liittyviä parannuksia. Tämä beetaversio sisältää myös muutamia virheenkorjauksia ja pieniä käyttöliittymäpäivityksiä (tarkista linkin esikatseluun tehdyt parannukset!). Kiitos, että toimit beetatestaajana. Ota meihin yhteyttä yhteisön keskustelupalstalla, jos huomaat virheitä.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Kun nyt lataat MP3-äänimuistiinpanon, se tallennetaan oikealla tiedostotunnisteella.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Voit aloittaa viestin kirjoittamisen nopeasti tiedoston liittämisen jälkeen tai lähettää tiedoston napsauttamalla vain Enter/Return-painiketta. Kiitos {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Lähetyspainikkeen asettelua suuressa luontinäkymässä on muokattu. Kiitos {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Jos olet (toistaiseksi) ryhmän ainoa jäsen ja yrität aloittaa ryhmäpuhelun, voit nyt liittyä puheluun ja aloittaa itsellesi puhumisen heti odottamatta puhelun soimista. Kiitos {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Uuden korostusominaisuuden ansiosta voit nyt nopeasti nähdä, kuka puhuu ryhmäpuhelun aikana. Jos on sinun vuorosi puhua, sinun on katsottava itseäsi.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Nyt on aika pitää hauskaa: mediaeditorin tarroilla voit lisätä tyylikkäitä aikakoristeluja lähteviin kuviin.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Jatka pitkien viestien kuuntelua äänimuistiinpanojen minisoittimella jopa silloin, kun siirryt toiseen keskusteluun.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Napsauta mitä tahansa kuvaa tai videota ja käytä mediakatseluohjelman uusia Eteenpäin- ja Taaksepäin-painikkeita, jos haluat muistella menneitä.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Ääniviestit tallennetaan nyt luonnoksina, jos siirryt toiseen keskusteluun tallennuksen aikana.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Tarran lähettäminen ei enää tyhjennä luonnostekstiä. Kiitos {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Haluamme myös kiittää käyttäjää {norstbox} siitä, että keskustelun hakupalkin kuvakkeiden asettelu on kunnossa.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

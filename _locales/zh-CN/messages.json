@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "取消",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "发送",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "无法将来自 $sender$ 的消息、贴纸、反应、已读回执或媒体发送给您。它们可能是直接发送或在群组中发送。",
+    "message": "来自$sender$的消息、贴纸、回应、已读回执或媒体无法发送给您。对方可能曾经尝试直接发送给您，或在群组中发送。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "$sender$的消息、贴纸、反应、已读回执或媒体无法在此聊天中发送给您。",
+    "message": "来自$sender$的消息、贴纸、回应、已读回执或媒体无法在此聊天中发送给您。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$对您的消息回应了$emoji$"
+    "message": "$sender$用 $emoji$ 回应了您的消息"
   },
   "notificationReactionMessage": {
-    "message": "$sender$对$message$回应了$emoji$"
+    "message": "$sender$用 $emoji$ 回应了：$message$"
   },
   "sendFailed": {
     "message": "发送失败",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "今天 $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "昨天 $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "重新连接"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "有可用更新"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "重试更新"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "选中消息时切换表情反应选取器",
+    "message": "为选中的消息切换表情回应选择器",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "如要使用贴纸包创建器，请设置您的手机版和电脑版 Signal",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "移除反应",
+    "message": "移除回应",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "发送反应失败，请重试。",
+    "message": "发送回应失败，请重试。",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "$version$ 版本有更新",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal 无法关闭",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "自定义反应",
+    "message": "自定义回应",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "正在发送反应……",
+    "message": "正在发送回应……",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,15 +5993,15 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "回复和反应",
+    "message": "回复和回应",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "允许回复和反应",
+    "message": "允许回复和回应",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "允许可见您动态的对象回应和回复。",
+    "message": "允许动态的可见对象回应和回复。",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "您可以在“设置 > 隐私 > 电话号码 >谁可以查找我的电话号码”中关闭电话号码搜索功能，将您的用户名用作其他人联系您的主要方式。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "我们努力修复了漏洞并增强了性能，让您的应用可以顺畅运行。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "欢迎立即体验和测试我们的新动态功能。您可以和其他测试用户一起体验此功能，并与我们分享使用反馈。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal 现在推出动态功能啦！您现在可以给选定的好友或群组分享限时文本、图片和视频动态。这些动态将会在 24 小时后自动消失。喜欢分享动态的用户可以进行私密分享，并且不会看到任何广告。如果您不想浏览其他人的动态，也不想分享动态，您可以在“偏好 > 隐私”中选择退出此功能。",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "当您对小型群组（至多 16 人）发起群组通话时，你可以选择发送铃声通知。使用 iOS 测试版、桌面版或 Android 版 Signal 的群组成员可以听到通知铃声。",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "双击聊天中任意一条消息，即可引用回复。轻松补充你的新想法。感谢 {whynothugo} 与 Signal 社群，协助上线此功能并提供反馈。",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "现在，点击图片以外的屏幕即可轻松退出图库浏览模式，避免误操作放大图片。我们懂你的心思。感谢 {jojomatik} 修复这一功能！",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "回应速度得到提升。在回复动态时，您现在可以通过点击任何一个表情符号来更快回应动态。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "您现在可以搜索消息历史记录中的单个中文或日语字符。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "帮助我们测试语音和视频通话的几项可靠性和一些功能优化吧。此测试版还包括一些漏洞修复和 UI 方面的一些小更新（欢迎查看新链接预览方面的增强效果！）。感谢成为我们的测试用户，如您发现任何漏洞，请在社群论坛上联系我们。",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "当你下载 MP3 语音记录时，它会以正确的文件扩展名保存。",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "附上文件后快速输入消息或直接点击 Enter/Return 键即可发送文件，无需其他操作。谢谢，{zyphlar}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "大组合视图中的发送按钮现已对齐。谢谢，{hackerbirds}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "如果你（目前）是群组中的唯一成员，而你想发起群组通话，现在你无需等待通话铃声响起即可加入通话并开始直接和自己通话。谢谢，{lamemakes}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "如果你想在群组通话中快速看到是谁在说话，新上线的突显功能可以提示你看向哪里。当轮到你说话时，你要看的就是摄像头啦。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "媒体编辑器中的多款贴纸支持让你给发送的图片添加风格化的时间装饰。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "语音记录迷你播放器可以让你在切换聊天对象时仍能继续听取未播放完的长消息。",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "点击任何图片或视频并在媒体查看器中使用新推出的“前进”和“后退”按钮可以让您轻松浏览媒体文件。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "当您切换到另一个聊天界面，而前一个界面中的录音仍在进行时，您的语音消息将会保存为草稿。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "发送贴纸已不会导致草稿被清除。谢谢，{lamemakes}！",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "我们还要感谢{norstbox}帮助我们将对话搜索栏图标重新对齐。",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "取消",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "傳送",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "今天 $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "昨天 $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "重新連結"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "有可用更新"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "再重試更新"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "請在手機和桌上型電腦設定 Signal 以使用貼圖包編輯器",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "更新到可用的 $version$ 版本",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal 無法關閉。",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "要關閉電話號碼搜索功能，請前往「設定」>「隱私」>「電話號碼」>「誰可以找到我的電話號碼」，以使用你的用戶名稱作為其他人聯絡你的主要方式。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "開始使用和測試最新的限時動態功能。你可以與測試版的其他測試者一同使用該功能，並讓我們知道是否好用。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Signal 現已推出限時動態功能！與選定的好友或群組分享自動銷毀的訊息、圖像和影片更新，這些內容會在 24 小時後自動消失。喜歡分享限時動態的你，可以透過這種方法私下分享，而無需看到任何廣告。如果你不想瀏覽或分享限時動態，可以在「偏好設定」>「隱私」關閉所有相關功能。",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "當您為小組（最多 16 人）發起群組通話時，您可以選擇發送響鈴通知。如果群組成員使用的是 iOS 測試版、桌面或 Android 裝置，他們將聽到響鈴聲。",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "在聊天內任何一個訊息列上點按兩下，即可開始引用回覆。這猶如接通新舊想法的捷徑。全賴 {whynothugo} 和 Signal 社區積極推動此功能並提供意見。",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "現在用戶只需點擊圖片以外的位置，無需放大畫面，即可輕鬆關閉圖庫檢視模式。有時候，你只希望將畫面關閉，不想將東西放得太大。感謝 {jojomatik} 協助修復此功能！",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "加快您的回應時間。您現在可以點擊任何表情符號來迅速回覆限時動態。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "您現在可以在訊息紀錄中搜尋中文和日文單字。",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "幫助我們測試多項語音和視訊通話的可靠性和性能改進。此測試版還包括一些錯誤修復和一些用戶介面的小更新 (查看全新的連結預覽增強功能！)。感謝您成為測試版的測試者。如果您發現任何錯誤，請在社群討論區上與我們聯絡。",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "你未必會非法下載，但是現在當你下載 MP3 語音筆記時，它將以適當的檔案擴展名儲存。",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "附加檔案後快速開始輸入訊息，或者只需單擊 Enter /Return 即可發送檔案，而無需任何額外點擊。謝謝，{zyphlar}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "大構圖畫面中的發送按鈕已對齊。謝謝，{hackerbirds}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "如果你是群組中唯一的人（到目前為止），並且想要開始群組通話，現在你可以加入通話並立即開始與自己交談，而不是等待通話鈴聲。謝謝，{lamemakes}！",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "想快速看到群組通話期間有誰正在發言，全新的重點顯示功能可讓你知道該看哪個地方。如果輪到你發言，你只需要仔細思考。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "在媒體編輯器中加上幾張貼圖，為傳出的圖片添加一抹個人風格，享受生活中的美好時光。",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "使用語音筆記迷你播放器讓你即使切換到其他聊天，仍可繼續聆聽長訊息。",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "點擊任何圖片或影片，然後使用多媒體瀏覽器中新加入的「快轉」和「倒回」按鈕來回顧難忘的影像內容。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "如果你在錄製語音訊息時切換到另一個聊天，系統現在會將該語音訊息儲存為草稿。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "現在即使發送貼圖都不會再令你的文字草稿遭到清除。{lamemakes}，謝謝你！",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "我們還要感謝 {norstbox} 將對話搜索欄的圖標重新對齊。",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

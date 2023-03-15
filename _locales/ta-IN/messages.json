@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "ரத்துசெய்",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "அனுப்புக",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "செய்திக்கு வினையாற்றவும்",
+    "message": "மெசேஜுக்கு எதிர்வினையாற்றவும்",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "ஒரு செய்தி, ஓட்டி, எதிர்வினை, ரசீதைப் படியுங்கள் அல்லது மீடியா உங்களிடமிருந்து வழங்க முடியவில்லை $sender$. அவர்கள் அதை உங்களுக்கு நேரடியாக அனுப்ப முயற்சித்திருக்கலாம், அல்லது ஒருகுழு.",
+    "message": "$sender$ -இடமிருந்து ஒரு மெசேஜ், ஸ்டிக்கர், எதிர்வினை, படித்த ரசீது அல்லது ஊடகத்தை உங்களிடம் வழங்க முடியவில்லை. அவர்கள் அதை உங்களுக்கு நேரடியாக அல்லது ஒரு குழு மூலமாக அனுப்ப முயற்சித்திருக்கலாம்.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ஒரு செய்தி, ஓட்டி, எதிர்வினை, ரசீது வாசிக்கவும் அல்லது ஊடகம் இருந்து உங்களுக்கு வழங்க முடியவில்லை$sender$ இதில் அரட்டை.",
+    "message": "இந்த சாட்டில் $sender$ அனுப்பிய ஒரு மெசேஜ், ஸ்டிக்கர், எதிர்வினை, படித்த ரசீது அல்லது ஊடகத்தை உங்களிடம் டெலிவரி செய்ய முடியவில்லை.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ அவர்கள்  உங்கள் செய்திக்கு $emoji$என உணர்வினை வெளிப்படுத்தினார்"
+    "message": "$sender$ உங்கள் செய்திக்கு $emoji$ என்று எதிர்வினையாற்றினார்"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ அவர்கள் $message$ உங்கள் செய்திக்கு $emoji$என உணர்வினை வெளிப்படுத்தினார்"
+    "message": "$sender$ $emoji$ என்று எதிர்வினையாற்றினார்: $message$"
   },
   "sendFailed": {
     "message": "அனுப்புவது தோல்வியுற்றது",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "இன்று $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "நேற்று $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "இணைக்கவும்"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "புதுப்பிப்பு கிடைக்கிறது"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "தேர்ந்தெடுக்கப்பட்ட செய்திக்கு ஈமோஜி-எதிர்வினை தேர்வியை நிலைமாற்று",
+    "message": "தேர்ந்தெடுக்கப்பட்ட மெசேஜுக்கு ஈமோஜி-எதிர்வினை பிக்கரை நிலைமாற்றும்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "ஸ்டிக்கர் பேக் கிரியேட்டரைப் பயன்படுத்த உங்கள் ஃபோன் மற்றும் டெஸ்க்டாப்பில் Signalஐ அமைக்கவும்",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "உணர்வு வெளிப்பாடு அனுப்புவதில் தோல்வி. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
+    "message": "எதிர்வினை அனுப்புவதில் தோல்வி. தயவுசெய்து மீண்டும் முயல்க.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "பதிப்புக்குப் புதுப்பிக்கவும் $version$ கிடைக்கிறது",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "சிக்னலை மூட முடியாது.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5637,7 +5645,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "தனிப்பயனாக்கலாம் எதிர்வினைகள்",
+    "message": "எதிர்வினைகளை தனிப்பயனாக்கவும்",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5917,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "எதிர்வினை அனுப்பப்படுகிறது…",
+    "message": "எதிர்வினை அனுப்பப்படுகிறது...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -6281,7 +6289,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றவும்",
+    "message": "ஸ்டோரிக்கு எதிர்வினையாற்றவும்",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6449,7 +6457,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$-இடமிருந்து ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றினார்",
+    "message": "$name$ -இடமிருந்து ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றினார்",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "மற்றவர்கள் உங்களைத் தொடர்புகொள்வதற்கு உங்கள் பயனர்பெயரை முதன்மையாகப் பயன்படுத்த, அமைப்புகள் > தனியுரிமை > ஃபோன் எண் > எனது எண்ணை யார் கண்டறியலாம், என்பதன் கீழ் ஃபோன் எண் கண்டுபிடிப்பை முடக்கவும்.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "பிழை திருத்தம் செய்யவும் மற்றும் உங்களுக்காக ஆப்பை சீராக இயங்க வைப்பதற்கான செயல்திறன் மேம்பாடுகளைச் செய்யவும் கடினமாக உழைக்கிறோம்.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "எங்களின் புதிய ஸ்டோரீஸ் அம்சத்தைப் பயன்படுத்தவும் சோதனை செய்யவும் தொடங்கவும். நீங்கள் மற்ற பீட்டா சோதனையாளர்களுடன் இந்த அம்சத்தைப் பயன்படுத்தலாம் மற்றும் அது எவ்வாறு செயல்படுகிறது என்பதை எங்களுக்குத் தெரியப்படுத்தலாம்.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "இப்போது Signal இல் ஸ்டோரீஸ் கிடைக்கிறது! 24 மணிநேரத்திற்குப் பிறகு தானாகவே மறையும் உரை, படங்கள் மற்றும் வீடியோ புதுப்பிப்புகளைக் குறிப்பிட்ட நண்பர்கள் அல்லது குழுக்களுடன் பகிரவும். ஸ்டோரீஸைப் பகிர விரும்பும் அனைவருக்கும், எந்த விளம்பரங்களையும் காட்டாமல் தனிப்பட்ட முறையில் செய்ய இதோ ஒரு வழி. நீங்கள் ஸ்டோரீஸைப் பார்க்கவோ பகிரவோ விரும்பவில்லை என்றால், உங்கள் விருப்பத்தேர்வுகள் > தனியுரிமை என்பதில் அனைத்திலிருந்தும் விலகலாம்.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "சிறிய குழுக்களுக்கு (16 பேர் வரை) நீங்கள் ஒரு குழு அழைப்பைத் தொடங்கும்போது, ஒரு அழைப்பு அறிவிப்பை அனுப்ப நீங்கள் தேர்வு செய்யலாம். குழு உறுப்பினர்கள் ஐ.ஓ.எஸ் பீட்டாவில் இருந்தால் அல்லது டெஸ்க்டாப் அல்லது ஆண்ட்ராய்டைப் பயன்படுத்தினால் அவர்கள் ஒரு அழைப்பு ஒலியைக் கேட்பார்கள்.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "மேற்கோள் காட்டப்பட்ட பதிலைத் தொடங்க, சாட்டில் ஏதேனும் செய்தி வரிசையில் இருமுறை கிளிக் செய்யவும். பழைய யோசனைகளைப் பற்றிய புதிய எண்ணங்களுக்கு இது ஒரு குறுக்குவழி போன்றது. இந்த அம்சத்தை செயல்படுத்தி கருத்து வழங்கியதற்காக {whynothugo} மற்றும் சிக்னல் சமூகத்திற்கு நன்றி.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "இப்போது பெரிதாக்காமல் கேலரி காட்சியை நிராகரிக்க படத்தின் வெளியே கிளிக் செய்வது எளிது. சில நேரங்களில் நீங்கள் மூட முயன்றால், பதிலாக காட்சி மிக நெருக்கமாகிவிடுகின்றது. சரிசெய்ததற்கு {jojomatik} க்கு நன்றி!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "உங்கள் பதில் நேரத்தை விரைவுபடுத்துங்கள். இப்போது நீங்கள் ஒரு கதைக்கு பதிலளிக்கும் போது எந்த ஈமோஜியையும் கிளிக் செய்வதன் மூலம் விரைவாக செயல்படலாம்.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "சீன மற்றும் ஜப்பானிய மொழிகளில் தனிப்பட்ட எழுத்துக்களுக்காக உங்கள் செய்தி வரலாற்றைத் தேடுவது இப்போது சாத்தியமாகும்.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "குரல் மற்றும் வீடியோ அழைப்புகளுக்கான பல நம்பகத்தன்மை மற்றும் செயல்திறன் மேம்பாடுகளைச் சோதிக்க எங்களுக்கு உதவுங்கள். இந்த பீட்டா வெளியீட்டில் சில பிழைத் திருத்தங்கள் மற்றும் சில சிறிய UI புதுப்பிப்புகளும் அடங்கும் (புதிய இணைப்பு முன்னோட்ட மேம்பாடுகளைப் பார்க்கவும்!). பீட்டா சோதனையாளராக இருப்பதற்கு நன்றி, மேலும் ஏதேனும் பிழைகள் இருந்தால் சமூக மன்றத்தில் எங்களைத் தொடர்பு கொள்ளவும்.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "நீங்கள் காரைப் பதிவிறக்க மாட்டீர்கள், ஆனால் இப்போது நீங்கள் MP3 குரல் குறிப்பைப் பதிவிறக்கும் போது அது சரியான கோப்பு நீட்டிப்புடன் சேமிக்கப்படும்.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "கோப்பினை இணைத்த பிறகு செய்தியை விரைவாக டைப் செய்யத் தொடங்குங்கள் அல்லது கூடுதல் கிளிக்குகள் இல்லாமல் கோப்பை அனுப்ப Enter/Return ஐ அழுத்தவும். நன்றி, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "பெரிய கலவை காட்சியில் உள்ள அனுப்பு பொத்தான் சீரமைக்கப்பட்டுள்ளது. நன்றி, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "நீங்கள் ஒரு குழுவில் (இதுவரை) ஒரே நபராக இருந்து, குழு அழைப்பைத் தொடங்க முயற்சித்தால், அழைப்பு வரும் வரை காத்திருப்பதற்குப் பதிலாக, இப்போது அழைப்பில் சேர்ந்து, உங்களுடன் பேசத் தொடங்கலாம். நன்றி, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "குழு அழைப்புகளின் போது யார் பேசுகிறார்கள் என்பதை விரைவாகப் பார்க்கவும், புதிய ஹைலைட் அம்சத்துடன் நீங்கள் எங்கு பார்க்க வேண்டும் என்பதைக் காட்டும். பேசுவது உங்கள் முறை என்றால், நீங்கள் உள்ளே பார்க்க வேண்டும்.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "வெளிச்செல்லும் படங்களில் பகட்டான நேர அலங்காரங்களைச் சேர்க்க உங்களை அனுமதிக்கும் மீடியா எடிட்டரில் பல ஸ்டிக்கர்களுடன் உங்கள் வாழ்க்கையில் சந்தோஷமாக இருங்கள்.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "நீங்கள் வேறு சாட்டுக்கு மாறிய பிறகும் நீண்ட செய்திகளைக் கேட்பதற்கு குரல் குறிப்புகள் மினி பிளேயரைப் பயன்படுத்தவும்.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ஏதேனும் படம் அல்லது வீடியோவை கிளிக் செய்து, மீடியா வியூவரில் உள்ள புதிய முன்னோக்கி மற்றும் பின்னோக்கி பொத்தான்களைப் பயன்படுத்தி, நினைவகப் பாதையில் ஒரு காட்சிப் பாதையை எடுக்கவும்.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ரெக்கார்டிங் நடந்துகொண்டிருக்கும்போது நீங்கள் வேறொரு சாட்டிற்கு மாறினால் குரல் செய்திகள் இப்போது வரைவுகளாகச் சேமிக்கப்படும்.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ஸ்டிக்கரை அனுப்புவதால் இனியும் வரைவு உரை அழிக்கப்படாது. நன்றி, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "உரையாடல் தேடல் ஐகான்களை மீண்டும் சீரமைத்ததற்கு {norstbox} க்கும் நன்றி தெரிவிக்க விரும்புகிறோம்.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

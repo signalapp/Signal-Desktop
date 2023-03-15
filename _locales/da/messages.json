@@ -53,7 +53,7 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Annullér",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Reagér på besked",
+    "message": "Reager på besked",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "En besked, klistermærke, reaktion, læsekvittering eller mediefil kunne ikke leveres til dig fra $sender$. De har muligvis forsøgt at sende direkte til dig eller i en gruppe.",
+    "message": "En besked, klistermærke, reaktion, kvittering for læsning eller mediefil kunne ikke leveres til dig fra $sender$. Vedkommende har muligvis forsøgt at sende dig elementet direkte eller i en gruppe.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "En besked, et klistermærke, en reaktion, en læsekvittering eller en mediefil kunne ikke leveres til dig fra $sender$ i denne samtale.",
+    "message": "En besked, et klistermærke, en reaktion, en kvittering for læsning eller en mediefil kunne ikke leveres til dig fra $sender$ i denne samtale.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagerede $emoji$ på din besked"
+    "message": "$sender$ reagerede med $emoji$ på din besked"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagerede $emoji$ på $message$"
+    "message": "$sender$ reagerede med $emoji$ på: $message$"
   },
   "sendFailed": {
     "message": "Send mislykkedes",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "I dag $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "I går $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Egen note",
+    "message": "Personlig note",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Tilkobl igen"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Opdatering tilgængelig"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Forsøg opdatering igen"
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Opsæt Signal på din telefon og computer for at bruge Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5600,6 +5600,14 @@
     "message": "Opdatering til version $version$ tilgængelig",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal kan ikke afsluttes",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6281,7 +6289,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagér på historie",
+    "message": "Reager på historie",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Slå opdagelse via telefonnummer fra under Indstillinger > Privatliv > Telefonnummer > Personer, der kan finde mit nummer for at bruge brugernavnet som den primære måde, hvorpå andre kan kontakte dig.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Vi arbejder på at rette nogle bugs og forbedre appens præstation, så den kører uden problemer.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Begynd at bruge og teste vores nye historiefunktion. Du kan bruge funktionen sammen med andre betatestere og fortælle os, om den fungerer ordentligt.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Nu tilbyder Signal historier! Del tekst, billeder og videoer, der automatisk forsvinder efter 24 timer, med udvalgte venner eller grupper. Alle, der elsker at dele historier, kan nu gøre det privat og uden at se nogen reklamer. Hvis du ikke vil se eller dele historier, kan du fravælge det hele i dine Præferencer > Privatliv.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "Når du starter et gruppeopkald for små grupper (op til 16 personer), kan du vælge at sende en ringenotifikation. Gruppemedlemmer vil høre en ringetone, hvis de bruger iOS-betaversionen, computer eller Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Dobbeltklik på en meddelelse i en chat for at starte et citeret svar. Det er som en genvej til nye tanker om gamle idéer. Tak til {whynothugo} og Signal-fællesskabet for at have implementeret denne funktion og givet feedback.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Nu er det nemmere at klikke uden for et billede for at afvise gallerivisningen uden at zoome ind. Nogle gange ville man bare gerne lukke, men i stedet kom man lidt for tæt på. Tak for rettelsen, {jojomatik}!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Få en hurtigere svartid. Nu kan du reagere hurtigere ved at klikke på en emoji, når du svarer på en historie.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "Det er nu muligt at søge efter individuelle tegn på kinesisk og japansk i din beskedhistorik.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Hjælp os med at teste flere forbedringer i pålideligheden og ydeevnen for stemme- og videoopkald. Denne betaversion indeholder også nogle fejlrettelser og små opdateringer af brugergrænsefladen (se den forbedrede forhåndsvisning af links!). Tak, fordi du betatester, og kontakt os endelig på fællesskabsforummet, hvis du finder nogen fejl undervejs.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "Du ville ikke downloade en bil, men når du downloader en MP3-stemmemeddelelse, bliver den gemt med den rigtige filendelse.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Du kan hurtigt begynde at skrive en besked, når du har vedhæftet en fil, eller blot trykke på Enter/Retur for at sende filen uden ekstra klik. Tak, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "Send-knappen i den store kompositionsvisning er blevet justeret. Tak, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "Hvis du er den eneste person i en gruppe (indtil videre), og du forsøger at starte et gruppeopkald, kan du nu deltage i opkaldet og begynde at tale med dig selv med det samme i stedet for at vente på at opkaldet ringer. Tak, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Se, hvem der taler under gruppeopkald med en ny fremhævningsfunktion, der viser dig, hvor du skal kigge. Hvis det er din tur til at tale, skal du kigge indad.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Hyg dig med de mange klistermærker i medieredaktøren, som giver dig mulighed for at tilføje stiliserede tidsdekorationer på de billeder du sender.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Brug miniafspilleren, så du kan fortsætte med at lytte til lange stemmebeskeder, selv efter at du har skiftet til en anden chat.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klik på et billede eller en video, og brug de nye frem- og tilbageknapperne i medieviseren til at gå en visuel tur gennem dine minder.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Stemmebeskeder gemmes nu som kladder, hvis du skifter til en anden chat, mens en optagelse er i gang.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Når du sender et klistermærke, bliver kladdeteksten ikke længere slettet. Tak, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Vi vil også gerne takke {norstbox} for at have bragt ikonerne i samtalesøgelinjen på plads.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

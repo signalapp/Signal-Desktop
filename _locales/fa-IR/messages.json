@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "لغو",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ارسال",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ نتوانست به شما تحویل داده شود. آن‌ها ممکن است آن را به طور مستقیم، یا در یک گروه به شما ارسال کرده باشند.",
+    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ قابل تحویل به شما نبود. ممکن است سعی کرده باشند آن را به‌طور مستقیم یا در یک گروه به شما ارسال کنند.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ نتوانست به شما در این گفتگو تحویل داده شود.",
+    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ در این گفتگو قابل تحویل به شما نبود.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$به پیام شما واکنش $emoji$ نشان داد"
+    "message": "$sender$ با $emoji$ به پیام شما واکنش نشان داد"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ به $message$  واکنش $emoji$ نشان داد"
+    "message": "$sender$ با $emoji$ به $message$ واکنش نشان داد"
   },
   "sendFailed": {
     "message": "ارسال ناموفق بود",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "امروز $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "دیروز $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2197,7 +2197,7 @@
     "message": "پیوند دادن دوباره"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "به‌روزرسانی موجود است"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "دوباره به‌روزرسانی کنید"
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "باز و بسته کردن گزینشگر ایموجی برای پیام انتخاب شده",
+    "message": "باز و بسته کردن انتخابگر واکنش ایموجی برای پیام انتخاب‌شده",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "لطفاً برای استفاده از سازنده بسته استیکر، سیگنال را روی تلفن و دسکتاپ خود نصب کنید",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
+    "message": "واکنش ارسال نشد. لطفاً دوباره تلاش کنید.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5600,6 +5600,14 @@
     "message": "به‌روزرسانی به نسخهٔ $version$ موجود است",
     "description": "Tooltip for new update available"
   },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "سیگنال بسته نمی شود",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -6285,7 +6293,7 @@
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "به استوری واکنش نشان داده شد",
+    "message": "به استوری واکنش نشان داد",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,15 +6457,15 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "واکنش به استوری $name$",
+    "message": "به استوری $name$ واکنش نشان داد",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "به یک استوری واکنش نشان داده شد",
+    "message": "به یک استوری واکنش نشان داد",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "با $emoji$ به استوری شما واکنش نشان داده شد",
+    "message": "با $emoji$ به استوری شما واکنش نشان داد",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
@@ -6509,7 +6517,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "برای استفاده از نام کاربری‌تان به‌عنوان راه اصلی تماس افراد با شما، در «تنظیمات» > «حریم خصوصی» > «شماره تلفن» > «چه‌کسی می‌تواند من را با شماره تلفنم پیدا کند»، کشف شماره تلفن را خاموش کنید.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6564,84 +6572,24 @@
     "message": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "سخت در تلاش برای رفع اشکالات و ایجاد سایر بهبودهای عملکردی به‌منظور حفظ عملکرد روان برنامه برای شما.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "شروع به استفاده و آزمایش قابلیت جدید استوری‌های ما کنید. می‌توانید همزمان با سایر آزمایش‌کنندگان بتا از این قابلیت استفاده کنید و نحوه عملکرد آن را به ما اطلاع دهید.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "اکنون استوری‌ها در سیگنال هستند! به‌روزرسانی‌های ناپدیدشونده متنی، تصویری و ویدیویی را که به‌طور خودکار پس از ۲۴ ساعت ناپدید می‌شوند، با دوستان یا گروه‌های منتخب هم‌رسانی کنید. برای همه کسانی که عاشق هم‌رسانی استوری هستند، راهی برای انجام این کار به صورت خصوصی و بدون مشاهده تبلیغات وجود دارد. اگر نمی‌خواهید استوری‌ها را ببینید یا هم‌رسانی کنید، می‌توانید در «ترجیحات > حریم خصوصی» از همه آن‌ها انصراف دهید.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "وقتی یک تماس گروهی در گروه‌های کوچک (حداکثر ۱۶ نفر) شروع می‌کنید، می‌توانید انتخاب کنید که اعلان زنگ ارسال شود. اگر اعضای گروه نسخه بتای iOS داشته باشند یا از دسک‌تاپ یا اندروید استفاده کنند، صدای زنگ را خواهند شنید.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "برای شروع یک پاسخ نقل‌قولی، دو بار روی هر یک از ردیف‌های پیام در گفتگو کلیک کنید. این به مانند میان‌بُری است برای ثبت نظرات جدید درباره ایده‌های قدیمی. با تشکر از {whynothugo} و جامعه سیگنال برای اجرای این قابلیت و ارائه بازخورد.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "حالا دیگر آسان‌تر از قبل می‌توانید بیرون یک تصویر کلیک کنید تا از نمای گالری خارج شوید و دیگر ناخواسته جایی از تصویر را بزرگ‌نمایی نکنید. گاهی اوقات فقط می‌خواستید تصویر را ببندید ولی در عوض بازترش می‌کردید. با سپاس از {jojomatik} برای این رفع اشکال!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "پاسخ دادن خود را سرعت ببخشید. حالا می‌توانید هنگام پاسخ دادن به استوری، با کلیک روی هر ایموجی واکنش سریع‌تری به استوری نشان دهید.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "حالا دیگر می‌توانید نویسه‌های تکی زبان‌های چینی و ژاپنی را در تاریخچه پیامتان جستجو کنید.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "به ما کمک کنید چند بهبود عملکرد و اطمینان‌پذیری را برای تماس‌های صوتی و تصویری آزمایش کنیم. این نسخه بتا چند رفع اشکال و چند به‌روزرسانی جزئی رابط کاربری را نیز شامل می‌شود (بهبودهای جدید پیش‌نمایش پیوند را ببینید!). از اینکه آزمایش‌کننده بتا هستید سپاسگزاریم؛ لطفاً در صورت پیدا کردن هرگونه اشکال، با ما در تالار گفتگوی انجمن در تماس باشید.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "شما که محتوای ناقض کپی‌رایت بارگیری نمی‌کنید، اما حالا هر یادداشت صوتی MP3 که بارگیری می‌کنید با افزونه فایل مناسب ذخیره خواهد شد.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "بلافاصله پس از پیوست کردن فایل، شروع به نوشتن پیام کنید یا برای ارسال فایل بدون کلیک بیشتر، روی «اینتر/ریترن» بزنید. سپاس، {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "دکمه ارسال در نمای نگارش بزرگ، تراز شده است. سپاس، {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "اگر (فعلاً) تنها فرد گروه هستید و سعی دارید تماس گروهی برقرار کنید، حالا می‌توانید به جای اینکه منتظر زنگ خوردن تماس بمانید، بلافاصله به تماس بپیوندید و با خودتان حرف بزنید. سپاس، {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "با قابلیت برجسته‌سازی جدید که نشان‌‌تان می‌دهد کجا را باید نگاه کنید، در تماس‎‌های گروهی سریعاً بفهمید که چه‌کسی در حال صحبت کردن است. اگر نوبت شماست که صحبت کنید، باید حواستان باشد.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "با استیکرهای متعدد در ویرایش‌گر رسانه که به شما امکان تزئینات شکیل ساعت روی تصاویر ارسالی را می‌دهد، حسابی کیف کنید.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "با استفاده از پخش‌کننده کوچک یادداشت صوتی به گوش کردن به پیام‌های طولانی ادامه بدهید، حتی وقتی از یک گفتگو به گفتگویی دیگر می‌روید.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "برای قدم زدن در میان خاطرات‌ تصویری‌تان، روی هر تصویر یا ویدیو کلیک کنید و از دکمه‌های جدید «رفتن به جلو» و «رفتن به عقب» استفاده کنید.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "اگر در حالیکه ضبط در حال انجام است به گفتگوی دیگری بروید، از این پس پیام‌های صوتی شما به‌عنوان پیش‌نویس ذخیره می‌شوند.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ارسال استیکرها دیگر موجب پاک شدن متن پیش‌نویس نمی‌شود. سپاس، {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "همچنین از {norstbox} بابت برگرداندن تراز نمادهای نوار جستجوی مکالمه سپاس‌گزاریم.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }
