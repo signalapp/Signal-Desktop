@@ -1,5 +1,7 @@
 # Building
 
+This document alongside [Releasing.md](RELEASING.md) primarily cover our internal build process for release builds, if you are an external contributor please refer to [Contributing.md](CONTRIBUTING.md) for building instructions. 
+
 ## Automated
 
 Automatic building of session binaries is done using github actions. Windows and linux binaries will build right out of the box but there are some extra steps needed for Mac OS
