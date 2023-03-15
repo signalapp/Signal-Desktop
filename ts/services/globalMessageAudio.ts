@@ -3,6 +3,10 @@
 
 import { noop } from 'lodash';
 
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError';
+}
+
 /**
  * Wrapper around a global HTMLAudioElement that can update the
  * source and callbacks without requiring removeEventListener
@@ -67,7 +71,10 @@ class GlobalMessageAudio {
   play(): void {
     this.#playing = true;
     this.#audio.play().catch(error => {
-      this.#onError(error);
+      // If `audio.pause()` is called before `audio.play()` resolves
+      if (!isAbortError(error)) {
+        this.#onError(error);
+      }
     });
   }
 
