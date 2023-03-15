@@ -1,10 +1,6 @@
 import { uniq } from 'lodash';
-import {
-  ConvoInfoVolatile1o1,
-  ConvoInfoVolatileCommunity,
-  ConvoInfoVolatileLegacyGroup,
-  ConvoVolatileType,
-} from 'session_util_wrapper';
+import { BaseConvoInfoVolatile, ConvoVolatileType } from 'session_util_wrapper';
+import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
@@ -16,26 +12,27 @@ import { OpenGroupUtils } from '../../apis/open_group_api/utils';
 import { getConversationController } from '../../conversations';
 import { SessionUtilContact } from './libsession_utils_contacts';
 import { SessionUtilUserGroups } from './libsession_utils_user_groups';
+import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
 /**
  * The key of this map is the convoId as stored in the database.
  */
-const mapped1o1WrapperValues = new Map<string, ConvoInfoVolatile1o1>();
+const mapped1o1WrapperValues = new Map<string, BaseConvoInfoVolatile>();
 
 /**
  * The key of this map is the convoId as stored in the database. So the legacy group 05 sessionID
  */
-const mappedLegacyGroupWrapperValues = new Map<string, ConvoInfoVolatileLegacyGroup>();
+const mappedLegacyGroupWrapperValues = new Map<string, BaseConvoInfoVolatile>();
 
 /**
  * The key of this map is the convoId as stored in the database, so withoutpubkey
  */
-const mappedCommunityWrapperValues = new Map<string, ConvoInfoVolatileCommunity>();
+const mappedCommunityWrapperValues = new Map<string, BaseConvoInfoVolatile>();
 
 /**
  * Update the ConvoInfoVolatileWrapper with all the data is cares about from the database.
  */
-async function insertAllConvosIntoWrapper() {
+async function insertAllConvoInfoVolatileIntoWrapper() {
   const convoIdsToInsert = uniq(
     getConversationController()
       .getConversations()
@@ -59,19 +56,23 @@ async function insertAllConvosIntoWrapper() {
  * It actually relies on the two other wrappers to know what to store:
  *    - Usergroups to know which communities and legacy group to store
  *    - Contacts to know which contacts to store
+ *    - UserProfile to keep track of the `unread` state of the Note To Self conversation
  */
 function isConvoToStoreInWrapper(convo: ConversationModel): boolean {
   return (
     SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo) || // this checks for community & legacy group
-    SessionUtilContact.isContactToStoreInContactsWrapper(convo) // this checks for contacts
+    SessionUtilContact.isContactToStoreInContactsWrapper(convo) || // this checks for contacts
+    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id) // this checks for out own pubkey, as we want to keep track of the read state for the Note To Self
   );
 }
 function getConvoType(convo: ConversationModel): ConvoVolatileType {
-  const convoType: ConvoVolatileType = SessionUtilContact.isContactToStoreInContactsWrapper(convo)
-    ? '1o1'
-    : SessionUtilUserGroups.isCommunityToStoreInWrapper(convo)
-    ? 'Community'
-    : 'LegacyGroup';
+  const convoType: ConvoVolatileType =
+    SessionUtilContact.isContactToStoreInContactsWrapper(convo) ||
+    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id)
+      ? '1o1'
+      : SessionUtilUserGroups.isCommunityToStoreInWrapper(convo)
+      ? 'Community'
+      : 'LegacyGroup';
 
   return convoType;
 }
@@ -82,24 +83,29 @@ function getConvoType(convo: ConversationModel): ConvoVolatileType {
  * Same applies for a legacy group.
  */
 async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<void> {
-  const foundConvo = getConversationController().get(convoId);
-  if (!foundConvo) {
+  const foundConvo = await Data.getConversationById(convoId);
+  if (!foundConvo || !isConvoToStoreInWrapper(foundConvo)) {
     return;
   }
 
-  if (!isConvoToStoreInWrapper(foundConvo)) {
-    return;
-  }
+  const isForcedUnread = foundConvo.isMarkedUnread();
+  const lastReadTimestampMessage = foundConvo.getCachedLastReadTimestampMessage() || 0;
 
-  console.info(`inserting into convoInfoVolatile wrapper "${convoId}"...`);
+  console.info(
+    `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadTimestampMessage};forcedUnread:${isForcedUnread}...`
+  );
 
-  console.warn('ConvoInfoVolatileWrapperActions to finish with unread and readAt');
   const convoType = getConvoType(foundConvo);
   switch (convoType) {
     case '1o1':
       try {
-        await ConvoInfoVolatileWrapperActions.set1o1(convoId, 0, false);
-        await refreshMappedValue(convoId, false, false);
+        // this saves the details for contacts and `Note To Self`
+        await ConvoInfoVolatileWrapperActions.set1o1(
+          convoId,
+          lastReadTimestampMessage,
+          isForcedUnread
+        );
+        await refreshConvoVolatileCached(convoId, false, false);
       } catch (e) {
         window.log.warn(
           `ConvoInfoVolatileWrapperActions.set1o1 of ${convoId} failed with ${e.message}`
@@ -108,8 +114,12 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
       break;
     case 'LegacyGroup':
       try {
-        await ConvoInfoVolatileWrapperActions.setLegacyGroup(convoId, 0, false);
-        await refreshMappedValue(convoId, true, false);
+        await ConvoInfoVolatileWrapperActions.setLegacyGroup(
+          convoId,
+          lastReadTimestampMessage,
+          isForcedUnread
+        );
+        await refreshConvoVolatileCached(convoId, true, false);
       } catch (e) {
         window.log.warn(
           `ConvoInfoVolatileWrapperActions.setLegacyGroup of ${convoId} failed with ${e.message}`
@@ -131,10 +141,13 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
           roomDetails.roomId,
           roomDetails.serverPublicKey
         );
-        console.info(`inserting into convoInfoVolatile wrapper "${fullUrlWithPubkey}"...`);
         // this does the create or the update of the matching existing community
-        await ConvoInfoVolatileWrapperActions.setCommunityByFullUrl(fullUrlWithPubkey, 0, false);
-        await refreshMappedValue(convoId, false, false);
+        await ConvoInfoVolatileWrapperActions.setCommunityByFullUrl(
+          fullUrlWithPubkey,
+          lastReadTimestampMessage,
+          isForcedUnread
+        );
+        await refreshConvoVolatileCached(convoId, false, false);
       } catch (e) {
         window.log.warn(
           `ConvoInfoVolatileWrapperActions.setCommunityByFullUrl of ${convoId} failed with ${e.message}`
@@ -154,7 +167,7 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
  * @param isLegacyGroup we need this to know if the corresponding 05 starting pubkey is associated with a legacy group or not
  * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
  */
-async function refreshMappedValue(
+async function refreshConvoVolatileCached(
   convoId: string,
   isLegacyGroup: boolean,
   duringAppStart: boolean
@@ -175,11 +188,14 @@ async function refreshMappedValue(
       refreshed = true;
     } else if (convoId.startsWith('05')) {
       const fromWrapper = await ConvoInfoVolatileWrapperActions.get1o1(convoId);
+      console.warn(
+        `refreshMappedValues from get1o1 ${fromWrapper?.pubkeyHex} : ${fromWrapper?.unread}`
+      );
       if (fromWrapper) {
         mapped1o1WrapperValues.set(convoId, fromWrapper);
       }
       refreshed = true;
-    }
+    } // TODO handle the new closed groups once we got them ready
 
     if (refreshed && !duringAppStart) {
       getConversationController()
@@ -189,40 +205,39 @@ async function refreshMappedValue(
   } catch (e) {
     window.log.info(`refreshMappedValue for volatile convoID: ${convoId}`, e.message);
   }
-
-  // TODO handle the new closed groups once we got them ready
 }
 
-function get1o1(convoId: string): ConvoInfoVolatile1o1 | undefined {
-  return mapped1o1WrapperValues.get(convoId);
-}
-
-function getAll1o1(): Array<ConvoInfoVolatile1o1> {
-  return [...mapped1o1WrapperValues.values()];
-}
-
-function getCommunityMappedValueByConvoId(convoId: string) {
-  return mappedCommunityWrapperValues.get(convoId);
-}
-
-function getAllCommunities(): Array<ConvoInfoVolatileCommunity> {
-  return [...mappedCommunityWrapperValues.values()];
-}
-
-function getLegacyGroupMappedValueByConvoId(convoId: string) {
-  return mappedLegacyGroupWrapperValues.get(convoId);
-}
-
-function getAllLegacyGroups(): Array<ConvoInfoVolatileLegacyGroup> {
-  return [...mappedLegacyGroupWrapperValues.values()];
-}
-
-function getFromAny(convoId: string) {
+function getVolatileInfoCached(convoId: string): BaseConvoInfoVolatile | undefined {
   return (
     mapped1o1WrapperValues.get(convoId) ||
     mappedLegacyGroupWrapperValues.get(convoId) ||
     mappedCommunityWrapperValues.get(convoId)
   );
+}
+
+/**
+ * Removes the matching community from the wrapper and from the cached list of communities
+ */
+async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutPubkey: string) {
+  try {
+    await ConvoInfoVolatileWrapperActions.eraseCommunityByFullUrl(fullUrlWithOrWithoutPubkey);
+  } catch (e) {
+    window.log.warn('removeCommunityFromWrapper failed with ', e.message);
+  }
+
+  mappedCommunityWrapperValues.delete(convoId);
+}
+
+/**
+ * Removes the matching legacy group from the wrapper and from the cached list of legacy groups
+ */
+async function removeLegacyGroupFromWrapper(convoId: string) {
+  try {
+    await ConvoInfoVolatileWrapperActions.eraseLegacyGroup(convoId);
+  } catch (e) {
+    window.log.warn('removeLegacyGroupFromWrapper failed with ', e.message);
+  }
+  mappedLegacyGroupWrapperValues.delete(convoId);
 }
 
 /**
@@ -239,24 +254,18 @@ function getConvoInfoVolatileTypes(): Array<ConvoVolatileType> {
 export const SessionUtilConvoInfoVolatile = {
   // shared
   isConvoToStoreInWrapper,
-  insertAllConvosIntoWrapper,
+  insertAllConvoInfoVolatileIntoWrapper,
   insertConvoFromDBIntoWrapperAndRefresh,
-  refreshMappedValue,
+  refreshConvoVolatileCached,
   getConvoInfoVolatileTypes,
+  getVolatileInfoCached,
 
   // 1o1
-  get1o1,
-  getAll1o1,
-  // removeCommunityFromWrapper,
+  // at the moment, we cannot remove a 1o1 from the conversation volatile info.
 
   // legacy group
-  getLegacyGroupMappedValueByConvoId,
-  getAllLegacyGroups,
-  // removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
+  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
 
   // communities
-  getAllCommunities,
-  getCommunityMappedValueByConvoId,
-  // removeCommunityFromWrapper,
-  getFromAny,
+  removeCommunityFromWrapper,
 };

@@ -3,7 +3,7 @@
 
 import _ from 'lodash';
 import { MessageResultProps } from '../components/search/MessageSearchResults';
-import { ConversationCollection, ConversationModel } from '../models/conversation';
+import { ConversationModel } from '../models/conversation';
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes, MessageDirection } from '../models/messageType';
@@ -15,6 +15,7 @@ import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/uti
 import {
   AsyncWrapper,
   MsgDuplicateSearchOpenGroup,
+  SaveConversationReturn,
   UnprocessedDataNode,
   UpdateLastHashType,
 } from '../types/sqlSharedTypes';
@@ -23,6 +24,7 @@ import { Storage } from '../util/storage';
 import { channels } from './channels';
 import * as dataInit from './dataInit';
 import { cleanData } from './dataUtils';
+import { SNODE_POOL_ITEM_ID } from './settings-key';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -141,7 +143,7 @@ async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string): P
 }
 
 // Conversation
-async function saveConversation(data: ConversationAttributes): Promise<void> {
+async function saveConversation(data: ConversationAttributes): Promise<SaveConversationReturn> {
   const cleaned = cleanData(data) as ConversationAttributes;
   /**
    * Merging two conversations in `handleMessageRequestResponse` introduced a bug where we would mark conversation active_at to be -Infinity.
@@ -151,7 +153,11 @@ async function saveConversation(data: ConversationAttributes): Promise<void> {
     cleaned.active_at = Date.now();
   }
 
-  await channels.saveConversation(cleaned);
+  return channels.saveConversation(cleaned);
+}
+
+async function fetchConvoMemoryDetails(convoId: string): Promise<SaveConversationReturn> {
+  return channels.fetchConvoMemoryDetails(convoId);
 }
 
 async function getConversationById(id: string): Promise<ConversationModel | undefined> {
@@ -173,12 +179,12 @@ async function removeConversation(id: string): Promise<void> {
   }
 }
 
-async function getAllConversations(): Promise<ConversationCollection> {
-  const conversations = await channels.getAllConversations();
+async function getAllConversations(): Promise<Array<ConversationModel>> {
+  const conversationsAttrs = (await channels.getAllConversations()) as Array<
+    ConversationAttributes
+  >;
 
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
+  return conversationsAttrs.map(attr => new ConversationModel(attr));
 }
 
 /**
@@ -356,8 +362,11 @@ async function getMessageBySenderAndTimestamp({
   return new MessageModel(messages[0]);
 }
 
-async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
-  const messages = await channels.getUnreadByConversation(conversationId);
+async function getUnreadByConversation(
+  conversationId: string,
+  sentBeforeTimestamp: number
+): Promise<MessageCollection> {
+  const messages = await channels.getUnreadByConversation(conversationId, sentBeforeTimestamp);
   return new MessageCollection(messages);
 }
 
@@ -470,10 +479,9 @@ async function getFirstUnreadMessageIdInConversation(
 }
 
 async function getFirstUnreadMessageWithMention(
-  conversationId: string,
-  ourPubkey: string
+  conversationId: string
 ): Promise<string | undefined> {
-  return channels.getFirstUnreadMessageWithMention(conversationId, ourPubkey);
+  return channels.getFirstUnreadMessageWithMention(conversationId);
 }
 
 async function hasConversationOutgoingMessage(conversationId: string): Promise<boolean> {
@@ -633,8 +641,6 @@ async function getMessagesWithFileAttachments(
   return channels.getMessagesWithFileAttachments(conversationId, limit);
 }
 
-export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';
-
 async function getSnodePoolFromDb(): Promise<Array<Snode> | null> {
   // this is currently all stored as a big string as we don't really need to do anything with them (no filtering or anything)
   // everything is made in memory and written to disk
@@ -755,6 +761,7 @@ export const Data = {
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
   saveConversation,
+  fetchConvoMemoryDetails,
   getConversationById,
   removeConversation,
   getAllConversations,

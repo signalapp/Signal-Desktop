@@ -40,7 +40,7 @@ import { leaveClosedGroup } from '../session/group/closed-group';
 
 export function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
-    const fromWrapper = SessionUtilUserGroups.getCommunityMappedValueByConvoId(convoId);
+    const fromWrapper = SessionUtilUserGroups.getCommunityByConvoIdCached(convoId);
 
     if (!fromWrapper) {
       throw new Error('opengroup to copy was not found in the UserGroupsWrapper');
@@ -280,8 +280,6 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
   // conversation still appears on the conversation list but is empty
   conversation.set({
     lastMessage: null,
-    unreadCount: 0,
-    mentionedUs: false,
   });
 
   await conversation.commit();

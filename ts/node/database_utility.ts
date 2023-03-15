@@ -1,5 +1,8 @@
 import { difference, omit, pick } from 'lodash';
-import { ConversationAttributes } from '../models/conversationAttributes';
+import {
+  ConversationAttributes,
+  ConversationAttributesWithNotSavedOnes,
+} from '../models/conversationAttributes';
 
 import * as BetterSqlite3 from 'better-sqlite3';
 
@@ -78,8 +81,10 @@ const allowedKeysFormatRowOfConversation = [
 // tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(
   row: Record<string, any>,
-  from: string
-): ConversationAttributes | null {
+  from: string,
+  unreadCount: number,
+  mentionedUs: boolean
+): ConversationAttributesWithNotSavedOnes | null {
   if (!row) {
     return null;
   }
@@ -126,7 +131,6 @@ export function formatRowOfConversation(
   convo.isApproved = Boolean(convo.isApproved);
   convo.didApproveMe = Boolean(convo.didApproveMe);
   convo.is_medium_group = Boolean(convo.is_medium_group);
-  convo.mentionedUs = Boolean(convo.mentionedUs);
   convo.isKickedFromGroup = Boolean(convo.isKickedFromGroup);
   convo.left = Boolean(convo.left);
   convo.markedAsUnread = Boolean(convo.markedAsUnread);
@@ -148,10 +152,6 @@ export function formatRowOfConversation(
     convo.triggerNotificationsFor = 'all';
   }
 
-  if (!convo.unreadCount) {
-    convo.unreadCount = 0;
-  }
-
   if (!convo.lastJoinedTimestamp) {
     convo.lastJoinedTimestamp = 0;
   }
@@ -164,7 +164,11 @@ export function formatRowOfConversation(
     convo.active_at = 0;
   }
 
-  return convo;
+  return {
+    ...convo,
+    mentionedUs,
+    unreadCount,
+  };
 }
 
 const allowedKeysOfConversationAttributes = [
@@ -177,13 +181,11 @@ const allowedKeysOfConversationAttributes = [
   'isApproved',
   'didApproveMe',
   'is_medium_group',
-  'mentionedUs',
   'isKickedFromGroup',
   'left',
   'lastMessage',
   'lastMessageStatus',
   'triggerNotificationsFor',
-  'unreadCount',
   'lastJoinedTimestamp',
   'expireTimer',
   'active_at',
@@ -218,9 +220,9 @@ export function assertValidConversationAttributes(
     console.error(
       `assertValidConversationAttributes: an invalid key was given in the record: ${foundInAttributesButNotInAllowed}`
     );
-    throw new Error(
-      `assertValidConversationAttributes: found a not allowed key: ${foundInAttributesButNotInAllowed[0]}`
-    );
+    // throw new Error(
+    //   `assertValidConversationAttributes: found a not allowed key: ${foundInAttributesButNotInAllowed[0]}`
+    // );
   }
 
   return pick(data, allowedKeysOfConversationAttributes) as ConversationAttributes;

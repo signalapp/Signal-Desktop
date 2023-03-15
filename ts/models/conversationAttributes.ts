@@ -37,12 +37,16 @@ export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_onl
 export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
 
 /**
- * Soem fields are retrieved from the database as a select, but should not be saved in a commit()
+ * Some fields are retrieved from the database as a select, but should not be saved in a commit()
+ * TODO (do we, and can we use this)
  */
 export type ConversationAttributesNotSaved = {
   mentionedUs: boolean;
   unreadCount: number;
 };
+
+export type ConversationAttributesWithNotSavedOnes = ConversationAttributes &
+  ConversationAttributesNotSaved;
 
 export interface ConversationAttributes {
   id: string;
@@ -51,17 +55,8 @@ export interface ConversationAttributes {
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
   active_at: number;
 
-  displayNameInProfile?: string; // no matter the type of conversation, this is the real name as set by the user/name of the open or closed group
-  nickname?: string; // this is the name WE gave to that user (only applicable to private chats, not closed group neither opengroups)
-
-  profileKey?: string; // Consider this being a hex string if it is set
-
-  members: Array<string>; // members are all members for this group. zombies excluded
-  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin
+  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin TODO to remove
   left: boolean;
-  expireTimer: number;
-  mentionedUs: boolean;
-  unreadCount: number;
   lastMessageStatus: LastMessageStatusType;
 
   /**
@@ -72,27 +67,42 @@ export interface ConversationAttributes {
    */
   lastMessage: string | null;
   lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
-  groupAdmins: Array<string>; // for sogs and closed group: the admins of that group.
-  groupModerators: Array<string>; // for sogs only, this is the moderator in that room.
+  groupModerators: Array<string>; // for sogs only, this is the moderators in that room.
   isKickedFromGroup: boolean;
 
   is_medium_group: boolean;
 
-  avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
   avatarInProfile?: string; // this is the avatar path locally once downloaded and stored in the application attachments folder
-  avatarImageId?: number; //Avatar imageID is currently used only for opengroupv2. It's the fileID of the image uploaded and set as the sogs avatar
+  avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar
 
-  triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
+
+  /** The community chat this conversation originated from (relevant to **blinded** message requests) */
+  conversationIdOrigin?: string;
+
+  // ===========================================================================
+  // All of the items below are duplicated one way or the other with libsession.
+  // It would be nice to at some point be able to only rely on libsession dumps
+  // for those so there is no need to keep them in sync.
+
+  displayNameInProfile?: string; // no matter the type of conversation, this is the real name as set by the user/name of the open or closed group
+  nickname?: string; // this is the name WE gave to that user (only applicable to private chats, not closed group neither opengroups)
+  profileKey?: string; // Consider this being a hex string if it is set
+  triggerNotificationsFor: ConversationNotificationSettingType;
+  avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
+  expireTimer: number;
+
+  members: Array<string>; // members are all members for this group. zombies excluded
+  groupAdmins: Array<string>; // for sogs and closed group: the admins of that group.
+
   isPinned: boolean;
   isApproved: boolean;
   didApproveMe: boolean;
 
-  /** The open group chat this conversation originated from (if from closed group) */
-  conversationIdOrigin?: string;
-
+  // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
   markedAsUnread: boolean;
 
+  // hides a conversation, but keep it the history and nicknames, etc.
   hidden: boolean;
 }
 
@@ -110,7 +120,6 @@ export const fillConvoAttributesWithDefaults = (
     zombies: [],
     groupAdmins: [],
 
-    unreadCount: 0,
     lastJoinedTimestamp: 0,
     expireTimer: 0,
     active_at: 0,
@@ -125,9 +134,9 @@ export const fillConvoAttributesWithDefaults = (
     isApproved: false,
     didApproveMe: false,
     is_medium_group: false,
-    mentionedUs: false,
     isKickedFromGroup: false,
     left: false,
     hidden: true,
+    markedAsUnread: false,
   });
 };

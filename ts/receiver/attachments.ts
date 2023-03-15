@@ -135,7 +135,7 @@ export async function downloadAttachmentSogsV3(
   } else {
     // nothing to do, the attachment has already the correct size.
     // There is just no padding included, which is what we agreed on
-    window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
+    // window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
   }
 
   return {

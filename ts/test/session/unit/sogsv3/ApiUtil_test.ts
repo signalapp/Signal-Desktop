@@ -3,7 +3,6 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import { ConversationCollection } from '../../../../models/conversation';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import {
   hasExistingOpenGroup,
@@ -82,7 +81,7 @@ describe('APIUtils', () => {
     });
     describe('no matching room', () => {
       beforeEach(async () => {
-        stubData('getAllConversations').resolves(new ConversationCollection([]));
+        stubData('getAllConversations').resolves([]);
         stubData('saveConversation').resolves();
         stubData('getItemById').resolves();
         stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
@@ -129,7 +128,7 @@ describe('APIUtils', () => {
       const convoIdNotOur = getOpenGroupV2ConversationId('open.somethingelse.org', 'fishElse');
 
       beforeEach(async () => {
-        stubData('getAllConversations').resolves(new ConversationCollection([]));
+        stubData('getAllConversations').resolves([]);
         stubData('saveConversation').resolves();
         stubData('getItemById').resolves();
         stubOpenGroupData('getAllV2OpenGroupRooms').resolves();

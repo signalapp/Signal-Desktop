@@ -15,6 +15,7 @@ import {
   InviteContactMenuItem,
   LeaveGroupMenuItem,
   MarkAllReadMenuItem,
+  MarkConversationUnreadMenuItem,
   NotificationForConvoMenuItem,
   PinConversationMenuItem,
   ShowUserDetailsMenuItem,
@@ -39,6 +40,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
         <BlockMenuItem />
         <CopyMenuItem />
         <MarkAllReadMenuItem />
+        <MarkConversationUnreadMenuItem />
         <ChangeNicknameMenuItem />
         <ClearNicknameMenuItem />
         <DeleteMessagesMenuItem />

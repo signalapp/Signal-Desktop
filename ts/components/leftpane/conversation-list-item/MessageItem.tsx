@@ -1,7 +1,12 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
 import { isEmpty } from 'lodash';
-import { useConversationPropsById, useIsPrivate } from '../../../hooks/useParamSelector';
+import {
+  useConversationPropsById,
+  useHasUnread,
+  useIsPrivate,
+  useIsTyping,
+} from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
@@ -9,31 +14,25 @@ import { ContextConversationId } from './ConversationListItem';
 import { useSelector } from 'react-redux';
 import { isSearching } from '../../../state/selectors/search';
 
-function useMessageItemProps(convoId: string) {
+function useLastMessageFromConvo(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return null;
   }
-  return {
-    isTyping: !!convoProps.isTyping,
-    lastMessage: convoProps.lastMessage,
-    unreadCount: convoProps.unreadCount || 0,
-  };
+  return convoProps.lastMessage;
 }
 
 export const MessageItem = (props: { isMessageRequest: boolean }) => {
   const conversationId = useContext(ContextConversationId);
-  const convoProps = useMessageItemProps(conversationId);
-
+  const lastMessage = useLastMessageFromConvo(conversationId);
   const isGroup = !useIsPrivate(conversationId);
 
-  const isSearchingMode = useSelector(isSearching);
-  if (!convoProps) {
-    return null;
-  }
-  const { lastMessage, isTyping, unreadCount } = convoProps;
+  const hasUnread = useHasUnread(conversationId);
+  const isConvoTyping = useIsTyping(conversationId);
 
-  if (!lastMessage && !isTyping) {
+  const isSearchingMode = useSelector(isSearching);
+
+  if (!lastMessage && !isConvoTyping) {
     return null;
   }
   const text = lastMessage?.text || '';
@@ -47,10 +46,10 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
       <div
         className={classNames(
           'module-conversation-list-item__message__text',
-          unreadCount > 0 ? 'module-conversation-list-item__message__text--has-unread' : null
+          hasUnread ? 'module-conversation-list-item__message__text--has-unread' : null
         )}
       >
-        {isTyping ? (
+        {isConvoTyping ? (
           <TypingAnimation />
         ) : (
           <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />

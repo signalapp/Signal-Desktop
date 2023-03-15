@@ -2,10 +2,7 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import {
-  getUsBlindedInThatServer,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { ToastUtils, UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
@@ -96,7 +93,7 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
     if (found.get('isPublic')) {
       if (found.get('serverId')) {
         id = found.get('serverId') || id;
-        me = getUsBlindedInThatServer(conversationModel) || me;
+        me = conversationModel.getUsInThatConversation();
       } else {
         window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
         return;
@@ -303,7 +300,7 @@ const handleOpenGroupMessageReactions = async (
           const conversationModel = originalMessage?.getConversation();
           if (conversationModel) {
             const me =
-              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+              conversationModel.getUsInThatConversation() || UserUtils.getOurPubKeyStrFromCache();
             reactions[key].reactors = [me, ...reactorsWithoutMe];
           }
         }

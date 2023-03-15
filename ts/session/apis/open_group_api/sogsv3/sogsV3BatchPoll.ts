@@ -1,14 +1,13 @@
 import { AbortSignal } from 'abort-controller';
 import { flatten, isEmpty, isNumber, isObject } from 'lodash';
 import { OpenGroupData } from '../../../../data/opengroups';
-import { assertUnreachable } from '../../../../types/sqlSharedTypes';
+import { assertUnreachable, roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
 import { Reactions } from '../../../../util/reactions';
 import { OnionSending, OnionV4JSONSnodeResponse } from '../../../onions/onionSend';
 import {
   OpenGroupPollingUtils,
   OpenGroupRequestHeaders,
 } from '../opengroupV2/OpenGroupPollingUtils';
-import { roomHasBlindEnabled } from './sogsV3Capabilities';
 import { addJsonContentTypeToHeaders } from './sogsV3SendMessage';
 
 type BatchFetchRequestOptions = {

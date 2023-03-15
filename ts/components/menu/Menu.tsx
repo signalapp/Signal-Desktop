@@ -12,6 +12,7 @@ import {
   useIsKickedFromGroup,
   useIsLeft,
   useIsMe,
+  useIsPinned,
   useIsPrivate,
   useIsPublic,
   useIsRequest,
@@ -47,9 +48,8 @@ import {
   updateConfirmModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
-import { SectionType } from '../../state/ducks/section';
 import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
-import { getFocusedSection } from '../../state/selectors/section';
+import { getIsMessageSection } from '../../state/selectors/section';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
@@ -175,12 +175,12 @@ export const InviteContactMenuItem = (): JSX.Element | null => {
 
 export const PinConversationMenuItem = (): JSX.Element | null => {
   const conversationId = useContext(ContextConversationId);
-  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
+  const isMessagesSection = useSelector(getIsMessageSection);
   const isRequest = useIsRequest(conversationId);
+  const isPinned = useIsPinned(conversationId);
 
   if (isMessagesSection && !isRequest) {
     const conversation = getConversationController().get(conversationId);
-    const isPinned = conversation?.isPinned() || false;
 
     const togglePinConversation = async () => {
       await conversation?.setIsPinned(!isPinned);
@@ -188,6 +188,23 @@ export const PinConversationMenuItem = (): JSX.Element | null => {
 
     const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
     return <Item onClick={togglePinConversation}>{menuText}</Item>;
+  }
+  return null;
+};
+
+export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
+  const conversationId = useContext(ContextConversationId);
+  const isMessagesSection = useSelector(getIsMessageSection);
+  const isRequest = useIsRequest(conversationId);
+
+  if (isMessagesSection && !isRequest) {
+    const conversation = getConversationController().get(conversationId);
+
+    const markUnread = async () => {
+      await conversation?.markAsUnread(true);
+    };
+
+    return <Item onClick={markUnread}>{window.i18n('markUnread')}</Item>;
   }
   return null;
 };

@@ -3,7 +3,7 @@ import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
-import { SnodeNamespaces } from './namespaces';
+import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 
 import {
   RetrieveLegacyClosedGroupSubRequestType,
@@ -46,14 +46,12 @@ async function buildRetrieveRequest(
       }
 
       // all legacy closed group retrieves are unauthenticated and run above.
-      // if we get here, this can only be a retrieve for our own swarm, which needs to be authenticated
+      // if we get here, this can only be a retrieve for our own swarm, which must be authenticated
       if (
-        namespace !== SnodeNamespaces.UserMessages &&
-        namespace !== SnodeNamespaces.UserContacts &&
-        namespace !== SnodeNamespaces.UserProfile &&
-        namespace !== SnodeNamespaces.UserGroups
+        !SnodeNamespace.isUserConfigNamespace(namespace) &&
+        namespace !== SnodeNamespaces.UserMessages
       ) {
-        throw new Error('not a legacy closed group. namespace can only be 0');
+        throw new Error(`not a legacy closed group. namespace can only be 0 and was ${namespace}`);
       }
       if (pubkey !== ourPubkey) {
         throw new Error('not a legacy closed group. pubkey can only be ours');

@@ -113,7 +113,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
           wrapperComm.fullUrl,
           wrapperComm.priority
         );
-        await refreshMappedValue(convoId);
+        await refreshCachedUserGroup(convoId);
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
         // we still let this go through
@@ -135,11 +135,11 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
       });
 
       try {
-        console.info(`inserting into usergroup wrapper "${foundConvo.id}"...`);
+        console.info(`inserting into usergroup wrapper "${foundConvo.id}"... }`);
         // this does the create or the update of the matching existing legacy group
 
         await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
-        await refreshMappedValue(convoId);
+        await refreshCachedUserGroup(convoId);
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
         // we still let this go through
@@ -157,7 +157,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
 /**
  * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
  */
-async function refreshMappedValue(convoId: string, duringAppStart = false) {
+async function refreshCachedUserGroup(convoId: string, duringAppStart = false) {
   try {
     let refreshed = false;
     if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -187,11 +187,11 @@ async function refreshMappedValue(convoId: string, duringAppStart = false) {
   // TODO handle the new closed groups once we got them ready
 }
 
-function getCommunityMappedValueByConvoId(convoId: string) {
+function getCommunityByConvoIdCached(convoId: string) {
   return mappedCommunityWrapperValues.get(convoId);
 }
 
-function getAllCommunities(): Array<CommunityInfo> {
+function getAllCommunitiesCached(): Array<CommunityInfo> {
   return [...mappedCommunityWrapperValues.values()];
 }
 
@@ -209,7 +209,7 @@ async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutP
   mappedCommunityWrapperValues.delete(convoId);
 }
 
-function getLegacyGroupMappedValueByConvoId(convoId: string) {
+function getLegacyGroupCached(convoId: string) {
   return mappedLegacyGroupWrapperValues.get(convoId);
 }
 
@@ -246,18 +246,18 @@ export const SessionUtilUserGroups = {
   isUserGroupToStoreInWrapper,
   insertAllUserGroupsIntoWrapper,
   insertGroupsFromDBIntoWrapperAndRefresh,
-  refreshMappedValue,
+  refreshCachedUserGroup,
   getUserGroupTypes,
 
   // communities
   isCommunityToStoreInWrapper,
-  getAllCommunities,
-  getCommunityMappedValueByConvoId,
+  getAllCommunitiesCached,
+  getCommunityByConvoIdCached,
   removeCommunityFromWrapper,
 
   // legacy group
   isLegacyGroupToStoreInWrapper,
-  getLegacyGroupMappedValueByConvoId,
+  getLegacyGroupCached,
   getAllLegacyGroups,
   removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
 };

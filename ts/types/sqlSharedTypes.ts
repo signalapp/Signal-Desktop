@@ -1,6 +1,7 @@
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
 import { ContactInfo, LegacyGroupInfo, LegacyGroupMemberInfo } from 'session_util_wrapper';
+import { OpenGroupV2Room } from '../data/opengroups';
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { fromHexToArray } from '../session/utils/String';
@@ -94,6 +95,12 @@ export type AttachmentDownloadMessageDetails = {
   isOpenGroupV2: boolean;
   openGroupV2Details: OpenGroupRequestCommonType | undefined;
 };
+
+export type SaveConversationReturn = {
+  unreadCount: number;
+  mentionedUs: boolean;
+  lastReadTimestampMessage: number | null;
+} | null;
 
 /**
  * This function returns a contactInfo for the wrapper to understand from the DB values.
@@ -220,7 +227,6 @@ export function getLegacyGroupInfoFromDBValues({
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
   };
 
-  console.warn('legacyGroup', legacyGroup);
   return legacyGroup;
 }
 
@@ -231,4 +237,16 @@ export function getLegacyGroupInfoFromDBValues({
 export function assertUnreachable(_x: never, message: string): never {
   console.info(`assertUnreachable: Didn't expect to get here with "${message}"`);
   throw new Error("Didn't expect to get here");
+}
+
+export function roomHasBlindEnabled(openGroup?: OpenGroupV2Room) {
+  return capabilitiesListHasBlindEnabled(openGroup?.capabilities);
+}
+
+export function capabilitiesListHasBlindEnabled(caps?: Array<string> | null) {
+  return Boolean(caps?.includes('blind'));
+}
+
+export function roomHasReactionsEnabled(openGroup?: OpenGroupV2Room) {
+  return Boolean(openGroup?.capabilities?.includes('reactions'));
 }

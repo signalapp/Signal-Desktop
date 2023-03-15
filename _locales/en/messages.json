@@ -411,7 +411,9 @@
   "trustThisContactDialogTitle": "Trust $name$?",
   "trustThisContactDialogDescription": "Are you sure you want to download media sent by $name$?",
   "pinConversation": "Pin Conversation",
+
   "unpinConversation": "Unpin Conversation",
+  "markUnread": "Mark Unread",
   "showUserDetails": "Show User Details",
   "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
   "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",

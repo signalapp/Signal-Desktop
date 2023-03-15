@@ -15,11 +15,12 @@ import {
   OXEN_SERVER_ERROR,
 } from '../../../../session/apis/snode_api/onions';
 import AbortController from 'abort-controller';
-import { Snode, SNODE_POOL_ITEM_ID } from '../../../../../ts/data/data';
+import { Snode } from '../../../../../ts/data/data';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey, stubData } from '../../../test-utils/utils';
 import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
+import { SNODE_POOL_ITEM_ID } from '../../../../data/settings-key';
 
 chai.use(chaiAsPromised as any);
 chai.should();

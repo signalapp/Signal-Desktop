@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import { ConversationCollection } from '../../../../models/conversation';
+import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSodiumNode } from '../../../../node/sodiumNode';
 import {
@@ -13,7 +13,6 @@ import {
   getCachedNakedKeyFromBlindedNoServerPubkey,
   isNonBlindedKey,
   isUsAnySogsFromCache,
-  KNOWN_BLINDED_KEYS_ITEM,
   loadKnownBlindedKeys,
   TEST_getCachedBlindedKeys,
   TEST_resetCachedBlindedKeys,
@@ -483,7 +482,7 @@ describe('knownBlindedKeys', () => {
       beforeEach(async () => {
         getConversationController().reset();
 
-        stubData('getAllConversations').resolves(new ConversationCollection([]));
+        stubData('getAllConversations').resolves([]);
         stubData('saveConversation').resolves();
         await getConversationController().load();
       });

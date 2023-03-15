@@ -17,7 +17,7 @@ import { clearSearch } from '../../state/ducks/search';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import {
   getOurPrimaryConversation,
-  getUnreadMessageCount,
+  getGlobalUnreadMessageCount,
 } from '../../state/selectors/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getOurNumber } from '../../state/selectors/user';
@@ -50,7 +50,7 @@ import { switchThemeTo } from '../../themes/switchTheme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
-  const unreadMessageCount = useSelector(getUnreadMessageCount);
+  const globalUnreadMessageCount = useSelector(getGlobalUnreadMessageCount);
   const dispatch = useDispatch();
   const { type } = props;
 
@@ -97,7 +97,7 @@ const Section = (props: { type: SectionType }) => {
     );
   }
 
-  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+  const unreadToShow = type === SectionType.Message ? globalUnreadMessageCount : undefined;
 
   switch (type) {
     case SectionType.Message:

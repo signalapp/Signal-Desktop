@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useLayoutEffect, useState } from 'react
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Data } from '../../../../data/data';
+import { useHasUnread } from '../../../../hooks/useParamSelector';
 import { getConversationController } from '../../../../session/conversations';
 import {
   fetchBottomMessagesForConversation,
@@ -12,7 +13,6 @@ import {
 } from '../../../../state/ducks/conversations';
 import {
   areMoreMessagesBeingFetched,
-  getConversationHasUnread,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
@@ -69,9 +69,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const oldestMessageId = useSelector(getOldestMessageId);
   const youngestMessageId = useSelector(getYoungestMessageId);
   const fetchingMoreInProgress = useSelector(areMoreMessagesBeingFetched);
-  const conversationHasUnread = useSelector(getConversationHasUnread);
+  const conversationHasUnread = useHasUnread(selectedConversationKey);
   const scrollButtonVisible = useSelector(getShowScrollButton);
-  const shouldMarkReadWhenVisible = isUnread;
 
   const [didScroll, setDidScroll] = useState(false);
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
@@ -106,7 +105,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           dispatch(showScrollToBottomButton(false));
           getConversationController()
             .get(selectedConversationKey)
-            ?.markRead(receivedAt || 0);
+            ?.markConversationRead(receivedAt || 0); // TODO this should be `sentAt || serverTimestamp` I believe?
 
           dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
@@ -140,21 +139,20 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
         isAppFocused
       ) {
-        if (shouldMarkReadWhenVisible) {
+        if (isUnread) {
+          // TODO this is pretty expensive and should instead use values from the redux store
           const found = await Data.getMessageById(messageId);
 
           if (found && Boolean(found.get('unread'))) {
-            const foundSentAt = found.get('sent_at');
-            // mark the message as read.
-            // this will trigger the expire timer.
-            await found.markRead(Date.now());
-
+            const foundSentAt = found.get('sent_at') || found.get('serverTimestamp');
             // we should stack those and send them in a single message once every 5secs or something.
             // this would be part of an redesign of the sending pipeline
-            if (foundSentAt && selectedConversationKey) {
-              void getConversationController()
+            // mark the whole conversation as read until this point.
+            // this will trigger the expire timer.
+            if (selectedConversationKey && foundSentAt) {
+              getConversationController()
                 .get(selectedConversationKey)
-                ?.sendReadReceiptsIfNeeded([foundSentAt]);
+                ?.markConversationRead(foundSentAt, Date.now());
             }
           }
         }
@@ -168,8 +166,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       isAppFocused,
       loadedMessagesLength,
       receivedAt,
-      shouldMarkReadWhenVisible,
       messageId,
+      isUnread,
     ]
   );
 
@@ -180,7 +178,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onContextMenu={onContextMenu}
       className={className}
       as="div"
-      threshold={0.8}
+      threshold={0.5} // consider that more than 50% of the message visible means it is read
       delay={isAppFocused ? 100 : 200}
       onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}

@@ -53,7 +53,7 @@ export function addToMutationCache(entry: SogsV3Mutation) {
     window.log.error('SOGS Mutation Cache: Entry verification on add failed!', entry);
   } else {
     sogsMutationCache.push(entry);
-    window.log.info('SOGS Mutation Cache: Entry added!', entry);
+    window.log.debug('SOGS Mutation Cache: Entry added!', entry);
   }
 }
 
@@ -64,7 +64,7 @@ export function updateMutationCache(entry: SogsV3Mutation, seqno: number) {
     const entryIndex = findIndex(sogsMutationCache, entry);
     if (entryIndex >= 0) {
       sogsMutationCache[entryIndex].seqno = seqno;
-      window.log.info('SOGS Mutation Cache: Entry updated!', sogsMutationCache[entryIndex]);
+      window.log.debug('SOGS Mutation Cache: Entry updated!', sogsMutationCache[entryIndex]);
     } else {
       window.log.error('SOGS Mutation Cache: Updated failed! Cannot find entry', entry);
     }
@@ -84,7 +84,7 @@ export async function processMessagesUsingCache(
     const matchSeqno = roomMatches[i].seqno;
     if (message.seqno && matchSeqno && matchSeqno <= message.seqno) {
       const removedEntry = roomMatches.splice(i, 1)[0];
-      window.log.info(
+      window.log.debug(
         `SOGS Mutation Cache: Entry ignored and removed in ${server}/${room} for message ${message.id}`,
         removedEntry
       );
@@ -108,7 +108,7 @@ export async function processMessagesUsingCache(
         case 'ADD':
           updatedReactions[reaction].you = true;
           updatedReactions[reaction].count += 1;
-          window.log.info(
+          window.log.debug(
             `SOGS Mutation Cache: Added our reaction based on the cache in ${server}/${room} for message ${message.id}`,
             updatedReactions[reaction]
           );
@@ -116,7 +116,7 @@ export async function processMessagesUsingCache(
         case 'REMOVE':
           updatedReactions[reaction].you = false;
           updatedReactions[reaction].count -= 1;
-          window.log.info(
+          window.log.debug(
             `SOGS Mutation Cache: Removed our reaction based on the cache in ${server}/${room} for message ${message.id}`,
             updatedReactions[reaction]
           );
@@ -124,7 +124,7 @@ export async function processMessagesUsingCache(
         case 'CLEAR':
           // tslint:disable-next-line: no-dynamic-delete
           delete updatedReactions[reaction];
-          window.log.info(
+          window.log.debug(
             `SOGS Mutation Cache: Cleared all ${reaction} reactions based on the cache in ${server}/${room} for message ${message.id}`
           );
           break;

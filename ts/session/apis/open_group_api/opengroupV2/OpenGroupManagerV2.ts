@@ -114,7 +114,7 @@ export class OpenGroupManagerV2 {
       return;
     }
 
-    const inWrapperCommunities = SessionUtilUserGroups.getAllCommunities();
+    const inWrapperCommunities = SessionUtilUserGroups.getAllCommunitiesCached();
 
     const inWrapperIds = inWrapperCommunities.map(m =>
       getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)

@@ -1,9 +1,10 @@
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import { isEmpty } from 'lodash';
+import styled, { css } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
@@ -11,12 +12,11 @@ import {
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
-import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled, { css } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,

@@ -1,22 +1,20 @@
 import { queueAttachmentDownloads } from './attachments';
 
-import { Quote } from './types';
 import _ from 'lodash';
-import { getConversationController } from '../session/conversations';
+import { Data } from '../../ts/data/data';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
-import { Data } from '../../ts/data/data';
+import { getConversationController } from '../session/conversations';
+import { Quote } from './types';
 
-import { SignalService } from '../protobuf';
-import { UserUtils } from '../session/utils';
-import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
-import { MessageDirection } from '../models/messageType';
-import { LinkPreviews } from '../util/linkPreviews';
-import { GoogleChrome } from '../util';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { MessageDirection } from '../models/messageType';
+import { SignalService } from '../protobuf';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
+import { GoogleChrome } from '../util';
+import { LinkPreviews } from '../util/linkPreviews';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -143,21 +141,6 @@ async function processProfileKeyNoCommit(
   }
 }
 
-/**
- * Mark the conversation as mentionedUs, if the content of the message matches our id in this conversation
- * @param ourIdInThisConversation can be a blinded or our naked id, depending on the case
- */
-function handleMentions(
-  message: MessageModel,
-  conversation: ConversationModel,
-  ourIdInThisConversation: string
-) {
-  const body = message.get('body');
-  if (body && body.indexOf(`@${ourIdInThisConversation}`) !== -1) {
-    conversation.set({ mentionedUs: true });
-  }
-}
-
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: 0 });
@@ -168,7 +151,7 @@ function handleSyncedReceiptsNoCommit(message: MessageModel, conversation: Conve
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
   if (sentTimestamp) {
-    conversation.markRead(sentTimestamp);
+    conversation.markConversationRead(sentTimestamp);
   }
 }
 
@@ -243,11 +226,6 @@ async function handleRegularMessage(
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
-  const ourIdInThisConversation =
-    getUsBlindedInThatServer(conversation.id) || UserUtils.getOurPubKeyStrFromCache();
-
-  handleMentions(message, conversation, ourIdInThisConversation);
-
   if (type === 'incoming') {
     if (conversation.isPrivate()) {
       updateReadStatus(message);
@@ -276,11 +254,13 @@ async function handleRegularMessage(
       await conversation.setDidApproveMe(true);
     }
   } else if (type === 'outgoing') {
-    // we want to do this for all types of conversations, not just private chats
-    handleSyncedReceiptsNoCommit(message, conversation);
+    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      // we want to do this for all types of conversations, not just private chats
+      handleSyncedReceiptsNoCommit(message, conversation);
 
-    if (conversation.isPrivate()) {
-      await conversation.setIsApproved(true);
+      if (conversation.isPrivate()) {
+        await conversation.setIsApproved(true);
+      }
     }
   }
 
@@ -381,10 +361,8 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
 
-    const unreadCount = await conversation.getUnreadCount();
-    conversation.set({ unreadCount });
     conversation.set({
-      active_at: Math.max(conversation.attributes.active_at, messageModel.get('sent_at') || 0),
+      active_at: Math.max(conversation.get('active_at'), messageModel.get('sent_at') || 0),
     });
     // this is a throttled call and will only run once every 1 sec at most
     conversation.updateLastMessage();
@@ -406,35 +384,6 @@ export async function handleMessageJob(
         regularDataMessage.profileKey
       );
     }
-
-    // even with all the warnings, I am very sus about if this is usefull or not
-    // try {
-    //   // We go to the database here because, between the message save above and
-    //   // the previous line's trigger() call, we might have marked all messages
-    //   // unread in the database. This message might already be read!
-    //   const fetched = await getMessageById(messageModel.get('id'));
-
-    //   const previousUnread = messageModel.get('unread');
-
-    //   // Important to update message with latest read state from database
-    //   messageModel.merge(fetched);
-
-    //   if (previousUnread !== messageModel.get('unread')) {
-    //     window?.log?.warn(
-    //       'Caught race condition on new message read state! ' + 'Manually starting timers.'
-    //     );
-    //     // We call markRead() even though the message is already
-    //     // marked read because we need to start expiration
-    //     // timers, etc.
-    //     await messageModel.markRead(Date.now());
-    //   }
-    // } catch (error) {
-    //   window?.log?.warn(
-    //     'handleMessageJob: Message',
-    //     messageModel.idForLogging(),
-    //     'was deleted'
-    //   );
-    // }
 
     if (messageModel.get('unread')) {
       conversation.throttledNotify(messageModel);

@@ -188,7 +188,8 @@ export const LibSessionUtil = {
   insertUserProfileIntoWrapper: SessionUtilUserProfile.insertUserProfileIntoWrapper,
   insertAllContactsIntoContactsWrapper: SessionUtilContact.insertAllContactsIntoContactsWrapper,
   insertAllUserGroupsIntoWrapper: SessionUtilUserGroups.insertAllUserGroupsIntoWrapper,
-  insertAllConvoInfoVolatileIntoWrapper: SessionUtilConvoInfoVolatile.insertAllConvosIntoWrapper,
+  insertAllConvoInfoVolatileIntoWrapper:
+    SessionUtilConvoInfoVolatile.insertAllConvoInfoVolatileIntoWrapper,
   removeCommunityFromWrapper: SessionUtilUserGroups.removeCommunityFromWrapper,
   kindToVariant,
   variantToKind,

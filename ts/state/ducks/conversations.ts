@@ -231,7 +231,6 @@ export interface ReduxConversationType {
    */
   displayNameInProfile?: string;
   nickname?: string;
-  hasNickname?: boolean;
 
   activeAt?: number;
   lastMessage?: LastMessageType;
@@ -268,8 +267,7 @@ export interface ReduxConversationType {
   isApproved?: boolean;
   didApproveMe?: boolean;
 
-  // Should only be present on opengroups - the capabilities we have on this room.
-  capabilities?: Array<string>;
+  isMarkedUnread?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -1024,11 +1022,22 @@ export const {
   markConversationInitialLoadingInProgress,
 } = actions;
 
+async function unmarkAsForcedUnread(convoId: string) {
+  const convo = getConversationController().get(convoId);
+  if (convo && convo.isMarkedUnread()) {
+    // we just opened it and it was forced "Unread", so we reset the unread state here
+    await convo.markAsUnread(false);
+  }
+}
+
 export async function openConversationWithMessages(args: {
   conversationKey: string;
   messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
+
+  await unmarkAsForcedUnread(conversationKey);
+
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
@@ -1053,6 +1062,7 @@ export async function openConversationToSpecificMessage(args: {
   shouldHighlightMessage: boolean;
 }) {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
+  await unmarkAsForcedUnread(conversationKey);
 
   const messagesAroundThisMessage = await getMessages({
     conversationKey,

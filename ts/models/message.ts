@@ -5,7 +5,6 @@ import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
 import { DataMessage } from '../../ts/session/messages/outgoing';
-import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
 import {
   uploadAttachmentsToFileServer,
@@ -13,6 +12,7 @@ import {
   uploadQuoteThumbnailsToFileServer,
   UserUtils,
 } from '../../ts/session/utils';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import {
   DataExtractionNotificationMsg,
   fillMessageAttributesWithDefaults,
@@ -25,8 +25,43 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
+import {
+  cloneDeep,
+  debounce,
+  groupBy,
+  isEmpty,
+  map,
+  partition,
+  pick,
+  reduce,
+  reject,
+  size as lodashSize,
+  sortBy,
+  uniq,
+} from 'lodash';
 import { Data } from '../../ts/data/data';
-import { ConversationModel } from './conversation';
+import { OpenGroupData } from '../data/opengroups';
+import { SettingsKey } from '../data/settings-key';
+import {
+  findCachedBlindedIdFromUnblinded,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import {
+  uploadAttachmentsV3,
+  uploadLinkPreviewsV3,
+  uploadQuoteThumbnailsV3,
+} from '../session/utils/AttachmentsV2';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { buildSyncMessage } from '../session/utils/sync/syncUtils';
+import { isUsFromCache } from '../session/utils/User';
 import {
   FindAndFormatContactType,
   LastMessageStatusType,
@@ -44,36 +79,8 @@ import {
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
 } from '../state/ducks/conversations';
-import {
-  VisibleMessage,
-  VisibleMessageParams,
-} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { buildSyncMessage } from '../session/utils/sync/syncUtils';
-import {
-  uploadAttachmentsV3,
-  uploadLinkPreviewsV3,
-  uploadQuoteThumbnailsV3,
-} from '../session/utils/AttachmentsV2';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { OpenGroupData } from '../data/opengroups';
-import { isUsFromCache } from '../session/utils/User';
-import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _, {
-  cloneDeep,
-  debounce,
-  groupBy,
-  isEmpty,
-  map,
-  partition,
-  pick,
-  reduce,
-  reject,
-  size as lodashSize,
-  sortBy,
-  uniq,
-} from 'lodash';
-import { SettingsKey } from '../data/settings-key';
+import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import {
   deleteExternalMessageFiles,
   getAbsoluteAttachmentPath,
@@ -81,21 +88,13 @@ import {
   loadPreviewData,
   loadQuoteData,
 } from '../types/MessageAttachment';
+import { ReactionList } from '../types/Reaction';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
-import { LinkPreviews } from '../util/linkPreviews';
-import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import {
-  findCachedBlindedIdFromUnblinded,
-  getUsBlindedInThatServer,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
-import { ReactionList } from '../types/Reaction';
-import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
-import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { ConversationModel } from './conversation';
+import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -865,7 +864,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       reacts: undefined,
       reactsIndex: undefined,
     });
-    await this.markRead(Date.now());
+    await this.markMessageAsRead(Date.now());
     await this.commit();
   }
 
@@ -1122,41 +1121,34 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return id;
   }
 
-  public async markRead(readAt: number) {
-    this.markReadNoCommit(readAt);
+  public async markMessageAsRead(readAt: number) {
+    this.markMessageReadNoCommit(readAt);
     await this.commit();
     // the line below makes sure that getNextExpiringMessage will find this message as expiring.
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
     await this.setToExpire();
 
-    const convo = this.getConversation();
-    if (convo) {
-      const beforeUnread = convo.get('unreadCount');
-      const unreadCount = await convo.getUnreadCount();
-      const usInThatConversation =
-        getUsBlindedInThatServer(convo) || UserUtils.getOurPubKeyStrFromCache();
-      const nextMentionedUs = await Data.getFirstUnreadMessageWithMention(
-        convo.id,
-        usInThatConversation
-      );
-      let mentionedUsChange = false;
-      if (convo.get('mentionedUs') && !nextMentionedUs) {
-        convo.set('mentionedUs', false);
-        mentionedUsChange = true;
-      }
-      if (beforeUnread !== unreadCount || mentionedUsChange) {
-        convo.set({ unreadCount });
-        await convo.commit();
-      }
-    }
+    this.getConversation()?.refreshInMemoryDetails();
   }
 
-  public markReadNoCommit(readAt: number) {
+  public markMessageReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
-    if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
+    if (
+      this.get('expireTimer') &&
+      !this.get('expirationStartTimestamp') &&
+      !this.get('expires_at')
+    ) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
+      const start = this.get('expirationStartTimestamp');
+      const delta = this.get('expireTimer') * 1000;
+      if (!start) {
+        return;
+      }
+      const expiresAt = start + delta;
+      // based on `setToExpire()`
+      this.set({ expires_at: expiresAt });
     }
 
     Notifications.clearByMessageId(this.id);
@@ -1187,8 +1179,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return msFromNow;
   }
 
-  public async setToExpire(force = false) {
-    if (this.isExpiring() && (force || !this.get('expires_at'))) {
+  public async setToExpire() {
+    if (this.isExpiring() && !this.get('expires_at')) {
       const start = this.get('expirationStartTimestamp');
       const delta = this.get('expireTimer') * 1000;
       if (!start) {

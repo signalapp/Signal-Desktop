@@ -5,7 +5,7 @@ import { describe } from 'mocha';
 import Sinon, * as sinon from 'sinon';
 
 import chaiAsPromised from 'chai-as-promised';
-import { ConversationCollection, ConversationModel } from '../../../../models/conversation';
+import { ConversationModel } from '../../../../models/conversation';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSwarmPollingInstance, SnodePool } from '../../../../session/apis/snode_api';
 import { resetHardForkCachedValues } from '../../../../session/apis/snode_api/hfHandling';
@@ -44,7 +44,7 @@ describe('SwarmPolling', () => {
     // Utils Stubs
     Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
 
-    stubData('getAllConversations').resolves(new ConversationCollection());
+    stubData('getAllConversations').resolves([]);
     getItemByIdStub = TestUtils.stubData('getItemById');
     stubData('saveConversation').resolves();
     stubData('getSwarmNodesForPubkey').resolves();

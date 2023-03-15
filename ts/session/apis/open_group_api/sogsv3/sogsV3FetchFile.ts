@@ -7,13 +7,13 @@ import {
 } from '../../../../data/opengroups';
 import { MIME } from '../../../../types';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
 import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
 import { getConversationController } from '../../../conversations';
 import { OnionSending } from '../../../onions/onionSend';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { roomHasBlindEnabled } from './sogsV3Capabilities';
 
 export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
   serverUrl: string;

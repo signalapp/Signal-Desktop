@@ -1,5 +1,4 @@
 import * as BetterSqlite3 from 'better-sqlite3';
-import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
 import { compact, isArray, isEmpty, isString, map, pick } from 'lodash';
 import {
   ContactsConfigWrapperInsideWorker,
@@ -20,8 +19,6 @@ import {
   CONVERSATIONS_TABLE,
   dropFtsAndTriggers,
   GUARD_NODE_TABLE,
-  ITEMS_TABLE,
-  jsonToObject,
   LAST_HASHES_TABLE,
   MESSAGES_TABLE,
   NODES_FOR_PUBKEY_TABLE,
@@ -31,7 +28,7 @@ import {
   toSqliteBoolean,
 } from '../database_utility';
 
-import { sqlNode } from '../sql';
+import { getIdentityKeys, sqlNode } from '../sql';
 
 // tslint:disable: no-console quotemark one-variable-per-declaration
 
@@ -1085,13 +1082,15 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
         `withIpButNotDuplicateConvo: renaming convo old:${r.id} with saveConversation() new- conversationId:${newConvoId}`
       );
       convoIdsToMigrateFromIpToDns.set(r.id, newConvoId);
-      sqlNode.saveConversation(
-        {
-          ...r,
-          id: newConvoId,
-        },
-        db
-      );
+      // commenting this as saveConversation should not be called during migration.
+      // I actually suspect that this code was not working at all.
+      // sqlNode.saveConversation(
+      //   {
+      //     ...r,
+      //     id: newConvoId,
+      //   },
+      //   db
+      // );
     });
 
     /**
@@ -1203,43 +1202,6 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
   })();
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
-}
-
-function getIdentityKeysDuringMigration(db: BetterSqlite3.Database) {
-  const row = db.prepare(`SELECT * FROM ${ITEMS_TABLE} WHERE id = $id;`).get({
-    id: 'identityKey',
-  });
-
-  if (!row) {
-    return null;
-  }
-  try {
-    const parsedIdentityKey = jsonToObject(row.json);
-    if (
-      !parsedIdentityKey?.value?.pubKey ||
-      !parsedIdentityKey?.value?.ed25519KeyPair?.privateKey
-    ) {
-      return null;
-    }
-    const publicKeyBase64 = parsedIdentityKey?.value?.pubKey;
-    const publicKeyHex = to_hex(from_base64(publicKeyBase64, base64_variants.ORIGINAL));
-
-    const ed25519PrivateKeyUintArray = parsedIdentityKey?.value?.ed25519KeyPair?.privateKey;
-
-    // TODO migrate the ed25519KeyPair for all the users already logged in to a base64 representation
-    const privateEd25519 = new Uint8Array(Object.values(ed25519PrivateKeyUintArray));
-
-    if (!privateEd25519 || isEmpty(privateEd25519)) {
-      return null;
-    }
-
-    return {
-      publicKeyHex,
-      privateEd25519,
-    };
-  } catch (e) {
-    return null;
-  }
 }
 
 function insertContactIntoWrapper(
@@ -1505,7 +1467,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     });
 
     try {
-      const keys = getIdentityKeysDuringMigration(db);
+      const keys = getIdentityKeys(db);
 
       const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
 
@@ -1681,6 +1643,8 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
         data: userGroupsDump,
       });
 
+      // TODO add the conversation volatile one with handling of contacts and note to self and reference to `isConvoToStoreInWrapper`
+
       // TODO we've just created the initial dumps. We have to add an initial SyncJob to the database so it is run on the next app start/
       // or find another way of adding one on the next start (store an another item in the DB and check for it on app start?)
     } catch (e) {
@@ -1695,7 +1659,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     // for manually flagging conversations as :unread"
     db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN markedAsUnread BOOLEAN;`);
 
-    // Didn't find any reference to this serverTimestamp in the unprocessed table needed.
+    // Didn't find any reference to this serverTimestamp in the unprocessed table needed, so let's clean it up
     db.exec(`ALTER TABLE unprocessed DROP COLUMN serverTimestamp;`);
 
     writeSessionSchemaVersion(targetVersion, db);

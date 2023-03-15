@@ -1,4 +1,4 @@
-import { pick } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
@@ -88,7 +88,7 @@ export function useIsBlinded(convoId?: string) {
 
 export function useHasNickname(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.hasNickname);
+  return Boolean(convoProps && !isEmpty(convoProps.nickname));
 }
 
 export function useNotificationSetting(convoId?: string) {
@@ -105,9 +105,13 @@ export function useIsBlocked(convoId?: string) {
   return Boolean(convoProps && convoProps.isBlocked);
 }
 
-export function useIsActive(convoId?: string) {
+export function useActiveAt(convoId?: string): number | undefined {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.activeAt);
+  return convoProps?.activeAt;
+}
+
+export function useIsActive(convoId?: string) {
+  return !!useActiveAt(convoId);
 }
 
 export function useIsLeft(convoId?: string) {
@@ -182,4 +186,34 @@ export function useMessageReactsPropsById(messageId?: string) {
     }
     return messageReactsProps;
   });
+}
+
+export function useUnreadCount(conversationId?: string): number {
+  const convoProps = useConversationPropsById(conversationId);
+  return convoProps?.unreadCount || 0;
+}
+
+export function useHasUnread(conversationId?: string): boolean {
+  return useUnreadCount(conversationId) > 0;
+}
+
+export function useIsForcedUnreadWithoutUnreadMsg(conversationId?: string): boolean {
+  const convoProps = useConversationPropsById(conversationId);
+  return convoProps?.isMarkedUnread || false;
+}
+
+function useMentionedUsNoUnread(conversationId?: string) {
+  const convoProps = useConversationPropsById(conversationId);
+  return convoProps?.mentionedUs || false;
+}
+
+export function useMentionedUs(conversationId?: string): boolean {
+  const hasMentionedUs = useMentionedUsNoUnread(conversationId);
+  const hasUnread = useHasUnread(conversationId);
+
+  return hasMentionedUs && hasUnread;
+}
+
+export function useIsTyping(conversationId?: string): boolean {
+  return useConversationPropsById(conversationId)?.isTyping || false;
 }

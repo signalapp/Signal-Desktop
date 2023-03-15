@@ -18,6 +18,7 @@ import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { UserUtils } from '../session/utils';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
@@ -27,6 +28,7 @@ import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '..
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
+  ConvoInfoVolatileWrapperActions,
   GenericWrapperActions,
   UserConfigWrapperActions,
   UserGroupsWrapperActions,
@@ -86,6 +88,7 @@ async function mergeConfigsWithIncomingUpdates(
       const needsDump = await GenericWrapperActions.needsDump(variant);
       window.log.info(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
 
+      // TODO do we need to keep track of the hashes or the library does in the end?
       const messageHashes = toMerge.map(m => m.hash);
       const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
 
@@ -456,27 +459,60 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
 async function handleConvoInfoVolatileUpdate(
   result: IncomingConfResult
 ): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
+  // TODO do we want to enforce this?
+  // if (!result.needsDump) {
+  //   return result;
+  // }
   console.error('handleConvoInfoVolatileUpdate : TODO ');
 
-  // const toHandle = SessionUtilUserGroups.getUserGroupTypes();
-  // for (let index = 0; index < toHandle.length; index++) {
-  //   const typeToHandle = toHandle[index];
-  //   switch (typeToHandle) {
-  //     case 'Community':
-  //       await handleCommunitiesUpdate();
-  //       break;
+  const types = SessionUtilConvoInfoVolatile.getConvoInfoVolatileTypes();
+  for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
+    const type = types[typeIndex];
+    switch (type) {
+      case '1o1':
+        // Note: "Note to Self" comes here too
+        const privateChats = await ConvoInfoVolatileWrapperActions.getAll1o1();
+        for (let index = 0; index < privateChats.length; index++) {
+          const fromWrapper = privateChats[index];
+          const foundConvo = getConversationController().get(fromWrapper.pubkeyHex);
+          // TODO should we create the conversation if the conversation does not exist locally? Or assume that it should be coming from a contacts update?
+          if (foundConvo) {
+            // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+            console.warn(
+              `fromWrapper from getAll1o1: ${fromWrapper.pubkeyHex}: ${fromWrapper.unread}`
+            );
+            await foundConvo.markReadFromConfigMessage(fromWrapper.lastRead);
+            // this commits to the DB, if needed
+            await foundConvo.markAsUnread(fromWrapper.unread, true);
 
-  //     case 'LegacyGroup':
-  //       await handleLegacyGroupUpdate(result.latestEnvelopeTimestamp);
-  //       break;
+            if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(foundConvo)) {
+              await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
+                foundConvo.id,
+                foundConvo.isClosedGroup(),
+                false
+              );
 
-  //     default:
-  //       assertUnreachable(typeToHandle, `handleUserGroupsUpdate unhandled type "${typeToHandle}"`);
-  //   }
-  // }
+              await foundConvo.refreshInMemoryDetails();
+            }
+          }
+        }
+        console.warn('handleConvoInfoVolatileUpdate: privateChats', privateChats);
+
+        break;
+      case 'Community':
+        const comms = await ConvoInfoVolatileWrapperActions.getAllCommunities();
+        console.warn('handleConvoInfoVolatileUpdate: comms', comms);
+        break;
+
+      case 'LegacyGroup':
+        const legacyGroup = await ConvoInfoVolatileWrapperActions.getAllLegacyGroups();
+        console.warn('handleConvoInfoVolatileUpdate: legacyGroup', legacyGroup);
+        break;
+
+      default:
+        assertUnreachable(type, `handleConvoInfoVolatileUpdate: unhandeld switch case: ${type}`);
+    }
+  }
 
   return result;
 }

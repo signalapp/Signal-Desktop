@@ -1,31 +1,30 @@
 // tslint:disable: no-implicit-dependencies
 
 import chai from 'chai';
-import { TestUtils } from '../../../test-utils';
-import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { PubKey } from '../../../../session/types';
-import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
+import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { PubKey } from '../../../../session/types';
+import { MessageUtils, UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
 
 import chaiAsPromised from 'chai-as-promised';
-chai.use(chaiAsPromised as any);
-import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { beforeEach } from 'mocha';
+import Sinon from 'sinon';
+import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { SignalService } from '../../../../protobuf';
+import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
+import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
+import { getConversationController } from '../../../../session/conversations';
 import { ClosedGroupAddedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import Sinon from 'sinon';
 import { getCurrentConfigurationMessage } from '../../../../session/utils/sync/syncUtils';
-import { getConversationController } from '../../../../session/conversations';
 import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
-import { ConversationCollection } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
-import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { beforeEach } from 'mocha';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
@@ -249,7 +248,7 @@ describe('Message Utils', () => {
     beforeEach(async () => {
       Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
       Sinon.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
-      stubData('getAllConversations').resolves(new ConversationCollection([]));
+      stubData('getAllConversations').resolves([]);
       stubData('saveConversation').resolves();
       stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
       getConversationController().reset();

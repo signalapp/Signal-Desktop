@@ -58,7 +58,7 @@ function handleTimestampOffsetFromNetwork(_request: string, snodeTimestamp: numb
  */
 function getLatestTimestampOffset() {
   if (latestTimestampOffset === Number.MAX_SAFE_INTEGER) {
-    window.log.warn('latestTimestampOffset is not set yet');
+    window.log.debug('latestTimestampOffset is not set yet');
     return 0;
   }
   // window.log.info('latestTimestampOffset is ', latestTimestampOffset);

@@ -237,10 +237,9 @@ export class SwarmPolling {
             .map(r => r.messages.messages)
         )
       );
+      const userConfigMessagesMerged = flatten(compact(userConfigMessages));
 
-      if (!isGroup) {
-        const userConfigMessagesMerged = flatten(compact(userConfigMessages));
-
+      if (!isGroup && userConfigMessagesMerged.length) {
         window.log.info(
           `received userConfigMessagesMerged: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
         );
@@ -260,9 +259,11 @@ export class SwarmPolling {
         compact(resultsFromAllNamespaces?.map(m => m.messages.messages))
       );
     }
-    window.log.info(
-      `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
-    );
+    if (allNamespacesWithoutUserConfigIfNeeded.length) {
+      window.log.info(
+        `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
+      );
+    }
 
     // Merge results into one list of unique messages
     const messages = uniqBy(allNamespacesWithoutUserConfigIfNeeded, x => x.hash);
@@ -347,17 +348,18 @@ export class SwarmPolling {
         );
       }
     }
-
-    try {
-      window.log.info(
-        `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
-      );
-      await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
-    } catch (e) {
-      const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
-      window.log.warn(
-        `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
-      );
+    if (allDecryptedConfigMessages.length) {
+      try {
+        window.log.info(
+          `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
+        );
+        await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
+      } catch (e) {
+        const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
+        window.log.warn(
+          `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
+        );
+      }
     }
   }
 
@@ -492,6 +494,7 @@ export class SwarmPolling {
           SnodeNamespaces.UserProfile,
           SnodeNamespaces.UserContacts,
           SnodeNamespaces.UserGroups,
+          SnodeNamespaces.ConvoInfoVolatile,
         ]
       : [SnodeNamespaces.UserMessages];
   }

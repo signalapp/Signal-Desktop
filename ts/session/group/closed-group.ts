@@ -176,16 +176,13 @@ export async function addUpdateMessage(
     });
     return outgoingMessage;
   }
+  // addSingleIncomingMessage also takes care of updating the unreadCount
+
   const incomingMessage = await convo.addSingleIncomingMessage({
     sent_at: sentAt,
     group_update: groupUpdate,
     expireTimer: 0,
     source: sender,
-  });
-  // update the unreadCount for this convo
-  const unreadCount = await convo.getUnreadCount();
-  convo.set({
-    unreadCount,
   });
   await convo.commit();
   return incomingMessage;

@@ -204,7 +204,7 @@ export async function deleteMessageLocallyOnly({
   } else {
     // just mark the message as deleted but still show in conversation
     await message.markAsDeleted();
-    await message.markRead(Date.now());
+    await message.markMessageAsRead(Date.now());
   }
   conversation.updateLastMessage();
 }

@@ -29,7 +29,7 @@ function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
     throw new Error('submitForOpenGroup group not found');
   }
   try {
-    const roomDetails = SessionUtilUserGroups.getCommunityMappedValueByConvoId(convo.id);
+    const roomDetails = SessionUtilUserGroups.getCommunityByConvoIdCached(convo.id);
     if (!roomDetails) {
       throw new Error(`getCommunityByFullUrl returned no result for ${convo.id}`);
     }

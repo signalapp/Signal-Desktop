@@ -9,11 +9,11 @@ import { PubKey } from '../types';
 
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
-import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 import { leaveClosedGroup } from '../group/closed-group';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
+import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 
 let instance: ConversationController | null;
 
@@ -99,7 +99,10 @@ export class ConversationController {
 
     const create = async () => {
       try {
-        await Data.saveConversation(conversation.attributes);
+        const saveDetails = await Data.saveConversation(conversation.attributes);
+        if (saveDetails) {
+          await conversation.refreshInMemoryDetails(saveDetails);
+        }
       } catch (error) {
         window?.log?.error(
           'Conversation save failed! ',
@@ -222,6 +225,7 @@ export class ConversationController {
     if (conversation.isClosedGroup()) {
       window.log.info(`deleteContact ClosedGroup case: ${id}`);
       await leaveClosedGroup(conversation.id);
+      await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);
       // open group v2
     } else if (conversation.isPublic()) {
       window?.log?.info('leaving open group v2', conversation.id);
@@ -238,12 +242,14 @@ export class ConversationController {
       }
       try {
         await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
+        await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
+          conversation.id,
+          conversation.id
+        );
       } catch (e) {
         window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
       }
-    }
-
-    if (conversation.isPrivate()) {
+    } else if (conversation.isPrivate()) {
       // if this conversation is a private conversation it's in fact a `contact` for desktop.
       // we just want to remove everything related to it and set the hidden field to true
       // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation
@@ -255,13 +261,21 @@ export class ConversationController {
       // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
       // await conversation.setIsApproved(false, false);
       await conversation.commit();
+
+      // The note to self cannot be removed from the wrapper I suppose, as it must always be there
+      // TODO I think we want to mark the contacts as hidden instead of removing them, so maybe keep the volatile info too?
+      // if (!isUsFromCache(conversation.id)) {
+      //   await SessionUtilConvoInfoVolatile.remove1o1(conversation.id);
+      // }
       // TODO the call above won't mark the conversation as hidden in the wrapper, it will just stop being updated (which is a bad thing)
-    } else {
-      window.log.info(`deleteContact NOT private, removing convo from DB: ${id}`);
+    }
+
+    if (conversation.isGroup()) {
+      window.log.info(`deleteContact isGroup, removing convo from DB: ${id}`);
       // not a private conversation, so not a contact for the ContactWrapper
       await Data.removeConversation(id);
 
-      window.log.info(`deleteContact NOT private, convo removed from DB: ${id}`);
+      window.log.info(`deleteContact isGroup, convo removed from DB: ${id}`);
 
       // TODO remove group related entries from their corresponding wrappers here
       this.conversations.remove(conversation);
@@ -304,25 +318,27 @@ export class ConversationController {
     const load = async () => {
       try {
         const start = Date.now();
-        const collection = await Data.getAllConversations();
-
-        this.conversations.add(collection.models);
+        const convoModels = await Data.getAllConversations();
+        this.conversations.add(convoModels);
 
         console.time('refreshAllWrapperContactsData');
-        for (let index = 0; index < collection.models.length; index++) {
-          const convo = collection.models[index];
+        // TODO make this a switch so we take care of all wrappers and have compilation errors if we forgot to add one.
+        for (let index = 0; index < convoModels.length; index++) {
+          const convo = convoModels[index];
           if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
             await SessionUtilContact.refreshMappedValue(convo.id, true);
           }
           if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
-            await SessionUtilUserGroups.refreshMappedValue(convo.id, true);
+            await SessionUtilUserGroups.refreshCachedUserGroup(convo.id, true);
           }
           if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
-            await SessionUtilConvoInfoVolatile.refreshMappedValue(
+            await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
               convo.id,
               Boolean(convo.isClosedGroup() && convo.id.startsWith('05')),
               true
             );
+
+            await convo.refreshInMemoryDetails();
           }
         }
         console.timeEnd('refreshAllWrapperContactsData');

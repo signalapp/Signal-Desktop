@@ -238,11 +238,11 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   let quality = 0.95;
   const startI = 4;
   let i = startI;
-  const start = Date.now();
+  // const start = Date.now();
   do {
     i -= 1;
     if (DEBUG_ATTACHMENTS_SCALE) {
-      window.log.info(`autoscale iteration: [${i}] for:`, attachment);
+      // window.log.info(`autoscale iteration: [${i}] for:`, attachment);
     }
     const tempBlob = await canvasToBlob(canvas.image as HTMLCanvasElement, 'image/jpeg', quality);
 
@@ -260,7 +260,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   if (readAndResizedBlob.size > maxSize) {
     throw new Error('Cannot add this attachment even after trying to scale it down.');
   }
-  window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
+  // window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
 
   return {
     contentType: attachment.contentType,

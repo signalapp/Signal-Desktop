@@ -54,20 +54,20 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('unreadCount', () => {
-    it('initialize unreadCount if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'unreadCount',
-        0
-      );
-    });
+  // describe('unreadCount', () => {
+  //   it('initialize unreadCount if not given', () => {
+  //     expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
+  //       'unreadCount',
+  //       0
+  //     );
+  //   });
 
-    it('do not override unreadCount if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({ unreadCount: 123 } as ConversationAttributes)
-      ).to.have.deep.property('unreadCount', 123);
-    });
-  });
+  //   it('do not override unreadCount if given', () => {
+  //     expect(
+  //       fillConvoAttributesWithDefaults({ unreadCount: 123 } as ConversationAttributes)
+  //     ).to.have.deep.property('unreadCount', 123);
+  //   });
+  // });
 
   describe('lastJoinedTimestamp', () => {
     it('initialize lastJoinedTimestamp if not given', () => {
@@ -246,22 +246,22 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('mentionedUs', () => {
-    it('initialize mentionedUs if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'mentionedUs',
-        false
-      );
-    });
+  // describe('mentionedUs', () => {
+  //   it('initialize mentionedUs if not given', () => {
+  //     expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
+  //       'mentionedUs',
+  //       false
+  //     );
+  //   });
 
-    it('do not override mentionedUs if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({
-          mentionedUs: true,
-        } as ConversationAttributes)
-      ).to.have.deep.property('mentionedUs', true);
-    });
-  });
+  //   it('do not override mentionedUs if given', () => {
+  //     expect(
+  //       fillConvoAttributesWithDefaults({
+  //         mentionedUs: true,
+  //       } as ConversationAttributes)
+  //     ).to.have.deep.property('mentionedUs', true);
+  //   });
+  // });
 
   describe('isKickedFromGroup', () => {
     it('initialize isKickedFromGroup if not given', () => {

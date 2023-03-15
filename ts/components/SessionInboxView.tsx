@@ -124,9 +124,6 @@ export class SessionInboxView extends React.Component<any, State> {
     this.store = createStore(initialState);
     window.inboxStore = this.store;
 
-    console.warn('initialState', JSON.stringify(initialState));
-    console.warn('this.store', JSON.stringify(this.store.getState()));
-
     window.openConversationWithMessages = openConversationWithMessages;
 
     this.setState({ isInitialLoadComplete: true });

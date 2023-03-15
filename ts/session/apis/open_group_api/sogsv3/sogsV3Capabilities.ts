@@ -1,8 +1,8 @@
-import _, { isArray, isEmpty, isEqual, isObject } from 'lodash';
+import AbortController, { AbortSignal } from 'abort-controller';
+import { isArray, isEmpty, isEqual, isObject } from 'lodash';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { OnionSending } from '../../../onions/onionSend';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import AbortController, { AbortSignal } from 'abort-controller';
 import { batchGlobalIsSuccess } from './sogsV3BatchPoll';
 
 const capabilitiesFetchForServer = async (
@@ -67,18 +67,6 @@ export type ParsedMemberCount = {
   roomId: string;
   memberCount: number;
 };
-
-export function roomHasBlindEnabled(openGroup?: OpenGroupV2Room) {
-  return capabilitiesListHasBlindEnabled(openGroup?.capabilities);
-}
-
-export function capabilitiesListHasBlindEnabled(caps?: Array<string> | null) {
-  return Boolean(caps?.includes('blind'));
-}
-
-export function roomHasReactionsEnabled(openGroup?: OpenGroupV2Room) {
-  return Boolean(openGroup?.capabilities?.includes('reactions'));
-}
 
 export async function fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl(serverUrl: string) {
   let relatedRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);

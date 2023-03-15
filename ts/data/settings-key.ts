@@ -22,3 +22,6 @@ export const SettingsKey = {
   settingsNotification,
   settingsAudioNotification,
 };
+
+export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';
+export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';

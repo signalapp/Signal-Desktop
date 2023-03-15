@@ -176,10 +176,6 @@ export const getFirstUnreadMessageId = createSelector(
   }
 );
 
-export const getConversationHasUnread = createSelector(getFirstUnreadMessageId, unreadId => {
-  return Boolean(unreadId);
-});
-
 export type MessagePropsType =
   | 'group-notification'
   | 'group-invitation'
@@ -343,12 +339,12 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
-  unreadCount: number;
+  globalUnreadCount: number;
 } => {
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
 
-  let unreadCount = 0;
+  let globalUnreadCount = 0;
   for (const conversation of sortedConversations) {
     if (
       conversation.activeAt !== undefined &&
@@ -370,12 +366,12 @@ export const _getLeftPaneLists = (
     }
 
     if (
-      unreadCount < 100 &&
+      globalUnreadCount < 100 &&
       conversation.unreadCount &&
       conversation.unreadCount > 0 &&
       conversation.currentNotificationSetting !== 'disabled'
     ) {
-      unreadCount += conversation.unreadCount;
+      globalUnreadCount += conversation.unreadCount;
     }
 
     conversations.push(conversation);
@@ -384,7 +380,7 @@ export const _getLeftPaneLists = (
   return {
     conversations,
     contacts: directConversations,
-    unreadCount,
+    globalUnreadCount,
   };
 };
 
@@ -508,7 +504,7 @@ export const getDirectContacts = createSelector(
   (state: {
     conversations: Array<ReduxConversationType>;
     contacts: Array<ReduxConversationType>;
-    unreadCount: number;
+    globalUnreadCount: number;
   }) => state.contacts
 );
 
@@ -547,8 +543,8 @@ export const getDirectContactsByName = createSelector(
   }
 );
 
-export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
-  return state.unreadCount;
+export const getGlobalUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
+  return state.globalUnreadCount;
 });
 
 export const getConversationHeaderTitleProps = (
@@ -629,11 +625,6 @@ export const getIsSelectedNoteToSelf = createSelector(
     return selectedProps?.isMe || false;
   }
 );
-
-export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
-  const values = Object.values(state.conversationLookup);
-  return values.filter(conversation => conversation.isPinned).length;
-});
 
 export const isMessageDetailView = createSelector(
   getConversations,

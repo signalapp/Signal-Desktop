@@ -3,14 +3,12 @@ import Backbone from 'backbone';
 import {
   debounce,
   defaults,
-  filter,
   includes,
   isArray,
   isEmpty,
   isEqual,
   isNumber,
   isString,
-  map,
   sortBy,
   throttle,
   uniq,
@@ -59,13 +57,10 @@ import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
 import {
   findCachedOurBlindedPubkeyOrLookItUp,
+  getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
-import {
-  roomHasBlindEnabled,
-  roomHasReactionsEnabled,
-} from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
@@ -92,7 +87,12 @@ import {
 } from '../types/MessageAttachment';
 import { IMAGE_JPEG } from '../types/MIME';
 import { Reaction } from '../types/Reaction';
-import { assertUnreachable } from '../types/sqlSharedTypes';
+import {
+  assertUnreachable,
+  roomHasBlindEnabled,
+  roomHasReactionsEnabled,
+  SaveConversationReturn,
+} from '../types/sqlSharedTypes';
 import { Notifications } from '../util/notifications';
 import { Reactions } from '../util/reactions';
 import { Registration } from '../util/registration';
@@ -114,17 +114,24 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo';
 
+type InMemoryConvoInfos = {
+  mentionedUs: boolean;
+  unreadCount: number;
+  lastReadTimestampMessage: number | null;
+};
+
+const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
+
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
-  public markRead: (newestUnreadDate: number, providedOptions?: any) => void;
+  public markConversationRead: (newestUnreadDate: number, readAt?: number) => void;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
-  private lastReadTimestamp: number;
 
   private pending?: Promise<any>;
 
@@ -143,26 +150,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     this.throttledNotify = debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
-    //start right away the function is called, and wait 1sec before calling it again
-    const markReadDebounced = debounce(this.markReadBouncy, 1000, {
+    // start right away the function is called, and wait 1sec before calling it again
+    this.markConversationRead = debounce(this.markConversationReadBouncy, 1000, {
       leading: true,
       trailing: true,
     });
-    this.markRead = (newestUnreadDate: number) => {
-      const lastReadTimestamp = this.lastReadTimestamp;
-      if (newestUnreadDate > lastReadTimestamp) {
-        this.lastReadTimestamp = newestUnreadDate;
-      }
-
-      if (newestUnreadDate !== lastReadTimestamp) {
-        void markReadDebounced(newestUnreadDate);
-      }
-    };
-    // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
-    this.lastReadTimestamp = 0;
     window.inboxStore?.dispatch(
       conversationChanged({ id: this.id, data: this.getConversationModelProps() })
     );
@@ -296,11 +291,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
-    const groupAdmins = this.getGroupAdmins();
     const groupModerators = this.getGroupModerators();
     const isPublic = this.isPublic();
 
-    const members = this.isClosedGroup() ? this.get('members') : [];
     const zombies = this.isClosedGroup() ? this.get('zombies') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
@@ -310,11 +303,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
-    const unreadCount = this.get('unreadCount') || undefined;
-    const mentionedUs = this.get('mentionedUs') || undefined;
+    // const unreadCount = this.get('unreadCount') || undefined;
+    // const mentionedUs = this.get('mentionedUs') || undefined;
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
-    const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
@@ -324,6 +316,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       activeAt: this.get('active_at'),
       type: this.get('type'),
       isHidden: !!this.get('hidden'),
+      isMarkedUnread: !!this.get('markedAsUnread'),
     };
 
     if (isPrivate) {
@@ -357,9 +350,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const foundContact = SessionUtilContact.getMappedValue(this.id);
-    const foundCommunity = SessionUtilUserGroups.getCommunityMappedValueByConvoId(this.id);
-    const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupMappedValueByConvoId(this.id);
-    const foundVolatileInfo = SessionUtilConvoInfoVolatile.getFromAny(this.id);
+    const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
+    const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
+    const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
 
     if (foundContact) {
       if (foundContact.name) {
@@ -368,7 +361,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (foundContact.nickname) {
         toRet.nickname = foundContact.nickname;
-        toRet.hasNickname = !!toRet.nickname;
       }
 
       if (foundContact.blocked) {
@@ -388,6 +380,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (foundContact.priority > 0) {
         toRet.isPinned = true; // TODO priority also handles sorting
       }
+
+      // TODO expire timer (not in wrapper yet)
     } else {
       if (this.get('displayNameInProfile')) {
         toRet.displayNameInProfile = this.get('displayNameInProfile');
@@ -395,7 +389,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.get('nickname')) {
         toRet.nickname = this.get('nickname');
-        toRet.hasNickname = !!toRet.nickname;
       }
 
       if (BlockedNumberController.isBlocked(this.id)) {
@@ -418,18 +411,44 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    // if (foundCommunity) {
-    //   if (foundCommunity.priority > 0) {
-    //     toRet.isPinned = true; // TODO priority also handles sorting
-    //   }
-    // }
+    if (foundLegacyGroup) {
+      toRet.members = foundLegacyGroup.members.map(m => m.pubkeyHex) || [];
+      toRet.groupAdmins =
+        foundLegacyGroup.members.filter(m => m.isAdmin).map(m => m.pubkeyHex) || [];
+      toRet.displayNameInProfile = isEmpty(foundLegacyGroup.name)
+        ? undefined
+        : foundLegacyGroup.name;
+      toRet.expireTimer = foundLegacyGroup.disappearingTimerSeconds;
 
-    if (unreadCount) {
-      toRet.unreadCount = unreadCount;
+      if (foundLegacyGroup.priority > 0) {
+        toRet.isPinned = Boolean(foundLegacyGroup.priority > 0);
+      }
     }
 
-    if (mentionedUs) {
-      toRet.mentionedUs = mentionedUs;
+    if (foundCommunity) {
+      if (foundCommunity.priority > 0) {
+        toRet.isPinned = true; // TODO priority also handles sorting
+      }
+
+      if (groupModerators?.length) {
+        toRet.groupModerators = uniq(groupModerators);
+      }
+    }
+
+    if (foundVolatileInfo) {
+      if (foundVolatileInfo.unread) {
+        toRet.isMarkedUnread = foundVolatileInfo.unread;
+      }
+    }
+
+    const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);
+    if (inMemoryConvoInfo) {
+      if (inMemoryConvoInfo.unreadCount) {
+        toRet.unreadCount = inMemoryConvoInfo.unreadCount;
+      }
+      if (inMemoryConvoInfo.mentionedUs) {
+        toRet.mentionedUs = inMemoryConvoInfo.mentionedUs;
+      }
     }
 
     if (isKickedFromGroup) {
@@ -437,22 +456,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (left) {
       toRet.left = left;
-    }
-
-    if (groupAdmins && groupAdmins.length) {
-      toRet.groupAdmins = uniq(groupAdmins);
-    }
-
-    if (groupModerators && groupModerators.length) {
-      toRet.groupModerators = uniq(groupModerators);
-    }
-
-    if (members && members.length) {
-      toRet.members = uniq(members);
-    }
-
-    if (expireTimer) {
-      toRet.expireTimer = expireTimer;
     }
 
     if (
@@ -464,13 +467,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (zombies && zombies.length) {
       toRet.zombies = uniq(zombies);
-    }
-
-    if (this.isOpenGroupV2()) {
-      const room = OpenGroupData.getV2OpenGroupRoom(this.id);
-      if (room && isArray(room.capabilities) && room.capabilities.length) {
-        toRet.capabilities = room.capabilities;
-      }
     }
 
     const lastMessageText = this.get('lastMessage');
@@ -486,10 +482,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
-    const existingAdmins = uniq(sortBy(this.getGroupAdmins()));
-    const newAdmins = uniq(sortBy(groupAdmins));
+    const sortedExistingAdmins = uniq(sortBy(this.getGroupAdmins()));
+    const sortedNewAdmins = uniq(sortBy(groupAdmins));
 
-    if (isEqual(existingAdmins, newAdmins)) {
+    if (isEqual(sortedExistingAdmins, sortedNewAdmins)) {
       return false;
     }
     this.set({ groupAdmins });
@@ -516,10 +512,54 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return true;
   }
 
-  public async getUnreadCount() {
-    const unreadCount = await Data.getUnreadCountByConversation(this.id);
+  /**
+   * Fetches from the Database an update of what are the memory only informations like mentionedUs and the unreadCount, etc
+   */
+  public async refreshInMemoryDetails(providedMemoryDetails?: SaveConversationReturn) {
+    if (!SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(this)) {
+      return;
+    }
+    const memoryDetails = providedMemoryDetails || (await Data.fetchConvoMemoryDetails(this.id));
 
-    return unreadCount;
+    if (!memoryDetails) {
+      inMemoryConvoInfos.delete(this.id);
+      return;
+    }
+    console.warn('memoryDetails', memoryDetails);
+
+    if (!inMemoryConvoInfos.get(this.id)) {
+      inMemoryConvoInfos.set(this.id, {
+        mentionedUs: false,
+        unreadCount: 0,
+        lastReadTimestampMessage: null,
+      });
+    }
+
+    const existing = inMemoryConvoInfos.get(this.id);
+    if (!existing) {
+      return;
+    }
+    let changes = false;
+    if (existing.unreadCount !== memoryDetails.unreadCount) {
+      existing.unreadCount = memoryDetails.unreadCount;
+      changes = true;
+    }
+    if (existing.lastReadTimestampMessage !== memoryDetails.lastReadTimestampMessage) {
+      existing.lastReadTimestampMessage = memoryDetails.lastReadTimestampMessage;
+      changes = true;
+    }
+    if (existing.mentionedUs !== memoryDetails.mentionedUs) {
+      existing.mentionedUs = memoryDetails.mentionedUs;
+      changes = true;
+    }
+
+    if (changes) {
+      this.triggerUIRefresh();
+    }
+  }
+
+  public getCachedLastReadTimestampMessage() {
+    return inMemoryConvoInfos.get(this.id)?.lastReadTimestampMessage || null;
   }
 
   public async queueJob(callback: () => Promise<void>) {
@@ -1049,48 +1089,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  public async bouncyUpdateLastMessage() {
-    if (!this.id || !this.get('active_at')) {
-      return;
-    }
-    const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
-
-    if (!messages || !messages.length) {
-      return;
-    }
-    const lastMessageModel = messages.at(0);
-    const lastMessageStatusModel = lastMessageModel
-      ? lastMessageModel.getMessagePropStatus()
-      : undefined;
-    const lastMessageUpdate = createLastMessageUpdate({
-      lastMessageStatus: lastMessageStatusModel,
-      lastMessageNotificationText: lastMessageModel
-        ? lastMessageModel.getNotificationText()
-        : undefined,
-    });
-
-    if (
-      lastMessageUpdate.lastMessage !== this.get('lastMessage') ||
-      lastMessageUpdate.lastMessageStatus !== this.get('lastMessageStatus')
-    ) {
-      const lastMessageAttribute = this.get('lastMessage');
-      if (
-        lastMessageUpdate.lastMessageStatus === this.get('lastMessageStatus') &&
-        lastMessageUpdate.lastMessage &&
-        lastMessageUpdate.lastMessage.length > 40 &&
-        lastMessageAttribute &&
-        lastMessageAttribute.length > 40 &&
-        lastMessageUpdate.lastMessage.startsWith(lastMessageAttribute)
-      ) {
-        // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
-        // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
-        return;
-      }
-      this.set(lastMessageUpdate);
-      await this.commit();
-    }
-  }
-
   public async updateExpireTimer(
     providedExpireTimer: number | null,
     providedSource?: string,
@@ -1290,118 +1288,36 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
      * (if there is an expireTimer, we do it the slow way, handling each message separately)
      */
     const expireTimerSet = !!this.get('expireTimer');
-    if (this.isOpenGroupV2() || !expireTimerSet) {
-      // for opengroups, we batch everything as there is no expiration timer to take care (and potentially a lot of messages)
+    const isOpenGroup = this.isOpenGroupV2();
 
-      const isOpenGroup = this.isOpenGroupV2();
+    if (isOpenGroup || !expireTimerSet) {
+      // for opengroups, we batch everything as there is no expiration timer to take care of (and potentially a lot of messages)
+
       // if this is an opengroup there is no need to send read receipt, and so no need to fetch messages updated.
-      const allReadMessages = await Data.markAllAsReadByConversationNoExpiration(
+      const allReadMessagesIds = await Data.markAllAsReadByConversationNoExpiration(
         this.id,
         !isOpenGroup
       );
-      this.set({ mentionedUs: false, unreadCount: 0 });
 
+      await this.markAsUnread(false, false);
       await this.commit();
-      if (!this.isOpenGroupV2() && allReadMessages.length) {
-        await this.sendReadReceiptsIfNeeded(uniq(allReadMessages));
+      if (allReadMessagesIds.length) {
+        await this.sendReadReceiptsIfNeeded(uniq(allReadMessagesIds));
       }
       Notifications.clearByConversationID(this.id);
       window.inboxStore?.dispatch(markConversationFullyRead(this.id));
 
       return;
     }
-    // otherwise, do it the slow way
-    await this.markReadBouncy(Date.now());
+
+    // otherwise, do it the slow and expensive way
+    await this.markConversationReadBouncy(Date.now());
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
-  public async markReadBouncy(
-    newestUnreadDate: number,
-    providedOptions: { sendReadReceipts?: boolean; readAt?: number } = {}
-  ) {
-    const lastReadTimestamp = this.lastReadTimestamp;
-    if (newestUnreadDate < lastReadTimestamp) {
-      return;
-    }
-
-    const readAt = providedOptions?.readAt || Date.now();
-    const sendReadReceipts = providedOptions?.sendReadReceipts || true;
-
-    const conversationId = this.id;
-    Notifications.clearByConversationID(conversationId);
-    let allUnreadMessagesInConvo = (await this.getUnread()).models;
-
-    const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
-      message => (message.get('received_at') as number) <= newestUnreadDate
-    );
-
-    let read = [];
-
-    // Build the list of updated message models so we can mark them all as read on a single sqlite call
-    for (const nowRead of oldUnreadNowRead) {
-      nowRead.markReadNoCommit(readAt);
-
-      const errors = nowRead.get('errors');
-      read.push({
-        sender: nowRead.get('source'),
-        timestamp: nowRead.get('sent_at'),
-        hasErrors: Boolean(errors && errors.length),
-      });
-    }
-    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-    if (oldUnreadNowReadAttrs?.length) {
-      await Data.saveMessages(oldUnreadNowReadAttrs);
-    }
-    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
-
-    for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getMessageModelProps());
-    }
-
-    if (allProps.length) {
-      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
-    }
-    // Some messages we're marking read are local notifications with no sender
-    read = filter(read, m => Boolean(m.sender));
-    const realUnreadCount = await this.getUnreadCount();
-    if (read.length === 0) {
-      if (this.get('unreadCount') !== realUnreadCount) {
-        // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-        this.set({ unreadCount: realUnreadCount });
-        await this.commit();
-      }
-      return;
-    }
-
-    allUnreadMessagesInConvo = allUnreadMessagesInConvo.filter((m: any) => Boolean(m.isIncoming()));
-
-    this.set({ unreadCount: realUnreadCount });
-
-    const mentionRead = (() => {
-      const stillUnread = allUnreadMessagesInConvo.filter(
-        (m: any) => m.get('received_at') > newestUnreadDate
-      );
-      const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(m => m.get('body')?.indexOf(`@${ourNumber}`) !== -1);
-    })();
-
-    if (mentionRead) {
-      this.set({ mentionedUs: false });
-    }
-
-    await this.commit();
-
-    // If a message has errors, we don't want to send anything out about it.
-    //   read syncs - let's wait for a client that really understands the message
-    //      to mark it read. we'll mark our local error read locally, though.
-    //   read receipts - here we can run into infinite loops, where each time the
-    //      conversation is viewed, another error message shows up for the contact
-    read = read.filter(item => !item.hasErrors);
-
-    if (read.length && sendReadReceipts) {
-      const timestamps = map(read, 'timestamp').filter(t => !!t) as Array<number>;
-      await this.sendReadReceiptsIfNeeded(timestamps);
-    }
+  public getUsInThatConversation() {
+    const usInThatConversation =
+      getUsBlindedInThatServer(this) || UserUtils.getOurPubKeyStrFromCache();
+    return usInThatConversation;
   }
 
   public async sendReadReceiptsIfNeeded(timestamps: Array<number>) {
@@ -1570,6 +1486,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await this.commit();
       }
     }
+  }
+
+  public async markAsUnread(forcedValue: boolean, shouldCommit: boolean = true) {
+    if (!!forcedValue !== !!this.get('markedAsUnread')) {
+      this.set({
+        markedAsUnread: !!forcedValue,
+      });
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  public isMarkedUnread(): boolean {
+    return !!this.get('markedAsUnread');
   }
 
   public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
@@ -1942,8 +1873,104 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       : null;
   }
 
-  private async getUnread() {
-    return Data.getUnreadByConversation(this.id);
+  /**
+   * This call is not debounced and can be quite heavy, so only call it when handling config messages updates
+   */
+  public async markReadFromConfigMessage(newestUnreadDate: number) {
+    return this.markConversationReadBouncy(newestUnreadDate);
+  }
+
+  private async bouncyUpdateLastMessage() {
+    if (!this.id || !this.get('active_at')) {
+      return;
+    }
+    const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
+
+    if (!messages || !messages.length) {
+      return;
+    }
+    const lastMessageModel = messages.at(0);
+    const lastMessageStatusModel = lastMessageModel
+      ? lastMessageModel.getMessagePropStatus()
+      : undefined;
+    const lastMessageUpdate = createLastMessageUpdate({
+      lastMessageStatus: lastMessageStatusModel,
+      lastMessageNotificationText: lastMessageModel
+        ? lastMessageModel.getNotificationText()
+        : undefined,
+    });
+
+    if (
+      lastMessageUpdate.lastMessage !== this.get('lastMessage') ||
+      lastMessageUpdate.lastMessageStatus !== this.get('lastMessageStatus')
+    ) {
+      const lastMessageAttribute = this.get('lastMessage');
+      if (
+        lastMessageUpdate.lastMessageStatus === this.get('lastMessageStatus') &&
+        lastMessageUpdate.lastMessage &&
+        lastMessageUpdate.lastMessage.length > 40 &&
+        lastMessageAttribute &&
+        lastMessageAttribute.length > 40 &&
+        lastMessageUpdate.lastMessage.startsWith(lastMessageAttribute)
+      ) {
+        // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
+        // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
+        return;
+      }
+      this.set(lastMessageUpdate);
+      await this.commit();
+    }
+  }
+
+  private async markConversationReadBouncy(newestUnreadDate: number, readAt: number = Date.now()) {
+    const conversationId = this.id;
+    Notifications.clearByConversationID(conversationId);
+
+    const oldUnreadNowRead = (await this.getUnreadByConversation(newestUnreadDate)).models;
+
+    if (!oldUnreadNowRead.length) {
+      //no new messages where read, no need to do anything
+      return;
+    }
+
+    // Build the list of updated message models so we can mark them all as read on a single sqlite call
+    const readDetails = [];
+    for (const nowRead of oldUnreadNowRead) {
+      nowRead.markMessageReadNoCommit(readAt);
+
+      const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
+      if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {
+        readDetails.push({
+          sender: nowRead.get('source'),
+          timestamp: validTimestamp,
+        });
+      }
+    }
+    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
+    if (oldUnreadNowReadAttrs?.length) {
+      await Data.saveMessages(oldUnreadNowReadAttrs);
+    }
+    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
+
+    for (const nowRead of oldUnreadNowRead) {
+      allProps.push(nowRead.getMessageModelProps());
+    }
+
+    if (allProps.length) {
+      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
+    }
+
+    await this.commit();
+
+    if (readDetails.length) {
+      const us = UserUtils.getOurPubKeyStrFromCache();
+      const timestamps = readDetails.filter(m => m.sender !== us).map(m => m.timestamp);
+      await this.sendReadReceiptsIfNeeded(timestamps);
+    }
+  }
+
+  private async getUnreadByConversation(sentBeforeTs: number) {
+    return Data.getUnreadByConversation(this.id, sentBeforeTs);
   }
 
   /**
@@ -1968,8 +1995,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const messageModelProps = model.getMessageModelProps();
     window.inboxStore?.dispatch(conversationActions.messagesChanged([messageModelProps]));
-    const unreadCount = await this.getUnreadCount();
-    this.set({ unreadCount });
     this.updateLastMessage();
 
     await this.commit();
@@ -2204,7 +2229,8 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   // TODO remove duplicates between db and wrapper (except nickname&name as we need them for search)
   // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
 
-  await Data.saveConversation(convo.attributes);
+  const savedDetails = await Data.saveConversation(convo.attributes);
+  await convo.refreshInMemoryDetails(savedDetails);
 
   for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
     const variant = LibSessionUtil.requiredUserVariants[index];

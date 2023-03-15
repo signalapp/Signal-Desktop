@@ -15,15 +15,13 @@ import {
   SubRequestMessagesObjectType,
 } from '../sogsv3/sogsV3BatchPoll';
 import { handleBatchPollResults } from '../sogsv3/sogsApiV3';
-import {
-  fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl,
-  roomHasBlindEnabled,
-} from '../sogsv3/sogsV3Capabilities';
+import { fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl } from '../sogsv3/sogsV3Capabilities';
 import { OpenGroupReaction } from '../../../../types/Reaction';
 import {
   markConversationInitialLoadingInProgress,
   openConversationWithMessages,
 } from '../../../../state/ducks/conversations';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
