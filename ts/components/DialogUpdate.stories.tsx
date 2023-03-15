@@ -37,7 +37,7 @@ export function KnobsPlayground(): JSX.Element {
     WidthBreakpoint,
     WidthBreakpoint.Wide
   );
-  const dialogType = select('dialogType', DialogType, DialogType.Update);
+  const dialogType = select('dialogType', DialogType, DialogType.AutoUpdate);
 
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
@@ -57,7 +57,7 @@ export function UpdateWide(): JSX.Element {
       <DialogUpdate
         {...defaultProps}
         containerWidthBreakpoint={WidthBreakpoint.Wide}
-        dialogType={DialogType.Update}
+        dialogType={DialogType.AutoUpdate}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
@@ -66,6 +66,23 @@ export function UpdateWide(): JSX.Element {
 
 UpdateWide.story = {
   name: 'Update (Wide)',
+};
+
+export function DownloadedWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        dialogType={DialogType.DownloadedUpdate}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
+DownloadedWide.story = {
+  name: 'Downloaded (Wide)',
 };
 
 export function DownloadReadyWide(): JSX.Element {
@@ -248,7 +265,7 @@ export function UpdateNarrow(): JSX.Element {
       <DialogUpdate
         {...defaultProps}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
-        dialogType={DialogType.Update}
+        dialogType={DialogType.AutoUpdate}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
@@ -257,6 +274,23 @@ export function UpdateNarrow(): JSX.Element {
 
 UpdateNarrow.story = {
   name: 'Update (Narrow)',
+};
+
+export function DownloadedNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        dialogType={DialogType.DownloadedUpdate}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
+DownloadedNarrow.story = {
+  name: 'Downloaded (Narrow)',
 };
 
 export function DownloadReadyNarrow(): JSX.Element {

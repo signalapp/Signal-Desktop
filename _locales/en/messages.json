@@ -2196,7 +2196,7 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update available"
+    "message": "Update Available"
   },
   "autoUpdateRetry": {
     "message": "Retry update"
@@ -5598,6 +5598,14 @@
   "DialogUpdate--version-available": {
     "message": "Update to version $version$ available",
     "description": "Tooltip for new update available"
+  },
+  "icu:DialogUpdate__downloading": {
+    "messageformat": "Downloading Update...",
+    "description": "The title of update dialog when update download is in progress."
+  },
+  "icu:DialogUpdate__downloaded": {
+    "messageformat": "Update Downloaded",
+    "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal cannot be closed.",

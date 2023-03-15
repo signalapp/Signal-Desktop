@@ -33,7 +33,9 @@ export const isUpdateDialogVisible = createSelector(
 
 export const isUpdateDownloaded = createSelector(
   getUpdatesState,
-  ({ dialogType }) => dialogType === DialogType.Update
+  ({ dialogType }) =>
+    dialogType === DialogType.AutoUpdate ||
+    dialogType === DialogType.DownloadedUpdate
 );
 
 export const isOSUnsupported = createSelector(

@@ -162,17 +162,6 @@ export function DialogUpdate({
     return null;
   }
 
-  let title = i18n('autoUpdateNewVersionTitle');
-
-  if (
-    downloadSize &&
-    (dialogType === DialogType.DownloadReady ||
-      dialogType === DialogType.FullDownloadReady ||
-      dialogType === DialogType.Downloading)
-  ) {
-    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
-  }
-
   const versionTitle = version
     ? i18n('DialogUpdate--version-available', [version])
     : undefined;
@@ -186,7 +175,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         icon="update"
-        title={title}
+        title={i18n('icu:DialogUpdate__downloading')}
         hoverText={versionTitle}
       >
         <div className="LeftPaneDialog__progress--container">
@@ -199,15 +188,25 @@ export function DialogUpdate({
     );
   }
 
-  let clickLabel: string;
+  let title = i18n('autoUpdateNewVersionTitle');
+
+  if (
+    downloadSize &&
+    (dialogType === DialogType.DownloadReady ||
+      dialogType === DialogType.FullDownloadReady)
+  ) {
+    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
+  }
+
+  let clickLabel = i18n('autoUpdateNewVersionMessage');
   let type: 'warning' | undefined;
   if (dialogType === DialogType.DownloadReady) {
     clickLabel = i18n('downloadNewVersionMessage');
   } else if (dialogType === DialogType.FullDownloadReady) {
     clickLabel = i18n('downloadFullNewVersionMessage');
     type = 'warning';
-  } else {
-    clickLabel = i18n('autoUpdateNewVersionMessage');
+  } else if (dialogType === DialogType.DownloadedUpdate) {
+    title = i18n('icu:DialogUpdate__downloaded');
   }
 
   return (

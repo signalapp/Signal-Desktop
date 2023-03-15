@@ -24,9 +24,14 @@
   cursor: inherit;
   display: flex;
   min-height: 64px;
-  padding: 12px 18px;
+  padding: 12px 14px 12px 16px;
   user-select: none;
   width: 100%;
+
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.0025em;
+  font-weight: 400;
 
   .module-left-pane--width-narrow & {
     padding-left: 36px;
@@ -108,6 +113,7 @@
   &__action-text {
     @include button-reset;
     text-decoration: none;
+    color: $color-white-alpha-80;
   }
 
   &__close-button {
@@ -115,8 +121,8 @@
 
     border-radius: 4px;
     float: right;
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
 
     &::before {
       -webkit-mask: url('../images/icons/v2/x-24.svg') no-repeat center;
@@ -174,7 +180,6 @@
       @include font-body-1-bold;
       padding: 0px;
       margin: 0px;
-      margin-bottom: 8px;
     }
     span {
       @include font-body-1;
@@ -191,6 +196,10 @@
     color: $error-text-color;
 
     a {
+      color: $error-text-color;
+    }
+
+    .LeftPaneDialog__action-text {
       color: $error-text-color;
     }
   }
@@ -218,6 +227,10 @@
         background-color: WindowText;
       }
     }
+
+    .LeftPaneDialog__action-text {
+      color: $warning-text-color;
+    }
   }
 
   &__progress {
@@ -228,6 +241,7 @@
       max-width: 210px;
       overflow: hidden;
       width: 100%;
+      margin: 10px 0 6px 0;
     }
 
     &--bar {

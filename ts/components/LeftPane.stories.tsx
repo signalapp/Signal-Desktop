@@ -205,7 +205,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       <DialogUpdate
         i18n={i18n}
         dialogType={
-          isUpdateDownloaded ? DialogType.Update : DialogType.DownloadReady
+          isUpdateDownloaded ? DialogType.AutoUpdate : DialogType.DownloadReady
         }
         dismissDialog={action('dismissUpdate')}
         snoozeUpdate={action('snoozeUpdate')}
