@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Откажи",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Испрати",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$. Или се обиделе да ви ја испратат директно, или во група.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$. Или се обиделе да ви ја испратат директно или во група.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$во овој разговор.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$ во овој разговор.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ реагираше $emoji$ на Вашата порака"
+    "message": "$sender$ реагираше со $emoji$ на вашата порака"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ реагираше $emoji$ на $message$"
+    "message": "$sender$ реагираше со $emoji$ на: $message$"
   },
   "sendFailed": {
     "message": "Испраќањето е неуспешно",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Денес $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Вчера $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Забелешка за себе",
+    "message": "Белешка за себе",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Вклучи/исклучи избирач на емоџи реакција за избраната порака",
+    "message": "Вклучи/исклучи избирач на реакција со емотикон за избраната порака",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Ве молиме поставете го Signal на вашиот телефон и десктоп компјутер за да го користи креаторот за пакети на стикери",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Отстранете реакција",
+    "message": "Отстрани реакција",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Не успеав да испратам реакција. Ве молиме пробајте пак.",
+    "message": "Не можеше да се испрати реакцијата. Ве молиме пробајте пак.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Оневозможете откривање со телефонски број за вашето корисничко име да се користи како главниот начин на кој другите можат да ве контактираат, преку Поставувања > Приватност > Телефонски број > Кој може да го најде мојот број.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Кликнете на која било слика или видео и користете ги новите копчиња за Напред и Назад во прегледувачот на медиумски датотеки за да се навратите на спомените.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Сега гласовните пораки ќе бидат зачувани како нацрт-пораки ако отворите друг разговор во текот на снимањето.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Испраќањето налепница повеќе нема да ги брише нацрт-пораките. Благодариме, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Исто така сакаме да се заблагодариме на {norstbox} што ги израмни иконите на лентите за пребарување во разговорите.",
     "description": "Release notes for v6.10"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "გაუქმება",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "გაგზავნა",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "შეტყობინებაზე რეაგირება",
+    "message": "შეტყობინებაზე გამოხმაურება",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "შეტყობინება, სტიკერი, რეაქცია, წაკითხვის დასტური ან მედია-ფაილი $sender$-ისგან ვერ გამოიგზავნა . მან შესაძლოა პირდაპირ შენთვის, ან ჯგუფში გამოგზავნა სცადა.",
+    "message": "შეტყობინება, სტიკერი, გამოხმაურება, წაკითხვის დასტური ან მედია-ფაილი $sender$-ისგან ვერ გამოიგზავნა. მან შესაძლოა პირდაპირ შენთვის, ან ჯგუფში გამოგზავნა სცადა.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "შეტყობინება, სტიკერი, რეაქცია, წაკითხვის დასტური ან მედია-ფაილი $sender$-მა ვერ გამოაგზავნა შენთან ამ ჩატში.",
+    "message": "შეტყობინება, სტიკერი, გამოხმაურება, წაკითხვის დასტური ან მედია-ფაილი $sender$-მა ვერ გამოაგზავნა შენთან ამ ჩატში.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$-ი შენს შეტყობინებას $emoji$-ით გამოეხმაურა"
+    "message": "$sender$-მა შენს შეტყობინებას $emoji$-ით გამოეხმაურა"
   },
   "notificationReactionMessage": {
-    "message": "$sender$-ი $message$-ს $emoji$-ით გამოეხმაურა"
+    "message": "$sender$ $emoji$-ით გამოეხმაურა $message$"
   },
   "sendFailed": {
     "message": "გაგზავნა ჩაიშალა",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "დღეს $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "გუშინ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "შერჩეული შეტყობინებისთვის emoji-ით რეაგირებაზე გადართვა",
+    "message": "არჩეული შეტყობინებისთვის emoji-ით გამოხმაურებაზე გადართვა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Sticker Pack Creator-ის გამოსაყენებლად ,გთხოვთ, Signal-ი შენს მობილურსა და კომპიუტერზე დააყენო",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "მიმდინარეობს რეაქციის გაგზავნა…",
+    "message": "რეაქცია იგზავნება...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,15 +5985,15 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "პასუხები & გამოხმაურებები",
+    "message": "პასუხები & რეაქციები",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "პასუხებისა & გამოხმაურებების დაშვება",
+    "message": "პასუხებისა & რეაქცების დაშვება",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "მიეცი საშუალება შენი Story-ის მნახველებს გამოეხმაურონ მას.",
+    "message": "მიეცი საშუალება შენი Story-ის მნახველებს მას გამოეხმაურონ.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6281,11 +6281,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Story-ზე გამოხმაურება",
+    "message": "Story-იზე გამოხმაურება",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "გამოხმაურება Story-ის",
+    "message": "Story-ის გამოეხმაურა",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6457,15 +6457,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "შენს Story-იზე გამოხმაურება $emoji$",
+    "message": "შენს Story-ის გამოეხმაურა $emoji$",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "$name$-ის Story-ის $emoji$ გამოეხმაურე",
+    "message": "$name$-ის Story-ის გამოეხმაურე $emoji$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "შენ $emoji$ გამოეხმაურე Story-ის",
+    "message": "Story-ის $emoji$ გამოეხმაურე",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "გამორთე ტელეფონის ნომრის აღმოჩენა სექციაში: პარამეტრები > ტელეფონის ნომერი > ვის შეუძლია ჩემი ნომრის პოვნა, რათა შენი მომხმარებლის სახელი იყოს ძირითადი გზა, რომლითაც სხვები შენთან დაკავშირებას შეძლებენ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "შეამცირე პასუხის დაბრუნების დრო. ახლა უკვე შეგიძლია Story-იზე პასუხისას ნებისმიერ emoji-ზე დაჭერით უფრო სწრაფად გამოეხმაურო.",
+    "messageformat": "გაზარდე პასუხის დაბრუნების სისწრაფე. ახლა უკვე შეგიძლია Story-იზე პასუხისას ნებისმიერ emoji-ზე დაჭერით მას უფრო სწრაფად გამოეხმაურო.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "დააწკაპუნე ნებისმიერ სურათზე ან ვიდეოზე და გამოიყენე ახალი, წინ და უკან გადასვლის ღილაკები მედია ფაილის დამთვალიერებელში, რათა მარტივად გაისეირნო შენი ვიზუალური მეხსიერების ბილიკებში.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "თუ ხმოვანი შეტყობინებების ჩაწერის პროცესში სხვა ჩატში გადაერთვები, ისინი ახლა უკვე მონახაზების სახით შეინახება.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ამიერიდან სტიკერის გაგზავნა ტექსტის მონახაზის წაშლას აღარ გამოიწვევს. მადლობა, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "ასევე, გვსურს {norstbox}-ს მადლობა გადავუხადოთ მიმოწერის საძიებო ფანჯრის ხატულების გასწორებისთვის.",
     "description": "Release notes for v6.10"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "لغو",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ارسال",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ نتوانست به شما تحویل داده شود. آن‌ها ممکن است آن را به طور مستقیم، یا در یک گروه به شما ارسال کرده باشند.",
+    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ قابل تحویل به شما نبود. ممکن است سعی کرده باشند آن را به‌طور مستقیم یا در یک گروه به شما ارسال کنند.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ نتوانست به شما در این گفتگو تحویل داده شود.",
+    "message": "یک پیام، استیکر، واکنش، رسید خوانده شدن، یا رسانه از $sender$ در این گفتگو قابل تحویل به شما نبود.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$به پیام شما واکنش $emoji$ نشان داد"
+    "message": "$sender$ با $emoji$ به پیام شما واکنش نشان داد"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ به $message$  واکنش $emoji$ نشان داد"
+    "message": "$sender$ با $emoji$ به $message$ واکنش نشان داد"
   },
   "sendFailed": {
     "message": "ارسال ناموفق بود",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "امروز $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "دیروز $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "باز و بسته کردن گزینشگر ایموجی برای پیام انتخاب شده",
+    "message": "باز و بسته کردن انتخابگر واکنش ایموجی برای پیام انتخاب‌شده",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "لطفاً برای استفاده از سازنده بسته استیکر، سیگنال را روی تلفن و دسکتاپ خود نصب کنید",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
+    "message": "واکنش ارسال نشد. لطفاً دوباره تلاش کنید.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -6285,7 +6285,7 @@
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "به استوری واکنش نشان داده شد",
+    "message": "به استوری واکنش نشان داد",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,15 +6449,15 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "واکنش به استوری $name$",
+    "message": "به استوری $name$ واکنش نشان داد",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "به یک استوری واکنش نشان داده شد",
+    "message": "به یک استوری واکنش نشان داد",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "با $emoji$ به استوری شما واکنش نشان داده شد",
+    "message": "با $emoji$ به استوری شما واکنش نشان داد",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "برای استفاده از نام کاربری‌تان به‌عنوان راه اصلی تماس افراد با شما، در «تنظیمات» > «حریم خصوصی» > «شماره تلفن» > «چه‌کسی می‌تواند من را با شماره تلفنم پیدا کند»، کشف شماره تلفن را خاموش کنید.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "پاسخ دادن خود را سرعت ببخشید. حالا می‌توانید هنگام پاسخ دادن به استوری، با کلیک روی هر ایموجی واکنش سریع‌تری به استوری نشان دهید.",
+    "messageformat": "پاسخ دادن خود را سرعت ببخشید. حالا می‌توانید هنگام پاسخ به استوری، با کلیک روی هر ایموجی سریع‌تر به استوری‌ها واکنش نشان دهید.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "برای قدم زدن در میان خاطرات‌ تصویری‌تان، روی هر تصویر یا ویدیو کلیک کنید و از دکمه‌های جدید «رفتن به جلو» و «رفتن به عقب» استفاده کنید.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "اگر در حالیکه ضبط در حال انجام است به گفتگوی دیگری بروید، از این پس پیام‌های صوتی شما به‌عنوان پیش‌نویس ذخیره می‌شوند.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ارسال استیکرها دیگر موجب پاک شدن متن پیش‌نویس نمی‌شود. سپاس، {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "همچنین از {norstbox} بابت برگرداندن تراز نمادهای نوار جستجوی مکالمه سپاس‌گزاریم.",
     "description": "Release notes for v6.10"
   }
 }

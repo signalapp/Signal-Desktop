@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Скасувати",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Надіслати",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Відреагувати на повідомлення",
+    "message": "Реагувати на повідомлення",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Не вдалось доставити повідомлення, стікер, реакцію або повідомлення про прочитання від $sender$ до вас. Ця людина могла відправити вищевказане безпосередньо вам або в яку-небудь групу.",
+    "message": "Не вдалося доставити повідомлення, стікер, реакцію, медіа або повідомлення про прочитання від користувача $sender$ до вас. Можливо, користувач надіслав це безпосередньо вам або в групу.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не  вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від $sender$  вам в цьому чаті.",
+    "message": "Не вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від користувача $sender$ до вас у цьому чаті.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ відреагував з $emoji$ на ваше повідомлення"
+    "message": "$sender$ реагує на ваше повідомлення: $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ відреагував з $emoji$ на: $message$"
+    "message": "$sender$ надсилає $emoji$ до вашого повідомлення: $message$"
   },
   "sendFailed": {
     "message": "Не вдалося надіслати",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Сьогодні, $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Учора, $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Замітка для себе",
+    "message": "Примітка для себе",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Показати/приховати панель реакцій на смайлики для вибраного повідомлення",
+    "message": "Показати / приховати панель реакцій для вибраного повідомлення",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Щоб створити набір стікерів, потрібно встановити Signal на телефон і комп'ютер",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Не вдалось відправити реакцію. Будь ласка, пробуйте ще раз.",
+    "message": "Не вдалося надіслати реакцію. Спробуйте ще раз.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Налаштуйте реакції",
+    "message": "Налаштування реакцій",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5985,11 +5985,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Відповіді та реакції",
+    "message": "Відповіді і реакції",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Дозволити відповіді та реакції",
+    "message": "Дозволити відповіді і реакції",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Вимкніть виявлення номеру телефону, перейшовши в Налаштування > Конфіденційність > Номер телефону > «Хто може знайти мене за номером телефону», щоб використовувати своє ім'я користувача як основний спосіб зв'язку з вами.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Клацніть будь-яке зображення чи відео та скористайтеся новими кнопками «Вперед» і «Назад». Гортайте альбом спогадів швидко і зручно.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Тепер голосові повідомлення зберігатимуться як чернетки, якщо під час запису перемкнутися на інший чат.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Надсилайте стікери і не хвилюйтеся про чернетку повідомлень: тепер вона не зникатиме. Дякуємо, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Ми також дякуємо {norstbox} за виправлення значків на панелі пошуку.",
     "description": "Release notes for v6.10"
   }
 }

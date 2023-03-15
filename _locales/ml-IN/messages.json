@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "റദ്ദാക്കുക",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "അയയ്‌ക്കുക",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ നിങ്ങൾക്ക് $sender$-ൽ നിന്ന് നൽകാൻ കഴിയില്ല. അവർ അത് നിങ്ങൾക്ക് നേരിട്ടോ ഒരു ഗ്രൂപ്പിലോ അയയ്ക്കാൻ ശ്രമിച്ചിരിക്കാം.",
+    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ നിങ്ങൾക്ക് $sender$ എന്നയാളിൽ നിന്ന് ലഭിക്കില്ല. അവർ അത് നിങ്ങൾക്ക് നേരിട്ടോ ഒരു ഗ്രൂപ്പിലോ അയയ്ക്കാൻ ശ്രമിച്ചിരിക്കാം.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ ഈ ചാറ്റിലെ -$sender$ൽ നിന്ന് നിങ്ങൾക്ക് നൽകാൻ കഴിയില്ല.",
+    "message": "ഒരു സന്ദേശം, സ്റ്റിക്കർ, പ്രതികരണം, വായിച്ച രസീത് അല്ലെങ്കിൽ മീഡിയ എന്നിവ ഈ ചാറ്റിലെ $sender$ എന്നയാളിൽ നിന്ന് നിങ്ങൾക്ക് ലഭിക്കില്ല.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു"
+    "message": "$sender$ നിങ്ങളുടെ സന്ദേശത്തോട് $emoji$ നൽകി പ്രതികരിച്ചു"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ നിങ്ങളുടെ $message$-ത്തോട് $emoji$ പ്രതികരിച്ചു"
+    "message": "$sender$ നിങ്ങളുടെ $message$ എന്ന സന്ദേശത്തിനോട് $emoji$ നൽകി പ്രതികരിച്ചു"
   },
   "sendFailed": {
     "message": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ഇന്ന് $time$ മണിക്ക്",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ഇന്നലെ $time$ മണിക്ക്",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "തിരഞ്ഞെടുത്ത സന്ദേശം-ത്തിനായി ഇമോജി-റിയാക്ഷൻ പിക്കർ ടോഗിൾ ചെയ്യുക",
+    "message": "തിരഞ്ഞെടുത്ത സന്ദേശത്തിനായി ഇമോജി റിയാക്ഷൻ പിക്കർ ടോഗിൾ ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് സ്രഷ്ടാവ് ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "പ്രതികരണം അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+    "message": "പ്രതികരണം അയയ്ക്കാനായില്ല. വീണ്ടും ശ്രമിക്കുക.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -6457,15 +6457,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് നിങ്ങൾ $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് നിങ്ങൾ $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "നിങ്ങൾ ഒരു സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "message": "നിങ്ങൾ ഒരു സ്റ്റോറിയോട് $emoji$ നൽകി പ്രതികരിച്ചു",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "മറ്റുള്ളവർക്ക് നിങ്ങളെ കോൺടാക്റ്റ് ചെയ്യാനുള്ള പ്രാഥമിക മാർഗം ഉപയോക്തൃനാമമാക്കാൻ ക്രമീകരണം > ഫോൺ നമ്പർ > ആർക്കൊക്കെ എന്‍റെ നമ്പർ കണ്ടെത്താനാകും എന്നതിലേക്ക് പോയി ഫോൺ നമ്പർ ഡിസ്‌ക്കവറി ഓഫാക്കുക.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "മീഡിയാ വ്യൂവറിൽ പുതുതായി ചേർത്ത ഫോർവേർഡ്, ബാക്ക്‌വേർഡ് ബട്ടണുകൾ ഉപയോഗിക്കാൻ ഏതെങ്കിലും ചിത്രത്തിലോ വീഡിയോയിലോ ക്ലിക്ക് ചെയ്യൂ.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "വോയിസ് റെക്കോർഡ് ചെയ്‌തു കൊണ്ടിരിക്കുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്ക് മാറിയാൽ വോയിസ് മെസേജുകൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിക്കും.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "സ്റ്റിക്കർ അയച്ചാൽ ഇനി ഡ്രാഫ്റ്റ് ടെക്സ്റ്റ് ഇല്ലാതാകില്ല. നന്ദി, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "കോൺവർസേഷൻ സെർച്ച് ബാർ ഐക്കണുകൾ അലൈൻമെന്‍റിലേക്ക് മടക്കി കൊണ്ടുവന്നതിന് {norstbox} എന്നതിനോടും ഞങ്ങൾക്ക് നന്ദി പറയേണ്ടതുണ്ട്.",
     "description": "Release notes for v6.10"
   }
 }

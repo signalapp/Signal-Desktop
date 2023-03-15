@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "បោះបង់",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ផ្ញើ",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "ប្រតិកម្មទៅសារ",
+    "message": "ប្រតិកម្មទៅនឹងសារ",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកបានទេ។ ពួកគេប្រហែលជាបានព្យាយាមផ្ញើវាទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
+    "message": "សារ ស្ទីគ័រ ប្រតិកម្ម មុខងារអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកបានទេ។ គេប្រហែលជាបានសាកល្បងផ្ញើវាទៅអ្នកដោយផ្ទាល់ ឬនៅក្នុងក្រុម។",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុង​ការជជែកនេះបានទេ។",
+    "message": "សារ ស្ទីគ័រ ប្រតិកម្ម មុខងារអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុងការជជែកនេះបានទេ។",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅសាររបស់អ្នក"
+    "message": "$sender$ បានប្រតិកម្ម $emoji$ ទៅនឹងសាររបស់អ្នក"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅ៖ $message$"
+    "message": "$sender$ បានប្រតិកម្ម $emoji$ ទៅនឹង៖ $message$"
   },
   "sendFailed": {
     "message": "ផ្ញើបរាជ័យ",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ថ្ងៃនេះ $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ម្សិលមិញ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "កំណត់ចំណាំ",
+    "message": "កំណត់ចំណាំខ្លួនឯង",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "បិទ/បើក​កម្មវិធី​ជ្រើស​រើសប្រតិកម្ម​-រូបអារម្មណ៍​សម្រាប់​សារ​ដែល​បាន​ជ្រើសរើស",
+    "message": "បិទ/បើកផ្ទាំងជ្រើសរើសរូបអារម្មណ៍-ប្រតិកម្មសម្រាប់សារដែលបានជ្រើសរើស",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "សូមរៀបចំ Signal នៅលើទូរសព្ទ និងកុំព្យូទ័ររបស់អ្នក ដើម្បីប្រើប្រាស់ឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "បរាជ័យក្នុងការផ្ញើប្រតិកម្ម។ សូមសាកល្បងម្តងទៀត។",
+    "message": "មិនអាចផ្ញើប្រតិកម្មបាន។ សូមព្យាយាមម្តងទៀត។",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "ដាក់រូបប្រតិកម្មតាមចំនូលចិត្ត",
+    "message": "ដាក់រូបប្រតិកម្មតាមបំណង",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "កំពុង​ផ្ញើ​ប្រតិកម្ម…",
+    "message": "កំពុងផ្ញើប្រតិកម្ម…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -6449,7 +6449,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវពី $name$",
+    "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវមួយពី $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6461,11 +6461,11 @@
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវពី $name$",
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវមួយពី $name$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវ",
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវមួយ",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "បិទការស្វែងរកលេខទូរសព្ទនៅក្រោម ការកំណត់ > ឯកជនភាព > លេខទូរសព្ទ > អ្នកដែលអាចស្វែងរកលេខរបស់ខ្ញុំបាន ដើម្បីប្រើប្រាស់ឈ្មោះអ្នកប្រើរបស់អ្នកជាវិធីចម្បងសម្រាប់ឲ្យអ្នកដទៃអាចទាក់ទងអ្នកបាន។",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ចុចលើរូបភាព ឬវីដេអូណាមួយ ហើយប្រើប៊ូតុងថ្មី ទៅមុខ និង ថយក្រោយ នៅក្នុងកម្មវិធីមើលមេឌៀដើម្បីរំលឹកអនុស្សាវរីយ៍។",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ឥឡូវនេះ សារជាសំឡេងត្រូវបានរក្សាទុកជាសេចក្តីព្រាង ប្រសិនបើអ្នកប្តូរទៅការជជែកមួយទៀត ពេលដែលការថតកំពុងដំណើរការ។",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ការផ្ញើស្ទីគ័រលែងធ្វើឲ្យអត្ថបទព្រាងត្រូវបានលុបទៀតហើយ។ អរគុណ {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "យើងក៏សូមអរគុណដល់ {norstbox} ផងដែរដែលបានធ្វើឲ្យមានរូបរបារស្វែងរកការសន្ទនាមកវិញ។",
     "description": "Release notes for v6.10"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "रद्द करा",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "पाठवा",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "संदेशाला प्रतिसाद द्या",
+    "message": "संदेशावर प्रतिक्रिया द्या",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ पासून संदेश, स्टिकर, प्रतिक्रिया, वाचल्याची पावती किंवा मिडिया आपल्यापर्यंत डिलिव्हर केली जाऊ शकली नाही. त्यांनी आपल्याला थेट किंवा गटात पाठवण्याचा प्रयत्न केला असेल.",
+    "message": "$sender$ कडून संदेश, स्टिकर, प्रतिक्रिया, वाचल्याची पावती किंवा मिडिया आपल्यापर्यंत पोहोचवली जाऊ शकली नाही. त्यांनी ती आपल्याला थेट किंवा गटात पाठवण्याचा प्रयत्न केला असेल.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "या चॅटमध्ये $sender$ पासून संदेश, स्टिकर, प्रतिक्रिया किंवा मिडिया आपल्यापर्यंत पोहोचवली जाऊ शकली नाही.",
+    "message": "या चॅटमध्ये $sender$ कडून संदेश, स्टिकर, प्रतिक्रिया किंवा मिडिया आपल्यापर्यंत पोहोचवली जाऊ शकली नाही.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ने आपल्या संदेशाला $emoji$ प्रतिसाद दिला"
+    "message": "$sender$ ने आपल्या संदेशावर $emoji$ प्रतिक्रिया दिली"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ने$message$ला $emoji$ प्रतिसाद दिला"
+    "message": "$sender$ ने $message$ वर प्रतिक्रिया दिली: $emoji$"
   },
   "sendFailed": {
     "message": "पाठविणे अयशस्वी",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "आज $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "काल $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "स्वतःला संदेश",
+    "message": "स्वतःला नोंद",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "निवडलेल्या संदेशासाठी ईमोजी-प्रतिसाद पिकर टॉगल करा",
+    "message": "निवडलेल्या संदेशासाठी इमोजी-प्रतिक्रिया द्या पिकर टॉगल करा",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "स्टिकर पॅक निर्माता वापरण्यासाठी कृपया आपल्या फोन आणि डेस्कटॉपवर Signal सेट अप करा",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "प्रतिसाद पाठवण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
+    "message": "प्रतिक्रिया पाठवण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5985,11 +5985,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "प्रत्त्युत्तरे आणि प्रतिक्रिया",
+    "message": "प्रत्त्युत्तरे व प्रतिक्रिया",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "प्रत्त्युत्तरे आणि प्रतिक्रियांना अनुमती द्या",
+    "message": "प्रत्त्युत्तरे व प्रतिक्रियांना अनुमती द्या",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "इतरांना आपल्याशी संपर्क साधण्याचा प्राथमिक मार्ग म्हणून आपले वापरकर्ता नाव वापरण्यास सेटिंग्ज > गोपनीयता > फोन नंबर > माझा नंबर कोण शोधू शकते, खाली फोन नंबर शोध बंद करा.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "आपला प्रतिक्रिया वेळाला गति द्या. आता आपण स्टोरीला उत्तर देताना कोणत्याही इमोजीवर क्लिक करून त्वरित प्रतिक्रिया देऊ शकता.",
+    "messageformat": "आपला प्रतिसाद वेळाला गति द्या. आता आपण स्टोरीला उत्तर देताना कोणत्याही इमोजीवर क्लिक करून त्वरित प्रतिक्रिया देऊ शकता.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "कोणत्याही चित्रावर किंवा व्हिडीओवर क्लिक करा आणि मिडीया दर्शक मधील नवीन पुढे आणि मागे बटणचा वापर करून आपल्या आठवणींचा दृशिक आनंद घ्या.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "रेकॉर्डिग सुरु असताना आपण दुसऱ्या चॅटस् मध्ये स्वीच झाल्यास व्हाईस संदेश आता ड्राफ्ट म्हणून जतन केले जातील.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "स्टीकर पाठवल्याने ड्राफ्ट मजकूरांना यापुढे साफ करण्यास कारणीभूत होणार नाही. धन्यवाद, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "संभाषण शोध बार चिन्हाला पुन्हा संरेखनामध्ये आणण्याबद्दल आम्हाला {norstbox} चेही आभार मानणे आवडेल.",
     "description": "Release notes for v6.10"
   }
 }

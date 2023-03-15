@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Kanselahin",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "I-send",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Ang message, sticker, reaction, read receipt o media mula kay $sender$ ay hindi ma-deliver sa'yo. Maaaring sinubukan niya itong i-send sa'yo directly, o sa isang group.",
+    "message": "Hindi ma-deliver sa 'yo ang message, sticker, reaction, read receipt o media mula kay $sender$. Maaaring sinubukan niyang i-send ito sa 'yo directly, o sa isang group.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Ang message, sticker, reaction, o read receipt mula kay $sender$ sa chat na ito ay hindi ma-deliver sa'yo.",
+    "message": "Hindi ma-deliver sa 'yo ang message, sticker, reaction, o read receipt mula kay $sender$ sa chat na ito.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reacted $emoji$ sa message mo"
+    "message": "Nag-react si $sender$ ng $emoji$ sa message mo"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reacted $emoji$ sa: $message$"
+    "message": "Nag-react si $sender$ ng $emoji$ sa: $message$"
   },
   "sendFailed": {
     "message": "Failed ang pag-send",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Ngayong araw $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Kahapon $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Toggle emoji-reaction picker for selected message",
+    "message": "I-switch ang emoji-reaction picker para sa piniling message",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "I-set up ang Signal sa iyong phone at desktop para magamit ang Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Failed to send reaction. Subukan ulit.",
+    "message": "Hindi na-send ang reaction. Subukan ulit.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5989,11 +5989,11 @@
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Allow replies & reactions",
+    "message": "Payagan ang replies & reactions",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Hayaang mag-react at mag-reply ang mga taong nakakakita ng story mo.",
+    "message": "Payagang mag-react at mag-reply ang mga taong nakakakita ng story mo.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "I-off ang phone number discovery sa Settings > Phone Number > Who can find my number, para magamit ang iyong username bilang pangunahing paraan para ma-contact ka ng iba.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "★ Pabilisin ang response time mo. Pwede kang mag-react nang mas mabilis ngayon sa pamamagitan ng pag-tap ng anumang emoji kapag nagre-reply ka sa story.",
+    "messageformat": "Pabilisin ang response time mo. Pwede kang mag-react nang mas mabilis ngayon sa pamamagitan ng pag-click ng anumang emoji kapag nagre-reply ka sa story.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "I-click ang anumang picture o video at gamitin ang bagong Forward at Backward buttons sa media viewer para mag-reminisce.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Naka-save ngayon ang voice messages bilang drafts kung lumipat ka sa ibang chat habang nagre-record.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Hindi na mabubura ang draft text kapag nag-send ka ng sticker. Maraming salamat, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Gusto rin naming pasalamatan si {norstbox} sa pagbabalik sa alignment ng conversation search bar icons.",
     "description": "Release notes for v6.10"
   }
 }

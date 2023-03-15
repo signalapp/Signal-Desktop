@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "منسوخ کریں",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "بھیجیں",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "پیغام پر ردعمل",
+    "message": "میسج پر ری ایکٹ کریں",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ کا ایک پیغام ، اسٹیکر ، ردعمل ، پڑھنے کی رسید یا میڈیا آپ کو  نہیں پہنچایا جاسکا۔ ہوسکتا ہے کہ انہوں نے اسے براہ راست یا کسی گروپ میں آپ کو بھیجنے کی کوشش کی ہو۔",
+    "message": "$sender$ کی طرف سے کوئی میسج، اسٹیکر، ری ایکشن، میسج پڑھنے کا ثبوت یا میڈیا آپ کو ڈیلیور نہیں کیا جا سکا۔ انہوں نے یہ آپ کو براہ راست، یا کسی گروپ میں بھیجنے کی کوشش کی ہو گی۔",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "اس چیٹ میں $sender$ سے آپ کو کوئی پیغام ، اسٹیکر ، ردعمل ، پڑھنے کی رسید یا میڈیا نہیں پہنچایا جاسکتا ہے۔",
+    "message": "اس چیٹ میں $sender$ کی طرف سے کوئی میسج، اسٹیکر، ری ایکشن، میسج پڑھنے کا ثبوت یا میڈیا آپ کو ڈیلیور نہیں کیا جا سکا۔",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ نے آپ کے پیغام پر ردعمل$emoji$ ظاہر کیا"
+    "message": "$sender$ نے آپ کے میسج پر $emoji$ ری ایکٹ کیا"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ نے اس$message$ پر رد عمل$emoji$ ظاہر کیا:"
+    "message": "$sender$ نے $emoji$ ری ایکٹ کیا: $message$ پر"
   },
   "sendFailed": {
     "message": "بھیجنے میں ناکام",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "آج $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "کل $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "اپنے لئے نوٹ کریں",
+    "message": "خود کے لیے نوٹ",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "منتخب کردہ پیغام کے لیئے ایموجی-رد عمل چنندہ کو ٹوگل کریں",
+    "message": "منتخب کردہ میسج کے لیے ایموجی-ری ایکشن پِکر کو ٹوگل کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "براہ کرم اسٹیکر پیک تخلیق کار کو استعمال کرنے کے لیے اپنے فون اور ڈیسک ٹاپ پر Signal کو سیٹ اپ کریں",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ردعمل ہٹائیں",
+    "message": "ری ایکشن ہٹائیں",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "ردعمل بھیجنے میں ناکام۔ دوبارہ کوشش کریں.",
+    "message": "ری ایکشن بھیجنے میں ناکامی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "رد عمل کو اپنی مرضی کے مطابق بنائیں",
+    "message": "ری ایکشنز کو حسبِ ضرورت بنائیں",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "ردعمل بھیج رہے ہیں...",
+    "message": "ری ایکشن بھیجا جا رہا ہے...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,11 +5985,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "جوابات اور ردعمل",
+    "message": "جوابات اور ری ایکشنز",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "جوابات اور ردعمل کی اجازت دیں",
+    "message": "جوابات اور ری ایکشنز کی اجازت دیں",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6281,11 +6281,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "سٹوری پر ردعمل دیں",
+    "message": "سٹوری پر ری ایکٹ کریں",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "سٹوری پر ردعمل دیا",
+    "message": "سٹوری پر ری ایکٹ کیا",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,23 +6449,23 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ کی طرف سے کہانی پر ردعمل دیا",
+    "message": "$name$ کی سٹوری پر ری ایکٹ کیا",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "سٹوری پر ردعمل دیا",
+    "message": "سٹوری پر ری ایکٹ کیا",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "آپ کی سٹوری پر $emoji$ ردعمل دیا",
+    "message": "آپ کی سٹوری پر $emoji$ ری ایکٹ کیا",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "آپ نے $name$ کی سٹوری پر $emoji$ ردعمل دیا",
+    "message": "آپ نے $name$ کی سٹوری پر $emoji$ ری ایکٹ کیا",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "آپ نے سٹوری پر $emoji$ ردعمل دیا",
+    "message": "آپ نے سٹوری پر $emoji$ ری ایکٹ کیا",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "سیٹنگز > پرائیویسی > فون نمبر > کون میرا نمبر تلاش کر سکتا ہے کے تحت فون نمبر کی تلاش کو آف کریں، تاکہ آپ کے یوزر نیم کو دوسروں کے آپ سے رابطہ کرنے کا بنیادی طریقہ بنایا جا سکے۔",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "اپنے رد عمل کے وقت کی رفتار بڑھائیں۔ اب آپ سٹوری کا جواب دیتے وقت کسی ایموجی پر کلک کر کے زیادہ تیزی سے ری ایکٹ کر سکتے ہیں۔",
+    "messageformat": "اپنے جواب کے وقت کی رفتار بڑھائیں۔ اب آپ سٹوری کا جواب دیتے وقت کسی ایموجی پر کلک کر کے زیادہ تیزی سے ری ایکٹ کر سکتے ہیں۔",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "اپنی پرانی یادوں کو بصری طور پر تازہ کرنے کے لیے کسی تصویر یا ویڈیو پر کلک کریں اور میڈیا ویور میں موجود نئے فارورڈ اور بیک ورڈ بٹنز استعمال کریں۔",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "اگرآپ ریکارڈنگ کے زیر عمل ہوتے ہوئے کسی دوسری چیٹ پر سوئچ کرتے ہیں تو وائس میسجز اب ڈرافٹس کے طور پر محفوظ ہوتے ہیں۔",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "اسٹیکر بھیجنے سے ڈرافٹ کا متن اب مزید صاف نہیں ہوتا۔ شکریہ، {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "گفتگو کے سرچ بار کے آئیکنز کو دوبارہ ترتیب دینے کے لیے ہم {norstbox} کا بھی شکریہ ادا کرنا چاہیں گے۔",
     "description": "Release notes for v6.10"
   }
 }

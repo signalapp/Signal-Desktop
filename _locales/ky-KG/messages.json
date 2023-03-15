@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Жок",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Жөнөтүү",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Билдирүүгө реакция кылуу",
+    "message": "Билдирүүгө сезим билдирүү",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "$sender$ жөнөткөн билдирүү, стикер, реакция же окулду деген билдирме сизге жетпей калды. Ал бул нерселерди түздөн-түз сизге же кандайдыр бир топко жөнөткөнгө аракет кылган.",
+    "message": "$sender$ жөнөткөн билдирүү, стикер, билдирген сезим же окулду деген билдирме сизге жетпей калды. Ал бул нерселерди түздөн-түз сизге же кандайдыр бир топко жөнөткөнгө аракет кылган.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Бул маекте $sender$ жөнөткөн билдирүү, стикер, реакция, окулду деген билдирме сизге жетпей калды.",
+    "message": "Бул маекте $sender$ жөнөткөн билдирүү, стикер, билдирген сезим, окулду деген билдирме сизге жетпей калды.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ билдирүүңүзгө $emoji$ реакция кылды"
+    "message": "$sender$ билдирүүңүзгө $emoji$ деген сезимин билдирди"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ $message$ үчүн $emoji$ реакция кылды"
+    "message": "$sender$ $message$ үчүн $emoji$ деген сезимин билдирди"
   },
   "sendFailed": {
     "message": "Жөнөтүлбөй калды",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Бүгүн $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Кечээ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Тандалган билдирүү үчүн быйтыкча-реакция тилкесин көрсөтүү/жашыруу",
+    "message": "Тандалган билдирүүгө сезимди билдирген быйтыкчаларды көрсөтүү/жашыруу",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Стикерлер топтомун түзгүчтү колдонуу үчүн телефонуңузга жана компьютериңизге Signal'ды орнотуңуз",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Реакцияны алып салуу",
+    "message": "Сезимди алып салуу",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Реакция жөнөтүлбөй калды. Сураныч, кайра аракет кылыңыз.",
+    "message": "Сезим жөнөтүлбөй калды. Кайталап көрүңүз.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Реакцияларды ыңгайлаштыруу",
+    "message": "Сезимдер топтомун ыңгайлаштыруу",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Реакция жөнөтүлүүдө...",
+    "message": "Сезим жөнөтүлүүдө...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5993,7 +5993,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана реакция кылууга мүмкүнчүлүк бериңиз.",
+    "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана сезимдерин билдирүүгө мүмкүнчүлүк бересиз.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6281,11 +6281,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Окуяга реакция кылуу",
+    "message": "Окуяга сезим билдирүү",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Окуяга реакция кылды",
+    "message": "Окуяга сезимин билдирди",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,23 +6449,23 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ окуясына реакция кылды",
+    "message": "$name$ түзгөн окуяга сезимин билдирди",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Окуяга реакция кылды",
+    "message": "Окуяга сезимин билдирди",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "Окуяңызга $emoji$ деп сезимин билдирди",
+    "message": "Окуяңызга $emoji$ деген сезимин билдирди",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "$name$ жарыялаган окуяга $emoji$ деп сезимиңизди билдирдиңиз",
+    "message": "$name$ жарыялаган окуяга $emoji$ деген сезимиңизди билдирдиңиз",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "Окуяга $emoji$ деп сезимиңизди билдирдиңиз",
+    "message": "Окуяга $emoji$ деген сезимиңизди билдирдиңиз",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Телефон номерин табуу мүмкүнчүлүгүн Параметрлер > Телефон номери > Менин телефонумду кимдер таба алат деген бөлүмдө өчүрүп, башкалар сизди колдонуучу атыңыз аркылуу таба алгыдай кылсаңыз болот.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Ыкчам жооп бериңиз. Окуяга болгон сезимиңизди билдирүү үчүн жөн гана быйтыкчаны басып койсоңуз болот.",
+    "messageformat": "Ыкчам жооп бересиз. Окуяга болгон сезимиңизди билдирүү үчүн жөн гана быйтыкчаны басып койсоңуз болот.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Каалаган сүрөттү же видеону басып, медиа ойноткучтагы жаңы Алдыга жана Артка баскычтарын колдонуп, өткөн күндөрдөгү жылуу учурларга көз чаптырып чыксаңыз болот.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Билдирүү жазылып жаткан учурда башка маекке которулсаңыз, үн билдирүүлөрү долбоор катары сакталат.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Стикер жөнөтсөңүз, долбоор катары сакталган текст өчпөйт. Чоң рахмат {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Сүйлөшүүлөрдү издөө тилкесинин сүрөтчөлөрү кайтарылганы үчүн да {norstbox} терең ыраазычылыгыбызды билдиребиз.",
     "description": "Release notes for v6.10"
   }
 }

@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Zrušit",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Odeslat",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Zpráva, nálepka, reakce, potvrzení o přečtení nebo média od $sender$ vám nemohla být doručena. Je možné, že se vám ji pokusil/a poslat přímo nebo ve skupině.",
+    "message": "Zpráva, nálepka, reakce, potvrzení o přečtení nebo média od uživatele $sender$ vám nemohla být doručena. Je možné, že se vám ji pokusil/a poslat přímo nebo ve skupině.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Z tohoto chatu vám od $sender$ nemohla být doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium.",
+    "message": "V této konverzaci vám nemohla být od uživatele $sender$ doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ zareagoval/a $emoji$ na vaši zprávu"
+    "message": "$sender$ reagoval/a $emoji$ na vaši zprávu"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ zareagoval/a $emoji$ na vaši $message$"
+    "message": "$sender$ reagoval/a $emoji$ na: $message$"
   },
   "sendFailed": {
     "message": "Odeslání se nezdařilo",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Dnes v $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Včera v $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Přepnout výběr emoji-reakce na vybranou zprávu",
+    "message": "Přepínání výběru emoji-reakce pro vybranou zprávu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Pokud chcete používat nástroj pro tvorbu balíčků nálepek, nastavte si aplikaci Signal v telefonu a na počítači",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "Nepodařilo se zaslat reakci. Zkuste to prosím znovu.",
+    "message": "Reakci se nepodařilo odeslat. Zkuste to prosím znovu.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5985,11 +5985,11 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Odpovědi a reakce",
+    "message": "Odpovědi a reakce",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "Povolit odpovědi a reakce",
+    "message": "Povolit odpovědi a reakce",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
@@ -6449,7 +6449,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Reagoval/a na příběh od $name$",
+    "message": "Reagoval/a na příběh od uživatele $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -6457,15 +6457,15 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "Posílá $emoji$ v reakci na váš příběh",
+    "message": "Reagoval/a $emoji$ na váš příběh",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
-    "message": "Posíláte $emoji$ v reakci na příběh uživatele $name$",
+    "message": "Reagoval/a jste $emoji$ na příběh uživatele $name$",
     "description": "Notification test for outgoing story reactions"
   },
   "Quote__story-reaction-notification--outgoing--nameless": {
-    "message": "V reakci na příběh posíláte $emoji$",
+    "message": "Reagoval/a jste $emoji$ na příběh",
     "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Vypněte funkci vyhledání telefonního čísla v nabídce Nastavení > Soukromí > Telefonní číslo > Kdo může najít mé číslo a používejte své uživatelské jméno jako primární způsob, jak vás mohou ostatní kontaktovat.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klikněte na jakýkoli obrázek nebo video a pomocí nových tlačítek Vpřed a Zpět v prohlížeči médií se můžete vydat na obrazovou procházku vzpomínkami.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Hlasové zprávy se nyní ukládají jako koncept, pokud během nahrávání přepnete na jinou konverzaci.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Při odeslání nálepky se již nevymaže text konceptu. Díky, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Rádi bychom také poděkovali uživateli {norstbox} za vrácení ikon na panelu vyhledávání konverzací do původního stavu.",
     "description": "Release notes for v6.10"
   }
 }

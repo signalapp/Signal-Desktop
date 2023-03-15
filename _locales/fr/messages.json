@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Annuler",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Envoyer",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1263,7 +1263,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Un message, un autocollant, une réaction ou un accusé de lecture de $sender$ n’a pas pu vous être remis dans cette conversation.",
+    "message": "Un message, un autocollant, une réaction, un accusé de lecture ou un contenu multimédia de $sender$ n’a pas pu vous être remis dans cette conversation.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ a réagi $emoji$ à votre message"
+    "message": "$sender$ a réagi par $emoji$ à votre message"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ a réagi $emoji$ à : $message$"
+    "message": "$sender$ a réagi par $emoji$ à : $message$"
   },
   "sendFailed": {
     "message": "Échec d’envoi",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Aujourd’hui $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Hier $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Veuillez configurer Signal sur votre téléphone et votre ordinateur pour utiliser l’outil de création de packs d’autocollants",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Envoyer une réaction",
+    "message": "Réaction en cours…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -6457,7 +6457,7 @@
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
-    "message": "$emoji$utilisateurs ont réagi à votre Story",
+    "message": "A réagi par $emoji$ à votre Story",
     "description": "Notification test for incoming story reactions"
   },
   "Quote__story-reaction-notification--outgoing": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Désactivez la découverte du numéro de téléphone dans les Paramètres > Confidentialité > Numéro de téléphone > Qui peut trouver mon numéro, pour utiliser votre nom d’utilisateur comme principal moyen pour les autres utilisateurs de vous contacter.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Accélérez votre temps de réponse. Vous pouvez désormais réagir plus rapidement en appuyant sur l'émoji de votre choix pour répondre à une Story.",
+    "messageformat": "Accélérez votre temps de réponse. Vous pouvez désormais réagir plus rapidement en appuyant sur l’émoji de votre choix pour répondre à une Story.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Cliquez sur n’importe quelle image ou vidéo et utilisez les nouveaux boutons Précédent/Suivant dans la visionneuse de contenus pour voyager dans le temps.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Les messages vocaux sont désormais sauvegardés en tant que brouillon si vous vous rendez dans une autre conversation pendant que vous enregistrez votre message.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "L’envoi d’un autocollant ne supprimera plus le message sauvegardé en tant que brouillon. Merci, {lamemakes} !",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Nous tenons également à remercier {norstbox} pour avoir réaligné les icônes de la barre de recherche des conversations.",
     "description": "Release notes for v6.10"
   }
 }

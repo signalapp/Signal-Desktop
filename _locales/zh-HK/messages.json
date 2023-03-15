@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "取消",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "傳送",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "對訊息的回應",
+    "message": "對訊息傳送心情回應",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "無法從 $sender$向你傳送訊息、貼圖、回應、已讀回執或媒體。 他們可能已經嘗試將其直接傳送給你，或以群組形式傳送給你。",
+    "message": "系統無法將 $sender$ 的訊息、貼圖、心情回應、已讀標記或多媒體檔案傳送給你。他們可能是直接或透過群組向你傳送的。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "無法從$sender$聊天中向你傳送訊息、貼圖、回應、已讀回執或媒體檔。",
+    "message": "系統無法在此聊天中將 $sender$ 的訊息、貼圖、心情回應、已讀標記或多媒體檔案傳送給你。",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$回應了 $emoji$你的訊息"
+    "message": "$sender$ 對你的訊息表達了 $emoji$ 心情"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ 對 $message$ 回應了 $emoji$"
+    "message": "$sender$ 表達 $emoji$ 心情的訊息：$message$"
   },
   "sendFailed": {
     "message": "傳送失敗",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "今天 $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "昨天 $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "切換所選訊息的表情符號反應選擇器",
+    "message": "為所選訊息切換表情符號心情回應選擇器",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,15 +3189,15 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "請在手機和桌上型電腦設定 Signal 以使用貼圖包編輯器",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "移除回應",
+    "message": "移除心情回應",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "傳送回應失敗。請再試一次。",
+    "message": "無法傳送心情回應。請再試一次。",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "自定義回應",
+    "message": "自訂心情回應",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5909,7 +5909,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "正在傳送反應…",
+    "message": "正在傳送心情回應…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5985,15 +5985,15 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "回覆及反應",
+    "message": "回覆及心情回應",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
-    "message": "允許回覆及反應",
+    "message": "允許回覆及心情回應",
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "允許看到你限時動態的人傳送心情回應和回覆內容。",
+    "message": "允許看到你限時動態的人傳送心情回應和回覆。",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -6281,11 +6281,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "對限時動態傳送心情回應",
+    "message": "對限時動態表達心情回應",
     "description": "(deleted 01/25/23) aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "已對限時動態傳送心情回應",
+    "message": "對限時動態表達了心情回應",
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
@@ -6449,11 +6449,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "已對 $name$ 的限時動態傳送心情回應",
+    "message": "對 $name$ 的限時動態表達了心情回應",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "已對限時動態傳送心情回應",
+    "message": "對限時動態表達了心情回應",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-reaction-notification--incoming": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "要關閉電話號碼搜索功能，請前往「設定」>「隱私」>「電話號碼」>「誰可以找到我的電話號碼」，以便使用你的用戶名稱作為其他人聯絡你的主要方式。",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "加快您的回應時間。您現在可以點擊任何表情符號來迅速回覆限時動態。",
+    "messageformat": "加快你的回應時間。你現在可以點擊任何表情符號來迅速地回覆限時動態。",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "點擊任何圖片或影片，然後使用多媒體瀏覽器中新加入的「快轉」和「倒回」按鈕來回顧難忘的影像內容。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "如果你在錄製語音訊息時切換到另一個聊天，系統現在會將該語音訊息儲存為草稿。",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "現在即使發送貼圖都不會再令你的文字草稿遭到清除。{lamemakes}，謝謝你！",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "我們還要感謝 {norstbox} 將對話搜索欄的圖標重新對齊。",
     "description": "Release notes for v6.10"
   }
 }

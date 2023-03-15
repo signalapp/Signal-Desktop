@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Loobu",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Saada",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili kontaktilt $sender$ sulle saatmine ei õnnestunud. Nad võisid püüda saata seda sulle otse või grupi kaudu.",
+    "message": "Kontakt $sender$ saatis sulle sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili, kuid see ei jõudnud pärale. Ta võis püüda saata seda sulle otse või grupi kaudu.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili selles vestluses sulle saatmine kontaktilt $sender$ ei õnnestunud.",
+    "message": "Kontakt $sender$ saatis sulle sõnumi, kleepsu, reaktsiooni, lugemisteate või meediafaili, kuid see ei jõudnud pärale.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reageeris $emoji$ sinu sõnumile"
+    "message": "$sender$ reageeris sinu sõnumile: $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reageeris $emoji$ sõnumile: $message$"
+    "message": "$sender$ reageeris sõnumile $message$: $emoji$"
   },
   "sendFailed": {
     "message": "Saatmine ei õnnestunud",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Täna $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Eile $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Märkus endale",
+    "message": "Meelespea endale",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Kleebiste komplekti loomiskeskkonna kasutamiseks pead seadistama Signali nii enda telefonis kui arvutis",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Lülita oma telefoninumbri nähtavus välja, valides Sätted > Privaatsus > Telefoninumber > Kes mu numbrit näevad, et muuta kasutajanimi peamiseks viisiks, mille abil sind leida.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Klõpsa mis tahes pildile või videole ning taaskülasta meediavaaturis Edasi ja Tagasi nuppude abil oma mäletusi.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Kui avad häälsõnumi salvestamise ajal teise vestluse, salvestatakse häälsõnum nüüd mustandina.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Mustandis olnud tekst ei kustu enam kleebise saatmisel. Aitäh, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Täname ka kasutajat {norstbox}, kes parandas vestluse otsinguriba ikoonide joondatuse.",
     "description": "Release notes for v6.10"
   }
 }

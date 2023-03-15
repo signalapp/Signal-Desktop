@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "Anulo",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "Dërgo",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "Reagoni ndaj Mesazhit",
+    "message": "Reago ndaj mesazhit",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "S’u dërgua dot te ju një mesazh, ngjitës, reagim, dëftesë leximi ose media nga $sender$. Mund të ketë provuar ta dërgojë drejtpërsëdrejti për ju, ose në një grup.",
+    "message": "Një mesazh, ngjitës, reagim, verifikim leximi ose media i $sender$ nuk u dërgua dot te ti. Mund të ketë provuar ta dërgojë drejtpërsëdrejti te ti ose në një grup.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "S’u dorëzua dot për ju një mesazh, ngjitës, reagim, dëftesë leximi ose media nga $sender$ në këtë fjalosje.",
+    "message": "Një mesazh, ngjitës, reagim, verifikim leximi ose media i $sender$ në këtë bisedë, nuk u dërgua dot te ti.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tuaj"
+    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tënd"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagoi $emoji$ te: $message$"
+    "message": "$sender$ reagoi me $emoji$ te: $message$"
   },
   "sendFailed": {
     "message": "Dërgimi dështoi",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "Sot $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "Dje $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Shënim për Veten",
+    "message": "Shënim për veten",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Shfaq/fshih zgjedhës reagimi me emoji për mesazhin e përzgjedhur",
+    "message": "Ndrysho zgjedhësin e reagimit me emoji për mesazhin e përzgjedhur",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "Të lutem, konfiguro Signal në telefon dhe desktop që të përdorësh Krijuesin e Paketës së Ngjitëseve",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -3197,7 +3197,7 @@
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
-    "message": "S’u arrit të dërgohej reagim. Ju lutemi, riprovoni.",
+    "message": "Dërgimi i reagimit dështoi. Të lutem provo përsëri.",
     "description": "Shown when a reaction fails to send"
   },
   "Reactions--more": {
@@ -5637,7 +5637,7 @@
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
-    "message": "Përshtatni reagime",
+    "message": "Personalizo reagimet",
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "CustomizingPreferredReactions__subtitle": {
@@ -5985,7 +5985,7 @@
     "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
-    "message": "Përgjigje & reagime",
+    "message": "Përgjigjet & reagimet",
     "description": "Title for the replies & reactions section"
   },
   "StoriesSettings__replies-reactions--label": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "Çaktivizo zbulimin e numrit të telefonit te Parametrat > Privatësia > Numri i telefonit > Kush mund ta gjejë numrin tim, për të përdorur emrin e përdoruesit si mënyrën kryesore për të të kontaktuar.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.3"
   },
   "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Përshpejto kohën e përgjigjes. Tani mund të reagosh më shpejt duke klikuar në çdo emoji, kur i përgjigjesh një postimi të përkohshëm.",
+    "messageformat": "Përshpejto kohën tënde të përgjigjes. Tani mund të reagosh më shpejt duke klikuar në çdo emoji, kur i përgjigjesh një postimi të përkohshëm.",
     "description": "Release notes for v6.5"
   },
   "icu:WhatsNew__v6.5--1": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "Kliko në çdo foto ose video dhe përdor butonat e rinj Përpara dhe Prapa në shikuesin e medias për të nisur një rrugëtim pamor në fillin e kujtesës.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "Mesazhet zanore tani ruhen si skica, nëse kaloni në një bisedë tjetër ndërsa po bëni një regjistrim.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "Dërgimi i një ngjitëseje nuk shkakton më pastrimin e tekstit draft. Faleminderit, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "Dëshirojmë gjithashtu të falënderojmë {norstbox} për vendosjen e ikonave të shiritit të kërkimit të bisedave në rradhë.",
     "description": "Release notes for v6.10"
   }
 }

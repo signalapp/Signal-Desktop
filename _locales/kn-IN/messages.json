@@ -53,11 +53,11 @@
     "description": "Shown in toast while a user is being added to a group"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Cancel",
+    "messageformat": "ರದ್ದುಮಾಡಿ",
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Send",
+    "messageformat": "ಕಳುಹಿಸಿ",
     "description": "Label of send button on voice note recording UI"
   },
   "GroupListItem__message-default": {
@@ -939,7 +939,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "reactToMessage": {
-    "message": "ಸಂದೇಶಕ್ಕೆ ವಾಪಸಾಗಿ",
+    "message": "ಸಂದೇಶಕ್ಕೆ ಪ್ರತಿಕ್ರಿಯಿಸಿ",
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
@@ -1259,11 +1259,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "ಒಂದು ಮೆಸೇಜ್, ಸ್ಟಿಕ್ಕರ್, ಪ್ರತಿಕ್ರಿಯೆ, ಓದಿದ ರಸೀದಿ ಅಥವಾ ಮಾಧ್ಯಮವನ್ನು $sender$ ಇಂದ ನಿಮಗೆ ಡೆಲಿವರಿ ಮಾಡಲಾಗದು. ನಿಮಗೆ ನೇರವಾಗಿ ಅಥವಾ ಗುಂಪಿನಲ್ಲಿ ಕಳುಹಿಸಲು ಅವರು ಪ್ರಯತ್ನಿಸಿರಬಹುದು.",
+    "message": "ಒಂದು ಮೆಸೇಜ್, ಸ್ಟಿಕ್ಕರ್, ಪ್ರತಿಕ್ರಿಯೆ, ಓದಿದ ರಸೀದಿ ಅಥವಾ ಮಾಧ್ಯಮವನ್ನು $sender$ ಅವರಿಂದ ನಿಮಗೆ ಡೆಲಿವರಿ ಮಾಡಲಾಗಲಿಲ್ಲ. ನಿಮಗೆ ನೇರವಾಗಿ ಅಥವಾ ಗುಂಪಿನಲ್ಲಿ ಕಳುಹಿಸಲು ಅವರು ಪ್ರಯತ್ನಿಸಿರಬಹುದು.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ಈ ಚಾಟ್‌ನಲ್ಲಿ $sender$ ಅವರಿಂದ ಸಂದೇಶ, ಸ್ಟಿಕರ್, ಪ್ರತಿಕ್ರಿಯೆ, ಓದಿದ ರಸೀದಿ ಅಥವಾ ಮಾಧ್ಯಮವನ್ನು ನಿಮಗೆ ಡೆಲಿವರಿ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
+    "message": "ಈ ಚಾಟ್‌ನಲ್ಲಿ $sender$ ಅವರಿಂದ ಮೆಸೇಜ್, ಸ್ಟಿಕ್ಕರ್, ಪ್ರತಿಕ್ರಿಯೆ, ಓದಿದ ರಸೀದಿ ಅಥವಾ ಮಾಧ್ಯಮವನ್ನು ನಿಮಗೆ ಡೆಲಿವರಿ ಮಾಡಲಾಗಲಿಲ್ಲ.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1786,10 +1786,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ಅವರು ನಿಮ್ಮ ಸಂದೇಶಕ್ಕೆ $emoji$ ಪ್ರತಿಸ್ಪಂದನೆ ನೀಡಿದ್ದಾರೆ"
+    "message": "$sender$ ಅವರು ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ $emoji$ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ಅವರು $emoji$ ಪ್ರತಿಸ್ಪಂದನೆಯನ್ನು ಇದಕ್ಕೆ ನೀಡಿದ್ದಾರೆ: $message$"
+    "message": "ಇದಕ್ಕೆ $sender$ ಅವರು $emoji$ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ: $message$"
   },
   "sendFailed": {
     "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
@@ -1892,11 +1892,11 @@
     "description": "(deleted 01/25/2023) Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long--today": {
-    "message": "Today $time$",
+    "message": "ಇಂದು $time$",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long--yesterday": {
-    "message": "Yesterday $time$",
+    "message": "ನಾಳೆ $time$",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "timestampFormat__long__today": {
@@ -2805,7 +2805,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "ಆಯ್ಕೆ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗೆ ಟಾಗಲ್ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆ ಆಯ್ಕೆಗಾರ",
+    "message": "ಆಯ್ಕೆ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗೆ ಟಾಗಲ್ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆ ಪಿಕರ್",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -3189,7 +3189,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಕ್ರಿಯೇಟರ್ ಬಳಸಲು ನಿಮ್ಮ ಫೋನ್ ಮತ್ತು ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ದಯವಿಟ್ಟು Signal ಸೆಟಪ್ ಮಾಡಿ",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
@@ -6509,7 +6509,7 @@
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
+    "messageformat": "ಇತರರು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಪ್ರಾಥಮಿಕ ವಿಧಾನವಾಗಿ ಬಳಸಲು, ಸೆಟ್ಟಿಂಗ್‌ಗಳು> ಗೌಪ್ಯತೆ > ಫೋನ್ ನಂಬರ್ > ಯಾರು ನನ್ನ ನಂಬರ್ ಕಂಡುಕೊಳ್ಳಬಹುದು ಎಂಬುದರ ಅಡಿಯಲ್ಲಿ ಫೋನ್ ನಂಬರ್ ಅನ್ವೇಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಿ.",
     "description": "Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6629,19 +6629,19 @@
     "description": "Release notes for v6.9"
   },
   "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
+    "messageformat": "ಹಳೆಯ ನೆನಪುಗಳನ್ನು ಮೆಲುಕು ಹಾಕಲು ಯಾವುದೇ ಚಿತ್ರ ಅಥವಾ ವೀಡಿಯೋ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೀಡಿಯಾ ವ್ಯೂವರ್‌ನಲ್ಲಿ ಹೊಸ ಫಾರ್ವರ್ಡ್ ಮತ್ತು ಬ್ಯಾಕ್‌ವರ್ಡ್ ಬಟನ್‌ಗಳನ್ನು ಬಳಸಿ.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Voice messages are now saved as drafts if you switch to another chat while a recording is in progress.",
+    "messageformat": "ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಗತಿಯಲ್ಲಿರುವಾಗ ಇನ್ನೊಂದು ಚಾಟ್‌ಗೆ ಬದಲಾದರೆ ವಾಯ್ಸ್ ಮೆಸೇಜ್‌ಗಳು ಈಗ ಡ್ರಾಫ್ಟ್‌ಗಳಾಗಿ ಸೇವ್ ಆಗುತ್ತವೆ.",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Sending a sticker no longer causes draft text to get cleared. Thanks, {lamemakes}!",
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಕಳುಹಿಸುವುದರಿಂದ ಇನ್ನು ಮುಂದೆ ಡ್ರಾಫ್ಟ್ ಟೆಕ್ಸ್ಟ್ ತೆರವುಗೊಳ್ಳುವುದಿಲ್ಲ. ಧನ್ಯವಾದಗಳು, {lamemakes}!",
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.10--3": {
-    "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
+    "messageformat": "ಸಂಭಾಷಣೆಯ ಸರ್ಚ್ ಬಾರ್ ಐಕಾನ್‌ಗಳನ್ನು ಮತ್ತೆ ಅಲೈನ್‌ಮೆಂಟ್‌ಗೆ ತಂದಿದ್ದಕ್ಕಾಗಿ {norstbox} ಗೆ ಧನ್ಯವಾದ ಹೇಳಲು ನಾವು ಬಯಸುತ್ತೇವೆ.",
     "description": "Release notes for v6.10"
   }
 }
