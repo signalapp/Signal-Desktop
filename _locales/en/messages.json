@@ -6571,70 +6571,6 @@
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Start using and testing our new stories feature. You can use the feature with other beta testers and let us know how it's working.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v6.0": {
-    "message": "Stories are now in Signal! Share disappearing text, images, and video updates with select friends or groups that automatically disappear after 24 hours. For everyone who loves sharing stories, here’s a way to do it privately and without seeing any ads. If you don’t want to see or share stories, you can opt out of it all in your Preferences > Privacy.",
-    "description": "Release notes for v6.0"
-  },
-  "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
-    "description": "Release notes for v6.1"
-  },
-  "icu:WhatsNew__v6.3--0": {
-    "messageformat": "Double-click on any message row in a chat to start a quoted reply. It's like a shortcut for new thoughts about old ideas. Thanks to {whynothugo} and the Signal community for implementing this feature and providing feedback.",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.3--1": {
-    "messageformat": "Now it's easier to click outside of an image to dismiss the gallery view without zooming in. Sometimes you just wanted to close, and instead things got too close. Thanks to {jojomatik} for the fix!",
-    "description": "Release notes for v6.3"
-  },
-  "icu:WhatsNew__v6.5--0": {
-    "messageformat": "Speed up your response time. Now you can react quicker by clicking on any emoji when replying to a story.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.5--1": {
-    "messageformat": "It's now possible to search your message history for individual characters in Chinese and Japanese.",
-    "description": "Release notes for v6.5"
-  },
-  "icu:WhatsNew__v6.6--0": {
-    "messageformat": "Help us test several reliability and performance improvements for voice and video calls. This beta release also includes a few bug fixes and some small UI updates (look for the new link preview enhancements!). Thank you for being a beta tester, and please reach out to us on the community forum if you spot any bugs.",
-    "description": "Release notes for v6.6"
-  },
-  "icu:WhatsNew__v6.8--0": {
-    "messageformat": "You wouldn't download a car, but now when you download an MP3 voice note it will be saved with the proper file extension.",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--1": {
-    "messageformat": "Quickly begin typing a message after attaching a file, or just hit Enter/Return to send the file without any extra clicks. Thanks, {zyphlar}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--2": {
-    "messageformat": "The send button in the large composition view has been brought into alignment. Thanks, {hackerbirds}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.8--3": {
-    "messageformat": "If you are the only person in a group (so far) and you attempt to begin a group call, now you can join the call and start talking to yourself right away instead of waiting for the call to ring. Thanks, {lamemakes}!",
-    "description": "Release notes for v6.8"
-  },
-  "icu:WhatsNew__v6.9--0": {
-    "messageformat": "Quickly see who is speaking during group calls with a new highlight feature that shows you where to look. If it's your turn to speak, you'll need to look within.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--1": {
-    "messageformat": "Have the time of your life with several stickers in the media editor that let you add stylized time decorations on outgoing images.",
-    "description": "Release notes for v6.9"
-  },
-  "icu:WhatsNew__v6.9--2": {
-    "messageformat": "Use the voice notes mini player to continue listening to long messages even after you switch to a different chat.",
-    "description": "Release notes for v6.9"
-  },
   "icu:WhatsNew__v6.10--0": {
     "messageformat": "Click on any picture or video and use the new Forward and Backward buttons in the media viewer to take a visual walk down memory lane.",
     "description": "Release notes for v6.10"
@@ -6650,5 +6586,9 @@
   "icu:WhatsNew__v6.10--3": {
     "messageformat": "We'd also like to thank {norstbox} for bringing the conversation search bar icons back into alignment.",
     "description": "Release notes for v6.10"
+  },
+  "icu:WhatsNew__v6.11--0": {
+    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "description": "Release notes for v6.11"
   }
 }

@@ -31,23 +31,9 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'icu:WhatsNew__v6.10--0',
-      components: undefined,
-    },
-    {
-      key: 'icu:WhatsNew__v6.10--1',
-      components: undefined,
-    },
-    {
-      key: 'icu:WhatsNew__v6.10--2',
+      key: 'icu:WhatsNew__v6.11--0',
       components: {
-        lamemakes: <a href="https://github.com/lamemakes">@lamemakes</a>,
-      },
-    },
-    {
-      key: 'icu:WhatsNew__v6.10--3',
-      components: {
-        norstbox: <a href="https://github.com/norstbox">@norstbox</a>,
+        hackerbirds: <a href="https://github.com/hackerbirds">@hackerbirds</a>,
       },
     },
   ],
