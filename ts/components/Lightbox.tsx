@@ -86,7 +86,7 @@ export function Lightbox({
   hasPrevMessage,
 }: PropsType): JSX.Element | null {
   const hasThumbnails = media.length > 1;
-  const messageId = media[0].message.id;
+  const messageId = media.at(0)?.message.id;
   const prevMessageId = usePrevious(messageId, messageId);
   const needsAnimation = messageId !== prevMessageId;
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
