@@ -3284,18 +3284,19 @@ export class ConversationModel extends window.Backbone
     // awaited it would block on this forever.
     drop(
       this.queueJob('addCallHistory', async () => {
-        const message = {
+        const message: MessageAttributesType = {
+          id: generateGuid(),
           conversationId: this.id,
           type: 'call-history',
           sent_at: timestamp,
+          timestamp,
           received_at:
             receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
           received_at_ms: timestamp,
           readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
           seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
           callHistoryDetails: detailsToSave,
-          // TODO: DESKTOP-722
-        } as unknown as MessageAttributesType;
+        };
 
         if (callHistoryDetails.callMode === CallMode.Direct) {
           const messageId =
