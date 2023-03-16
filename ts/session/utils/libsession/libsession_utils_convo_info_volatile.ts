@@ -189,7 +189,7 @@ async function refreshConvoVolatileCached(
     } else if (convoId.startsWith('05')) {
       const fromWrapper = await ConvoInfoVolatileWrapperActions.get1o1(convoId);
       console.warn(
-        `refreshMappedValues from get1o1 ${fromWrapper?.pubkeyHex} : ${fromWrapper?.unread}`
+        `refreshConvoVolatileCached from get1o1 ${fromWrapper?.pubkeyHex} : ${fromWrapper?.unread}`
       );
       if (fromWrapper) {
         mapped1o1WrapperValues.set(convoId, fromWrapper);

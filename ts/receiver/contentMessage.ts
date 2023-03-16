@@ -53,7 +53,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus) {
   window?.log?.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
-    if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
+    if (!GroupUtils.isClosedGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
       window?.log?.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }

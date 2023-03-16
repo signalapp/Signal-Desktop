@@ -454,10 +454,7 @@ export class SwarmPolling {
 
     const closedGroupsOnly = convos.filter(
       (c: ConversationModel) =>
-        (c.isMediumGroup() || PubKey.isClosedGroupV3(c.id)) &&
-        !c.isBlocked() &&
-        !c.get('isKickedFromGroup') &&
-        !c.get('left')
+        c.isClosedGroup() && !c.isBlocked() && !c.get('isKickedFromGroup') && !c.get('left')
     );
 
     closedGroupsOnly.forEach((c: any) => {

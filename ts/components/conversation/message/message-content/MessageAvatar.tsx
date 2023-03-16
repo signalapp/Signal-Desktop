@@ -81,7 +81,7 @@ export const MessageAvatar = (props: Props) => {
     }
 
     if (isPublic && !isTypingEnabled) {
-      window.log.info('onMessageAvatarClick: no typing enabled. Dropping...');
+      window.log.info('onMessageAvatarClick: typing is disabled...');
       return;
     }
 

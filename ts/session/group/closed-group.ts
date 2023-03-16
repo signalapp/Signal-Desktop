@@ -73,10 +73,6 @@ export async function initiateClosedGroupUpdate(
     isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
-  if (!convo.isMediumGroup()) {
-    throw new Error('Legacy group are not supported anymore.');
-  }
-
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
   const groupDetails: GroupInfo = {
@@ -227,7 +223,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     | 'type'
     | 'members'
     | 'displayNameInProfile'
-    | 'is_medium_group'
     | 'active_at'
     | 'left'
     | 'lastJoinedTimestamp'
@@ -236,7 +231,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     displayNameInProfile: details.name,
     members: details.members,
     type: ConversationTypeEnum.GROUP,
-    is_medium_group: true,
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
@@ -246,7 +240,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   conversation.set(updates);
 
   const isBlocked = details.blocked || false;
-  if (conversation.isClosedGroup() || conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     await BlockedNumberController.setBlocked(conversation.id as string, isBlocked);
   }
 
@@ -272,7 +266,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 export async function leaveClosedGroup(groupId: string) {
   const convo = getConversationController().get(groupId);
 
-  if (!convo || !convo.isMediumGroup()) {
+  if (!convo || !convo.isClosedGroup()) {
     window?.log?.error('Cannot leave non-existing group');
     return;
   }
@@ -296,7 +290,7 @@ export async function leaveClosedGroup(groupId: string) {
     admins = convo.get('groupAdmins') || [];
   }
   convo.set({ members });
-  convo.set({ groupAdmins: admins });
+  await convo.updateGroupAdmins(admins, false);
   await convo.commit();
 
   const source = UserUtils.getOurPubKeyStrFromCache();
@@ -468,7 +462,7 @@ async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  if (!groupConvo.isMediumGroup()) {
+  if (!groupConvo.isClosedGroup()) {
     window?.log?.warn(
       'generateAndSendNewEncryptionKeyPair: conversation not a closed group',
       groupPublicKey

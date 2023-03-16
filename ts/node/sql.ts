@@ -431,9 +431,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     lastMessage,
     lastJoinedTimestamp,
     groupAdmins,
-    groupModerators,
     isKickedFromGroup,
-    is_medium_group,
     avatarPointer,
     avatarImageId,
     triggerNotificationsFor,
@@ -483,11 +481,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
 
       lastJoinedTimestamp,
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
-      groupModerators:
-        groupModerators && groupModerators.length ? arrayStrToJson(groupModerators) : '[]',
       isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
-
-      is_medium_group: toSqliteBoolean(is_medium_group),
       avatarPointer,
       avatarImageId,
       triggerNotificationsFor,

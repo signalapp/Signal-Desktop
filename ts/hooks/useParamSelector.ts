@@ -1,10 +1,13 @@
-import { isEmpty, pick } from 'lodash';
+import { isEmpty, isNil, pick } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import { getMessageReactsProps } from '../state/selectors/conversations';
+import {
+  getMessageReactsProps,
+  getSelectedConversationKey,
+} from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -202,13 +205,13 @@ export function useIsForcedUnreadWithoutUnreadMsg(conversationId?: string): bool
   return convoProps?.isMarkedUnread || false;
 }
 
-function useMentionedUsNoUnread(conversationId?: string) {
+function useMentionedUsUnread(conversationId?: string) {
   const convoProps = useConversationPropsById(conversationId);
   return convoProps?.mentionedUs || false;
 }
 
 export function useMentionedUs(conversationId?: string): boolean {
-  const hasMentionedUs = useMentionedUsNoUnread(conversationId);
+  const hasMentionedUs = useMentionedUsUnread(conversationId);
   const hasUnread = useHasUnread(conversationId);
 
   return hasMentionedUs && hasUnread;
@@ -216,4 +219,9 @@ export function useMentionedUs(conversationId?: string): boolean {
 
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
+}
+
+export function useIsSelectedConversation(conversation?: string): boolean {
+  const selectedConvo = useSelector(getSelectedConversationKey);
+  return !isNil(selectedConvo) && !isNil(conversation) && selectedConvo === conversation;
 }

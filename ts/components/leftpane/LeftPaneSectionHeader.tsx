@@ -1,14 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
-import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
+import styled from 'styled-components';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
-import { Flex } from '../basic/Flex';
-import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
-import { SessionButton } from '../basic/SessionButton';
+import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
+import { getFocusedSection, getIsMessageRequestOverlayShown } from '../../state/selectors/section';
+import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
+import { Flex } from '../basic/Flex';
+import { SessionButton } from '../basic/SessionButton';
 import { MenuButton } from '../button/MenuButton';
 
 const SectionTitle = styled.h1`
@@ -110,19 +110,18 @@ export const LeftPaneBanner = () => {
 export const LeftPaneSectionHeader = () => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
-  const overlayMode = useSelector(getOverlayMode);
+  const isMessageRequestOverlayShown = useSelector(getIsMessageRequestOverlayShown);
 
   let label: string | undefined;
 
   const isMessageSection = focusedSection === SectionType.Message;
-  const isMessageRequestOverlay = overlayMode && overlayMode === 'message-requests';
 
   switch (focusedSection) {
     case SectionType.Settings:
       label = window.i18n('settingsHeader');
       break;
     case SectionType.Message:
-      label = isMessageRequestOverlay
+      label = isMessageRequestOverlayShown
         ? window.i18n('messageRequests')
         : window.i18n('messagesHeader');
       break;

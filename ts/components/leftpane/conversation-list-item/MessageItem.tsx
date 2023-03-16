@@ -13,6 +13,7 @@ import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { ContextConversationId } from './ConversationListItem';
 import { useSelector } from 'react-redux';
 import { isSearching } from '../../../state/selectors/search';
+import { getIsMessageRequestOverlayShown } from '../../../state/selectors/section';
 
 function useLastMessageFromConvo(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
@@ -22,13 +23,14 @@ function useLastMessageFromConvo(convoId: string) {
   return convoProps.lastMessage;
 }
 
-export const MessageItem = (props: { isMessageRequest: boolean }) => {
+export const MessageItem = () => {
   const conversationId = useContext(ContextConversationId);
   const lastMessage = useLastMessageFromConvo(conversationId);
   const isGroup = !useIsPrivate(conversationId);
 
   const hasUnread = useHasUnread(conversationId);
   const isConvoTyping = useIsTyping(conversationId);
+  const isMessageRequest = useSelector(getIsMessageRequestOverlayShown);
 
   const isSearchingMode = useSelector(isSearching);
 
@@ -55,7 +57,7 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
           <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
         )}
       </div>
-      {!isSearchingMode && lastMessage && lastMessage.status && !props.isMessageRequest ? (
+      {!isSearchingMode && lastMessage && lastMessage.status && !isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>

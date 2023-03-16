@@ -13,14 +13,14 @@ export function getGroupMembers(groupId: PubKey): Array<PubKey> {
   return groupMembers.map(PubKey.cast);
 }
 
-export function isMediumGroup(groupId: PubKey): boolean {
+export function isClosedGroup(groupId: PubKey): boolean {
   const conversation = getConversationController().get(groupId.key);
 
   if (!conversation) {
     return false;
   }
 
-  return Boolean(conversation.isMediumGroup());
+  return Boolean(conversation.isClosedGroup());
 }
 
 export function encodeGroupPubKeyFromHex(hexGroupPublicKey: string | PubKey) {

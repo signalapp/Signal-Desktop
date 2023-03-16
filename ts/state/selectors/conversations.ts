@@ -37,7 +37,7 @@ import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversa
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
+import { getCanWrite, getModeratorsOutsideRedux, getSubscriberCount } from './sogsRoomInfo';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -808,14 +808,14 @@ export const isFirstUnreadMessageIdAbove = createSelector(
 
 const getMessageId = (_whatever: any, id: string) => id;
 
+// tslint:disable: cyclomatic-complexity
+
 export const getMessagePropsByMessageId = createSelector(
-  getConversations,
   getSortedMessagesOfSelectedConversation,
   getConversationLookup,
   getMessageId,
-  // tslint:disable-next-line: cyclomatic-complexity
+
   (
-    _convoState,
     messages: Array<SortedMessageModelProps>,
     conversations,
     id
@@ -829,6 +829,7 @@ export const getMessagePropsByMessageId = createSelector(
     }
     const sender = foundMessageProps?.propsForMessage?.sender;
 
+    // foundMessageConversation is the conversation this message is
     const foundMessageConversation = conversations[foundMessageProps.propsForMessage.convoId];
     if (!foundMessageConversation || !sender) {
       return undefined;
@@ -846,8 +847,9 @@ export const getMessagePropsByMessageId = createSelector(
     const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
     const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
 
-    const groupModerators = (isGroup && foundMessageConversation.groupModerators) || [];
-    const weAreModerator = groupModerators.includes(ourPubkey) || false;
+    const weAreModerator =
+      (isPublic && getModeratorsOutsideRedux(foundMessageConversation.id).includes(ourPubkey)) ||
+      false;
     // A message is deletable if
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)

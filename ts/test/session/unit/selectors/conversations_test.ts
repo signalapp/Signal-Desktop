@@ -34,7 +34,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
@@ -59,10 +58,8 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
@@ -87,10 +84,8 @@ describe('state/selectors/conversations', () => {
           weAreAdmin: false,
           isGroup: false,
           isPrivate: false,
-
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
@@ -118,7 +113,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           expireTimer: 0,
           lastMessage: undefined,
           members: [],
@@ -147,7 +141,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: false,
@@ -191,7 +184,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: false,
@@ -220,7 +212,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: false,
@@ -249,7 +240,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: true,
@@ -277,7 +267,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: true,
@@ -306,7 +295,6 @@ describe('state/selectors/conversations', () => {
 
           avatarPath: '',
           groupAdmins: [],
-          groupModerators: [],
           lastMessage: undefined,
           members: [],
           isPinned: false,

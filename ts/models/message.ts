@@ -943,12 +943,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
       }
 
-      // Here, the convo is neither an open group, a private convo or ourself. It can only be a medium group.
-      // For a medium group, retry send only means trigger a send again to all recipients
+      // Here, the convo is neither an open group, a private convo or ourself. It can only be a closed group.
+      // For a closed group, retry send only means trigger a send again to all recipients
       // as they are all polling from the same group swarm pubkey
-      if (!conversation.isMediumGroup()) {
+      if (!conversation.isClosedGroup()) {
         throw new Error(
-          'We should only end up with a medium group here. Anything else is an error'
+          'We should only end up with a closed group here. Anything else is an error'
         );
       }
 

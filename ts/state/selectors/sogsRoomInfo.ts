@@ -1,4 +1,4 @@
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { SogsRoomInfoState } from '../ducks/sogsRoomInfo';
 import { StateType } from '../reducer';
 
@@ -24,13 +24,33 @@ export function getSubscriberCount(state: StateType, selectedConvo?: string): nu
   return isNil(subscriberCount) ? 0 : subscriberCount;
 }
 
-export function getSubscriberCountOutsideRedux(convoId: string) {
+export function getModerators(state: StateType, selectedConvo?: string): Array<string> {
+  if (!selectedConvo) {
+    return [];
+  }
+
+  const moderators = getSogsRoomInfoState(state).rooms[selectedConvo]?.moderators;
+
+  return isEmpty(moderators) ? [] : moderators;
+}
+
+export function getSubscriberCountOutsideRedux(convoId: string): number {
   const state = window.inboxStore?.getState();
 
   return state ? getSubscriberCount(state, convoId) : 0;
 }
 
-export function getCanWriteOutsideRedux(convoId: string) {
+export function getCanWriteOutsideRedux(convoId: string): boolean {
   const state = window.inboxStore?.getState();
   return state ? getCanWrite(state, convoId) : false;
 }
+
+export function getModeratorsOutsideRedux(convoId: string): Array<string> {
+  const state = window.inboxStore?.getState();
+  return state ? getModerators(state, convoId) : [];
+}
+
+export const getCurrentSubscriberCountOutsideRedux = (convoId?: string): number | undefined => {
+  const state = window.inboxStore?.getState();
+  return getSubscriberCount(state, convoId);
+};

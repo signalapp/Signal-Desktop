@@ -48,14 +48,12 @@ export function toSqliteBoolean(val: boolean): number {
 // this is used to make sure when storing something in the database you remember to add the wrapping for it in formatRowOfConversation
 const allowedKeysFormatRowOfConversation = [
   'groupAdmins',
-  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
   'isPinned',
   'isApproved',
   'didApproveMe',
-  'is_medium_group',
   'mentionedUs',
   'isKickedFromGroup',
   'left',
@@ -115,10 +113,6 @@ export function formatRowOfConversation(
     row.groupAdmins?.length && row.groupAdmins.length > minLengthNoParsing
       ? jsonToArray(row.groupAdmins)
       : [];
-  convo.groupModerators =
-    row.groupModerators?.length && row.groupModerators.length > minLengthNoParsing
-      ? jsonToArray(row.groupModerators)
-      : [];
 
   convo.members =
     row.members?.length && row.members.length > minLengthNoParsing ? jsonToArray(row.members) : [];
@@ -130,7 +124,6 @@ export function formatRowOfConversation(
   convo.isPinned = Boolean(convo.isPinned);
   convo.isApproved = Boolean(convo.isApproved);
   convo.didApproveMe = Boolean(convo.didApproveMe);
-  convo.is_medium_group = Boolean(convo.is_medium_group);
   convo.isKickedFromGroup = Boolean(convo.isKickedFromGroup);
   convo.left = Boolean(convo.left);
   convo.markedAsUnread = Boolean(convo.markedAsUnread);
@@ -173,14 +166,12 @@ export function formatRowOfConversation(
 
 const allowedKeysOfConversationAttributes = [
   'groupAdmins',
-  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
   'isPinned',
   'isApproved',
   'didApproveMe',
-  'is_medium_group',
   'isKickedFromGroup',
   'left',
   'lastMessage',

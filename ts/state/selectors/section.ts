@@ -29,3 +29,10 @@ export const getOverlayMode = createSelector(
   getSection,
   (state: SectionStateType): OverlayMode | undefined => state.overlayMode
 );
+
+export const getIsMessageRequestOverlayShown = (state: StateType) => {
+  const focusedSection = getFocusedSection(state);
+  const overlayMode = getOverlayMode(state);
+
+  return focusedSection === SectionType.Message && overlayMode === 'message-requests';
+};

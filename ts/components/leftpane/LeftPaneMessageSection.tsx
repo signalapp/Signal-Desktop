@@ -104,7 +104,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     const length = conversations.length;
 
     // Note: conversations is not a known prop for List, but it is required to ensure that
-    //   it re-renders when our conversation data changes. Otherwise it would just render
+    //   it re-renders when our conversations data changes. Otherwise it would just render
     //   on startup and scroll.
 
     return (

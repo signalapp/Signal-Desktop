@@ -157,7 +157,7 @@ export const declineConversationWithoutConfirm = async (
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     // make sure all the members' convo exists so we can add or remove them
     await Promise.all(
       conversation
@@ -170,7 +170,7 @@ export async function showUpdateGroupNameByConvoId(conversationId: string) {
 
 export async function showUpdateGroupMembersByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     // make sure all the members' convo exists so we can add or remove them
     await Promise.all(
       conversation
@@ -192,7 +192,7 @@ export function showLeaveGroupByConvoId(conversationId: string) {
   const message = window.i18n('leaveGroupConfirmation');
   const ourPK = UserUtils.getOurPubKeyStrFromCache();
   const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
-  const isClosedGroup = conversation.get('is_medium_group') || false;
+  const isClosedGroup = conversation.isClosedGroup() || false;
 
   // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
   if (!isClosedGroup || (isClosedGroup && !isAdmin)) {

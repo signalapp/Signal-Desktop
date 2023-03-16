@@ -477,10 +477,10 @@ async function handleConvoInfoVolatileUpdate(
           const foundConvo = getConversationController().get(fromWrapper.pubkeyHex);
           // TODO should we create the conversation if the conversation does not exist locally? Or assume that it should be coming from a contacts update?
           if (foundConvo) {
-            // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
             console.warn(
               `fromWrapper from getAll1o1: ${fromWrapper.pubkeyHex}: ${fromWrapper.unread}`
             );
+            // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
             await foundConvo.markReadFromConfigMessage(fromWrapper.lastRead);
             // this commits to the DB, if needed
             await foundConvo.markAsUnread(fromWrapper.unread, true);

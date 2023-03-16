@@ -54,8 +54,6 @@ export const SearchResults = (props: SearchResultsProps) => {
           {contactsAndGroups.map(contactOrGroup => (
             <MemoConversationListItemWithDetails
               {...contactOrGroup}
-              mentionedUs={false}
-              isBlocked={false}
               key={`search-result-convo-${contactOrGroup.id}`}
             />
           ))}

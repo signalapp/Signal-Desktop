@@ -1397,6 +1397,9 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN writeCapability;
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN uploadCapability;
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN subscriberCount;
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN is_medium_group;
+      ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN groupModerators;
+
       `);
     // mark every "active" private chats as not hidden
     db.prepare(

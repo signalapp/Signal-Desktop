@@ -145,14 +145,6 @@ export class ConversationController {
     return conversation.getContactProfileNameOrShortenedPubKey();
   }
 
-  public isMediumGroup(hexEncodedGroupPublicKey: string): boolean {
-    const convo = this.conversations.get(hexEncodedGroupPublicKey);
-    if (convo) {
-      return !!convo.isMediumGroup();
-    }
-    return false;
-  }
-
   public async getOrCreateAndWait(
     id: string | PubKey,
     type: ConversationTypeEnum

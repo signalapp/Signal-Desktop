@@ -229,40 +229,6 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('is_medium_group', () => {
-    it('initialize is_medium_group if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'is_medium_group',
-        false
-      );
-    });
-
-    it('do not override is_medium_group if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({
-          is_medium_group: true,
-        } as ConversationAttributes)
-      ).to.have.deep.property('is_medium_group', true);
-    });
-  });
-
-  // describe('mentionedUs', () => {
-  //   it('initialize mentionedUs if not given', () => {
-  //     expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-  //       'mentionedUs',
-  //       false
-  //     );
-  //   });
-
-  //   it('do not override mentionedUs if given', () => {
-  //     expect(
-  //       fillConvoAttributesWithDefaults({
-  //         mentionedUs: true,
-  //       } as ConversationAttributes)
-  //     ).to.have.deep.property('mentionedUs', true);
-  //   });
-  // });
-
   describe('isKickedFromGroup', () => {
     it('initialize isKickedFromGroup if not given', () => {
       expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(

@@ -41,13 +41,7 @@ const MessageRequestList = () => {
   return (
     <MessageRequestListContainer>
       {conversationRequests.map(conversation => {
-        return (
-          <MemoConversationListItemWithDetails
-            key={conversation.id}
-            isMessageRequest={true}
-            {...conversation}
-          />
-        );
+        return <MemoConversationListItemWithDetails key={conversation.id} {...conversation} />;
       })}
     </MessageRequestListContainer>
   );

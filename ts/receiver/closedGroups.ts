@@ -392,7 +392,7 @@ async function handleClosedGroupEncryptionKeyPair(
     await removeFromCache(envelope);
     return;
   }
-  if (!groupConvo.isMediumGroup()) {
+  if (!groupConvo.isClosedGroup()) {
     window?.log?.warn(
       `Ignoring closed group encryption key pair for nonexistent medium group. ${groupPublicKey}`
     );

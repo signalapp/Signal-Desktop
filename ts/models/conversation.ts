@@ -111,6 +111,7 @@ import { SessionUtilUserProfile } from '../session/utils/libsession/libsession_u
 import { ReduxSogsRoomInfos } from '../state/ducks/sogsRoomInfo';
 import {
   getCanWriteOutsideRedux,
+  getModeratorsOutsideRedux,
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo';
 
@@ -120,6 +121,11 @@ type InMemoryConvoInfos = {
   lastReadTimestampMessage: number | null;
 };
 
+// TODO decide it it makes sense to move this to a redux slice?
+/**
+ * Some fields are not stored in the database, but are kept in memory.
+ * We use this map to keep track of them. The key is the conversation id.
+ */
 const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
@@ -222,10 +228,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
   }
-  public isClosedGroup() {
-    return (
-      (this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic()) ||
-      this.get('type') === ConversationTypeEnum.GROUPV3
+  public isClosedGroup(): boolean {
+    return Boolean(
+      (this.get('type') === ConversationTypeEnum.GROUP && this.id.startsWith('05')) ||
+        (this.get('type') === ConversationTypeEnum.GROUPV3 && this.id.startsWith('03'))
     );
   }
   public isPrivate() {
@@ -242,15 +248,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    if (this.isPrivate() || this.isClosedGroup() || this.isMediumGroup()) {
+    if (this.isPrivate() || this.isClosedGroup()) {
       return BlockedNumberController.isBlocked(this.id);
     }
 
     return false;
-  }
-
-  public isMediumGroup() {
-    return this.get('is_medium_group');
   }
 
   /**
@@ -277,21 +279,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
   }
 
-  /**
-   * Get the list of moderators in that room, or an empty array
-   * Only to be called for opengroup conversations.
-   * This makes no sense for a private chat or an closed group, as closed group admins must be stored with getGroupAdmins
-   * @returns the list of moderators for the conversation if the conversation is public, or []
-   */
-  public getGroupModerators(): Array<string> {
-    const groupModerators = this.get('groupModerators') as Array<string> | undefined;
-
-    return this.isPublic() && groupModerators && groupModerators?.length > 0 ? groupModerators : [];
-  }
-
   // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
-    const groupModerators = this.getGroupModerators();
     const isPublic = this.isPublic();
 
     const zombies = this.isClosedGroup() ? this.get('zombies') : [];
@@ -429,10 +418,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (foundCommunity.priority > 0) {
         toRet.isPinned = true; // TODO priority also handles sorting
       }
-
-      if (groupModerators?.length) {
-        toRet.groupModerators = uniq(groupModerators);
-      }
     }
 
     if (foundVolatileInfo) {
@@ -481,6 +466,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return toRet;
   }
 
+  /**
+   *
+   * @param groupAdmins the Array of group admins, where, if we are a group admin, we are present unblinded.
+   * @param shouldCommit set this to true to auto commit changes
+   * @returns true if the groupAdmins where not the same (and thus updated)
+   */
   public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
     const sortedExistingAdmins = uniq(sortBy(this.getGroupAdmins()));
     const sortedNewAdmins = uniq(sortBy(groupAdmins));
@@ -489,23 +480,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
     this.set({ groupAdmins });
-    if (shouldCommit) {
-      await this.commit();
-    }
-    return true;
-  }
-
-  public async updateGroupModerators(groupModerators: Array<string>, shouldCommit: boolean) {
-    if (!this.isPublic()) {
-      throw new Error('group moderators are only possible on SOGS');
-    }
-    const existingModerators = uniq(sortBy(this.getGroupModerators()));
-    const newModerators = uniq(sortBy(groupModerators));
-
-    if (isEqual(existingModerators, newModerators)) {
-      return false;
-    }
-    this.set({ groupModerators: newModerators });
     if (shouldCommit) {
       await this.commit();
     }
@@ -736,7 +710,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         return;
       }
 
-      if (this.isMediumGroup()) {
+      if (this.isClosedGroup()) {
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
@@ -749,10 +723,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           namespace: SnodeNamespaces.ClosedGroupMessage,
         });
         return;
-      }
-
-      if (this.isClosedGroup()) {
-        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
       }
 
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -856,7 +826,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         return;
       }
 
-      if (this.isMediumGroup()) {
+      if (this.isClosedGroup()) {
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
@@ -874,10 +844,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           isOpenGroup: false,
         });
         return;
-      }
-
-      if (this.isClosedGroup()) {
-        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
       }
 
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -1470,7 +1436,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    const groupModerators = this.getGroupModerators();
+    const groupModerators = getModeratorsOutsideRedux(this.id as string);
     return Array.isArray(groupModerators) && groupModerators.includes(pubKey);
   }
 
@@ -2154,11 +2120,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         uniq(localModsOrAdmins)
       );
 
-      const moderatorsOrAdminsChanged =
-        type === 'admins'
-          ? await this.updateGroupAdmins(replacedWithOurRealSessionId, false)
-          : await this.updateGroupModerators(replacedWithOurRealSessionId, false);
-      return moderatorsOrAdminsChanged;
+      if (type === 'admins') {
+        return await this.updateGroupAdmins(replacedWithOurRealSessionId, false);
+      }
+
+      ReduxSogsRoomInfos.setModeratorsOutsideRedux(this.id, replacedWithOurRealSessionId);
+      return false;
     }
     return false;
   }

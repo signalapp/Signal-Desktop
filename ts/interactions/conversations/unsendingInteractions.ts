@@ -126,7 +126,7 @@ export async function deleteMessagesFromSwarmAndCompletelyLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     window.log.info('Cannot delete message from a closed group swarm, so we just complete delete.');
     await Promise.all(
       messages.map(async message => {
@@ -162,7 +162,7 @@ export async function deleteMessagesFromSwarmAndMarkAsDeletedLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     window.log.info('Cannot delete messages from a closed group swarm, so we just markDeleted.');
     await Promise.all(
       messages.map(async message => {

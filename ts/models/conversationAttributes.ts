@@ -55,10 +55,7 @@ export interface ConversationAttributes {
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
   active_at: number;
 
-  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin TODO to remove
-  left: boolean;
   lastMessageStatus: LastMessageStatusType;
-
   /**
    * lastMessage is actually just a preview of the last message text, shortened to 60 chars.
    * This is to avoid filling the redux store with a huge last message when it's only used in the
@@ -66,24 +63,26 @@ export interface ConversationAttributes {
    * The shortening is made in sql.ts directly.
    */
   lastMessage: string | null;
-  lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
-  groupModerators: Array<string>; // for sogs only, this is the moderators in that room.
-  isKickedFromGroup: boolean;
 
-  is_medium_group: boolean;
+  avatarImageId?: number; // SOGS ONLY: avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar
+
+  left: boolean; // GROUPS ONLY: if we left the group (communities are removed right away so it not relevant to communities)
+  isKickedFromGroup: boolean; // GROUPS ONLY: if we got kicked from the group (communities just stop polling and a message sent get rejected, so not relevant to communities)
 
   avatarInProfile?: string; // this is the avatar path locally once downloaded and stored in the application attachments folder
-  avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar
 
   isTrustedForAttachmentDownload: boolean;
 
-  /** The community chat this conversation originated from (relevant to **blinded** message requests) */
-  conversationIdOrigin?: string;
+  conversationIdOrigin?: string; // Blinded message requests ONLY: The community from which this conversation originated from
+
+  // TODO those two items are only used for legacy closed groups and will be removed when we get rid of the legacy closed groups support
+  lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group // TODO to remove after legacy closed group are dropped
+  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin // TODO to remove after legacy closed group are dropped
 
   // ===========================================================================
   // All of the items below are duplicated one way or the other with libsession.
   // It would be nice to at some point be able to only rely on libsession dumps
-  // for those so there is no need to keep them in sync.
+  // for those so there is no need to keep them in sync, but just have them in the dumps
 
   displayNameInProfile?: string; // no matter the type of conversation, this is the real name as set by the user/name of the open or closed group
   nickname?: string; // this is the name WE gave to that user (only applicable to private chats, not closed group neither opengroups)
@@ -92,18 +91,16 @@ export interface ConversationAttributes {
   avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
   expireTimer: number;
 
-  members: Array<string>; // members are all members for this group. zombies excluded
-  groupAdmins: Array<string>; // for sogs and closed group: the admins of that group.
+  members: Array<string>; // groups only members are all members for this group. zombies excluded (not used for communities)
+  groupAdmins: Array<string>; // for sogs and closed group: the unique admins of that group
 
   isPinned: boolean;
-  isApproved: boolean;
-  didApproveMe: boolean;
 
-  // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
-  markedAsUnread: boolean;
+  isApproved: boolean; // if we sent a message request or sent a message to this contact, we approve them. If isApproved & didApproveMe, a message request becomes a contact
+  didApproveMe: boolean; // if our message request was approved already (or they've sent us a message request/message themselves). If isApproved & didApproveMe, a message request becomes a contact
 
-  // hides a conversation, but keep it the history and nicknames, etc.
-  hidden: boolean;
+  markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
+  hidden: boolean; // hides a conversation, but keep it the history and nicknames, etc. Currently only supported for contacts
 }
 
 /**
@@ -133,7 +130,6 @@ export const fillConvoAttributesWithDefaults = (
     isPinned: false,
     isApproved: false,
     didApproveMe: false,
-    is_medium_group: false,
     isKickedFromGroup: false,
     left: false,
     hidden: true,
