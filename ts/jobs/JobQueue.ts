@@ -252,6 +252,14 @@ export abstract class JobQueue<T> {
         log.info(
           `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
         );
+
+        if (this.isShuttingDown) {
+          log.warn(
+            `${this.logPrefix} returning early for job ${storedJob.id}; shutting down`
+          );
+          return { success: false, err: new Error('Shutting down') };
+        }
+
         try {
           // We want an `await` in the loop, as we don't want a single job running more
           //   than once at a time. Ideally, the job will succeed on the first attempt.
@@ -277,7 +285,9 @@ export abstract class JobQueue<T> {
       return undefined;
     });
 
-    await this.store.delete(storedJob.id);
+    if (result?.success || !this.isShuttingDown) {
+      await this.store.delete(storedJob.id);
+    }
 
     assertDev(
       result,
