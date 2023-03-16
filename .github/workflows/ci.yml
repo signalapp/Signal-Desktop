@@ -208,7 +208,7 @@ jobs:
     - name: Build typescript
       run: yarn generate
     - name: Bundle
-      run: yarn build:webpack
+      run: yarn build:esbuild:prod
 
     - name: Run mock server tests
       run: |

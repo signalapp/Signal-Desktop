@@ -22,7 +22,6 @@ export const createTemplate = (
 
   const {
     isProduction,
-    isStaging,
     devTools,
     includeSetup,
     openContactUs,
@@ -38,7 +37,6 @@ export const createTemplate = (
     showDebugLog,
     showKeyboardShortcuts,
     showSettings,
-    showStickerCreator,
     openArtCreator,
   } = options;
 
@@ -48,7 +46,7 @@ export const createTemplate = (
       submenu: [
         {
           label: i18n('mainMenuCreateStickers'),
-          click: isStaging ? openArtCreator : showStickerCreator,
+          click: openArtCreator,
         },
         {
           label: i18n('mainMenuSettings'),

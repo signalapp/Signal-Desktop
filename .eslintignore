@@ -13,7 +13,6 @@ js/util_worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
-sticker-creator/dist/**
 ts/protobuf/compiled.d.ts
 
 # Third-party files
@@ -23,7 +22,6 @@ js/WebAudioRecorderMp3.js
 # TypeScript generated files
 app/**/*.js
 ts/**/*.js
-sticker-creator/**/*.js
 
 .eslintrc.js
 webpack.config.ts

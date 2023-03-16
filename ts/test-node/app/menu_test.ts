@@ -23,7 +23,6 @@ const showAbout = stub();
 const showDebugLog = stub();
 const showKeyboardShortcuts = stub();
 const showSettings = stub();
-const showStickerCreator = stub();
 const showWindow = stub();
 
 const getExpectedEditMenu = (
@@ -121,7 +120,7 @@ const EXPECTED_MACOS: MenuListType = [
   {
     label: '&File',
     submenu: [
-      { label: 'Create/upload sticker pack', click: showStickerCreator },
+      { label: 'Create/upload sticker pack', click: openArtCreator },
       { type: 'separator' },
       { accelerator: 'CmdOrCtrl+W', label: 'Close Window', role: 'close' },
     ],
@@ -146,7 +145,7 @@ const EXPECTED_WINDOWS: MenuListType = [
   {
     label: '&File',
     submenu: [
-      { label: 'Create/upload sticker pack', click: showStickerCreator },
+      { label: 'Create/upload sticker pack', click: openArtCreator },
       {
         label: 'Preferences…',
         accelerator: 'CommandOrControl+,',
@@ -226,7 +225,6 @@ describe('createTemplate', () => {
     showDebugLog,
     showKeyboardShortcuts,
     showSettings,
-    showStickerCreator,
     showWindow,
   };
 
@@ -238,7 +236,6 @@ describe('createTemplate', () => {
           devTools: true,
           includeSetup: false,
           isProduction: true,
-          isStaging: false,
           platform,
           ...actions,
         };
@@ -253,7 +250,6 @@ describe('createTemplate', () => {
           devTools: true,
           includeSetup: true,
           isProduction: true,
-          isStaging: false,
           platform,
           ...actions,
         };

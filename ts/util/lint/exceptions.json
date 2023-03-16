@@ -1785,20 +1785,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "sticker-creator/components/StickerFrame.js",
-    "line": "    const timerRef = React.useRef();",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-14T01:19:45.446Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "sticker-creator/components/StickerFrame.tsx",
-    "line": "    const timerRef = React.useRef<number>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
     "line": "  const ref = useRef<Buffer | null>(null);",
     "reasonCategory": "usageTrusted",

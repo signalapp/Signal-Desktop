@@ -34,14 +34,9 @@ ts/sql/mainWorker.bundle.js.LICENSE.txt
 app/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
-sticker-creator/**/*.js
 
 # CSS Modules
 **/*.scss.d.ts
-
-# Sticker Creator
-sticker-creator/dist/*
-sticker-creator/**/*.js
 
 # Editors
 /.idea

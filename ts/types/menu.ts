@@ -10,7 +10,6 @@ export type MenuOptionsType = Readonly<{
   devTools: boolean;
   includeSetup: boolean;
   isProduction: boolean;
-  isStaging: boolean;
   platform: string;
 }>;
 
@@ -28,7 +27,6 @@ export type MenuActionsType = Readonly<{
   showDebugLog: () => unknown;
   showKeyboardShortcuts: () => unknown;
   showSettings: () => unknown;
-  showStickerCreator: () => unknown;
   showWindow: () => unknown;
 }>;
 

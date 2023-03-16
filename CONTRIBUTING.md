@@ -59,7 +59,6 @@ git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn generate                  # Generate final JS and CSS assets
-yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
 yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
 ```

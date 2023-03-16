@@ -68,7 +68,7 @@ async function main() {
     format: 'cjs',
     mainFields: ['browser', 'main'],
     entryPoints: glob
-      .sync('{app,ts,sticker-creator}/**/*.{ts,tsx}', {
+      .sync('{app,ts}/**/*.{ts,tsx}', {
         nodir: true,
         root: ROOT_DIR,
       })

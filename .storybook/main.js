@@ -5,10 +5,7 @@ module.exports = {
   typescript: {
     reactDocgen: false,
   },
-  stories: [
-    '../ts/components/**/*.stories.tsx',
-    '../sticker-creator/**/*.stories.tsx',
-  ],
+  stories: ['../ts/components/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-a11y',
     '@storybook/addon-actions',

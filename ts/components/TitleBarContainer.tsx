@@ -34,9 +34,6 @@ export type PropsType = Readonly<{
   executeMenuRole: ExecuteMenuRoleType;
   titleBarDoubleClick?: () => void;
   children: ReactNode;
-
-  // Needs to be overridden in sticker-creator
-  iconSrc?: string;
 }> &
   (MenuPropsType | { hasMenu?: false });
 
@@ -132,7 +129,6 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
     titleBarDoubleClick,
     children,
     hasMenu,
-    iconSrc = 'images/icon_32.png',
   } = props;
 
   const isWindowActive = useIsWindowActive();
@@ -238,7 +234,6 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
         showDebugLog: () => executeMenuAction('showDebugLog'),
         showKeyboardShortcuts: () => executeMenuAction('showKeyboardShortcuts'),
         showSettings: () => executeMenuAction('showSettings'),
-        showStickerCreator: () => executeMenuAction('showStickerCreator'),
         showWindow: () => executeMenuAction('showWindow'),
       },
       i18n
@@ -261,7 +256,7 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
       <TitleBar
         className="TitleBarContainer__title"
         platform="win32"
-        iconSrc={iconSrc}
+        iconSrc="images/icon_32.png"
         theme={titleBarTheme}
         maximized={isMaximized}
         menu={maybeMenu}

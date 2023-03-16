@@ -126,7 +126,6 @@ export function getEmptyState(): UserStateType {
       devTools: false,
       includeSetup: false,
       isProduction: true,
-      isStaging: false,
       platform: 'unknown',
     },
     osName,
