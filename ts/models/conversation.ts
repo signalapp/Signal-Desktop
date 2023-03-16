@@ -79,7 +79,6 @@ import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libses
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
 import { getOurProfile } from '../session/utils/User';
-import { createLastMessageUpdate } from '../types/Conversation';
 import {
   deleteExternalFilesOfConversation,
   getAbsoluteAttachmentPath,
@@ -1847,7 +1846,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private async bouncyUpdateLastMessage() {
-    if (!this.id || !this.get('active_at')) {
+    if (!this.id || !this.get('active_at') || this.isHidden()) {
       return;
     }
     const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
@@ -1856,34 +1855,38 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const lastMessageModel = messages.at(0);
-    const lastMessageStatusModel = lastMessageModel
-      ? lastMessageModel.getMessagePropStatus()
-      : undefined;
-    const lastMessageUpdate = createLastMessageUpdate({
-      lastMessageStatus: lastMessageStatusModel,
-      lastMessageNotificationText: lastMessageModel
-        ? lastMessageModel.getNotificationText()
-        : undefined,
-    });
+    const lastMessageStatus = lastMessageModel?.getMessagePropStatus() || undefined;
+    const lastMessageNotificationText = lastMessageModel?.getNotificationText() || undefined;
+    // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
+    const lastMessageUpdate =
+      !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
+        ? {
+            lastMessage: lastMessageNotificationText || '',
+            lastMessageStatus,
+          }
+        : { lastMessage: '', lastMessageStatus: undefined };
+    const existingLastMessageAttribute = this.get('lastMessage');
+    const existingLastMessageStatus = this.get('lastMessageStatus');
 
     if (
-      lastMessageUpdate.lastMessage !== this.get('lastMessage') ||
-      lastMessageUpdate.lastMessageStatus !== this.get('lastMessageStatus')
+      lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
+      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus
     ) {
-      const lastMessageAttribute = this.get('lastMessage');
       if (
-        lastMessageUpdate.lastMessageStatus === this.get('lastMessageStatus') &&
+        lastMessageUpdate.lastMessageStatus === existingLastMessageStatus &&
         lastMessageUpdate.lastMessage &&
         lastMessageUpdate.lastMessage.length > 40 &&
-        lastMessageAttribute &&
-        lastMessageAttribute.length > 40 &&
-        lastMessageUpdate.lastMessage.startsWith(lastMessageAttribute)
+        existingLastMessageAttribute &&
+        existingLastMessageAttribute.length > 40 &&
+        lastMessageUpdate.lastMessage.startsWith(existingLastMessageAttribute)
       ) {
         // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
         // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
         return;
       }
-      this.set(lastMessageUpdate);
+      this.set({
+        ...lastMessageUpdate,
+      });
       await this.commit();
     }
   }

@@ -71,7 +71,7 @@ export interface ConversationAttributes {
 
   avatarInProfile?: string; // this is the avatar path locally once downloaded and stored in the application attachments folder
 
-  isTrustedForAttachmentDownload: boolean;
+  isTrustedForAttachmentDownload: boolean; // not synced accross devices, this field is used if we should auto download attachments from this conversation or not
 
   conversationIdOrigin?: string; // Blinded message requests ONLY: The community from which this conversation originated from
 
@@ -82,7 +82,8 @@ export interface ConversationAttributes {
   // ===========================================================================
   // All of the items below are duplicated one way or the other with libsession.
   // It would be nice to at some point be able to only rely on libsession dumps
-  // for those so there is no need to keep them in sync, but just have them in the dumps
+  // for those so there is no need to keep them in sync, but just have them in the dumps.
+  // Note: If we do remove them, we also need to add some logic to the wrappers. For instance, we can currently search by nickname or display name and that works through the DB.
 
   displayNameInProfile?: string; // no matter the type of conversation, this is the real name as set by the user/name of the open or closed group
   nickname?: string; // this is the name WE gave to that user (only applicable to private chats, not closed group neither opengroups)
