@@ -55,7 +55,7 @@
     "svgo": "svgo --multipass images/**/*.svg",
     "transpile": "run-p check:types build:esbuild",
     "check:types": "tsc --noEmit",
-    "clean-transpile-once": "rimraf app/**/*.js app/*.js ts/**/*.js ts/*.js tsconfig.tsbuildinfo",
+    "clean-transpile-once": "rimraf sticker-creator app/**/*.js app/*.js ts/**/*.js ts/*.js tsconfig.tsbuildinfo",
     "clean-transpile": "yarn run clean-transpile-once && yarn run clean-transpile-once",
     "open-coverage": "open coverage/lcov-report/index.html",
     "ready": "npm-run-all --print-label clean-transpile generate --parallel lint lint-deps lint-intl test-node test-electron",
