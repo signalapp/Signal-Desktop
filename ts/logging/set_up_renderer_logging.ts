@@ -114,9 +114,40 @@ window.SignalContext.log = {
   trace: log.trace,
 };
 
-window.onerror = (_message, _script, _line, _col, error) => {
+function toLocation(
+  event: string | Event,
+  sourceArg?: string,
+  lineArg?: number,
+  columnArg?: number
+) {
+  let source = sourceArg;
+  let line = lineArg;
+  let column = columnArg;
+
+  if (event instanceof ErrorEvent) {
+    source ??= event.filename;
+    line ??= event.lineno;
+    column ??= event.colno;
+  }
+
+  if (source == null) {
+    return '(@ unknown)';
+  }
+  if (line != null && column != null) {
+    return `(@ ${source}:${line}:${column})`;
+  }
+  if (line != null) {
+    return `(@ ${source}:${line})`;
+  }
+  return `(@ ${source})`;
+}
+
+window.onerror = (event, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
-  log.error(`Top-level unhandled error: ${errorInfo}`);
+  log.error(
+    `Top-level unhandled error: ${errorInfo}`,
+    toLocation(event, source, line, column)
+  );
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {
