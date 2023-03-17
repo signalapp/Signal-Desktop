@@ -3251,7 +3251,8 @@ export class ConversationModel extends window.Backbone
           endedTime,
         } = callHistoryDetails;
         log.info(
-          `addCallHistory: Call ID: ${callId}, ` +
+          `addCallHistory: Conversation ID: ${this.id}, ` +
+            `Call ID: ${callId}, ` +
             'Direct, ' +
             `Incoming: ${wasIncoming}, ` +
             `Video: ${wasVideoCall}, ` +
@@ -3306,19 +3307,22 @@ export class ConversationModel extends window.Backbone
             );
           if (messageId != null) {
             log.info(
-              `addCallHistory: Found existing call history message (Call ID ${callHistoryDetails.callId}, Message ID: ${messageId})`
+              `addCallHistory: Found existing call history message (Call ID: ${callHistoryDetails.callId}, Message ID: ${messageId})`
             );
             message.id = messageId;
           } else {
             log.info(
-              `addCallHistory: No existing call history message found (Call ID ${callHistoryDetails.callId})`
+              `addCallHistory: No existing call history message found (Call ID: ${callHistoryDetails.callId})`
             );
           }
         }
 
         const id = await window.Signal.Data.saveMessage(message, {
           ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          forceSave: true,
         });
+
+        log.info(`addCallHistory: Saved call history message (ID: ${id})`);
 
         const model = window.MessageController.register(
           id,
