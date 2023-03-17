@@ -298,6 +298,7 @@ const excludedFilesRegexp = RegExp(
 
     // Used by Storybook
     '^node_modules/@emotion/.+',
+    '^node_modules/@pmmmwh/react-refresh-webpack-plugin/.+',
     '^node_modules/@storybook/.+',
     '^node_modules/cosmiconfig/.+',
     '^node_modules/create-emotion/.+',
