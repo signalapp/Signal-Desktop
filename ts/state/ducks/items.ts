@@ -151,7 +151,7 @@ function resetItems(): ItemsResetAction {
 
 function getDefaultCustomColorData() {
   return {
-    colors: {},
+    colors: {} as Record<string, CustomColorType>,
     version: 1,
   };
 }
