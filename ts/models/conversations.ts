@@ -3310,6 +3310,8 @@ export class ConversationModel extends window.Backbone
           callHistoryDetails: detailsToSave,
         };
 
+        // Force save if we're adding a new call history message for a direct call
+        let forceSave = true;
         if (callHistoryDetails.callMode === CallMode.Direct) {
           const messageId =
             await window.Signal.Data.getCallHistoryMessageByCallId(
@@ -3321,6 +3323,8 @@ export class ConversationModel extends window.Backbone
               `addCallHistory: Found existing call history message (Call ID: ${callHistoryDetails.callId}, Message ID: ${messageId})`
             );
             message.id = messageId;
+            // We don't want to force save if we're updating an existing message
+            forceSave = false;
           } else {
             log.info(
               `addCallHistory: No existing call history message found (Call ID: ${callHistoryDetails.callId})`
@@ -3330,7 +3334,7 @@ export class ConversationModel extends window.Backbone
 
         const id = await window.Signal.Data.saveMessage(message, {
           ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-          forceSave: true,
+          forceSave,
         });
 
         log.info(`addCallHistory: Saved call history message (ID: ${id})`);
