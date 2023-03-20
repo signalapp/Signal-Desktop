@@ -26,6 +26,7 @@ import {
   getInvitedContactsForNewlyCreatedGroup,
   getSelectedMessage,
 } from '../selectors/conversations';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer';
 
 import { SmartTimelineItem } from './TimelineItem';
 import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
@@ -46,6 +47,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { SmartMiniPlayer } from './MiniPlayer';
 
 type ExternalProps = {
   id: string;
@@ -92,6 +94,9 @@ function renderContactSpoofingReviewDialog(
 
 function renderHeroRow(id: string): JSX.Element {
   return <SmartHeroRow id={id} />;
+}
+function renderMiniPlayer(options: { shouldFlow: boolean }): JSX.Element {
+  return <SmartMiniPlayer {...options} />;
 }
 function renderTypingBubble(id: string): JSX.Element {
   return <SmartTypingBubble id={id} />;
@@ -227,6 +232,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const getTimestampForMessage = (messageId: string): undefined | number =>
     getMessages(state)[messageId]?.timestamp;
 
+  const shouldShowMiniPlayer = Boolean(selectAudioPlayerActive(state));
+
   return {
     id,
     ...pick(conversation, ['unreadCount', 'isGroupV1AndDisabled']),
@@ -237,9 +244,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     ),
     isSomeoneTyping: Boolean(conversation.typingContactId),
     ...conversationMessages,
+
     invitedContactsForNewlyCreatedGroup:
       getInvitedContactsForNewlyCreatedGroup(state),
     selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
+    shouldShowMiniPlayer,
 
     warning: getWarning(conversation, state),
     contactSpoofingReview: getContactSpoofingReview(id, state),
@@ -248,9 +257,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     theme: getTheme(state),
-    renderItem,
+
     renderContactSpoofingReviewDialog,
     renderHeroRow,
+    renderItem,
+    renderMiniPlayer,
     renderTypingBubble,
   };
 };

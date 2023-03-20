@@ -25,6 +25,7 @@ export type PropsType = {
   renderConversationView: () => JSX.Element;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderLeftPane: () => JSX.Element;
+  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   selectedConversationId?: string;
   selectedMessage?: string;
@@ -42,6 +43,7 @@ export function Inbox({
   renderConversationView,
   renderCustomizingPreferredReactionsModal,
   renderLeftPane,
+  renderMiniPlayer,
   scrollToMessage,
   selectedConversationId,
   selectedMessage,
@@ -219,6 +221,7 @@ export function Inbox({
           )}
           {!prevConversationId && (
             <div className="no-conversation-open">
+              {renderMiniPlayer({ shouldFlow: false })}
               <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
               <h3>{i18n('welcomeToSignal')}</h3>
               <p className="whats-new-placeholder">

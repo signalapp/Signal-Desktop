@@ -335,9 +335,6 @@ const renderItem = ({
     getPreferredBadge={() => undefined}
     id=""
     isSelected={false}
-    renderEmojiPicker={() => <div />}
-    renderReactionPicker={() => <div />}
-    item={items[messageId]}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
@@ -345,11 +342,14 @@ const renderItem = ({
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""
+    item={items[messageId]}
+    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     renderContact={() => '*ContactName*'}
+    renderEmojiPicker={() => <div />}
+    renderReactionPicker={() => <div />}
     renderUniversalTimerNotification={() => (
       <div>*UniversalTimerNotification*</div>
     )}
-    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     shouldCollapseAbove={false}
     shouldCollapseBelow={false}
     shouldHideMetadata={false}
@@ -436,6 +436,9 @@ const renderTypingBubble = () => (
     sharedGroupNames={[]}
   />
 );
+const renderMiniPlayer = () => (
+  <div>If active, this is where smart mini player would be</div>
+);
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   discardMessages: action('discardMessages'),
@@ -455,6 +458,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   messageChangeCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
+  shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
   totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
   oldestUnseenIndex:
     number('oldestUnseenIndex', overrideProps.oldestUnseenIndex || 0) ||
@@ -466,6 +470,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   id: uuid(),
   renderItem,
   renderHeroRow,
+  renderMiniPlayer,
   renderTypingBubble,
   renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
@@ -620,3 +625,12 @@ export function WithSameNameInGroupConversationWarning(): JSX.Element {
 WithSameNameInGroupConversationWarning.story = {
   name: 'With "same name in group conversation" warning',
 };
+
+export function WithJustMiniPlayer(): JSX.Element {
+  const props = useProps({
+    shouldShowMiniPlayer: true,
+    items: [],
+  });
+
+  return <Timeline {...props} />;
+}

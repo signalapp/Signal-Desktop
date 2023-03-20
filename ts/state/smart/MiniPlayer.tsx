@@ -4,6 +4,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { MiniPlayer, PlayerState } from '../../components/MiniPlayer';
+import type { Props as DumbProps } from '../../components/MiniPlayer';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
@@ -14,13 +15,15 @@ import {
 } from '../selectors/audioPlayer';
 import { getIntl } from '../selectors/user';
 
+type Props = Pick<DumbProps, 'shouldFlow'>;
+
 /**
  * Wires the dispatch props and shows/hides the MiniPlayer
  *
  * It also triggers side-effecting actions (actual playback) in response to changes in
  * the state
  */
-export function SmartMiniPlayer(): JSX.Element | null {
+export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);
@@ -56,6 +59,7 @@ export function SmartMiniPlayer(): JSX.Element | null {
       onPause={handlePause}
       onPlaybackRate={setPlaybackRate}
       onClose={unloadMessageAudio}
+      shouldFlow={shouldFlow}
       state={state}
       currentTime={active.currentTime}
       duration={active.duration}

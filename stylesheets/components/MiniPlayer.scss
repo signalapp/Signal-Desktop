@@ -24,12 +24,19 @@
   align-items: center;
   gap: 18px;
   padding: 8px 16px;
+  margin-top: calc(52px + var(--title-bar-drag-area-height));
+  text-align: left;
 
   @include light-theme {
     background-color: $color-gray-02;
   }
   @include dark-theme {
     background-color: $color-gray-75;
+  }
+
+  &--flow {
+    margin-top: 0;
+    position: relative;
   }
 
   &__playback-button {

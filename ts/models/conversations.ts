@@ -190,6 +190,7 @@ const {
 } = window.Signal.Data;
 
 const FIVE_MINUTES = MINUTE * 5;
+const FETCH_TIMEOUT = SECOND * 30;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
 const SEND_REPORTING_THRESHOLD_MS = 25;
@@ -1366,10 +1367,12 @@ export class ConversationModel extends window.Backbone
       e164,
       reason: 'ConversationModel.onNewMessage',
     });
-    const typingToken = `${source?.id}.${sourceDevice}`;
+    if (source) {
+      const typingToken = `${source.id}.${sourceDevice}`;
 
-    // Clear typing indicator for a given contact if we receive a message from them
-    this.clearContactTypingTimer(typingToken);
+      // Clear typing indicator for a given contact if we receive a message from them
+      this.clearContactTypingTimer(typingToken);
+    }
 
     // If it's a group story reply or a story message, we don't want to update
     // the last message or add new messages to redux.
@@ -1451,10 +1454,18 @@ export class ConversationModel extends window.Backbone
       resolvePromise = resolve;
     });
 
+    let timeout: NodeJS.Timeout;
     const finish = () => {
       resolvePromise();
+      clearTimeout(timeout);
       this.inProgressFetch = undefined;
     };
+    timeout = setTimeout(() => {
+      log.warn(
+        `setInProgressFetch(${this.idForLogging()}): Calling finish manually after timeout`
+      );
+      finish();
+    }, FETCH_TIMEOUT);
 
     return finish;
   }
@@ -5542,7 +5553,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const typingToken = `${senderId}.${senderDevice}`;
+    const typingToken = `${sender.id}.${senderDevice}`;
 
     this.contactTypingTimers = this.contactTypingTimers || {};
     const record = this.contactTypingTimers[typingToken];

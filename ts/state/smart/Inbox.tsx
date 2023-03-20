@@ -14,6 +14,7 @@ import { SmartLeftPane } from './LeftPane';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
+import { SmartMiniPlayer } from './MiniPlayer';
 
 function renderConversationView() {
   return <SmartConversationView />;
@@ -21,6 +22,10 @@ function renderConversationView() {
 
 function renderCustomizingPreferredReactionsModal() {
   return <SmartCustomizingPreferredReactionsModal />;
+}
+
+function renderMiniPlayer(options: { shouldFlow: boolean }) {
+  return <SmartMiniPlayer {...options} />;
 }
 
 function renderLeftPane() {
@@ -59,6 +64,7 @@ export function SmartInbox(): JSX.Element {
         renderCustomizingPreferredReactionsModal
       }
       renderLeftPane={renderLeftPane}
+      renderMiniPlayer={renderMiniPlayer}
       scrollToMessage={scrollToMessage}
       selectedConversationId={selectedConversationId}
       selectedMessage={selectedMessage}

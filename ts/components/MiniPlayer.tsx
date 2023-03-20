@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import classnames from 'classnames';
 import React, { useCallback } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { durationToPlaybackText } from '../util/durationToPlaybackText';
@@ -22,6 +23,8 @@ export type Props = Readonly<{
   duration: number | undefined;
   playbackRate: number;
   state: PlayerState;
+  // if false or not provided, position:absolute. Otherwise, it's position: relative
+  shouldFlow?: boolean;
   onPlay: () => void;
   onPause: () => void;
   onPlaybackRate: (rate: number) => void;
@@ -35,6 +38,7 @@ export function MiniPlayer({
   currentTime,
   duration,
   playbackRate,
+  shouldFlow,
   onPlay,
   onPause,
   onPlaybackRate,
@@ -79,7 +83,12 @@ export function MiniPlayer({
   }
 
   return (
-    <div className="MiniPlayer">
+    <div
+      className={classnames(
+        'MiniPlayer',
+        shouldFlow ? 'MiniPlayer--flow' : null
+      )}
+    >
       <PlaybackButton
         context="incoming"
         variant="mini"

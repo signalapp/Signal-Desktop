@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { SmartMiniPlayer } from '../../state/smart/MiniPlayer';
 
 export type PropsType = {
   conversationId: string;
@@ -87,7 +86,6 @@ export function ConversationView({
         {renderConversationHeader()}
       </div>
       <div className="ConversationView__pane main panel">
-        <SmartMiniPlayer />
         <div className="ConversationView__timeline--container">
           <div aria-live="polite" className="ConversationView__timeline">
             {renderTimeline()}

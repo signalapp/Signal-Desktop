@@ -100,8 +100,9 @@ type PropsHousekeepingType = {
   isSomeoneTyping: boolean;
   unreadCount?: number;
 
-  selectedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
+  selectedMessageId?: string;
+  shouldShowMiniPlayer: boolean;
 
   warning?: WarningType;
   contactSpoofingReview?: ContactSpoofingReviewPropType;
@@ -120,6 +121,10 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
   theme: ThemeType;
 
+  renderContactSpoofingReviewDialog: (
+    props: SmartContactSpoofingReviewDialogPropsType
+  ) => JSX.Element;
+  renderHeroRow: (id: string) => JSX.Element;
   renderItem: (props: {
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
@@ -130,11 +135,8 @@ type PropsHousekeepingType = {
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
-  renderHeroRow: (id: string) => JSX.Element;
+  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
-  renderContactSpoofingReviewDialog: (
-    props: SmartContactSpoofingReviewDialogPropsType
-  ) => JSX.Element;
 };
 
 export type PropsActionsType = {
@@ -758,9 +760,11 @@ export class Timeline extends React.Component<
       renderContactSpoofingReviewDialog,
       renderHeroRow,
       renderItem,
+      renderMiniPlayer,
       renderTypingBubble,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
+      shouldShowMiniPlayer,
       theme,
       totalUnseen,
       unreadCount,
@@ -890,72 +894,74 @@ export class Timeline extends React.Component<
     }
 
     const warning = Timeline.getWarning(this.props, this.state);
-    let timelineWarning: ReactNode;
-    if (warning) {
-      let text: ReactChild;
+    let headerElements: ReactNode;
+    if (warning || shouldShowMiniPlayer) {
+      let text: ReactChild | undefined;
       let onClose: () => void;
-      switch (warning.type) {
-        case ContactSpoofingType.DirectConversationWithSameTitle:
-          text = (
-            <Intl
-              i18n={i18n}
-              id="ContactSpoofing__same-name"
-              components={{
-                link: (
-                  <TimelineWarning.Link
-                    onClick={() => {
-                      reviewMessageRequestNameCollision({
-                        safeConversationId: warning.safeConversation.id,
-                      });
-                    }}
-                  >
-                    {i18n('ContactSpoofing__same-name__link')}
-                  </TimelineWarning.Link>
-                ),
-              }}
-            />
-          );
-          onClose = () => {
-            this.setState({
-              hasDismissedDirectContactSpoofingWarning: true,
-            });
-          };
-          break;
-        case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
-          const { groupNameCollisions } = warning;
-          text = (
-            <Intl
-              i18n={i18n}
-              id="ContactSpoofing__same-name-in-group"
-              components={{
-                count: Object.values(groupNameCollisions)
-                  .reduce(
-                    (result, conversations) => result + conversations.length,
-                    0
-                  )
-                  .toString(),
-                link: (
-                  <TimelineWarning.Link
-                    onClick={() => {
-                      reviewGroupMemberNameCollision(id);
-                    }}
-                  >
-                    {i18n('ContactSpoofing__same-name-in-group__link')}
-                  </TimelineWarning.Link>
-                ),
-              }}
-            />
-          );
-          onClose = () => {
-            acknowledgeGroupMemberNameCollisions(id, groupNameCollisions);
-          };
-          break;
+      if (warning) {
+        switch (warning.type) {
+          case ContactSpoofingType.DirectConversationWithSameTitle:
+            text = (
+              <Intl
+                i18n={i18n}
+                id="ContactSpoofing__same-name"
+                components={{
+                  link: (
+                    <TimelineWarning.Link
+                      onClick={() => {
+                        reviewMessageRequestNameCollision({
+                          safeConversationId: warning.safeConversation.id,
+                        });
+                      }}
+                    >
+                      {i18n('ContactSpoofing__same-name__link')}
+                    </TimelineWarning.Link>
+                  ),
+                }}
+              />
+            );
+            onClose = () => {
+              this.setState({
+                hasDismissedDirectContactSpoofingWarning: true,
+              });
+            };
+            break;
+          case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
+            const { groupNameCollisions } = warning;
+            text = (
+              <Intl
+                i18n={i18n}
+                id="ContactSpoofing__same-name-in-group"
+                components={{
+                  count: Object.values(groupNameCollisions)
+                    .reduce(
+                      (result, conversations) => result + conversations.length,
+                      0
+                    )
+                    .toString(),
+                  link: (
+                    <TimelineWarning.Link
+                      onClick={() => {
+                        reviewGroupMemberNameCollision(id);
+                      }}
+                    >
+                      {i18n('ContactSpoofing__same-name-in-group__link')}
+                    </TimelineWarning.Link>
+                  ),
+                }}
+              />
+            );
+            onClose = () => {
+              acknowledgeGroupMemberNameCollisions(id, groupNameCollisions);
+            };
+            break;
+          }
+          default:
+            throw missingCaseError(warning);
         }
-        default:
-          throw missingCaseError(warning);
       }
 
-      timelineWarning = (
+      headerElements = (
         <Measure
           bounds
           onResize={({ bounds }) => {
@@ -968,12 +974,15 @@ export class Timeline extends React.Component<
         >
           {({ measureRef }) => (
             <TimelineWarnings ref={measureRef}>
-              <TimelineWarning i18n={i18n} onClose={onClose}>
-                <TimelineWarning.IconContainer>
-                  <TimelineWarning.GenericIcon />
-                </TimelineWarning.IconContainer>
-                <TimelineWarning.Text>{text}</TimelineWarning.Text>
-              </TimelineWarning>
+              {renderMiniPlayer({ shouldFlow: true })}
+              {text && (
+                <TimelineWarning i18n={i18n} onClose={onClose}>
+                  <TimelineWarning.IconContainer>
+                    <TimelineWarning.GenericIcon />
+                  </TimelineWarning.IconContainer>
+                  <TimelineWarning.Text>{text}</TimelineWarning.Text>
+                </TimelineWarning>
+              )}
             </TimelineWarnings>
           )}
         </Measure>
@@ -1044,7 +1053,7 @@ export class Timeline extends React.Component<
               onKeyDown={this.handleKeyDown}
               ref={measureRef}
             >
-              {timelineWarning}
+              {headerElements}
 
               {floatingHeader}
 
