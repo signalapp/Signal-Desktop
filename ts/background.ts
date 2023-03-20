@@ -1781,6 +1781,7 @@ export async function startApp(): Promise<void> {
   }
 
   window.Whisper.events.on('setupAsNewDevice', () => {
+    window.IPC.readyForUpdates();
     window.reduxActions.app.openInstaller();
   });
 
@@ -1967,6 +1968,7 @@ export async function startApp(): Promise<void> {
       void connect();
       window.reduxActions.app.openInbox();
     } else {
+      window.IPC.readyForUpdates();
       window.reduxActions.app.openInstaller();
     }
 

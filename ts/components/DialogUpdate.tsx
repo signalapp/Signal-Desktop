@@ -7,6 +7,7 @@ import formatFileSize from 'filesize';
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
 import type { LocalizerType } from '../types/Util';
+import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
 import { Intl } from './Intl';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
@@ -23,9 +24,6 @@ export type PropsType = {
   version?: string;
   currentVersion: string;
 };
-
-const PRODUCTION_DOWNLOAD_URL = 'https://signal.org/download/';
-const BETA_DOWNLOAD_URL = 'https://support.signal.org/beta';
 
 export function DialogUpdate({
   containerWidthBreakpoint,

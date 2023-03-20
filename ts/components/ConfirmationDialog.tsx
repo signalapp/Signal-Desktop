@@ -13,11 +13,19 @@ import { useAnimated } from '../hooks/useAnimated';
 import { Spinner } from './Spinner';
 
 export type ActionSpec = {
-  text: string;
   action: () => unknown;
   style?: 'affirmative' | 'negative';
   autoClose?: boolean;
-};
+} & (
+  | {
+      text: string;
+      id?: string;
+    }
+  | {
+      text: string | JSX.Element;
+      id: string;
+    }
+);
 
 export type OwnProps = Readonly<{
   actions?: Array<ActionSpec>;
@@ -117,7 +125,11 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
       ) : null}
       {actions.map((action, i) => (
         <Button
-          key={action.text}
+          key={
+            typeof action.text === 'string'
+              ? action.id ?? action.text
+              : action.id
+          }
           disabled={isSpinning}
           onClick={() => {
             action.action();

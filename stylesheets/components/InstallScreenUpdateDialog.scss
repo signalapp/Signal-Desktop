@@ -1,0 +1,39 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.InstallScreenUpdateDialog {
+  &__download-size {
+    font-weight: 400;
+  }
+
+  &__progress {
+    &--container {
+      @include light-theme() {
+        background-color: $color-gray-15;
+      }
+      @include dark-theme() {
+        background-color: $color-gray-65;
+      }
+      border-radius: 2px;
+      height: 4px;
+      overflow: hidden;
+      width: 100%;
+      margin: 16px 0;
+    }
+
+    &--bar {
+      background-color: $color-ultramarine;
+      border-radius: 2px;
+      display: block;
+      height: 100%;
+      width: 100%;
+      transform: translateX(-100%);
+      transition: transform 500ms ease-out;
+    }
+  }
+
+  a {
+    // Prevent breaking the text
+    display: inline-block;
+  }
+}

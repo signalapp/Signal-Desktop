@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
+import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
+import { DialogType } from '../../types/Dialogs';
 import enMessages from '../../../_locales/en/messages.json';
 
 import type { Loadable } from '../../util/loadable';
@@ -12,8 +14,24 @@ import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScann
 
 const i18n = setupI18n('en', enMessages);
 
+const LOADED_URL = {
+  loadingState: LoadingState.Loaded as const,
+  value:
+    'sgnl://linkdevice?uuid=b33f6338-aaf1-4853-9aff-6652369f6b52&pub_key=BTpRKRtFeJGga1M3Na4PzZevMvVIWmTWQIpn0BJI3x10',
+};
+
+const DEFAULT_UPDATES = {
+  dialogType: DialogType.None,
+  didSnooze: false,
+  showEventsCount: 0,
+  downloadSize: 67 * 1024 * 1024,
+  downloadedSize: 15 * 1024 * 1024,
+  version: 'v7.7.7',
+};
+
 export default {
   title: 'Components/InstallScreen/InstallScreenQrCodeNotScannedStep',
+  argTypes: {},
 };
 
 function Simulation({ finalResult }: { finalResult: Loadable<string> }) {
@@ -34,6 +52,10 @@ function Simulation({ finalResult }: { finalResult: Loadable<string> }) {
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
       provisioningUrl={provisioningUrl}
+      updates={DEFAULT_UPDATES}
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      currentVersion="v6.0.0"
     />
   );
 }
@@ -45,6 +67,10 @@ export function QrCodeLoading(): JSX.Element {
       provisioningUrl={{
         loadingState: LoadingState.Loading,
       }}
+      updates={DEFAULT_UPDATES}
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      currentVersion="v6.0.0"
     />
   );
 }
@@ -61,6 +87,10 @@ export function QrCodeFailedToLoad(): JSX.Element {
         loadingState: LoadingState.LoadFailed,
         error: new Error('uh oh'),
       }}
+      updates={DEFAULT_UPDATES}
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      currentVersion="v6.0.0"
     />
   );
 }
@@ -73,11 +103,11 @@ export function QrCodeLoaded(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
-      provisioningUrl={{
-        loadingState: LoadingState.Loaded,
-        value:
-          'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
-      }}
+      provisioningUrl={LOADED_URL}
+      updates={DEFAULT_UPDATES}
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      currentVersion="v6.0.0"
     />
   );
 }
@@ -87,15 +117,7 @@ QrCodeLoaded.story = {
 };
 
 export function SimulatedLoading(): JSX.Element {
-  return (
-    <Simulation
-      finalResult={{
-        loadingState: LoadingState.Loaded,
-        value:
-          'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
-      }}
-    />
-  );
+  return <Simulation finalResult={LOADED_URL} />;
 }
 
 SimulatedLoading.story = {
@@ -115,4 +137,43 @@ export function SimulatedFailure(): JSX.Element {
 
 SimulatedFailure.story = {
   name: 'Simulated failure',
+};
+
+export function WithUpdateKnobs({
+  dialogType,
+  currentVersion,
+}: {
+  dialogType: DialogType;
+  currentVersion: string;
+}): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      i18n={i18n}
+      provisioningUrl={LOADED_URL}
+      hasExpired
+      updates={{
+        ...DEFAULT_UPDATES,
+        dialogType,
+      }}
+      OS="macOS"
+      startUpdate={action('startUpdate')}
+      currentVersion={currentVersion}
+    />
+  );
+}
+
+WithUpdateKnobs.story = {
+  name: 'With Update Knobs',
+  argTypes: {
+    dialogType: {
+      control: { type: 'select' },
+      defaultValue: DialogType.AutoUpdate,
+      options: Object.values(DialogType),
+    },
+    currentVersion: {
+      control: { type: 'select' },
+      defaultValue: 'v6.0.0',
+      options: ['v6.0.0', 'v6.1.0-beta.1'],
+    },
+  },
 };

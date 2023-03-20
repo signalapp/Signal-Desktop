@@ -8,7 +8,7 @@ import { DialogType } from '../../types/Dialogs';
 import type { StateType } from '../reducer';
 import type { UpdatesStateType } from '../ducks/updates';
 
-const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
+export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;
 
 export const isUpdateDialogVisible = createSelector(

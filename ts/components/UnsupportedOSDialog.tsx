@@ -6,6 +6,7 @@ import moment from 'moment';
 import type { FormatXMLElementFn } from 'intl-messageformat';
 
 import type { LocalizerType } from '../types/Util';
+import { UNSUPPORTED_OS_URL } from '../types/support';
 import { missingCaseError } from '../util/missingCaseError';
 import type { WidthBreakpoint } from './_util';
 import { Intl } from './Intl';
@@ -20,8 +21,6 @@ export type PropsType = {
   OS: string;
 };
 
-const SUPPORT_URL = 'https://support.signal.org/hc/articles/5109141421850';
-
 export function UnsupportedOSDialog({
   containerWidthBreakpoint,
   expirationTimestamp,
@@ -30,7 +29,12 @@ export function UnsupportedOSDialog({
   OS,
 }: PropsType): JSX.Element | null {
   const learnMoreLink: FormatXMLElementFn<JSX.Element | string> = children => (
-    <a key="signal-support" href={SUPPORT_URL} rel="noreferrer" target="_blank">
+    <a
+      key="signal-support"
+      href={UNSUPPORTED_OS_URL}
+      rel="noreferrer"
+      target="_blank"
+    >
       {children}
     </a>
   );

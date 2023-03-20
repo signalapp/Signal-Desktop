@@ -15,15 +15,22 @@ import { Spinner } from '../Spinner';
 import { QrCode } from '../QrCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
+import type { UpdatesStateType } from '../../state/ducks/updates';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
-type PropsType = {
+type PropsType = Readonly<{
   i18n: LocalizerType;
   provisioningUrl: Loadable<string>;
-};
+  hasExpired?: boolean;
+  updates: UpdatesStateType;
+  currentVersion: string;
+  OS: string;
+  startUpdate: () => void;
+}>;
 
 const QR_CODE_FAILED_LINK =
   'https://support.signal.org/hc/articles/360007320451#desktop_multiple_device';
@@ -35,12 +42,27 @@ const getQrCodeClassName = getClassNamesFor(
 export function InstallScreenQrCodeNotScannedStep({
   i18n,
   provisioningUrl,
+  hasExpired,
+  updates,
+  startUpdate,
+  currentVersion,
+  OS,
 }: Readonly<PropsType>): ReactElement {
   return (
     <div className="module-InstallScreenQrCodeNotScannedStep">
       <TitlebarDragArea />
 
       <InstallScreenSignalLogo />
+
+      {hasExpired && (
+        <InstallScreenUpdateDialog
+          i18n={i18n}
+          {...updates}
+          startUpdate={startUpdate}
+          currentVersion={currentVersion}
+          OS={OS}
+        />
+      )}
 
       <div className="module-InstallScreenQrCodeNotScannedStep__contents">
         <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />

@@ -6,6 +6,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getIntl } from '../selectors/user';
+import { getUpdatesState } from '../selectors/updates';
+import { useUpdatesActions } from '../ducks/updates';
+import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
 
 import * as log from '../../logging/log';
 import type { Loadable } from '../../util/loadable';
@@ -23,6 +26,7 @@ import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
+import { getName as getOSName } from '../../OS';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -71,6 +75,9 @@ function getInstallError(err: unknown): InstallError {
 
 export function SmartInstallScreen(): ReactElement {
   const i18n = useSelector(getIntl);
+  const updates = useSelector(getUpdatesState);
+  const { startUpdate } = useUpdatesActions();
+  const hasExpired = useSelector(hasExpiredSelector);
 
   const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());
 
@@ -246,6 +253,11 @@ export function SmartInstallScreen(): ReactElement {
         screenSpecificProps: {
           i18n,
           provisioningUrl: state.provisioningUrl,
+          hasExpired,
+          updates,
+          currentVersion: window.getVersion(),
+          startUpdate,
+          OS: getOSName(),
         },
       };
       break;
