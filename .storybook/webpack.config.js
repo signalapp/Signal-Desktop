@@ -4,10 +4,7 @@
 const webpack = require('webpack');
 
 module.exports = ({ config }) => {
-  config.entry.unshift(
-    '!!style-loader!css-loader!sanitize.css',
-    '!!style-loader!css-loader!typeface-inter'
-  );
+  config.entry.unshift('!!style-loader!css-loader!sanitize.css');
 
   config.cache = {
     type: 'filesystem',
