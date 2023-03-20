@@ -9,11 +9,15 @@
   }
 
   @mixin hover-and-active-states($background-color, $mix-color) {
-    &:hover:not(:disabled) {
-      background: mix($background-color, $mix-color, 85%);
+    &:hover {
+      @include not-disabled {
+        background: mix($background-color, $mix-color, 85%);
+      }
     }
-    &:active:not(:disabled) {
-      background: mix($background-color, $mix-color, 75%);
+    &:active {
+      @include not-disabled {
+        background: mix($background-color, $mix-color, 75%);
+      }
     }
   }
 
@@ -31,7 +35,7 @@
     @include focus-box-shadow($color-black, $color-ultramarine-icon);
   }
 
-  &:disabled {
+  @include disabled {
     cursor: not-allowed;
   }
 
@@ -57,7 +61,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -79,7 +83,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: $color-black-alpha-40;
         background: fade-out($background-color, 0.6);
       }
@@ -102,7 +106,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: $color-white-alpha-20;
         background: fade-out($background-color, 0.6);
       }
@@ -126,7 +130,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -148,7 +152,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -180,7 +184,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: fade-out($color, 0.4);
         background: fade-out($background-color, 0.6);
       }
@@ -194,7 +198,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: fade-out($color, 0.4);
         background: fade-out($background-color, 0.6);
       }

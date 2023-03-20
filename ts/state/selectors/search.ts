@@ -41,7 +41,7 @@ export const getQuery = createSelector(
 
 export const getSelectedMessage = createSelector(
   getSearch,
-  (state: SearchStateType): string | undefined => state.selectedMessage
+  (state: SearchStateType): string | undefined => state.targetedMessage
 );
 
 const getSearchConversationId = createSelector(
@@ -156,7 +156,7 @@ type CachedMessageSearchResultSelectorType = (
   from: ConversationType,
   to: ConversationType,
   searchConversationId?: string,
-  selectedMessageId?: string
+  targetedMessageId?: string
 ) => MessageSearchResultPropsDataType;
 
 export const getCachedSelectorForMessageSearchResult = createSelector(
@@ -174,7 +174,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
         from: ConversationType,
         to: ConversationType,
         searchConversationId?: string,
-        selectedMessageId?: string
+        targetedMessageId?: string
       ) => {
         const bodyRanges = message.bodyRanges || [];
         return {
@@ -199,7 +199,7 @@ export const getCachedSelectorForMessageSearchResult = createSelector(
           body: message.body || '',
 
           isSelected: Boolean(
-            selectedMessageId && message.id === selectedMessageId
+            targetedMessageId && message.id === targetedMessageId
           ),
           isSearchingInConversation: Boolean(searchConversationId),
         };
@@ -223,7 +223,7 @@ export const getMessageSearchResultSelector = createSelector(
   (
     messageSearchResultSelector: CachedMessageSearchResultSelectorType,
     messageSearchResultLookup: MessageSearchResultLookupType,
-    selectedMessageId: string | undefined,
+    targetedMessageId: string | undefined,
     conversationSelector: GetConversationByIdType,
     searchConversationId: string | undefined,
     ourConversationId: string | undefined
@@ -260,7 +260,7 @@ export const getMessageSearchResultSelector = createSelector(
         from,
         to,
         searchConversationId,
-        selectedMessageId
+        targetedMessageId
       );
     };
   }

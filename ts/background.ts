@@ -1649,15 +1649,15 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
         event.stopPropagation();
 
-        const { selectedMessage } = state.conversations;
-        if (!selectedMessage) {
+        const { targetedMessage } = state.conversations;
+        if (!targetedMessage) {
           return;
         }
 
         window.reduxActions.conversations.pushPanelForConversation({
           type: PanelType.MessageDetails,
           args: {
-            messageId: selectedMessage,
+            messageId: targetedMessage,
           },
         });
         return;
@@ -1673,14 +1673,14 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
         event.stopPropagation();
 
-        const { selectedMessage } = state.conversations;
+        const { targetedMessage } = state.conversations;
 
         const quotedMessageSelector = getQuotedMessageSelector(state);
         const quote = quotedMessageSelector(conversation.id);
 
         window.reduxActions.composer.setQuoteByMessageId(
           conversation.id,
-          quote ? undefined : selectedMessage
+          quote ? undefined : targetedMessage
         );
 
         return;
@@ -1696,11 +1696,11 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
         event.stopPropagation();
 
-        const { selectedMessage } = state.conversations;
+        const { targetedMessage } = state.conversations;
 
-        if (selectedMessage) {
+        if (targetedMessage) {
           window.reduxActions.conversations.saveAttachmentFromMessage(
-            selectedMessage
+            targetedMessage
           );
           return;
         }
@@ -1712,9 +1712,9 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'd' || key === 'D')
       ) {
-        const { selectedMessage } = state.conversations;
+        const { targetedMessage } = state.conversations;
 
-        if (selectedMessage) {
+        if (targetedMessage) {
           event.preventDefault();
           event.stopPropagation();
 
@@ -1724,9 +1724,9 @@ export async function startApp(): Promise<void> {
             message: window.i18n('deleteWarning'),
             okText: window.i18n('delete'),
             resolve: () => {
-              window.reduxActions.conversations.deleteMessage({
+              window.reduxActions.conversations.deleteMessages({
                 conversationId: conversation.id,
-                messageId: selectedMessage,
+                messageIds: [targetedMessage],
               });
             },
           });

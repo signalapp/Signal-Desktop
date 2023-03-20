@@ -32,7 +32,7 @@ export function SmartMessageDetail(): JSX.Element | null {
   const theme = useSelector(getTheme);
   const { checkForAccount } = useAccountsActions();
   const {
-    clearSelectedMessage,
+    clearTargetedMessage: clearSelectedMessage,
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
@@ -69,7 +69,7 @@ export function SmartMessageDetail(): JSX.Element | null {
   return (
     <MessageDetail
       checkForAccount={checkForAccount}
-      clearSelectedMessage={clearSelectedMessage}
+      clearTargetedMessage={clearSelectedMessage}
       contactNameColor={contactNameColor}
       contacts={contacts}
       doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}

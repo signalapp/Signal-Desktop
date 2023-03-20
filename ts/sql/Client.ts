@@ -69,6 +69,7 @@ import Server from './Server';
 import { parseSqliteError, SqliteErrorKind } from './errors';
 import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
+import type { MessageAttributesType } from '../model-types';
 
 const getRealPath = pify(fs.realpath);
 
@@ -227,6 +228,7 @@ const dataInterface: ClientInterface = {
   saveMessage,
   saveMessages,
   removeMessage,
+  removeMessages,
   saveAttachmentDownloadJob,
 };
 
@@ -668,6 +670,28 @@ async function removeMessage(id: string): Promise<void> {
   }
 }
 
+async function _cleanupMessages(
+  messages: ReadonlyArray<MessageAttributesType>
+): Promise<void> {
+  const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
+  drop(
+    queue.addAll(
+      messages.map(
+        (message: MessageAttributesType) => async () => cleanupMessage(message)
+      )
+    )
+  );
+  await queue.onIdle();
+}
+
+async function removeMessages(
+  messageIds: ReadonlyArray<string>
+): Promise<void> {
+  const messages = await channels.getMessagesById(messageIds);
+  await _cleanupMessages(messages);
+  await channels.removeMessages(messageIds);
+}
+
 function handleMessageJSON(
   messages: Array<MessageTypeUnhydrated>
 ): Array<MessageType> {
@@ -733,18 +757,8 @@ async function removeAllMessagesInConversation(
     const ids = messages.map(message => message.id);
 
     log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
-    // Note: It's very important that these models are fully hydrated because
-    //   we need to delete all associated on-disk files along with the database delete.
-    const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
-    drop(
-      queue.addAll(
-        messages.map(
-          (message: MessageType) => async () => cleanupMessage(message)
-        )
-      )
-    );
     // eslint-disable-next-line no-await-in-loop
-    await queue.onIdle();
+    await _cleanupMessages(messages);
 
     log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
     // eslint-disable-next-line no-await-in-loop

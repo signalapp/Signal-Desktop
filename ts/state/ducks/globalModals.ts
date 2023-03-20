@@ -32,6 +32,10 @@ import type { ShowToastActionType } from './toast';
 export type ForwardMessagePropsType = ReadonlyDeep<
   Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'>
 >;
+export type ForwardMessagesPropsType = ReadonlyDeep<{
+  messages: Array<ForwardMessagePropsType>;
+  onForward?: () => void;
+}>;
 export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: UUIDStringType;
   source?: SafetyNumberChangeSource;
@@ -54,7 +58,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
     description?: string;
     title?: string;
   };
-  forwardMessageProps?: ForwardMessagePropsType;
+  forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   isProfileEditorVisible: boolean;
   isSignalConnectionsVisible: boolean;
@@ -80,8 +84,8 @@ const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
 const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
 const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
-const TOGGLE_FORWARD_MESSAGE_MODAL =
-  'globalModals/TOGGLE_FORWARD_MESSAGE_MODAL';
+const TOGGLE_FORWARD_MESSAGES_MODAL =
+  'globalModals/TOGGLE_FORWARD_MESSAGES_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
@@ -149,9 +153,9 @@ export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
   payload: UserNotFoundModalStateType;
 }>;
 
-type ToggleForwardMessageModalActionType = ReadonlyDeep<{
-  type: typeof TOGGLE_FORWARD_MESSAGE_MODAL;
-  payload: ForwardMessagePropsType | undefined;
+type ToggleForwardMessagesModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_FORWARD_MESSAGES_MODAL;
+  payload: ForwardMessagesPropsType | undefined;
 }>;
 
 type ToggleProfileEditorActionType = ReadonlyDeep<{
@@ -273,7 +277,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ConfirmAuthArtCreatorPendingActionType
   | ConfirmAuthArtCreatorFulfilledActionType
   | ShowAuthArtCreatorActionType
-  | ToggleForwardMessageModalActionType
+  | ToggleForwardMessagesModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
@@ -294,7 +298,7 @@ export const actions = {
   showStoriesSettings,
   hideBlockingSafetyNumberChangeDialog,
   showBlockingSafetyNumberChangeDialog,
-  toggleForwardMessageModal,
+  toggleForwardMessagesModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
@@ -422,37 +426,44 @@ function closeGV2MigrationDialog(): CloseGV2MigrationDialogActionType {
   };
 }
 
-function toggleForwardMessageModal(
-  messageId?: string
+function toggleForwardMessagesModal(
+  messageIds?: ReadonlyArray<string>,
+  onForward?: () => void
 ): ThunkAction<
   void,
   RootStateType,
   unknown,
-  ToggleForwardMessageModalActionType
+  ToggleForwardMessagesModalActionType
 > {
   return async (dispatch, getState) => {
-    if (!messageId) {
+    if (!messageIds) {
       dispatch({
-        type: TOGGLE_FORWARD_MESSAGE_MODAL,
+        type: TOGGLE_FORWARD_MESSAGES_MODAL,
         payload: undefined,
       });
       return;
     }
 
-    const message = await getMessageById(messageId);
+    const messagesProps = await Promise.all(
+      messageIds.map(async messageId => {
+        const message = await getMessageById(messageId);
 
-    if (!message) {
-      throw new Error(
-        `toggleForwardMessageModal: no message found for ${messageId}`
-      );
-    }
+        if (!message) {
+          throw new Error(
+            `toggleForwardMessagesModal: no message found for ${messageId}`
+          );
+        }
 
-    const messagePropsSelector = getMessagePropsSelector(getState());
-    const messageProps = messagePropsSelector(message.attributes);
+        const messagePropsSelector = getMessagePropsSelector(getState());
+        const messageProps = messagePropsSelector(message.attributes);
+
+        return messageProps;
+      })
+    );
 
     dispatch({
-      type: TOGGLE_FORWARD_MESSAGE_MODAL,
-      payload: messageProps,
+      type: TOGGLE_FORWARD_MESSAGES_MODAL,
+      payload: { messages: messagesProps, onForward },
     });
   };
 }
@@ -737,10 +748,10 @@ export function reducer(
     };
   }
 
-  if (action.type === TOGGLE_FORWARD_MESSAGE_MODAL) {
+  if (action.type === TOGGLE_FORWARD_MESSAGES_MODAL) {
     return {
       ...state,
-      forwardMessageProps: action.payload,
+      forwardMessagesProps: action.payload,
     };
   }
 

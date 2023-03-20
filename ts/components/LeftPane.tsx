@@ -96,7 +96,7 @@ export type PropsType = {
   isMacOS: boolean;
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
-  selectedMessageId: undefined | string;
+  targetedMessageId: undefined | string;
   regionCode: string | undefined;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
@@ -185,7 +185,7 @@ export function LeftPane({
   savePreferredLeftPaneWidth,
   searchInConversation,
   selectedConversationId,
-  selectedMessageId,
+  targetedMessageId,
   setChallengeStatus,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
@@ -372,7 +372,7 @@ export function LeftPane({
           conversationToOpen = helper.getConversationAndMessageInDirection(
             toFind,
             selectedConversationId,
-            selectedMessageId
+            targetedMessageId
           );
         }
       }
@@ -404,7 +404,7 @@ export function LeftPane({
     isMacOS,
     searchInConversation,
     selectedConversationId,
-    selectedMessageId,
+    targetedMessageId,
     showChooseGroupMembers,
     showConversation,
     showInbox,

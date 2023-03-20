@@ -8,13 +8,14 @@ import { text } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
 import type { AttachmentType } from '../types/Attachment';
-import type { PropsType } from './ForwardMessageModal';
-import { ForwardMessageModal } from './ForwardMessageModal';
+import type { PropsType } from './ForwardMessagesModal';
+import { ForwardMessagesModal } from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
+import type { MessageForwardDraft } from '../util/maybeForwardMessages';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
@@ -45,17 +46,14 @@ const candidateConversations = Array.from(Array(100), () =>
 );
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  attachments: overrideProps.attachments,
+  drafts: overrideProps.drafts ?? [],
   candidateConversations,
-  doForwardMessage: action('doForwardMessage'),
+  doForwardMessages: action('doForwardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
-  hasContact: Boolean(overrideProps.hasContact),
-  isSticker: Boolean(overrideProps.isSticker),
-  linkPreview: overrideProps.linkPreview,
-  messageBody: text('messageBody', overrideProps.messageBody || ''),
+  linkPreviewForSource: () => undefined,
   onClose: action('onClose'),
-  onEditorStateChange: action('onEditorStateChange'),
+  onChange: action('onChange'),
   removeLinkPreview: action('removeLinkPreview'),
   RenderCompositionTextArea: props => (
     <CompositionTextArea
@@ -68,16 +66,36 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       getPreferredBadge={() => undefined}
     />
   ),
+  showToast: action('showToast'),
   theme: React.useContext(StorybookThemeContext),
   regionCode: 'US',
 });
 
+function getMessageForwardDraft(
+  overrideProps: Partial<MessageForwardDraft>
+): MessageForwardDraft {
+  return {
+    attachments: overrideProps.attachments,
+    hasContact: Boolean(overrideProps.hasContact),
+    isSticker: Boolean(overrideProps.isSticker),
+    messageBody: text('messageBody', overrideProps.messageBody || ''),
+    originalMessageId: '123',
+    previews: overrideProps.previews ?? [],
+  };
+}
+
 export function Modal(): JSX.Element {
-  return <ForwardMessageModal {...useProps()} />;
+  return <ForwardMessagesModal {...useProps()} />;
 }
 
 export function WithText(): JSX.Element {
-  return <ForwardMessageModal {...useProps({ messageBody: 'sup' })} />;
+  return (
+    <ForwardMessagesModal
+      {...useProps({
+        drafts: [getMessageForwardDraft({ messageBody: 'sup' })],
+      })}
+    />
+  );
 }
 
 WithText.story = {
@@ -85,7 +103,13 @@ WithText.story = {
 };
 
 export function ASticker(): JSX.Element {
-  return <ForwardMessageModal {...useProps({ isSticker: true })} />;
+  return (
+    <ForwardMessagesModal
+      {...useProps({
+        drafts: [getMessageForwardDraft({ isSticker: true })],
+      })}
+    />
+  );
 }
 
 ASticker.story = {
@@ -93,7 +117,13 @@ ASticker.story = {
 };
 
 export function WithAContact(): JSX.Element {
-  return <ForwardMessageModal {...useProps({ hasContact: true })} />;
+  return (
+    <ForwardMessagesModal
+      {...useProps({
+        drafts: [getMessageForwardDraft({ hasContact: true })],
+      })}
+    />
+  );
 }
 
 WithAContact.story = {
@@ -102,21 +132,27 @@ WithAContact.story = {
 
 export function LinkPreview(): JSX.Element {
   return (
-    <ForwardMessageModal
+    <ForwardMessagesModal
       {...useProps({
-        linkPreview: {
-          description: LONG_DESCRIPTION,
-          date: Date.now(),
-          domain: 'https://www.signal.org',
-          url: 'signal.org',
-          image: createAttachment({
-            url: '/fixtures/kitten-4-112-112.jpg',
-            contentType: IMAGE_JPEG,
+        drafts: [
+          getMessageForwardDraft({
+            messageBody: 'signal.org',
+            previews: [
+              {
+                description: LONG_DESCRIPTION,
+                date: Date.now(),
+                domain: 'https://www.signal.org',
+                url: 'signal.org',
+                image: createAttachment({
+                  url: '/fixtures/kitten-4-112-112.jpg',
+                  contentType: IMAGE_JPEG,
+                }),
+                isStickerPack: false,
+                title: LONG_TITLE,
+              },
+            ],
           }),
-          isStickerPack: false,
-          title: LONG_TITLE,
-        },
-        messageBody: 'signal.org',
+        ],
       })}
     />
   );
@@ -128,25 +164,29 @@ LinkPreview.story = {
 
 export function MediaAttachments(): JSX.Element {
   return (
-    <ForwardMessageModal
+    <ForwardMessagesModal
       {...useProps({
-        attachments: [
-          createAttachment({
-            pending: true,
-          }),
-          createAttachment({
-            contentType: IMAGE_JPEG,
-            fileName: 'tina-rolf-269345-unsplash.jpg',
-            url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-          }),
-          createAttachment({
-            contentType: VIDEO_MP4,
-            fileName: 'pixabay-Soap-Bubble-7141.mp4',
-            url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-            screenshotPath: '/fixtures/kitten-4-112-112.jpg',
+        drafts: [
+          getMessageForwardDraft({
+            messageBody: 'cats',
+            attachments: [
+              createAttachment({
+                pending: true,
+              }),
+              createAttachment({
+                contentType: IMAGE_JPEG,
+                fileName: 'tina-rolf-269345-unsplash.jpg',
+                url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+              }),
+              createAttachment({
+                contentType: VIDEO_MP4,
+                fileName: 'pixabay-Soap-Bubble-7141.mp4',
+                url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+                screenshotPath: '/fixtures/kitten-4-112-112.jpg',
+              }),
+            ],
           }),
         ],
-        messageBody: 'cats',
       })}
     />
   );
@@ -158,7 +198,7 @@ MediaAttachments.story = {
 
 export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
   return (
-    <ForwardMessageModal
+    <ForwardMessagesModal
       {...useProps()}
       candidateConversations={[
         getDefaultConversation({

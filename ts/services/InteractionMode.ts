@@ -24,10 +24,10 @@ export function startInteractionMode(): void {
     document.body.classList.add('keyboard-mode');
     document.body.classList.remove('mouse-mode');
 
-    const clearSelectedMessage =
-      window.reduxActions?.conversations?.clearSelectedMessage;
-    if (clearSelectedMessage) {
-      clearSelectedMessage();
+    const clearTargetedMessage =
+      window.reduxActions?.conversations?.clearTargetedMessage;
+    if (clearTargetedMessage) {
+      clearTargetedMessage();
     }
 
     const userChanged = window.reduxActions?.user?.userChanged;
@@ -45,10 +45,10 @@ export function startInteractionMode(): void {
     document.body.classList.add('mouse-mode');
     document.body.classList.remove('keyboard-mode');
 
-    const clearSelectedMessage =
-      window.reduxActions?.conversations?.clearSelectedMessage;
-    if (clearSelectedMessage) {
-      clearSelectedMessage();
+    const clearTargetedMessage =
+      window.reduxActions?.conversations?.clearTargetedMessage;
+    if (clearTargetedMessage) {
+      clearTargetedMessage();
     }
 
     const userChanged = window.reduxActions?.user?.userChanged;

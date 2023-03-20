@@ -18,6 +18,8 @@ import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 import type { ReadStatus } from '../messages/MessageReadStatus';
+import type { GetMessagesBetweenOptions } from './Server';
+import type { MessageTimestamps } from '../state/ducks/conversations';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -28,6 +30,14 @@ export type AdjacentMessagesByConversationOptionsType = Readonly<{
   sentAt?: number;
   storyId: string | undefined;
   requireVisualMediaAttachments?: boolean;
+}>;
+
+export type GetNearbyMessageFromDeletedSetOptionsType = Readonly<{
+  conversationId: string;
+  lastSelectedMessage: MessageTimestamps;
+  deletedMessageIds: ReadonlyArray<string>;
+  storyId: string | undefined;
+  includeStoryReplies: boolean;
 }>;
 
 export type AttachmentDownloadJobTypeType =
@@ -529,7 +539,9 @@ export type DataInterface = {
     sent_at: number;
   }) => Promise<MessageType | undefined>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;
-  getMessagesById: (messageIds: Array<string>) => Promise<Array<MessageType>>;
+  getMessagesById: (
+    messageIds: ReadonlyArray<string>
+  ) => Promise<Array<MessageType>>;
   _getAllMessages: () => Promise<Array<MessageType>>;
   _removeAllMessages: () => Promise<void>;
   getAllMessageIds: () => Promise<Array<string>>;
@@ -573,7 +585,13 @@ export type DataInterface = {
     obsoleteId: string,
     currentId: string
   ) => Promise<void>;
-
+  getMessagesBetween: (
+    conversationId: string,
+    options: GetMessagesBetweenOptions
+  ) => Promise<Array<string>>;
+  getNearbyMessageFromDeletedSet: (
+    options: GetNearbyMessageFromDeletedSetOptionsType
+  ) => Promise<string | null>;
   getUnprocessedCount: () => Promise<number>;
   getUnprocessedByIdsAndIncrementAttempts: (
     ids: ReadonlyArray<string>

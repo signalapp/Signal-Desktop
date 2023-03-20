@@ -1,0 +1,61 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.SelectModeActions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.SelectModeActions__selectedMessages {
+  flex: 1;
+  padding: 17px 10px;
+  @include font-body-1;
+  @include light-theme() {
+    color: $color-gray-60;
+  }
+  @include dark-theme() {
+    color: $color-gray-25;
+  }
+}
+
+.SelectModeActions__button {
+  appearance: none;
+  padding: 15px;
+  border: none;
+  background: transparent;
+}
+
+.SelectModeActions__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  @include light-theme {
+    color: $color-gray-75;
+  }
+  @include dark-theme {
+    color: $color-gray-15;
+  }
+
+  .SelectModeActions__button--disabled & {
+    @include light-theme {
+      color: $color-gray-25;
+    }
+    @include dark-theme {
+      color: $color-gray-60;
+    }
+  }
+}
+
+.SelectModeActions__icon--exitSelectMode {
+  @include color-svg('../images/icons/v2/x-24.svg', currentColor);
+}
+
+.SelectModeActions__icon--forwardSelectedMessages {
+  @include color-svg('../images/icons/v2/reply-outline-24.svg', currentColor);
+  transform: scaleX(-1);
+}
+
+.SelectModeActions__icon--deleteSelectedMessages {
+  @include color-svg('../images/icons/v2/trash-outline-24.svg', currentColor);
+}

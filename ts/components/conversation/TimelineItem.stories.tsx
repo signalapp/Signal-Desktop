@@ -58,18 +58,19 @@ const getDefaultProps = () => ({
   getPreferredBadge: () => undefined,
   id: 'asdf',
   isNextItemCallingNotification: false,
-  isSelected: false,
+  isTargeted: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
-  selectMessage: action('selectMessage'),
+  targetMessage: action('targetMessage'),
+  toggleSelectMessage: action('toggleSelectMessage'),
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  clearTargetedMessage: action('clearTargetedMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
-  deleteMessage: action('deleteMessage'),
+  deleteMessages: action('deleteMessages'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
@@ -80,7 +81,7 @@ const getDefaultProps = () => ({
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showLightbox: action('showLightbox'),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   showExpiredIncomingTapToViewToast: action(
@@ -107,6 +108,8 @@ const getDefaultProps = () => ({
   renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   viewStory: action('viewStory'),
+
+  onReplyToMessage: action('onReplyToMessage'),
 });
 
 export default {

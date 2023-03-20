@@ -100,6 +100,7 @@ type PropsHousekeepingType = {
   isSomeoneTyping: boolean;
   unreadCount?: number;
 
+  targetedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
   selectedMessageId?: string;
   shouldShowMiniPlayer: boolean;
@@ -146,7 +147,7 @@ export type PropsActionsType = {
     groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
   ) => void;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
-  clearSelectedMessage: () => unknown;
+  clearTargetedMessage: () => unknown;
   closeContactSpoofingReview: () => void;
   loadOlderMessages: (conversationId: string, messageId: string) => unknown;
   loadNewerMessages: (conversationId: string, messageId: string) => unknown;
@@ -156,7 +157,7 @@ export type PropsActionsType = {
     setFocus?: boolean
   ) => unknown;
   markMessageRead: (conversationId: string, messageId: string) => unknown;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
+  targetMessage: (messageId: string, conversationId: string) => unknown;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
@@ -240,12 +241,12 @@ export class Timeline extends React.Component<
   }
 
   private scrollToBottom = (setFocus?: boolean): void => {
-    const { selectMessage, id, items } = this.props;
+    const { targetMessage, id, items } = this.props;
 
     if (setFocus && items && items.length > 0) {
       const lastIndex = items.length - 1;
       const lastMessageId = items[lastIndex];
-      selectMessage(lastMessageId, id);
+      targetMessage(lastMessageId, id);
     } else {
       const containerEl = this.containerRef.current;
       if (containerEl) {
@@ -266,7 +267,7 @@ export class Timeline extends React.Component<
       loadNewestMessages,
       messageLoadingState,
       oldestUnseenIndex,
-      selectMessage,
+      targetMessage,
     } = this.props;
     const { newestBottomVisibleMessageId } = this.state;
 
@@ -287,7 +288,7 @@ export class Timeline extends React.Component<
     ) {
       if (setFocus) {
         const messageId = items[oldestUnseenIndex];
-        selectMessage(messageId, id);
+        targetMessage(messageId, id);
       } else {
         this.scrollToItemIndex(oldestUnseenIndex);
       }
@@ -642,15 +643,15 @@ export class Timeline extends React.Component<
   }
 
   private handleBlur = (event: React.FocusEvent): void => {
-    const { clearSelectedMessage } = this.props;
+    const { clearTargetedMessage } = this.props;
 
     const { currentTarget } = event;
 
     // Thanks to https://gist.github.com/pstoica/4323d3e6e37e8a23dd59
     setTimeout(() => {
-      // If focus moved to one of our portals, we do not clear the selected
+      // If focus moved to one of our portals, we do not clear the targeted
       // message so that focus stays inside the portal. We need to be careful
-      // to not create colliding keyboard shortcuts between selected messages
+      // to not create colliding keyboard shortcuts between targeted messages
       // and our portals!
       const portals = Array.from(
         document.querySelectorAll('body > div:not(.inbox)')
@@ -660,7 +661,7 @@ export class Timeline extends React.Component<
       }
 
       if (!currentTarget.contains(document.activeElement)) {
-        clearSelectedMessage();
+        clearTargetedMessage();
       }
     }, 0);
   };
@@ -668,7 +669,7 @@ export class Timeline extends React.Component<
   private handleKeyDown = (
     event: React.KeyboardEvent<HTMLDivElement>
   ): void => {
-    const { selectMessage, selectedMessageId, items, id } = this.props;
+    const { targetMessage, targetedMessageId, items, id } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
     const commandOrCtrl = commandKey || controlKey;
@@ -677,21 +678,21 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (selectedMessageId && !commandOrCtrl && event.key === 'ArrowUp') {
-      const selectedMessageIndex = items.findIndex(
-        item => item === selectedMessageId
+    if (targetedMessageId && !commandOrCtrl && event.key === 'ArrowUp') {
+      const targetedMessageIndex = items.findIndex(
+        item => item === targetedMessageId
       );
-      if (selectedMessageIndex < 0) {
+      if (targetedMessageIndex < 0) {
         return;
       }
 
-      const targetIndex = selectedMessageIndex - 1;
+      const targetIndex = targetedMessageIndex - 1;
       if (targetIndex < 0) {
         return;
       }
 
       const messageId = items[targetIndex];
-      selectMessage(messageId, id);
+      targetMessage(messageId, id);
 
       event.preventDefault();
       event.stopPropagation();
@@ -699,21 +700,21 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (selectedMessageId && !commandOrCtrl && event.key === 'ArrowDown') {
-      const selectedMessageIndex = items.findIndex(
-        item => item === selectedMessageId
+    if (targetedMessageId && !commandOrCtrl && event.key === 'ArrowDown') {
+      const targetedMessageIndex = items.findIndex(
+        item => item === targetedMessageId
       );
-      if (selectedMessageIndex < 0) {
+      if (targetedMessageIndex < 0) {
         return;
       }
 
-      const targetIndex = selectedMessageIndex + 1;
+      const targetIndex = targetedMessageIndex + 1;
       if (targetIndex >= items.length) {
         return;
       }
 
       const messageId = items[targetIndex];
-      selectMessage(messageId, id);
+      targetMessage(messageId, id);
 
       event.preventDefault();
       event.stopPropagation();
@@ -724,7 +725,7 @@ export class Timeline extends React.Component<
     if (commandOrCtrl && event.key === 'ArrowUp') {
       const firstMessageId = first(items);
       if (firstMessageId) {
-        selectMessage(firstMessageId, id);
+        targetMessage(firstMessageId, id);
         event.preventDefault();
         event.stopPropagation();
       }

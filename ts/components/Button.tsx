@@ -50,6 +50,7 @@ type PropsType = {
   tabIndex?: number;
   theme?: Theme;
   variant?: ButtonVariant;
+  'aria-disabled'?: boolean;
 } & (
   | {
       onClick: MouseEventHandler<HTMLButtonElement>;
@@ -115,6 +116,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
         : ButtonSize.Medium,
     } = props;
     const ariaLabel = props['aria-label'];
+    const ariaDisabled = props['aria-disabled'];
 
     let onClick: undefined | MouseEventHandler<HTMLButtonElement>;
     let type: 'button' | 'submit';
@@ -137,6 +139,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
     const buttonElement = (
       <button
         aria-label={ariaLabel}
+        aria-disabled={ariaDisabled}
         className={classNames(
           'module-Button',
           sizeClassName,

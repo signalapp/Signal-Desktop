@@ -22,12 +22,7 @@ import type { Row } from './ConversationList';
 import { ConversationList, RowType } from './ConversationList';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import type {
-  DraftBodyRangesType,
-  LocalizerType,
-  ThemeType,
-} from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
@@ -39,34 +34,40 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
 import { Emojify } from './conversation/Emojify';
+import type { MessageForwardDraft } from '../util/maybeForwardMessages';
+import {
+  isDraftEditable,
+  isDraftForwardable,
+} from '../util/maybeForwardMessages';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { LinkPreviewSourceType } from '../types/LinkPreview';
+import { ToastType } from '../types/Toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 
 export type DataPropsType = {
-  attachments?: ReadonlyArray<AttachmentType>;
   candidateConversations: ReadonlyArray<ConversationType>;
-  doForwardMessage: (
-    selectedContacts: Array<string>,
-    messageBody?: string,
-    attachments?: ReadonlyArray<AttachmentType>,
-    linkPreview?: LinkPreviewType
+  doForwardMessages: (
+    conversationIds: ReadonlyArray<string>,
+    drafts: ReadonlyArray<MessageForwardDraft>
   ) => void;
+  drafts: ReadonlyArray<MessageForwardDraft>;
   getPreferredBadge: PreferredBadgeSelectorType;
-  hasContact: boolean;
   i18n: LocalizerType;
-  isSticker: boolean;
-  linkPreview?: LinkPreviewType;
-  messageBody?: string;
+
+  linkPreviewForSource: (
+    source: LinkPreviewSourceType
+  ) => LinkPreviewType | void;
   onClose: () => void;
-  onEditorStateChange: (
-    conversationId: string | undefined,
-    messageText: string,
-    bodyRanges: DraftBodyRangesType,
+  onChange: (
+    updatedDrafts: ReadonlyArray<MessageForwardDraft>,
     caretLocation?: number
   ) => unknown;
-  theme: ThemeType;
   regionCode: string | undefined;
   RenderCompositionTextArea: (
     props: SmartCompositionTextAreaProps
   ) => JSX.Element;
+  showToast: ShowToastAction;
+  theme: ThemeType;
 };
 
 type ActionPropsType = {
@@ -77,20 +78,18 @@ export type PropsType = DataPropsType & ActionPropsType;
 
 const MAX_FORWARD = 5;
 
-export function ForwardMessageModal({
-  attachments,
+export function ForwardMessagesModal({
+  drafts,
   candidateConversations,
-  doForwardMessage,
+  doForwardMessages,
+  linkPreviewForSource,
   getPreferredBadge,
-  hasContact,
   i18n,
-  isSticker,
-  linkPreview,
-  messageBody,
   onClose,
-  onEditorStateChange,
+  onChange,
   removeLinkPreview,
   RenderCompositionTextArea,
+  showToast,
   theme,
   regionCode,
 }: PropsType): JSX.Element {
@@ -102,14 +101,16 @@ export function ForwardMessageModal({
   const [filteredConversations, setFilteredConversations] = useState(
     filterAndSortConversationsByRecent(candidateConversations, '', regionCode)
   );
-  const [attachmentsToForward, setAttachmentsToForward] = useState<
-    ReadonlyArray<AttachmentType>
-  >(attachments || []);
   const [isEditingMessage, setIsEditingMessage] = useState(false);
-  const [messageBodyText, setMessageBodyText] = useState(messageBody || '');
   const [cannotMessage, setCannotMessage] = useState(false);
 
-  const isMessageEditable = !isSticker && !hasContact;
+  const isLonelyDraft = drafts.length === 1;
+  const lonelyDraft = isLonelyDraft ? drafts[0] : null;
+  const isLonelyDraftEditable =
+    lonelyDraft != null && isDraftEditable(lonelyDraft);
+  const lonelyLinkPreview = isLonelyDraft
+    ? linkPreviewForSource(LinkPreviewSourceType.ForwardMessageModal)
+    : null;
 
   const hasSelectedMaximumNumberOfContacts =
     selectedContacts.length >= MAX_FORWARD;
@@ -121,31 +122,29 @@ export function ForwardMessageModal({
 
   const hasContactsSelected = Boolean(selectedContacts.length);
 
-  const canForwardMessage =
-    hasContactsSelected &&
-    (Boolean(messageBodyText) ||
-      isSticker ||
-      hasContact ||
-      (attachmentsToForward && attachmentsToForward.length));
+  const canForwardMessages =
+    hasContactsSelected && drafts.every(isDraftForwardable);
 
-  const forwardMessage = React.useCallback(() => {
-    if (!canForwardMessage) {
+  const forwardMessages = React.useCallback(() => {
+    if (!canForwardMessages) {
+      showToast(ToastType.CannotForwardEmptyMessage);
       return;
     }
-
-    doForwardMessage(
-      selectedContacts.map(contact => contact.id),
-      messageBodyText,
-      attachmentsToForward,
-      linkPreview
-    );
+    const conversationIds = selectedContacts.map(contact => contact.id);
+    if (lonelyDraft != null) {
+      const previews = lonelyLinkPreview ? [lonelyLinkPreview] : [];
+      doForwardMessages(conversationIds, [{ ...lonelyDraft, previews }]);
+    } else {
+      doForwardMessages(conversationIds, drafts);
+    }
   }, [
-    attachmentsToForward,
-    canForwardMessage,
-    doForwardMessage,
-    linkPreview,
-    messageBodyText,
+    drafts,
+    lonelyDraft,
+    lonelyLinkPreview,
+    doForwardMessages,
     selectedContacts,
+    canForwardMessages,
+    showToast,
   ]);
 
   const normalizedSearchTerm = searchTerm.trim();
@@ -299,52 +298,21 @@ export function ForwardMessageModal({
                 type="button"
               />
             )}
-            <h1>{i18n('forwardMessage')}</h1>
+            <h1>{i18n('icu:ForwardMessageModal__title')}</h1>
           </div>
-          {isEditingMessage ? (
-            <div className="module-ForwardMessageModal__main-body">
-              {linkPreview ? (
-                <div className="module-ForwardMessageModal--link-preview">
-                  <StagedLinkPreview
-                    date={linkPreview.date}
-                    description={linkPreview.description || ''}
-                    domain={linkPreview.url}
-                    i18n={i18n}
-                    image={linkPreview.image}
-                    onClose={() => removeLinkPreview()}
-                    title={linkPreview.title}
-                    url={linkPreview.url}
-                  />
-                </div>
-              ) : null}
-              {attachmentsToForward && attachmentsToForward.length ? (
-                <AttachmentList
-                  attachments={attachmentsToForward}
-                  i18n={i18n}
-                  onCloseAttachment={(attachment: AttachmentType) => {
-                    const newAttachments = attachmentsToForward.filter(
-                      currentAttachment => currentAttachment !== attachment
-                    );
-                    setAttachmentsToForward(newAttachments);
-                  }}
-                />
-              ) : null}
-
-              <RenderCompositionTextArea
-                draftText={messageBodyText}
-                onChange={(messageText, bodyRanges, caretLocation?) => {
-                  setMessageBodyText(messageText);
-                  onEditorStateChange(
-                    undefined,
-                    messageText,
-                    bodyRanges,
-                    caretLocation
-                  );
-                }}
-                onSubmit={forwardMessage}
-                theme={theme}
-              />
-            </div>
+          {isEditingMessage && lonelyDraft != null ? (
+            <ForwardMessageEditor
+              draft={lonelyDraft}
+              linkPreview={lonelyLinkPreview}
+              onChange={messageBody => {
+                onChange([{ ...lonelyDraft, messageBody }]);
+              }}
+              removeLinkPreview={removeLinkPreview}
+              theme={theme}
+              i18n={i18n}
+              RenderCompositionTextArea={RenderCompositionTextArea}
+              onSubmit={forwardMessages}
+            />
           ) : (
             <div className="module-ForwardMessageModal__main-body">
               <SearchInput
@@ -418,12 +386,12 @@ export function ForwardMessageModal({
               )}
             </div>
             <div>
-              {isEditingMessage || !isMessageEditable ? (
+              {isEditingMessage || !isLonelyDraftEditable ? (
                 <Button
                   aria-label={i18n('ForwardMessageModal--continue')}
                   className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--forward"
-                  disabled={!canForwardMessage}
-                  onClick={forwardMessage}
+                  aria-disabled={!canForwardMessages}
+                  onClick={forwardMessages}
                 />
               ) : (
                 <Button
@@ -438,5 +406,73 @@ export function ForwardMessageModal({
         </animated.div>
       </ModalHost>
     </>
+  );
+}
+
+type ForwardMessageEditorProps = Readonly<{
+  draft: MessageForwardDraft;
+  linkPreview: LinkPreviewType | null | void;
+  removeLinkPreview(): void;
+  RenderCompositionTextArea: (
+    props: SmartCompositionTextAreaProps
+  ) => JSX.Element;
+  onChange: (messageText: string, caretLocation?: number) => unknown;
+  onSubmit: () => unknown;
+  theme: ThemeType;
+  i18n: LocalizerType;
+}>;
+
+function ForwardMessageEditor({
+  draft,
+  linkPreview,
+  i18n,
+  RenderCompositionTextArea,
+  removeLinkPreview,
+  onChange,
+  onSubmit,
+  theme,
+}: ForwardMessageEditorProps): JSX.Element {
+  const [attachmentsToForward, setAttachmentsToForward] = useState<
+    ReadonlyArray<AttachmentType>
+  >(draft.attachments ?? []);
+
+  return (
+    <div className="module-ForwardMessageModal__main-body">
+      {linkPreview ? (
+        <div className="module-ForwardMessageModal--link-preview">
+          <StagedLinkPreview
+            date={linkPreview.date}
+            description={linkPreview.description ?? ''}
+            domain={linkPreview.url}
+            i18n={i18n}
+            image={linkPreview.image}
+            onClose={removeLinkPreview}
+            title={linkPreview.title}
+            url={linkPreview.url}
+          />
+        </div>
+      ) : null}
+      {attachmentsToForward && attachmentsToForward.length ? (
+        <AttachmentList
+          attachments={attachmentsToForward}
+          i18n={i18n}
+          onCloseAttachment={(attachment: AttachmentType) => {
+            const newAttachments = attachmentsToForward.filter(
+              currentAttachment => currentAttachment !== attachment
+            );
+            setAttachmentsToForward(newAttachments);
+          }}
+        />
+      ) : null}
+
+      <RenderCompositionTextArea
+        draftText={draft.messageBody ?? ''}
+        onChange={(messageText, _bodyRanges, caretLocation) => {
+          onChange(messageText, caretLocation);
+        }}
+        onSubmit={onSubmit}
+        theme={theme}
+      />
+    </div>
   );
 }

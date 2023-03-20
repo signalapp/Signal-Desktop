@@ -40,6 +40,8 @@ const defaultMessage: MessageDataPropsType = {
   renderMenu: undefined,
   isBlocked: false,
   isMessageRequestAccepted: true,
+  isSelected: false,
+  isSelectMode: false,
   previews: [],
   readStatus: ReadStatus.Read,
   status: 'sent',
@@ -72,7 +74,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
   checkForAccount: action('checkForAccount'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  clearTargetedMessage: action('clearTargetedMessage'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),

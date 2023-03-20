@@ -21,7 +21,7 @@ import type {
   MessageDeletedActionType,
   MessageType,
   RemoveAllConversationsActionType,
-  SelectedConversationChangedActionType,
+  TargetedConversationChangedActionType,
   ShowArchivedConversationsActionType,
 } from './conversations';
 import { getQuery, getSearchConversation } from '../selectors/search';
@@ -34,7 +34,7 @@ import {
 import { strictAssert } from '../../util/assert';
 import {
   CONVERSATION_UNLOADED,
-  SELECTED_CONVERSATION_CHANGED,
+  TARGETED_CONVERSATION_CHANGED,
 } from './conversations';
 
 const {
@@ -64,7 +64,7 @@ export type SearchStateType = ReadonlyDeep<{
   messageIds: Array<string>;
   // We do store message data to pass through the selector
   messageLookup: MessageSearchResultLookupType;
-  selectedMessage?: string;
+  targetedMessage?: string;
   // Loading state
   discussionsLoading: boolean;
   messagesLoading: boolean;
@@ -120,7 +120,7 @@ export type SearchActionType = ReadonlyDeep<
   | SearchInConversationActionType
   | MessageDeletedActionType
   | RemoveAllConversationsActionType
-  | SelectedConversationChangedActionType
+  | TargetedConversationChangedActionType
   | ShowArchivedConversationsActionType
   | ConversationUnloadedActionType
 >;
@@ -444,7 +444,7 @@ export function reducer(
     return getEmptyState();
   }
 
-  if (action.type === SELECTED_CONVERSATION_CHANGED) {
+  if (action.type === TARGETED_CONVERSATION_CHANGED) {
     const { payload } = action;
     const { conversationId, messageId } = payload;
     const { searchConversationId } = state;
@@ -455,7 +455,7 @@ export function reducer(
 
     return {
       ...state,
-      selectedMessage: messageId,
+      targetedMessage: messageId,
     };
   }
 

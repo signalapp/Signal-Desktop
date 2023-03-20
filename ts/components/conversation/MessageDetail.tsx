@@ -75,7 +75,7 @@ export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 export type PropsReduxActions = Pick<
   MessagePropsType,
   | 'checkForAccount'
-  | 'clearSelectedMessage'
+  | 'clearTargetedMessage'
   | 'doubleCheckMissingQuoteReference'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
@@ -268,7 +268,7 @@ export class MessageDetail extends React.Component<Props> {
       sentAt,
 
       checkForAccount,
-      clearSelectedMessage,
+      clearTargetedMessage,
       contactNameColor,
       showLightboxForViewOnceMedia,
       doubleCheckMissingQuoteReference,
@@ -306,7 +306,7 @@ export class MessageDetail extends React.Component<Props> {
             {...message}
             renderingContext="conversation/MessageDetail"
             checkForAccount={checkForAccount}
-            clearSelectedMessage={clearSelectedMessage}
+            clearTargetedMessage={clearTargetedMessage}
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             containerWidthBreakpoint={WidthBreakpoint.Wide}
@@ -343,6 +343,8 @@ export class MessageDetail extends React.Component<Props> {
             startConversation={startConversation}
             theme={theme}
             viewStory={viewStory}
+            onToggleSelect={noop}
+            onReplyToMessage={noop}
           />
         </div>
         <table className="module-message-detail__info">

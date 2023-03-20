@@ -48,6 +48,7 @@ const commonProps = {
 
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
+  toggleSelectMode: action('toggleSelectMode'),
   onMoveToInbox: action('onMoveToInbox'),
   pushPanelForConversation: action('pushPanelForConversation'),
   popPanelForConversation: action('popPanelForConversation'),

@@ -18,7 +18,7 @@ import type {
   MessagesAddedActionType,
   MessageDeletedActionType,
   MessageChangedActionType,
-  SelectedConversationChangedActionType,
+  TargetedConversationChangedActionType,
   ConversationChangedActionType,
 } from './conversations';
 import * as log from '../../logging/log';
@@ -295,7 +295,7 @@ export function reducer(
     | MessageDeletedActionType
     | MessageChangedActionType
     | MessagesAddedActionType
-    | SelectedConversationChangedActionType
+    | TargetedConversationChangedActionType
   >
 ): AudioPlayerStateType {
   const { active } = state;

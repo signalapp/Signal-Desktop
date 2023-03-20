@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { get } from 'lodash';
 import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
@@ -69,6 +70,14 @@ export function ToastManager({
 
   if (toastType === ToastType.BlockedGroup) {
     return <Toast onClose={hideToast}>{i18n('unblockGroupToSend')}</Toast>;
+  }
+
+  if (toastType === ToastType.CannotForwardEmptyMessage) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage')}
+      </Toast>
+    );
   }
 
   if (toastType === ToastType.CannotMixMultiAndNonMultiAttachments) {
@@ -298,6 +307,16 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('Message--tap-to-view--outgoing--expired-toast')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.TooManyMessagesToForward) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:SelectModeActions__toast--TooManyMessagesToForward', {
+          count: get(toast.parameters, 'count'),
+        })}
       </Toast>
     );
   }

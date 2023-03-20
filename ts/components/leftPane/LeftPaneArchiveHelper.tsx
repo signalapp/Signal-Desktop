@@ -183,13 +183,13 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    selectedMessageId: unknown
+    targetedMessageId: unknown
   ): undefined | { conversationId: string } {
     if (this.searchHelper) {
       return this.searchHelper.getConversationAndMessageInDirection(
         toFind,
         selectedConversationId,
-        selectedMessageId
+        targetedMessageId
       );
     }
 

@@ -252,7 +252,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canRetry: overrideProps.canRetry || false,
   canRetryDeleteForEveryone: overrideProps.canRetryDeleteForEveryone || false,
   checkForAccount: action('checkForAccount'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  clearTargetedMessage: action('clearSelectedMessage'),
   containerElementRef: React.createRef<HTMLElement>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor:
@@ -265,7 +265,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationType: overrideProps.conversationType || 'direct',
   contact: overrideProps.contact,
   deletedForEveryone: overrideProps.deletedForEveryone,
-  deleteMessage: action('deleteMessage'),
+  deleteMessages: action('deleteMessages'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   // disableMenu: overrideProps.disableMenu,
   disableScroll: overrideProps.disableScroll,
@@ -293,6 +293,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isMessageRequestAccepted: isBoolean(overrideProps.isMessageRequestAccepted)
     ? overrideProps.isMessageRequestAccepted
     : true,
+  isSelected: isBoolean(overrideProps.isSelected)
+    ? overrideProps.isSelected
+    : false,
+  isSelectMode: isBoolean(overrideProps.isSelectMode)
+    ? overrideProps.isSelectMode
+    : false,
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
@@ -317,7 +323,11 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   retryMessageSend: action('retryMessageSend'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
-  selectMessage: action('selectMessage'),
+  targetMessage: action('targetMessage'),
+  toggleSelectMessage:
+    overrideProps.toggleSelectMessage == null
+      ? action('toggleSelectMessage')
+      : overrideProps.toggleSelectMessage,
   shouldCollapseAbove: isBoolean(overrideProps.shouldCollapseAbove)
     ? overrideProps.shouldCollapseAbove
     : false,
@@ -335,7 +345,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),
   status: overrideProps.status || 'sent',
@@ -2125,4 +2135,34 @@ PaymentNotification.args = {
     kind: PaymentEventKind.Notification,
     note: 'Hello there',
   },
+};
+
+function MultiSelectMessage() {
+  const [selected, setSelected] = React.useState(false);
+  return (
+    <TimelineMessage
+      {...createProps({
+        text: 'Hello',
+        isSelected: selected,
+        isSelectMode: true,
+        toggleSelectMessage(_conversationId, _messageId, _shift, newSelected) {
+          setSelected(newSelected);
+        },
+      })}
+    />
+  );
+}
+
+export function MultiSelect(): JSX.Element {
+  return (
+    <>
+      <MultiSelectMessage />
+      <MultiSelectMessage />
+      <MultiSelectMessage />
+    </>
+  );
+}
+
+MultiSelect.args = {
+  name: 'Multi Select',
 };

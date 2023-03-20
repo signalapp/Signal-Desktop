@@ -52,8 +52,17 @@ import { parseBadgeCategory } from '../badges/BadgeCategory';
 import { parseBadgeImageTheme } from '../badges/BadgeImageTheme';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
-import type { EmptyQuery, ArrayQuery, Query, JSONRows } from './util';
+import type {
+  EmptyQuery,
+  ArrayQuery,
+  Query,
+  JSONRows,
+  QueryFragment,
+} from './util';
 import {
+  sqlJoin,
+  sqlFragment,
+  sql,
   jsonToObject,
   objectToJSON,
   batchMultiVarQuery,
@@ -122,6 +131,7 @@ import type {
   UninstalledStickerPackType,
   UnprocessedType,
   UnprocessedUpdateType,
+  GetNearbyMessageFromDeletedSetOptionsType,
 } from './Interface';
 import { SeenStatus } from '../MessageSeenStatus';
 
@@ -261,6 +271,8 @@ const dataInterface: ServerInterface = {
   getCallHistoryMessageByCallId,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
+  getMessagesBetween,
+  getNearbyMessageFromDeletedSet,
 
   getUnprocessedCount,
   getUnprocessedByIdsAndIncrementAttempts,
@@ -2098,7 +2110,7 @@ export function getMessageByIdSync(
 }
 
 async function getMessagesById(
-  messageIds: Array<string>
+  messageIds: ReadonlyArray<string>
 ): Promise<Array<MessageType>> {
   const db = getInstance();
 
@@ -2189,17 +2201,17 @@ async function getMessageBySender({
 export function _storyIdPredicate(
   storyId: string | undefined,
   includeStoryReplies: boolean
-): string {
+): QueryFragment {
   // This is unintuitive, but 'including story replies' means that we need replies to
   //   lots of different stories. So, we remove the storyId check with a clause that will
   //   always be true. We don't just return TRUE because we want to use our passed-in
   //   $storyId parameter.
   if (includeStoryReplies && storyId === undefined) {
-    return '$storyId IS NULL';
+    return sqlFragment`${storyId} IS NULL`;
   }
 
   // In contrast to: replies to a specific story
-  return 'storyId IS $storyId';
+  return sqlFragment`storyId IS ${storyId}`;
 }
 
 async function getUnreadByConversationAndMarkRead({
@@ -2220,75 +2232,63 @@ async function getUnreadByConversationAndMarkRead({
   const db = getInstance();
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
-    db.prepare<Query>(
-      `
+
+    const expirationJsonPatch = JSON.stringify({ expirationStartTimestamp });
+
+    const [updateExpirationQuery, updateExpirationParams] = sql`
       UPDATE messages
       INDEXED BY expiring_message_by_conversation_and_received_at
       SET
-        expirationStartTimestamp = $expirationStartTimestamp,
-        json = json_patch(json, $jsonPatch)
+        expirationStartTimestamp = ${expirationStartTimestamp},
+        json = json_patch(json, ${expirationJsonPatch})
       WHERE
-        conversationId = $conversationId AND
+        conversationId = ${conversationId} AND
         (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         isStory IS 0 AND
         type IS 'incoming' AND
         (
           expirationStartTimestamp IS NULL OR
-          expirationStartTimestamp > $expirationStartTimestamp
+          expirationStartTimestamp > ${expirationStartTimestamp}
         ) AND
         expireTimer > 0 AND
-        received_at <= $newestUnreadAt;
-      `
-    ).run({
-      conversationId,
-      expirationStartTimestamp,
-      jsonPatch: JSON.stringify({ expirationStartTimestamp }),
-      newestUnreadAt,
-      storyId: storyId || null,
-    });
+        received_at <= ${newestUnreadAt};
+    `;
 
-    const rows = db
-      .prepare<Query>(
-        `
-        SELECT id, json FROM messages
+    db.prepare(updateExpirationQuery).run(updateExpirationParams);
+
+    const [selectQuery, selectParams] = sql`
+      SELECT id, json FROM messages
         WHERE
-          conversationId = $conversationId AND
+          conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= $newestUnreadAt
+          received_at <= ${newestUnreadAt}
         ORDER BY received_at DESC, sent_at DESC;
-        `
-      )
-      .all({
-        conversationId,
-        newestUnreadAt,
-        storyId: storyId || null,
-      });
+    `;
 
-    db.prepare<Query>(
-      `
-        UPDATE messages
+    const rows = db.prepare(selectQuery).all(selectParams);
+
+    const statusJsonPatch = JSON.stringify({
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Seen,
+    });
+
+    const [updateStatusQuery, updateStatusParams] = sql`
+      UPDATE messages
         SET
           readStatus = ${ReadStatus.Read},
           seenStatus = ${SeenStatus.Seen},
-          json = json_patch(json, $jsonPatch)
+          json = json_patch(json, ${statusJsonPatch})
         WHERE
-          conversationId = $conversationId AND
+          conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= $newestUnreadAt;
-        `
-    ).run({
-      conversationId,
-      jsonPatch: JSON.stringify({
-        readStatus: ReadStatus.Read,
-        seenStatus: SeenStatus.Seen,
-      }),
-      newestUnreadAt,
-      storyId: storyId || null,
-    });
+          received_at <= ${newestUnreadAt};
+    `;
+
+    db.prepare(updateStatusQuery).run(updateStatusParams);
 
     return rows.map(row => {
       const json = jsonToObject<MessageType>(row.json);
@@ -2500,32 +2500,35 @@ function getAdjacentMessagesByConversationSync(
 
   const timeFilter =
     direction === AdjacentDirection.Older
-      ? `
-      (received_at = $received_at AND sent_at < $sent_at) OR
-      received_at < $received_at
-    `
-      : `
-      (received_at = $received_at AND sent_at > $sent_at) OR
-      received_at > $received_at
-    `;
+      ? sqlFragment`
+        (received_at = ${receivedAt} AND sent_at < ${sentAt}) OR
+        received_at < ${receivedAt}
+      `
+      : sqlFragment`
+        (received_at = ${receivedAt} AND sent_at > ${sentAt}) OR
+        received_at > ${receivedAt}
+      `;
 
-  const timeOrder = direction === AdjacentDirection.Older ? 'DESC' : 'ASC';
+  const timeOrder =
+    direction === AdjacentDirection.Older
+      ? sqlFragment`DESC`
+      : sqlFragment`ASC`;
 
   const requireDifferentMessage =
     direction === AdjacentDirection.Older || requireVisualMediaAttachments;
 
-  let query = `
+  let template = sqlFragment`
     SELECT json FROM messages WHERE
-      conversationId = $conversationId AND
+      conversationId = ${conversationId} AND
       ${
         requireDifferentMessage
-          ? '($messageId IS NULL OR id IS NOT $messageId) AND'
-          : ''
+          ? sqlFragment`(${messageId} IS NULL OR id IS NOT ${messageId}) AND`
+          : sqlFragment``
       }
       ${
         requireVisualMediaAttachments
-          ? 'hasVisualMediaAttachments IS 1 AND'
-          : ''
+          ? sqlFragment`hasVisualMediaAttachments IS 1 AND`
+          : sqlFragment``
       }
       isStory IS 0 AND
       (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
@@ -2537,9 +2540,9 @@ function getAdjacentMessagesByConversationSync(
 
   // See `filterValidAttachments` in ts/state/ducks/lightbox.ts
   if (requireVisualMediaAttachments) {
-    query = `
+    template = sqlFragment`
       SELECT json
-      FROM (${query}) as messages
+      FROM (${template}) as messages
       WHERE
         (
           SELECT COUNT(*)
@@ -2549,20 +2552,15 @@ function getAdjacentMessagesByConversationSync(
             attachment.value ->> 'pending' IS NOT 1 AND
             attachment.value ->> 'error' IS NULL
         ) > 0
-      LIMIT $limit;
+      LIMIT ${limit};
     `;
   } else {
-    query = `${query} LIMIT $limit`;
+    template = sqlFragment`${template} LIMIT ${limit}`;
   }
 
-  const results = db.prepare<Query>(query).all({
-    conversationId,
-    limit,
-    messageId: messageId || null,
-    received_at: receivedAt,
-    sent_at: sentAt,
-    storyId: storyId || null,
-  });
+  const [query, params] = sql`${template}`;
+
+  const results = db.prepare(query).all(params);
 
   if (direction === AdjacentDirection.Older) {
     results.reverse();
@@ -2648,21 +2646,16 @@ function getOldestMessageForConversation(
   }
 ): MessageMetricsType | undefined {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT received_at, sent_at, id FROM messages WHERE
-        conversationId = $conversationId AND
+  const [query, params] = sql`
+    SELECT received_at, sent_at, id FROM messages WHERE
+        conversationId = ${conversationId} AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, includeStoryReplies)})
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
-      `
-    )
-    .get({
-      conversationId,
-      storyId: storyId || null,
-    });
+  `;
+
+  const row = db.prepare(query).get(params);
 
   if (!row) {
     return undefined;
@@ -2681,27 +2674,111 @@ function getNewestMessageForConversation(
   }
 ): MessageMetricsType | undefined {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT received_at, sent_at, id FROM messages WHERE
-        conversationId = $conversationId AND
+  const [query, params] = sql`
+    SELECT received_at, sent_at, id FROM messages WHERE
+        conversationId = ${conversationId} AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, includeStoryReplies)})
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
-      `
-    )
-    .get({
-      conversationId,
-      storyId: storyId || null,
-    });
+  `;
+  const row = db.prepare(query).get(params);
 
   if (!row) {
     return undefined;
   }
 
   return row;
+}
+
+export type GetMessagesBetweenOptions = Readonly<{
+  after: { received_at: number; sent_at: number };
+  before: { received_at: number; sent_at: number };
+  includeStoryReplies: boolean;
+}>;
+
+async function getMessagesBetween(
+  conversationId: string,
+  options: GetMessagesBetweenOptions
+): Promise<Array<string>> {
+  const db = getInstance();
+
+  // In the future we could accept this as an option, but for now we just
+  // use it for the story predicate.
+  const storyId = undefined;
+
+  const { after, before, includeStoryReplies } = options;
+
+  const [query, params] = sql`
+    SELECT id
+    FROM messages
+    WHERE
+      conversationId = ${conversationId} AND
+      (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+      isStory IS 0 AND
+      (
+        received_at > ${after.received_at}
+        OR (received_at = ${after.received_at} AND sent_at > ${after.sent_at})
+      ) AND (
+        received_at < ${before.received_at}
+        OR (received_at = ${before.received_at} AND sent_at < ${before.sent_at})
+      )
+    ORDER BY received_at ASC, sent_at ASC;
+  `;
+
+  const rows = db.prepare(query).all(params);
+
+  return rows.map(row => row.id);
+}
+
+/**
+ * Given a set of deleted message IDs, find a message in the conversation that
+ * is close to the set. Searching from the last selected message as a starting
+ * point.
+ */
+async function getNearbyMessageFromDeletedSet({
+  conversationId,
+  lastSelectedMessage,
+  deletedMessageIds,
+  storyId,
+  includeStoryReplies,
+}: GetNearbyMessageFromDeletedSetOptionsType): Promise<string | null> {
+  const db = getInstance();
+
+  function runQuery(after: boolean) {
+    const dir = after ? sqlFragment`ASC` : sqlFragment`DESC`;
+    const compare = after ? sqlFragment`>` : sqlFragment`<`;
+    const { received_at, sent_at } = lastSelectedMessage;
+
+    const [query, params] = sql`
+      SELECT id FROM messages WHERE
+        conversationId = ${conversationId} AND
+        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+        isStory IS 0 AND
+        id NOT IN (${sqlJoin(deletedMessageIds, ', ')}) AND
+        type IN ('incoming', 'outgoing')
+        AND (
+          (received_at = ${received_at} AND sent_at ${compare} ${sent_at}) OR
+          received_at ${compare} ${received_at}
+        )
+      ORDER BY received_at ${dir}, sent_at ${dir}
+      LIMIT 1
+    `;
+
+    return db.prepare(query).pluck().get(params);
+  }
+
+  const after = runQuery(true);
+  if (after != null) {
+    return after;
+  }
+
+  const before = runQuery(false);
+  if (before != null) {
+    return before;
+  }
+
+  return null;
 }
 
 function getLastConversationActivity({
@@ -2844,22 +2921,18 @@ function getOldestUnseenMessageForConversation(
   }
 ): MessageMetricsType | undefined {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT received_at, sent_at, id FROM messages WHERE
-        conversationId = $conversationId AND
-        seenStatus = ${SeenStatus.Unseen} AND
-        isStory IS 0 AND
-        (${_storyIdPredicate(storyId, includeStoryReplies)})
-      ORDER BY received_at ASC, sent_at ASC
-      LIMIT 1;
-      `
-    )
-    .get({
-      conversationId,
-      storyId: storyId || null,
-    });
+
+  const [query, params] = sql`
+    SELECT received_at, sent_at, id FROM messages WHERE
+      conversationId = ${conversationId} AND
+      seenStatus = ${SeenStatus.Unseen} AND
+      isStory IS 0 AND
+      (${_storyIdPredicate(storyId, includeStoryReplies)})
+    ORDER BY received_at ASC, sent_at ASC
+    LIMIT 1;
+  `;
+
+  const row = db.prepare(query).get(params);
 
   if (!row) {
     return undefined;
@@ -2888,23 +2961,16 @@ function getTotalUnreadForConversationSync(
   }
 ): number {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT count(1)
-      FROM messages
-      WHERE
-        conversationId = $conversationId AND
-        readStatus = ${ReadStatus.Unread} AND
-        isStory IS 0 AND
-        (${_storyIdPredicate(storyId, includeStoryReplies)})
-      `
-    )
-    .pluck()
-    .get({
-      conversationId,
-      storyId: storyId || null,
-    });
+  const [query, params] = sql`
+    SELECT count(1)
+    FROM messages
+    WHERE
+      conversationId = ${conversationId} AND
+      readStatus = ${ReadStatus.Unread} AND
+      isStory IS 0 AND
+      (${_storyIdPredicate(storyId, includeStoryReplies)})
+  `;
+  const row = db.prepare(query).pluck().get(params);
 
   return row;
 }
@@ -2919,23 +2985,16 @@ function getTotalUnseenForConversationSync(
   }
 ): number {
   const db = getInstance();
-  const row = db
-    .prepare<Query>(
-      `
-      SELECT count(1)
+  const [query, params] = sql`
+    SELECT count(1)
       FROM messages
       WHERE
-        conversationId = $conversationId AND
+        conversationId = ${conversationId} AND
         seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
         (${_storyIdPredicate(storyId, includeStoryReplies)})
-      `
-    )
-    .pluck()
-    .get({
-      conversationId,
-      storyId: storyId || null,
-    });
+  `;
+  const row = db.prepare(query).pluck().get(params);
 
   return row;
 }
@@ -3395,7 +3454,7 @@ async function getAllUnprocessedIds(): Promise<Array<string>> {
     return db
       .prepare<EmptyQuery>(
         `
-          SELECT id 
+          SELECT id
           FROM unprocessed
           ORDER BY receivedAtCounter ASC
         `

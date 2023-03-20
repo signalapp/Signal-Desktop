@@ -4,10 +4,10 @@
 import React from 'react';
 import type {
   ContactModalStateType,
-  ForwardMessagePropsType,
   UserNotFoundModalStateType,
   SafetyNumberChangedBlockingDataType,
   AuthorizeArtCreatorDataType,
+  ForwardMessagesPropsType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
@@ -35,8 +35,8 @@ export type PropsType = {
     title?: string;
   }) => JSX.Element;
   // ForwardMessageModal
-  forwardMessageProps: ForwardMessagePropsType | undefined;
-  renderForwardMessageModal: () => JSX.Element;
+  forwardMessagesProps: ForwardMessagesPropsType | undefined;
+  renderForwardMessagesModal: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
@@ -86,8 +86,8 @@ export function GlobalModalContainer({
   errorModalProps,
   renderErrorModal,
   // ForwardMessageModal
-  forwardMessageProps,
-  renderForwardMessageModal,
+  forwardMessagesProps,
+  renderForwardMessagesModal,
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
@@ -147,8 +147,8 @@ export function GlobalModalContainer({
     return renderContactModal();
   }
 
-  if (forwardMessageProps) {
-    return renderForwardMessageModal();
+  if (forwardMessagesProps) {
+    return renderForwardMessagesModal();
   }
 
   if (isProfileEditorVisible) {

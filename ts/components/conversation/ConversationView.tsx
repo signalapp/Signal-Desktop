@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 
 export type PropsType = {
   conversationId: string;
@@ -13,6 +14,9 @@ export type PropsType = {
   renderConversationHeader: () => JSX.Element;
   renderTimeline: () => JSX.Element;
   renderPanel: () => JSX.Element | undefined;
+  isSelectMode: boolean;
+  isForwardModalOpen: boolean;
+  onExitSelectMode: () => void;
 };
 
 export function ConversationView({
@@ -22,6 +26,9 @@ export function ConversationView({
   renderConversationHeader,
   renderTimeline,
   renderPanel,
+  isSelectMode,
+  isForwardModalOpen,
+  onExitSelectMode,
 }: PropsType): JSX.Element {
   const onDrop = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
@@ -78,6 +85,10 @@ export function ConversationView({
       });
     },
     [conversationId, processAttachments]
+  );
+
+  useEscapeHandling(
+    isSelectMode && !isForwardModalOpen ? onExitSelectMode : undefined
   );
 
   return (

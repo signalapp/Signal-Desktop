@@ -7,8 +7,8 @@ import { getInteractionMode } from '../../services/InteractionMode';
 export type PropsType = {
   id: string;
   conversationId: string;
-  isSelected: boolean;
-  selectMessage?: (messageId: string, conversationId: string) => unknown;
+  isTargeted: boolean;
+  targetMessage?: (messageId: string, conversationId: string) => unknown;
 };
 
 export class InlineNotificationWrapper extends React.Component<PropsType> {
@@ -24,29 +24,29 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
 
   public handleFocus = (): void => {
     if (getInteractionMode() === 'keyboard') {
-      this.setSelected();
+      this.setTargeted();
     }
   };
 
-  public setSelected = (): void => {
-    const { id, conversationId, selectMessage } = this.props;
+  public setTargeted = (): void => {
+    const { id, conversationId, targetMessage } = this.props;
 
-    if (selectMessage) {
-      selectMessage(id, conversationId);
+    if (targetMessage) {
+      targetMessage(id, conversationId);
     }
   };
 
   public override componentDidMount(): void {
-    const { isSelected } = this.props;
-    if (isSelected) {
+    const { isTargeted } = this.props;
+    if (isTargeted) {
       this.setFocus();
     }
   }
 
   public override componentDidUpdate(prevProps: PropsType): void {
-    const { isSelected } = this.props;
+    const { isTargeted } = this.props;
 
-    if (!prevProps.isSelected && isSelected) {
+    if (!prevProps.isTargeted && isTargeted) {
       this.setFocus();
     }
   }

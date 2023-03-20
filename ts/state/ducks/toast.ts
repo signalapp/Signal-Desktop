@@ -64,6 +64,10 @@ export type ShowToastActionCreatorType = ReadonlyDeep<
   ) => ShowToastActionType
 >;
 
+export type ShowToastAction = ReadonlyDeep<
+  (toastType: ToastType, parameters?: ReplacementValuesType) => void
+>;
+
 export const showToast: ShowToastActionCreatorType = (
   toastType,
   parameters

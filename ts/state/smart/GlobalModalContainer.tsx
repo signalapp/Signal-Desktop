@@ -10,7 +10,7 @@ import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
 import { SmartContactModal } from './ContactModal';
-import { SmartForwardMessageModal } from './ForwardMessageModal';
+import { SmartForwardMessagesModal } from './ForwardMessagesModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
 import { SmartSendAnywayDialog } from './SendAnywayDialog';
@@ -29,8 +29,8 @@ function renderContactModal(): JSX.Element {
   return <SmartContactModal />;
 }
 
-function renderForwardMessageModal(): JSX.Element {
-  return <SmartForwardMessageModal />;
+function renderForwardMessagesModal(): JSX.Element {
+  return <SmartForwardMessagesModal />;
 }
 
 function renderStoriesSettings(): JSX.Element {
@@ -56,7 +56,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     addUserToAnotherGroupModalContactId,
     contactModalState,
     errorModalProps,
-    forwardMessageProps,
+    forwardMessagesProps,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
     isSignalConnectionsVisible,
@@ -121,7 +121,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
       contactModalState={contactModalState}
       errorModalProps={errorModalProps}
-      forwardMessageProps={forwardMessageProps}
+      forwardMessagesProps={forwardMessagesProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
       hideWhatsNewModal={hideWhatsNewModal}
@@ -134,7 +134,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
       renderContactModal={renderContactModal}
       renderErrorModal={renderErrorModal}
-      renderForwardMessageModal={renderForwardMessageModal}
+      renderForwardMessagesModal={renderForwardMessagesModal}
       renderProfileEditor={renderProfileEditor}
       renderSafetyNumber={renderSafetyNumber}
       renderSendAnywayDialog={renderSendAnywayDialog}

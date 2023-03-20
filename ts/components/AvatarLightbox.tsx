@@ -33,7 +33,7 @@ export function AvatarLightbox({
       isViewOnce
       media={[]}
       saveAttachment={noop}
-      toggleForwardMessageModal={noop}
+      toggleForwardMessagesModal={noop}
       onMediaPlaybackStart={noop}
       onNextAttachment={noop}
       onPrevAttachment={noop}

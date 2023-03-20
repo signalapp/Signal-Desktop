@@ -40,7 +40,7 @@ export function SmartInbox(): JSX.Element {
   const { hasInitialLoadCompleted } = useSelector<StateType, AppStateType>(
     state => state.app
   );
-  const { selectedConversationId, selectedMessage, selectedMessageSource } =
+  const { selectedConversationId, targetedMessage, targetedMessageSource } =
     useSelector<StateType, ConversationsStateType>(
       state => state.conversations
     );
@@ -67,8 +67,8 @@ export function SmartInbox(): JSX.Element {
       renderMiniPlayer={renderMiniPlayer}
       scrollToMessage={scrollToMessage}
       selectedConversationId={selectedConversationId}
-      selectedMessage={selectedMessage}
-      selectedMessageSource={selectedMessageSource}
+      targetedMessage={targetedMessage}
+      targetedMessageSource={targetedMessageSource}
       showConversation={showConversation}
       showWhatsNewModal={showWhatsNewModal}
     />

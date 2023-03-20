@@ -61,6 +61,8 @@ function mockMessageTimelineItem(
       text: 'Hello there from the new world!',
       isBlocked: false,
       isMessageRequestAccepted: true,
+      isSelected: false,
+      isSelectMode: false,
       previews: [],
       readStatus: ReadStatus.Read,
       canRetryDeleteForEveryone: true,
@@ -270,15 +272,16 @@ const actions = () => ({
   loadNewerMessages: action('loadNewerMessages'),
   loadNewestMessages: action('loadNewestMessages'),
   markMessageRead: action('markMessageRead'),
-  selectMessage: action('selectMessage'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  toggleSelectMessage: action('toggleSelectMessage'),
+  targetMessage: action('targetMessage'),
+  clearTargetedMessage: action('clearTargetedMessage'),
   updateSharedGroups: action('updateSharedGroups'),
 
   reactToMessage: action('reactToMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
-  deleteMessage: action('deleteMessage'),
+  deleteMessages: action('deleteMessages'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),
@@ -300,7 +303,7 @@ const actions = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
@@ -320,6 +323,8 @@ const actions = () => ({
   peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
 
   viewStory: action('viewStory'),
+
+  onReplyToMessage: action('onReplyToMessage'),
 });
 
 const renderItem = ({
@@ -334,7 +339,7 @@ const renderItem = ({
   <TimelineItem
     getPreferredBadge={() => undefined}
     id=""
-    isSelected={false}
+    isTargeted={false}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}

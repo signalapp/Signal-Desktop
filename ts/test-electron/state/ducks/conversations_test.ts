@@ -18,12 +18,12 @@ import type {
   ConversationType,
   ConversationsStateType,
   MessageType,
-  SelectedConversationChangedActionType,
+  TargetedConversationChangedActionType,
   ToggleConversationInChooseMembersActionType,
   MessageChangedActionType,
 } from '../../../state/ducks/conversations';
 import {
-  SELECTED_CONVERSATION_CHANGED,
+  TARGETED_CONVERSATION_CHANGED,
   actions,
   cancelConversationVerification,
   clearCancelledConversationVerification,
@@ -386,7 +386,7 @@ describe('both/state/ducks/conversations', () => {
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
-        assert.isUndefined(nextState.selectedMessage);
+        assert.isUndefined(nextState.targetedMessage);
       });
 
       it('selects a conversation and a message', () => {
@@ -402,11 +402,11 @@ describe('both/state/ducks/conversations', () => {
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
-        assert.equal(nextState.selectedMessage, 'xyz987');
+        assert.equal(nextState.targetedMessage, 'xyz987');
       });
 
       describe('showConversation switchToAssociatedView=true', () => {
-        let action: SelectedConversationChangedActionType;
+        let action: TargetedConversationChangedActionType;
 
         beforeEach(() => {
           const dispatch = sinon.spy();
@@ -766,7 +766,7 @@ describe('both/state/ducks/conversations', () => {
         });
 
         sinon.assert.calledWith(dispatch, {
-          type: SELECTED_CONVERSATION_CHANGED,
+          type: TARGETED_CONVERSATION_CHANGED,
           payload: {
             conversationId: '9876',
             messageId: undefined,

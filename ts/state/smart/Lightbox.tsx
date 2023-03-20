@@ -34,7 +34,7 @@ export function SmartLightbox(): JSX.Element | null {
     showLightboxForPrevMessage,
     setSelectedLightboxPath,
   } = useLightboxActions();
-  const { toggleForwardMessageModal } = useGlobalModalActions();
+  const { toggleForwardMessagesModal } = useGlobalModalActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   const conversationSelector = useSelector<StateType, GetConversationByIdType>(
@@ -103,7 +103,7 @@ export function SmartLightbox(): JSX.Element | null {
       media={media}
       saveAttachment={saveAttachment}
       selectedIndex={selectedIndex || 0}
-      toggleForwardMessageModal={toggleForwardMessageModal}
+      toggleForwardMessagesModal={toggleForwardMessagesModal}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onPrevAttachment={onPrevAttachment}
       onNextAttachment={onNextAttachment}

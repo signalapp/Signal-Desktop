@@ -77,12 +77,12 @@ import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import {
   CONVERSATION_UNLOADED,
-  SELECTED_CONVERSATION_CHANGED,
+  TARGETED_CONVERSATION_CHANGED,
   scrollToMessage,
 } from './conversations';
 import type {
   ConversationUnloadedActionType,
-  SelectedConversationChangedActionType,
+  TargetedConversationChangedActionType,
   ScrollToMessageActionType,
 } from './conversations';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
@@ -204,7 +204,7 @@ type ComposerActionType =
   | RemoveLinkPreviewActionType
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
-  | SelectedConversationChangedActionType
+  | TargetedConversationChangedActionType
   | SetComposerDisabledStateActionType
   | SetFocusActionType
   | SetHighQualitySettingActionType
@@ -1267,7 +1267,7 @@ export function reducer(
     };
   }
 
-  if (action.type === SELECTED_CONVERSATION_CHANGED) {
+  if (action.type === TARGETED_CONVERSATION_CHANGED) {
     if (action.payload.conversationId) {
       return {
         ...state,

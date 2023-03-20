@@ -15,6 +15,7 @@ import {
 } from '../sql/Server';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
+import { sql } from '../sql/util';
 
 const OUR_UUID = generateGuid();
 
@@ -1608,58 +1609,53 @@ describe('SQL migrations test', () => {
   });
 
   describe('updateToSchemaVersion52', () => {
-    const queries = [
-      {
-        query: `
-          EXPLAIN QUERY PLAN
-          SELECT * FROM messages WHERE
-            conversationId = 'conversation' AND
-            readStatus = 'something' AND
-            isStory IS 0 AND
-            :story_id_predicate:
-          ORDER BY received_at ASC, sent_at ASC
-          LIMIT 1;
-        `,
-        index: 'messages_unread',
-      },
-      {
-        query: `
-          EXPLAIN QUERY PLAN
-          SELECT json FROM messages WHERE
-            conversationId = 'd8b05bb1-36b3-4478-841b-600af62321eb' AND
-            (NULL IS NULL OR id IS NOT NULL) AND
-            isStory IS 0 AND
-            :story_id_predicate: AND
-            (
-              (received_at = 17976931348623157 AND sent_at < NULL) OR
-              received_at < 17976931348623157
-            )
-          ORDER BY received_at DESC, sent_at DESC
-          LIMIT 10;
-        `,
-        index: 'messages_conversation',
-      },
-    ];
-
-    function insertPredicate(
-      query: string,
+    function getQueries(
       storyId: string | undefined,
       includeStoryReplies: boolean
-    ): string {
-      return query.replaceAll(
-        ':story_id_predicate:',
-        _storyIdPredicate(storyId, includeStoryReplies)
-      );
+    ) {
+      return [
+        {
+          template: sql`
+            EXPLAIN QUERY PLAN
+            SELECT * FROM messages WHERE
+              conversationId = 'conversation' AND
+              readStatus = 'something' AND
+              isStory IS 0 AND
+              ${_storyIdPredicate(storyId, includeStoryReplies)}
+            ORDER BY received_at ASC, sent_at ASC
+            LIMIT 1;
+          `,
+          index: 'messages_unread',
+        },
+        {
+          template: sql`
+            EXPLAIN QUERY PLAN
+            SELECT json FROM messages WHERE
+              conversationId = 'd8b05bb1-36b3-4478-841b-600af62321eb' AND
+              (NULL IS NULL OR id IS NOT NULL) AND
+              isStory IS 0 AND
+              ${_storyIdPredicate(storyId, includeStoryReplies)} AND
+              (
+                (received_at = 17976931348623157 AND sent_at < NULL) OR
+                received_at < 17976931348623157
+              )
+            ORDER BY received_at DESC, sent_at DESC
+            LIMIT 10;
+          `,
+          index: 'messages_conversation',
+        },
+      ];
     }
 
     it('produces optimizable queries for present and absent storyId', () => {
       updateToVersion(52);
 
       for (const storyId of ['123', undefined]) {
-        for (const { query, index } of queries) {
+        for (const { template, index } of getQueries(storyId, true)) {
+          const [query, params] = template;
           const details = db
-            .prepare(insertPredicate(query, storyId, true))
-            .all({ storyId })
+            .prepare(query)
+            .all(params)
             .map(({ detail }) => detail)
             .join('\n');
 

@@ -2013,7 +2013,7 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ForwardMessageModal.tsx",
+    "path": "ts/components/ForwardMessagesModal.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"

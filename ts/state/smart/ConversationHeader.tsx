@@ -107,7 +107,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     isSMSOnly: isConversationSMSOnly(conversation),
     isSignalConversation: isSignalConversation(conversation),
     i18n: getIntl(state),
-    showBackButton: state.conversations.selectedConversationPanels.length > 0,
+    showBackButton: state.conversations.targetedConversationPanels.length > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
     theme: getTheme(state),
   };

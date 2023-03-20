@@ -148,8 +148,8 @@ type PropsLocalType = {
   item?: TimelineItemType;
   id: string;
   isNextItemCallingNotification: boolean;
-  isSelected: boolean;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
+  isTargeted: boolean;
+  targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   renderContact: SmartContactRendererType<FullJSXType>;
   renderUniversalTimerNotification: () => JSX.Element;
@@ -186,11 +186,11 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       i18n,
       id,
       isNextItemCallingNotification,
-      isSelected,
+      isTargeted,
       item,
       renderUniversalTimerNotification,
       returnToActiveCall,
-      selectMessage,
+      targetMessage,
       shouldCollapseAbove,
       shouldCollapseBelow,
       shouldHideMetadata,
@@ -216,8 +216,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <TimelineMessage
           {...reducedProps}
           {...item.data}
-          isSelected={isSelected}
-          selectMessage={selectMessage}
+          isTargeted={isTargeted}
+          targetMessage={targetMessage}
           shouldCollapseAbove={shouldCollapseAbove}
           shouldCollapseBelow={shouldCollapseBelow}
           shouldHideMetadata={shouldHideMetadata}
@@ -346,8 +346,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <InlineNotificationWrapper
           id={id}
           conversationId={conversationId}
-          isSelected={isSelected}
-          selectMessage={selectMessage}
+          isTargeted={isTargeted}
+          targetMessage={targetMessage}
         >
           {notification}
         </InlineNotificationWrapper>

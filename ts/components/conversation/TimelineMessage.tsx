@@ -37,17 +37,17 @@ export type PropsData = {
   canReact: boolean;
   canReply: boolean;
   selectedReaction?: string;
-  isSelected?: boolean;
+  isTargeted?: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
-  deleteMessage: (options: {
+  deleteMessages: (options: {
     conversationId: string;
-    messageId: string;
+    messageIds: ReadonlyArray<string>;
   }) => void;
   deleteMessageForEveryone: (id: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
-  toggleForwardMessageModal: (id: string) => void;
+  toggleForwardMessagesModal: (id: Array<string>) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -55,7 +55,13 @@ export type PropsActions = {
   retryMessageSend: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
-} & MessagePropsActions;
+  toggleSelectMessage: (
+    conversationId: string,
+    messageId: string,
+    shift: boolean,
+    selected: boolean
+  ) => void;
+} & Omit<MessagePropsActions, 'onToggleSelect' | 'onReplyToMessage'>;
 
 export type Props = PropsData &
   PropsActions &
@@ -87,14 +93,14 @@ export function TimelineMessage(props: Props): JSX.Element {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
-    deleteMessage,
+    deleteMessages,
     deleteMessageForEveryone,
     deletedForEveryone,
     direction,
     giftBadge,
     i18n,
     id,
-    isSelected,
+    isTargeted,
     isSticker,
     isTapToView,
     kickOffAttachmentDownload,
@@ -110,7 +116,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     setQuoteByMessageId,
     text,
     timestamp,
-    toggleForwardMessageModal,
+    toggleForwardMessagesModal,
+    toggleSelectMessage,
   } = props;
 
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
@@ -260,14 +267,14 @@ export function TimelineMessage(props: Props): JSX.Element {
   );
 
   useEffect(() => {
-    if (isSelected) {
+    if (isTargeted) {
       document.addEventListener('keydown', toggleReactionPickerKeyboard);
     }
 
     return () => {
       document.removeEventListener('keydown', toggleReactionPickerKeyboard);
     };
-  }, [isSelected, toggleReactionPickerKeyboard]);
+  }, [isTargeted, toggleReactionPickerKeyboard]);
 
   const renderMenu = useCallback(() => {
     return (
@@ -357,9 +364,9 @@ export function TimelineMessage(props: Props): JSX.Element {
           actions={[
             {
               action: () =>
-                deleteMessage({
+                deleteMessages({
                   conversationId,
-                  messageId: id,
+                  messageIds: [id],
                 }),
               style: 'negative',
               text: i18n('delete'),
@@ -372,24 +379,17 @@ export function TimelineMessage(props: Props): JSX.Element {
           {i18n('deleteWarning')}
         </ConfirmationDialog>
       )}
-      <div
-        onDoubleClick={ev => {
-          if (!handleReplyToMessage) {
-            return;
-          }
 
-          ev.stopPropagation();
-          ev.preventDefault();
-          handleReplyToMessage();
+      <Message
+        {...props}
+        renderingContext="conversation/TimelineItem"
+        onContextMenu={handleContextMenu}
+        renderMenu={renderMenu}
+        onToggleSelect={(selected, shift) => {
+          toggleSelectMessage(conversationId, id, shift, selected);
         }}
-      >
-        <Message
-          {...props}
-          renderingContext="conversation/TimelineItem"
-          onContextMenu={handleContextMenu}
-          renderMenu={renderMenu}
-        />
-      </div>
+        onReplyToMessage={handleReplyToMessage}
+      />
 
       <MessageContextMenu
         i18n={i18n}
@@ -404,7 +404,10 @@ export function TimelineMessage(props: Props): JSX.Element {
             ? () => retryDeleteForEveryone(id)
             : undefined
         }
-        onForward={canForward ? () => toggleForwardMessageModal(id) : undefined}
+        onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
+        onForward={
+          canForward ? () => toggleForwardMessagesModal([id]) : undefined
+        }
         onDeleteForMe={() => setHasDeleteConfirmation(true)}
         onDeleteForEveryone={
           canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
@@ -589,6 +592,7 @@ type MessageContextProps = {
   onDeleteForMe: () => void;
   onDeleteForEveryone: (() => void) | undefined;
   onMoreInfo: () => void;
+  onSelect: () => void;
 };
 
 const MessageContextMenu = ({
@@ -599,6 +603,7 @@ const MessageContextMenu = ({
   onReplyToMessage,
   onReact,
   onMoreInfo,
+  onSelect,
   onRetryMessageSend,
   onRetryDeleteForEveryone,
   onForward,
@@ -667,6 +672,17 @@ const MessageContextMenu = ({
         }}
       >
         {i18n('moreInfo')}
+      </MenuItem>
+      <MenuItem
+        attributes={{
+          className:
+            'module-message__context--icon module-message__context__select',
+        }}
+        onClick={() => {
+          onSelect();
+        }}
+      >
+        {i18n('icu:MessageContextMenu__select')}
       </MenuItem>
       {onRetryMessageSend && (
         <MenuItem

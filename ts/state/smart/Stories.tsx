@@ -42,7 +42,7 @@ export function SmartStories(): JSX.Element | null {
     showConversation,
     toggleHideStories,
   } = useConversationsActions();
-  const { showStoriesSettings, toggleForwardMessageModal } =
+  const { showStoriesSettings, toggleForwardMessagesModal } =
     useGlobalModalActions();
   const { showToast } = useToastActions();
 
@@ -92,7 +92,9 @@ export function SmartStories(): JSX.Element | null {
       maxAttachmentSizeInKb={maxAttachmentSizeInKb}
       me={me}
       myStories={myStories}
-      onForwardStory={toggleForwardMessageModal}
+      onForwardStory={messageId => {
+        toggleForwardMessagesModal([messageId]);
+      }}
       onSaveStory={story => {
         if (story.attachment) {
           saveAttachment(story.attachment, story.timestamp);

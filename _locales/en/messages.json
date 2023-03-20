@@ -315,6 +315,10 @@
     "message": "Mark as unread",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "Select messages",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "Unarchive",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -1172,6 +1176,10 @@
   "moreInfo": {
     "message": "More Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "Select",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "Retry Send",
@@ -2370,6 +2378,14 @@
   "icu:message--donation--redeemed": {
     "messageformat": "Redeemed",
     "description": "Shown when you've redeemed the donation badge on another device"
+  },
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "Message sent by you",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "Message sent by {author}",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "Thanks for your support!",
@@ -4619,6 +4635,34 @@
     "message": "Block Request",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "Exit select mode",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} selected",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "Delete selected messages",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "Forward selected messages",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "Delete {count, plural, one {message} other {# messages}}",
+    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "Delete for me",
+    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "You can only forward up to 30 messages",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "Add a group photo",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4759,9 +4803,17 @@
     "message": "compose button",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "Forward To",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "Cannot forward empty or deleted messages",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",

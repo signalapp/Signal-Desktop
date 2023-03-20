@@ -335,7 +335,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   getConversationAndMessageInDirection(
     _toFind: Readonly<ToFindType>,
     _selectedConversationId: undefined | string,
-    _selectedMessageId: unknown
+    _targetedMessageId: unknown
   ): undefined | { conversationId: string } {
     return undefined;
   }

@@ -35,6 +35,147 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
+export type QueryTemplateParam = string | number | undefined;
+export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
+
+export type QueryFragment = [
+  { fragment: string },
+  ReadonlyArray<QueryTemplateParam>
+];
+
+/**
+ * You can use tagged template literals to build "fragments" of SQL queries
+ *
+ * ```ts
+ * const [query, params] = sql`
+ *   SELECT * FROM examples
+ *   WHERE groupId = ${groupId}
+ *   ORDER BY timestamp ${asc ? sqlFragment`ASC` : sqlFragment`DESC`}
+ * `;
+ * ```
+ *
+ * SQL Fragments can contain other SQL fragments, but must be finalized with
+ * `sql` before being passed to `Database#prepare`.
+ *
+ * The name `sqlFragment` comes from several editors that support SQL syntax
+ * highlighting inside JavaScript template literals.
+ */
+export function sqlFragment(
+  strings: TemplateStringsArray,
+  ...values: ReadonlyArray<QueryFragmentValue>
+): QueryFragment {
+  let query = '';
+  const params: Array<string | number | undefined> = [];
+
+  strings.forEach((string, index) => {
+    const value = values[index];
+
+    query += string;
+
+    if (index < values.length) {
+      if (Array.isArray(value)) {
+        const [{ fragment }, fragmentParams] = value;
+        query += fragment;
+        params.push(...fragmentParams);
+      } else {
+        query += '?';
+        params.push(value);
+      }
+    }
+  });
+
+  return [{ fragment: query }, params];
+}
+
+/**
+ * Like `Array.prototype.join`, but for SQL fragments.
+ */
+export function sqlJoin(
+  items: ReadonlyArray<QueryFragmentValue>,
+  separator: string
+): QueryFragment {
+  let query = '';
+  const params: Array<string | number | undefined> = [];
+
+  items.forEach((item, index) => {
+    const [{ fragment }, fragmentParams] = sqlFragment`${item}`;
+    query += fragment;
+    params.push(...fragmentParams);
+
+    if (index < items.length - 1) {
+      query += separator;
+    }
+  });
+
+  return [{ fragment: query }, params];
+}
+
+export type QueryTemplate = [
+  string,
+  ReadonlyArray<string | number | undefined>
+];
+
+/**
+ * You can use tagged template literals to build SQL queries
+ * that can be passed to `Database#prepare`.
+ *
+ * ```ts
+ * const [query, params] = sql`
+ *   SELECT * FROM examples
+ *   WHERE groupId = ${groupId}
+ *   ORDER BY timestamp ASC
+ * `;
+ * db.prepare(query).all(params);
+ * ```
+ *
+ * SQL queries can contain other SQL fragments, but cannot contain other SQL
+ * queries.
+ *
+ * The name `sql` comes from several editors that support SQL syntax
+ * highlighting inside JavaScript template literals.
+ */
+export function sql(
+  strings: TemplateStringsArray,
+  ...values: ReadonlyArray<QueryFragment | string | number | undefined>
+): QueryTemplate {
+  const [{ fragment }, params] = sqlFragment(strings, ...values);
+  return [fragment, params];
+}
+
+type QueryPlanRow = Readonly<{
+  id: number;
+  parent: number;
+  details: string;
+}>;
+
+type QueryPlan = Readonly<{
+  query: string;
+  plan: ReadonlyArray<QueryPlanRow>;
+}>;
+
+/**
+ * Returns typed objects of the query plan for the given query.
+ *
+ *
+ * ```ts
+ * const [query, params] = sql`
+ *   SELECT * FROM examples
+ *   WHERE groupId = ${groupId}
+ *   ORDER BY timestamp ASC
+ * `;
+ * log.info('Query plan', explainQueryPlan(db, [query, params]));
+ * db.prepare(query).all(params);
+ * ```
+ */
+export function explainQueryPlan(
+  db: Database,
+  template: QueryTemplate
+): QueryPlan {
+  const [query, params] = template;
+  const plan = db.prepare(`EXPLAIN QUERY PLAN ${query}`).all(params);
+  return { query, plan };
+}
+
 //
 // Database helpers
 //

@@ -15,6 +15,7 @@ import type {
   ConversationVerificationData,
   MessageLookupType,
   MessagesByConversationType,
+  MessageTimestamps,
   PreJoinConversationType,
 } from '../ducks/conversations';
 import type { StoriesStateType, StoryDataType } from '../ducks/stories';
@@ -151,21 +152,33 @@ export const getSelectedConversationId = createSelector(
   }
 );
 
-type SelectedMessageType = {
+type TargetedMessageType = {
   id: string;
   counter: number;
 };
-export const getSelectedMessage = createSelector(
+export const getTargetedMessage = createSelector(
   getConversations,
-  (state: ConversationsStateType): SelectedMessageType | undefined => {
-    if (!state.selectedMessage) {
+  (state: ConversationsStateType): TargetedMessageType | undefined => {
+    if (!state.targetedMessage) {
       return undefined;
     }
 
     return {
-      id: state.selectedMessage,
-      counter: state.selectedMessageCounter,
+      id: state.targetedMessage,
+      counter: state.targetedMessageCounter,
     };
+  }
+);
+export const getSelectedMessageIds = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ReadonlyArray<string> | undefined => {
+    return state.selectedMessageIds;
+  }
+);
+export const getLastSelectedMessage = createSelector(
+  getConversations,
+  (state: ConversationsStateType): MessageTimestamps | undefined => {
+    return state.lastSelectedMessage;
   }
 );
 
@@ -1095,8 +1108,8 @@ export const getHideStoryConversationIds = createSelector(
 export const getTopPanel = createSelector(
   getConversations,
   (conversations): PanelRenderType | undefined =>
-    conversations.selectedConversationPanels[
-      conversations.selectedConversationPanels.length - 1
+    conversations.targetedConversationPanels[
+      conversations.targetedConversationPanels.length - 1
     ]
 );
 

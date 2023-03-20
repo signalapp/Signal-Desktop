@@ -267,7 +267,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    _selectedMessageId: unknown
+    _targetedMessageId: unknown
   ): undefined | { conversationId: string } {
     return getConversationInDirection(
       [...this.pinnedConversations, ...this.conversations],

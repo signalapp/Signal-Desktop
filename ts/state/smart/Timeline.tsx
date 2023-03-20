@@ -24,7 +24,7 @@ import {
   getConversationSelector,
   getConversationsByTitleSelector,
   getInvitedContactsForNewlyCreatedGroup,
-  getSelectedMessage,
+  getTargetedMessage,
 } from '../selectors/conversations';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer';
 
@@ -227,7 +227,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const conversation = getConversationSelector(state)(id);
 
   const conversationMessages = getConversationMessagesSelector(state)(id);
-  const selectedMessage = getSelectedMessage(state);
+  const targetedMessage = getTargetedMessage(state);
 
   const getTimestampForMessage = (messageId: string): undefined | number =>
     getMessages(state)[messageId]?.timestamp;
@@ -247,7 +247,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
     invitedContactsForNewlyCreatedGroup:
       getInvitedContactsForNewlyCreatedGroup(state),
-    selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
+    targetedMessageId: targetedMessage ? targetedMessage.id : undefined,
     shouldShowMiniPlayer,
 
     warning: getWarning(conversation, state),

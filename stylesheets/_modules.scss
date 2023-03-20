@@ -62,7 +62,9 @@
   outline: none;
   padding-left: 16px;
   padding-right: 16px;
-  transition: background 0.1s ease-out;
+  transition-property: background, translate;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
 }
 
 .module-message__quote-story-reaction-header {
@@ -187,7 +189,7 @@
     }
   }
 
-  .module-message--selected & {
+  .module-message--targeted & {
     @include mouse-mode {
       background-color: $color-gray-60;
     }
@@ -290,7 +292,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  max-width: 306px;
+  max-width: min(306px, calc(100% - 16px - 22px));
 
   .module-timeline--width-wide &,
   .module-message-detail & {
@@ -347,15 +349,73 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__container--selected {
+.module-message__container--targeted {
   @include mouse-mode {
     animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
-.module-message__container--selected-lighter {
+.module-message__container--targeted-lighter {
   @include mouse-mode {
     animation: module-message__highlight-lighter 1.2s
       cubic-bezier(0.17, 0.17, 0, 1);
+  }
+}
+
+.module-message__wrapper {
+  position: relative;
+  transition: background 0.1s ease-out;
+}
+
+.module-message__wrapper--select-mode {
+  .module-message--incoming {
+    translate: calc(16px + 22px) 0;
+  }
+}
+
+.module-message__alt-accessibility-tree {
+  @include sr-only;
+}
+
+.module-message__wrapper--selected {
+  background: rgba($color-ultramarine, 8%);
+}
+
+.module-message__select-checkbox {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid $color-gray-20;
+  animation: module-message__select-checkbox--fadeIn 0.2s ease-out;
+  transition: background 0.1s ease-out, border-color 0.1s ease-out;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: -2px;
+    @include color-svg('../images/icons/v2/check-20.svg', $color-white);
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+  }
+
+  .module-message__wrapper--selected & {
+    background: $color-ultramarine;
+    border-color: $color-ultramarine;
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes module-message__select-checkbox--fadeIn {
+  from {
+    opacity: 0;
   }
 }
 
@@ -7585,6 +7645,22 @@ button.module-image__border-overlay:focus {
     @include dark-theme {
       @include color-svg(
         '../images/icons/v2/info-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &__select::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/check-circle-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/check-circle-outline-24.svg',
         $color-gray-15
       );
     }

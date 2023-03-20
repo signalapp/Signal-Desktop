@@ -42,6 +42,7 @@ import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
   ConversationType,
+  MessageTimestamps,
   PushPanelForConversationActionType,
   ShowConversationType,
 } from '../state/ducks/conversations';
@@ -65,6 +66,8 @@ import { PanelType } from '../types/Panels';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import type { SmartCompositionRecordingProps } from '../state/smart/CompositionRecording';
+import SelectModeActions from './conversation/SelectModeActions';
+import type { ShowToastAction } from '../state/ducks/toast';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -105,6 +108,7 @@ export type OwnProps = Readonly<{
   messageRequestsEnabled?: boolean;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
+  showToast: ShowToastAction;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
@@ -146,6 +150,13 @@ export type OwnProps = Readonly<{
   renderSmartCompositionRecordingDraft: (
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
+  selectedMessageIds: ReadonlyArray<string> | undefined;
+  lastSelectedMessage: MessageTimestamps | undefined;
+  toggleSelectMode: (on: boolean) => void;
+  toggleForwardMessagesModal: (
+    messageIds: ReadonlyArray<string>,
+    onForward: () => void
+  ) => void;
 }>;
 
 export type Props = Pick<
@@ -192,6 +203,7 @@ export function CompositionArea({
   isDisabled,
   isSignalConversation,
   messageCompositionId,
+  showToast,
   pushPanelForConversation,
   processAttachments,
   removeAttachment,
@@ -272,6 +284,11 @@ export function CompositionArea({
   isFetchingUUID,
   renderSmartCompositionRecording,
   renderSmartCompositionRecordingDraft,
+  // Selected messages
+  selectedMessageIds,
+  lastSelectedMessage,
+  toggleSelectMode,
+  toggleForwardMessagesModal,
 }: Props): JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
@@ -527,6 +544,34 @@ export function CompositionArea({
   if (isSignalConversation) {
     // TODO DESKTOP-4547
     return <div />;
+  }
+
+  if (selectedMessageIds != null) {
+    return (
+      <SelectModeActions
+        i18n={i18n}
+        selectedMessageIds={selectedMessageIds}
+        onExitSelectMode={() => {
+          toggleSelectMode(false);
+        }}
+        onDeleteMessages={() => {
+          window.reduxActions.conversations.deleteMessages({
+            conversationId,
+            lastSelectedMessage,
+            messageIds: selectedMessageIds,
+          });
+          toggleSelectMode(false);
+        }}
+        onForwardMessages={() => {
+          if (selectedMessageIds.length > 0) {
+            toggleForwardMessagesModal(selectedMessageIds, () => {
+              toggleSelectMode(false);
+            });
+          }
+        }}
+        showToast={showToast}
+      />
+    );
   }
 
   if (

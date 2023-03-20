@@ -2156,9 +2156,12 @@ export class ConversationModel extends window.Backbone
     return undefined;
   }
 
-  decrementMessageCount(): void {
+  decrementMessageCount(numberOfMessages = 1): void {
     this.set({
-      messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
+      messageCount: Math.max(
+        (this.get('messageCount') || 0) - numberOfMessages,
+        0
+      ),
     });
     window.Signal.Data.updateConversation(this.attributes);
   }
@@ -2180,10 +2183,16 @@ export class ConversationModel extends window.Backbone
     return undefined;
   }
 
-  decrementSentMessageCount(): void {
+  decrementSentMessageCount(numberOfMessages = 1): void {
     this.set({
-      messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
-      sentMessageCount: Math.max((this.get('sentMessageCount') || 0) - 1, 0),
+      messageCount: Math.max(
+        (this.get('messageCount') || 0) - numberOfMessages,
+        0
+      ),
+      sentMessageCount: Math.max(
+        (this.get('sentMessageCount') || 0) - numberOfMessages,
+        0
+      ),
     });
     window.Signal.Data.updateConversation(this.attributes);
   }

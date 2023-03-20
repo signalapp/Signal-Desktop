@@ -34,7 +34,7 @@ export type PropsType = {
   media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex: number;
-  toggleForwardMessageModal: (messageId: string) => unknown;
+  toggleForwardMessagesModal: (messageIds: ReadonlyArray<string>) => unknown;
   onMediaPlaybackStart: () => void;
   onNextAttachment: () => void;
   onPrevAttachment: () => void;
@@ -77,7 +77,7 @@ export function Lightbox({
   isViewOnce = false,
   saveAttachment,
   selectedIndex,
-  toggleForwardMessageModal,
+  toggleForwardMessagesModal,
   onMediaPlaybackStart,
   onNextAttachment,
   onPrevAttachment,
@@ -186,7 +186,7 @@ export function Lightbox({
 
     closeLightbox();
     const mediaItem = media[selectedIndex];
-    toggleForwardMessageModal(mediaItem.message.id);
+    toggleForwardMessagesModal([mediaItem.message.id]);
   };
 
   const onKeyDown = useCallback(

@@ -13,7 +13,7 @@ import { ToastStickerPackInstallFailed } from './ToastStickerPackInstallFailed';
 import { WhatsNewLink } from './WhatsNewLink';
 import { showToast } from '../util/showToast';
 import { strictAssert } from '../util/assert';
-import { SelectedMessageSource } from '../state/ducks/conversationsEnums';
+import { TargetedMessageSource } from '../state/ducks/conversationsEnums';
 import { usePrevious } from '../hooks/usePrevious';
 
 export type PropsType = {
@@ -28,8 +28,8 @@ export type PropsType = {
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   selectedConversationId?: string;
-  selectedMessage?: string;
-  selectedMessageSource?: SelectedMessageSource;
+  targetedMessage?: string;
+  targetedMessageSource?: TargetedMessageSource;
   showConversation: ShowConversationType;
   showWhatsNewModal: () => unknown;
 };
@@ -46,8 +46,8 @@ export function Inbox({
   renderMiniPlayer,
   scrollToMessage,
   selectedConversationId,
-  selectedMessage,
-  selectedMessageSource,
+  targetedMessage,
+  targetedMessageSource,
   showConversation,
   showWhatsNewModal,
 }: PropsType): JSX.Element {
@@ -67,14 +67,14 @@ export function Inbox({
       }
 
       if (selectedConversationId) {
-        onConversationOpened(selectedConversationId, selectedMessage);
+        onConversationOpened(selectedConversationId, targetedMessage);
       }
     } else if (
       selectedConversationId &&
-      selectedMessage &&
-      selectedMessageSource !== SelectedMessageSource.Focus
+      targetedMessage &&
+      targetedMessageSource !== TargetedMessageSource.Focus
     ) {
-      scrollToMessage(selectedConversationId, selectedMessage);
+      scrollToMessage(selectedConversationId, targetedMessage);
     }
 
     if (!selectedConversationId) {
@@ -93,8 +93,8 @@ export function Inbox({
     prevConversationId,
     scrollToMessage,
     selectedConversationId,
-    selectedMessage,
-    selectedMessageSource,
+    targetedMessage,
+    targetedMessageSource,
   ]);
 
   useEffect(() => {

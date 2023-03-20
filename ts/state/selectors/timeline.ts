@@ -7,8 +7,9 @@ import type { StateType } from '../reducer';
 import {
   getContactNameColorSelector,
   getConversationSelector,
-  getSelectedMessage,
+  getTargetedMessage,
   getMessages,
+  getSelectedMessageIds,
 } from './conversations';
 import { getAccountSelector } from './accounts';
 import {
@@ -36,7 +37,7 @@ export const getTimelineItem = (
     return undefined;
   }
 
-  const selectedMessage = getSelectedMessage(state);
+  const targetedMessage = getTargetedMessage(state);
   const conversationSelector = getConversationSelector(state);
   const regionCode = getRegionCode(state);
   const ourNumber = getUserNumber(state);
@@ -47,6 +48,7 @@ export const getTimelineItem = (
   const activeCall = getActiveCall(state);
   const accountSelector = getAccountSelector(state);
   const contactNameColorSelector = getContactNameColorSelector(state);
+  const selectedMessageIds = getSelectedMessageIds(state);
 
   return getPropsForBubble(message, {
     conversationSelector,
@@ -55,11 +57,12 @@ export const getTimelineItem = (
     ourACI,
     ourPNI,
     regionCode,
-    selectedMessageId: selectedMessage?.id,
-    selectedMessageCounter: selectedMessage?.counter,
+    targetedMessageId: targetedMessage?.id,
+    targetedMessageCounter: targetedMessage?.counter,
     contactNameColorSelector,
     callSelector,
     activeCall,
     accountSelector,
+    selectedMessageIds,
   });
 };
