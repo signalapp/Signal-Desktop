@@ -5499,6 +5499,10 @@
     "message": "Failed to uninstall old application files. Please try running the installer again.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
   },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "A newer version of Signal is already installed. Are you sure you want to continue?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
+  },
   "CrashReportDialog__title": {
     "message": "Application crashed",
     "description": "A title of the dialog displayed when starting an application after a recent crash"

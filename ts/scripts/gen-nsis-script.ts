@@ -13,6 +13,25 @@ import fs from 'fs';
 // `app-builder-lib`.
 import { REQUIRED_LANGUAGES, LCID } from '../util/nsis';
 
+const STRING_VARS = new Map([
+  [
+    'signalMinWinVersionErr',
+    {
+      id: 'icu:UnsupportedOSErrorToast',
+      replacements: {
+        OS: 'Windows',
+      },
+    },
+  ],
+  [
+    'signalMinAppVersionErr',
+    {
+      id: 'icu:NSIS__semver-downgrade',
+      replacements: {},
+    },
+  ],
+]);
+
 console.log('Generating updates NSIS script');
 console.log();
 
@@ -21,13 +40,17 @@ const USED = new Set<number>();
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const LOCALES_DIR = path.join(ROOT_DIR, '_locales');
 
+const fallbackMessages = JSON.parse(
+  fs.readFileSync(path.join(LOCALES_DIR, 'en', 'messages.json')).toString()
+);
+
 const nsisStrings = new Array<string>();
 for (const lang of REQUIRED_LANGUAGES) {
-  const id = LCID[lang] ?? LCID.en_US;
-  if (USED.has(id)) {
+  const langId = LCID[lang] ?? LCID.en_US;
+  if (USED.has(langId)) {
     continue;
   }
-  USED.add(id);
+  USED.add(langId);
 
   // We use "-" in folder names
   const folder = lang.replace(/_/g, '-');
@@ -47,46 +70,40 @@ for (const lang of REQUIRED_LANGUAGES) {
   if (!json) {
     throw new Error(`No messages for ${folder}`);
   }
-  const { 'icu:UnsupportedOSErrorToast': message } = JSON.parse(
-    json.toString()
-  );
 
-  const intl = createIntl({
-    locale: folder,
-    messages: {
-      message: message.messageformat,
-    },
-  });
+  const messages = JSON.parse(json.toString());
 
-  const text = intl.formatMessage({ id: 'message' }, { OS: 'Windows' });
   nsisStrings.push(`# ${lang}`);
-  nsisStrings.push(
-    `LangString signalMinWinVersionErr ${id} ${JSON.stringify(text)}`
-  );
+  for (const [varName, { id, replacements }] of STRING_VARS) {
+    let message = messages[id];
+    if (!message) {
+      console.error(`No string for ${id} in ${folder}, using english version`);
+      message = fallbackMessages[id];
+    }
+
+    const intl = createIntl({
+      locale: folder,
+      messages: {
+        message: message.messageformat,
+      },
+    });
+
+    const text = intl.formatMessage({ id: 'message' }, replacements);
+    nsisStrings.push(`LangString ${varName} ${langId} ${JSON.stringify(text)}`);
+  }
 }
 
 // See: https://www.electron.build/configuration/nsis.html#custom-nsis-script
 //   for description of what `build/installer.nsh` does.
 fs.writeFileSync(
-  path.join(ROOT_DIR, 'build', 'installer.nsh'),
+  path.join(ROOT_DIR, 'build', 'SignalStrings.nsh'),
   [
+    '# Copyright 2023 Signal Messenger, LLC',
+    '# SPDX-License-Identifier: AGPL-3.0-only',
+    '#',
     '# DO NOT EDIT. This is a generated file.',
     '',
-    '!include WinVer.nsh',
-    '',
     ...nsisStrings,
-    '',
-    '!macro preInit',
-    // TODO: DESKTOP-5092
-    // See: https://github.com/NSIS-Dev/Documentation/tree/42d8b48c4706b295b68879f7d83bd174c52ac8d7/docs/Includes/WinVer
-    // eslint-disable-next-line no-template-curly-in-string
-    '  ${IfNot} ${AtLeastWin7}',
-    '    MessageBox MB_OK|MB_ICONEXCLAMATION "$(signalMinWinVersionErr)"',
-    '    DetailPrint `Windows version check failed`',
-    '    Abort',
-    // eslint-disable-next-line no-template-curly-in-string
-    '  ${EndIf}',
-    '!macroend',
     '',
   ].join('\n')
 );
