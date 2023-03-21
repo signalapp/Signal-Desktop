@@ -92,6 +92,7 @@
     "blob-util": "2.0.2",
     "blueimp-load-image": "5.14.0",
     "blurhash": "1.1.3",
+    "cirbuf": "1.0.1",
     "classnames": "2.2.5",
     "config": "1.28.1",
     "copy-text-to-clipboard": "2.1.0",

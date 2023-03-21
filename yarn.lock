@@ -6606,6 +6606,11 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+cirbuf@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/cirbuf/-/cirbuf-1.0.1.tgz#8613dcf424fb4be7c0abf1ce1ed3366971a444ff"
+  integrity sha512-uk/k9s7aJiiH+Xwq2dQRhsOZE66eoY4TLca3d7zSv6QUfr4xLCT6xxBm4O4ZRkfF136+E5aVmjTbRrGr76Wilw==
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"

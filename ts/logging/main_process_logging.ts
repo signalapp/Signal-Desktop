@@ -22,6 +22,7 @@ import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
+import { CircularBuffer } from 'cirbuf';
 
 import type { LoggerType } from '../types/Logging';
 import * as Errors from '../types/errors';
@@ -44,7 +45,7 @@ declare global {
   }
 }
 
-const MAX_LOG_LINES = 1000000;
+const MAX_LOG_LINES = 10_000_000;
 
 let globalLogger: undefined | pino.Logger;
 let shouldRestart = false;
@@ -287,7 +288,7 @@ export async function eliminateOldEntries(
 
 // Exported for testing only.
 export async function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
-  const results = new Array<LogEntryType>();
+  const results = new CircularBuffer<LogEntryType>(MAX_LOG_LINES);
 
   const rawStream = createReadStream(logFile);
   const jsonStream = rawStream.pipe(
@@ -311,12 +312,9 @@ export async function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
     }
 
     results.push(result);
-    if (results.length > MAX_LOG_LINES) {
-      results.shift();
-    }
   }
 
-  return results;
+  return results.toArray();
 }
 
 // Exported for testing only.
