@@ -107,14 +107,15 @@ export default function SelectModeActions({
             },
           ]}
           dialogName="TimelineMessage/deleteMessage"
+          title={i18n('icu:SelectModeActions__confirmDelete--title', {
+            count: selectedMessageIds.length,
+          })}
           i18n={i18n}
           onClose={() => {
             setConfirmDelete(false);
           }}
         >
-          {i18n('icu:SelectModeActions__confirmDelete--title', {
-            count: selectedMessageIds.length,
-          })}
+          {i18n('icu:SelectModeActions__confirmDelete--description')}
         </ConfirmationDialog>
       )}
     </>

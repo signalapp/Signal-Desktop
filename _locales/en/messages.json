@@ -4652,8 +4652,12 @@
     "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
   },
   "icu:SelectModeActions__confirmDelete--title": {
-    "messageformat": "Delete {count, plural, one {message} other {# messages}}",
+    "messageformat": "Delete {count, plural, one {# message} other {# messages}}?",
     "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "This message will be deleted from this device.",
+    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Delete for me",
