@@ -31,10 +31,12 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'icu:WhatsNew__v6.11--0',
-      components: {
-        hackerbirds: <a href="https://github.com/hackerbirds">@hackerbirds</a>,
-      },
+      key: 'icu:WhatsNew__v6.12--0',
+      components: {},
+    },
+    {
+      key: 'icu:WhatsNew__v6.12--1',
+      components: {},
     },
   ],
 };
