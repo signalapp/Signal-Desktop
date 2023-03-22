@@ -1,12 +1,21 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { lookup as nativeLookup, resolve4, resolve6 } from 'dns';
+import {
+  lookup as nativeLookup,
+  resolve4,
+  resolve6,
+  getServers,
+  setServers,
+} from 'dns';
 import type { LookupOneOptions } from 'dns';
 
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { strictAssert } from './assert';
+
+const ORIGINAL_SERVERS = getServers();
+const FALLBACK_SERVERS = ['1.1.1.1'];
 
 export function lookupWithFallback(
   hostname: string,
@@ -37,6 +46,7 @@ export function lookupWithFallback(
       fallbackErr: NodeJS.ErrnoException | null,
       records: Array<string>
     ): void => {
+      setServers(ORIGINAL_SERVERS);
       if (fallbackErr) {
         return callback(fallbackErr, '', 0);
       }
@@ -53,6 +63,7 @@ export function lookupWithFallback(
       callback(null, records[index], family);
     };
 
+    setServers(FALLBACK_SERVERS);
     if (family === 4) {
       resolve4(hostname, onRecords);
     } else {
