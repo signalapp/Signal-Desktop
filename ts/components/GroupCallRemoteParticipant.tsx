@@ -37,6 +37,7 @@ type BasePropsType = {
   i18n: LocalizerType;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
+  remoteParticipantsCount: number;
 };
 
 type InPipPropsType = {
@@ -65,6 +66,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       getGroupCallVideoFrameSource,
       i18n,
       onVisibilityChanged,
+      remoteParticipantsCount,
     } = props;
 
     const {
@@ -81,6 +83,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       sharingScreen,
       title,
       videoAspectRatio,
+      presenting,
     } = props.remoteParticipant;
 
     const isSpeaking = useValueAtFixedRate(
@@ -278,6 +281,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           className={classNames(
             'module-ongoing-call__group-call-remote-participant',
             isSpeaking &&
+              !presenting &&
+              remoteParticipantsCount > 1 &&
               'module-ongoing-call__group-call-remote-participant--speaking'
           )}
           ref={intersectionRef}

@@ -40,6 +40,7 @@ const defaultProps = {
   i18n,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
   remoteAudioLevels: new Map<number, number>(),
+  remoteParticipantsCount: 1,
 };
 
 // This component is usually rendered on a call screen.

@@ -16,6 +16,7 @@ const i18n = setupI18n('en', enMessages);
 
 type OverridePropsType = {
   audioLevel?: number;
+  remoteParticipantsCount?: number;
 } & (
   | {
       isInPip: true;
@@ -36,9 +37,11 @@ const createProps = (
   {
     isBlocked = false,
     hasRemoteAudio = false,
+    presenting = false,
   }: {
     isBlocked?: boolean;
     hasRemoteAudio?: boolean;
+    presenting?: boolean;
   } = {}
 ): PropsType => ({
   getFrameBuffer,
@@ -50,7 +53,7 @@ const createProps = (
     demuxId: 123,
     hasRemoteAudio,
     hasRemoteVideo: true,
-    presenting: false,
+    presenting,
     sharingScreen: false,
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
@@ -60,6 +63,7 @@ const createProps = (
       uuid: '992ed3b9-fc9b-47a9-bdb4-e0c7cbb0fda5',
     }),
   },
+  remoteParticipantsCount: 1,
   ...overrideProps,
 });
 
@@ -82,20 +86,30 @@ export function Default(): JSX.Element {
 }
 
 export function Speaking(): JSX.Element {
+  function createSpeakingProps(
+    index: number,
+    remoteParticipantsCount: number,
+    presenting: boolean
+  ) {
+    return createProps(
+      {
+        isInPip: false,
+        height: 120,
+        left: (120 + 10) * index,
+        top: 0,
+        width: 120,
+        audioLevel: select('audioLevel', [0, 0.5, 1], 0.5),
+        remoteParticipantsCount,
+      },
+      { hasRemoteAudio: true, presenting }
+    );
+  }
   return (
-    <GroupCallRemoteParticipant
-      {...createProps(
-        {
-          isInPip: false,
-          height: 120,
-          left: 0,
-          top: 0,
-          width: 120,
-          audioLevel: select('audioLevel', [0, 0.5, 1], 0.5),
-        },
-        { hasRemoteAudio: true }
-      )}
-    />
+    <>
+      <GroupCallRemoteParticipant {...createSpeakingProps(0, 1, false)} />
+      <GroupCallRemoteParticipant {...createSpeakingProps(1, 2, false)} />
+      <GroupCallRemoteParticipant {...createSpeakingProps(2, 2, true)} />
+    </>
   );
 }
 

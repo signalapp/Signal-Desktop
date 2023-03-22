@@ -25,6 +25,7 @@ type PropsType = {
   ) => unknown;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
+  remoteParticipantsCount: number;
 };
 
 export function GroupCallOverflowArea({
@@ -34,6 +35,7 @@ export function GroupCallOverflowArea({
   onParticipantVisibilityChanged,
   overflowedParticipants,
   remoteAudioLevels,
+  remoteParticipantsCount,
 }: PropsType): JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
@@ -123,6 +125,7 @@ export function GroupCallOverflowArea({
               OVERFLOW_PARTICIPANT_WIDTH / remoteParticipant.videoAspectRatio
             )}
             remoteParticipant={remoteParticipant}
+            remoteParticipantsCount={remoteParticipantsCount}
           />
         ))}
       </div>

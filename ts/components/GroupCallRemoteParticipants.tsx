@@ -295,6 +295,7 @@ export function GroupCallRemoteParticipants({
             remoteParticipant={remoteParticipant}
             top={top}
             width={renderedWidth}
+            remoteParticipantsCount={remoteParticipants.length}
           />
         );
       });
@@ -438,6 +439,7 @@ export function GroupCallRemoteParticipants({
             onParticipantVisibilityChanged={onParticipantVisibilityChanged}
             overflowedParticipants={overflowedParticipants}
             remoteAudioLevels={remoteAudioLevels}
+            remoteParticipantsCount={remoteParticipants.length}
           />
         </div>
       )}
