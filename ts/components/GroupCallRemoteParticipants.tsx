@@ -296,6 +296,7 @@ export function GroupCallRemoteParticipants({
             top={top}
             width={renderedWidth}
             remoteParticipantsCount={remoteParticipants.length}
+            isActiveSpeakerInSpeakerView={isInSpeakerView}
           />
         );
       });

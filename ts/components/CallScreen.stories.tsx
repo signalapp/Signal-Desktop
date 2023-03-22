@@ -105,7 +105,17 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
   remoteParticipants: overrideProps.remoteParticipants || [],
-  remoteAudioLevels: new Map<number, number>(),
+  remoteAudioLevels: new Map<number, number>(
+    overrideProps.remoteParticipants?.map((_participant, index) => [
+      index,
+      number('remoteAudioLevel', 0, {
+        range: true,
+        min: 0,
+        max: 1,
+        step: 0.01,
+      }),
+    ])
+  ),
 });
 
 const createActiveCallProp = (

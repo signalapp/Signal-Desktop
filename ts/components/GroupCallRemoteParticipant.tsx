@@ -35,6 +35,7 @@ type BasePropsType = {
   getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  isActiveSpeakerInSpeakerView: boolean;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
   remoteParticipantsCount: number;
@@ -67,6 +68,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       i18n,
       onVisibilityChanged,
       remoteParticipantsCount,
+      isActiveSpeakerInSpeakerView,
     } = props;
 
     const {
@@ -83,7 +85,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       sharingScreen,
       title,
       videoAspectRatio,
-      presenting,
     } = props.remoteParticipant;
 
     const isSpeaking = useValueAtFixedRate(
@@ -281,7 +282,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           className={classNames(
             'module-ongoing-call__group-call-remote-participant',
             isSpeaking &&
-              !presenting &&
+              !isActiveSpeakerInSpeakerView &&
               remoteParticipantsCount > 1 &&
               'module-ongoing-call__group-call-remote-participant--speaking'
           )}

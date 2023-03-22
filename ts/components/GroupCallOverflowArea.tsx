@@ -126,6 +126,7 @@ export function GroupCallOverflowArea({
             )}
             remoteParticipant={remoteParticipant}
             remoteParticipantsCount={remoteParticipantsCount}
+            isActiveSpeakerInSpeakerView={false}
           />
         ))}
       </div>

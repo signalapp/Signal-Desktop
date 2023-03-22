@@ -172,6 +172,7 @@ export function CallingPipRemoteVideo({
             isInPip
             remoteParticipant={activeGroupCallSpeaker}
             remoteParticipantsCount={activeCall.remoteParticipants.length}
+            isActiveSpeakerInSpeakerView={false}
           />
         </div>
       );

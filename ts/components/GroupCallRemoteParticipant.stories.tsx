@@ -64,6 +64,7 @@ const createProps = (
     }),
   },
   remoteParticipantsCount: 1,
+  isActiveSpeakerInSpeakerView: false,
   ...overrideProps,
 });
 
