@@ -62,9 +62,13 @@ export default {
     onDeleteList: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
+    onMediaPlaybackStart: { action: true },
     onSend: { action: true },
     onViewersUpdated: { action: true },
     setMyStoriesToAllSignalConnections: { action: true },
+    mostRecentActiveStoryTimestampByGroupOrDistributionList: {
+      defaultValue: {},
+    },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },

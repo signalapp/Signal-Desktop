@@ -7,11 +7,13 @@ import { mapValues } from 'lodash';
 
 import type { IPCType } from '../../window.d';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
+import { getSignalConnections } from '../../util/getSignalConnections';
 import { UUIDKind } from '../../types/UUID';
 import { ThemeType } from '../../types/Util';
 import { getEnvironment, Environment } from '../../environment';
 import { SignalContext } from '../context';
 import * as log from '../../logging/log';
+import { formatCountForLogging } from '../../logging/formatCountForLogging';
 import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
@@ -202,7 +204,12 @@ ipc.on('additional-log-data-request', async event => {
       const valueString = value && value !== 'TRUE' ? ` ${value}` : '';
       return `${enableString}${valueString}`;
     }),
-    statistics,
+    statistics: {
+      ...statistics,
+      signalConnectionCount: formatCountForLogging(
+        getSignalConnections().length
+      ),
+    },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
       e164: window.textsecure.storage.user.getNumber(),
