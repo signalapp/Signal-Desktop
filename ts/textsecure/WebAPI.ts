@@ -28,6 +28,7 @@ import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isPnpEnabled } from '../util/isPnpEnabled';
+import { lookupWithFallback } from '../util/dns';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -243,6 +244,7 @@ async function _promiseAjax(
       agent: proxyUrl
         ? new ProxyAgent(proxyUrl)
         : new Agent({
+            lookup: lookupWithFallback,
             keepAlive: !options.disableSessionResumption,
             maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
           }),

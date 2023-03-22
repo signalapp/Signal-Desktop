@@ -10,6 +10,7 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
+import { lookupWithFallback } from '../util/dns';
 import * as log from '../logging/log';
 import * as Timers from '../Timers';
 import { ConnectTimeoutError, HTTPError } from './Errors';
@@ -55,6 +56,7 @@ export function connect<Resource extends IResource>({
     tlsOptions: {
       ca: certificateAuthority,
       agent: proxyAgent,
+      lookup: lookupWithFallback,
     },
     maxReceivedFrameSize: 0x210000,
   });

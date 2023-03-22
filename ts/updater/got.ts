@@ -8,6 +8,7 @@ import ProxyAgent from 'proxy-agent';
 import * as packageJson from '../../package.json';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
+import { lookupWithFallback } from '../util/dns';
 
 export const GOT_CONNECT_TIMEOUT = durations.MINUTE;
 export const GOT_LOOKUP_TIMEOUT = durations.MINUTE;
@@ -37,6 +38,7 @@ export function getGotOptions(): GotOptions {
     https: {
       certificateAuthority,
     },
+    lookup: lookupWithFallback as GotOptions['lookup'],
     headers: {
       'Cache-Control': 'no-cache',
       'User-Agent': getUserAgent(packageJson.version),
