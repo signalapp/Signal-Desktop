@@ -2197,7 +2197,7 @@
     "message": "재연결"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "사용할 수 있는 업데이트가 있습니다."
   },
   "autoUpdateRetry": {
     "message": "업데이트 다시 시도"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "업데이트 다운로드 중...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "업데이트 다운로드 완료",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "'개인 메모' 채팅을 더 쉽게 찾을 수 있게 도와주는 새로운 아이콘으로 더 빨리 나에게 메시지를 보내세요. GitHub의 {hackerbirds}의 기여에 감사드립니다.",
     "description": "Release notes for v6.11"
   }
 }

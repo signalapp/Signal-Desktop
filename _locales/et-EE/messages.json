@@ -2197,7 +2197,7 @@
     "message": "Ühenda uuesti"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Uuendus on saadaval"
   },
   "autoUpdateRetry": {
     "message": "Proovi uuesti uuendada"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Uuenduse allalaadimine …",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Uuendus alla laaditud",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Selleks, et saaksid veel kiiremini märkmeid teha, lõime uue ikooni, mille abil „Meelespea endale“ on lihtsam leida. Aitäh sinu panuse eest, GitHubi kasutaja {hackerbirds}.",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "Poveži"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Na voljo je posodobitev"
   },
   "autoUpdateRetry": {
     "message": "Ponovno poskusite s posodobitvijo"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Prenos posodobitve ...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Posodobitev prenesena",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Začnite se pogovarjati sami s seboj še hitreje z novo ikono, ki olajša iskanje klepeta »Zabeležka zame«. Hvala {hackerbirds} na GitHubu za njen/-gov prispevek.",
     "description": "Release notes for v6.11"
   }
 }

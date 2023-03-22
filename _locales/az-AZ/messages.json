@@ -2197,7 +2197,7 @@
     "message": "Yenidən əlaqə yarat"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Yeniləmə mövcuddur"
   },
   "autoUpdateRetry": {
     "message": "Yenidən sınayın"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Yeniləmə yüklənir...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Yeniləmə yükləndi",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "“Özünə Qeyd” söhbətini tapmağı asanlaşdıran yeni piktoqram ilə özünüzlə daha qısa zamanda danışmağa başlayın. GitHub-da verdiyi töhfəyə görə {hackerbirds} adlı istifadəçiyə təşəkkür edirik.",
     "description": "Release notes for v6.11"
   }
 }

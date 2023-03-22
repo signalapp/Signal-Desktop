@@ -2197,7 +2197,7 @@
     "message": "قايتا ئۇلاش"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "يېڭىلاشقا بولىدۇ"
   },
   "autoUpdateRetry": {
     "message": "يېڭىلاشنى قايتا سىناش"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "يېڭىلانمىنى چۈشۈرۈۋاتىدۇ...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "يېڭىلانما چۈشۈرۈلدى",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "«ئۆزىڭىزگە ئەسكەرتىش» پاراڭ رامكىسىنى تېپىشنى تېخىمۇ قولايلاشتۇرىدىغان يېڭى سىنبەلگە ئارقىلىق ئۆزىڭىزگە تېزلا سۆز قالدۇرالايسىز. GitHub دىكى «{hackerbirds}» نىڭ قوشقان تۆھپىسىگە رەھمەت بىلدۈرىمىز.",
     "description": "Release notes for v6.11"
   }
 }

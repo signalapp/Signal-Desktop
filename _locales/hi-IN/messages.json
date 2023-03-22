@@ -2197,7 +2197,7 @@
     "message": "फिर से लिंक"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "अपडेट उपलब्ध"
   },
   "autoUpdateRetry": {
     "message": "अपडेट का फिर से प्रयास करें"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "अपडेट डाउनलोड हो रही है...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "अपडेट डाउनलोड किया गया",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "एक नए आइकन के साथ अपने आप से और भी तेजी से बात करना शुरू करें जो \"स्वयं को लिखें\" चैट को खोजने में आसान बनाता है। GitHub पर {hackerbirds} को उनके योगदान के लिए धन्यवाद।",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ"
   },
   "autoUpdateRetry": {
     "message": "အပ်ဒိတ်လုပ်ဆောင်မှု ပြန်ကြိုးစားရန်"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "အပ်ဒိတ်ကို ဒေါင်းလုဒ်လုပ်နေဆဲ...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "အပ်ဒိတ် ဒေါင်းလုဒ်လုပ်ပြီး",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "“မိမိမှတ်စု” ချက်(တ်)ကို ရှာဖွေရ ပိုမိုလွယ်ကူအောင် ပြုလုပ်ထားသည့် အိုင်ကွန်အသစ်ဖြင့် သင့်ကိုယ်သင် ပိုမိုမြန်ဆန်စွာ စကား စပြောကြည့်ပါ။ GitHub ရှိ {hackerbirds} ၏ ပံ့ပိုးကူညီမှုများအတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for v6.11"
   }
 }

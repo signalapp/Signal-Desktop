@@ -2197,7 +2197,7 @@
     "message": "ಪುನಃ ಲಿಂಕ್ ಮಾಡಿ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "ಅಪ್‌ಡೇಟ್ ಲಭ್ಯವಿದೆ"
   },
   "autoUpdateRetry": {
     "message": "ಅಪ್‌ಡೇಟ್‌ಗೆ ಮರುಪ್ರಯತ್ನಿಸಿ"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "ಅಪ್‌ಡೇಟ್ ಡೌನ್‌ಲೋಡ್ ಆಗಿದೆ",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "“ಸ್ವಯಂ ಟಿಪ್ಪಣಿ” ಚಾಟ್ ಅನ್ನು ಹುಡುಕಲು ಸುಲಭವಾಗುವಂತೆ ಮಾಡುವ ಹೊಸ ಐಕಾನ್‌ ಮೂಲಕ ನಿಮ್ಮೊಂದಿಗೆ ಇನ್ನಷ್ಟು ವೇಗವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿ. GitHub ನಲ್ಲಿ {hackerbirds} ಅವರ ಕೊಡುಗೆಗಾಗಿ ಧನ್ಯವಾದಗಳು.",
     "description": "Release notes for v6.11"
   }
 }

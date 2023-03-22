@@ -2197,7 +2197,7 @@
     "message": "Rilidhe"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Ka përditësim të gatshëm"
   },
   "autoUpdateRetry": {
     "message": "Riprovoni përditësim"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Përditësimi po shkarkohet...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Përditësimi u shkarkua",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Fillo të bisedosh me veten edhe më shpejt me një ikonë të re, që e bën më të lehtë gjetjen e bisedës \"Shënim për veten\". Faleminderit {hackerbirds} në GitHub për kontributin e tyre.",
     "description": "Release notes for v6.11"
   }
 }

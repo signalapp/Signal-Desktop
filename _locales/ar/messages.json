@@ -2197,7 +2197,7 @@
     "message": "إعادة الربط"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "هناك تحديث جديد"
   },
   "autoUpdateRetry": {
     "message": "إعادة محاولة التحديث"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "جارٍ تنزيل التحديث…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "تم تنزيل التحديث",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "تحدّث إلى نفسك بشكل أسرع باستخدام أيقونة جديدة تُسهِّل عليك العثور على دردشة \"الملاحظات الشخصية\". نشكر {hackerbirds} من GitHub على مُساهمتهم.",
     "description": "Release notes for v6.11"
   }
 }

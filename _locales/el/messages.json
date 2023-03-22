@@ -2197,7 +2197,7 @@
     "message": "Επανασύνδεση"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Διαθέσιμη αναβάθμιση"
   },
   "autoUpdateRetry": {
     "message": "Επανάληψη αναβάθμισης"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Λήψη ενημέρωσης...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Έγινε λήψη της ενημέρωσης",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Ξεκίνα να μιλάς στον εαυτό σου ακόμα πιο γρήγορα με ένα νέο εικονίδιο που διευκολύνει την εύρεση της συνομιλίας \"Σημείωση για εμένα\". Ευχαριστούμε τον χρήστη {hackerbirds} στο GitHub για τη συνεισφορά του.",
     "description": "Release notes for v6.11"
   }
 }

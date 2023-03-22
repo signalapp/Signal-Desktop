@@ -2197,7 +2197,7 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "განახლება ხელმისაწვდომია"
   },
   "autoUpdateRetry": {
     "message": "განახლების ხელახლა ცდა"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "მიმდინარეობს განახლების გადმოწერა...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "განახლება გადმოწერილია",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "დაიწყე საკუთარ თავთან საუბარი კიდევ უფრო სწრაფად ახალი ხატულას დახმარებით, რომელიც ჩატის, \"ჩემი ჩანიშვნები\" პოვნას აადვილებს. მადლობა {hackerbirds}-ს GitHub-ზე მათი წვლილისთვის.",
     "description": "Release notes for v6.11"
   }
 }

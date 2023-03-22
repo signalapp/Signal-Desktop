@@ -2197,7 +2197,7 @@
     "message": "Pautkan semula"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Kemas kini tersedia"
   },
   "autoUpdateRetry": {
     "message": "Cuba semula kemas kini"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Memuat Turun Kemas Kini...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Kemas Kini Dimuat Turun",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Mula bercakap dengan diri sendiri dengan lebih pantas menggunakan ikon baharu yang menjadikan sembang \"Nota untuk Diri Sendiri\" lebih mudah dicari. Terima kasih kepada {hackerbirds} di GitHub atas sumbangan mereka.",
     "description": "Release notes for v6.11"
   }
 }

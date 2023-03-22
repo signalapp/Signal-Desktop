@@ -2197,7 +2197,7 @@
     "message": "Tái liên kết"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Cập nhật có sẵn"
   },
   "autoUpdateRetry": {
     "message": "Thử cập nhật lại"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Đang tải Bản Cập Nhật…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Đã tải Bản Cập Nhật",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Bắt đầu trò chuyện với chính mình nhanh chóng hơn với biểu tượng mới giúp bạn tìm được cuộc trò chuyện với \"Ghi chú\" dễ dàng hơn. Cảm ơn {hackerbirds} vì đóng góp của bạn trên GitHub.",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "Atkārtoti saistīt"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Pieejams atjauninājums"
   },
   "autoUpdateRetry": {
     "message": "Vēlreiz mēģināt atjaunināt"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Notiek atjauninājuma lejupielāde…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Atjauninājums ir lejupielādēts",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Sāciet sarunu ar sevi vēl ātrāk, izmantojot jauno ikonu, kas atvieglo sarunas “Piezīme sev” atrašanu. Paldies {hackerbirds} no GitHub par palīdzību.",
     "description": "Release notes for v6.11"
   }
 }

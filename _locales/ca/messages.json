@@ -2197,7 +2197,7 @@
     "message": "Torna a enllaçar"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Actualització disponible"
   },
   "autoUpdateRetry": {
     "message": "Torneu a intentar d'actualitzar"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Descarregant l'actualització…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Actualització descarregada",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Comença a parlar amb tu mateix encara més ràpidament amb una nova icona que fa que el xat \"Notes personals\" sigui més fàcil de trobar. Gràcies a {hackerbirds} a GitHub per la seva contribució.",
     "description": "Release notes for v6.11"
   }
 }

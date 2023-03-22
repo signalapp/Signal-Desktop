@@ -2197,7 +2197,7 @@
     "message": "再リンク"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "アップデートがあります"
   },
   "autoUpdateRetry": {
     "message": "アップデートを再試行"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "アップデートをダウンロード中です...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "アップデートがダウンロードされました",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "「自分用メモ」チャットを見つけやすくする新しいアイコンを使用することで、より早く覚え書きができるようになりました。ご協力いただいた GitHub の {hackerbirds} に感謝します。",
     "description": "Release notes for v6.11"
   }
 }
