@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "Note à mon intention",
+    "message": "Note à mon attention",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "Relier de nouveau"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Une mise à jour est proposée"
   },
   "autoUpdateRetry": {
     "message": "Retenter la mise à jour"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Téléchargement de la mise à jour en cours…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Mise à jour téléchargée",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Commencez à vous écrire à vous-même encore plus rapidement grâce à une nouvelle icône qui vous permet de trouver la conversation « Note à mon attention » plus facilement. Nous souhaitons remercier {hackerbirds} sur GitHub pour sa contribution.",
     "description": "Release notes for v6.11"
   }
 }

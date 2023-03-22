@@ -2197,7 +2197,7 @@
     "message": "Свържете отново"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Налична е актуализация"
   },
   "autoUpdateRetry": {
     "message": "Повторен опит за актуализация"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Актуализацията се изтегля...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Актуализацията е изтеглена",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Започнете да си говорите сами още по-бързо с нова икона, която улеснява намирането на чата „Бележка към себе си“. Благодарим на {hackerbirds} от GitHub за приноса.",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "Unganisha upya"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Sasisho jipya la Signal linapatikana"
   },
   "autoUpdateRetry": {
     "message": "Jaribu tena sasisho"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Sasisho Linapakuliwa...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Sasisho Limepakuliwa",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Anza kujiongelesha kwa haraka zaidi kupitia icon inayofanya gumzo la \"Kidokezo Kwangu Mwenyewe\" rahisi kupatikana. Asante kwa {hackerbirds} kwenye GitHub kwa mchango wao.",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "重新連結"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "更新版本有得下載喇"
   },
   "autoUpdateRetry": {
     "message": "再試吓更新"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "下載緊更新...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "已經下載咗更新",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "全新圖示可以幫你輕鬆揾到「俾自己嘅筆記」聊天，更快同自己開始對話。多謝 {hackerbirds} 喺 GitHub 嘅貢獻。",
     "description": "Release notes for v6.11"
   }
 }

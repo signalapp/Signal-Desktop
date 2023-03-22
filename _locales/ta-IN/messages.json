@@ -2197,7 +2197,7 @@
     "message": "இணைக்கவும்"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "புதுப்பிப்பு கிடைக்கிறது"
   },
   "autoUpdateRetry": {
     "message": "புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "புதுப்பிப்பைப் பதிவிறக்குகிறது...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "புதுப்பிப்பு பதிவிறக்கப்பட்டது",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "\"தனக்கான குறிப்பு\" சாட்டைக் கண்டுபிடிப்பதை எளிதாக்கும் புதிய ஐகானைக் கொண்டு உங்களுடன் இன்னும் வேகமாகப் பேசத் தொடங்குங்கள். GitHub இல் {hackerbirds} அவர்களின் பங்களிப்புக்கு நன்றி.",
     "description": "Release notes for v6.11"
   }
 }

@@ -2197,7 +2197,7 @@
     "message": "เชื่อมโยงอีกครั้ง"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "การปรับรุ่นพร้อมให้บริการ"
   },
   "autoUpdateRetry": {
     "message": "ลองปรับรุ่นอีกครั้ง"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "กำลังดาวน์โหลดการอัปเดต…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "ดาวน์โหลดการอัปเดตแล้ว",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "เริ่มต้น \"คุยกับตัวเอง\" ได้เร็วขึ้นอีก ด้วยไอคอนใหม่ที่จะทำให้คุณเจอแชท \"บันทึกส่วนตัว\" ได้ทันใจและง่ายกว่าเดิม ต้องขอบคุณ {hackerbirds} จาก GitHub สำหรับการปรับปรุงดีๆ ในครั้งนี้",
     "description": "Release notes for v6.11"
   }
 }

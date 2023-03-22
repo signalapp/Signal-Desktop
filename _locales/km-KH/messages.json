@@ -2036,7 +2036,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "កំណត់ចំណាំខ្លួនឯង",
+    "message": "កំណត់ចំណាំផ្ទាល់ខ្លួន",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2197,7 +2197,7 @@
     "message": "តភ្ជាប់ឡើងវិញ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "មានកំណែថ្មី"
   },
   "autoUpdateRetry": {
     "message": "ព្យាយាមដំឡើងកំណែថ្មីម្តងទៀត"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "កំពុងទាញយកកំណែថ្មី…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "កំណែថ្មីត្រូវបានទាញយក",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "ចាប់ផ្តើមនិយាយជាមួយខ្លួនអ្នកកាន់តែលឿនជាងមុន ដោយប្រើរូបតំណាងថ្មីមួយដែលធ្វើឲ្យកាន់តែងាយស្រួលរកការជជែកនៅក្នុង “កំណត់ចំណាំផ្ទាល់ខ្លួន”។ សូមអរគុណដល់ {hackerbirds} នៅលើ GitHub ចំពោះការចូលរួមចំណែករបស់គេ។",
     "description": "Release notes for v6.11"
   }
 }

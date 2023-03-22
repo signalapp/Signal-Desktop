@@ -2197,7 +2197,7 @@
     "message": "Athnasc"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Nuashonrú ar fáil"
   },
   "autoUpdateRetry": {
     "message": "Atriail nuashonrú"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Nuashonrú á íoslódáil...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Nuashonrú Íoslódáilte",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Tosaigh ag caint leat féin níos gasta arís le deilbhín nua a aimsíonn an comhrá \"Nóta Chugam Féin\" níos éasca. Buíochas le {hackerbirds} ar GitHub as an méid a tugadh.",
     "description": "Release notes for v6.11"
   }
 }

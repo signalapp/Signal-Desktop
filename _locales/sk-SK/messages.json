@@ -2197,7 +2197,7 @@
     "message": "Prepojiť znovu"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Dostupná aktualizácia"
   },
   "autoUpdateRetry": {
     "message": "Skúste aktualizáciu znova"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Sťahuje sa aktualizácia…",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Aktualizácia bola stiahnutá",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Začnite sa rozprávať sami so sebou ešte rýchlejšie s novou ikonou, vďaka ktorej teraz ľahšie nájdete čet „Poznámka pre seba“. Ďakujeme používateľovi {hackerbirds} na GitHube za jeho prínos.",
     "description": "Release notes for v6.11"
   }
 }

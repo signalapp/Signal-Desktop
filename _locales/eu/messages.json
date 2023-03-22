@@ -2197,7 +2197,7 @@
     "message": "Birlotu"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update Available"
+    "message": "Eguneratze bat dago"
   },
   "autoUpdateRetry": {
     "message": "Saiatu berriro eguneratzen"
@@ -5601,11 +5601,11 @@
     "description": "Tooltip for new update available"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Downloading Update...",
+    "messageformat": "Eguneraketa deskargatzen...",
     "description": "The title of update dialog when update download is in progress."
   },
   "icu:DialogUpdate__downloaded": {
-    "messageformat": "Update Downloaded",
+    "messageformat": "Deskargatu da eguneraketa",
     "description": "The title of update dialog when update download is completed."
   },
   "NSIS__retry-dialog--first-line": {
@@ -6589,7 +6589,7 @@
     "description": "Release notes for v6.10"
   },
   "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
+    "messageformat": "Hasi zure buruarekin are azkarrago hitz egiten, \"Bakoitzarentzako oharra\" txata errazago aurkitzeko ikono berri batekin. Eskerrik asko GitHub-eko {hackerbirds}-(r)i egindako ekarpenagatik.",
     "description": "Release notes for v6.11"
   }
 }
