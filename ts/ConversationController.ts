@@ -999,6 +999,7 @@ export class ConversationController {
         'draftTimestamp',
         'messageCount',
         'messageRequestResponseType',
+        'profileSharing',
         'quotedMessageId',
         'sentMessageCount',
       ]
