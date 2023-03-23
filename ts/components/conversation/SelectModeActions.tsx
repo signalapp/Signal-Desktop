@@ -115,7 +115,9 @@ export default function SelectModeActions({
             setConfirmDelete(false);
           }}
         >
-          {i18n('icu:SelectModeActions__confirmDelete--description')}
+          {i18n('icu:SelectModeActions__confirmDelete--description', {
+            count: selectedMessageIds.length,
+          })}
         </ConfirmationDialog>
       )}
     </>

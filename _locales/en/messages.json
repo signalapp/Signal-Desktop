@@ -4656,7 +4656,7 @@
     "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
-    "messageformat": "This message will be deleted from this device.",
+    "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from this device.",
     "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
