@@ -98,6 +98,7 @@ import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
+import { isMacOS } from '../../OS';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -2605,6 +2606,15 @@ export class Message extends React.PureComponent<Props, State> {
       };
     } else {
       wrapperProps = {
+        // We use `onClickCapture` here and preven default/stop propagation to
+        // prevent other click handlers from firing.
+        onClickCapture: event => {
+          if (isMacOS() ? event.metaKey : event.ctrlKey) {
+            event.preventDefault();
+            event.stopPropagation();
+            onToggleSelect(true, false);
+          }
+        },
         onDoubleClick: event => {
           event.stopPropagation();
           event.preventDefault();
