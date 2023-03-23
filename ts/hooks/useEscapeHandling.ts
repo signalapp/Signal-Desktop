@@ -17,14 +17,10 @@ export function useEscapeHandling(handleEscape?: () => unknown): void {
         event.stopPropagation();
       }
     };
-    document.addEventListener('keydown', handler, {
-      capture: true,
-    });
+    document.addEventListener('keydown', handler);
 
     return () => {
-      document.removeEventListener('keydown', handler, {
-        capture: true,
-      });
+      document.removeEventListener('keydown', handler);
     };
   }, [handleEscape]);
 }
