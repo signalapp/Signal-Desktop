@@ -3,10 +3,7 @@ import React from 'react';
 
 import { SpacerLG } from '../../basic/Text';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getConversationRequests,
-  getSelectedConversation,
-} from '../../../state/selectors/conversations';
+import { getConversationRequests } from '../../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -20,6 +17,7 @@ import {
   resetConversationExternal,
 } from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 const MessageRequestListPlaceholder = styled.div`
   color: var(--conversation-tab-text-color);
@@ -55,7 +53,7 @@ export const OverlayMessageRequest = () => {
   }
   const convoRequestCount = useSelector(getConversationRequests).length;
   const messageRequests = useSelector(getConversationRequests);
-  const selectedConversation = useSelector(getSelectedConversation);
+  const selectedConvoId = useSelectedConversationKey();
 
   const buttonText = window.i18n('clearAll');
 
@@ -94,7 +92,7 @@ export const OverlayMessageRequest = () => {
               await convoModel.setIsApproved(false);
 
               // if we're looking at the convo to decline, close the convo
-              if (selectedConversation?.id === id) {
+              if (selectedConvoId === id) {
                 dispatch(resetConversationExternal());
               }
               return true;

@@ -87,22 +87,19 @@ export class ConversationController {
       throw new Error('getConversationController().get() needs complete initial fetch');
     }
 
-    let conversation = this.conversations.get(id);
-    if (conversation) {
-      return conversation;
+    if (this.conversations.get(id)) {
+      return this.conversations.get(id) as ConversationModel;
     }
 
-    conversation = this.conversations.add({
+    const conversation = this.conversations.add({
       id,
       type,
     });
 
     const create = async () => {
       try {
-        const saveDetails = await Data.saveConversation(conversation.attributes);
-        if (saveDetails) {
-          await conversation.refreshInMemoryDetails(saveDetails);
-        }
+        // this saves to DB and to the required wrapper
+        await conversation.commit();
       } catch (error) {
         window?.log?.error(
           'Conversation save failed! ',
@@ -114,25 +111,22 @@ export class ConversationController {
         throw error;
       }
 
-      return conversation;
-    };
+      window?.inboxStore?.dispatch(
+        conversationActions.conversationAdded({
+          id: conversation.id,
+          data: conversation.getConversationModelProps(),
+        })
+      );
 
-    conversation.initialPromise = create();
-    conversation.initialPromise.then(() => {
-      if (window?.inboxStore) {
-        window.inboxStore?.dispatch(
-          conversationActions.conversationAdded({
-            id: conversation.id,
-            data: conversation.getConversationModelProps(),
-          })
-        );
-      }
       if (!conversation.isPublic() && conversation.isActive()) {
         // NOTE: we request snodes updating the cache, but ignore the result
 
         void getSwarmFor(id);
       }
-    });
+      return conversation;
+    };
+
+    conversation.initialPromise = create();
 
     return conversation;
   }

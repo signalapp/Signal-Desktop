@@ -1,6 +1,6 @@
 import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
@@ -11,7 +11,7 @@ import {
   updateReactListModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
-import { getSelectedConversationIsPublic } from '../../state/selectors/conversations';
+import { useSelectedIsPublic } from '../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
@@ -228,7 +228,7 @@ export const ReactListModal = (props: Props): ReactElement => {
   const [senders, setSenders] = useState<Array<string>>([]);
 
   const msgProps = useMessageReactsPropsById(messageId);
-  const isPublic = useSelector(getSelectedConversationIsPublic);
+  const isPublic = useSelectedIsPublic();
   const weAreModerator = useWeAreModerator(msgProps?.convoId);
   const me = UserUtils.getOurPubKeyStrFromCache();
 

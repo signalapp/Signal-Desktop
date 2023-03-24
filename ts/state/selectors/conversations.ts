@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
@@ -11,12 +10,8 @@ import {
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
+import { StateType } from '../reducer';
 
-import { getIntl } from './user';
-import { BlockedNumberController } from '../../util';
-import { ConversationModel } from '../../models/conversation';
-import { LocalizerType } from '../../types/Util';
-import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -30,14 +25,19 @@ import { MessageStatusSelectorProps } from '../../components/conversation/messag
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
+import { ConversationModel } from '../../models/conversation';
+import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
+import { LocalizerType } from '../../types/Util';
+import { BlockedNumberController } from '../../util';
 import { Storage } from '../../util/storage';
-import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import { getIntl } from './user';
 
-import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { getCanWrite, getModeratorsOutsideRedux, getSubscriberCount } from './sogsRoomInfo';
+import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
+import { getModeratorsOutsideRedux } from './sogsRoomInfo';
+import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -51,80 +51,6 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
-
-export const getSelectedConversationKey = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.selectedConversation;
-  }
-);
-
-export const getSelectedConversation = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ReduxConversationType | undefined => {
-    return state.selectedConversation
-      ? state.conversationLookup[state.selectedConversation]
-      : undefined;
-  }
-);
-
-export const getSelectedConversationIsPublic = createSelector(
-  getSelectedConversation,
-  (state: ReduxConversationType | undefined): boolean => {
-    return state?.isPublic || false;
-  }
-);
-
-export function getIsTypingEnabled(state: StateType) {
-  const selectedConvoPubkey = getSelectedConversationKey(state);
-  if (!selectedConvoPubkey) {
-    return false;
-  }
-  const selectedConvo = state.conversations.conversationLookup[selectedConvoPubkey];
-  if (!selectedConvo) {
-    return false;
-  }
-  const canWrite = getCanWrite(state, selectedConvoPubkey);
-  const { isBlocked, isKickedFromGroup, left, isPublic } = selectedConvo;
-
-  return !(isBlocked || isKickedFromGroup || left || (isPublic && !canWrite));
-}
-
-/**
- * Returns true if the current conversation selected is a group conversation.
- * Returns false if the current conversation selected is not a group conversation, or none are selected
- */
-export const getSelectedConversationIsGroup = createSelector(
-  getSelectedConversation,
-  (state: ReduxConversationType | undefined): boolean => {
-    const type = state?.type;
-    return type ? isOpenOrClosedGroup(type) : false;
-  }
-);
-
-/**
- * Returns true if the current conversation selected is a closed group and false otherwise.
- */
-export const isClosedGroupConversation = createSelector(
-  getSelectedConversation,
-  (state: ReduxConversationType | undefined): boolean => {
-    return (
-      (state?.type === ConversationTypeEnum.GROUP && !state.isPublic) ||
-      state?.type === ConversationTypeEnum.GROUPV3 ||
-      false
-    );
-  }
-);
-
-/**
- * Returns true if the current conversation selected is a public group and false otherwise.
- */
-export const isPublicGroupConversation = createSelector(
-  getSelectedConversation,
-  (state: ReduxConversationType | undefined): boolean => {
-    return (state?.type === ConversationTypeEnum.GROUP && state.isPublic) || false;
-  }
-);
 
 export const getOurPrimaryConversation = createSelector(
   getConversations,
@@ -546,85 +472,6 @@ export const getDirectContactsByName = createSelector(
 export const getGlobalUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
   return state.globalUnreadCount;
 });
-
-export const getConversationHeaderTitleProps = (
-  state: StateType
-): ConversationHeaderTitleProps | undefined => {
-  const convo = getSelectedConversation(state);
-  if (!convo) {
-    return undefined;
-  }
-
-  return {
-    isKickedFromGroup: !!convo.isKickedFromGroup,
-    conversationKey: convo.id,
-    isMe: !!convo.isMe,
-    members: convo.members || [],
-    isPublic: !!convo.isPublic,
-    isGroup: isOpenOrClosedGroup(convo.type),
-    currentNotificationSetting: convo.currentNotificationSetting,
-  };
-};
-
-export const getCurrentSubscriberCount = (state: StateType): number | undefined => {
-  const convo = getSelectedConversation(state);
-  if (!convo) {
-    return undefined;
-  }
-  return getSubscriberCount(state, convo.id);
-};
-
-/**
- * Returns the formatted text for notification setting.
- */
-export const getCurrentNotificationSettingText = createSelector(getSelectedConversation, (state):
-  | string
-  | undefined => {
-  if (!state) {
-    return undefined;
-  }
-  switch (state.currentNotificationSetting) {
-    case 'all':
-      return window.i18n('notificationForConvo_all');
-    case 'mentions_only':
-      return window.i18n('notificationForConvo_mentions_only');
-    case 'disabled':
-      return window.i18n('notificationForConvo_disabled');
-    default:
-      return window.i18n('notificationForConvo_all');
-  }
-});
-
-export const getIsSelectedPrivate = createSelector(
-  getSelectedConversation,
-  (selectedProps): boolean => {
-    return selectedProps?.isPrivate || false;
-  }
-);
-
-export const getIsSelectedBlocked = createSelector(
-  getSelectedConversation,
-  (selectedProps): boolean => {
-    return selectedProps?.isBlocked || false;
-  }
-);
-
-/**
- * Returns true if the currently selected conversation is active (has an active_at field > 0)
- */
-export const getIsSelectedActive = createSelector(
-  getSelectedConversation,
-  (selectedProps): boolean => {
-    return Boolean(selectedProps?.activeAt);
-  }
-);
-
-export const getIsSelectedNoteToSelf = createSelector(
-  getSelectedConversation,
-  (selectedProps): boolean => {
-    return selectedProps?.isMe || false;
-  }
-);
 
 export const isMessageDetailView = createSelector(
   getConversations,

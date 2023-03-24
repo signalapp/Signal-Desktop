@@ -24,9 +24,8 @@ import {
 } from './Menu';
 import _ from 'lodash';
 import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
-import { getSelectedConversationKey } from '../../state/selectors/conversations';
-import { useSelector } from 'react-redux';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -35,7 +34,7 @@ export type PropsConversationHeaderMenu = {
 export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   const { triggerId } = props;
 
-  const selectedConversation = useSelector(getSelectedConversationKey);
+  const selectedConversation = useSelectedConversationKey();
 
   if (!selectedConversation) {
     throw new Error('selectedConversation must be set for a header to be visible!');

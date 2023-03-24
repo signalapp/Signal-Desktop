@@ -17,11 +17,11 @@ import {
   getMostRecentMessageId,
   getOldestMessageId,
   getQuotedMessageToAnimate,
-  getSelectedConversationKey,
   getShowScrollButton,
   getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
+import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 type ReadableMessageProps = {
@@ -63,7 +63,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
 
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const selectedConversationKey = useSelectedConversationKey();
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);

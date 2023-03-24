@@ -17,12 +17,14 @@ import {
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
-  getSelectedConversation,
-  getSelectedConversationKey,
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { TypingBubble } from './TypingBubble';
 import styled from 'styled-components';
+import {
+  getSelectedConversation,
+  getSelectedConversationKey,
+} from '../../state/selectors/selectedConversation';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;

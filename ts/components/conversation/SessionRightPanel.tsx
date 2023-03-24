@@ -17,11 +17,7 @@ import {
 } from '../../interactions/conversationInteractions';
 import { Constants } from '../../session';
 import { closeRightPanel } from '../../state/ducks/conversations';
-import {
-  getCurrentSubscriberCount,
-  getSelectedConversation,
-  isRightPanelShowing,
-} from '../../state/selectors/conversations';
+import { isRightPanelShowing } from '../../state/selectors/conversations';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -32,6 +28,18 @@ import { MediaItemType } from '../lightbox/LightboxGallery';
 import { MediaGallery } from './media-gallery/MediaGallery';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
 import styled from 'styled-components';
+import {
+  useSelectedConversationKey,
+  useSelectedDisplayNameInProfile,
+  useSelectedIsActive,
+  useSelectedIsBlocked,
+  useSelectedIsGroup,
+  useSelectedIsKickedFromGroup,
+  useSelectedIsLeft,
+  useSelectedIsPublic,
+  useSelectedSubscriberCount,
+  useSelectedWeAreAdmin,
+} from '../../state/selectors/selectedConversation';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -107,13 +115,16 @@ async function getMediaGalleryProps(
 }
 
 const HeaderItem = () => {
-  const selectedConversation = useSelector(getSelectedConversation);
+  const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
+  const isBlocked = useSelectedIsBlocked();
+  const isKickedFromGroup = useSelectedIsKickedFromGroup();
+  const left = useSelectedIsLeft();
+  const isGroup = useSelectedIsGroup();
 
-  if (!selectedConversation) {
+  if (!selectedConvoKey) {
     return null;
   }
-  const { id, isGroup, isKickedFromGroup, isBlocked, left } = selectedConversation;
 
   const showInviteContacts = isGroup && !isKickedFromGroup && !isBlocked && !left;
 
@@ -129,14 +140,14 @@ const HeaderItem = () => {
         style={{ position: 'absolute' }}
         dataTestId="back-button-conversation-options"
       />
-      <Avatar size={AvatarSize.XL} pubkey={id} />
+      <Avatar size={AvatarSize.XL} pubkey={selectedConvoKey} />
       {showInviteContacts && (
         <SessionIconButton
           iconType="addUser"
           iconSize="medium"
           onClick={() => {
-            if (selectedConversation) {
-              showInviteContactByConvoId(selectedConversation.id);
+            if (selectedConvoKey) {
+              showInviteContactByConvoId(selectedConvoKey);
             }
           }}
           dataTestId="add-user-button"
@@ -191,15 +202,24 @@ export const SessionRightPanelWithDetails = () => {
   const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
 
-  const selectedConversation = useSelector(getSelectedConversation);
+  const selectedConvoKey = useSelectedConversationKey();
   const isShowing = useSelector(isRightPanelShowing);
-  const subscriberCount = useSelector(getCurrentSubscriberCount);
+  const subscriberCount = useSelectedSubscriberCount();
+
+  const isActive = useSelectedIsActive();
+  const displayNameInProfile = useSelectedDisplayNameInProfile();
+  const isBlocked = useSelectedIsBlocked();
+  const isKickedFromGroup = useSelectedIsKickedFromGroup();
+  const left = useSelectedIsLeft();
+  const isGroup = useSelectedIsGroup();
+  const isPublic = useSelectedIsPublic();
+  const weAreAdmin = useSelectedWeAreAdmin();
 
   useEffect(() => {
     let isRunning = true;
 
-    if (isShowing && selectedConversation) {
-      void getMediaGalleryProps(selectedConversation.id).then(results => {
+    if (isShowing && selectedConvoKey) {
+      void getMediaGalleryProps(selectedConvoKey).then(results => {
         if (isRunning) {
           if (!_.isEqual(documents, results.documents)) {
             setDocuments(results.documents);
@@ -216,11 +236,11 @@ export const SessionRightPanelWithDetails = () => {
       isRunning = false;
       return;
     };
-  }, [isShowing, selectedConversation?.id]);
+  }, [isShowing, selectedConvoKey]);
 
   useInterval(async () => {
-    if (isShowing && selectedConversation) {
-      const results = await getMediaGalleryProps(selectedConversation.id);
+    if (isShowing && selectedConvoKey) {
+      const results = await getMediaGalleryProps(selectedConvoKey);
       if (results.documents.length !== documents.length || results.media.length !== media.length) {
         setDocuments(results.documents);
         setMedia(results.media);
@@ -228,23 +248,12 @@ export const SessionRightPanelWithDetails = () => {
     }
   }, 10000);
 
-  if (!selectedConversation) {
+  if (!selectedConvoKey) {
     return null;
   }
 
-  const {
-    id,
-    displayNameInProfile,
-    isKickedFromGroup,
-    left,
-    isPublic,
-    weAreAdmin,
-    isBlocked,
-    isGroup,
-    activeAt,
-  } = selectedConversation;
   const showMemberCount = !!(subscriberCount && subscriberCount > 0);
-  const commonNoShow = isKickedFromGroup || left || isBlocked || !activeAt;
+  const commonNoShow = isKickedFromGroup || left || isBlocked || !isActive;
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
     ? window.i18n('leaveGroup')
@@ -260,7 +269,7 @@ export const SessionRightPanelWithDetails = () => {
     return {
       content: option.name,
       onClick: () => {
-        void setDisappearingMessagesByConvoId(id, option.value);
+        void setDisappearingMessagesByConvoId(selectedConvoKey, option.value);
       },
     };
   });
@@ -272,10 +281,10 @@ export const SessionRightPanelWithDetails = () => {
 
   const deleteConvoAction = isPublic
     ? () => {
-        deleteAllMessagesByConvoIdWithConfirmation(id);
+        deleteAllMessagesByConvoIdWithConfirmation(selectedConvoKey); // TODO this does not delete the public group and showLeaveGroupByConvoId is not only working for closed groups
       }
     : () => {
-        showLeaveGroupByConvoId(id);
+        showLeaveGroupByConvoId(selectedConvoKey);
       };
   return (
     <div className="group-settings">
@@ -295,7 +304,7 @@ export const SessionRightPanelWithDetails = () => {
           className="group-settings-item"
           role="button"
           onClick={async () => {
-            await showUpdateGroupNameByConvoId(id);
+            await showUpdateGroupNameByConvoId(selectedConvoKey);
           }}
         >
           {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
@@ -307,7 +316,7 @@ export const SessionRightPanelWithDetails = () => {
             className="group-settings-item"
             role="button"
             onClick={() => {
-              showAddModeratorsByConvoId(id);
+              showAddModeratorsByConvoId(selectedConvoKey);
             }}
           >
             {window.i18n('addModerators')}
@@ -316,7 +325,7 @@ export const SessionRightPanelWithDetails = () => {
             className="group-settings-item"
             role="button"
             onClick={() => {
-              showRemoveModeratorsByConvoId(id);
+              showRemoveModeratorsByConvoId(selectedConvoKey);
             }}
           >
             {window.i18n('removeModerators')}
@@ -329,7 +338,7 @@ export const SessionRightPanelWithDetails = () => {
           className="group-settings-item"
           role="button"
           onClick={async () => {
-            await showUpdateGroupMembersByConvoId(id);
+            await showUpdateGroupMembersByConvoId(selectedConvoKey);
           }}
         >
           {window.i18n('groupMembers')}

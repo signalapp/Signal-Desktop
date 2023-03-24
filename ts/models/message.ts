@@ -1296,8 +1296,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('titleIsNow', [groupUpdate.name]);
       }
       if (groupUpdate.joined && groupUpdate.joined.length) {
-        const names = groupUpdate.joined.map((pubKey: string) =>
-          getConversationController().getContactProfileNameOrShortenedPubKey(pubKey)
+        const names = groupUpdate.joined.map(
+          getConversationController().getContactProfileNameOrShortenedPubKey
         );
 
         if (names.length > 1) {

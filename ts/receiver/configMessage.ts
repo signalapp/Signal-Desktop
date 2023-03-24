@@ -143,43 +143,43 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       continue;
     }
 
-    const existingConvo = await getConversationController().getOrCreateAndWait(
+    const contactConvo = await getConversationController().getOrCreateAndWait(
       wrapperConvo.id,
       ConversationTypeEnum.PRIVATE
     );
-    if (wrapperConvo.id && existingConvo) {
+    if (wrapperConvo.id && contactConvo) {
       let changes = false;
 
       // the display name set is handled in `updateProfileOfContact`
-      if (wrapperConvo.nickname !== existingConvo.getNickname()) {
-        await existingConvo.setNickname(wrapperConvo.nickname || null, false);
+      if (wrapperConvo.nickname !== contactConvo.getNickname()) {
+        await contactConvo.setNickname(wrapperConvo.nickname || null, false);
         changes = true;
       }
 
-      if (!wrapperConvo.hidden && !existingConvo.isHidden()) {
-        existingConvo.set({ hidden: false });
+      if (!wrapperConvo.hidden && !contactConvo.isHidden()) {
+        contactConvo.set({ hidden: false });
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approved) !== Boolean(existingConvo.isApproved())) {
-        await existingConvo.setIsApproved(Boolean(wrapperConvo.approved), false);
+      if (Boolean(wrapperConvo.approved) !== Boolean(contactConvo.isApproved())) {
+        await contactConvo.setIsApproved(Boolean(wrapperConvo.approved), false);
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approvedMe) !== Boolean(existingConvo.didApproveMe())) {
-        await existingConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
+      if (Boolean(wrapperConvo.approvedMe) !== Boolean(contactConvo.didApproveMe())) {
+        await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approvedMe) !== Boolean(existingConvo.didApproveMe())) {
-        await existingConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
+      if (Boolean(wrapperConvo.approvedMe) !== Boolean(contactConvo.didApproveMe())) {
+        await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
         changes = true;
       }
 
       //TODO priority means more than just isPinned but has an order logic in it too
       const shouldBePinned = wrapperConvo.priority > 0;
-      if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
-        await existingConvo.setIsPinned(shouldBePinned, false);
+      if (shouldBePinned !== Boolean(contactConvo.isPinned())) {
+        await contactConvo.setIsPinned(shouldBePinned, false);
         changes = true;
       }
 
@@ -188,12 +188,12 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
 
       // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
       if (changes) {
-        await existingConvo.commit();
+        await contactConvo.commit();
       }
 
       // we still need to handle the `name` (synchronous) and the `profilePicture` (asynchronous)
       await ProfileManager.updateProfileOfContact(
-        existingConvo.id,
+        contactConvo.id,
         wrapperConvo.name,
         wrapperConvo.profilePicture?.url || null,
         wrapperConvo.profilePicture?.key || null
@@ -273,20 +273,20 @@ async function handleCommunitiesUpdate() {
       fromWrapper.roomCasePreserved
     );
 
-    const existingConvo = getConversationController().get(convoId);
-    if (fromWrapper && existingConvo) {
+    const communityConvo = getConversationController().get(convoId);
+    if (fromWrapper && communityConvo) {
       let changes = false;
 
       //TODO priority means more than just isPinned but has an order logic in it too
       const shouldBePinned = fromWrapper.priority > 0;
-      if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
-        await existingConvo.setIsPinned(shouldBePinned, false);
+      if (shouldBePinned !== Boolean(communityConvo.isPinned())) {
+        await communityConvo.setIsPinned(shouldBePinned, false);
         changes = true;
       }
 
       // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
       if (changes) {
-        await existingConvo.commit();
+        await communityConvo.commit();
       }
     }
   }
@@ -340,8 +340,8 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   for (let index = 0; index < allLegacyGroupsInWrapper.length; index++) {
     const fromWrapper = allLegacyGroupsInWrapper[index];
 
-    const convo = getConversationController().get(fromWrapper.pubkeyHex);
-    if (!convo) {
+    const legacyGroupConvo = getConversationController().get(fromWrapper.pubkeyHex);
+    if (!legacyGroupConvo) {
       // this should not happen as we made sure to create them before
       window.log.warn(
         'could not find legacy group which should already be there:',
@@ -360,8 +360,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       members,
       admins,
       activeAt:
-        !!convo.get('active_at') && convo.get('active_at') < latestEnvelopeTimestamp
-          ? convo.get('active_at')
+        !!legacyGroupConvo.get('active_at') &&
+        legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
+          ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
       weWereJustAdded: false, // TODO to remove
     };
@@ -369,16 +370,16 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 
     let changes = false;
-    if (convo.isPinned() !== fromWrapper.priority > 0) {
-      await convo.setIsPinned(fromWrapper.priority > 0, false);
+    if (legacyGroupConvo.isPinned() !== fromWrapper.priority > 0) {
+      await legacyGroupConvo.setIsPinned(fromWrapper.priority > 0, false);
       changes = true;
     }
-    if (!!convo.isHidden() !== !!fromWrapper.hidden) {
-      convo.set({ hidden: !!fromWrapper.hidden });
+    if (!!legacyGroupConvo.isHidden() !== !!fromWrapper.hidden) {
+      legacyGroupConvo.set({ hidden: !!fromWrapper.hidden });
       changes = true;
     }
-    if (convo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
-      await convo.updateExpireTimer(
+    if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
+      await legacyGroupConvo.updateExpireTimer(
         fromWrapper.disappearingTimerSeconds,
         undefined,
         latestEnvelopeTimestamp,
@@ -390,45 +391,23 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     }
 
     if (changes) {
-      await convo.commit();
+      await legacyGroupConvo.commit();
     }
 
     // save the encryption keypair if needed
     if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
-      const inWrapperKeypair: HexKeyPair = {
-        publicHex: toHex(fromWrapper.encPubkey),
-        privateHex: toHex(fromWrapper.encSeckey),
-      };
+      try {
+        const inWrapperKeypair: HexKeyPair = {
+          publicHex: toHex(fromWrapper.encPubkey),
+          privateHex: toHex(fromWrapper.encSeckey),
+        };
 
-      await addKeyPairToCacheAndDBIfNeeded(fromWrapper.pubkeyHex, inWrapperKeypair);
+        await addKeyPairToCacheAndDBIfNeeded(fromWrapper.pubkeyHex, inWrapperKeypair);
+      } catch (e) {
+        window.log.warn('failed to save keypair for legacugroup', fromWrapper.pubkeyHex);
+      }
     }
   }
-
-  // // if the convos already exists, make sure to update the fields if needed
-  // for (let index = 0; index < allCommunitiesInWrapper.length; index++) {
-  //   const fromWrapper = allCommunitiesInWrapper[index];
-  //   const convoId = OpenGroupUtils.getOpenGroupV2ConversationId(
-  //     fromWrapper.baseUrl,
-  //     fromWrapper.roomCasePreserved
-  //   );
-
-  //   const existingConvo = getConversationController().get(convoId);
-  //   if (fromWrapper && existingConvo) {
-  //     let changes = false;
-
-  //     //TODO priority means more than just isPinned but has an order logic in it too
-  //     const shouldBePinned = fromWrapper.priority > 0;
-  //     if (shouldBePinned !== Boolean(existingConvo.isPinned())) {
-  //       await existingConvo.setIsPinned(shouldBePinned, false);
-  //       changes = true;
-  //     }
-
-  //     // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
-  //     if (changes) {
-  //       await existingConvo.commit();
-  //     }
-  //   }
-  // }
 }
 
 async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {

@@ -4,8 +4,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { StateType } from '../reducer';
 
 import { SearchStateType } from '../ducks/search';
-import { getConversationLookup, getSelectedConversationKey } from './conversations';
+import { getConversationLookup } from './conversations';
 import { ConversationLookupType } from '../ducks/conversations';
+import { getSelectedConversationKey } from './selectedConversation';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 

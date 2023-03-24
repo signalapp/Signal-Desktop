@@ -7,10 +7,8 @@ import {
   declineConversationWithConfirm,
 } from '../../interactions/conversationInteractions';
 import { getConversationController } from '../../session/conversations';
-import {
-  getSelectedConversation,
-  hasSelectedConversationIncomingMessages,
-} from '../../state/selectors/conversations';
+import { hasSelectedConversationIncomingMessages } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 
 const handleDeclineConversationRequest = (convoId: string) => {
@@ -44,12 +42,12 @@ const ConversationBannerRow = styled.div`
 `;
 
 export const ConversationMessageRequestButtons = () => {
-  const selectedConversation = useSelector(getSelectedConversation);
+  const selectedConvoId = useSelectedConversationKey();
 
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
-  const isIncomingMessageRequest = useIsRequest(selectedConversation?.id);
+  const isIncomingMessageRequest = useIsRequest(selectedConvoId);
 
-  if (!selectedConversation || !hasIncomingMessages) {
+  if (!selectedConvoId || !hasIncomingMessages) {
     return null;
   }
 
@@ -62,7 +60,7 @@ export const ConversationMessageRequestButtons = () => {
       <ConversationBannerRow>
         <SessionButton
           onClick={async () => {
-            await handleAcceptConversationRequest(selectedConversation.id);
+            await handleAcceptConversationRequest(selectedConvoId);
           }}
           text={window.i18n('accept')}
           dataTestId="accept-message-request"
@@ -71,7 +69,7 @@ export const ConversationMessageRequestButtons = () => {
           buttonColor={SessionButtonColor.Danger}
           text={window.i18n('decline')}
           onClick={() => {
-            handleDeclineConversationRequest(selectedConversation.id);
+            handleDeclineConversationRequest(selectedConvoId);
           }}
           dataTestId="decline-message-request"
         />

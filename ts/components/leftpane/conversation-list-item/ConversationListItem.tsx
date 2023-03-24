@@ -5,25 +5,24 @@ import { contextMenu } from 'react-contexify';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 
 import { createPortal } from 'react-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   openConversationWithMessages,
   ReduxConversationType,
 } from '../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
-import _ from 'lodash';
-import { useSelector } from 'react-redux';
+import _, { isNil } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
   useHasUnread,
   useIsBlocked,
   useIsPrivate,
-  useIsSelectedConversation,
   useMentionedUs,
 } from '../../../hooks/useParamSelector';
 import { isSearching } from '../../../state/selectors/search';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
@@ -85,7 +84,9 @@ const ConversationListItem = (props: Props) => {
   let hasUnreadMentionedUs = useMentionedUs(conversationId);
   let isBlocked = useIsBlocked(conversationId);
   const isSearch = useSelector(isSearching);
-  const isSelectedConvo = useIsSelectedConversation(conversationId);
+  const selectedConvo = useSelectedConversationKey();
+
+  const isSelectedConvo = conversationId === selectedConvo && !isNil(selectedConvo);
 
   if (isSearch) {
     // force isBlocked and hasUnreadMentionedUs to be false, we just want to display the row without any special style when showing search results

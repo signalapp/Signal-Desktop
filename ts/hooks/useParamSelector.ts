@@ -1,13 +1,10 @@
-import { isEmpty, isNil, pick } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import {
-  getMessageReactsProps,
-  getSelectedConversationKey,
-} from '../state/selectors/conversations';
+import { getMessageReactsProps } from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -219,9 +216,4 @@ export function useMentionedUs(conversationId?: string): boolean {
 
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
-}
-
-export function useIsSelectedConversation(conversation?: string): boolean {
-  const selectedConvo = useSelector(getSelectedConversationKey);
-  return !isNil(selectedConvo) && !isNil(conversation) && selectedConvo === conversation;
 }

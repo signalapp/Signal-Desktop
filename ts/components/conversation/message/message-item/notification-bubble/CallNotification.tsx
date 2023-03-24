@@ -1,12 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { PubKey } from '../../../../../session/types';
 
 import {
   CallNotificationType,
   PropsForCallNotification,
 } from '../../../../../state/ducks/conversations';
-import { getSelectedConversation } from '../../../../../state/selectors/conversations';
+import {
+  useSelectedConversationKey,
+  useSelectedDisplayNameInProfile,
+  useSelectedNickname,
+} from '../../../../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../../../../types/LocalizerKeys';
 import { SessionIconType } from '../../../../icon';
 import { ReadableMessage } from '../ReadableMessage';
@@ -37,13 +40,13 @@ const style: StyleType = {
 
 export const CallNotification = (props: PropsForCallNotification) => {
   const { messageId, receivedAt, isUnread, notificationType } = props;
+  const selectedConvoId = useSelectedConversationKey();
 
-  const selectedConvoProps = useSelector(getSelectedConversation);
+  const displayNameInProfile = useSelectedDisplayNameInProfile();
+  const nickname = useSelectedNickname();
 
   const displayName =
-    selectedConvoProps?.nickname ||
-    selectedConvoProps?.displayNameInProfile ||
-    (selectedConvoProps?.id && PubKey.shorten(selectedConvoProps?.id));
+    nickname || displayNameInProfile || (selectedConvoId && PubKey.shorten(selectedConvoId));
 
   const styleItem = style[notificationType];
   const notificationText = window.i18n(styleItem.notificationTextKey, [displayName || 'Unknown']);

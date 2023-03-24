@@ -6,15 +6,6 @@ import { contextMenu } from 'react-contexify';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
-  getConversationHeaderTitleProps,
-  getCurrentNotificationSettingText,
-  getCurrentSubscriberCount,
-  getIsSelectedActive,
-  getIsSelectedBlocked,
-  getIsSelectedNoteToSelf,
-  getIsSelectedPrivate,
-  getSelectedConversationIsPublic,
-  getSelectedConversationKey,
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
@@ -50,6 +41,19 @@ import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
 import { ExpirationTimerOptions } from '../../util/expiringMessages';
+import {
+  useSelectedConversationKey,
+  useSelectedIsActive,
+  useSelectedIsBlocked,
+  useSelectedIsGroup,
+  useSelectedIsKickedFromGroup,
+  useSelectedisNoteToSelf,
+  useSelectedIsPrivate,
+  useSelectedIsPublic,
+  useSelectedMembers,
+  useSelectedNotificationSetting,
+  useSelectedSubscriberCount,
+} from '../../state/selectors/selectedConversation';
 
 export interface TimerOption {
   name: string;
@@ -58,8 +62,8 @@ export interface TimerOption {
 
 const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const isPublic = useSelector(getSelectedConversationIsPublic);
+  const selectedConversationKey = useSelectedConversationKey();
+  const isPublic = useSelectedIsPublic();
   const dispatch = useDispatch();
 
   const { i18n } = window;
@@ -200,11 +204,11 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 };
 
 const CallButton = () => {
-  const isPrivate = useSelector(getIsSelectedPrivate);
-  const isBlocked = useSelector(getIsSelectedBlocked);
-  const activeAt = useSelector(getIsSelectedActive);
-  const isMe = useSelector(getIsSelectedNoteToSelf);
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const isPrivate = useSelectedIsPrivate();
+  const isBlocked = useSelectedIsBlocked();
+  const activeAt = useSelectedIsActive();
+  const isMe = useSelectedisNoteToSelf();
+  const selectedConvoKey = useSelectedConversationKey();
 
   const hasIncomingCall = useSelector(getHasIncomingCall);
   const hasOngoingCall = useSelector(getHasOngoingCall);
@@ -266,17 +270,21 @@ export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX
 const ConversationHeaderTitle = () => {
   const dispatch = useDispatch();
 
-  const headerTitleProps = useSelector(getConversationHeaderTitleProps);
-  const notificationSetting = useSelector(getCurrentNotificationSettingText);
+  const notificationSetting = useSelectedNotificationSetting();
   const isRightPanelOn = useSelector(isRightPanelShowing);
-  const convoName = useConversationUsername(headerTitleProps?.conversationKey);
-  const subscriberCount = useSelector(getCurrentSubscriberCount);
+  const subscriberCount = useSelectedSubscriberCount();
+  const selectedConvoKey = useSelectedConversationKey();
+  const convoName = useConversationUsername(selectedConvoKey);
 
-  if (!headerTitleProps) {
+  const isPublic = useSelectedIsPublic();
+  const isKickedFromGroup = useSelectedIsKickedFromGroup();
+  const isMe = useSelectedisNoteToSelf();
+  const isGroup = useSelectedIsGroup();
+  const members = useSelectedMembers();
+
+  if (!selectedConvoKey) {
     return null;
   }
-
-  const { isGroup, isPublic, members, isMe, isKickedFromGroup } = headerTitleProps;
 
   const { i18n } = window;
 
@@ -331,15 +339,15 @@ const ConversationHeaderTitle = () => {
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
+  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
+  const expireTimerSetting = useExpireTimer(selectedConvoKey);
 
   if (!selectedConvoKey) {
     return null;
   }
 
-  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
-  const expireTimerSetting = useExpireTimer(selectedConvoKey);
   const expirationSettingName = expireTimerSetting
     ? ExpirationTimerOptions.getName(expireTimerSetting || 0)
     : undefined;

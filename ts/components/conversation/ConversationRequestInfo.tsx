@@ -2,10 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useIsRequest } from '../../hooks/useParamSelector';
-import {
-  getSelectedConversation,
-  hasSelectedConversationIncomingMessages,
-} from '../../state/selectors/conversations';
+import { hasSelectedConversationIncomingMessages } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 
 const ConversationRequestTextBottom = styled.div`
   display: flex;
@@ -22,8 +20,8 @@ const ConversationRequestTextInner = styled.div`
 `;
 
 export const ConversationRequestinfo = () => {
-  const selectedConversation = useSelector(getSelectedConversation);
-  const isIncomingMessageRequest = useIsRequest(selectedConversation?.id);
+  const selectedConversation = useSelectedConversationKey();
+  const isIncomingMessageRequest = useIsRequest(selectedConversation);
 
   const showMsgRequestUI = selectedConversation && isIncomingMessageRequest;
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);

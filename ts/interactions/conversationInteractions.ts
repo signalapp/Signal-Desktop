@@ -190,8 +190,9 @@ export function showLeaveGroupByConvoId(conversationId: string) {
 
   const title = window.i18n('leaveGroup');
   const message = window.i18n('leaveGroupConfirmation');
-  const ourPK = UserUtils.getOurPubKeyStrFromCache();
-  const isAdmin = (conversation.get('groupAdmins') || []).includes(ourPK);
+  const isAdmin = (conversation.get('groupAdmins') || []).includes(
+    UserUtils.getOurPubKeyStrFromCache()
+  );
   const isClosedGroup = conversation.isClosedGroup() || false;
 
   // if this is not a closed group, or we are not admin, we can just show a confirmation dialog

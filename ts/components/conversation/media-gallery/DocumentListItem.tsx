@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
 import classNames from 'classnames';
+import React, { useCallback } from 'react';
 
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
-import { useSelector } from 'react-redux';
-import { getSelectedConversationKey } from '../../../state/selectors/conversations';
 import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 import { MediaItemType } from '../../lightbox/LightboxGallery';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 type Props = {
   // Required
@@ -24,7 +23,11 @@ export const DocumentListItem = (props: Props) => {
   const { shouldShowSeparator, fileName, fileSize, timestamp } = props;
 
   const defaultShowSeparator = shouldShowSeparator === undefined ? true : shouldShowSeparator;
-  const selectedConversationKey = useSelector(getSelectedConversationKey) as string;
+  const selectedConversationKey = useSelectedConversationKey();
+
+  if (!selectedConversationKey) {
+    throw new Error('DocumentListItem: selectedConversationKey was not set');
+  }
 
   const saveAttachmentCallback = useCallback(() => {
     void saveAttachmentToDisk({

@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
 
 import * as MIME from '../../../../../ts/types/MIME';
 import * as GoogleChrome from '../../../../../ts/util/GoogleChrome';
-
-import { useSelector } from 'react-redux';
 
 import { noop } from 'lodash';
 import { useDisableDrag } from '../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';
 import {
-  getSelectedConversationKey,
-  isPublicGroupConversation,
-} from '../../../../state/selectors/conversations';
+  useSelectedIsPrivate,
+  useSelectedIsPublic,
+} from '../../../../state/selectors/selectedConversation';
 import { ContactName } from '../../ContactName';
 import { MessageBody } from './MessageBody';
-import { useIsPrivate } from '../../../../hooks/useParamSelector';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -229,8 +226,7 @@ export const QuoteText = (
 ) => {
   const { text, attachment, isIncoming } = props;
 
-  const convoId = useSelector(getSelectedConversationKey);
-  const isGroup = !useIsPrivate(convoId);
+  const isGroup = !useSelectedIsPrivate();
 
   if (text) {
     return (
@@ -345,7 +341,7 @@ export const Quote = (props: QuotePropsWithListener) => {
     setImageBroken(true);
   };
 
-  const isPublic = useSelector(isPublicGroupConversation);
+  const isPublic = useSelectedIsPublic();
 
   if (!validateQuote(props)) {
     return null;

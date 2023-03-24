@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
+import { getMessageAuthorProps } from '../../../../state/selectors/conversations';
 import {
-  getMessageAuthorProps,
-  getSelectedConversationIsGroup,
-  isPublicGroupConversation,
-} from '../../../../state/selectors/conversations';
+  useSelectedIsGroup,
+  useSelectedIsPublic,
+} from '../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../basic/Flex';
 import { ContactName } from '../../ContactName';
 
@@ -27,8 +27,9 @@ const StyledAuthorContainer = styled(Flex)`
 export const MessageAuthorText = (props: Props) => {
   const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
 
-  const isPublic = useSelector(isPublicGroupConversation);
-  const isGroup = useSelector(getSelectedConversationIsGroup);
+  const isPublic = useSelectedIsPublic();
+  const isGroup = useSelectedIsGroup();
+
   if (!selected) {
     return null;
   }

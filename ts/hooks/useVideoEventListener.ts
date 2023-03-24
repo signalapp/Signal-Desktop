@@ -9,11 +9,11 @@ import {
   InputItem,
   removeVideoEventsListener,
 } from '../session/utils/calling/CallManager';
-import { getSelectedConversationKey } from '../state/selectors/conversations';
 import { getCallIsInFullScreen, getHasOngoingCallWithPubkey } from '../state/selectors/call';
+import { useSelectedConversationKey } from '../state/selectors/selectedConversation';
 
 export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const selectedConversationKey = useSelectedConversationKey();
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const isFullScreen = useSelector(getCallIsInFullScreen);
 
