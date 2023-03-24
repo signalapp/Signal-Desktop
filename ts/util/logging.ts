@@ -110,6 +110,9 @@ const development = window && window?.getEnvironment && window?.getEnvironment()
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level: string, prefix: string, ...args: any) {
+  if (prefix === 'DEBUG' && window.sessionFeatureFlags.useDebugLogging) {
+    return;
+  }
   if (development) {
     const fn = `_${level}`;
     (console as any)[fn](prefix, now(), ...args);

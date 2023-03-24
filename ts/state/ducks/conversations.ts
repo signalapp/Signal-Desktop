@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import { Data } from '../../data/data';
 import {
-  MessageDeliveryStatus,
   MessageModelType,
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
@@ -45,8 +44,6 @@ export type ContactPropsMessageDetail = {
   name?: string | null;
   profileName?: string | null;
   avatarPath?: string | null;
-  isOutgoingKeyError: boolean;
-
   errors?: Array<Error>;
 };
 
@@ -60,7 +57,7 @@ export type MessagePropsDetails = {
   direction: MessageModelType;
 };
 
-export type LastMessageStatusType = MessageDeliveryStatus | undefined;
+export type LastMessageStatusType = 'sending' | 'sent' | 'read' | 'error' | undefined;
 
 export type FindAndFormatContactType = {
   pubkey: string;

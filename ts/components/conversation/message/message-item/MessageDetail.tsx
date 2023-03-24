@@ -62,14 +62,14 @@ const ContactItem = (props: { contact: ContactPropsMessageDetail }) => {
   const { contact } = props;
   const errors = contact.errors || [];
 
-  const statusComponent = !contact.isOutgoingKeyError ? (
+  const statusComponent = (
     <div
       className={classNames(
         'module-message-detail__contact__status-icon',
         `module-message-detail__contact__status-icon--${contact.status}`
       )}
     />
-  ) : null;
+  );
 
   return (
     <div key={contact.pubkey} className="module-message-detail__contact">

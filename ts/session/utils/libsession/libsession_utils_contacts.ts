@@ -126,7 +126,7 @@ function setMappedValue(info: ContactInfo) {
   mappedContactWrapperValues.set(info.id, info);
 }
 
-function getMappedValue(id: string) {
+function getContactCached(id: string) {
   return mappedContactWrapperValues.get(id);
 }
 
@@ -134,6 +134,6 @@ export const SessionUtilContact = {
   isContactToStoreInContactsWrapper,
   insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
-  getMappedValue,
+  getContactCached,
   refreshMappedValue,
 };

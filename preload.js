@@ -3,6 +3,8 @@ const { Storage } = require('./ts/util/storage');
 
 const url = require('url');
 
+const _ = require('lodash');
+
 const config = url.parse(window.location.toString(), true).query;
 const configAny = config;
 
@@ -29,6 +31,7 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
+  useDebugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
   useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
   useSharedUtilForUserConfig: true,
   debug: {
@@ -234,6 +237,7 @@ const { setupi18n } = require('./ts/util/i18n');
 window.Signal = data.initData();
 
 const { getConversationController } = require('./ts/session/conversations/ConversationController');
+const { isEmpty } = require('lodash');
 window.getConversationController = getConversationController;
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {

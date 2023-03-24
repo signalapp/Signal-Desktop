@@ -19,6 +19,7 @@ import {
   CONVERSATIONS_TABLE,
   dropFtsAndTriggers,
   GUARD_NODE_TABLE,
+  jsonToObject,
   LAST_HASHES_TABLE,
   MESSAGES_TABLE,
   NODES_FOR_PUBKEY_TABLE,
@@ -1486,10 +1487,15 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
        * Setup up the User profile wrapper with what is stored in our own conversation
        */
 
-      const ourConversation = sqlNode.getConversationById(publicKeyHex, db);
-      if (!ourConversation) {
+      const ourConvoRow = db.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
+        id: publicKeyHex,
+      });
+
+      if (!ourConvoRow) {
         throw new Error('Failed to find our logged in conversation while migrating');
       }
+
+      const ourConversation = jsonToObject(ourConvoRow);
 
       // Insert the user profile into the userWrappoer
       const ourDbName = ourConversation.displayNameInProfile || '';

@@ -1,11 +1,14 @@
 import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
+import {
+  CallNotificationType,
+  LastMessageStatusType,
+  PropsForMessageWithConvoProps,
+} from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 
 export type MessageModelType = 'incoming' | 'outgoing';
-export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';
 
 export interface MessageAttributes {
   // the id of the message
@@ -48,7 +51,7 @@ export interface MessageAttributes {
    * timestamp is the sent_at timestamp, which is the envelope.timestamp
    */
   timestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: LastMessageStatusType;
   sent_to: Array<string>;
   sent: boolean;
 
@@ -196,7 +199,7 @@ export interface MessageAttributesOptionals {
   unread?: number;
   group?: any;
   timestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: LastMessageStatusType;
   sent_to?: Array<string>;
   sent?: boolean;
   serverId?: number;

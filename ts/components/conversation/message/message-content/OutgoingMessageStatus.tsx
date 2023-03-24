@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 import React from 'react';
 import styled from 'styled-components';
-import { MessageDeliveryStatus } from '../../../../models/messageType';
+import { LastMessageStatusType } from '../../../../state/ducks/conversations';
 import { SessionIcon } from '../../../icon';
 
 const MessageStatusSendingContainer = styled.div`
@@ -56,7 +56,7 @@ const MessageStatusError = ({ dataTestId }: { dataTestId?: string }) => {
 };
 
 export const OutgoingMessageStatus = (props: {
-  status?: MessageDeliveryStatus | null;
+  status: LastMessageStatusType | null;
   dataTestId?: string;
 }) => {
   const { status, dataTestId } = props;

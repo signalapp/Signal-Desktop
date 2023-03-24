@@ -380,7 +380,6 @@ export const getRoomAndUpdateLastFetchTimestamp = async (
   if (!newMessages.length) {
     // if we got no new messages, just write our last update timestamp to the db
     roomInfos.lastFetchTimestamp = Date.now();
-    window?.log?.info();
     await OpenGroupData.saveV2OpenGroupRoom(roomInfos);
     return null;
   }

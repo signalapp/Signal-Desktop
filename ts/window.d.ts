@@ -43,6 +43,7 @@ declare global {
         debugNonSnodeRequests: boolean;
         debugOnionRequests: boolean;
       };
+      useDebugLogging: boolean;
     };
     SessionSnodeAPI: SessionSnodeAPI;
     onLogin: (pw: string) => Promise<void>;

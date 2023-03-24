@@ -713,7 +713,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
-    const phoneNumbers: Array<string> = this.isIncoming()
+    const contacts: Array<string> = this.isIncoming()
       ? [this.get('source')]
       : this.get('sent_to') || [];
 
@@ -727,30 +727,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const errors = reject(allErrors, error => Boolean(error.number));
     const errorsGroupedById = groupBy(allErrors, 'number');
     const finalContacts = await Promise.all(
-      (phoneNumbers || []).map(async id => {
+      (contacts || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = false;
 
         const contact = this.findAndFormatContact(id);
         return {
           ...contact,
-          // fallback to the message status if we do not have a status with a user
-          // this is useful for medium groups.
-          status: this.getStatus(id) || this.getMessagePropStatus(),
+          status: this.getMessagePropStatus(),
           errors: errorsForContact,
-          isOutgoingKeyError,
-          isPrimaryDevice: true,
           profileName: contact.profileName,
         };
       })
     );
 
-    // The prefix created here ensures that contacts with errors are listed
-    //   first; otherwise it's alphabetical
-    const sortedContacts = sortBy(
-      finalContacts,
-      contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.pubkey}`
-    );
+    // sort by pubkey
+    const sortedContacts = sortBy(finalContacts, contact => contact.pubkey);
 
     const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at') || 0,
@@ -1011,19 +1002,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public hasErrors() {
     return lodashSize(this.get('errors')) > 0;
-  }
-
-  public getStatus(pubkey: string) {
-    const readBy = this.get('read_by') || [];
-    if (readBy.indexOf(pubkey) >= 0) {
-      return 'read';
-    }
-    const sentTo = this.get('sent_to') || [];
-    if (sentTo.indexOf(pubkey) >= 0) {
-      return 'sent';
-    }
-
-    return null;
   }
 
   public async updateMessageHash(messageHash: string) {

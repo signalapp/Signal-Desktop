@@ -1,4 +1,4 @@
-import { uniq } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 import { BaseConvoInfoVolatile, ConvoVolatileType } from 'session_util_wrapper';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
@@ -87,12 +87,12 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
   if (!foundConvo || !isConvoToStoreInWrapper(foundConvo)) {
     return;
   }
-
   const isForcedUnread = foundConvo.isMarkedUnread();
-  const lastReadTimestampMessage = foundConvo.getCachedLastReadTimestampMessage() || 0;
+  const lastReadMessageTimestamp =
+    (await Data.fetchConvoMemoryDetails(convoId))?.lastReadTimestampMessage || 0;
 
   console.info(
-    `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadTimestampMessage};forcedUnread:${isForcedUnread}...`
+    `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadMessageTimestamp};forcedUnread:${isForcedUnread}...`
   );
 
   const convoType = getConvoType(foundConvo);
@@ -102,7 +102,7 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
         // this saves the details for contacts and `Note To Self`
         await ConvoInfoVolatileWrapperActions.set1o1(
           convoId,
-          lastReadTimestampMessage,
+          lastReadMessageTimestamp,
           isForcedUnread
         );
         await refreshConvoVolatileCached(convoId, false, false);
@@ -116,7 +116,7 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
       try {
         await ConvoInfoVolatileWrapperActions.setLegacyGroup(
           convoId,
-          lastReadTimestampMessage,
+          lastReadMessageTimestamp,
           isForcedUnread
         );
         await refreshConvoVolatileCached(convoId, true, false);
@@ -124,14 +124,13 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
         window.log.warn(
           `ConvoInfoVolatileWrapperActions.setLegacyGroup of ${convoId} failed with ${e.message}`
         );
-        // we stil let this go through
       }
       break;
     case 'Community':
       try {
         const asOpengroup = foundConvo.toOpenGroupV2();
         const roomDetails = OpenGroupData.getV2OpenGroupRoomByRoomId(asOpengroup);
-        if (!roomDetails) {
+        if (!roomDetails || isEmpty(roomDetails.serverPublicKey)) {
           return;
         }
 
@@ -141,18 +140,19 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
           roomDetails.roomId,
           roomDetails.serverPublicKey
         );
+
         // this does the create or the update of the matching existing community
         await ConvoInfoVolatileWrapperActions.setCommunityByFullUrl(
           fullUrlWithPubkey,
-          lastReadTimestampMessage,
+          lastReadMessageTimestamp,
           isForcedUnread
         );
+
         await refreshConvoVolatileCached(convoId, false, false);
       } catch (e) {
         window.log.warn(
           `ConvoInfoVolatileWrapperActions.setCommunityByFullUrl of ${convoId} failed with ${e.message}`
         );
-        // we still let this go through
       }
       break;
     default:
@@ -173,29 +173,46 @@ async function refreshConvoVolatileCached(
   duringAppStart: boolean
 ) {
   try {
+    let convoType: ConvoVolatileType = '1o1';
     let refreshed = false;
+
     if (OpenGroupUtils.isOpenGroupV2(convoId)) {
-      const fromWrapper = await ConvoInfoVolatileWrapperActions.getCommunity(convoId);
-      if (fromWrapper && fromWrapper.fullUrlWithPubkey) {
-        mappedCommunityWrapperValues.set(convoId, fromWrapper);
-      }
-      refreshed = true;
+      convoType = 'Community';
     } else if (convoId.startsWith('05') && isLegacyGroup) {
-      const fromWrapper = await ConvoInfoVolatileWrapperActions.getLegacyGroup(convoId);
-      if (fromWrapper) {
-        mappedLegacyGroupWrapperValues.set(convoId, fromWrapper);
-      }
-      refreshed = true;
+      convoType = 'LegacyGroup';
     } else if (convoId.startsWith('05')) {
-      const fromWrapper = await ConvoInfoVolatileWrapperActions.get1o1(convoId);
-      console.warn(
-        `refreshConvoVolatileCached from get1o1 ${fromWrapper?.pubkeyHex} : ${fromWrapper?.unread}`
-      );
-      if (fromWrapper) {
-        mapped1o1WrapperValues.set(convoId, fromWrapper);
-      }
-      refreshed = true;
-    } // TODO handle the new closed groups once we got them ready
+      convoType = '1o1';
+    }
+
+    switch (convoType) {
+      case '1o1':
+        const fromWrapper1o1 = await ConvoInfoVolatileWrapperActions.get1o1(convoId);
+        if (fromWrapper1o1) {
+          mapped1o1WrapperValues.set(convoId, fromWrapper1o1);
+        }
+        refreshed = true;
+        break;
+      case 'LegacyGroup':
+        const fromWrapperLegacyGroup = await ConvoInfoVolatileWrapperActions.getLegacyGroup(
+          convoId
+        );
+        if (fromWrapperLegacyGroup) {
+          mappedLegacyGroupWrapperValues.set(convoId, fromWrapperLegacyGroup);
+        }
+        refreshed = true;
+        break;
+      case 'Community':
+        const fromWrapperCommunity = await ConvoInfoVolatileWrapperActions.getCommunity(convoId);
+        if (fromWrapperCommunity && fromWrapperCommunity.fullUrlWithPubkey) {
+          mappedCommunityWrapperValues.set(convoId, fromWrapperCommunity);
+        }
+        refreshed = true;
+        break;
+
+      default:
+        assertUnreachable(convoType, `refreshConvoVolatileCached unhandled case "${convoType}"`);
+    }
+    // TODO handle the new closed groups once we got them ready
 
     if (refreshed && !duringAppStart) {
       getConversationController()

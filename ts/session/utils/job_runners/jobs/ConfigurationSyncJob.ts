@@ -130,11 +130,7 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
   for (let i = 0; i < changes.length; i++) {
     const change = changes[i];
     const variant = LibSessionUtil.kindToVariant(change.message.kind);
-    console.warn(
-      `ConfigurationSyncJob.saveDumpToDB: "${variant}" updatedHash: "${
-        change.updatedHash
-      }:${change.message.seqno.toNumber()}"`
-    );
+
     const needsDump = await LibSessionUtil.markAsPushed(
       variant,
       change.publicKey,
@@ -302,11 +298,13 @@ async function queueNewJobIfNeeded() {
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() })
     );
+    window.log.debug('Scheduling ConfSyncJob: ASAP');
   } else {
     // if we did run at t=100, and it is currently t=110, diff is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
     // but we want to run every 30, so what we need is actually `30-10` from now = 20
     const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
+    window.log.debug('Scheduling ConfSyncJob: LATER');
 
     // TODO we need to make the addJob wait for the previous addJob to be done before it can be called.
     await runners.configurationSyncRunner.addJob(

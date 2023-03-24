@@ -309,7 +309,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   const legacyGroupsToLeaveInDB = allLegacyGroupsInDb.filter(m => {
     return !allLegacyGroupsIdsInWrapper.includes(m.id);
   });
-
+  // TODO we need to store the encryption keypair if needed
   window.log.info(
     `we have to join ${legacyGroupsToJoinInDB.length} legacy groups in DB compared to what is in the wrapper`
   );
@@ -456,6 +456,39 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
   return result;
 }
 
+async function applyConvoVolatileUpdateFromWrapper(
+  convoId: string,
+  forcedUnread: boolean,
+  lastReadMessageTimestamp: number
+) {
+  const foundConvo = getConversationController().get(convoId);
+  if (foundConvo) {
+    try {
+      window.log.debug(
+        `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
+      );
+      // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+      await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
+      // this commits to the DB, if needed
+      await foundConvo.markAsUnread(forcedUnread, true);
+
+      if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(foundConvo)) {
+        await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
+          foundConvo.id,
+          foundConvo.isClosedGroup(),
+          false
+        );
+
+        await foundConvo.refreshInMemoryDetails();
+      }
+    } catch (e) {
+      window.log.warn(
+        `applyConvoVolatileUpdateFromWrapper of "${convoId}" failed with error ${e.message}`
+      );
+    }
+  }
+}
+
 async function handleConvoInfoVolatileUpdate(
   result: IncomingConfResult
 ): Promise<IncomingConfResult> {
@@ -463,50 +496,71 @@ async function handleConvoInfoVolatileUpdate(
   // if (!result.needsDump) {
   //   return result;
   // }
-  console.error('handleConvoInfoVolatileUpdate : TODO ');
 
   const types = SessionUtilConvoInfoVolatile.getConvoInfoVolatileTypes();
   for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
     const type = types[typeIndex];
     switch (type) {
       case '1o1':
-        // Note: "Note to Self" comes here too
-        const privateChats = await ConvoInfoVolatileWrapperActions.getAll1o1();
-        for (let index = 0; index < privateChats.length; index++) {
-          const fromWrapper = privateChats[index];
-          const foundConvo = getConversationController().get(fromWrapper.pubkeyHex);
-          // TODO should we create the conversation if the conversation does not exist locally? Or assume that it should be coming from a contacts update?
-          if (foundConvo) {
-            console.warn(
-              `fromWrapper from getAll1o1: ${fromWrapper.pubkeyHex}: ${fromWrapper.unread}`
+        try {
+          // Note: "Note to Self" comes here too
+          const wrapper1o1s = await ConvoInfoVolatileWrapperActions.getAll1o1();
+          for (let index = 0; index < wrapper1o1s.length; index++) {
+            const fromWrapper = wrapper1o1s[index];
+            await applyConvoVolatileUpdateFromWrapper(
+              fromWrapper.pubkeyHex,
+              fromWrapper.unread,
+              fromWrapper.lastRead
             );
-            // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
-            await foundConvo.markReadFromConfigMessage(fromWrapper.lastRead);
-            // this commits to the DB, if needed
-            await foundConvo.markAsUnread(fromWrapper.unread, true);
-
-            if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(foundConvo)) {
-              await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
-                foundConvo.id,
-                foundConvo.isClosedGroup(),
-                false
-              );
-
-              await foundConvo.refreshInMemoryDetails();
-            }
           }
+        } catch (e) {
+          window.log.warn('handleConvoInfoVolatileUpdate of "1o1" failed with error: ', e.message);
         }
-        console.warn('handleConvoInfoVolatileUpdate: privateChats', privateChats);
 
         break;
       case 'Community':
-        const comms = await ConvoInfoVolatileWrapperActions.getAllCommunities();
-        console.warn('handleConvoInfoVolatileUpdate: comms', comms);
+        try {
+          const wrapperComms = await ConvoInfoVolatileWrapperActions.getAllCommunities();
+          for (let index = 0; index < wrapperComms.length; index++) {
+            const fromWrapper = wrapperComms[index];
+
+            const convoId = getOpenGroupV2ConversationId(
+              fromWrapper.baseUrl,
+              fromWrapper.roomCasePreserved
+            );
+
+            await applyConvoVolatileUpdateFromWrapper(
+              convoId,
+              fromWrapper.unread,
+              fromWrapper.lastRead
+            );
+          }
+        } catch (e) {
+          window.log.warn(
+            'handleConvoInfoVolatileUpdate of "Community" failed with error: ',
+            e.message
+          );
+        }
         break;
 
       case 'LegacyGroup':
-        const legacyGroup = await ConvoInfoVolatileWrapperActions.getAllLegacyGroups();
-        console.warn('handleConvoInfoVolatileUpdate: legacyGroup', legacyGroup);
+        try {
+          const legacyGroups = await ConvoInfoVolatileWrapperActions.getAllLegacyGroups();
+          for (let index = 0; index < legacyGroups.length; index++) {
+            const fromWrapper = legacyGroups[index];
+
+            await applyConvoVolatileUpdateFromWrapper(
+              fromWrapper.pubkeyHex,
+              fromWrapper.unread,
+              fromWrapper.lastRead
+            );
+          }
+        } catch (e) {
+          window.log.warn(
+            'handleConvoInfoVolatileUpdate of "LegacyGroup" failed with error: ',
+            e.message
+          );
+        }
         break;
 
       default:

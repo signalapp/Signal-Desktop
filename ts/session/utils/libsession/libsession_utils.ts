@@ -112,6 +112,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
     const variant = dump.variant;
     const needsPush = await GenericWrapperActions.needsPush(variant);
     if (!needsPush) {
+      console.info('needsPush false for ', variant);
       continue;
     }
 

@@ -221,17 +221,7 @@ export class ConversationController {
       // open group v2
     } else if (conversation.isPublic()) {
       window?.log?.info('leaving open group v2', conversation.id);
-      const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
-      if (roomInfos) {
-        getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
-      }
-
-      // remove the roomInfos locally for this open group room
-      try {
-        await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
-      } catch (e) {
-        window?.log?.info('removeV2OpenGroupRoom failed:', e);
-      }
+      // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
       try {
         await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
         await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
@@ -240,6 +230,18 @@ export class ConversationController {
         );
       } catch (e) {
         window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
+      }
+
+      const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
+      if (roomInfos) {
+        getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
+      }
+
+      // remove the roomInfos locally for this open group room including the pubkey
+      try {
+        await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
+      } catch (e) {
+        window?.log?.info('removeV2OpenGroupRoom failed:', e);
       }
     } else if (conversation.isPrivate()) {
       // if this conversation is a private conversation it's in fact a `contact` for desktop.

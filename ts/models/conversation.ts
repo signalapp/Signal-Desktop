@@ -117,7 +117,6 @@ import {
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
   unreadCount: number;
-  lastReadTimestampMessage: number | null;
 };
 
 // TODO decide it it makes sense to move this to a redux slice?
@@ -275,7 +274,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public getGroupAdmins(): Array<string> {
     const groupAdmins = this.get('groupAdmins');
 
-    return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
+    return groupAdmins && groupAdmins.length > 0 ? groupAdmins : [];
   }
 
   // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
@@ -291,8 +290,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
-    // const unreadCount = this.get('unreadCount') || undefined;
-    // const mentionedUs = this.get('mentionedUs') || undefined;
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
@@ -337,7 +334,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    const foundContact = SessionUtilContact.getMappedValue(this.id);
+    const foundContact = SessionUtilContact.getContactCached(this.id);
     const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
     const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
     const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
@@ -498,13 +495,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       inMemoryConvoInfos.delete(this.id);
       return;
     }
-    console.warn('memoryDetails', memoryDetails);
-
     if (!inMemoryConvoInfos.get(this.id)) {
       inMemoryConvoInfos.set(this.id, {
         mentionedUs: false,
         unreadCount: 0,
-        lastReadTimestampMessage: null,
       });
     }
 
@@ -517,10 +511,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       existing.unreadCount = memoryDetails.unreadCount;
       changes = true;
     }
-    if (existing.lastReadTimestampMessage !== memoryDetails.lastReadTimestampMessage) {
-      existing.lastReadTimestampMessage = memoryDetails.lastReadTimestampMessage;
-      changes = true;
-    }
+
     if (existing.mentionedUs !== memoryDetails.mentionedUs) {
       existing.mentionedUs = memoryDetails.mentionedUs;
       changes = true;
@@ -529,10 +520,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (changes) {
       this.triggerUIRefresh();
     }
-  }
-
-  public getCachedLastReadTimestampMessage() {
-    return inMemoryConvoInfos.get(this.id)?.lastReadTimestampMessage || null;
   }
 
   public async queueJob(callback: () => Promise<void>) {
@@ -1855,8 +1842,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const lastMessageModel = messages.at(0);
-    const lastMessageStatus = lastMessageModel?.getMessagePropStatus() || undefined;
-    const lastMessageNotificationText = lastMessageModel?.getNotificationText() || undefined;
+    const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
+    const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
     const lastMessageUpdate =
       !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
