@@ -369,14 +369,19 @@ export function TimelineMessage(props: Props): JSX.Element {
                   messageIds: [id],
                 }),
               style: 'negative',
-              text: i18n('delete'),
+              text: i18n('icu:ConfirmDeleteForMeModal--confirm'),
             },
           ]}
-          dialogName="TimelineMessage/deleteMessage"
+          dialogName="ConfirmDeleteForMeModal"
           i18n={i18n}
           onClose={() => setHasDeleteConfirmation(false)}
+          title={i18n('icu:ConfirmDeleteForMeModal--title', {
+            count: 1,
+          })}
         >
-          {i18n('deleteWarning')}
+          {i18n('icu:ConfirmDeleteForMeModal--description', {
+            count: 1,
+          })}
         </ConfirmationDialog>
       )}
 

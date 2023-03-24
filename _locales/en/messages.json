@@ -2717,6 +2717,10 @@
   },
   "Keyboard--delete-message": {
     "message": "Delete selected message",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "Delete selected messages",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -4653,15 +4657,27 @@
   },
   "icu:SelectModeActions__confirmDelete--title": {
     "messageformat": "Delete {count, plural, one {# message} other {# messages}}?",
-    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "Delete {count, plural, one {# message} other {# messages}}?",
+    "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
     "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from this device.",
-    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from this device.",
+    "description": "delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Delete for me",
-    "description": "conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "Delete for me",
+    "description": "delete selected messages > confirmation modal > button"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",

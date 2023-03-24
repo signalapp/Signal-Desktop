@@ -163,7 +163,7 @@ const MESSAGE_SHORTCUTS: Array<ShortcutType> = [
     keys: [['commandOrCtrl', 'S']],
   },
   {
-    description: 'Keyboard--delete-message',
+    description: 'Keyboard--delete-messages',
     keys: [['commandOrCtrl', 'shift', 'D']],
   },
 ];

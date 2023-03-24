@@ -103,11 +103,11 @@ export default function SelectModeActions({
                 onDeleteMessages();
               },
               style: 'negative',
-              text: i18n('icu:SelectModeActions__confirmDelete--confirm'),
+              text: i18n('icu:ConfirmDeleteForMeModal--confirm'),
             },
           ]}
-          dialogName="TimelineMessage/deleteMessage"
-          title={i18n('icu:SelectModeActions__confirmDelete--title', {
+          dialogName="ConfirmDeleteForMeModal"
+          title={i18n('icu:ConfirmDeleteForMeModal--title', {
             count: selectedMessageIds.length,
           })}
           i18n={i18n}
@@ -115,7 +115,7 @@ export default function SelectModeActions({
             setConfirmDelete(false);
           }}
         >
-          {i18n('icu:SelectModeActions__confirmDelete--description', {
+          {i18n('icu:ConfirmDeleteForMeModal--description', {
             count: selectedMessageIds.length,
           })}
         </ConfirmationDialog>

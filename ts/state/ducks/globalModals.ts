@@ -29,6 +29,9 @@ import type { ShowToastActionType } from './toast';
 
 // State
 
+export type ConfirmDeleteForMeModalProps = ReadonlyDeep<{
+  count: number;
+}>;
 export type ForwardMessagePropsType = ReadonlyDeep<
   Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'>
 >;
@@ -60,6 +63,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   };
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
+  hasConfirmationModal: boolean;
   isProfileEditorVisible: boolean;
   isSignalConnectionsVisible: boolean;
   isShortcutGuideModalVisible: boolean;
@@ -105,6 +109,7 @@ const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
+const TOGGLE_CONFIRMATION_MODAL = 'globalModals/TOGGLE_CONFIRMATION_MODAL';
 const CANCEL_AUTH_ART_CREATOR = 'globalModals/CANCEL_AUTH_ART_CREATOR';
 const CONFIRM_AUTH_ART_CREATOR_PENDING =
   'globalModals/CONFIRM_AUTH_ART_CREATOR_PENDING';
@@ -178,6 +183,11 @@ type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_SIGNAL_CONNECTIONS_MODAL;
+}>;
+
+type ToggleConfirmationModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_CONFIRMATION_MODAL;
+  payload: boolean;
 }>;
 
 type ShowStoriesSettingsActionType = ReadonlyDeep<{
@@ -283,6 +293,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleSafetyNumberModalActionType
   | ToggleAddUserToAnotherGroupModalActionType
   | ToggleSignalConnectionsModalActionType
+  | ToggleConfirmationModalActionType
 >;
 
 // Action Creators
@@ -304,6 +315,7 @@ export const actions = {
   toggleSafetyNumberModal,
   toggleAddUserToAnotherGroupModal,
   toggleSignalConnectionsModal,
+  toggleConfirmationModal,
   showGV2MigrationDialog,
   closeGV2MigrationDialog,
   showStickerPackPreview,
@@ -500,6 +512,15 @@ function toggleSignalConnectionsModal(): ToggleSignalConnectionsModalActionType 
   };
 }
 
+function toggleConfirmationModal(
+  isOpen: boolean
+): ToggleConfirmationModalActionType {
+  return {
+    type: TOGGLE_CONFIRMATION_MODAL,
+    payload: isOpen,
+  };
+}
+
 function showBlockingSafetyNumberChangeDialog(
   untrustedByConversation: RecipientsByConversation,
   explodedPromise: ExplodePromiseResultType<boolean>,
@@ -663,6 +684,7 @@ export function confirmAuthorizeArtCreator(): ThunkAction<
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
+    hasConfirmationModal: false,
     isProfileEditorVisible: false,
     isShortcutGuideModalVisible: false,
     isSignalConnectionsVisible: false,
@@ -773,6 +795,13 @@ export function reducer(
     return {
       ...state,
       isSignalConnectionsVisible: !state.isSignalConnectionsVisible,
+    };
+  }
+
+  if (action.type === TOGGLE_CONFIRMATION_MODAL) {
+    return {
+      ...state,
+      hasConfirmationModal: action.payload,
     };
   }
 
