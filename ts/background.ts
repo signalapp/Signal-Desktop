@@ -628,7 +628,7 @@ export async function startApp(): Promise<void> {
               onTopOfEverything: true,
               cancelText: window.i18n('quit'),
               confirmStyle: 'negative',
-              message: window.i18n('deleteOldIndexedDBData'),
+              title: window.i18n('deleteOldIndexedDBData'),
               okText: window.i18n('deleteOldData'),
               reject: () => reject(),
               resolve: () => resolve(),
@@ -1712,21 +1712,32 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'd' || key === 'D')
       ) {
-        const { targetedMessage } = state.conversations;
+        const { forwardMessagesProps } = state.globalModals;
+        const { targetedMessage, selectedMessageIds } = state.conversations;
 
-        if (targetedMessage) {
+        const messageIds =
+          selectedMessageIds ??
+          (targetedMessage != null ? [targetedMessage] : null);
+
+        if (forwardMessagesProps == null && messageIds != null) {
           event.preventDefault();
           event.stopPropagation();
 
           showConfirmationDialog({
-            dialogName: 'deleteMessage',
+            dialogName: 'ConfirmDeleteForMeModal',
             confirmStyle: 'negative',
-            message: window.i18n('deleteWarning'),
-            okText: window.i18n('delete'),
+            title: window.i18n('icu:ConfirmDeleteForMeModal--title', {
+              count: messageIds.length,
+            }),
+            description: window.i18n(
+              'icu:ConfirmDeleteForMeModal--description',
+              { count: messageIds.length }
+            ),
+            okText: window.i18n('icu:ConfirmDeleteForMeModal--confirm'),
             resolve: () => {
               window.reduxActions.conversations.deleteMessages({
                 conversationId: conversation.id,
-                messageIds: [targetedMessage],
+                messageIds,
               });
             },
           });

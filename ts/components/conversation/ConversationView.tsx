@@ -6,6 +6,9 @@ import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 
 export type PropsType = {
   conversationId: string;
+  hasOpenModal: boolean;
+  isSelectMode: boolean;
+  onExitSelectMode: () => void;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
@@ -14,21 +17,18 @@ export type PropsType = {
   renderConversationHeader: () => JSX.Element;
   renderTimeline: () => JSX.Element;
   renderPanel: () => JSX.Element | undefined;
-  isSelectMode: boolean;
-  isForwardModalOpen: boolean;
-  onExitSelectMode: () => void;
 };
 
 export function ConversationView({
   conversationId,
+  hasOpenModal,
+  isSelectMode,
+  onExitSelectMode,
   processAttachments,
   renderCompositionArea,
   renderConversationHeader,
   renderTimeline,
   renderPanel,
-  isSelectMode,
-  isForwardModalOpen,
-  onExitSelectMode,
 }: PropsType): JSX.Element {
   const onDrop = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
@@ -88,7 +88,7 @@ export function ConversationView({
   );
 
   useEscapeHandling(
-    isSelectMode && !isForwardModalOpen ? onExitSelectMode : undefined
+    isSelectMode && !hasOpenModal ? onExitSelectMode : undefined
   );
 
   return (

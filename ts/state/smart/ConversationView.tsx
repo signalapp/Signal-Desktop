@@ -48,13 +48,21 @@ export function SmartConversationView(): JSX.Element {
   const { processAttachments } = useComposerActions();
   const i18n = useSelector(getIntl);
 
-  const isForwardModalOpen = useSelector((state: StateType) => {
-    return state.globalModals.forwardMessagesProps != null;
+  const hasOpenModal = useSelector((state: StateType) => {
+    return (
+      state.globalModals.forwardMessagesProps != null ||
+      state.globalModals.hasConfirmationModal
+    );
   });
 
   return (
     <ConversationView
       conversationId={conversationId}
+      hasOpenModal={hasOpenModal}
+      isSelectMode={isSelectMode}
+      onExitSelectMode={() => {
+        toggleSelectMode(false);
+      }}
       processAttachments={processAttachments}
       renderCompositionArea={() => <SmartCompositionArea id={conversationId} />}
       renderConversationHeader={() => (
@@ -178,11 +186,6 @@ export function SmartConversationView(): JSX.Element {
         log.warn('renderPanel: Got unexpected panel', topPanel);
 
         return undefined;
-      }}
-      isSelectMode={isSelectMode}
-      isForwardModalOpen={isForwardModalOpen}
-      onExitSelectMode={() => {
-        toggleSelectMode(false);
       }}
     />
   );
