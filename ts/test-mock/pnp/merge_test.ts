@@ -101,123 +101,140 @@ describe('pnp/merge', function needsName() {
   });
 
   for (const finalContact of [UUIDKind.ACI, UUIDKind.PNI]) {
-    // eslint-disable-next-line no-loop-func
-    it(`happens via storage service, with notification (${finalContact})`, async () => {
-      const { phone } = bootstrap;
+    for (const withNotification of [false, true]) {
+      const testName =
+        'happens via storage service, ' +
+        `${withNotification ? 'with' : 'without'} notification ` +
+        `(${finalContact})`;
 
-      const window = await app.getWindow();
-      const leftPane = window.locator('.left-pane-wrapper');
+      // eslint-disable-next-line no-loop-func
+      it(testName, async () => {
+        const { phone } = bootstrap;
 
-      debug('opening conversation with the aci contact');
-      await leftPane
-        .locator(`[data-testid="${pniContact.device.uuid}"]`)
-        .click();
+        const window = await app.getWindow();
+        const leftPane = window.locator('.left-pane-wrapper');
 
-      await window.locator('.module-conversation-hero').waitFor();
-
-      debug('Send message to ACI');
-      {
-        const composeArea = window.locator(
-          '.composition-area-wrapper, .conversation .ConversationView'
-        );
-        const compositionInput = composeArea.locator(
-          '[data-testid=CompositionInput]'
-        );
-
-        await compositionInput.type('Hello ACI');
-        await compositionInput.press('Enter');
-      }
-
-      debug('opening conversation with the pni contact');
-      await leftPane
-        .locator('.module-conversation-list__item--contact-or-conversation')
-        .first()
-        .click();
-
-      await window.locator('.module-conversation-hero').waitFor();
-
-      debug('Verify starting state');
-      {
-        // No messages
-        const messages = window.locator('.module-message__text');
-        assert.strictEqual(await messages.count(), 0, 'message count');
-
-        // No notifications
-        const notifications = window.locator('.SystemMessage');
-        assert.strictEqual(
-          await notifications.count(),
-          0,
-          'notification count'
-        );
-      }
-
-      debug('Send message to PNI');
-      {
-        const composeArea = window.locator(
-          '.composition-area-wrapper, .conversation .ConversationView'
-        );
-        const compositionInput = composeArea.locator(
-          '[data-testid=CompositionInput]'
-        );
-
-        await compositionInput.type('Hello PNI');
-        await compositionInput.press('Enter');
-      }
-
-      if (finalContact === UUIDKind.ACI) {
-        debug('switching back to ACI conversation');
+        debug('opening conversation with the aci contact');
         await leftPane
           .locator(`[data-testid="${pniContact.device.uuid}"]`)
           .click();
 
         await window.locator('.module-conversation-hero').waitFor();
-      }
 
-      debug(
-        'removing both contacts from storage service, adding one combined contact'
-      );
-      {
-        const state = await phone.expectStorageState('consistency check');
-        await phone.setStorageState(
-          state.mergeContact(pniContact, {
-            identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-            whitelisted: true,
-            identityKey: pniContact.publicKey.serialize(),
-            profileKey: pniContact.profileKey.serialize(),
-          })
+        debug('Send message to ACI');
+        {
+          const composeArea = window.locator(
+            '.composition-area-wrapper, .conversation .ConversationView'
+          );
+          const compositionInput = composeArea.locator(
+            '[data-testid=CompositionInput]'
+          );
+
+          await compositionInput.type('Hello ACI');
+          await compositionInput.press('Enter');
+        }
+
+        debug('opening conversation with the pni contact');
+        await leftPane
+          .locator('.module-conversation-list__item--contact-or-conversation')
+          .first()
+          .click();
+
+        await window.locator('.module-conversation-hero').waitFor();
+
+        debug('Verify starting state');
+        {
+          // No messages
+          const messages = window.locator('.module-message__text');
+          assert.strictEqual(await messages.count(), 0, 'message count');
+
+          // No notifications
+          const notifications = window.locator('.SystemMessage');
+          assert.strictEqual(
+            await notifications.count(),
+            0,
+            'notification count'
+          );
+        }
+
+        if (withNotification) {
+          debug('Send message to PNI');
+          const composeArea = window.locator(
+            '.composition-area-wrapper, .conversation .ConversationView'
+          );
+          const compositionInput = composeArea.locator(
+            '[data-testid=CompositionInput]'
+          );
+
+          await compositionInput.type('Hello PNI');
+          await compositionInput.press('Enter');
+        }
+
+        if (finalContact === UUIDKind.ACI) {
+          debug('switching back to ACI conversation');
+          await leftPane
+            .locator(`[data-testid="${pniContact.device.uuid}"]`)
+            .click();
+
+          await window.locator('.module-conversation-hero').waitFor();
+        }
+
+        debug(
+          'removing both contacts from storage service, adding one combined contact'
         );
-        await phone.sendFetchStorage({
-          timestamp: bootstrap.getTimestamp(),
-        });
-      }
+        {
+          const state = await phone.expectStorageState('consistency check');
+          await phone.setStorageState(
+            state.mergeContact(pniContact, {
+              identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+              whitelisted: true,
+              identityKey: pniContact.publicKey.serialize(),
+              profileKey: pniContact.profileKey.serialize(),
+            })
+          );
+          await phone.sendFetchStorage({
+            timestamp: bootstrap.getTimestamp(),
+          });
+          await app.waitForManifestVersion(state.version);
+        }
 
-      // wait for desktop to process these changes
-      await window.locator('.SystemMessage').waitFor();
+        debug('Verify final state');
+        {
+          // Should have both PNI and ACI messages
+          await window
+            .locator('.module-message__text >> "Hello ACI"')
+            .waitFor();
+          if (withNotification) {
+            await window
+              .locator('.module-message__text >> "Hello PNI"')
+              .waitFor();
+          }
 
-      debug('Verify final state');
-      {
-        // Should have both PNI and ACI messages
-        await window.locator('.module-message__text >> "Hello ACI"').waitFor();
-        await window.locator('.module-message__text >> "Hello PNI"').waitFor();
+          const messages = window.locator('.module-message__text');
+          assert.strictEqual(
+            await messages.count(),
+            withNotification ? 2 : 1,
+            'message count'
+          );
 
-        const messages = window.locator('.module-message__text');
-        assert.strictEqual(await messages.count(), 2, 'message count');
+          // One notification - the merge
+          const notifications = window.locator('.SystemMessage');
+          assert.strictEqual(
+            await notifications.count(),
+            withNotification ? 1 : 0,
+            'notification count'
+          );
 
-        // One notification - the merge
-        const notifications = window.locator('.SystemMessage');
-        assert.strictEqual(
-          await notifications.count(),
-          1,
-          'notification count'
-        );
-
-        const first = await notifications.first();
-        assert.match(
-          await first.innerText(),
-          /Your message history with ACI Contact and their number .* has been merged./
-        );
-      }
-    });
+          if (withNotification) {
+            const first = await notifications.first();
+            assert.match(
+              await first.innerText(),
+              /Your message history with ACI Contact and their number .* has been merged./
+            );
+          }
+        }
+      });
+    }
   }
 
   it('accepts storage service contact splitting', async () => {

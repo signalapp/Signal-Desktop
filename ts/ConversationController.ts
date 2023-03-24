@@ -470,17 +470,20 @@ export class ConversationController {
   } {
     const dataProvided = [];
     if (providedAci) {
-      dataProvided.push('aci');
+      dataProvided.push(`aci=${providedAci}`);
     }
     if (e164) {
-      dataProvided.push('e164');
+      dataProvided.push(`e164=${e164}`);
     }
     if (providedPni) {
-      dataProvided.push('pni');
+      dataProvided.push(`pni=${providedPni}`);
     }
-    const logId = `maybeMergeContacts/${reason}/${dataProvided.join('+')}`;
+    const logId = `maybeMergeContacts/${reason}/${dataProvided.join(',')}`;
 
-    const aci = providedAci ? UUID.cast(providedAci) : undefined;
+    const aci =
+      providedAci && providedAci !== providedPni
+        ? UUID.cast(providedAci)
+        : undefined;
     const pni = providedPni ? UUID.cast(providedPni) : undefined;
     const mergePromises: Array<Promise<void>> = [];
 
@@ -517,7 +520,8 @@ export class ConversationController {
       if (!match) {
         if (targetConversation) {
           log.info(
-            `${logId}: No match for ${key}, applying to target conversation`
+            `${logId}: No match for ${key}, applying to target ` +
+              `conversation - ${targetConversation.idForLogging()}`
           );
           // Note: This line might erase a known e164 or PNI
           applyChangeToConversation(targetConversation, {
@@ -609,7 +613,8 @@ export class ConversationController {
         // Clear the value on the current match, since it belongs on targetConversation!
         //   Note: we need to do the remove first, because it will clear the lookup!
         log.info(
-          `${logId}: Clearing ${key} on match, and adding it to target conversation`
+          `${logId}: Clearing ${key} on match, and adding it to target ` +
+            `conversation - ${targetConversation.idForLogging()}`
         );
         const change: Pick<
           Partial<ConversationAttributesType>,
@@ -635,7 +640,7 @@ export class ConversationController {
         if (willMerge) {
           log.warn(
             `${logId}: Removing old conversation which matched on ${key}. ` +
-              'Merging with target conversation.'
+              `Merging with target conversation - ${targetConversation.idForLogging()}`
           );
           mergePromises.push(
             mergeOldAndNew({
@@ -649,7 +654,10 @@ export class ConversationController {
         }
       } else if (targetConversation && !targetConversation?.get(key)) {
         // This is mostly for the situation where PNI was erased when updating e164
-        log.debug(`${logId}: Re-adding ${key} on target conversation`);
+        log.debug(
+          `${logId}: Re-adding ${key} on target conversation - ` +
+            `${targetConversation.idForLogging()}`
+        );
         applyChangeToConversation(targetConversation, {
           [key]: value,
         });
@@ -1075,6 +1083,8 @@ export class ConversationController {
 
     // Note: we explicitly don't want to update V2 groups
 
+    const obsoleteHadMessages = (obsolete.get('messageCount') ?? 0) > 0;
+
     log.warn(`${logId}: Delete the obsolete conversation from the database`);
     await removeConversation(obsoleteId);
 
@@ -1112,7 +1122,12 @@ export class ConversationController {
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
-    if (obsoleteTitleInfo && titleIsUseful && !fromPniSignature) {
+    if (
+      obsoleteTitleInfo &&
+      titleIsUseful &&
+      !fromPniSignature &&
+      obsoleteHadMessages
+    ) {
       drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 

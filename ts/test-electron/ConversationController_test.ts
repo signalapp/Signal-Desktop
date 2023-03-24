@@ -571,6 +571,28 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
+      it('adds PNI to conversation with e164+ACI', () => {
+        const initial = create('initial', {
+          aci: ACI_1,
+          e164: E164_1,
+        });
+
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: PNI_1,
+            pni: PNI_1,
+            e164: E164_1,
+            reason,
+          });
+        expectPropsAndLookups(result, 'result', {
+          uuid: ACI_1,
+          e164: E164_1,
+          pni: PNI_1,
+        });
+
+        assert.strictEqual(result?.id, initial?.id, 'result and initial match');
+      });
       it('replaces PNI in conversation with all data', () => {
         const initial = create('initial', {
           aci: ACI_1,
