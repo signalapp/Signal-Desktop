@@ -83,9 +83,9 @@ export const CallingParticipantsList = React.memo(
                 {participants.length === 1 &&
                   i18n('calling__in-this-call--one')}
                 {participants.length > 1 &&
-                  i18n('calling__in-this-call--many', [
-                    String(participants.length),
-                  ])}
+                  i18n('calling__in-this-call--many', {
+                    people: String(participants.length),
+                  })}
               </div>
               <button
                 type="button"

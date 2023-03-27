@@ -39,7 +39,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
           <Intl
             i18n={i18n}
             id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
-            components={[<ContactName title={contact.title} />]}
+            components={{ name: <ContactName title={contact.title} /> }}
           />
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>
@@ -48,9 +48,9 @@ export function NewlyCreatedGroupInvitedContactsDialog({
       </>
     );
   } else {
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', [
-      contacts.length.toString(),
-    ]);
+    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', {
+      count: contacts.length.toString(),
+    });
     body = (
       <>
         <GroupDialog.Paragraph>

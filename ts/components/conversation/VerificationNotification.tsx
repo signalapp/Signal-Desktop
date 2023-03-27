@@ -50,13 +50,15 @@ export class VerificationNotification extends React.Component<Props> {
       // eslint-disable-next-line local-rules/valid-i18n-keys
       <Intl
         id={id}
-        components={[
-          <ContactName
-            key="external-1"
-            title={contact.title}
-            module="module-verification-notification__contact"
-          />,
-        ]}
+        components={{
+          name: (
+            <ContactName
+              key="external-1"
+              title={contact.title}
+              module="module-verification-notification__contact"
+            />
+          ),
+        }}
         i18n={i18n}
       />
     );

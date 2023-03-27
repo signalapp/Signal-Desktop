@@ -16,10 +16,7 @@ export type FullJSXType =
   | ReactNode
   | JSX.Element
   | string;
-export type IntlComponentsType =
-  | undefined
-  | Array<FullJSXType>
-  | ReplacementValuesType<FullJSXType>;
+export type IntlComponentsType = undefined | ReplacementValuesType<FullJSXType>;
 
 export type Props = {
   /** The translation string id */

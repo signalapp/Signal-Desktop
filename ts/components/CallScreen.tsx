@@ -118,7 +118,13 @@ function DirectCallHeaderMessage({
     return <>{i18n('callReconnecting')}</>;
   }
   if (callState === CallState.Accepted && acceptedDuration) {
-    return <>{i18n('callDuration', [renderDuration(acceptedDuration)])}</>;
+    return (
+      <>
+        {i18n('callDuration', {
+          duration: renderDuration(acceptedDuration),
+        })}
+      </>
+    );
   }
   return null;
 }
@@ -312,9 +318,9 @@ export function CallScreen({
       if (isRinging) {
         headerTitle = undefined;
       } else if (currentPresenter) {
-        headerTitle = i18n('calling__presenting--person-ongoing', [
-          currentPresenter.title,
-        ]);
+        headerTitle = i18n('calling__presenting--person-ongoing', {
+          name: currentPresenter.title,
+        });
       } else if (!activeCall.remoteParticipants.length) {
         headerTitle = i18n('calling__in-this-call--zero');
       }

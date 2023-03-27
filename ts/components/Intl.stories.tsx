@@ -35,17 +35,19 @@ NoReplacements.args = createProps({
 export const SingleStringReplacement = Template.bind({});
 SingleStringReplacement.args = createProps({
   id: 'leftTheGroup',
-  components: ['Theodora'],
+  components: { name: 'Theodora' },
 });
 
 export const SingleTagReplacement = Template.bind({});
 SingleTagReplacement.args = createProps({
   id: 'leftTheGroup',
-  components: [
-    <button type="button" key="a-button">
-      Theodora
-    </button>,
-  ],
+  components: {
+    name: (
+      <button type="button" key="a-button">
+        Theodora
+      </button>
+    ),
+  },
 });
 
 export const MultipleStringReplacement = Template.bind({});

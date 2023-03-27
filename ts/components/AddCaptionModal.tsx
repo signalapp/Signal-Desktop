@@ -63,7 +63,7 @@ export function AddCaptionModal({
       hasFooterDivider={!isScrolledBottom}
       moduleClassName="AddCaptionModal"
       padded={false}
-      title="Add a message"
+      title={i18n('AddCaptionModal__title')}
       onClose={onClose}
       modalFooter={
         <Button onClick={handleSubmit}>

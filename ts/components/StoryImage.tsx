@@ -158,7 +158,13 @@ export function StoryImage({
       if (isMe) {
         content = <>{i18n('StoryImage__error--you')}</>;
       } else {
-        content = <>{i18n('StoryImage__error2', [firstName])}</>;
+        content = (
+          <>
+            {i18n('StoryImage__error2', {
+              name: firstName,
+            })}
+          </>
+        );
       }
     }
 

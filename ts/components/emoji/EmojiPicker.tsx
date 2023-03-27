@@ -480,7 +480,9 @@ export const EmojiPicker = React.memo(
                           handlePickTone(event);
                         }
                       }}
-                      title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
+                      title={i18n('EmojiPicker--skin-tone', {
+                        tone: `${tone}`,
+                      })}
                       className={classNames(
                         'module-emoji-picker__button',
                         'module-emoji-picker__button--footer',

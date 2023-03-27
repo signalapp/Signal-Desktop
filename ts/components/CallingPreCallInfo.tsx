@@ -72,7 +72,9 @@ export function CallingPreCallInfo({
       case 1:
         subtitle = hasYou
           ? i18n('calling__pre-call-info--another-device-in-call')
-          : i18n('calling__pre-call-info--1-person-in-call', participantNames);
+          : i18n('calling__pre-call-info--1-person-in-call', {
+              first: participantNames[0],
+            });
         break;
       case 2:
         subtitle = i18n('calling__pre-call-info--2-people-in-call', {
@@ -117,42 +119,53 @@ export function CallingPreCallInfo({
         subtitle = i18n('calling__pre-call-info--empty-group');
         break;
       case 1: {
-        const i18nValues = [memberNames[0]];
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-1', i18nValues)
-          : i18n('calling__pre-call-info--will-notify-1', i18nValues);
+          ? i18n('calling__pre-call-info--will-ring-1', {
+              person: memberNames[0],
+            })
+          : i18n('calling__pre-call-info--will-notify-1', {
+              person: memberNames[0],
+            });
         break;
       }
       case 2: {
-        const i18nValues = {
-          first: memberNames[0],
-          second: memberNames[1],
-        };
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-2', i18nValues)
-          : i18n('calling__pre-call-info--will-notify-2', i18nValues);
+          ? i18n('calling__pre-call-info--will-ring-2', {
+              first: memberNames[0],
+              second: memberNames[1],
+            })
+          : i18n('calling__pre-call-info--will-notify-2', {
+              first: memberNames[0],
+              second: memberNames[1],
+            });
         break;
       }
       case 3: {
-        const i18nValues = {
-          first: memberNames[0],
-          second: memberNames[1],
-          third: memberNames[2],
-        };
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-3', i18nValues)
-          : i18n('calling__pre-call-info--will-notify-3', i18nValues);
+          ? i18n('calling__pre-call-info--will-ring-3', {
+              first: memberNames[0],
+              second: memberNames[1],
+              third: memberNames[2],
+            })
+          : i18n('calling__pre-call-info--will-notify-3', {
+              first: memberNames[0],
+              second: memberNames[1],
+              third: memberNames[2],
+            });
         break;
       }
       default: {
-        const i18nValues = {
-          first: memberNames[0],
-          second: memberNames[1],
-          others: String(memberNames.length - 2),
-        };
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-many', i18nValues)
-          : i18n('calling__pre-call-info--will-notify-many', i18nValues);
+          ? i18n('calling__pre-call-info--will-ring-many', {
+              first: memberNames[0],
+              second: memberNames[1],
+              others: String(memberNames.length - 2),
+            })
+          : i18n('calling__pre-call-info--will-notify-many', {
+              first: memberNames[0],
+              second: memberNames[1],
+              others: String(memberNames.length - 2),
+            });
         break;
       }
     }

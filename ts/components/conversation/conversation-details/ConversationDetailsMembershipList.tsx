@@ -93,9 +93,9 @@ export function ConversationDetailsMembershipList({
 
   return (
     <PanelSection
-      title={i18n('ConversationDetailsMembershipList--title', [
-        sortedMemberships.length.toString(),
-      ])}
+      title={i18n('ConversationDetailsMembershipList--title', {
+        number: sortedMemberships.length.toString(),
+      })}
     >
       {canAddNewMembers && (
         <PanelRow

@@ -161,7 +161,9 @@ export function DialogUpdate({
   }
 
   const versionTitle = version
-    ? i18n('DialogUpdate--version-available', [version])
+    ? i18n('DialogUpdate--version-available', {
+        version,
+      })
     : undefined;
 
   if (dialogType === DialogType.Downloading) {

@@ -996,9 +996,9 @@ export function SendStoryModal({
           }}
           theme={Theme.Dark}
         >
-          {i18n('StoriesSettings__delete-list--confirm', [
-            confirmDeleteList.name,
-          ])}
+          {i18n('StoriesSettings__delete-list--confirm', {
+            name: confirmDeleteList.name,
+          })}
         </ConfirmationDialog>
       )}
       {confirmDiscardModal}

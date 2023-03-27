@@ -86,7 +86,9 @@ export function StagedLinkPreview({
       {isLoaded && image && isImage && domain ? (
         <div className={getClassName('__icon-container')}>
           <Image
-            alt={i18n('stagedPreviewThumbnail', [domain])}
+            alt={i18n('stagedPreviewThumbnail', {
+              domain,
+            })}
             attachment={image}
             curveBottomLeft={CurveType.Tiny}
             curveBottomRight={CurveType.Tiny}

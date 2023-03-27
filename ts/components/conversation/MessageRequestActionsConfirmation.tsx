@@ -52,7 +52,9 @@ export function MessageRequestActionsConfirmation({
           <Intl
             i18n={i18n}
             id={`MessageRequests--block-${conversationType}-confirm-title`}
-            components={[<ContactName key="name" title={title} />]}
+            components={{
+              title: <ContactName key="name" title={title} />,
+            }}
           />
         }
         actions={[
@@ -119,7 +121,9 @@ export function MessageRequestActionsConfirmation({
           <Intl
             i18n={i18n}
             id={`MessageRequests--delete-${conversationType}-confirm-title`}
-            components={[<ContactName key="name" title={title} />]}
+            components={{
+              title: <ContactName key="name" title={title} />,
+            }}
           />
         }
         actions={[

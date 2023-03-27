@@ -250,9 +250,9 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       contents = (
         <>
           <p>
-            {i18n('ContactSpoofingReviewDialog__group__description', [
-              conversationInfos.length.toString(),
-            ])}
+            {i18n('ContactSpoofingReviewDialog__group__description', {
+              count: conversationInfos.length.toString(),
+            })}
           </p>
           <h2>{i18n('ContactSpoofingReviewDialog__group__members-header')}</h2>
           {conversationInfos.map((conversationInfo, index) => {

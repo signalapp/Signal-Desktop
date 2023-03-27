@@ -66,7 +66,11 @@ export class GroupNotification extends React.Component<Props> {
     switch (type) {
       case 'name':
         return (
-          <Intl i18n={i18n} id="titleIsNow" components={[newName || '']} />
+          <Intl
+            i18n={i18n}
+            id="titleIsNow"
+            components={{ name: newName || '' }}
+          />
         );
       case 'avatar':
         return <Intl i18n={i18n} id="updatedGroupAvatar" />;
@@ -83,13 +87,13 @@ export class GroupNotification extends React.Component<Props> {
                   <Intl
                     i18n={i18n}
                     id="joinedTheGroup"
-                    components={[otherPeopleWithCommas]}
+                    components={{ name: otherPeopleWithCommas }}
                   />
                 ) : (
                   <Intl
                     i18n={i18n}
                     id="multipleJoinedTheGroup"
-                    components={[otherPeopleWithCommas]}
+                    components={{ names: otherPeopleWithCommas }}
                   />
                 )}
               </>
@@ -114,13 +118,13 @@ export class GroupNotification extends React.Component<Props> {
           <Intl
             id="multipleLeftTheGroup"
             i18n={i18n}
-            components={[otherPeopleWithCommas]}
+            components={{ name: otherPeopleWithCommas }}
           />
         ) : (
           <Intl
             id="leftTheGroup"
             i18n={i18n}
-            components={[otherPeopleWithCommas]}
+            components={{ name: otherPeopleWithCommas }}
           />
         );
       case 'general':
@@ -147,7 +151,7 @@ export class GroupNotification extends React.Component<Props> {
       <Intl
         i18n={i18n}
         id="updatedTheGroup"
-        components={[<ContactName title={from.title} />]}
+        components={{ name: <ContactName title={from.title} /> }}
       />
     );
 

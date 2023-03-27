@@ -21,7 +21,9 @@ export function CallingScreenSharingController({
   return (
     <div className="module-CallingScreenSharingController">
       <div className="module-CallingScreenSharingController__text">
-        {i18n('calling__presenting--info', [presentedSourceName])}
+        {i18n('calling__presenting--info', {
+          window: presentedSourceName,
+        })}
       </div>
       <div className="module-CallingScreenSharingController__buttons">
         <Button

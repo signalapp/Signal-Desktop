@@ -3093,7 +3093,7 @@
   },
   "Reactions--remove": {
     "message": "Remove reaction",
-    "describe": "Shown when you want to remove a reaction you've made"
+    "description": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Failed to send reaction. Please try again.",
@@ -3152,7 +3152,7 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Block $name$?",
+    "message": "Block $title$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3160,7 +3160,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Block and Leave $group$?",
+    "message": "Block and Leave $title$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3180,7 +3180,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Delete and Leave $group$?",
+    "message": "Delete and Leave $title$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -6021,11 +6021,11 @@
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Remove group story",
-    "descirption": "Stories settings > Group Story > button to remove group story"
+    "description": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
     "messageformat": "Are you sure you want to remove “{groupTitle}”?",
-    "descirption": "Stories settings > Group Story > confirm to remove group story"
+    "description": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Choose who can view your story",
@@ -6278,10 +6278,6 @@
   "StoryImage__error--you": {
     "message": "Can’t download story. You will need to share it again.",
     "description": "Description for image errors but when it is your own image"
-  },
-  "StoryCreator__error--video-too-long": {
-    "message": "Cannot post video to story because it is too long",
-    "description": "(deleted 02/22/2023) Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
     "message": "Cannot post video to story as it is an unsupported file format",

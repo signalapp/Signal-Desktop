@@ -348,9 +348,9 @@ function CustomColorBubble({
           }}
           title={i18n('ChatColorPicker__delete--title')}
         >
-          {i18n('ChatColorPicker__delete--message', [
-            String(confirmDeleteCount),
-          ])}
+          {i18n('ChatColorPicker__delete--message', {
+            num: String(confirmDeleteCount),
+          })}
         </ConfirmationDialog>
       ) : null}
       {isSelected ? (

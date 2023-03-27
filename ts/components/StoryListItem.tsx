@@ -216,7 +216,9 @@ export function StoryListItem({
             setHasConfirmHideStory(false);
           }}
         >
-          {i18n('StoryListItem__hide-modal--body', [String(firstName)])}
+          {i18n('StoryListItem__hide-modal--body', {
+            name: String(firstName),
+          })}
         </ConfirmationDialog>
       )}
     </>

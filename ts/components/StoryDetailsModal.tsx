@@ -244,14 +244,16 @@ export function StoryDetailsModal({
             <Intl
               i18n={i18n}
               id="StoryDetailsModal__sent-time"
-              components={[
-                <Time
-                  className="StoryDetailsModal__debugger__button__text"
-                  timestamp={timestamp}
-                >
-                  {formatDateTimeLong(i18n, timestamp)}
-                </Time>,
-              ]}
+              components={{
+                time: (
+                  <Time
+                    className="StoryDetailsModal__debugger__button__text"
+                    timestamp={timestamp}
+                  >
+                    {formatDateTimeLong(i18n, timestamp)}
+                  </Time>
+                ),
+              }}
             />
           </div>
           {attachment && (
@@ -259,11 +261,13 @@ export function StoryDetailsModal({
               <Intl
                 i18n={i18n}
                 id="StoryDetailsModal__file-size"
-                components={[
-                  <span className="StoryDetailsModal__debugger__button__text">
-                    {formatFileSize(attachment.size)}
-                  </span>,
-                ]}
+                components={{
+                  size: (
+                    <span className="StoryDetailsModal__debugger__button__text">
+                      {formatFileSize(attachment.size)}
+                    </span>
+                  ),
+                }}
               />
             </div>
           )}
@@ -272,13 +276,15 @@ export function StoryDetailsModal({
               <Intl
                 i18n={i18n}
                 id="StoryDetailsModal__disappears-in"
-                components={[
-                  <span className="StoryDetailsModal__debugger__button__text">
-                    {formatRelativeTime(i18n, timeRemaining, {
-                      largest: 2,
-                    })}
-                  </span>,
-                ]}
+                components={{
+                  countdown: (
+                    <span className="StoryDetailsModal__debugger__button__text">
+                      {formatRelativeTime(i18n, timeRemaining, {
+                        largest: 2,
+                      })}
+                    </span>
+                  ),
+                }}
               />
             </div>
           )}

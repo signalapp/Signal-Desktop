@@ -579,7 +579,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         renderString: (
           key: string,
           _i18n: unknown,
-          components: Array<string> | ReplacementValuesType<string> | undefined
+          components: ReplacementValuesType<string> | undefined
         ) => window.i18n(key, components),
       });
 
@@ -640,9 +640,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
       if (groupUpdate.left) {
         return {
-          text: window.i18n('leftTheGroup', [
-            this.getNameForNumber(groupUpdate.left),
-          ]),
+          text: window.i18n('leftTheGroup', {
+            name: this.getNameForNumber(groupUpdate.left),
+          }),
         };
       }
 
@@ -653,7 +653,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       if (isMe(fromContact.attributes)) {
         messages.push(window.i18n('youUpdatedTheGroup'));
       } else {
-        messages.push(window.i18n('updatedTheGroup', [fromContact.getTitle()]));
+        messages.push(
+          window.i18n('updatedTheGroup', {
+            name: fromContact.getTitle(),
+          })
+        );
       }
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
@@ -666,9 +670,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         if (joinedContacts.length > 1) {
           messages.push(
-            window.i18n('multipleJoinedTheGroup', [
-              joinedWithoutMe.map(contact => contact.getTitle()).join(', '),
-            ])
+            window.i18n('multipleJoinedTheGroup', {
+              names: joinedWithoutMe
+                .map(contact => contact.getTitle())
+                .join(', '),
+            })
           );
 
           if (joinedWithoutMe.length < joinedContacts.length) {
@@ -683,14 +689,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             messages.push(window.i18n('youJoinedTheGroup'));
           } else {
             messages.push(
-              window.i18n('joinedTheGroup', [joinedContacts[0].getTitle()])
+              window.i18n('joinedTheGroup', {
+                name: joinedContacts[0].getTitle(),
+              })
             );
           }
         }
       }
 
       if (groupUpdate.name) {
-        messages.push(window.i18n('titleIsNow', [groupUpdate.name]));
+        messages.push(
+          window.i18n('titleIsNow', {
+            name: groupUpdate.name,
+          })
+        );
       }
       if (groupUpdate.avatarUpdated) {
         messages.push(window.i18n('updatedGroupAvatar'));
@@ -788,9 +800,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       return {
-        text: window.i18n('timerSetTo', [
-          expirationTimer.format(window.i18n, expireTimer),
-        ]),
+        text: window.i18n('timerSetTo', {
+          time: expirationTimer.format(window.i18n, expireTimer),
+        }),
       };
     }
 
@@ -798,9 +810,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const identifier = this.get('key_changed');
       const conversation = window.ConversationController.get(identifier);
       return {
-        text: window.i18n('safetyNumberChangedGroup', [
-          conversation ? conversation.getTitle() : '',
-        ]),
+        text: window.i18n('safetyNumberChangedGroup', {
+          name: conversation ? conversation.getTitle() : '',
+        }),
       };
     }
     const contacts = this.get('contact');

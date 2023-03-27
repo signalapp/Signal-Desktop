@@ -507,9 +507,9 @@ export function StoriesSettingsModal({
           }}
           theme={Theme.Dark}
         >
-          {i18n('StoriesSettings__delete-list--confirm', [
-            confirmDeleteList.name,
-          ])}
+          {i18n('StoriesSettings__delete-list--confirm', {
+            name: confirmDeleteList.name,
+          })}
         </ConfirmationDialog>
       )}
       {confirmRemoveGroup != null && (
@@ -687,9 +687,9 @@ export function DistributionListSettingsModal({
               </span>
 
               <button
-                aria-label={i18n('StoriesSettings__remove--title', [
-                  member.title,
-                ])}
+                aria-label={i18n('StoriesSettings__remove--title', {
+                  title: member.title,
+                })}
                 className="StoriesSettingsModal__list__delete"
                 onClick={() => {
                   strictAssert(member.uuid, 'Story member was missing uuid');
@@ -753,9 +753,9 @@ export function DistributionListSettingsModal({
             setConfirmRemoveMember(undefined);
           }}
           theme={Theme.Dark}
-          title={i18n('StoriesSettings__remove--title', [
-            confirmRemoveMember.title,
-          ])}
+          title={i18n('StoriesSettings__remove--title', {
+            title: confirmRemoveMember.title,
+          })}
         >
           {i18n('StoriesSettings__remove--body')}
         </ConfirmationDialog>

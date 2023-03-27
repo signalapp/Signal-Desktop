@@ -1162,7 +1162,9 @@ export class Message extends React.PureComponent<Props, State> {
                 curveBottomRight={CurveType.Tiny}
                 curveTopRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}
-                alt={i18n('previewThumbnail', [first.domain])}
+                alt={i18n('previewThumbnail', {
+                  domain: first.domain,
+                })}
                 height={72}
                 width={72}
                 url={first.image.url}
@@ -1536,7 +1538,9 @@ export class Message extends React.PureComponent<Props, State> {
       <>
         {storyReplyContext.emoji && (
           <div className="module-message__quote-story-reaction-header">
-            {i18n('Quote__story-reaction', [storyReplyContext.authorTitle])}
+            {i18n('Quote__story-reaction', {
+              name: storyReplyContext.authorTitle,
+            })}
           </div>
         )}
         <Quote

@@ -58,18 +58,20 @@ export function MessageRequestActions({
             id={`MessageRequests--message-${conversationType}${
               isBlocked ? '-blocked' : ''
             }`}
-            components={[
-              <strong
-                key="name"
-                className="module-message-request-actions__message__name"
-              >
-                <ContactName
-                  firstName={firstName}
-                  title={title}
-                  preferFirstName
-                />
-              </strong>,
-            ]}
+            components={{
+              name: (
+                <strong
+                  key="name"
+                  className="module-message-request-actions__message__name"
+                >
+                  <ContactName
+                    firstName={firstName}
+                    title={title}
+                    preferFirstName
+                  />
+                </strong>
+              ),
+            }}
           />
         </p>
         <div className="module-message-request-actions__buttons">

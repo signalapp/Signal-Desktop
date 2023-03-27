@@ -86,9 +86,9 @@ function getGroupCallNotificationText(
   if (notification.creator.isMe) {
     return i18n('calling__call-notification__started-by-you');
   }
-  return i18n('calling__call-notification__started', [
-    notification.creator.systemGivenName ?? notification.creator.title,
-  ]);
+  return i18n('calling__call-notification__started', {
+    name: notification.creator.systemGivenName ?? notification.creator.title,
+  });
 }
 
 export function getCallingNotificationText(

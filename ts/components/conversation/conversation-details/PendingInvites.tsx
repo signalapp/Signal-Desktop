@@ -403,7 +403,9 @@ function MembersPendingAdminApproval({
         />
       ))}
       <div className="ConversationDetails__pending--info">
-        {i18n('PendingRequests--info', [conversation.title])}
+        {i18n('PendingRequests--info', {
+          name: conversation.title,
+        })}
       </div>
     </PanelSection>
   );
@@ -501,9 +503,9 @@ function MembersPendingProfileKey({
                 />
               }
               label={member.title}
-              right={i18n('PendingInvites--invited-count', [
-                pendingMemberships.length.toString(),
-              ])}
+              right={i18n('PendingInvites--invited-count', {
+                number: pendingMemberships.length.toString(),
+              })}
               actions={
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon

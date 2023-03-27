@@ -102,9 +102,9 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
             const imgElement = (
               <Image
                 key={key}
-                alt={i18n('stagedImageAttachment', [
-                  attachment.fileName || url || index.toString(),
-                ])}
+                alt={i18n('stagedImageAttachment', {
+                  path: attachment.fileName || url || index.toString(),
+                })}
                 className="module-staged-attachment"
                 i18n={i18n}
                 attachment={attachment}

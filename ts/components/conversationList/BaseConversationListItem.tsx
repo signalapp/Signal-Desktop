@@ -132,11 +132,17 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     } else if (isCheckbox) {
       let ariaLabel: string;
       if (disabled) {
-        ariaLabel = i18n('cannotSelectContact', [title]);
+        ariaLabel = i18n('cannotSelectContact', {
+          name: title,
+        });
       } else if (checked) {
-        ariaLabel = i18n('deselectContact', [title]);
+        ariaLabel = i18n('deselectContact', {
+          name: title,
+        });
       } else {
-        ariaLabel = i18n('selectContact', [title]);
+        ariaLabel = i18n('selectContact', {
+          name: title,
+        });
       }
       actionNode = (
         <div className={CHECKBOX_CONTAINER_CLASS_NAME}>

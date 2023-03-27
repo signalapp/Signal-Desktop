@@ -857,13 +857,13 @@ export function StoryViewer({
                           <Intl
                             i18n={i18n}
                             id="MyStories__views--singular"
-                            components={[<strong>{viewCount}</strong>]}
+                            components={{ num: <strong>{viewCount}</strong> }}
                           />
                         ) : (
                           <Intl
                             i18n={i18n}
                             id="MyStories__views--plural"
-                            components={[<strong>{viewCount}</strong>]}
+                            components={{ num: <strong>{viewCount}</strong> }}
                           />
                         ))}
                       {(isSent || viewCount > 0) && replyCount > 0 && ' '}
@@ -872,13 +872,13 @@ export function StoryViewer({
                           <Intl
                             i18n={i18n}
                             id="MyStories__replies--singular"
-                            components={[<strong>{replyCount}</strong>]}
+                            components={{ num: <strong>{replyCount}</strong> }}
                           />
                         ) : (
                           <Intl
                             i18n={i18n}
                             id="MyStories__replies--plural"
-                            components={[<strong>{replyCount}</strong>]}
+                            components={{ num: <strong>{replyCount}</strong> }}
                           />
                         ))}
                     </span>
@@ -978,7 +978,9 @@ export function StoryViewer({
               setHasConfirmHideStory(false);
             }}
           >
-            {i18n('StoryListItem__hide-modal--body', [String(firstName)])}
+            {i18n('StoryListItem__hide-modal--body', {
+              name: String(firstName),
+            })}
           </ConfirmationDialog>
         )}
         {confirmDeleteStory && (

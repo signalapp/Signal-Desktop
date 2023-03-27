@@ -22,7 +22,9 @@ describe('setupI18n', () => {
       assert.strictEqual(i18n('reportIssue'), 'Contact Support');
     });
     it('returns message with single substitution', () => {
-      const actual = i18n('migratingToSQLCipher', ['45/200']);
+      const actual = i18n('migratingToSQLCipher', {
+        status: '45/200',
+      });
       assert.equal(actual, 'Optimizing messages... 45/200 complete.');
     });
     it('returns message with multiple substitutions', () => {

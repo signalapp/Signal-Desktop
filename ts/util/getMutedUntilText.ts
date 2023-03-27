@@ -23,5 +23,7 @@ export function getMutedUntilText(
     ? expires.format('LT')
     : expires.format('L, LT');
 
-  return i18n('muteExpirationLabel', [muteExpirationUntil]);
+  return i18n('muteExpirationLabel', {
+    duration: muteExpirationUntil,
+  });
 }

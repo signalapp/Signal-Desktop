@@ -188,7 +188,9 @@ export function Inbox({
           </div>
           <div className="message">
             {loadingMessageCount
-              ? i18n('loadingMessages', [String(loadingMessageCount)])
+              ? i18n('loadingMessages', {
+                  count: String(loadingMessageCount),
+                })
               : i18n('loading')}
           </div>
           <div id="toast" />

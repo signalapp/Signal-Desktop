@@ -140,7 +140,9 @@ function renderCallingNotificationButton(
         buttonText = i18n('calling__call-is-full');
         disabledTooltipText = i18n(
           'calling__call-notification__button__call-full-tooltip',
-          [String(deviceCount)]
+          {
+            max: String(deviceCount),
+          }
         );
         onClick = noop;
       } else {

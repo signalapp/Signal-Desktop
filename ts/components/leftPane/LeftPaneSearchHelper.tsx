@@ -161,7 +161,11 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     } else {
       noResults = (
         <>
-          <div>{i18n('noSearchResults', [searchTerm])}</div>
+          <div>
+            {i18n('noSearchResults', {
+              searchTerm,
+            })}
+          </div>
           {primarySendsSms && (
             <div className="module-left-pane__no-search-results__sms-only">
               {i18n('noSearchResults--sms-only')}

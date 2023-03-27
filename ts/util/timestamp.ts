@@ -125,21 +125,21 @@ export function formatDateTimeLong(
   const timestamp = rawTimestamp.valueOf();
 
   if (isToday(rawTimestamp)) {
-    return i18n('timestampFormat__long--today', [
-      new Intl.DateTimeFormat(locale, {
+    return i18n('timestampFormat__long--today', {
+      time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
       }).format(timestamp),
-    ]);
+    });
   }
 
   if (isYesterday(rawTimestamp)) {
-    return i18n('timestampFormat__long--yesterday', [
-      new Intl.DateTimeFormat(locale, {
+    return i18n('timestampFormat__long--yesterday', {
+      time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
       }).format(timestamp),
-    ]);
+    });
   }
 
   return new Intl.DateTimeFormat(locale, {
@@ -165,11 +165,15 @@ export function formatTime(
   }
 
   if (diff < HOUR) {
-    return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
+    return i18n('minutesAgo', {
+      minutes: Math.floor(diff / MINUTE).toString(),
+    });
   }
 
   if (isRelativeTime) {
-    return i18n('hoursAgo', [Math.floor(diff / HOUR).toString()]);
+    return i18n('hoursAgo', {
+      hours: Math.floor(diff / HOUR).toString(),
+    });
   }
 
   return new Date(timestamp).toLocaleTimeString([], {

@@ -73,7 +73,9 @@ export function StoryLinkPreview({
       {isImage && image ? (
         <div className="StoryLinkPreview__icon-container">
           <Image
-            alt={i18n('stagedPreviewThumbnail', [location])}
+            alt={i18n('stagedPreviewThumbnail', {
+              domain: location,
+            })}
             attachment={image}
             curveBottomLeft={CurveType.Tiny}
             curveBottomRight={CurveType.Tiny}

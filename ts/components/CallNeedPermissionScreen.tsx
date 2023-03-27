@@ -64,7 +64,9 @@ export function CallNeedPermissionScreen({
         <Intl
           i18n={i18n}
           id="callNeedPermission"
-          components={[<ContactName title={title} />]}
+          components={{
+            title: <ContactName title={title} />,
+          }}
         />
       </p>
 

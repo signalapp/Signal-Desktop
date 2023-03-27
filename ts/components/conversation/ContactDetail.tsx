@@ -80,7 +80,7 @@ export class ContactDetail extends React.Component<Props> {
     onSendMessage,
   }: {
     hasSignalAccount: boolean;
-    i18n: (key: string, values?: Array<string>) => string;
+    i18n: LocalizerType;
     onSendMessage: () => void;
   }): JSX.Element | null {
     if (!hasSignalAccount) {

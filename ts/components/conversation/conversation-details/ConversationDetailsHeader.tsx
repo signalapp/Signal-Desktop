@@ -66,9 +66,9 @@ export function ConversationDetailsHeader({
     } else if (canEdit) {
       subtitle = i18n('ConversationDetailsHeader--add-group-description');
     } else {
-      subtitle = i18n('ConversationDetailsHeader--members', [
-        memberships.length.toString(),
-      ]);
+      subtitle = i18n('ConversationDetailsHeader--members', {
+        number: memberships.length.toString(),
+      });
     }
   } else if (!isMe) {
     subtitle = (

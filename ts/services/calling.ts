@@ -2266,9 +2266,9 @@ export class CallingClass {
         notificationTitle =
           conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
         notificationMessage = creatorConversation
-          ? window.i18n('calling__call-notification__started', [
-              creatorConversation.getTitle(),
-            ])
+          ? window.i18n('calling__call-notification__started', {
+              name: creatorConversation.getTitle(),
+            })
           : window.i18n('calling__call-notification__started-by-someone');
         break;
     }

@@ -46,17 +46,19 @@ export function SafetyNumberNotification({
         // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           id={changeKey}
-          components={[
-            <span
-              key="external-1"
-              className="module-safety-number-notification__contact"
-            >
-              <ContactName
-                title={contact.title}
-                module="module-safety-number-notification__contact"
-              />
-            </span>,
-          ]}
+          components={{
+            name: (
+              <span
+                key="external-1"
+                className="module-safety-number-notification__contact"
+              >
+                <ContactName
+                  title={contact.title}
+                  module="module-safety-number-notification__contact"
+                />
+              </span>
+            ),
+          }}
           i18n={i18n}
         />
       }

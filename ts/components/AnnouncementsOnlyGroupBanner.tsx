@@ -54,15 +54,17 @@ export function AnnouncementsOnlyGroupBanner({
         <Intl
           i18n={i18n}
           id="AnnouncementsOnlyGroupBanner--announcements-only"
-          components={[
-            <button
-              className="AnnouncementsOnlyGroupBanner__banner--admins"
-              type="button"
-              onClick={() => setIsShowingAdmins(true)}
-            >
-              {i18n('AnnouncementsOnlyGroupBanner--admins')}
-            </button>,
-          ]}
+          components={{
+            admins: (
+              <button
+                className="AnnouncementsOnlyGroupBanner__banner--admins"
+                type="button"
+                onClick={() => setIsShowingAdmins(true)}
+              >
+                {i18n('AnnouncementsOnlyGroupBanner--admins')}
+              </button>
+            ),
+          }}
         />
       </div>
     </>

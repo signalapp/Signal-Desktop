@@ -118,11 +118,19 @@ function renderUsers(
         <Intl
           i18n={i18n}
           id={`${keyPrefix}--one`}
-          components={[<ContactName title={members[0].title} />]}
+          components={{
+            contact: <ContactName title={members[0].title} />,
+          }}
         />
       </p>
     );
   }
 
-  return <p>{i18n(`${keyPrefix}--many`, [members.length.toString()])}</p>;
+  return (
+    <p>
+      {i18n(`${keyPrefix}--many`, {
+        count: members.length.toString(),
+      })}
+    </p>
+  );
 }

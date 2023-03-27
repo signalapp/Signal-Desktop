@@ -125,8 +125,12 @@ export function ContactModal({
           onClose={() => setSubModalState(SubModalState.None)}
         >
           {isAdmin
-            ? i18n('ContactModal--rm-admin-info', [contact.title])
-            : i18n('ContactModal--make-admin-info', [contact.title])}
+            ? i18n('ContactModal--rm-admin-info', {
+                contact: contact.title,
+              })
+            : i18n('ContactModal--make-admin-info', {
+                contact: contact.title,
+              })}
         </ConfirmationDialog>
       );
       break;

@@ -93,7 +93,9 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
       </div>
       <div className="module-group-v2-join-dialog__title">{title}</div>
       <div className="module-group-v2-join-dialog__metadata">
-        {i18n('GroupV2--join--group-metadata', [memberString])}
+        {i18n('GroupV2--join--group-metadata', {
+          memberCount: memberString,
+        })}
       </div>
       {groupDescription && (
         <div className="module-group-v2-join-dialog__description">

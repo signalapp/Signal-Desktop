@@ -14,7 +14,7 @@ export type SmartContactRendererType<T> = (uuid: UUIDStringType) => T | string;
 export type StringRendererType<T> = (
   id: string,
   i18n: LocalizerType,
-  components?: Array<T | string> | ReplacementValuesType<T | string>
+  components?: ReplacementValuesType<T | string>
 ) => T | string;
 
 export type RenderOptionsType<T> = {
@@ -93,7 +93,7 @@ export function renderChangeDetail<T>(
 
     if (newTitle) {
       if (fromYou) {
-        return renderString('GroupV2--title--change--you', i18n, [newTitle]);
+        return renderString('GroupV2--title--change--you', i18n, { newTitle });
       }
       if (from) {
         return renderString('GroupV2--title--change--other', i18n, {
@@ -101,15 +101,17 @@ export function renderChangeDetail<T>(
           newTitle,
         });
       }
-      return renderString('GroupV2--title--change--unknown', i18n, [newTitle]);
+      return renderString('GroupV2--title--change--unknown', i18n, {
+        newTitle,
+      });
     }
     if (fromYou) {
       return renderString('GroupV2--title--remove--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--title--remove--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--title--remove--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--title--remove--unknown', i18n);
   }
@@ -119,9 +121,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--avatar--remove--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--avatar--remove--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--avatar--remove--other', i18n, {
+          memberName: renderContact(from),
+        });
       }
       return renderString('GroupV2--avatar--remove--unknown', i18n);
     }
@@ -129,9 +131,9 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--avatar--change--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--avatar--change--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--avatar--change--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--avatar--change--unknown', i18n);
   }
@@ -143,9 +145,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--access-attributes--admins--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--access-attributes--admins--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--access-attributes--admins--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--access-attributes--admins--unknown', i18n);
     }
@@ -154,9 +156,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--access-attributes--all--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--access-attributes--all--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--access-attributes--all--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--access-attributes--all--unknown', i18n);
     }
@@ -173,9 +175,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--access-members--admins--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--access-members--admins--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--access-members--admins--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--access-members--admins--unknown', i18n);
     }
@@ -184,9 +186,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--access-members--all--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--access-members--all--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--access-members--all--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--access-members--all--unknown', i18n);
     }
@@ -206,7 +208,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--access-invite-link--enabled--other',
           i18n,
-          [renderContact(from)]
+          { adminName: renderContact(from) }
         );
       }
       return renderString(
@@ -222,7 +224,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--access-invite-link--disabled--other',
           i18n,
-          [renderContact(from)]
+          { adminName: renderContact(from) }
         );
       }
       return renderString(
@@ -244,16 +246,16 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--member-add--you--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--member-add--you--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--member-add--you--other', i18n, {
+          memberName: renderContact(from),
+        });
       }
       return renderString('GroupV2--member-add--you--unknown', i18n);
     }
     if (fromYou) {
-      return renderString('GroupV2--member-add--other--you', i18n, [
-        renderContact(uuid),
-      ]);
+      return renderString('GroupV2--member-add--other--you', i18n, {
+        memberName: renderContact(uuid),
+      });
     }
     if (from) {
       return renderString('GroupV2--member-add--other--other', i18n, {
@@ -261,9 +263,9 @@ export function renderChangeDetail<T>(
         addeeName: renderContact(uuid),
       });
     }
-    return renderString('GroupV2--member-add--other--unknown', i18n, [
-      renderContact(uuid),
-    ]);
+    return renderString('GroupV2--member-add--other--unknown', i18n, {
+      memberName: renderContact(uuid),
+    });
   }
   if (detail.type === 'member-add-from-invite') {
     const { uuid, inviter } = detail;
@@ -274,9 +276,9 @@ export function renderChangeDetail<T>(
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
-          return renderString('GroupV2--member-add--you--other', i18n, [
-            renderContact(from),
-          ]);
+          return renderString('GroupV2--member-add--you--other', i18n, {
+            memberName: renderContact(from),
+          });
         }
         return renderString('GroupV2--member-add--you--unknown', i18n);
       }
@@ -299,9 +301,9 @@ export function renderChangeDetail<T>(
 
     if (weAreJoiner) {
       if (inviter) {
-        return renderString('GroupV2--member-add--from-invite--you', i18n, [
-          renderContact(inviter),
-        ]);
+        return renderString('GroupV2--member-add--from-invite--you', i18n, {
+          inviterName: renderContact(inviter),
+        });
       }
       return renderString(
         'GroupV2--member-add--from-invite--you-no-from',
@@ -309,9 +311,9 @@ export function renderChangeDetail<T>(
       );
     }
     if (weAreInviter) {
-      return renderString('GroupV2--member-add--from-invite--from-you', i18n, [
-        renderContact(uuid),
-      ]);
+      return renderString('GroupV2--member-add--from-invite--from-you', i18n, {
+        inviteeName: renderContact(uuid),
+      });
     }
     if (inviter) {
       return renderString('GroupV2--member-add--from-invite--other', i18n, {
@@ -334,17 +336,17 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--member-add-from-link--you--you', i18n);
     }
     if (from && uuid === from) {
-      return renderString('GroupV2--member-add-from-link--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--member-add-from-link--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
 
     // Note: this shouldn't happen, because we only capture 'add-from-link' status
     //   from group change events, which always have a sender.
     log.warn('member-add-from-link change type; we have no from!');
-    return renderString('GroupV2--member-add--other--unknown', i18n, [
-      renderContact(uuid),
-    ]);
+    return renderString('GroupV2--member-add--other--unknown', i18n, {
+      memberName: renderContact(uuid),
+    });
   }
   if (detail.type === 'member-add-from-admin-approval') {
     const { uuid } = detail;
@@ -355,7 +357,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--member-add-from-admin-approval--you--other',
           i18n,
-          [renderContact(from)]
+          { adminName: renderContact(from) }
         );
       }
 
@@ -374,7 +376,7 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--member-add-from-admin-approval--other--you',
         i18n,
-        [renderContact(uuid)]
+        { joinerName: renderContact(uuid) }
       );
     }
     if (from) {
@@ -394,7 +396,7 @@ export function renderChangeDetail<T>(
     return renderString(
       'GroupV2--member-add-from-admin-approval--other--unknown',
       i18n,
-      [renderContact(uuid)]
+      { joinerName: renderContact(uuid) }
     );
   }
   if (detail.type === 'member-remove') {
@@ -406,22 +408,22 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--member-remove--you--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--member-remove--you--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--member-remove--you--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--member-remove--you--unknown', i18n);
     }
 
     if (fromYou) {
-      return renderString('GroupV2--member-remove--other--you', i18n, [
-        renderContact(uuid),
-      ]);
+      return renderString('GroupV2--member-remove--other--you', i18n, {
+        memberName: renderContact(uuid),
+      });
     }
     if (from && from === uuid) {
-      return renderString('GroupV2--member-remove--other--self', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--member-remove--other--self', i18n, {
+        memberName: renderContact(from),
+      });
     }
     if (from) {
       return renderString('GroupV2--member-remove--other--other', i18n, {
@@ -429,9 +431,9 @@ export function renderChangeDetail<T>(
         memberName: renderContact(uuid),
       });
     }
-    return renderString('GroupV2--member-remove--other--unknown', i18n, [
-      renderContact(uuid),
-    ]);
+    return renderString('GroupV2--member-remove--other--unknown', i18n, {
+      memberName: renderContact(uuid),
+    });
   }
   if (detail.type === 'member-privilege') {
     const { uuid, newPrivilege } = detail;
@@ -443,7 +445,7 @@ export function renderChangeDetail<T>(
           return renderString(
             'GroupV2--member-privilege--promote--you--other',
             i18n,
-            [renderContact(from)]
+            { adminName: renderContact(from) }
           );
         }
 
@@ -457,7 +459,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--member-privilege--promote--other--you',
           i18n,
-          [renderContact(uuid)]
+          { memberName: renderContact(uuid) }
         );
       }
       if (from) {
@@ -473,7 +475,7 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--member-privilege--promote--other--unknown',
         i18n,
-        [renderContact(uuid)]
+        { memberName: renderContact(uuid) }
       );
     }
     if (newPrivilege === RoleEnum.DEFAULT) {
@@ -482,7 +484,7 @@ export function renderChangeDetail<T>(
           return renderString(
             'GroupV2--member-privilege--demote--you--other',
             i18n,
-            [renderContact(from)]
+            { adminName: renderContact(from) }
           );
         }
         return renderString(
@@ -495,7 +497,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--member-privilege--demote--other--you',
           i18n,
-          [renderContact(uuid)]
+          { memberName: renderContact(uuid) }
         );
       }
       if (from) {
@@ -511,7 +513,7 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--member-privilege--demote--other--unknown',
         i18n,
-        [renderContact(uuid)]
+        { memberName: renderContact(uuid) }
       );
     }
     log.warn(
@@ -524,21 +526,21 @@ export function renderChangeDetail<T>(
     const weAreInvited = isOurUuid(uuid);
     if (weAreInvited) {
       if (from) {
-        return renderString('GroupV2--pending-add--one--you--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--pending-add--one--you--other', i18n, {
+          memberName: renderContact(from),
+        });
       }
       return renderString('GroupV2--pending-add--one--you--unknown', i18n);
     }
     if (fromYou) {
-      return renderString('GroupV2--pending-add--one--other--you', i18n, [
-        renderContact(uuid),
-      ]);
+      return renderString('GroupV2--pending-add--one--other--you', i18n, {
+        inviteeName: renderContact(uuid),
+      });
     }
     if (from) {
-      return renderString('GroupV2--pending-add--one--other--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--pending-add--one--other--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--pending-add--one--other--unknown', i18n);
   }
@@ -546,9 +548,9 @@ export function renderChangeDetail<T>(
     const { count } = detail;
 
     if (fromYou) {
-      return renderString('GroupV2--pending-add--many--you', i18n, [
-        count.toString(),
-      ]);
+      return renderString('GroupV2--pending-add--many--you', i18n, {
+        count: count.toString(),
+      });
     }
     if (from) {
       return renderString('GroupV2--pending-add--many--other', i18n, {
@@ -556,9 +558,9 @@ export function renderChangeDetail<T>(
         count: count.toString(),
       });
     }
-    return renderString('GroupV2--pending-add--many--unknown', i18n, [
-      count.toString(),
-    ]);
+    return renderString('GroupV2--pending-add--many--unknown', i18n, {
+      count: count.toString(),
+    });
   }
   if (detail.type === 'pending-remove-one') {
     const { inviter, uuid } = detail;
@@ -569,15 +571,15 @@ export function renderChangeDetail<T>(
 
     if (weAreInviter) {
       if (sentByInvited) {
-        return renderString('GroupV2--pending-remove--decline--you', i18n, [
-          renderContact(uuid),
-        ]);
+        return renderString('GroupV2--pending-remove--decline--you', i18n, {
+          inviteeName: renderContact(uuid),
+        });
       }
       if (fromYou) {
         return renderString(
           'GroupV2--pending-remove--revoke-invite-from-you--one--you',
           i18n,
-          [renderContact(uuid)]
+          { inviteeName: renderContact(uuid) }
         );
       }
       if (from) {
@@ -593,7 +595,7 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
         i18n,
-        [renderContact(uuid)]
+        { inviteeName: renderContact(uuid) }
       );
     }
     if (sentByInvited) {
@@ -601,9 +603,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--pending-remove--decline--from-you', i18n);
       }
       if (inviter) {
-        return renderString('GroupV2--pending-remove--decline--other', i18n, [
-          renderContact(inviter),
-        ]);
+        return renderString('GroupV2--pending-remove--decline--other', i18n, {
+          memberName: renderContact(inviter),
+        });
       }
       return renderString('GroupV2--pending-remove--decline--unknown', i18n);
     }
@@ -612,13 +614,13 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--pending-remove--revoke-own--to-you',
           i18n,
-          [renderContact(inviter)]
+          { inviterName: renderContact(inviter) }
         );
       }
       return renderString(
         'GroupV2--pending-remove--revoke-own--unknown',
         i18n,
-        [renderContact(inviter)]
+        { inviterName: renderContact(inviter) }
       );
     }
     if (inviter) {
@@ -626,7 +628,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--pending-remove--revoke-invite-from--one--you',
           i18n,
-          [renderContact(inviter)]
+          { memberName: renderContact(inviter) }
         );
       }
       if (from) {
@@ -642,16 +644,16 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--pending-remove--revoke-invite-from--one--unknown',
         i18n,
-        [renderContact(inviter)]
+        { memberName: renderContact(inviter) }
       );
     }
     if (fromYou) {
       return renderString('GroupV2--pending-remove--revoke--one--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--pending-remove--revoke--one--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--pending-remove--revoke--one--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--pending-remove--revoke--one--unknown', i18n);
   }
@@ -664,7 +666,7 @@ export function renderChangeDetail<T>(
         return renderString(
           'GroupV2--pending-remove--revoke-invite-from-you--many--you',
           i18n,
-          [count.toString()]
+          { count: count.toString() }
         );
       }
       if (from) {
@@ -680,7 +682,7 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
         i18n,
-        [count.toString()]
+        { count: count.toString() }
       );
     }
     if (inviter) {
@@ -715,9 +717,9 @@ export function renderChangeDetail<T>(
       );
     }
     if (fromYou) {
-      return renderString('GroupV2--pending-remove--revoke--many--you', i18n, [
-        count.toString(),
-      ]);
+      return renderString('GroupV2--pending-remove--revoke--many--you', i18n, {
+        count: count.toString(),
+      });
     }
     if (from) {
       return renderString(
@@ -732,7 +734,7 @@ export function renderChangeDetail<T>(
     return renderString(
       'GroupV2--pending-remove--revoke--many--unknown',
       i18n,
-      [count.toString()]
+      { count: count.toString() }
     );
   }
   if (detail.type === 'admin-approval-add-one') {
@@ -742,9 +744,9 @@ export function renderChangeDetail<T>(
     if (weAreJoiner) {
       return renderString('GroupV2--admin-approval-add-one--you', i18n);
     }
-    return renderString('GroupV2--admin-approval-add-one--other', i18n, [
-      renderContact(uuid),
-    ]);
+    return renderString('GroupV2--admin-approval-add-one--other', i18n, {
+      joinerName: renderContact(uuid),
+    });
   }
   if (detail.type === 'admin-approval-remove-one') {
     const { uuid } = detail;
@@ -767,14 +769,14 @@ export function renderChangeDetail<T>(
       return renderString(
         'GroupV2--admin-approval-remove-one--other--you',
         i18n,
-        [renderContact(uuid)]
+        { joinerName: renderContact(uuid) }
       );
     }
     if (from && from === uuid) {
       return renderString(
         'GroupV2--admin-approval-remove-one--other--own',
         i18n,
-        [renderContact(uuid)]
+        { joinerName: renderContact(uuid) }
       );
     }
     if (from) {
@@ -793,7 +795,7 @@ export function renderChangeDetail<T>(
     return renderString(
       'GroupV2--admin-approval-remove-one--other--own',
       i18n,
-      [renderContact(uuid)]
+      { joinerName: renderContact(uuid) }
     );
   }
   if (detail.type === 'admin-approval-bounce') {
@@ -836,9 +838,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--group-link-add--enabled--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--group-link-add--enabled--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--group-link-add--enabled--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--group-link-add--enabled--unknown', i18n);
     }
@@ -847,9 +849,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--group-link-add--disabled--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--group-link-add--disabled--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--group-link-add--disabled--other', i18n, {
+          adminName: renderContact(from),
+        });
       }
       return renderString('GroupV2--group-link-add--disabled--unknown', i18n);
     }
@@ -861,9 +863,9 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--group-link-reset--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--group-link-reset--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--group-link-reset--other', i18n, {
+        adminName: renderContact(from),
+      });
     }
     return renderString('GroupV2--group-link-reset--unknown', i18n);
   }
@@ -872,9 +874,9 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--group-link-remove--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--group-link-remove--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--group-link-remove--other', i18n, {
+        adminName: renderContact(from),
+      });
     }
     return renderString('GroupV2--group-link-remove--unknown', i18n);
   }
@@ -884,9 +886,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--description--remove--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--description--remove--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--description--remove--other', i18n, {
+          memberName: renderContact(from),
+        });
       }
       return renderString('GroupV2--description--remove--unknown', i18n);
     }
@@ -895,9 +897,9 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--description--change--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--description--change--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--description--change--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--description--change--unknown', i18n);
   }
@@ -907,9 +909,9 @@ export function renderChangeDetail<T>(
         return renderString('GroupV2--announcements--admin--you', i18n);
       }
       if (from) {
-        return renderString('GroupV2--announcements--admin--other', i18n, [
-          renderContact(from),
-        ]);
+        return renderString('GroupV2--announcements--admin--other', i18n, {
+          memberName: renderContact(from),
+        });
       }
       return renderString('GroupV2--announcements--admin--unknown', i18n);
     }
@@ -918,9 +920,9 @@ export function renderChangeDetail<T>(
       return renderString('GroupV2--announcements--member--you', i18n);
     }
     if (from) {
-      return renderString('GroupV2--announcements--member--other', i18n, [
-        renderContact(from),
-      ]);
+      return renderString('GroupV2--announcements--member--other', i18n, {
+        memberName: renderContact(from),
+      });
     }
     return renderString('GroupV2--announcements--member--unknown', i18n);
   }

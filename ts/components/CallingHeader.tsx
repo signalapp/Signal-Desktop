@@ -49,15 +49,15 @@ export function CallingHeader({
         {isGroupCall && participantCount ? (
           <div className="module-calling-tools__button">
             <Tooltip
-              content={i18n('calling__participants', [
-                String(participantCount),
-              ])}
+              content={i18n('calling__participants', {
+                people: String(participantCount),
+              })}
               theme={Theme.Dark}
             >
               <button
-                aria-label={i18n('calling__participants', [
-                  String(participantCount),
-                ])}
+                aria-label={i18n('calling__participants', {
+                  people: String(participantCount),
+                })}
                 className={classNames(
                   'CallingButton__participants--container',
                   {

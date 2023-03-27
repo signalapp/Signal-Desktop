@@ -69,17 +69,23 @@ export function TimerNotification(props: Props): JSX.Element {
     case 'fromMe':
       message = disabled
         ? i18n('youDisabledDisappearingMessages')
-        : i18n('youChangedTheTimer', [timespan]);
+        : i18n('youChangedTheTimer', {
+            time: timespan,
+          });
       break;
     case 'fromSync':
       message = disabled
         ? i18n('disappearingMessagesDisabled')
-        : i18n('timerSetOnSync', [timespan]);
+        : i18n('timerSetOnSync', {
+            time: timespan,
+          });
       break;
     case 'fromMember':
       message = disabled
         ? i18n('disappearingMessagesDisabledByMember')
-        : i18n('timerSetByMember', [timespan]);
+        : i18n('timerSetByMember', {
+            time: timespan,
+          });
       break;
     default:
       log.warn('TimerNotification: unsupported type provided:', type);

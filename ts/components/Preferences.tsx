@@ -874,12 +874,12 @@ export function Preferences({
             left={i18n('Preferences--blocked')}
             right={
               blockedCount === 1
-                ? i18n('Preferences--blocked-count-singular', [
-                    String(blockedCount),
-                  ])
-                : i18n('Preferences--blocked-count-plural', [
-                    String(blockedCount || 0),
-                  ])
+                ? i18n('Preferences--blocked-count-singular', {
+                    num: String(blockedCount),
+                  })
+                : i18n('Preferences--blocked-count-plural', {
+                    num: String(blockedCount || 0),
+                  })
             }
           />
         </SettingsRow>

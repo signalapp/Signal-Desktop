@@ -201,9 +201,9 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gGroupBlock(false)}
-          title={i18n('ConversationDetailsActions--block-group-modal-title', [
-            conversationTitle,
-          ])}
+          title={i18n('ConversationDetailsActions--block-group-modal-title', {
+            groupName: conversationTitle,
+          })}
         >
           {i18n('ConversationDetailsActions--block-group-modal-content')}
         </ConfirmationDialog>
@@ -222,9 +222,9 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gGroupUnblock(false)}
-          title={i18n('ConversationDetailsActions--unblock-group-modal-title', [
-            conversationTitle,
-          ])}
+          title={i18n('ConversationDetailsActions--unblock-group-modal-title', {
+            groupName: conversationTitle,
+          })}
         >
           {i18n('ConversationDetailsActions--unblock-group-modal-content')}
         </ConfirmationDialog>
@@ -242,9 +242,9 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gDirectBlock(false)}
-          title={i18n('MessageRequests--block-direct-confirm-title', [
-            conversationTitle,
-          ])}
+          title={i18n('MessageRequests--block-direct-confirm-title', {
+            name: conversationTitle,
+          })}
         >
           {i18n('MessageRequests--block-direct-confirm-body')}
         </ConfirmationDialog>
@@ -261,9 +261,9 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gDirectUnblock(false)}
-          title={i18n('MessageRequests--unblock-direct-confirm-title', [
-            conversationTitle,
-          ])}
+          title={i18n('MessageRequests--unblock-direct-confirm-title', {
+            name: conversationTitle,
+          })}
         >
           {i18n('MessageRequests--unblock-direct-confirm-body')}
         </ConfirmationDialog>

@@ -53,17 +53,19 @@ export function UnsupportedMessage({
         // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           id={stringId}
-          components={[
-            <span
-              key="external-1"
-              className="module-unsupported-message__contact"
-            >
-              <ContactName
-                title={contact.title}
-                module="module-unsupported-message__contact"
-              />
-            </span>,
-          ]}
+          components={{
+            contact: (
+              <span
+                key="external-1"
+                className="module-unsupported-message__contact"
+              >
+                <ContactName
+                  title={contact.title}
+                  module="module-unsupported-message__contact"
+                />
+              </span>
+            ),
+          }}
           i18n={i18n}
         />
       }

@@ -77,9 +77,9 @@ function useScreenSharingToast({ activeCall, i18n }: PropsType): ToastType {
       } else if (previousPresenterTitle) {
         setResult({
           type: 'dismissable',
-          message: i18n('calling__presenting--person-stopped', [
-            previousPresenterTitle,
-          ]),
+          message: i18n('calling__presenting--person-stopped', {
+            name: previousPresenterTitle,
+          }),
         });
       }
     }

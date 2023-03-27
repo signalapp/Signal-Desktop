@@ -55,7 +55,7 @@ export type PropsType = PropsDataType &
 function renderStringToIntl(
   id: string,
   i18n: LocalizerType,
-  components?: Array<FullJSXType> | ReplacementValuesType<FullJSXType>
+  components?: ReplacementValuesType<FullJSXType>
 ): FullJSXType {
   // eslint-disable-next-line local-rules/valid-i18n-keys
   return <Intl id={id} i18n={i18n} components={components} />;

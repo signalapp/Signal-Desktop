@@ -19,11 +19,17 @@ export function WhatsNewLink(props: PropsType): JSX.Element {
     <Intl
       i18n={i18n}
       id="whatsNew"
-      components={[
-        <button className="WhatsNew" type="button" onClick={showWhatsNewModal}>
-          {i18n('viewReleaseNotes')}
-        </button>,
-      ]}
+      components={{
+        whatsNew: (
+          <button
+            className="WhatsNew"
+            type="button"
+            onClick={showWhatsNewModal}
+          >
+            {i18n('viewReleaseNotes')}
+          </button>
+        ),
+      }}
     />
   );
 }
