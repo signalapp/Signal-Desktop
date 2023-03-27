@@ -207,6 +207,7 @@ export type PropsData = {
   text?: string;
   textDirection: TextDirection;
   textAttachment?: AttachmentType;
+  isEditedMessage?: boolean;
   isSticker?: boolean;
   isTargeted?: boolean;
   isTargetedCounter?: number;
@@ -338,6 +339,7 @@ export type PropsActions = {
   }) => void;
   targetMessage?: (messageId: string, conversationId: string) => unknown;
 
+  showEditHistoryModal?: (id: string) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -768,9 +770,11 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       i18n,
       id,
+      isEditedMessage,
       isSticker,
       isTapToViewExpired,
       pushPanelForConversation,
+      showEditHistoryModal,
       status,
       text,
       textAttachment,
@@ -788,12 +792,14 @@ export class Message extends React.PureComponent<Props, State> {
         hasText={Boolean(text)}
         i18n={i18n}
         id={id}
+        isEditedMessage={isEditedMessage}
         isInline={isInline}
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
+        showEditHistoryModal={showEditHistoryModal}
         status={status}
         textPending={textAttachment?.pending}
         timestamp={timestamp}

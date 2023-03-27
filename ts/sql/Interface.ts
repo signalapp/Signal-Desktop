@@ -387,6 +387,13 @@ export type FTSOptimizationStateType = Readonly<{
   done?: boolean;
 }>;
 
+export type EditedMessageType = Readonly<{
+  fromId: string;
+  messageId: string;
+  sentAt: number;
+  readStatus: MessageType['readStatus'];
+}>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -514,6 +521,10 @@ export type DataInterface = {
     readAt?: number;
     storyId?: string;
   }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
+  getUnreadEditedMessagesAndMarkRead: (options: {
+    fromId: string;
+    newestUnreadAt: number;
+  }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
   getUnreadReactionsAndMarkRead: (options: {
     conversationId: string;
     newestUnreadAt: number;
@@ -543,9 +554,15 @@ export type DataInterface = {
     messageIds: ReadonlyArray<string>
   ) => Promise<Array<MessageType>>;
   _getAllMessages: () => Promise<Array<MessageType>>;
+  _getAllEditedMessages: () => Promise<
+    Array<{ messageId: string; sentAt: number }>
+  >;
   _removeAllMessages: () => Promise<void>;
   getAllMessageIds: () => Promise<Array<string>>;
   getMessagesBySentAt: (sentAt: number) => Promise<Array<MessageType>>;
+  getMessagesIncludingEditedBySentAt: (
+    sentAt: number
+  ) => Promise<Array<MessageType>>;
   getExpiredMessages: () => Promise<Array<MessageType>>;
   getMessagesUnexpectedlyMissingExpirationStartTimestamp: () => Promise<
     Array<MessageType>
@@ -592,6 +609,11 @@ export type DataInterface = {
   getNearbyMessageFromDeletedSet: (
     options: GetNearbyMessageFromDeletedSetOptionsType
   ) => Promise<string | null>;
+  saveEditedMessage: (
+    mainMessage: MessageType,
+    ourUuid: UUIDStringType,
+    opts: EditedMessageType
+  ) => Promise<void>;
   getUnprocessedCount: () => Promise<number>;
   getUnprocessedByIdsAndIncrementAttempts: (
     ids: ReadonlyArray<string>

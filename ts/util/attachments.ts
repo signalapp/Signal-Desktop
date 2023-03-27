@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
 import { scaleImageToLevel } from './scaleImageToLevel';
@@ -59,8 +58,7 @@ export async function autoOrientJPEG(
     // by potentially doubling stored image data.
     // See: https://github.com/signalapp/Signal-Desktop/issues/1589
     const xcodedAttachment = {
-      // `digest` is no longer valid for auto-oriented image data, so we discard it:
-      ...omit(attachment, 'digest'),
+      ...attachment,
       data: new Uint8Array(xcodedDataArrayBuffer),
       size: xcodedDataArrayBuffer.byteLength,
     };

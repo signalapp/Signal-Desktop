@@ -10,6 +10,7 @@ import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
 import { SmartContactModal } from './ContactModal';
+import { SmartEditHistoryMessagesModal } from './EditHistoryMessagesModal';
 import { SmartForwardMessagesModal } from './ForwardMessagesModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
@@ -20,6 +21,10 @@ import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
+
+function renderEditHistoryMessagesModal(): JSX.Element {
+  return <SmartEditHistoryMessagesModal />;
+}
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
@@ -55,6 +60,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
   const {
     addUserToAnotherGroupModalContactId,
     contactModalState,
+    editHistoryMessages,
     errorModalProps,
     forwardMessagesProps,
     isProfileEditorVisible,
@@ -120,6 +126,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     <GlobalModalContainer
       addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
       contactModalState={contactModalState}
+      editHistoryMessages={editHistoryMessages}
       errorModalProps={errorModalProps}
       forwardMessagesProps={forwardMessagesProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
@@ -133,6 +140,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       isWhatsNewVisible={isWhatsNewVisible}
       renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
       renderContactModal={renderContactModal}
+      renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
       renderErrorModal={renderErrorModal}
       renderForwardMessagesModal={renderForwardMessagesModal}
       renderProfileEditor={renderProfileEditor}

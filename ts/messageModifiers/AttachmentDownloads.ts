@@ -17,6 +17,7 @@ import type {
 
 import type { MessageModel } from '../models/messages';
 import type { AttachmentType } from '../types/Attachment';
+import { getAttachmentSignature, isDownloaded } from '../types/Attachment';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
@@ -433,7 +434,7 @@ function _markAttachmentAsPermanentError(
   attachment: AttachmentType
 ): AttachmentType {
   return {
-    ...omit(attachment, ['key', 'digest', 'id']),
+    ...omit(attachment, ['key', 'id']),
     error: true,
   };
 }
@@ -454,6 +455,7 @@ async function _addAttachmentToMessage(
   }
 
   const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
+  const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {
     // Attachment wasn't downloaded yet.
@@ -482,13 +484,60 @@ async function _addAttachmentToMessage(
 
   if (type === 'attachment') {
     const attachments = message.get('attachments');
+
+    let handledInEditHistory = false;
+
+    const editHistory = message.get('editHistory');
+    if (editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.attachments) {
+          return edit;
+        }
+
+        return {
+          ...edit,
+          // Loop through all the attachments to find the attachment we intend
+          // to replace.
+          attachments: edit.attachments.map(editAttachment => {
+            if (isDownloaded(editAttachment)) {
+              return editAttachment;
+            }
+
+            if (
+              attachmentSignature !== getAttachmentSignature(editAttachment)
+            ) {
+              return editAttachment;
+            }
+
+            handledInEditHistory = true;
+
+            return attachment;
+          }),
+        };
+      });
+
+      if (newEditHistory !== editHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
+    }
+
     if (!attachments || attachments.length <= index) {
       throw new Error(
-        `_addAttachmentToMessage: attachments didn't exist or ${index} was too large`
+        `_addAttachmentToMessage: attachments didn't exist or index(${index}) was too large`
       );
     }
+
+    // Verify attachment is still valid
+    const isSameAttachment =
+      attachments[index] &&
+      getAttachmentSignature(attachments[index]) === attachmentSignature;
+    if (handledInEditHistory && !isSameAttachment) {
+      return;
+    }
+    strictAssert(isSameAttachment, `${logPrefix} mismatched attachment`);
     _checkOldAttachment(attachments, index.toString(), logPrefix);
 
+    // Replace attachment
     const newAttachments = [...attachments];
     newAttachments[index] = attachment;
 
@@ -499,6 +548,48 @@ async function _addAttachmentToMessage(
 
   if (type === 'preview') {
     const preview = message.get('preview');
+
+    let handledInEditHistory = false;
+
+    const editHistory = message.get('editHistory');
+    if (preview && editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.preview || edit.preview.length <= index) {
+          return edit;
+        }
+
+        const item = edit.preview[index];
+        if (!item) {
+          return edit;
+        }
+
+        if (
+          item.image &&
+          (isDownloaded(item.image) ||
+            attachmentSignature !== getAttachmentSignature(item.image))
+        ) {
+          return edit;
+        }
+
+        const newPreview = [...edit.preview];
+        newPreview[index] = {
+          ...edit.preview[index],
+          image: attachment,
+        };
+
+        handledInEditHistory = true;
+
+        return {
+          ...edit,
+          preview: newPreview,
+        };
+      });
+
+      if (newEditHistory !== editHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
+    }
+
     if (!preview || preview.length <= index) {
       throw new Error(
         `_addAttachmentToMessage: preview didn't exist or ${index} was too large`
@@ -509,8 +600,16 @@ async function _addAttachmentToMessage(
       throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
     }
 
+    // Verify attachment is still valid
+    const isSameAttachment =
+      item.image && getAttachmentSignature(item.image) === attachmentSignature;
+    if (handledInEditHistory && !isSameAttachment) {
+      return;
+    }
+    strictAssert(isSameAttachment, `${logPrefix} mismatched attachment`);
     _checkOldAttachment(item, 'image', logPrefix);
 
+    // Replace attachment
     const newPreview = [...preview];
     newPreview[index] = {
       ...preview[index],

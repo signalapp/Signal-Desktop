@@ -128,12 +128,14 @@ class NotificationService extends EventEmitter {
   public notify({
     icon,
     message,
+    messageId,
     onNotificationClick,
     silent,
     title,
   }: Readonly<{
     icon?: string;
     message: string;
+    messageId?: string;
     onNotificationClick: () => void;
     silent: boolean;
     title: string;
@@ -149,6 +151,7 @@ class NotificationService extends EventEmitter {
       icon,
       silent:
         silent || audioNotificationSupport !== AudioNotificationSupport.Native,
+      tag: messageId,
     });
     notification.onclick = onNotificationClick;
 

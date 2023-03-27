@@ -16,16 +16,23 @@ import dataInterface from '../sql/Client';
 import type { AttachmentType } from '../types/Attachment';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import type {
+  EditHistoryType,
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
 import * as Errors from '../types/errors';
+import {
+  getAttachmentSignature,
+  isDownloading,
+  isDownloaded,
+} from '../types/Attachment';
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 
 type ReturnType = {
   bodyAttachment?: AttachmentType;
   attachments: Array<AttachmentType>;
+  editHistory?: Array<EditHistoryType>;
   preview: Array<LinkPreviewType>;
   contact: Array<EmbeddedContactType>;
   quote?: QuotedMessageType;
@@ -45,8 +52,10 @@ export async function queueAttachmentDownloads(
   let count = 0;
   let bodyAttachment;
 
+  const idLog = `queueAttachmentDownloads(${idForLogging}})`;
+
   log.info(
-    `Queueing ${attachmentsToQueue.length} attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${attachmentsToQueue.length} attachment downloads`
   );
 
   const [longMessageAttachments, normalAttachments] = partition(
@@ -55,13 +64,11 @@ export async function queueAttachmentDownloads(
   );
 
   if (longMessageAttachments.length > 1) {
-    log.error(
-      `Received more than one long message attachment in message ${idForLogging}`
-    );
+    log.error(`${idLog}: Received more than one long message attachment`);
   }
 
   log.info(
-    `Queueing ${longMessageAttachments.length} long message attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${longMessageAttachments.length} long message attachment downloads`
   );
 
   if (longMessageAttachments.length > 0) {
@@ -82,63 +89,31 @@ export async function queueAttachmentDownloads(
   }
 
   log.info(
-    `Queueing ${normalAttachments.length} normal attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${normalAttachments.length} normal attachment downloads`
   );
-  const attachments = await Promise.all(
-    normalAttachments.map((attachment, index) => {
-      if (!attachment) {
-        return attachment;
-      }
-      // We've already downloaded this!
-      if (attachment.path || attachment.textAttachment) {
-        log.info(
-          `Normal attachment already downloaded for message ${idForLogging}`
-        );
-        return attachment;
-      }
-
-      count += 1;
-
-      return AttachmentDownloads.addJob(attachment, {
-        messageId,
-        type: 'attachment',
-        index,
-      });
-    })
+  const { attachments, count: attachmentsCount } = await queueNormalAttachments(
+    idLog,
+    messageId,
+    normalAttachments,
+    message.editHistory?.flatMap(x => x.attachments ?? [])
   );
+  count += attachmentsCount;
 
   const previewsToQueue = message.preview || [];
   log.info(
-    `Queueing ${previewsToQueue.length} preview attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${previewsToQueue.length} preview attachment downloads`
   );
-  const preview = await Promise.all(
-    previewsToQueue.map(async (item, index) => {
-      if (!item.image) {
-        return item;
-      }
-      // We've already downloaded this!
-      if (item.image.path) {
-        log.info(
-          `Preview attachment already downloaded for message ${idForLogging}`
-        );
-        return item;
-      }
-
-      count += 1;
-      return {
-        ...item,
-        image: await AttachmentDownloads.addJob(item.image, {
-          messageId,
-          type: 'preview',
-          index,
-        }),
-      };
-    })
+  const { preview, count: previewCount } = await queuePreviews(
+    idLog,
+    messageId,
+    previewsToQueue,
+    message.editHistory?.flatMap(x => x.preview ?? [])
   );
+  count += previewCount;
 
   const contactsToQueue = message.contact || [];
   log.info(
-    `Queueing ${contactsToQueue.length} contact attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${contactsToQueue.length} contact attachment downloads`
   );
   const contact = await Promise.all(
     contactsToQueue.map(async (item, index) => {
@@ -147,9 +122,7 @@ export async function queueAttachmentDownloads(
       }
       // We've already downloaded this!
       if (item.avatar.avatar.path) {
-        log.info(
-          `Contact attachment already downloaded for message ${idForLogging}`
-        );
+        log.info(`${idLog}: Contact attachment already downloaded`);
         return item;
       }
 
@@ -172,7 +145,7 @@ export async function queueAttachmentDownloads(
   const quoteAttachmentsToQueue =
     quote && quote.attachments ? quote.attachments : [];
   log.info(
-    `Queueing ${quoteAttachmentsToQueue.length} quote attachment downloads for message ${idForLogging}`
+    `${idLog}: Queueing ${quoteAttachmentsToQueue.length} quote attachment downloads`
   );
   if (quote && quoteAttachmentsToQueue.length > 0) {
     quote = {
@@ -184,9 +157,7 @@ export async function queueAttachmentDownloads(
           }
           // We've already downloaded this!
           if (item.thumbnail.path) {
-            log.info(
-              `Quote attachment already downloaded for message ${idForLogging}`
-            );
+            log.info(`${idLog}: Quote attachment already downloaded`);
             return item;
           }
 
@@ -206,11 +177,9 @@ export async function queueAttachmentDownloads(
 
   let { sticker } = message;
   if (sticker && sticker.data && sticker.data.path) {
-    log.info(
-      `Sticker attachment already downloaded for message ${idForLogging}`
-    );
+    log.info(`${idLog}: Sticker attachment already downloaded`);
   } else if (sticker) {
-    log.info(`Queueing sticker download for message ${idForLogging}`);
+    log.info(`${idLog}: Queueing sticker download`);
     count += 1;
     const { packId, stickerId, packKey } = sticker;
 
@@ -222,7 +191,7 @@ export async function queueAttachmentDownloads(
         data = await copyStickerToAttachments(packId, stickerId);
       } catch (error) {
         log.error(
-          `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
+          `${idLog}: Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
           Errors.toLogFormat(error)
         );
       }
@@ -252,20 +221,197 @@ export async function queueAttachmentDownloads(
     };
   }
 
-  log.info(
-    `Queued ${count} total attachment downloads for message ${idForLogging}`
-  );
+  let { editHistory } = message;
+  if (editHistory) {
+    log.info(`${idLog}: Looping through ${editHistory.length} edits`);
+    editHistory = await Promise.all(
+      editHistory.map(async edit => {
+        const editAttachmentsToQueue = edit.attachments || [];
+        log.info(
+          `${idLog}: Queueing ${editAttachmentsToQueue.length} normal attachment downloads (edited:${edit.timestamp})`
+        );
+
+        const { attachments: editAttachments, count: editAttachmentsCount } =
+          await queueNormalAttachments(
+            idLog,
+            messageId,
+            edit.attachments,
+            attachments
+          );
+        count += editAttachmentsCount;
+
+        log.info(
+          `${idLog}: Queueing ${
+            (edit.preview || []).length
+          } preview attachment downloads (edited:${edit.timestamp})`
+        );
+        const { preview: editPreview, count: editPreviewCount } =
+          await queuePreviews(idLog, messageId, edit.preview, preview);
+        count += editPreviewCount;
+
+        return {
+          ...edit,
+          attachments: editAttachments,
+          preview: editPreview,
+        };
+      })
+    );
+  }
+
+  log.info(`${idLog}: Queued ${count} total attachment downloads`);
 
   if (count <= 0) {
     return;
   }
 
   return {
-    bodyAttachment,
     attachments,
-    preview,
+    bodyAttachment,
     contact,
+    editHistory,
+    preview,
     quote,
     sticker,
+  };
+}
+
+async function queueNormalAttachments(
+  idLog: string,
+  messageId: string,
+  attachments: MessageAttributesType['attachments'] = [],
+  otherAttachments: MessageAttributesType['attachments']
+): Promise<{
+  attachments: Array<AttachmentType>;
+  count: number;
+}> {
+  // Look through "otherAttachments" which can either be attachments in the
+  // edit history or the message's attachments and see if any of the attachments
+  // are the same. If they are let's replace it so that we don't download more
+  // than once.
+  // We don't also register the signatures for "attachments" because they would
+  // then not be added to the AttachmentDownloads job.
+  const attachmentSignatures: Map<string, AttachmentType> = new Map();
+  otherAttachments?.forEach(attachment => {
+    const signature = getAttachmentSignature(attachment);
+    attachmentSignatures.set(signature, attachment);
+  });
+
+  let count = 0;
+  const nextAttachments = await Promise.all(
+    attachments.map((attachment, index) => {
+      if (!attachment) {
+        return attachment;
+      }
+      // We've already downloaded this!
+      if (isDownloaded(attachment)) {
+        log.info(`${idLog}: Normal attachment already downloaded`);
+        return attachment;
+      }
+
+      const signature = getAttachmentSignature(attachment);
+      const existingAttachment = signature
+        ? attachmentSignatures.get(signature)
+        : undefined;
+
+      // We've already downloaded this elsewhere!
+      if (
+        existingAttachment &&
+        (isDownloading(existingAttachment) || isDownloaded(existingAttachment))
+      ) {
+        log.info(
+          `${idLog}: Normal attachment already downloaded in other attachments. Replacing`
+        );
+        // Incrementing count so that we update the message's fields downstream
+        count += 1;
+        return existingAttachment;
+      }
+
+      count += 1;
+
+      return AttachmentDownloads.addJob(attachment, {
+        messageId,
+        type: 'attachment',
+        index,
+      });
+    })
+  );
+
+  return {
+    attachments: nextAttachments,
+    count,
+  };
+}
+
+function getLinkPreviewSignature(preview: LinkPreviewType): string | undefined {
+  const { image, url } = preview;
+
+  if (!image) {
+    return;
+  }
+
+  return `<${url}>${getAttachmentSignature(image)}`;
+}
+
+async function queuePreviews(
+  idLog: string,
+  messageId: string,
+  previews: MessageAttributesType['preview'] = [],
+  otherPreviews: MessageAttributesType['preview']
+): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
+  // Similar to queueNormalAttachments' logic for detecting same attachments
+  // except here we also pick by link preview URL.
+  const previewSignatures: Map<string, LinkPreviewType> = new Map();
+  otherPreviews?.forEach(preview => {
+    const signature = getLinkPreviewSignature(preview);
+    if (!signature) {
+      return;
+    }
+    previewSignatures.set(signature, preview);
+  });
+
+  let count = 0;
+
+  const preview = await Promise.all(
+    previews.map(async (item, index) => {
+      if (!item.image) {
+        return item;
+      }
+      // We've already downloaded this!
+      if (isDownloaded(item.image)) {
+        log.info(`${idLog}: Preview attachment already downloaded`);
+        return item;
+      }
+      const signature = getLinkPreviewSignature(item);
+      const existingPreview = signature
+        ? previewSignatures.get(signature)
+        : undefined;
+
+      // We've already downloaded this elsewhere!
+      if (
+        existingPreview &&
+        (isDownloading(existingPreview.image) ||
+          isDownloaded(existingPreview.image))
+      ) {
+        log.info(`${idLog}: Preview already downloaded elsewhere. Replacing`);
+        // Incrementing count so that we update the message's fields downstream
+        count += 1;
+        return existingPreview;
+      }
+
+      count += 1;
+      return {
+        ...item,
+        image: await AttachmentDownloads.addJob(item.image, {
+          messageId,
+          type: 'preview',
+          index,
+        }),
+      };
+    })
+  );
+
+  return {
+    preview,
+    count,
   };
 }

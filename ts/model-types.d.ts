@@ -120,6 +120,14 @@ export type MessageReactionType = {
   isSentByConversationId?: Record<string, boolean>;
 };
 
+export type EditHistoryType = {
+  attachments?: Array<AttachmentType>;
+  body?: string;
+  bodyRanges?: BodyRangesType;
+  preview?: Array<LinkPreviewType>;
+  timestamp: number;
+};
+
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: BodyRangesType;
@@ -141,6 +149,8 @@ export type MessageAttributesType = {
   isErased?: boolean;
   isTapToViewInvalid?: boolean;
   isViewOnce?: boolean;
+  editHistory?: Array<EditHistoryType>;
+  editMessageTimestamp?: number;
   key_changed?: string;
   local?: boolean;
   logger?: unknown;

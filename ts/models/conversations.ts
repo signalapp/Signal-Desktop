@@ -31,7 +31,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
-import { isGIF, isVoiceMessage } from '../types/Attachment';
+import { isVoiceMessage } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import * as Conversation from '../types/Conversation';
@@ -73,7 +73,7 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
+import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
 import { UUID, UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import {
@@ -108,15 +108,7 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MINUTE, SECOND, DurationInSeconds } from '../util/durations';
-import {
-  concat,
-  filter,
-  map,
-  take,
-  repeat,
-  zipObject,
-  collect,
-} from '../util/iterables';
+import { concat, filter, map, repeat, zipObject } from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
@@ -130,10 +122,8 @@ import { SignalService as Proto } from '../protobuf';
 import {
   getMessagePropStatus,
   hasErrors,
-  isGiftBadge,
   isIncoming,
   isStory,
-  isTapToView,
 } from '../state/selectors/message';
 import {
   conversationJobQueue,
@@ -162,6 +152,7 @@ import { removePendingMember } from '../util/removePendingMember';
 import { isMemberPending } from '../util/isMemberPending';
 import { imageToBlurHash } from '../util/imageToBlurHash';
 import { ReceiptType } from '../types/Receipt';
+import { getQuoteAttachment } from '../util/makeQuote';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -175,7 +166,6 @@ const {
   deleteAttachmentData,
   doesAttachmentExist,
   getAbsoluteAttachmentPath,
-  loadAttachmentData,
   readStickerData,
   upgradeMessageSchema,
   writeNewAttachmentData,
@@ -3860,109 +3850,7 @@ export class ConversationModel extends window.Backbone
       thumbnail: ThumbnailType | null;
     }>
   > {
-    if (attachments && attachments.length) {
-      const attachmentsToUse = Array.from(take(attachments, 1));
-      const isGIFQuote = isGIF(attachmentsToUse);
-
-      return Promise.all(
-        map(attachmentsToUse, async attachment => {
-          const { path, fileName, thumbnail, contentType } = attachment;
-
-          if (!path) {
-            return {
-              contentType: isGIFQuote ? IMAGE_GIF : contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: null,
-            };
-          }
-
-          return {
-            contentType: isGIFQuote ? IMAGE_GIF : contentType,
-            // Our protos library complains about this field being undefined, so we force
-            //   it to null
-            fileName: fileName || null,
-            thumbnail: thumbnail
-              ? {
-                  ...(await loadAttachmentData(thumbnail)),
-                  objectUrl: thumbnail.path
-                    ? getAbsoluteAttachmentPath(thumbnail.path)
-                    : undefined,
-                }
-              : null,
-          };
-        })
-      );
-    }
-
-    if (preview && preview.length) {
-      const previewImages = collect(preview, prev => prev.image);
-      const previewImagesToUse = take(previewImages, 1);
-
-      return Promise.all(
-        map(previewImagesToUse, async image => {
-          const { contentType } = image;
-
-          return {
-            contentType,
-            // Our protos library complains about this field being undefined, so we
-            //   force it to null
-            fileName: null,
-            thumbnail: image
-              ? {
-                  ...(await loadAttachmentData(image)),
-                  objectUrl: image.path
-                    ? getAbsoluteAttachmentPath(image.path)
-                    : undefined,
-                }
-              : null,
-          };
-        })
-      );
-    }
-
-    if (sticker && sticker.data && sticker.data.path) {
-      const { path, contentType } = sticker.data;
-
-      return [
-        {
-          contentType,
-          // Our protos library complains about this field being undefined, so we
-          //   force it to null
-          fileName: null,
-          thumbnail: {
-            ...(await loadAttachmentData(sticker.data)),
-            objectUrl: path ? getAbsoluteAttachmentPath(path) : undefined,
-          },
-        },
-      ];
-    }
-
-    return [];
-  }
-
-  async makeQuote(quotedMessage: MessageModel): Promise<QuotedMessageType> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const contact = getContact(quotedMessage.attributes)!;
-    const attachments = quotedMessage.get('attachments');
-    const preview = quotedMessage.get('preview');
-    const sticker = quotedMessage.get('sticker');
-
-    return {
-      authorUuid: contact.get('uuid'),
-      attachments: isTapToView(quotedMessage.attributes)
-        ? [{ contentType: IMAGE_JPEG, fileName: null }]
-        : await this.getQuoteAttachment(attachments, preview, sticker),
-      payment: quotedMessage.get('payment'),
-      bodyRanges: quotedMessage.get('bodyRanges'),
-      id: quotedMessage.get('sent_at'),
-      isViewOnce: isTapToView(quotedMessage.attributes),
-      isGiftBadge: isGiftBadge(quotedMessage.attributes),
-      messageId: quotedMessage.get('id'),
-      referencedMessageNotFound: false,
-      text: quotedMessage.getQuoteBodyText(),
-    };
+    return getQuoteAttachment(attachments, preview, sticker);
   }
 
   async sendStickerMessage(packId: string, stickerId: number): Promise<void> {

@@ -6463,6 +6463,14 @@
     "messageformat": "Signal desktop no longer works on this computer. To use Signal desktop again, update your computer’s version of {OS}.",
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
+  "icu:MessageMetadata__edited": {
+    "messageformat": "edited",
+    "description": "label for an edited message"
+  },
+  "icu:EditHistoryMessagesModal__title": {
+    "messageformat": "Edit history",
+    "description": "Modal title for the edit history messages modal"
+  },
   "WhatsNew__modal-title": {
     "message": "What's New",
     "description": "Title for the whats new modal"

@@ -136,6 +136,10 @@ type FormattedContact = Partial<ConversationType> &
     | 'unblurredAvatarPath'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
+export type MessagePropsType = Omit<
+  PropsForMessage,
+  'renderingContext' | 'menu' | 'contextMenu'
+>;
 type PropsForUnsupportedMessage = {
   canProcessNow: boolean;
   contact: FormattedContact;
@@ -718,6 +722,7 @@ export const getPropsForMessage = (
     giftBadge: message.giftBadge,
     id: message.id,
     isBlocked: conversation.isBlocked || false,
+    isEditedMessage: Boolean(message.editHistory),
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
     isTargeted,
     isTargetedCounter: isTargeted ? targetedMessageCounter : undefined,

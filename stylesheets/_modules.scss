@@ -1112,6 +1112,23 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__metadata__edited {
+  @include button-reset;
+  @include font-caption;
+  color: $color-gray-60;
+  cursor: pointer;
+  margin-right: 6px;
+  z-index: $z-index-base;
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-message__container--outgoing .module-message__metadata__edited {
+  color: $color-white-alpha-80;
+}
+
 // With an image and no caption, this section needs to be on top of the image overlay
 .module-message__metadata--with-image-no-caption {
   position: absolute;

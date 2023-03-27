@@ -285,9 +285,10 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     const type = receipt.get('type');
 
     try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        messageSentAt
-      );
+      const messages =
+        await window.Signal.Data.getMessagesIncludingEditedBySentAt(
+          messageSentAt
+        );
 
       const message = await getTargetMessage(
         sourceConversationId,

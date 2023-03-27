@@ -114,6 +114,8 @@ import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
+import type { EditAttributesType } from './messageModifiers/Edits';
+import * as Edits from './messageModifiers/Edits';
 import {
   MessageReceipts,
   MessageReceiptType,
@@ -3069,6 +3071,35 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.editedMessageTimestamp) {
+      const { editedMessageTimestamp } = data.message;
+
+      strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
+      const fromConversation = window.ConversationController.lookupOrCreate({
+        e164: data.source,
+        uuid: data.sourceUuid,
+        reason: 'onMessageReceived:edit',
+      });
+      strictAssert(fromConversation, 'Edit missing fromConversation');
+
+      log.info('Queuing incoming edit for', {
+        editedMessageTimestamp,
+        sentAt: data.timestamp,
+      });
+
+      const editAttributes: EditAttributesType = {
+        dataMessage: data.message,
+        fromId: fromConversation.id,
+        message: message.attributes,
+        targetSentTimestamp: editedMessageTimestamp,
+      };
+
+      drop(Edits.onEdit(editAttributes));
+
+      confirm();
+      return;
+    }
+
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
       confirm();
       return;
@@ -3411,6 +3442,29 @@ export async function startApp(): Promise<void> {
       const deleteModel = Deletes.getSingleton().add(attributes);
       // Note: We do not wait for completion here
       void Deletes.getSingleton().onDelete(deleteModel);
+      confirm();
+      return;
+    }
+
+    if (data.message.editedMessageTimestamp) {
+      const { editedMessageTimestamp } = data.message;
+
+      strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
+
+      log.info('Queuing sent edit for', {
+        editedMessageTimestamp,
+        sentAt: data.timestamp,
+      });
+
+      const editAttributes: EditAttributesType = {
+        dataMessage: data.message,
+        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        message: message.attributes,
+        targetSentTimestamp: editedMessageTimestamp,
+      };
+
+      drop(Edits.onEdit(editAttributes));
+
       confirm();
       return;
     }

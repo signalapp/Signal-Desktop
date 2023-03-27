@@ -122,6 +122,7 @@ import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
 import { chunk } from '../util/iterables';
+import { isOlderThan } from '../util/timestamp';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -2242,6 +2243,84 @@ export default class MessageReceiver
     return this.dispatchAndWait(logId, ev);
   }
 
+  private async handleEditMessage(
+    envelope: UnsealedEnvelope,
+    msg: Proto.IEditMessage
+  ): Promise<void> {
+    const logId = `MessageReceiver.handleEditMessage(${getEnvelopeId(
+      envelope
+    )})`;
+    log.info(logId);
+
+    if (!msg.targetSentTimestamp) {
+      log.info(`${logId}: cannot edit message. No targetSentTimestamp`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!msg.dataMessage) {
+      log.info(`${logId}: cannot edit message. No dataMessage`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    // Timing check
+    if (isOlderThan(envelope.serverTimestamp, durations.DAY)) {
+      log.info(
+        'MessageReceiver.handleEditMessage: cannot edit message older than 24h',
+        logId
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const message = this.processDecrypted(envelope, msg.dataMessage);
+    const groupId = this.getProcessedGroupId(message);
+    const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
+    const { source, sourceUuid } = envelope;
+    const ourE164 = this.storage.user.getNumber();
+    const ourUuid = this.storage.user.getCheckedUuid().toString();
+    const isMe =
+      (source && ourE164 && source === ourE164) ||
+      (sourceUuid && ourUuid && sourceUuid === ourUuid);
+    const isLeavingGroup = Boolean(
+      !message.groupV2 &&
+        message.group &&
+        message.group.type === Proto.GroupContext.Type.QUIT
+    );
+
+    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+      log.warn(
+        `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const ev = new MessageEvent(
+      {
+        source: envelope.source,
+        sourceUuid: envelope.sourceUuid,
+        sourceDevice: envelope.sourceDevice,
+        destinationUuid: envelope.destinationUuid.toString(),
+        timestamp: envelope.timestamp,
+        serverGuid: envelope.serverGuid,
+        serverTimestamp: envelope.serverTimestamp,
+        unidentifiedDeliveryReceived: Boolean(
+          envelope.unidentifiedDeliveryReceived
+        ),
+        message: {
+          ...message,
+          editedMessageTimestamp: msg.targetSentTimestamp.toNumber(),
+        },
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtDate: envelope.receivedAtDate,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    return this.dispatchAndWait(logId, ev);
+  }
+
   private async handleDataMessage(
     envelope: UnsealedEnvelope,
     msg: Proto.IDataMessage
@@ -2358,6 +2437,7 @@ export default class MessageReceiver
       },
       this.removeFromCache.bind(this, envelope)
     );
+
     return this.dispatchAndWait(logId, ev);
   }
 
@@ -2460,6 +2540,11 @@ export default class MessageReceiver
 
     if (content.storyMessage) {
       await this.handleStoryMessage(envelope, content.storyMessage);
+      return;
+    }
+
+    if (content.editMessage) {
+      await this.handleEditMessage(envelope, content.editMessage);
       return;
     }
 
@@ -2859,6 +2944,10 @@ export default class MessageReceiver
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
 
+      if (sentMessage.editMessage) {
+        return this.handleSentEditMessage(envelope, sentMessage);
+      }
+
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
         if (getStoriesBlocked()) {
           log.info(
@@ -2886,12 +2975,11 @@ export default class MessageReceiver
       }
 
       if (sentMessage.storyMessage) {
-        void this.handleStoryMessage(
+        return this.handleStoryMessage(
           envelope,
           sentMessage.storyMessage,
           sentMessage
         );
-        return;
       }
 
       if (!sentMessage || !sentMessage.message) {
@@ -2916,6 +3004,7 @@ export default class MessageReceiver
         'from',
         getEnvelopeId(envelope)
       );
+
       return this.handleSentMessage(envelope, sentMessage);
     }
     if (syncMessage.contacts) {
@@ -2982,6 +3071,68 @@ export default class MessageReceiver
     log.warn(
       `handleSyncMessage/${getEnvelopeId(envelope)}: Got empty SyncMessage`
     );
+  }
+
+  private async handleSentEditMessage(
+    envelope: UnsealedEnvelope,
+    sentMessage: ProcessedSent
+  ): Promise<void> {
+    const logId = `MessageReceiver.handleSentEditMessage(${getEnvelopeId(
+      envelope
+    )})`;
+    log.info(logId);
+
+    const { editMessage } = sentMessage;
+
+    if (!editMessage) {
+      log.warn(`${logId}: cannot edit message. No editMessage in proto`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!editMessage.targetSentTimestamp) {
+      log.warn(`${logId}: cannot edit message. No targetSentTimestamp`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!editMessage.dataMessage) {
+      log.warn(`${logId}: cannot edit message. No dataMessage`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const {
+      destination,
+      destinationUuid,
+      expirationStartTimestamp,
+      unidentifiedStatus,
+      isRecipientUpdate,
+    } = sentMessage;
+
+    const message = this.processDecrypted(envelope, editMessage.dataMessage);
+
+    const ev = new SentEvent(
+      {
+        destination: dropNull(destination),
+        destinationUuid:
+          dropNull(destinationUuid) || envelope.destinationUuid.toString(),
+        timestamp: envelope.timestamp,
+        serverTimestamp: envelope.serverTimestamp,
+        device: envelope.sourceDevice,
+        unidentifiedStatus,
+        message: {
+          ...message,
+          editedMessageTimestamp: editMessage.targetSentTimestamp.toNumber(),
+        },
+        isRecipientUpdate: Boolean(isRecipientUpdate),
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtDate: envelope.receivedAtDate,
+        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    return this.dispatchAndWait(getEnvelopeId(envelope), ev);
   }
 
   private async handleConfiguration(

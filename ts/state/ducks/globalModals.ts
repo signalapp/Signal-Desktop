@@ -4,15 +4,24 @@
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
-import type { GroupV2PendingMemberType } from '../../model-types.d';
-import type { PropsForMessage } from '../selectors/message';
+import type {
+  GroupV2PendingMemberType,
+  MessageAttributesType,
+} from '../../model-types.d';
+import type {
+  MessageChangedActionType,
+  MessageDeletedActionType,
+  MessageExpiredActionType,
+} from './conversations';
+import type { MessagePropsType } from '../selectors/message';
 import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
+import * as Errors from '../../types/errors';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
-import * as Errors from '../../types/errors';
+import * as log from '../../logging/log';
 import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -22,19 +31,24 @@ import { isGroupV1 } from '../../util/whatTypeOfConversation';
 import { authorizeArtCreator } from '../../textsecure/authorizeArtCreator';
 import type { AuthorizeArtCreatorOptionsType } from '../../textsecure/authorizeArtCreator';
 import { getGroupMigrationMembers } from '../../groups';
-import * as log from '../../logging/log';
 import { ToastType } from '../../types/Toast';
+import {
+  MESSAGE_CHANGED,
+  MESSAGE_DELETED,
+  MESSAGE_EXPIRED,
+} from './conversations';
 import { SHOW_TOAST } from './toast';
 import type { ShowToastActionType } from './toast';
 
 // State
 
+export type EditHistoryMessagesType = ReadonlyDeep<
+  Array<MessageAttributesType>
+>;
 export type ConfirmDeleteForMeModalProps = ReadonlyDeep<{
   count: number;
 }>;
-export type ForwardMessagePropsType = ReadonlyDeep<
-  Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'>
->;
+export type ForwardMessagePropsType = ReadonlyDeep<MessagePropsType>;
 export type ForwardMessagesPropsType = ReadonlyDeep<{
   messages: Array<ForwardMessagePropsType>;
   onForward?: () => void;
@@ -57,6 +71,7 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   contactModalState?: ContactModalStateType;
+  editHistoryMessages?: EditHistoryMessagesType;
   errorModalProps?: {
     description?: string;
     title?: string;
@@ -115,6 +130,8 @@ const CONFIRM_AUTH_ART_CREATOR_PENDING =
   'globalModals/CONFIRM_AUTH_ART_CREATOR_PENDING';
 const CONFIRM_AUTH_ART_CREATOR_FULFILLED =
   'globalModals/CONFIRM_AUTH_ART_CREATOR_FULFILLED';
+const SHOW_EDIT_HISTORY_MODAL = 'globalModals/SHOW_EDIT_HISTORY_MODAL';
+const CLOSE_EDIT_HISTORY_MODAL = 'globalModals/CLOSE_EDIT_HISTORY_MODAL';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -264,34 +281,50 @@ type ConfirmAuthArtCreatorFulfilledActionType = ReadonlyDeep<{
   type: typeof CONFIRM_AUTH_ART_CREATOR_FULFILLED;
 }>;
 
+type ShowEditHistoryModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_EDIT_HISTORY_MODAL;
+  payload: {
+    messages: EditHistoryMessagesType;
+  };
+}>;
+
+type CloseEditHistoryModalActionType = ReadonlyDeep<{
+  type: typeof CLOSE_EDIT_HISTORY_MODAL;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
-  | StartMigrationToGV2ActionType
-  | CloseGV2MigrationDialogActionType
-  | HideContactModalActionType
-  | ShowContactModalActionType
-  | HideWhatsNewModalActionType
-  | ShowWhatsNewModalActionType
-  | HideUserNotFoundModalActionType
-  | ShowUserNotFoundModalActionType
-  | HideStoriesSettingsActionType
-  | ShowStoriesSettingsActionType
-  | HideSendAnywayDialogActiontype
-  | ShowSendAnywayDialogActionType
-  | CloseStickerPackPreviewActionType
-  | ShowStickerPackPreviewActionType
-  | CloseErrorModalActionType
-  | ShowErrorModalActionType
-  | CloseShortcutGuideModalActionType
-  | ShowShortcutGuideModalActionType
   | CancelAuthArtCreatorActionType
-  | ConfirmAuthArtCreatorPendingActionType
+  | CloseEditHistoryModalActionType
+  | CloseErrorModalActionType
+  | CloseGV2MigrationDialogActionType
+  | CloseShortcutGuideModalActionType
+  | CloseStickerPackPreviewActionType
   | ConfirmAuthArtCreatorFulfilledActionType
+  | ConfirmAuthArtCreatorPendingActionType
+  | HideContactModalActionType
+  | HideSendAnywayDialogActiontype
+  | HideStoriesSettingsActionType
+  | HideUserNotFoundModalActionType
+  | HideWhatsNewModalActionType
+  | MessageChangedActionType
+  | MessageDeletedActionType
+  | MessageExpiredActionType
   | ShowAuthArtCreatorActionType
+  | ShowContactModalActionType
+  | ShowEditHistoryModalActionType
+  | ShowErrorModalActionType
+  | ShowSendAnywayDialogActionType
+  | ShowShortcutGuideModalActionType
+  | ShowStickerPackPreviewActionType
+  | ShowStoriesSettingsActionType
+  | ShowUserNotFoundModalActionType
+  | ShowWhatsNewModalActionType
+  | StartMigrationToGV2ActionType
+  | ToggleAddUserToAnotherGroupModalActionType
   | ToggleForwardMessagesModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
-  | ToggleAddUserToAnotherGroupModalActionType
   | ToggleSignalConnectionsModalActionType
   | ToggleConfirmationModalActionType
 >;
@@ -299,34 +332,36 @@ export type GlobalModalsActionType = ReadonlyDeep<
 // Action Creators
 
 export const actions = {
-  hideContactModal,
-  showContactModal,
-  hideWhatsNewModal,
-  showWhatsNewModal,
-  hideUserNotFoundModal,
-  showUserNotFoundModal,
-  hideStoriesSettings,
-  showStoriesSettings,
+  cancelAuthorizeArtCreator,
+  closeEditHistoryModal,
+  closeErrorModal,
+  closeGV2MigrationDialog,
+  closeShortcutGuideModal,
+  closeStickerPackPreview,
+  confirmAuthorizeArtCreator,
   hideBlockingSafetyNumberChangeDialog,
+  hideContactModal,
+  hideStoriesSettings,
+  hideUserNotFoundModal,
+  hideWhatsNewModal,
+  showAuthorizeArtCreator,
   showBlockingSafetyNumberChangeDialog,
+  showContactModal,
+  showEditHistoryModal,
+  showErrorModal,
+  showGV2MigrationDialog,
+  showShortcutGuideModal,
+  showStickerPackPreview,
+  showStoriesSettings,
+  showUserNotFoundModal,
+  showWhatsNewModal,
+  toggleAddUserToAnotherGroupModal,
+  toggleConfirmationModal,
   toggleForwardMessagesModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
-  toggleAddUserToAnotherGroupModal,
   toggleSignalConnectionsModal,
-  toggleConfirmationModal,
-  showGV2MigrationDialog,
-  closeGV2MigrationDialog,
-  showStickerPackPreview,
-  closeStickerPackPreview,
-  closeErrorModal,
-  showErrorModal,
-  closeShortcutGuideModal,
-  showShortcutGuideModal,
-  showAuthorizeArtCreator,
-  cancelAuthorizeArtCreator,
-  confirmAuthorizeArtCreator,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -632,6 +667,56 @@ function cancelAuthorizeArtCreator(): ThunkAction<
   };
 }
 
+function copyOverMessageAttributesIntoEditHistory(
+  messageAttributes: ReadonlyDeep<MessageAttributesType>
+): EditHistoryMessagesType | undefined {
+  if (!messageAttributes.editHistory) {
+    return;
+  }
+
+  return messageAttributes.editHistory.map(editedMessageAttributes => ({
+    ...messageAttributes,
+    ...editedMessageAttributes,
+    // For timestamp uniqueness of messages
+    sent_at: editedMessageAttributes.timestamp,
+  }));
+}
+
+function showEditHistoryModal(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, ShowEditHistoryModalActionType> {
+  return async dispatch => {
+    const message = await getMessageById(messageId);
+
+    if (!message) {
+      log.warn('showEditHistoryModal: no message found');
+      return;
+    }
+
+    const messageAttributes = message.attributes;
+    const nextEditHistoryMessages =
+      copyOverMessageAttributesIntoEditHistory(messageAttributes);
+
+    if (!nextEditHistoryMessages) {
+      log.warn('showEditHistoryModal: no edit history for message');
+      return;
+    }
+
+    dispatch({
+      type: SHOW_EDIT_HISTORY_MODAL,
+      payload: {
+        messages: nextEditHistoryMessages,
+      },
+    });
+  };
+}
+
+function closeEditHistoryModal(): CloseEditHistoryModalActionType {
+  return {
+    type: CLOSE_EDIT_HISTORY_MODAL,
+  };
+}
+
 export function showAuthorizeArtCreator(
   data: AuthorizeArtCreatorDataType
 ): ShowAuthArtCreatorActionType {
@@ -894,6 +979,72 @@ export function reducer(
       isAuthorizingArtCreator: false,
       authArtCreatorData: undefined,
     };
+  }
+
+  if (action.type === SHOW_EDIT_HISTORY_MODAL) {
+    return {
+      ...state,
+      editHistoryMessages: action.payload.messages,
+    };
+  }
+
+  if (action.type === CLOSE_EDIT_HISTORY_MODAL) {
+    return {
+      ...state,
+      editHistoryMessages: undefined,
+    };
+  }
+
+  if (
+    action.type === MESSAGE_CHANGED ||
+    action.type === MESSAGE_DELETED ||
+    action.type === MESSAGE_EXPIRED
+  ) {
+    if (!state.editHistoryMessages) {
+      return state;
+    }
+
+    if (action.type === MESSAGE_DELETED || action.type === MESSAGE_EXPIRED) {
+      const hasMessageId = state.editHistoryMessages.some(
+        edit => edit.id === action.payload.id
+      );
+
+      if (!hasMessageId) {
+        return state;
+      }
+
+      return {
+        ...state,
+        editHistoryMessages: undefined,
+      };
+    }
+
+    if (action.type === MESSAGE_CHANGED) {
+      if (!action.payload.data.editHistory) {
+        return state;
+      }
+
+      const hasMessageId = state.editHistoryMessages.some(
+        edit => edit.id === action.payload.id
+      );
+
+      if (!hasMessageId) {
+        return state;
+      }
+
+      const nextEditHistoryMessages = copyOverMessageAttributesIntoEditHistory(
+        action.payload.data
+      );
+
+      if (!nextEditHistoryMessages) {
+        return state;
+      }
+
+      return {
+        ...state,
+        editHistoryMessages: nextEditHistoryMessages,
+      };
+    }
   }
 
   return state;

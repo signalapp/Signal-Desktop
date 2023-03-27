@@ -150,7 +150,7 @@ export type ProcessedQuote = {
   authorUuid?: string;
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
-  bodyRanges: ReadonlyArray<Proto.DataMessage.IBodyRange>;
+  bodyRanges: ReadonlyArray<ProcessedBodyRange>;
   type: Proto.DataMessage.Quote.Type;
 };
 
@@ -219,6 +219,7 @@ export type ProcessedDataMessage = {
   preview?: ReadonlyArray<ProcessedPreview>;
   sticker?: ProcessedSticker;
   requiredProtocolVersion?: number;
+  editedMessageTimestamp?: number;
   isStory?: boolean;
   isViewOnce: boolean;
   reaction?: ProcessedReaction;

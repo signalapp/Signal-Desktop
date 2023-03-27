@@ -27,6 +27,7 @@ import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
+import { softAssert } from '../util/assert';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -40,7 +41,9 @@ export type AttachmentType = {
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
+  digest?: string;
   fileName?: string;
+  uploadTimestamp?: number;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
@@ -78,7 +81,6 @@ export type AttachmentType = {
   schemaVersion?: number;
 
   /** Removed once we download the attachment */
-  digest?: string;
   key?: string;
 };
 
@@ -187,6 +189,7 @@ export async function migrateDataToFileSystem(
   const { data } = attachment;
   const attachmentHasData = !isUndefined(data);
   const shouldSkipSchemaUpgrade = !attachmentHasData;
+
   if (shouldSkipSchemaUpgrade) {
     return attachment;
   }
@@ -1001,3 +1004,8 @@ export const canBeDownloaded = (
 ): boolean => {
   return Boolean(attachment.key && attachment.digest);
 };
+
+export function getAttachmentSignature(attachment: AttachmentType): string {
+  softAssert(attachment.digest, 'attachment missing digest');
+  return attachment.digest || String(attachment.blurHash);
+}

@@ -50,7 +50,7 @@ export async function downloadAttachment(
   const data = getFirstBytes(paddedData, size);
 
   return {
-    ...omit(attachment, 'digest', 'key'),
+    ...omit(attachment, 'key'),
 
     size,
     contentType: contentType

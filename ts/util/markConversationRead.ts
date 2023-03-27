@@ -34,18 +34,23 @@ export async function markConversationRead(
 ): Promise<boolean> {
   const { id: conversationId } = conversationAttrs;
 
-  const [unreadMessages, unreadReactions] = await Promise.all([
-    window.Signal.Data.getUnreadByConversationAndMarkRead({
-      conversationId,
-      newestUnreadAt,
-      readAt: options.readAt,
-      includeStoryReplies: !isGroup(conversationAttrs),
-    }),
-    window.Signal.Data.getUnreadReactionsAndMarkRead({
-      conversationId,
-      newestUnreadAt,
-    }),
-  ]);
+  const [unreadMessages, unreadEditedMessages, unreadReactions] =
+    await Promise.all([
+      window.Signal.Data.getUnreadByConversationAndMarkRead({
+        conversationId,
+        newestUnreadAt,
+        readAt: options.readAt,
+        includeStoryReplies: !isGroup(conversationAttrs),
+      }),
+      window.Signal.Data.getUnreadEditedMessagesAndMarkRead({
+        fromId: conversationId,
+        newestUnreadAt,
+      }),
+      window.Signal.Data.getUnreadReactionsAndMarkRead({
+        conversationId,
+        newestUnreadAt,
+      }),
+    ]);
 
   log.info('markConversationRead', {
     conversationId: getConversationIdForLogging(conversationAttrs),
@@ -55,7 +60,11 @@ export async function markConversationRead(
     unreadReactions: unreadReactions.length,
   });
 
-  if (!unreadMessages.length && !unreadReactions.length) {
+  if (
+    !unreadMessages.length &&
+    !unreadEditedMessages.length &&
+    !unreadReactions.length
+  ) {
     return false;
   }
 
@@ -83,7 +92,9 @@ export async function markConversationRead(
     });
   });
 
-  const allReadMessagesSync = unreadMessages.map(messageSyncData => {
+  const allUnreadMessages = [...unreadMessages, ...unreadEditedMessages];
+
+  const allReadMessagesSync = allUnreadMessages.map(messageSyncData => {
     const message = window.MessageController.getById(messageSyncData.id);
     // we update the in-memory MessageModel with the fresh database call data
     if (message) {

@@ -1991,7 +1991,15 @@ function kickOffAttachmentDownload(
         `kickOffAttachmentDownload: Message ${options.messageId} missing!`
       );
     }
-    await message.queueAttachmentDownloads();
+    const didUpdateValues = await message.queueAttachmentDownloads();
+
+    if (didUpdateValues) {
+      drop(
+        window.Signal.Data.saveMessage(message.attributes, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        })
+      );
+    }
 
     dispatch({
       type: 'NOOP',

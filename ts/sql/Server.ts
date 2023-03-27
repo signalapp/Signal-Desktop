@@ -87,6 +87,7 @@ import type {
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
   DeleteSentProtoRecipientResultType,
+  EditedMessageType,
   EmojiType,
   FTSOptimizationStateType,
   GetAllStoriesResultType,
@@ -252,9 +253,12 @@ const dataInterface: ServerInterface = {
   getMessageById,
   getMessagesById,
   _getAllMessages,
+  _getAllEditedMessages,
   _removeAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
+  getMessagesIncludingEditedBySentAt,
+  getUnreadEditedMessagesAndMarkRead,
   getExpiredMessages,
   getMessagesUnexpectedlyMissingExpirationStartTimestamp,
   getSoonestMessageExpiry,
@@ -273,6 +277,7 @@ const dataInterface: ServerInterface = {
   migrateConversationMessages,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
+  saveEditedMessage,
 
   getUnprocessedCount,
   getUnprocessedByIdsAndIncrementAttempts,
@@ -5678,4 +5683,137 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
       json = json_remove(json, '$.profileKeyCredential')
     `
   );
+}
+
+async function saveEditedMessage(
+  mainMessage: MessageType,
+  ourUuid: UUIDStringType,
+  { fromId, messageId, readStatus, sentAt }: EditedMessageType
+): Promise<void> {
+  const db = getInstance();
+
+  db.transaction(() => {
+    assertSync(
+      saveMessageSync(mainMessage, {
+        ourUuid,
+        alreadyInTransaction: true,
+      })
+    );
+
+    const [query, params] = sql`
+      INSERT INTO edited_messages (
+        fromId,
+        messageId,
+        sentAt,
+        readStatus
+      ) VALUES (
+        ${fromId},
+        ${messageId},
+        ${sentAt},
+        ${readStatus}
+      );
+    `;
+
+    db.prepare(query).run(params);
+  })();
+}
+
+async function getMessagesIncludingEditedBySentAt(
+  sentAt: number
+): Promise<Array<MessageType>> {
+  const db = getInstance();
+
+  const [query, params] = sql`
+    SELECT messages.json, received_at, sent_at FROM edited_messages
+    INNER JOIN messages ON
+      messages.id = edited_messages.messageId
+    WHERE edited_messages.sentAt = ${sentAt}
+    UNION
+    SELECT json, received_at, sent_at FROM messages
+    WHERE sent_at = ${sentAt}
+    ORDER BY messages.received_at DESC, messages.sent_at DESC;
+  `;
+
+  const rows = db.prepare(query).all(params);
+
+  return rows.map(row => jsonToObject(row.json));
+}
+
+async function _getAllEditedMessages(): Promise<
+  Array<{ messageId: string; sentAt: number }>
+> {
+  const db = getInstance();
+
+  return db
+    .prepare<Query>(
+      `
+      SELECT * FROM edited_messages;
+      `
+    )
+    .all({});
+}
+
+async function getUnreadEditedMessagesAndMarkRead({
+  fromId,
+  newestUnreadAt,
+}: {
+  fromId: string;
+  newestUnreadAt: number;
+}): Promise<GetUnreadByConversationAndMarkReadResultType> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    const [selectQuery, selectParams] = sql`
+      SELECT
+        messages.id,
+        messages.json,
+        edited_messages.sentAt,
+        edited_messages.readStatus
+      FROM edited_messages
+      JOIN messages
+        ON messages.id = edited_messages.messageId
+      WHERE
+        edited_messages.readStatus = ${ReadStatus.Unread} AND
+        edited_messages.fromId = ${fromId} AND
+        received_at <= ${newestUnreadAt}
+      ORDER BY messages.received_at DESC, messages.sent_at DESC;
+    `;
+
+    const rows = db.prepare(selectQuery).all(selectParams);
+
+    if (rows.length) {
+      const newestSentAt = rows[0].sentAt;
+
+      const [updateStatusQuery, updateStatusParams] = sql`
+        UPDATE edited_messages
+          SET
+            readStatus = ${ReadStatus.Read}
+          WHERE
+            readStatus = ${ReadStatus.Unread} AND
+            fromId = ${fromId} AND
+            sentAt <= ${newestSentAt};
+      `;
+
+      db.prepare(updateStatusQuery).run(updateStatusParams);
+    }
+
+    return rows.map(row => {
+      const json = jsonToObject<MessageType>(row.json);
+      return {
+        originalReadStatus: row.readStatus,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        ...pick(json, [
+          'expirationStartTimestamp',
+          'id',
+          'sent_at',
+          'source',
+          'sourceUuid',
+          'type',
+        ]),
+        // Use the edited message timestamp
+        sent_at: row.sentAt,
+      };
+    });
+  })();
 }

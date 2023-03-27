@@ -51,6 +51,7 @@ message Content {
   optional bytes               decryptionErrorMessage       = 8;
   optional StoryMessage        storyMessage                 = 9;
   optional PniSignatureMessage pniSignatureMessage          = 10;
+  optional EditMessage editMessage = 11;
 }
 
 // Everything in CallingMessage must be kept in sync with RingRTC (ringrtc-node).
@@ -464,6 +465,7 @@ message SyncMessage {
     optional bool                       isRecipientUpdate        = 6 [default = false];
     optional StoryMessage storyMessage = 8;
     repeated StoryMessageRecipient storyMessageRecipients = 9;
+    optional EditMessage editMessage = 10;
   }
 
   message Contacts {
@@ -719,4 +721,9 @@ message PniSignatureMessage {
   optional bytes pni = 1;
   // Signature *by* the PNI identity key *of* the ACI identity key
   optional bytes signature = 2;
+}
+
+message EditMessage {
+  optional uint64 targetSentTimestamp = 1;
+  optional DataMessage dataMessage = 2;
 }

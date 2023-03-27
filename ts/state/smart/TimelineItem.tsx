@@ -130,6 +130,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
 
   const {
     showContactModal,
+    showEditHistoryModal,
     toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
@@ -161,6 +162,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       shouldCollapseBelow={shouldCollapseBelow}
       shouldHideMetadata={shouldHideMetadata}
       shouldRenderDateHeader={shouldRenderDateHeader}
+      showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
       interactionMode={interactionMode}
       theme={theme}

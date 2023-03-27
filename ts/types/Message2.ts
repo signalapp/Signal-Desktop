@@ -824,7 +824,8 @@ export const deleteAllExternalFiles = ({
   }
 
   return async (message: MessageAttributesType) => {
-    const { attachments, quote, contact, preview, sticker } = message;
+    const { attachments, editHistory, quote, contact, preview, sticker } =
+      message;
 
     if (attachments && attachments.length) {
       await Promise.all(attachments.map(deleteAttachmentData));
@@ -858,15 +859,7 @@ export const deleteAllExternalFiles = ({
     }
 
     if (preview && preview.length) {
-      await Promise.all(
-        preview.map(async item => {
-          const { image } = item;
-
-          if (image && image.path) {
-            await deleteOnDisk(image.path);
-          }
-        })
-      );
+      await deletePreviews(preview, deleteOnDisk);
     }
 
     if (sticker && sticker.data && sticker.data.path) {
@@ -876,8 +869,41 @@ export const deleteAllExternalFiles = ({
         await deleteOnDisk(sticker.data.thumbnail.path);
       }
     }
+
+    if (editHistory && editHistory.length) {
+      await editHistory.map(edit => {
+        if (!edit.attachments || !edit.attachments.length) {
+          return;
+        }
+        return Promise.all(edit.attachments.map(deleteAttachmentData));
+      });
+      await editHistory.map(edit => deletePreviews(edit.preview, deleteOnDisk));
+    }
   };
 };
+
+async function deletePreviews(
+  preview: MessageAttributesType['preview'],
+  deleteOnDisk: (path: string) => Promise<void>
+): Promise<Array<void>> {
+  if (!preview) {
+    return [];
+  }
+
+  return Promise.all(
+    preview.map(async item => {
+      const { image } = item;
+
+      if (image && image.path) {
+        await deleteOnDisk(image.path);
+      }
+
+      if (image?.thumbnail?.path) {
+        await deleteOnDisk(image.thumbnail.path);
+      }
+    })
+  );
+}
 
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->

@@ -80,7 +80,6 @@ import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttrib
 import { getOwn } from '../util/getOwn';
 import { markRead, markViewed } from '../services/MessageUpdater';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
-import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
   isGroup,
@@ -181,78 +180,10 @@ import {
 } from '../util/attachmentDownloadQueue';
 import { getTitleNoDefault, getNumber } from '../util/getTitle';
 import dataInterface from '../sql/Client';
-
-function isSameUuid(
-  a: UUID | string | null | undefined,
-  b: UUID | string | null | undefined
-): boolean {
-  return a != null && b != null && String(a) === String(b);
-}
-
-async function shouldReplyNotifyUser(
-  message: MessageModel,
-  conversation: ConversationModel
-): Promise<boolean> {
-  // Don't notify if the message has already been read
-  if (!isMessageUnread(message.attributes)) {
-    return false;
-  }
-
-  const storyId = message.get('storyId');
-
-  // If this is not a reply to a story, always notify.
-  if (storyId == null) {
-    return true;
-  }
-
-  // Always notify if this is not a group
-  if (!isGroup(conversation.attributes)) {
-    return true;
-  }
-
-  const matchedStory = window.reduxStore
-    .getState()
-    .stories.stories.find(story => {
-      return story.messageId === storyId;
-    });
-
-  // If we can't find the story, don't notify
-  if (matchedStory == null) {
-    log.warn("Couldn't find story for reply");
-    return false;
-  }
-
-  const currentUserId = window.textsecure.storage.user.getUuid();
-  const storySourceId = matchedStory.sourceUuid;
-
-  const currentUserIdSource = isSameUuid(storySourceId, currentUserId);
-
-  // If the story is from the current user, always notify
-  if (currentUserIdSource) {
-    return true;
-  }
-
-  // If the story is from a different user, only notify if the user has
-  // replied or reacted to the story
-
-  const replies = await dataInterface.getOlderMessagesByConversation({
-    conversationId: conversation.id,
-    limit: 9000,
-    storyId,
-    includeStoryReplies: true,
-  });
-
-  const prevCurrentUserReply = replies.find(replyMessage => {
-    return replyMessage.type === 'outgoing';
-  });
-
-  if (prevCurrentUserReply != null) {
-    return true;
-  }
-
-  // Otherwise don't notify
-  return false;
-}
+import * as Edits from '../messageModifiers/Edits';
+import { handleEditMessage } from '../util/handleEditMessage';
+import { getQuoteBodyText } from '../util/getQuoteBodyText';
+import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 
 /* eslint-disable more/no-then */
 
@@ -1184,14 +1115,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     this.set({
-      isErased: true,
+      attachments: [],
       body: '',
       bodyRanges: undefined,
-      attachments: [],
-      quote: undefined,
       contact: [],
-      sticker: undefined,
+      editHistory: undefined,
+      isErased: true,
       preview: [],
+      quote: undefined,
+      sticker: undefined,
       ...additionalProperties,
     });
     this.getConversation()?.debouncedUpdateLastMessage?.();
@@ -2045,7 +1977,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       queryMessage = matchingMessage;
     } else {
       log.info('copyFromQuotedMessage: db lookup needed', id);
-      const messages = await window.Signal.Data.getMessagesBySentAt(id);
+      const messages =
+        await window.Signal.Data.getMessagesIncludingEditedBySentAt(id);
       const found = messages.find(item =>
         isQuoteAMatch(item, conversationId, result)
       );
@@ -2063,18 +1996,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     return result;
-  }
-
-  getQuoteBodyText(): string | undefined {
-    const storyReactionEmoji = this.get('storyReaction')?.emoji;
-    const body = this.get('body');
-    const embeddedContact = this.get('contact');
-    const embeddedContactName =
-      embeddedContact && embeddedContact.length > 0
-        ? EmbeddedContact.getName(embeddedContact[0])
-        : '';
-
-    return body || embeddedContactName || storyReactionEmoji;
   }
 
   async copyQuoteContentFromOriginal(
@@ -2125,7 +2046,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     quote.isViewOnce = false;
 
     // eslint-disable-next-line no-param-reassign
-    quote.text = originalMessage.getQuoteBodyText();
+    quote.text = getQuoteBodyText(originalMessage.attributes, quote.id);
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
     }
@@ -3337,6 +3258,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         changed = true;
       })
     );
+
+    // We want to make sure the message is saved first before applying any edits
+    if (!isFirstRun) {
+      const edits = Edits.forMessage(message);
+      await Promise.all(
+        edits.map(editAttributes =>
+          handleEditMessage(message.attributes, editAttributes)
+        )
+      );
+    }
 
     if (changed && !isFirstRun) {
       log.info(

@@ -82,9 +82,10 @@ export class ReadSyncs extends Collection {
 
   async onSync(sync: ReadSyncModel): Promise<void> {
     try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        sync.get('timestamp')
-      );
+      const messages =
+        await window.Signal.Data.getMessagesIncludingEditedBySentAt(
+          sync.get('timestamp')
+        );
 
       const found = messages.find(item => {
         const sender = window.ConversationController.lookupOrCreate({

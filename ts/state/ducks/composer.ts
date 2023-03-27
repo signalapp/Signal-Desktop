@@ -88,6 +88,7 @@ import type {
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
+import { makeQuote } from '../../util/makeQuote';
 
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -630,7 +631,7 @@ export function setQuoteByMessageId(
     }
 
     if (message) {
-      const quote = await conversation.makeQuote(message);
+      const quote = await makeQuote(message.attributes);
 
       // In case the conversation changed while we were about to set the quote
       if (getState().conversations.selectedConversationId !== conversationId) {
