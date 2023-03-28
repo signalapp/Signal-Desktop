@@ -44,7 +44,7 @@ import { createSupportUrl } from '../ts/util/createSupportUrl';
 import { missingCaseError } from '../ts/util/missingCaseError';
 import { strictAssert } from '../ts/util/assert';
 import { drop } from '../ts/util/drop';
-import { consoleLogger } from '../ts/util/consoleLogger';
+import { createBufferedConsoleLogger } from '../ts/util/consoleLogger';
 import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
@@ -135,6 +135,16 @@ let mainWindow: BrowserWindow | undefined;
 let mainWindowCreated = false;
 let loadingWindow: BrowserWindow | undefined;
 
+// Create a buffered logger to hold our log lines until we fully initialize
+// the logger in `app.on('ready')`
+const consoleLogger = createBufferedConsoleLogger();
+
+// These will be set after app fires the 'ready' event
+let logger: LoggerType | undefined;
+let preferredSystemLocales: Array<string> | undefined;
+let resolvedTranslationsLocale: LocaleType | undefined;
+let settingsChannel: SettingsChannel | undefined;
+
 const activeWindows = new Set<BrowserWindow>();
 
 function getMainWindow() {
@@ -169,6 +179,12 @@ const defaultWebPrefs = {
 
 const DISABLE_GPU =
   OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
+
+const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
+  arg => arg === '--enable-crash-reports'
+);
+
+setupCrashReports(getLogger, FORCE_ENABLE_CRASH_REPORTS);
 
 function showWindow() {
   if (!mainWindow) {
@@ -346,12 +362,6 @@ if (windowFromUserConfig) {
 }
 
 let menuOptions: CreateTemplateOptionsType | undefined;
-
-// These will be set after app fires the 'ready' event
-let logger: LoggerType | undefined;
-let preferredSystemLocales: Array<string> | undefined;
-let resolvedTranslationsLocale: LocaleType | undefined;
-let settingsChannel: SettingsChannel | undefined;
 
 function getLogger(): LoggerType {
   if (!logger) {
@@ -1673,7 +1683,8 @@ app.on('ready', async () => {
 
   logger = await logging.initialize(getMainWindow);
 
-  await setupCrashReports(getLogger);
+  // Write buffered information into newly created logger.
+  consoleLogger.writeBufferInto(logger);
 
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(

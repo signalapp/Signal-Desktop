@@ -39,7 +39,6 @@ const getHeader = (
     capabilities,
     remoteConfig,
     statistics,
-    appMetrics,
     user,
   }: Omit<FetchLogIpcData, 'logEntries'>,
   nodeVersion: string,
@@ -57,29 +56,6 @@ const getHeader = (
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
     headerSection('Remote config', remoteConfig),
-    headerSection(
-      'Metrics',
-      appMetrics.reduce((acc, stats, index) => {
-        const {
-          type = '?',
-          serviceName = '?',
-          name = '?',
-          cpu,
-          memory,
-        } = stats;
-
-        const processId = `${index}:${type}/${serviceName}/${name}`;
-
-        return {
-          ...acc,
-          [processId]:
-            `cpuUsage=${cpu.percentCPUUsage.toFixed(2)} ` +
-            `wakeups=${cpu.idleWakeupsPerSecond} ` +
-            `workingMemory=${memory.workingSetSize} ` +
-            `peakWorkingMemory=${memory.peakWorkingSetSize}`,
-        };
-      }, {})
-    ),
     headerSection('Statistics', statistics),
     headerSectionTitle('Logs'),
   ].join('\n');

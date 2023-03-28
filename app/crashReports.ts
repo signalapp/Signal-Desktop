@@ -46,11 +46,11 @@ async function eraseDumps(
   );
 }
 
-export async function setup(getLogger: () => LoggerType): Promise<void> {
-  const isEnabled = !isProduction(app.getVersion());
+export function setup(getLogger: () => LoggerType, forceEnable = false): void {
+  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
-    getLogger().info('crashReporter: enabled');
+    getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
     crashReporter.start({ uploadToServer: false });
   }
 

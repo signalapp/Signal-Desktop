@@ -26,7 +26,6 @@ import { CircularBuffer } from 'cirbuf';
 
 import type { LoggerType } from '../types/Logging';
 import * as Errors from '../types/errors';
-import * as durations from '../util/durations';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
 import * as log from './log';
@@ -63,13 +62,6 @@ export async function initialize(
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
   mkdirSync(logPath, { recursive: true });
-
-  let appMetrics = app.getAppMetrics();
-
-  setInterval(() => {
-    // CPU stats are computed since the last call to `getAppMetrics`.
-    appMetrics = app.getAppMetrics();
-  }, 30 * durations.SECOND).unref();
 
   try {
     await cleanupLogs(logPath);
@@ -141,7 +133,6 @@ export async function initialize(
       ]);
       data = {
         logEntries,
-        appMetrics,
         ...rest,
       };
     } catch (error) {
@@ -340,7 +331,7 @@ export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
 
 export const fetchAdditionalLogData = (
   mainWindow: BrowserWindow
-): Promise<Omit<FetchLogIpcData, 'logEntries' | 'appMetrics'>> =>
+): Promise<Omit<FetchLogIpcData, 'logEntries'>> =>
   new Promise(resolve => {
     mainWindow.webContents.send('additional-log-data-request');
     ipc.once('additional-log-data-response', (_event, data) => {

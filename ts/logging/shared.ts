@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pino from 'pino';
-import type { ProcessMetric } from 'electron';
 import { isRecord } from '../util/isRecord';
 import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
@@ -16,7 +15,6 @@ export type FetchLogIpcData = {
   remoteConfig: Record<string, unknown>;
   statistics: Record<string, unknown>;
   user: Record<string, unknown>;
-  appMetrics: ReadonlyArray<ProcessMetric>;
 
   // We expect `logEntries` to be `Array<LogEntryType>`, but we don't validate that
   //   upfront—we only validate it when we go to log each line. This improves the
