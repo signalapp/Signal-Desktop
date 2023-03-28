@@ -2,6 +2,7 @@ import { compact, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
+import { ConfigurationSyncJobDone } from '../../../../shims/events';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
@@ -148,6 +149,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
   public async run(): Promise<RunJobResult> {
     try {
       if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+        this.triggerConfSyncJobDone();
         return RunJobResult.Success;
       }
       window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
@@ -188,6 +190,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       // If there are no pending changes then the job can just complete (next time something
       // is updated we want to try and run immediately so don't scuedule another run in this case)
       if (isEmpty(singleDestChanges?.messages)) {
+        this.triggerConfSyncJobDone();
         return RunJobResult.Success;
       }
       const oldHashesToDelete = new Set(singleDestChanges.allOldHashes);
@@ -225,6 +228,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       // generate any config dumps which need to be stored
 
       await buildAndSaveDumpsToDB(changes, thisJobDestination);
+      this.triggerConfSyncJobDone();
       return RunJobResult.Success;
     } catch (e) {
       throw e;
@@ -259,6 +263,10 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
 
   private updateLastTickTimestamp() {
     lastRunConfigSyncJobTimestamp = Date.now();
+  }
+
+  private triggerConfSyncJobDone() {
+    window.Whisper.events.trigger(ConfigurationSyncJobDone);
   }
 }
 

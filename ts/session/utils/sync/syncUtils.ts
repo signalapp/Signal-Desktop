@@ -7,6 +7,7 @@ import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
 import { SignalService } from '../../../protobuf';
 import { ECKeyPair } from '../../../receiver/keypairs';
+import { ConfigurationSyncJobDone } from '../../../shims/events';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
 import { getConversationController } from '../../conversations';
@@ -78,10 +79,29 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
   new Promise(resolve => {
     // TODO  this should check for feature flag and queue a ConfigurationSyncJob
     const allConvos = getConversationController().getConversations();
-    // if we hang for more than 10sec, force resolve this promise.
+    // if we hang for more than 20sec, force resolve this promise.
     setTimeout(() => {
       resolve(false);
-    }, 10000);
+    }, 20000);
+
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      void ConfigurationDumpSync.queueNewJobIfNeeded()
+        .then(ConfigurationSync.queueNewJobIfNeeded)
+        .catch(e => {
+          window.log.warn(
+            'forceSyncConfigurationNowIfNeeded scheduling of jobs failed with',
+            e.message
+          );
+        });
+      if (waitForMessageSent) {
+        window.Whisper.events.once(ConfigurationSyncJobDone, () => {
+          debugger;
+          resolve(true);
+        });
+      }
+
+      return;
+    }
 
     void getCurrentConfigurationMessage(allConvos)
       .then(configMessage => {

@@ -180,16 +180,16 @@ message DataMessage {
   message ClosedGroupControlMessage {
 
     enum Type {
-      NEW                           = 1;  // TODO: should get rid of this once closed group redesign has been released for a while
-      ENCRYPTION_KEY_PAIR           = 3;  // TODO: should get rid of this once closed group redesign has been released for a while
-      NAME_CHANGE                   = 4;  // TODO: should get rid of this once closed group redesign has been released for a while
-      MEMBERS_ADDED                 = 5;  // TODO: should get rid of this once closed group redesign has been released for a while
-      MEMBERS_REMOVED               = 6;  // TODO: should get rid of this once closed group redesign has been released for a while
+      NEW                           = 1;
+      ENCRYPTION_KEY_PAIR           = 3;
+      NAME_CHANGE                   = 4;
+      MEMBERS_ADDED                 = 5;
+      MEMBERS_REMOVED               = 6;
       MEMBER_LEFT                   = 7;
-      ENCRYPTION_KEY_PAIR_REQUEST   = 8;  // TODO: should get rid of this once closed group redesign has been released for a while
+      ENCRYPTION_KEY_PAIR_REQUEST   = 8;
     }
 
-    // TODO:  should get rid of this once closed group redesign has been released for a while
+
     message KeyPairWrapper {
       // @required
       required bytes publicKey        = 1; // The public key of the user the key pair is meant for
@@ -201,11 +201,11 @@ message DataMessage {
     required Type           type              = 1;
     optional bytes          publicKey         = 2;
     optional string         name              = 3;
-    optional KeyPair        encryptionKeyPair = 4; // TODO:  should get rid of this once closed group redesign has been released for a while
+    optional KeyPair        encryptionKeyPair = 4;
     repeated bytes          members           = 5;
-    repeated bytes          admins            = 6; // TODO: should get rid of this once closed group redesign has been released for a while
-    repeated KeyPairWrapper wrappers          = 7; // TODO: should get rid of this once closed group redesign has been released for a while
-    optional uint32         expireTimer       = 8; // TODO: should get rid of this once closed group redesign has been released for a while
+    repeated bytes          admins            = 6;
+    repeated KeyPairWrapper wrappers          = 7;
+    optional uint32         expireTimer       = 8;
   }
 
 
