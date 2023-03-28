@@ -8404,14 +8404,9 @@ serialize-javascript@6.0.0, serialize-javascript@^6.0.0:
   dependencies:
     randombytes "^2.1.0"
 
-session_util_wrapper@/home/audric/pro/contribs/libsession-util-nodejs:
+"session_util_wrapper@https://github.com/oxen-io/libsession-util-nodejs/":
   version "0.1.0"
-  dependencies:
-    nan "^2.17.0"
-    node-gyp "^9.3.0"
-
-"session_util_wrapper@file:../libsession-util-nodejs":
-  version "0.1.0"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/#14b17dec2cdc86c3792314ebda8fbe696308ce38"
   dependencies:
     nan "^2.17.0"
     node-gyp "^9.3.0"

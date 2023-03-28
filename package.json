@@ -140,7 +140,7 @@
     "rimraf": "2.6.2",
     "sanitize.css": "^12.0.1",
     "semver": "5.4.1",
-    "session_util_wrapper": "/home/audric/pro/contribs/libsession-util-nodejs",
+    "session_util_wrapper": "https://github.com/oxen-io/libsession-util-nodejs/",
     "styled-components": "5.1.1",
     "uuid": "8.3.2"
   },
