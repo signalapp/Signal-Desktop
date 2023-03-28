@@ -305,20 +305,21 @@ export class ConversationController {
 
     const load = async () => {
       try {
-        const start = Date.now();
+        const startLoad = Date.now();
         const convoModels = await Data.getAllConversations();
         this.conversations.add(convoModels);
 
-        console.time('refreshAllWrapperContactsData');
+        const start = Date.now();
         // TODO make this a switch so we take care of all wrappers and have compilation errors if we forgot to add one.
+        // also keep in mind that the convo volatile one need to run for each convo.
         for (let index = 0; index < convoModels.length; index++) {
           const convo = convoModels[index];
           if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
             await SessionUtilContact.refreshMappedValue(convo.id, true);
-          }
-          if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+          } else if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
             await SessionUtilUserGroups.refreshCachedUserGroup(convo.id, true);
           }
+          // we actually want to run the convo volatile check and fetch even if one of the cases above is already true
           if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
             await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
               convo.id,
@@ -329,21 +330,22 @@ export class ConversationController {
             await convo.refreshInMemoryDetails();
           }
         }
-        console.timeEnd('refreshAllWrapperContactsData');
+        console.info(`refreshAllWrappersMappedValues took ${Date.now() - start}ms`);
 
         this._initialFetchComplete = true;
-        this.conversations.forEach((conversation: ConversationModel) => {
-          if (
-            conversation.isActive() &&
-            !conversation.isHidden() &&
-            !conversation.get('lastMessage')
-          ) {
-            conversation.updateLastMessage();
-          }
-        });
+        // TODO do we really need to do this?
+        // this.conversations.forEach((conversation: ConversationModel) => {
+        //   if (
+        //     conversation.isActive() &&
+        //     !conversation.isHidden() &&
+        //     !conversation.get('lastMessage')
+        //   ) {
+        //     conversation.updateLastMessage();
+        //   }
+        // });
 
         window?.log?.info(
-          `ConversationController: done with initial fetch in ${Date.now() - start}ms.`
+          `ConversationController: done with initial fetch in ${Date.now() - startLoad}ms.`
         );
       } catch (error) {
         window?.log?.error(

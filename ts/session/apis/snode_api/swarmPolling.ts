@@ -145,7 +145,7 @@ export class SwarmPolling {
   public async pollForAllKeys() {
     if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForAllKeys: offline');
-      // Important to set up a new polling
+      // Very important to set up a new polling call so we do retry at some point
       setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
       return;
     }

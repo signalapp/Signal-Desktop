@@ -118,10 +118,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
 
-    if (!this.attributes.id) {
+    if (!this.id) {
       throw new Error('A message always needs to have an id.');
     }
-    if (!this.attributes.conversationId) {
+    if (!this.get('conversationId')) {
       throw new Error('A message always needs to have an conversationId.');
     }
 
@@ -1084,17 +1084,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async commit(triggerUIUpdate = true) {
-    if (!this.attributes.id) {
+    if (!this.id) {
       throw new Error('A message always needs an id');
     }
 
-    perfStart(`messageCommit-${this.attributes.id}`);
+    perfStart(`messageCommit-${this.id}`);
     // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
     const id = await Data.saveMessage(cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
-    perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
+    perfEnd(`messageCommit-${this.id}`, 'messageCommit');
 
     return id;
   }

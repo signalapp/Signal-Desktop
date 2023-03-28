@@ -126,6 +126,7 @@ export function getLastProfileUpdateTimestamp() {
 }
 
 export async function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
+  // TODO get rid of this once we remove the feature flag altogether
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     return;
   }

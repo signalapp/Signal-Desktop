@@ -1368,7 +1368,6 @@ function getFirstUnreadMessageIdInConversation(conversationId: string) {
 }
 
 /**
- *
  * Returns the last read message timestamp in the specific conversation (the columns `serverTimestamp` || `sent_at`)
  */
 function getLastMessageReadInConversation(conversationId: string): number | null {

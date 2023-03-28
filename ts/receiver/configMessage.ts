@@ -1,4 +1,4 @@
-import _, { compact, isEmpty } from 'lodash';
+import _, { compact, isEmpty, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
@@ -118,7 +118,9 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
   const updatedProfilePicture = await UserConfigWrapperActions.getProfilePicture();
   const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
-  await ProfileManager.updateOurProfileSync(
+
+  await updateOurProfileLegacyOrViaLibSession(
+    result.latestEnvelopeTimestamp,
     updatedUserName,
     picUpdate ? updatedProfilePicture.url : null,
     picUpdate ? updatedProfilePicture.key : null
@@ -156,8 +158,8 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (!wrapperConvo.hidden && !contactConvo.isHidden()) {
-        contactConvo.set({ hidden: false });
+      if (Boolean(wrapperConvo.hidden) !== Boolean(contactConvo.isHidden())) {
+        contactConvo.set({ hidden: !!wrapperConvo.hidden });
         changes = true;
       }
 
@@ -635,6 +637,23 @@ async function handleConfigMessagesViaLibSession(
   await processMergingResults(incomingMergeResult);
 }
 
+async function updateOurProfileLegacyOrViaLibSession(
+  sentAt: number,
+  displayName: string,
+  profileUrl: string | null,
+  profileKey: Uint8Array | null
+) {
+  await ProfileManager.updateOurProfileSync(displayName, profileUrl, profileKey);
+
+  await setLastProfileUpdateTimestamp(toNumber(sentAt));
+  // do not trigger a signin by linking if the display name is empty
+  if (!isEmpty(displayName)) {
+    trigger(configurationMessageReceived, displayName);
+  } else {
+    window?.log?.warn('Got a configuration message but the display name is empty');
+  }
+}
+
 async function handleOurProfileUpdateLegacy(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
@@ -650,15 +669,12 @@ async function handleOurProfileUpdateLegacy(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    await ProfileManager.updateOurProfileSync(displayName, profilePicture, profileKey);
-
-    await setLastProfileUpdateTimestamp(_.toNumber(sentAt));
-    // do not trigger a signin by linking if the display name is empty
-    if (displayName) {
-      trigger(configurationMessageReceived, displayName);
-    } else {
-      window?.log?.warn('Got a configuration message but the display name is empty');
-    }
+    await updateOurProfileLegacyOrViaLibSession(
+      toNumber(sentAt),
+      displayName,
+      profilePicture,
+      profileKey
+    );
   }
 }
 
@@ -669,7 +685,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     return;
   }
-  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  const envelopeTimestamp = toNumber(envelope.timestamp);
   const lastConfigUpdate = await Data.getItemById(hasSyncedInitialConfigurationItem);
   const lastConfigTimestamp = lastConfigUpdate?.timestamp;
   const isNewerConfig =
@@ -789,14 +805,14 @@ const handleContactFromConfigLegacy = async (
 
     const existingActiveAt = contactConvo.get('active_at');
     if (!existingActiveAt || existingActiveAt === 0) {
-      contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+      contactConvo.set('active_at', toNumber(envelope.timestamp));
     }
 
     // checking for existence of field on protobuf
     if (contactReceived.isApproved === true) {
       if (!contactConvo.isApproved()) {
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
-        await contactConvo.addOutgoingApprovalMessage(_.toNumber(envelope.timestamp));
+        await contactConvo.addOutgoingApprovalMessage(toNumber(envelope.timestamp));
       }
 
       if (contactReceived.didApproveMe === true) {

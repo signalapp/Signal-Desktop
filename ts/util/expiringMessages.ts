@@ -45,7 +45,7 @@ async function destroyExpiredMessages() {
       conversationKey: string;
       messageId: string;
     }> = messages.map(m => ({
-      conversationKey: m.attributes.conversationId,
+      conversationKey: m.get('conversationId'),
       messageId: m.id,
     }));
 

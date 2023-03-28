@@ -65,6 +65,7 @@ function isConvoToStoreInWrapper(convo: ConversationModel): boolean {
     SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id) // this checks for out own pubkey, as we want to keep track of the read state for the Note To Self
   );
 }
+
 function getConvoType(convo: ConversationModel): ConvoVolatileType {
   const convoType: ConvoVolatileType =
     SessionUtilContact.isContactToStoreInContactsWrapper(convo) ||
@@ -88,8 +89,13 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
     return;
   }
   const isForcedUnread = foundConvo.isMarkedUnread();
+  const timestampFromDbMs = (await Data.fetchConvoMemoryDetails(convoId))?.lastReadTimestampMessage;
+
+  // TODO not having a last read timestamp fallsback to 0, which keeps the existing value in the wrapper if it is already set (as done in src/convo_info_volatile_config.cpp)
   const lastReadMessageTimestamp =
-    (await Data.fetchConvoMemoryDetails(convoId))?.lastReadTimestampMessage || 0;
+    !!timestampFromDbMs && isFinite(timestampFromDbMs) && timestampFromDbMs > 0
+      ? timestampFromDbMs
+      : 0;
 
   console.info(
     `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadMessageTimestamp};forcedUnread:${isForcedUnread}...`

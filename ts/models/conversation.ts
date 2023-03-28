@@ -1162,9 +1162,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
-    perfStart(`conversationCommit-${this.attributes.id}`);
+    perfStart(`conversationCommit-${this.id}`);
     await commitConversationAndRefreshWrapper(this.id);
-    perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
+    perfEnd(`conversationCommit-${this.id}`, 'conversationCommit');
   }
 
   public async addSingleOutgoingMessage(
