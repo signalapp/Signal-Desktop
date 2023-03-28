@@ -8,7 +8,6 @@
     $base-max-width: 760px;
 
     align-items: center;
-    background: $color-white;
     border-radius: 8px;
     color: $color-black;
     display: flex;
@@ -20,11 +19,14 @@
     @include light-theme {
       max-width: $base-max-width;
       padding: 22px;
+      background-color: $color-gray-15;
     }
 
     @include dark-theme {
       max-width: $base-max-width + 44px;
       padding: 44px;
+      background-color: $color-gray-80;
+      color: $color-white;
       margin-top: 44px; // Avoids overlap with the Signal logo
     }
   }
@@ -43,8 +45,12 @@
     min-width: $size;
     width: $size;
 
+    animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
+
     &--loaded {
-      background: $color-white;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: $color-white;
     }
 
     &--load-failed {
@@ -57,7 +63,6 @@
     &__code {
       height: $size;
       width: $size;
-      animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
       position: relative;
     }
 
