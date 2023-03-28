@@ -1,4 +1,4 @@
-import { compact, groupBy, isArray, isEmpty, isNumber, isString } from 'lodash';
+import { compact, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
@@ -27,14 +27,12 @@ const defaultMaxAttempts = 3;
 let lastRunConfigSyncJobTimestamp: number | null = null;
 
 export type SingleDestinationChanges = {
-  destination: string;
   messages: Array<OutgoingConfResult>;
   allOldHashes: Array<string>;
 };
 
 type SuccessfulChange = {
   message: SharedConfigMessage;
-  publicKey: string;
   updatedHash: string;
 };
 
@@ -42,33 +40,22 @@ type SuccessfulChange = {
  * Later in the syncing logic, we want to batch-send all the updates for a pubkey in a single batch call.
  * To make this easier, this function prebuilds and merges together all the changes for each pubkey.
  */
-async function retrieveSingleDestinationChanges(): Promise<Array<SingleDestinationChanges>> {
-  const outgoingConfResults = await LibSessionUtil.pendingChangesForPubkey(
-    UserUtils.getOurPubKeyStrFromCache()
-  );
+async function retrieveSingleDestinationChanges(
+  destination: string
+): Promise<SingleDestinationChanges> {
+  const outgoingConfResults = await LibSessionUtil.pendingChangesForPubkey(destination);
 
-  const groupedByDestination = groupBy(outgoingConfResults, m => m.destination);
+  const compactedHashes = compact(outgoingConfResults.map(m => m.oldMessageHashes)).flat();
 
-  const singleDestChanges: Array<SingleDestinationChanges> = Object.keys(groupedByDestination).map(
-    destination => {
-      const messages = groupedByDestination[destination];
-      // the delete hashes sub request can be done accross namespaces, so we can do a single one of it with all the hashes to remove (per pubkey)
-      const hashes = compact(messages.map(m => m.oldMessageHashes)).flat();
-
-      return { allOldHashes: hashes, destination, messages };
-    }
-  );
-
-  return singleDestChanges;
+  return { messages: outgoingConfResults, allOldHashes: compactedHashes };
 }
 
 /**
  * This function is run once we get the results from the multiple batch-send.
- * For each results, it checks wha
  */
 function resultsToSuccessfulChange(
-  allResults: Array<PromiseSettledResult<NotEmptyArrayOfBatchResults | null>>,
-  requests: Array<SingleDestinationChanges>
+  result: NotEmptyArrayOfBatchResults | null,
+  request: SingleDestinationChanges
 ): Array<SuccessfulChange> {
   const successfulChanges: Array<SuccessfulChange> = [];
 
@@ -82,58 +69,44 @@ function resultsToSuccessfulChange(
    */
 
   try {
-    for (let i = 0; i < allResults.length; i++) {
-      const result = allResults[i];
+    if (!result?.length) {
+      return successfulChanges;
+    }
 
-      // the batch send was rejected. Let's skip handling those results altogether. Another job will handle the retry logic.
-      if (result.status !== 'fulfilled') {
-        continue;
-      }
+    for (let j = 0; j < result.length; j++) {
+      const batchResult = result[j];
+      const messagePostedHashes = batchResult?.body?.hash;
 
-      const resultValue = result.value;
-      if (!resultValue) {
-        continue;
-      }
-
-      const request = requests?.[i];
-      if (!result) {
-        continue;
-      }
-
-      for (let j = 0; j < resultValue.length; j++) {
-        const batchResult = resultValue[j];
-        const messagePostedHashes = batchResult?.body?.hash;
-
-        if (
-          batchResult.code === 200 &&
-          isString(messagePostedHashes) &&
-          request.messages?.[j].message &&
-          request.destination
-        ) {
-          // the library keeps track of the hashes to push and pushed using the hashes now
-          successfulChanges.push({
-            publicKey: request.destination,
-            updatedHash: messagePostedHashes,
-            message: request.messages?.[j].message,
-          });
-        }
+      if (
+        batchResult.code === 200 &&
+        isString(messagePostedHashes) &&
+        request.messages?.[j].message
+      ) {
+        // the library keeps track of the hashes to push and pushed using the hashes now
+        successfulChanges.push({
+          updatedHash: messagePostedHashes,
+          message: request.messages?.[j].message,
+        });
       }
     }
+
+    return successfulChanges;
   } catch (e) {
     throw e;
   }
-
-  return successfulChanges;
 }
 
-async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<void> {
+async function buildAndSaveDumpsToDB(
+  changes: Array<SuccessfulChange>,
+  destination: string
+): Promise<void> {
   for (let i = 0; i < changes.length; i++) {
     const change = changes[i];
     const variant = LibSessionUtil.kindToVariant(change.message.kind);
 
     const needsDump = await LibSessionUtil.markAsPushed(
       variant,
-      change.publicKey,
+      destination,
       change.message.seqno.toNumber(),
       change.updatedHash
     );
@@ -144,7 +117,7 @@ async function buildAndSaveDumpsToDB(changes: Array<SuccessfulChange>): Promise<
     const dump = await GenericWrapperActions.dump(variant);
     await ConfigDumpData.saveConfigDump({
       data: dump,
-      publicKey: change.publicKey,
+      publicKey: destination,
       variant,
     });
   }
@@ -207,44 +180,51 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         }
       }
 
-      const singleDestChanges = await retrieveSingleDestinationChanges();
+      // TODO add a way to have a few configuration sync jobs running at the same time, but only a single one per pubkey
+      const thisJobDestination = us;
+
+      const singleDestChanges = await retrieveSingleDestinationChanges(thisJobDestination);
 
       // If there are no pending changes then the job can just complete (next time something
       // is updated we want to try and run immediately so don't scuedule another run in this case)
-
-      if (isEmpty(singleDestChanges)) {
+      if (isEmpty(singleDestChanges?.messages)) {
         return RunJobResult.Success;
       }
+      const oldHashesToDelete = new Set(singleDestChanges.allOldHashes);
+      const msgs = singleDestChanges.messages.map(item => {
+        return {
+          namespace: item.namespace,
+          pubkey: thisJobDestination,
+          timestamp: item.message.timestamp,
+          ttl: item.message.ttl(),
+          message: item.message,
+        };
+      });
 
-      const allResults = await Promise.allSettled(
-        singleDestChanges.map(async dest => {
-          const msgs = dest.messages.map(item => {
-            return {
-              namespace: item.namespace,
-              pubkey: item.destination,
-              timestamp: item.message.timestamp,
-              ttl: item.message.ttl(),
-              message: item.message,
-            };
-          });
-          const asSet = new Set(dest.allOldHashes);
-          return MessageSender.sendMessagesToSnode(msgs, dest.destination, asSet);
-        })
+      const result = await MessageSender.sendMessagesToSnode(
+        msgs,
+        thisJobDestination,
+        oldHashesToDelete
       );
 
+      const expectedReplyLength =
+        singleDestChanges.messages.length + (oldHashesToDelete.size ? 1 : 0);
       // we do a sequence call here. If we do not have the right expected number of results, consider it a failure
-      if (!isArray(allResults) || allResults.length !== singleDestChanges.length) {
+      if (!isArray(result) || result.length !== expectedReplyLength) {
+        window.log.info(
+          `ConfigurationSyncJob: unexpected result length: expected ${expectedReplyLength} but got ${result?.length}`
+        );
         return RunJobResult.RetryJobIfPossible;
       }
 
-      const changes = resultsToSuccessfulChange(allResults, singleDestChanges);
+      const changes = resultsToSuccessfulChange(result, singleDestChanges);
       if (isEmpty(changes)) {
         return RunJobResult.RetryJobIfPossible;
       }
       // Now that we have the successful changes, we need to mark them as pushed and
       // generate any config dumps which need to be stored
 
-      await buildAndSaveDumpsToDB(changes);
+      await buildAndSaveDumpsToDB(changes, thisJobDestination);
       return RunJobResult.Success;
     } catch (e) {
       throw e;
@@ -300,7 +280,7 @@ async function queueNewJobIfNeeded() {
     );
     window.log.debug('Scheduling ConfSyncJob: ASAP');
   } else {
-    // if we did run at t=100, and it is currently t=110, diff is 10
+    // if we did run at t=100, and it is currently t=110, the difference is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
     // but we want to run every 30, so what we need is actually `30-10` from now = 20
     const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);

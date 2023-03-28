@@ -35,7 +35,6 @@ export type IncomingConfResult = {
 export type OutgoingConfResult = {
   message: SharedConfigMessage;
   namespace: SnodeNamespaces;
-  destination: string;
   oldMessageHashes: Array<string>;
 };
 
@@ -121,7 +120,6 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
     const kind = variantToKind(variant);
     const namespace = await GenericWrapperActions.storageNamespace(variant);
     results.push({
-      destination: pubkey,
       message: new SharedConfigMessage({
         data,
         kind,
