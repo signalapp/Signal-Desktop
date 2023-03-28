@@ -571,7 +571,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge) {
-      const description = i18n(`icu:message--donation--unopened--${direction}`);
+      const description =
+        direction === 'incoming'
+          ? i18n('icu:message--donation--unopened--incoming')
+          : i18n('icu:message--donation--unopened--outgoing');
       const isDescriptionRTL = getDirection(description) === 'rtl';
 
       if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {

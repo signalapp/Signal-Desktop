@@ -765,7 +765,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           fromContact?.getTitle() ?? window.i18n('unknownContact');
         return {
           emoji,
-          text: window.i18n('icu:message--giftBadge--preview--sent', {
+          text: window.i18n('icu:message--donation--preview--sent', {
             recipient,
           }),
         };
@@ -776,10 +776,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         emoji,
         text:
           giftBadge.state === GiftBadgeStates.Unopened
-            ? window.i18n('icu:message--giftBadge--preview--unopened', {
+            ? window.i18n('icu:message--donation--preview--unopened', {
                 sender,
               })
-            : window.i18n('icu:message--giftBadge--preview--redeemed'),
+            : window.i18n('icu:message--donation--preview--redeemed'),
       };
     }
 

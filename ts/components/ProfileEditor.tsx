@@ -96,28 +96,30 @@ type DefaultBio = {
   shortName: string;
 };
 
-const DEFAULT_BIOS: Array<DefaultBio> = [
-  {
-    i18nLabel: 'Bio--speak-freely',
-    shortName: 'wave',
-  },
-  {
-    i18nLabel: 'Bio--encrypted',
-    shortName: 'zipper_mouth_face',
-  },
-  {
-    i18nLabel: 'Bio--free-to-chat',
-    shortName: '+1',
-  },
-  {
-    i18nLabel: 'Bio--coffee-lover',
-    shortName: 'coffee',
-  },
-  {
-    i18nLabel: 'Bio--taking-break',
-    shortName: 'mobile_phone_off',
-  },
-];
+function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
+  return [
+    {
+      i18nLabel: i18n('Bio--speak-freely'),
+      shortName: 'wave',
+    },
+    {
+      i18nLabel: i18n('Bio--encrypted'),
+      shortName: 'zipper_mouth_face',
+    },
+    {
+      i18nLabel: i18n('Bio--free-to-chat'),
+      shortName: '+1',
+    },
+    {
+      i18nLabel: i18n('Bio--coffee-lover'),
+      shortName: 'coffee',
+    },
+    {
+      i18nLabel: i18n('Bio--taking-break'),
+      shortName: 'mobile_phone_off',
+    },
+  ];
+}
 
 export function ProfileEditor({
   aboutEmoji,
@@ -371,6 +373,8 @@ export function ProfileEditor({
       (stagedProfile.aboutText === fullBio.aboutText &&
         stagedProfile.aboutEmoji === fullBio.aboutEmoji);
 
+    const defaultBios = getDefaultBios(i18n);
+
     content = (
       <>
         <Input
@@ -415,7 +419,7 @@ export function ProfileEditor({
           whenToShowRemainingCount={40}
         />
 
-        {DEFAULT_BIOS.map(defaultBio => (
+        {defaultBios.map(defaultBio => (
           <PanelRow
             className="ProfileEditor__row"
             key={defaultBio.shortName}
@@ -424,16 +428,14 @@ export function ProfileEditor({
                 <Emoji shortName={defaultBio.shortName} size={24} />
               </div>
             }
-            // eslint-disable-next-line local-rules/valid-i18n-keys
-            label={i18n(defaultBio.i18nLabel)}
+            label={defaultBio.i18nLabel}
             onClick={() => {
               const emojiData = getEmojiData(defaultBio.shortName, skinTone);
 
               setStagedProfile(profileData => ({
                 ...profileData,
                 aboutEmoji: unifiedToEmoji(emojiData.unified),
-                // eslint-disable-next-line local-rules/valid-i18n-keys
-                aboutText: i18n(defaultBio.i18nLabel),
+                aboutText: defaultBio.i18nLabel,
               }));
             }}
           />

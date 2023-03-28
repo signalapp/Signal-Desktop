@@ -184,7 +184,7 @@ export function isOverHourIntoPast(timestamp: number): boolean {
 export async function cleanupSessionResets(): Promise<void> {
   const sessionResets = window.storage.get(
     'sessionResets',
-    <SessionResetsType>{}
+    {} as SessionResetsType
   );
 
   const keys = Object.keys(sessionResets);

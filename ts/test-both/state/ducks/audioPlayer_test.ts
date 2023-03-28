@@ -100,10 +100,11 @@ describe('both/state/ducks/audioPlayer', () => {
   it('active is not changed when changing the conversation', () => {
     const state = getInitializedState();
 
-    const updated = rootReducer(state, <TargetedConversationChangedActionType>{
+    const action: TargetedConversationChangedActionType = {
       type: TARGETED_CONVERSATION_CHANGED,
-      payload: { id: 'any' },
-    });
+      payload: { conversationId: 'any' },
+    };
+    const updated = rootReducer(state, action);
 
     const content = updated.audioPlayer.active?.content;
     assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));

@@ -30,7 +30,7 @@ async function clearResetsTracking(idForTracking: string | undefined) {
 
   const sessionResets = window.storage.get(
     'sessionResets',
-    <SessionResetsType>{}
+    {} as SessionResetsType
   );
   delete sessionResets[idForTracking];
   await window.storage.put('sessionResets', sessionResets);

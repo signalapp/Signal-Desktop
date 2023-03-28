@@ -83,9 +83,9 @@ async function notifyForCall(
     icon: isVideoCall
       ? 'images/icons/v2/video-solid-24.svg'
       : 'images/icons/v2/phone-right-solid-24.svg',
-    message: window.i18n(
-      isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
-    ),
+    message: isVideoCall
+      ? window.i18n('incomingVideoCall')
+      : window.i18n('incomingAudioCall'),
     onNotificationClick: () => {
       window.IPC.showWindow();
     },

@@ -213,6 +213,16 @@ const typescriptRules = {
 
   '@typescript-eslint/consistent-type-imports': 'error',
 
+  // Future: Maybe switch to never and always use `satisfies`
+  '@typescript-eslint/consistent-type-assertions': [
+    'error',
+    {
+      assertionStyle: 'as',
+      // Future: Maybe switch to allow-as-parameter or never
+      objectLiteralTypeAssertions: 'allow',
+    },
+  ],
+
   // Already enforced by TypeScript
   'consistent-return': 'off',
 

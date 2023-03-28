@@ -37,32 +37,35 @@ export type PropsType = {
 
 const contactSortCollator = new window.Intl.Collator();
 
-function getI18nKey(sendStatus: SendStatus | undefined): string {
+function getSendStatusLabel(
+  sendStatus: SendStatus | undefined,
+  i18n: LocalizerType
+): string {
   if (sendStatus === SendStatus.Failed) {
-    return 'MessageDetailsHeader--Failed';
+    return i18n('MessageDetailsHeader--Failed');
   }
 
   if (sendStatus === SendStatus.Viewed) {
-    return 'MessageDetailsHeader--Viewed';
+    return i18n('MessageDetailsHeader--Viewed');
   }
 
   if (sendStatus === SendStatus.Read) {
-    return 'MessageDetailsHeader--Read';
+    return i18n('MessageDetailsHeader--Read');
   }
 
   if (sendStatus === SendStatus.Delivered) {
-    return 'MessageDetailsHeader--Delivered';
+    return i18n('MessageDetailsHeader--Delivered');
   }
 
   if (sendStatus === SendStatus.Sent) {
-    return 'MessageDetailsHeader--Sent';
+    return i18n('MessageDetailsHeader--Sent');
   }
 
   if (sendStatus === SendStatus.Pending) {
-    return 'MessageDetailsHeader--Pending';
+    return i18n('MessageDetailsHeader--Pending');
   }
 
-  return 'from';
+  return i18n('from');
 }
 
 export function StoryDetailsModal({
@@ -105,17 +108,19 @@ export function StoryDetailsModal({
             return null;
           }
 
-          const i18nKey = getI18nKey(sendStatus);
+          const sendStatusLabel = getSendStatusLabel(sendStatus, i18n);
 
           const sortedContacts = [...contacts].sort((a, b) =>
             contactSortCollator.compare(a.recipient.title, b.recipient.title)
           );
 
           return (
-            <div key={i18nKey} className="StoryDetailsModal__contact-group">
+            <div
+              key={sendStatusLabel}
+              className="StoryDetailsModal__contact-group"
+            >
               <div className="StoryDetailsModal__contact-group__header">
-                {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-                {i18n(i18nKey)}
+                {sendStatusLabel}
               </div>
               {sortedContacts.map(status => {
                 const contact = status.recipient;

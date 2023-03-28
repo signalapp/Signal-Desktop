@@ -177,9 +177,11 @@ function OverflowAreaScrollMarker({
         type="button"
         className={`${baseClassName}__button`}
         onClick={onClick}
-        aria-label={i18n(
-          `calling__overflow__scroll-${placement === 'top' ? 'up' : 'down'}`
-        )}
+        aria-label={
+          placement === 'top'
+            ? i18n('calling__overflow__scroll-up')
+            : i18n('calling__overflow__scroll-down')
+        }
       />
     </div>
   );

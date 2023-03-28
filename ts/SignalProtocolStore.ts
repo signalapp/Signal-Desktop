@@ -1404,7 +1404,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const sessionResets = window.storage.get(
       'sessionResets',
-      <SessionResetsType>{}
+      {} as SessionResetsType
     );
 
     const lastReset = sessionResets[id];
