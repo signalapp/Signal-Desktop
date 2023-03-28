@@ -37,6 +37,12 @@ export function SmartInbox(): JSX.Element {
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions
   );
+  const envelopeTimestamp = useSelector<StateType, number | undefined>(
+    state => state.inbox.envelopeTimestamp
+  );
+  const firstEnvelopeTimestamp = useSelector<StateType, number | undefined>(
+    state => state.inbox.firstEnvelopeTimestamp
+  );
   const { hasInitialLoadCompleted } = useSelector<StateType, AppStateType>(
     state => state.app
   );
@@ -54,6 +60,8 @@ export function SmartInbox(): JSX.Element {
 
   return (
     <Inbox
+      envelopeTimestamp={envelopeTimestamp}
+      firstEnvelopeTimestamp={firstEnvelopeTimestamp}
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
       isCustomizingPreferredReactions={isCustomizingPreferredReactions}

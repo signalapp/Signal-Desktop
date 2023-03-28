@@ -1821,7 +1821,7 @@ app.on('ready', async () => {
       loadingWindow = new BrowserWindow({
         show: false,
         width: 300,
-        height: 265,
+        height: 280,
         resizable: false,
         frame: false,
         backgroundColor,

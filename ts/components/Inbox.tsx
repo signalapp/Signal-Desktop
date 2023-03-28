@@ -8,7 +8,7 @@ import type { ShowConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 
 import * as log from '../logging/log';
-import { SECOND } from '../util/durations';
+import { SECOND, DAY } from '../util/durations';
 import { ToastStickerPackInstallFailed } from './ToastStickerPackInstallFailed';
 import { WhatsNewLink } from './WhatsNewLink';
 import { showToast } from '../util/showToast';
@@ -17,6 +17,8 @@ import { TargetedMessageSource } from '../state/ducks/conversationsEnums';
 import { usePrevious } from '../hooks/usePrevious';
 
 export type PropsType = {
+  firstEnvelopeTimestamp: number | undefined;
+  envelopeTimestamp: number | undefined;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
@@ -35,6 +37,8 @@ export type PropsType = {
 };
 
 export function Inbox({
+  firstEnvelopeTimestamp,
+  envelopeTimestamp,
   hasInitialLoadCompleted,
   i18n,
   isCustomizingPreferredReactions,
@@ -51,7 +55,6 @@ export function Inbox({
   showConversation,
   showWhatsNewModal,
 }: PropsType): JSX.Element {
-  const [loadingMessageCount, setLoadingMessageCount] = useState(0);
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
 
@@ -123,13 +126,11 @@ export function Inbox({
       showToast(ToastStickerPackInstallFailed);
     }
 
-    window.Whisper.events.on('loadingProgress', setLoadingMessageCount);
     window.Whisper.events.on('pack-install-failed', packInstallFailed);
     window.Whisper.events.on('refreshConversation', refreshConversation);
     window.Whisper.events.on('setupAsNewDevice', unload);
 
     return () => {
-      window.Whisper.events.off('loadingProgress', setLoadingMessageCount);
       window.Whisper.events.off('pack-install-failed', packInstallFailed);
       window.Whisper.events.off('refreshConversation', refreshConversation);
       window.Whisper.events.off('setupAsNewDevice', unload);
@@ -175,26 +176,45 @@ export function Inbox({
   }, [hasInitialLoadCompleted]);
 
   if (!internalHasInitialLoadCompleted) {
+    const now = Date.now();
+    let loadingProgress = 0;
+    if (
+      firstEnvelopeTimestamp !== undefined &&
+      envelopeTimestamp !== undefined
+    ) {
+      loadingProgress =
+        Math.max(
+          0,
+          Math.min(
+            1,
+            Math.max(0, envelopeTimestamp - firstEnvelopeTimestamp) /
+              Math.max(1e-23, now - firstEnvelopeTimestamp)
+          )
+        ) * 100;
+    }
+
     return (
       <div className="app-loading-screen">
         <div className="module-title-bar-drag-area" />
 
-        <div className="content">
-          <div className="module-splash-screen__logo module-img--150" />
-          <div className="container">
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-          </div>
-          <div className="message">
-            {loadingMessageCount
-              ? i18n('loadingMessages', {
-                  count: String(loadingMessageCount),
-                })
-              : i18n('loading')}
-          </div>
-          <div id="toast" />
+        <div className="module-splash-screen__logo module-img--150" />
+        <div className="app-loading-screen__progress--container">
+          <div
+            className="app-loading-screen__progress--bar"
+            style={{ transform: `translateX(${loadingProgress - 100}%)` }}
+          />
         </div>
+        <div className="message">
+          {envelopeTimestamp
+            ? i18n('icu:loadingMessages', {
+                daysAgo: Math.max(
+                  1,
+                  Math.round((now - envelopeTimestamp) / DAY)
+                ),
+              })
+            : i18n('loading')}
+        </div>
+        <div id="toast" />
       </div>
     );
   }

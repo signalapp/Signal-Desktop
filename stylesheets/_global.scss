@@ -208,7 +208,7 @@ $loading-height: 16px;
     opacity: 1;
   }
   100% {
-    opacity: 0;
+    opacity: 0.3;
   }
 }
 
@@ -224,6 +224,7 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
+  padding: 0 16px;
 
   &--without-titlebar {
     /* There is no titlebar during loading screen on Windows */
@@ -242,41 +243,58 @@ $loading-height: 16px;
   color: $color-white;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   user-select: none;
 
-  .content {
-    text-align: center;
-  }
+  /* Currently only used in loading window */
   .container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 78px;
-    height: 22px;
+    display: flex;
+    gap: 7px;
+    margin: 8px 0 24px 0;
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border: 3px solid $color-white;
+      border-radius: 50%;
+      float: left;
+      margin: 0 6px;
+      transform: scale(0);
+
+      animation: loading 1500ms ease infinite 0ms;
+      &:nth-child(2) {
+        animation: loading 1500ms ease infinite 333ms;
+      }
+      &:nth-child(3) {
+        animation: loading 1500ms ease infinite 666ms;
+      }
+    }
+  }
+
+  &__progress {
+    &--container {
+      background: $color-white-alpha-20;
+      border-radius: 2px;
+      height: 4px;
+      max-width: 400px;
+      overflow: hidden;
+      width: 100%;
+      margin: 16px 0 24px 0;
+    }
+
+    &--bar {
+      background: $color-white;
+      border-radius: 2px;
+      display: block;
+      height: 100%;
+      width: 100%;
+      transform: translateX(-100%);
+      transition: transform 500ms ease-out;
+    }
   }
   .message {
     max-width: 35em;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .dot {
-    width: 14px;
-    height: 14px;
-    border: 3px solid $color-white;
-    border-radius: 50%;
-    float: left;
-    margin: 0 6px;
-    transform: scale(0);
-
-    animation: loading 1500ms ease infinite 0ms;
-    &:nth-child(2) {
-      animation: loading 1500ms ease infinite 333ms;
-    }
-    &:nth-child(3) {
-      animation: loading 1500ms ease infinite 666ms;
-    }
   }
 }
 

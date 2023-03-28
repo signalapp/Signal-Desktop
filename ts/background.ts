@@ -1181,6 +1181,7 @@ export async function startApp(): Promise<void> {
         actionCreators.crashReports,
         store.dispatch
       ),
+      inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
       emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
       expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
       globalModals: bindActionCreators(
@@ -2917,9 +2918,19 @@ export async function startApp(): Promise<void> {
     maxSize: Infinity,
   });
 
+  const throttledSetInboxEnvelopeTimestamp = throttle(
+    serverTimestamp => {
+      window.reduxActions.inbox.setInboxEnvelopeTimestamp(serverTimestamp);
+    },
+    100,
+    { leading: false }
+  );
+
   async function onEnvelopeReceived({
     envelope,
   }: EnvelopeEvent): Promise<void> {
+    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
       const { mergePromises, conversation } =

@@ -25,7 +25,7 @@
 
 .module-splash-screen__logo {
   @include color-svg('../images/signal-logo.svg', $color-white);
-  margin: 24px auto;
+  margin: 24px 0;
 
   &.module-img--256 {
     height: 256px;

@@ -47,8 +47,10 @@ const withModeAndThemeProvider = (Story, context) => {
   // Adding it to the body as well so that we can cover modals and other
   // components that are rendered outside of this decorator container
   if (theme === 'light') {
+    document.body.classList.add('light-theme');
     document.body.classList.remove('dark-theme');
   } else {
+    document.body.classList.remove('light-theme');
     document.body.classList.add('dark-theme');
   }
 

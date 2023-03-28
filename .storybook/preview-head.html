@@ -12,6 +12,11 @@
   // eslint-disable-next-line
   const noop = () => {};
 
+  window.Whisper = window.Whisper || {};
+  window.Whisper.events = {
+    on: noop,
+  };
+
   window.SignalWindow = window.SignalWindow || {};
   window.SignalWindow.log = {
     fatal: console.error.bind(console),

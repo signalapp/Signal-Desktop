@@ -11,6 +11,7 @@ import { getEmptyState as conversations } from './ducks/conversations';
 import { getEmptyState as crashReports } from './ducks/crashReports';
 import { getEmptyState as expiration } from './ducks/expiration';
 import { getEmptyState as globalModals } from './ducks/globalModals';
+import { getEmptyState as inbox } from './ducks/inbox';
 import { getEmptyState as lightbox } from './ducks/lightbox';
 import { getEmptyState as linkPreviews } from './ducks/linkPreviews';
 import { getEmptyState as mediaGallery } from './ducks/mediaGallery';
@@ -115,6 +116,7 @@ export function getInitialState({
     emojis: emojis(),
     expiration: expiration(),
     globalModals: globalModals(),
+    inbox: inbox(),
     items,
     lightbox: lightbox(),
     linkPreviews: linkPreviews(),
