@@ -840,7 +840,7 @@ export function EditMyStoryPrivacy({
       {hasDisclaimerAbove && disclaimerElement}
 
       <Checkbox
-        checked={!myStories.members.length}
+        checked={myStories.isBlockList && !myStories.members.length}
         isRadio
         label={i18n('StoriesSettings__mine__all--label')}
         moduleClassName="StoriesSettingsModal__checkbox"
