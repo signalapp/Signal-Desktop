@@ -229,7 +229,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       if (rowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'conversationsHeader',
+          getHeaderText: i18n => i18n('conversationsHeader'),
         };
       }
       assertDev(
@@ -250,7 +250,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       if (localIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          getHeaderText: i18n => i18n('contactsHeader'),
         };
       }
       assertDev(
@@ -274,7 +274,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     if (localIndex === 0) {
       return {
         type: RowType.Header,
-        i18nKey: 'messagesHeader',
+        getHeaderText: i18n => i18n('messagesHeader'),
       };
     }
     assertDev(

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { times } from 'lodash';
-import { RowType } from '../../../components/ConversationList';
+import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
@@ -117,10 +117,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         selectedContacts: [candidateContacts[1]],
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'contactsHeader',
-      });
+      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'contactsHeader');
       assert.deepEqual(helper.getRow(1), {
         type: RowType.ContactCheckbox,
         contact: candidateContacts[0],
@@ -167,10 +164,10 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         selectedContacts: [],
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'findByPhoneNumberHeader',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'findByPhoneNumberHeader'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.PhoneNumberCheckbox,
         phoneNumber: {
@@ -192,10 +189,10 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         selectedContacts: [],
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'findByUsernameHeader',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'findByUsernameHeader'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.UsernameCheckbox,
         username: 'signal',

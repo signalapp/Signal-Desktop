@@ -24,6 +24,7 @@ import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
+import { missingCaseError } from '../../util';
 
 export type EmojiPickDataType = {
   skinTone?: number;
@@ -61,7 +62,9 @@ const categories = [
   'object',
   'symbol',
   'flag',
-];
+] as const;
+
+type Category = typeof categories[number];
 
 export const EmojiPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
@@ -80,7 +83,7 @@ export const EmojiPicker = React.memo(
       ref
     ) => {
       const [firstRecent] = React.useState(recentEmojis);
-      const [selectedCategory, setSelectedCategory] = React.useState(
+      const [selectedCategory, setSelectedCategory] = React.useState<Category>(
         categories[0]
       );
       const [searchMode, setSearchMode] = React.useState(false);
@@ -277,7 +280,7 @@ export const EmojiPicker = React.memo(
 
           const { category } = e.currentTarget.dataset;
           if (category) {
-            setSelectedCategory(category);
+            setSelectedCategory(category as Category);
             setScrollToRow(catToRowOffsets[category]);
           }
         },
@@ -332,10 +335,35 @@ export const EmojiPicker = React.memo(
               findLast(catOffsetEntries, ([, row]) => rowStartIndex >= row) ||
               categories;
 
-            setSelectedCategory(cat);
+            setSelectedCategory(cat as Category);
           }, 10),
         [catOffsetEntries]
       );
+
+      function getCategoryButtonLabel(category: Category): string {
+        switch (category) {
+          case 'recents':
+            return i18n('EmojiPicker__button--recents');
+          case 'emoji':
+            return i18n('EmojiPicker__button--emoji');
+          case 'animal':
+            return i18n('EmojiPicker__button--animal');
+          case 'food':
+            return i18n('EmojiPicker__button--food');
+          case 'activity':
+            return i18n('EmojiPicker__button--activity');
+          case 'travel':
+            return i18n('EmojiPicker__button--travel');
+          case 'object':
+            return i18n('EmojiPicker__button--object');
+          case 'symbol':
+            return i18n('EmojiPicker__button--symbol');
+          case 'flag':
+            return i18n('EmojiPicker__button--flag');
+          default:
+            throw missingCaseError(category);
+        }
+      }
 
       return (
         <FocusTrap
@@ -394,7 +422,7 @@ export const EmojiPicker = React.memo(
                           ? 'module-emoji-picker__button--selected'
                           : null
                       )}
-                      aria-label={i18n(`EmojiPicker__button--${cat}`)}
+                      aria-label={getCategoryButtonLabel(cat)}
                     />
                   )
                 )

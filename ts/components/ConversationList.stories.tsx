@@ -604,19 +604,23 @@ export function Headers(): JSX.Element {
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'conversationsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('conversationsHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'messagesHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('messagesHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByUsernameHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
         },
       ]}
     />
@@ -629,7 +633,8 @@ export function FindByPhoneNumber(): JSX.Element {
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
         },
         {
           type: RowType.StartNewConversation,
@@ -673,7 +678,8 @@ export function FindByUsername(): JSX.Element {
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,
@@ -745,7 +751,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('contactsHeader'),
         },
         {
           type: RowType.Contact,
@@ -753,7 +760,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'messagesHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('messagesHeader'),
         },
         {
           type: RowType.Conversation,
@@ -765,7 +773,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,

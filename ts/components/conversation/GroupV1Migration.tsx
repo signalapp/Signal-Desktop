@@ -60,16 +60,8 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
                 i18n('GroupV1--Migration--invited--you')
               ) : (
                 <>
-                  {renderUsers(
-                    invitedMembers,
-                    i18n,
-                    'GroupV1--Migration--invited'
-                  )}
-                  {renderUsers(
-                    droppedMembers,
-                    i18n,
-                    'GroupV1--Migration--removed'
-                  )}
+                  {renderUsers(invitedMembers, i18n, 'invited')}
+                  {renderUsers(droppedMembers, i18n, 'removed')}
                 </>
               )}
             </p>
@@ -106,31 +98,52 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
 function renderUsers(
   members: Array<ConversationType>,
   i18n: LocalizerType,
-  keyPrefix: string
+  kind: 'invited' | 'removed'
 ): React.ReactElement | null {
   if (!members || members.length === 0) {
     return null;
   }
 
   if (members.length === 1) {
+    const contact = <ContactName title={members[0].title} />;
     return (
       <p>
-        <Intl
-          i18n={i18n}
-          id={`${keyPrefix}--one`}
-          components={{
-            contact: <ContactName title={members[0].title} />,
-          }}
-        />
+        {kind === 'invited' && (
+          <Intl
+            i18n={i18n}
+            id="GroupV1--Migration--invited--one"
+            components={{ contact }}
+          />
+        )}
+        {kind === 'removed' && (
+          <Intl
+            i18n={i18n}
+            id="GroupV1--Migration--removed--one"
+            components={{ contact }}
+          />
+        )}
       </p>
     );
   }
 
+  const count = members.length.toString();
+
   return (
     <p>
-      {i18n(`${keyPrefix}--many`, {
-        count: members.length.toString(),
-      })}
+      {kind === 'invited' && members.length > 1 && (
+        <Intl
+          i18n={i18n}
+          id="GroupV1--Migration--invited--many"
+          components={{ count }}
+        />
+      )}
+      {kind === 'removed' && members.length > 1 && (
+        <Intl
+          i18n={i18n}
+          id="GroupV1--Migration--removed--many"
+          components={{ count }}
+        />
+      )}
     </p>
   );
 }

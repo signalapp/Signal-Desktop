@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { RowType } from '../../../components/ConversationList';
+import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import { DurationInSeconds } from '../../../util/durations';
 
@@ -92,10 +92,10 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
         selectedContacts,
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'setGroupMetadata__members-header',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'setGroupMetadata__members-header'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,
         contact: selectedContacts[0],

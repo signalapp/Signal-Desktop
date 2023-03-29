@@ -132,13 +132,23 @@ export function MessageRequestActionsConfirmation({
           onChangeState(MessageRequestState.default);
         }}
         title={
-          <Intl
-            i18n={i18n}
-            id={`MessageRequests--delete-${conversationType}-confirm-title`}
-            components={{
-              title: <ContactName key="name" title={title} />,
-            }}
-          />
+          conversationType === 'direct' ? (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--delete-direct-confirm-title"
+              components={{
+                title: <ContactName key="name" title={title} />,
+              }}
+            />
+          ) : (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--delete-group-confirm-title"
+              components={{
+                title: <ContactName key="name" title={title} />,
+              }}
+            />
+          )
         }
         actions={[
           {

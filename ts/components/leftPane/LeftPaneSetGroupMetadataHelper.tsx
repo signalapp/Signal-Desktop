@@ -258,7 +258,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     if (rowIndex === 0) {
       return {
         type: RowType.Header,
-        i18nKey: 'setGroupMetadata__members-header',
+        getHeaderText: i18n => i18n('setGroupMetadata__members-header'),
       };
     }
 

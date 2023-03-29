@@ -1251,7 +1251,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge.state === GiftBadgeStates.Unopened) {
-      const description = i18n(`icu:message--donation--unopened--${direction}`);
+      const description =
+        direction === 'incoming'
+          ? i18n('icu:message--donation--unopened--incoming')
+          : i18n('icu:message--donation--unopened--outgoing');
       const isRTL = getDirection(description) === 'rtl';
       const { metadataWidth } = this.state;
 
@@ -1931,26 +1934,23 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
     } = this.props;
 
-    const incomingString = isTapToViewExpired
-      ? i18n('Message--tap-to-view-expired')
-      : i18n(
-          `Message--tap-to-view--incoming${
-            isVideo(attachments) ? '-video' : ''
-          }`
-        );
-    const outgoingString = i18n('Message--tap-to-view--outgoing');
     const isDownloadPending = this.isAttachmentPending();
-
     if (isDownloadPending) {
       return;
     }
-
-    // eslint-disable-next-line no-nested-ternary
-    return isTapToViewError
-      ? i18n('incomingError')
-      : direction === 'outgoing'
-      ? outgoingString
-      : incomingString;
+    if (isTapToViewError) {
+      return i18n('incomingError');
+    }
+    if (direction === 'outgoing') {
+      return i18n('Message--tap-to-view--outgoing');
+    }
+    if (isTapToViewExpired) {
+      return i18n('Message--tap-to-view-expired');
+    }
+    if (isVideo(attachments)) {
+      return i18n('Message--tap-to-view--incoming-video');
+    }
+    return i18n('Message--tap-to-view--incoming');
   }
 
   public renderTapToView(): JSX.Element {

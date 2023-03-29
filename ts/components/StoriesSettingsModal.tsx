@@ -627,7 +627,7 @@ export function DistributionListSettingsModal({
       {isMyStory && (
         <EditMyStoryPrivacy
           i18n={i18n}
-          learnMore="StoriesSettings__mine__disclaimer"
+          kind="mine"
           myStories={listToEdit}
           onClickExclude={() => {
             setPage(Page.HideStoryFrom);
@@ -791,7 +791,7 @@ function CheckboxRender({
 type EditMyStoryPrivacyPropsType = {
   hasDisclaimerAbove?: boolean;
   i18n: LocalizerType;
-  learnMore: string;
+  kind: 'privacy' | 'mine';
   myStories: StoryDistributionListWithMembersDataType;
   onClickExclude: () => unknown;
   onClickOnlyShareWith: () => unknown;
@@ -805,7 +805,7 @@ type EditMyStoryPrivacyPropsType = {
 export function EditMyStoryPrivacy({
   hasDisclaimerAbove,
   i18n,
-  learnMore,
+  kind,
   myStories,
   onClickExclude,
   onClickOnlyShareWith,
@@ -814,24 +814,30 @@ export function EditMyStoryPrivacy({
   toggleSignalConnectionsModal,
   signalConnectionsCount,
 }: EditMyStoryPrivacyPropsType): JSX.Element {
+  const learnMore = (
+    <button
+      className="StoriesSettingsModal__disclaimer__learn-more"
+      onClick={toggleSignalConnectionsModal}
+      type="button"
+    >
+      {i18n('StoriesSettings__mine__disclaimer--learn-more')}
+    </button>
+  );
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
-      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-      <Intl
-        components={{
-          learnMore: (
-            <button
-              className="StoriesSettingsModal__disclaimer__learn-more"
-              onClick={toggleSignalConnectionsModal}
-              type="button"
-            >
-              {i18n('StoriesSettings__mine__disclaimer--learn-more')}
-            </button>
-          ),
-        }}
-        i18n={i18n}
-        id={learnMore}
-      />
+      {kind === 'mine' ? (
+        <Intl
+          components={{ learnMore }}
+          i18n={i18n}
+          id="StoriesSettings__mine__disclaimer"
+        />
+      ) : (
+        <Intl
+          components={{ learnMore }}
+          i18n={i18n}
+          id="SendStoryModal__privacy-disclaimer"
+        />
+      )}
     </div>
   );
 

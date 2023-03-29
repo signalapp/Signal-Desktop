@@ -314,7 +314,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          getHeaderText: i18n => i18n('contactsHeader'),
         };
       }
 
@@ -342,7 +342,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
         };
       }
       if (virtualRowIndex === 1) {
@@ -363,7 +363,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          getHeaderText: i18n => i18n('findByUsernameHeader'),
         };
       }
       if (virtualRowIndex === 1) {

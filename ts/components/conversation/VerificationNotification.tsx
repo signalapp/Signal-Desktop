@@ -25,43 +25,41 @@ type PropsHousekeeping = {
 export type Props = PropsData & PropsHousekeeping;
 
 export class VerificationNotification extends React.Component<Props> {
-  public getStringId(): string {
-    const { isLocal, type } = this.props;
+  public renderContents(): JSX.Element {
+    const { contact, isLocal, type, i18n } = this.props;
+
+    const name = (
+      <ContactName
+        key="external-1"
+        title={contact.title}
+        module="module-verification-notification__contact"
+      />
+    );
 
     switch (type) {
       case 'markVerified':
-        return isLocal
-          ? 'youMarkedAsVerified'
-          : 'youMarkedAsVerifiedOtherDevice';
+        return isLocal ? (
+          <Intl id="youMarkedAsVerified" components={{ name }} i18n={i18n} />
+        ) : (
+          <Intl
+            id="youMarkedAsVerifiedOtherDevice"
+            components={{ name }}
+            i18n={i18n}
+          />
+        );
       case 'markNotVerified':
-        return isLocal
-          ? 'youMarkedAsNotVerified'
-          : 'youMarkedAsNotVerifiedOtherDevice';
+        return isLocal ? (
+          <Intl id="youMarkedAsNotVerified" components={{ name }} i18n={i18n} />
+        ) : (
+          <Intl
+            id="youMarkedAsNotVerifiedOtherDevice"
+            components={{ name }}
+            i18n={i18n}
+          />
+        );
       default:
         throw missingCaseError(type);
     }
-  }
-
-  public renderContents(): JSX.Element {
-    const { contact, i18n } = this.props;
-    const id = this.getStringId();
-
-    return (
-      // eslint-disable-next-line local-rules/valid-i18n-keys
-      <Intl
-        id={id}
-        components={{
-          name: (
-            <ContactName
-              key="external-1"
-              title={contact.title}
-              module="module-verification-notification__contact"
-            />
-          ),
-        }}
-        i18n={i18n}
-      />
-    );
   }
 
   public override render(): JSX.Element {

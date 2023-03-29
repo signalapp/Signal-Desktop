@@ -71,11 +71,25 @@ function MediaSection({
     const first = section.mediaItems[0];
     const { message } = first;
     const date = moment(getMessageTimestamp(message));
-    const header =
-      section.type === 'yearMonth'
-        ? date.format(MONTH_FORMAT)
-        : // eslint-disable-next-line local-rules/valid-i18n-keys
-          i18n(section.type);
+
+    function getHeader(): string {
+      switch (section.type) {
+        case 'yearMonth':
+          return date.format(MONTH_FORMAT);
+        case 'today':
+          return i18n('today');
+        case 'yesterday':
+          return i18n('yesterday');
+        case 'thisWeek':
+          return i18n('thisWeek');
+        case 'thisMonth':
+          return i18n('thisMonth');
+        default:
+          throw missingCaseError(section);
+      }
+    }
+
+    const header = getHeader();
 
     return (
       <AttachmentSection

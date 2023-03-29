@@ -511,7 +511,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           key: string,
           _i18n: unknown,
           components: ReplacementValuesType<string> | undefined
-        ) => window.i18n(key, components),
+        ) => {
+          // eslint-disable-next-line local-rules/valid-i18n-keys
+          return window.i18n(key, components);
+        },
       });
 
       return { text: changes.map(({ text }) => text).join(' ') };

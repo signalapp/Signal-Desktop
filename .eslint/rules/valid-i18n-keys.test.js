@@ -27,27 +27,68 @@ ruleTester.run('valid-i18n-keys', rule, {
       options: [{ messagesCacheKey }],
     },
     {
-      code: 'i18n(`AddCaptionModal__${title}`)',
+      code: `window.i18n("AddCaptionModal__title")`,
       options: [{ messagesCacheKey }],
     },
     {
       code: `let jsx = <Intl id="AddCaptionModal__title"/>`,
       options: [{ messagesCacheKey }],
     },
+  ],
+  invalid: [
+    {
+      code: 'i18n(`AddCaptionModal__${title}`)',
+      options: [{ messagesCacheKey }],
+      errors: [
+        {
+          message: "i18n()'s first argument should always be a literal string",
+          type: 'CallExpression',
+        },
+      ],
+    },
+    {
+      code: 'window.i18n(`AddCaptionModal__${title}`)',
+      options: [{ messagesCacheKey }],
+      errors: [
+        {
+          message: "i18n()'s first argument should always be a literal string",
+          type: 'CallExpression',
+        },
+      ],
+    },
     {
       code: `let jsx = <Intl id={"AddCaptionModal__title"}/>`,
       options: [{ messagesCacheKey }],
+      errors: [
+        {
+          message:
+            "<Intl> must always be provided an 'id' attribute with a literal string",
+          type: 'JSXOpeningElement',
+        },
+      ],
     },
     {
       code: 'let jsx = <Intl id={`AddCaptionModal__title`}/>',
       options: [{ messagesCacheKey }],
+      errors: [
+        {
+          message:
+            "<Intl> must always be provided an 'id' attribute with a literal string",
+          type: 'JSXOpeningElement',
+        },
+      ],
     },
     {
       code: 'let jsx = <Intl id={`AddCaptionModal__${title}`}/>',
       options: [{ messagesCacheKey }],
+      errors: [
+        {
+          message:
+            "<Intl> must always be provided an 'id' attribute with a literal string",
+          type: 'JSXOpeningElement',
+        },
+      ],
     },
-  ],
-  invalid: [
     {
       code: `i18n("THIS_KEY_SHOULD_NEVER_EXIST")`,
       options: [{ messagesCacheKey }],

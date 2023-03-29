@@ -14,9 +14,11 @@ const messagesCacheKey = hashSum.digest('hex');
 
 function isI18nCall(node) {
   return (
-    node.type === 'CallExpression' &&
-    node.callee.type === 'Identifier' &&
-    node.callee.name === 'i18n'
+    (node.type === 'CallExpression' &&
+      node.callee.type === 'Identifier' &&
+      node.callee.name === 'i18n') ||
+    (node.callee.type === 'MemberExpression' &&
+      node.callee.property.name === 'i18n')
   );
 }
 
@@ -36,20 +38,7 @@ function valueToMessageKey(node) {
   if (isStringLiteral(node)) {
     return node.value;
   }
-
-  if (node.type !== 'TemplateLiteral') {
-    return null;
-  }
-
-  if (node.quasis.length === 1) {
-    return node.quasis[0].value.cooked;
-  }
-
-  const parts = node.quasis.map(element => {
-    return element.value.cooked;
-  });
-
-  return new RegExp(`^${parts.join('(.*)')}$`);
+  return null;
 }
 
 function getI18nCallMessageKey(node) {
@@ -80,24 +69,11 @@ function getIntlElementMessageKey(node) {
 
   let value = idAttribute.value;
 
-  if (value.type === 'JSXExpressionContainer') {
-    value = value.expression;
-  }
-
   return valueToMessageKey(value);
 }
 
 function isValidMessageKey(key) {
-  if (typeof key === 'string') {
-    if (Object.hasOwn(messages, key)) {
-      return true;
-    }
-  } else if (key instanceof RegExp) {
-    if (messageKeys.some(k => key.test(k))) {
-      return true;
-    }
-  }
-  return false;
+  return Object.hasOwn(messages, key);
 }
 
 module.exports = {

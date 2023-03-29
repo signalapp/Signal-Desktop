@@ -40,6 +40,26 @@ export function MandatoryProfileSharingActions({
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
+  const firstNameContact = (
+    <strong
+      key="name"
+      className="module-message-request-actions__message__name"
+    >
+      <ContactName firstName={firstName} title={title} preferFirstName />
+    </strong>
+  );
+
+  const learnMore = (
+    <a
+      href="https://support.signal.org/hc/articles/360007459591"
+      target="_blank"
+      rel="noreferrer"
+      className="module-message-request-actions__message__learn-more"
+    >
+      {i18n('MessageRequests--learn-more')}
+    </a>
+  );
+
   return (
     <>
       {mrState !== MessageRequestState.default ? (
@@ -62,34 +82,19 @@ export function MandatoryProfileSharingActions({
       ) : null}
       <div className="module-message-request-actions">
         <p className="module-message-request-actions__message">
-          <Intl
-            i18n={i18n}
-            id={`MessageRequests--profile-sharing--${conversationType}`}
-            components={{
-              firstName: (
-                <strong
-                  key="name"
-                  className="module-message-request-actions__message__name"
-                >
-                  <ContactName
-                    firstName={firstName}
-                    title={title}
-                    preferFirstName
-                  />
-                </strong>
-              ),
-              learnMore: (
-                <a
-                  href="https://support.signal.org/hc/articles/360007459591"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="module-message-request-actions__message__learn-more"
-                >
-                  {i18n('MessageRequests--learn-more')}
-                </a>
-              ),
-            }}
-          />
+          {conversationType === 'direct' ? (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--profile-sharing--direct"
+              components={{ firstName: firstNameContact, learnMore }}
+            />
+          ) : (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--profile-sharing--group"
+              components={{ firstName: firstNameContact, learnMore }}
+            />
+          )}
         </p>
         <div className="module-message-request-actions__buttons">
           <Button

@@ -339,7 +339,7 @@ export function SendStoryModal({
         <EditMyStoryPrivacy
           hasDisclaimerAbove
           i18n={i18n}
-          learnMore="SendStoryModal__privacy-disclaimer"
+          kind="privacy"
           myStories={stagedMyStories}
           signalConnectionsCount={signalConnections.length}
           onClickExclude={() => {

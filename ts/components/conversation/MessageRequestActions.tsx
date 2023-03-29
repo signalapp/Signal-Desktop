@@ -35,6 +35,15 @@ export function MessageRequestActions({
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
+  const name = (
+    <strong
+      key="name"
+      className="module-message-request-actions__message__name"
+    >
+      <ContactName firstName={firstName} title={title} preferFirstName />
+    </strong>
+  );
+
   return (
     <>
       {mrState !== MessageRequestState.default ? (
@@ -53,26 +62,34 @@ export function MessageRequestActions({
       ) : null}
       <div className="module-message-request-actions">
         <p className="module-message-request-actions__message">
-          <Intl
-            i18n={i18n}
-            id={`MessageRequests--message-${conversationType}${
-              isBlocked ? '-blocked' : ''
-            }`}
-            components={{
-              name: (
-                <strong
-                  key="name"
-                  className="module-message-request-actions__message__name"
-                >
-                  <ContactName
-                    firstName={firstName}
-                    title={title}
-                    preferFirstName
-                  />
-                </strong>
-              ),
-            }}
-          />
+          {conversationType === 'direct' && isBlocked && (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--message-direct-blocked"
+              components={{ name }}
+            />
+          )}
+          {conversationType === 'direct' && !isBlocked && (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--message-direct"
+              components={{ name }}
+            />
+          )}
+          {conversationType === 'group' && isBlocked && (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--message-group-blocked"
+              components={{ name }}
+            />
+          )}
+          {conversationType === 'group' && !isBlocked && (
+            <Intl
+              i18n={i18n}
+              id="MessageRequests--message-group"
+              components={{ name }}
+            />
+          )}
         </p>
         <div className="module-message-request-actions__buttons">
           <Button

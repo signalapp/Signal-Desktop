@@ -26,6 +26,7 @@ import * as log from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
 import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
+import { missingCaseError } from '../../util';
 
 export type Contact = Pick<
   ConversationType,
@@ -200,24 +201,49 @@ export class MessageDetail extends React.Component<Props> {
     );
   }
 
+  private renderContactGroupHeaderText(
+    sendStatus: undefined | SendStatus
+  ): string {
+    const { i18n } = this.props;
+
+    if (sendStatus === undefined) {
+      return i18n('from');
+    }
+
+    switch (sendStatus) {
+      case SendStatus.Failed:
+        return i18n('MessageDetailsHeader--Failed');
+      case SendStatus.Pending:
+        return i18n('MessageDetailsHeader--Pending');
+      case SendStatus.Sent:
+        return i18n('MessageDetailsHeader--Sent');
+      case SendStatus.Delivered:
+        return i18n('MessageDetailsHeader--Delivered');
+      case SendStatus.Read:
+        return i18n('MessageDetailsHeader--Read');
+      case SendStatus.Viewed:
+        return i18n('MessageDetailsHeader--Viewed');
+      default:
+        throw missingCaseError(sendStatus);
+    }
+  }
+
   private renderContactGroup(
     sendStatus: undefined | SendStatus,
     contacts: undefined | ReadonlyArray<Contact>
   ): ReactNode {
-    const { i18n } = this.props;
     if (!contacts || !contacts.length) {
       return null;
     }
-
-    const i18nKey =
-      sendStatus === undefined ? 'from' : `MessageDetailsHeader--${sendStatus}`;
 
     const sortedContacts = [...contacts].sort((a, b) =>
       contactSortCollator.compare(a.title, b.title)
     );
 
+    const headerText = this.renderContactGroupHeaderText(sendStatus);
+
     return (
-      <div key={i18nKey} className="module-message-detail__contact-group">
+      <div key={headerText} className="module-message-detail__contact-group">
         <div
           className={classNames(
             'module-message-detail__contact-group__header',
@@ -225,8 +251,7 @@ export class MessageDetail extends React.Component<Props> {
               `module-message-detail__contact-group__header--${sendStatus}`
           )}
         >
-          {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-          {i18n(i18nKey)}
+          {headerText}
         </div>
         {sortedContacts.map(contact => this.renderContact(contact))}
       </div>

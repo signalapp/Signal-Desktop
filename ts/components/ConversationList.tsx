@@ -103,8 +103,16 @@ type MessageRowType = {
 
 type HeaderRowType = {
   type: RowType.Header;
-  i18nKey: string;
+  getHeaderText: (i18n: LocalizerType) => string;
 };
+
+// Exported for tests across multiple files
+export function _testHeaderText(row: Row | void): string | null {
+  if (row?.type === RowType.Header) {
+    return row.getHeaderText(((key: string) => key) as LocalizerType);
+  }
+  return null;
+}
 
 type SearchResultsLoadingFakeHeaderType = {
   type: RowType.SearchResultsLoadingFakeHeader;
@@ -375,18 +383,18 @@ export function ConversationList({
             />
           );
           break;
-        case RowType.Header:
+        case RowType.Header: {
+          const headerText = row.getHeaderText(i18n);
           result = (
             <div
               className="module-conversation-list__item--header"
-              // eslint-disable-next-line local-rules/valid-i18n-keys
-              aria-label={i18n(row.i18nKey)}
+              aria-label={headerText}
             >
-              {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-              {i18n(row.i18nKey)}
+              {headerText}
             </div>
           );
           break;
+        }
         case RowType.MessageSearchResult:
           result = <>{renderMessageSearchResult?.(row.messageId)}</>;
           break;

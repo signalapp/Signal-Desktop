@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable local-rules/valid-i18n-keys */
-
 import React, {
   useEffect,
   useMemo,
@@ -212,7 +210,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('contactsHeader'),
         };
       }
 
@@ -250,7 +249,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -268,7 +268,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('findByUsernameHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -307,16 +308,18 @@ export function ChooseGroupMembersModal({
 
     let item;
     switch (row?.type) {
-      case RowType.Header:
+      case RowType.Header: {
+        const headerText = row.getHeaderText(i18n);
         item = (
           <div
             className="module-conversation-list__item--header"
-            aria-label={i18n(row.i18nKey)}
+            aria-label={headerText}
           >
-            {i18n(row.i18nKey)}
+            {headerText}
           </div>
         );
         break;
+      }
       case RowType.ContactCheckbox:
         item = (
           <ContactCheckbox

@@ -40,10 +40,9 @@ export function ToastManager({
   if (toastType === ToastType.AddingUserToGroup) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
-        {i18n(
-          'AddUserToAnotherGroupModal__toast--adding-user-to-group',
-          toast.parameters
-        )}
+        {i18n('AddUserToAnotherGroupModal__toast--adding-user-to-group', {
+          ...toast.parameters,
+        })}
       </Toast>
     );
   }
@@ -107,7 +106,9 @@ export function ToastManager({
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('GroupV2--cannot-start-group-call', toast.parameters)}
+        {i18n('GroupV2--cannot-start-group-call', {
+          ...toast.parameters,
+        })}
       </Toast>
     );
   }
@@ -344,10 +345,9 @@ export function ToastManager({
   if (toastType === ToastType.UserAddedToGroup) {
     return (
       <Toast onClose={hideToast}>
-        {i18n(
-          'AddUserToAnotherGroupModal__toast--user-added-to-group',
-          toast.parameters
-        )}
+        {i18n('AddUserToAnotherGroupModal__toast--user-added-to-group', {
+          ...toast.parameters,
+        })}
       </Toast>
     );
   }

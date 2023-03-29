@@ -71,24 +71,29 @@ export class Intl extends React.Component<Props> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public override render() {
-    const { components, id, i18n, renderText = defaultRenderText } = this.props;
+    const {
+      components,
+      id,
+      // Indirection for linter/migration tooling
+      i18n: localizer,
+      renderText = defaultRenderText,
+    } = this.props;
 
     if (!id) {
       log.error('Error: Intl id prop not provided');
       return null;
     }
 
-    if (!i18n.isLegacyFormat(id)) {
+    if (!localizer.isLegacyFormat(id)) {
       strictAssert(
         !Array.isArray(components),
         `components cannot be an array for ICU message ${id}`
       );
-      const intl = i18n.getIntl();
+      const intl = localizer.getIntl();
       return intl.formatMessage({ id }, components);
     }
 
-    // eslint-disable-next-line local-rules/valid-i18n-keys
-    const text = i18n(id);
+    const text = localizer(id);
     const results: Array<
       string | JSX.Element | Array<string | JSX.Element> | null
     > = [];
