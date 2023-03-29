@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import type { ShowConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
@@ -62,6 +62,16 @@ export function Inbox({
     selectedConversationId,
     selectedConversationId
   );
+
+  const now = useMemo(() => Date.now(), []);
+  const midnight = useMemo(() => {
+    const date = new Date(now);
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date.getTime();
+  }, [now]);
 
   useEffect(() => {
     if (prevConversationId !== selectedConversationId) {
@@ -176,7 +186,6 @@ export function Inbox({
   }, [hasInitialLoadCompleted]);
 
   if (!internalHasInitialLoadCompleted) {
-    const now = Date.now();
     let loadingProgress = 0;
     if (
       firstEnvelopeTimestamp !== undefined &&
@@ -193,6 +202,23 @@ export function Inbox({
         ) * 100;
     }
 
+    let message = i18n('loading');
+    if (envelopeTimestamp !== undefined) {
+      const daysBeforeMidnight = Math.ceil(
+        (midnight - envelopeTimestamp) / DAY
+      );
+
+      if (daysBeforeMidnight <= 0) {
+        message = i18n('icu:loadingMessages--today');
+      } else if (daysBeforeMidnight === 1) {
+        message = i18n('icu:loadingMessages--yesterday');
+      } else {
+        message = i18n('icu:loadingMessages--other', {
+          daysAgo: daysBeforeMidnight,
+        });
+      }
+    }
+
     return (
       <div className="app-loading-screen">
         <div className="module-title-bar-drag-area" />
@@ -204,16 +230,7 @@ export function Inbox({
             style={{ transform: `translateX(${loadingProgress - 100}%)` }}
           />
         </div>
-        <div className="message">
-          {envelopeTimestamp
-            ? i18n('icu:loadingMessages', {
-                daysAgo: Math.max(
-                  1,
-                  Math.round((now - envelopeTimestamp) / DAY)
-                ),
-              })
-            : i18n('loading')}
-        </div>
+        <div className="message">{message}</div>
         <div id="toast" />
       </div>
     );

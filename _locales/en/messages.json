@@ -399,9 +399,17 @@
     "message": "Loading messages. $count$ so far...",
     "description": "(deleted 03/25/2023) Message shown on the loading screen when we're catching up on the backlog of messages"
   },
-  "icu:loadingMessages": {
-    "messageformat": "Loading messages from {daysAgo, plural, one {1 day} other {# days}} ago...",
-    "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
+  "icu:loadingMessages--other": {
+    "messageformat": "Loading messages from {daysAgo} days ago...",
+    "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
+  },
+  "icu:loadingMessages--yesterday": {
+    "messageformat": "Loading messages from yesterday...",
+    "description": "Message shown on the loading screen when we're catching up on the backlog of messages from yesterday"
+  },
+  "icu:loadingMessages--today": {
+    "messageformat": "Loading messages from today...",
+    "description": "Message shown on the loading screen when we're catching up on the backlog of messages from today"
   },
   "view": {
     "message": "View",

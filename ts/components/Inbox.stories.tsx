@@ -55,16 +55,18 @@ const Template: Story<PropsType & { daysAgo?: number }> = ({
   ...args
 }) => {
   const now = useMemo(() => Date.now(), []);
-  const [offset, setOffset] = useState(0);
+  const [dayOffset, setDayOffset] = useState(0);
 
   useEffect(() => {
     if (daysAgo === undefined) {
-      setOffset(0);
+      setDayOffset(0);
       return noop;
     }
 
     const interval = setInterval(() => {
-      setOffset(prevValue => (prevValue + 1 / 4) % daysAgo);
+      // Increment day offset by 1 / 24 of a day (an hour), and wrap it when it
+      // reaches `daysAgo` value.
+      setDayOffset(prevValue => (prevValue + 1 / 24) % daysAgo);
     }, SECOND / 10);
 
     return () => clearInterval(interval);
@@ -75,7 +77,7 @@ const Template: Story<PropsType & { daysAgo?: number }> = ({
   const envelopeTimestamp =
     firstEnvelopeTimestamp === undefined
       ? undefined
-      : firstEnvelopeTimestamp + offset * DAY;
+      : firstEnvelopeTimestamp + dayOffset * DAY;
 
   return (
     <Inbox
