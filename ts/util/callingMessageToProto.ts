@@ -3,6 +3,7 @@
 
 import type { CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
+import Long from 'long';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { missingCaseError } from './missingCaseError';
@@ -39,6 +40,7 @@ export function callingMessageToProto(
     offer: offer
       ? {
           ...offer,
+          callId: Long.fromValue(offer.callId),
           type: offer.type as number,
           opaque: bufferToProto(offer.opaque),
         }
@@ -46,6 +48,7 @@ export function callingMessageToProto(
     answer: answer
       ? {
           ...answer,
+          callId: Long.fromValue(answer.callId),
           opaque: bufferToProto(answer.opaque),
         }
       : undefined,
@@ -53,6 +56,7 @@ export function callingMessageToProto(
       ? iceCandidates.map(candidate => {
           return {
             ...candidate,
+            callId: Long.fromValue(candidate.callId),
             opaque: bufferToProto(candidate.opaque),
           };
         })
@@ -60,13 +64,20 @@ export function callingMessageToProto(
     legacyHangup: legacyHangup
       ? {
           ...legacyHangup,
+          callId: Long.fromValue(legacyHangup.callId),
           type: legacyHangup.type as number,
         }
       : undefined,
-    busy,
+    busy: busy
+      ? {
+          ...busy,
+          callId: Long.fromValue(busy.callId),
+        }
+      : undefined,
     hangup: hangup
       ? {
           ...hangup,
+          callId: Long.fromValue(hangup.callId),
           type: hangup.type as number,
         }
       : undefined,

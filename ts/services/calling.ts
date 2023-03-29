@@ -14,6 +14,8 @@ import type {
   VideoRequest,
 } from '@signalapp/ringrtc';
 import {
+  AnswerMessage,
+  BusyMessage,
   Call,
   CallEndedReason,
   CallingMessage,
@@ -28,6 +30,8 @@ import {
   GumVideoCapturer,
   HangupMessage,
   HangupType,
+  IceCandidateMessage,
+  OfferMessage,
   OpaqueMessage,
   RingCancelReason,
   RingRTC,
@@ -72,7 +76,7 @@ import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
 import { drop } from '../util/drop';
-import { dropNull, shallowDropNull } from '../util/dropNull';
+import { dropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
@@ -220,44 +224,51 @@ function protoToCallingMessage({
   destinationDeviceId,
   opaque,
 }: Proto.ICallingMessage): CallingMessage {
-  return {
-    offer: offer
-      ? {
-          ...shallowDropNull(offer),
+  const newIceCandidates: Array<IceCandidateMessage> = [];
+  if (iceCandidates) {
+    iceCandidates.forEach(candidate => {
+      if (candidate.callId && candidate.opaque) {
+        newIceCandidates.push(
+          new IceCandidateMessage(
+            candidate.callId,
+            Buffer.from(candidate.opaque)
+          )
+        );
+      }
+    });
+  }
 
-          type: dropNull(offer.type) as number,
-          opaque: offer.opaque ? Buffer.from(offer.opaque) : undefined,
-        }
-      : undefined,
-    answer: answer
-      ? {
-          ...shallowDropNull(answer),
-          opaque: answer.opaque ? Buffer.from(answer.opaque) : undefined,
-        }
-      : undefined,
-    iceCandidates: iceCandidates
-      ? iceCandidates.map(candidate => {
-          return {
-            ...shallowDropNull(candidate),
-            opaque: candidate.opaque
-              ? Buffer.from(candidate.opaque)
-              : undefined,
-          };
-        })
-      : undefined,
-    legacyHangup: legacyHangup
-      ? {
-          ...shallowDropNull(legacyHangup),
-          type: dropNull(legacyHangup.type) as number,
-        }
-      : undefined,
-    busy: shallowDropNull(busy),
-    hangup: hangup
-      ? {
-          ...shallowDropNull(hangup),
-          type: dropNull(hangup.type) as number,
-        }
-      : undefined,
+  return {
+    offer:
+      offer && offer.callId && offer.opaque
+        ? new OfferMessage(
+            offer.callId,
+            dropNull(offer.type) as number,
+            Buffer.from(offer.opaque)
+          )
+        : undefined,
+    answer:
+      answer && answer.callId && answer.opaque
+        ? new AnswerMessage(answer.callId, Buffer.from(answer.opaque))
+        : undefined,
+    iceCandidates: newIceCandidates.length > 0 ? newIceCandidates : undefined,
+    legacyHangup:
+      legacyHangup && legacyHangup.callId
+        ? new HangupMessage(
+            legacyHangup.callId,
+            dropNull(legacyHangup.type) as number,
+            legacyHangup.deviceId || 0
+          )
+        : undefined,
+    busy: busy && busy.callId ? new BusyMessage(busy.callId) : undefined,
+    hangup:
+      hangup && hangup.callId
+        ? new HangupMessage(
+            hangup.callId,
+            dropNull(hangup.type) as number,
+            hangup.deviceId || 0
+          )
+        : undefined,
     supportsMultiRing: dropNull(supportsMultiRing),
     destinationDeviceId: dropNull(destinationDeviceId),
     opaque: opaque
@@ -1536,25 +1547,26 @@ export class CallingClass {
         'Conversation was not approved by user; rejecting call message.'
       );
 
-      const hangup = new HangupMessage();
-      hangup.callId = callingMessage.offer.callId;
-      hangup.deviceId = remoteDeviceId;
-      hangup.type = HangupType.NeedPermission;
+      const { callId } = callingMessage.offer;
+      assertDev(callId != null, 'Call ID missing from offer');
+
+      const hangup = new HangupMessage(
+        callId,
+        HangupType.NeedPermission,
+        remoteDeviceId
+      );
 
       const message = new CallingMessage();
       message.legacyHangup = hangup;
 
       await this.handleOutgoingSignaling(remoteUserId, message);
 
-      const callId = callingMessage.offer.callId?.toString();
-      assertDev(callId != null, 'Call ID missing from offer');
-
       const ProtoOfferType = Proto.CallingMessage.Offer.Type;
       await this.addCallHistoryForFailedIncomingCall(
         conversation,
         callingMessage.offer.type === ProtoOfferType.OFFER_VIDEO_CALL,
         envelope.timestamp,
-        callId
+        callId.toString()
       );
 
       return;
