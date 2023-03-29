@@ -37,15 +37,17 @@ export function WhatsNewModal({
     features: [
       <Intl
         i18n={i18n}
-        id="icu:WhatsNew__v6.12--0"
+        id="icu:WhatsNew__v6.13--0"
         renderText={renderText}
         components={{}}
       />,
       <Intl
         i18n={i18n}
-        id="icu:WhatsNew__v6.12--1"
+        id="icu:WhatsNew__v6.13--1"
         renderText={renderText}
-        components={{}}
+        components={{
+          rakleed: <a href="https://github.com/rakleed">@rakleed</a>,
+        }}
       />,
     ],
   };
