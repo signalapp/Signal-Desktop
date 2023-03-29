@@ -43,7 +43,7 @@
     "test-eslint": "mocha .eslint/rules/**/*.test.js --ignore-leaks",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/modules ts/test-node ts/test-both",
     "test-lint-intl": "ts-node ./build/intl-linter/linter.ts --test",
-    "eslint": "eslint --cache . --max-warnings 0",
+    "eslint": "eslint --cache . --cache-strategy content --max-warnings 0",
     "lint": "run-s --print-label lint-prettier check:types eslint",
     "lint-deps": "node ts/util/lint/linter.js",
     "lint-license-comments": "ts-node ts/util/lint/license_comments.ts",

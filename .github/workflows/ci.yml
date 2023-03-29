@@ -30,6 +30,16 @@ jobs:
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+
+    - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
+      uses: actions/cache/restore@v3
+      id: cache-lint
+      with:
+        path: |
+          .eslintcache
+          tsconfig.tsbuildinfo
+        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
@@ -41,6 +51,15 @@ jobs:
     - run: yarn lint-deps
     - run: yarn lint-license-comments
     - run: git diff --exit-code
+
+    - name: Update cached .eslintcache and tsconfig.tsbuildinfo
+      uses: actions/cache/save@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        path: |
+          .eslintcache
+          tsconfig.tsbuildinfo
+        key: ${{ steps.cache-lint.cache-primary-key }}
 
   macos:
     needs: lint
