@@ -1775,7 +1775,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       // or just start a conf sync job on app start
     } catch (e) {
       console.error(`failed to create initial wrapper: `, e.stack);
-      throw e;
+      // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
     }
 
     // for manually flagging conversations as :unread"
