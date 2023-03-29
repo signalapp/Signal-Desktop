@@ -316,6 +316,10 @@
     "message": "Oxunmadı olaraq işarələ",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "Mesajları seçin",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "Arxivdən çıxart",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "Təsdiqləməyə çalışdığınız güvənlik nömrəsi dəyişdirildi. Zəhmət olmasa $name1$ ilə olan güvənlik nömrənizi nəzərdən keçirin. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə $name2$əlaqəsinin Signal-ı yenidən quraşdırdığı mənasını verə bilər.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "Aşağıdakı şəxslər yenidən quraşdırmış və ya cihazlarını dəyişdirmiş ola bilər. Gizliliyinizə əmin olmaq üçün güvənlik nömrənizi təsdiqləyin.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "Aşağıdakı insanlar Signal-ı yenidən quraşdırmış və ya cihazlarını dəyişmiş ola bilər. Yeni təhlükəsizlik nömrəsini təsdiqləmək üçün həmin alıcının üzərinə klikləyin. Bu bir seçimdir.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "Qəbul et",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "Təsdiqləndi olaraq işarələ",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "Təsdiqlənmədi olaraq işarələ",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Təsdiqləndi olaraq işarələ",
@@ -712,10 +704,6 @@
     "message": "Bu mesaja daha çox qoşma əlavə edə bilməzsiniz.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "Stiker paketi hazırlayıcı",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal Masaüstü haqqında",
@@ -1143,10 +1131,6 @@
     "messageformat": "Göndərdiniz: {receiverContact}",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "->",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "Göndərildi",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "Daha çox məlumat",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "Seç",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "Təkrar göndər",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Hər iki söhbətdə olan mesaj tarixçəniz burada birləşdirilib.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} nömrəsi {conversationTitle} adlı istifadəçiyə aiddir. Hər ikiniz də {sharedGroup} qrupunun üzvüsünüz.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} nömrəsi {conversationTitle} adlı istifadəçiyə aiddir.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Sitat mesajdan təsvirin eskizi",
@@ -2003,10 +1983,6 @@
     "message": "$name$ ilə olan güvənlik nömrəsi dəyişdirildi",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "Güvənlik nömrəsini təsdiqlə",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Güvənlik nömrəsinə bax",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal yenilənə bilmədi. Yenidən sınamaq üçün klikləyin.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Yeniləmələri tətbiq etmək üçün \"Signal-ı yenidən başlat\"a basın.",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal-ı yenidən başlat"
   },
@@ -2336,125 +2308,61 @@
     "message": "Mesaj silindi.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "Hədiyyə nişanı təfərrüatlarını almaq mümkün olmadı",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "İanə məlumatlarını əldə etmək mümkün olmadı",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "Açmaq üçün bu mesaja mobil cihazınızda baxın",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "Açmaq üçün bu mesaja mobil cihazınızda baxın",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "Hədiyyənizi görmək üçün mobil telefonunuzda bu mesaja toxunun",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "İanənizə baxmaq üçün mobil cihazda bu mesaja toxunun",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "Hədiyyə",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} sizin adınızdan Signal-a ianə verdi",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "Hədiyyəni açmaq üçün telefonda yoxlayın",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "Bu ianəni açmaq üçün telefonunuzu yoxlayın",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "Hədiyyənizə baxmaq üçün telefonunuzu yoxlayın",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "İanənizə baxmaq üçün telefonunuzu yoxlayın",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "Bir hədiyyə aldınız",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} sizin üçün ianə verdi",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "Bir hədiyyə nişanı aldınız.",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "Bir ianə aldınız",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "Bir nişan hədiyyə etdiniz",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "{recipient} adlı şəxs üçün ianə verdiniz",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "Hədiyyə nişan",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "İanə",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "Hədiyyə",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "İanə",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ gün qalıb",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} gün qalıb",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ saat qalıb",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} saat qalıb",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ dəqiqə qalıb",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {1 dəqiqə qalıb} other {{minutes,number} dəqiqə qalıb}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 dəqiqə qalıb",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "Başa çatdı",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "Başa çatdı",
@@ -2468,25 +2376,21 @@
     "messageformat": "Baxış",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "Alındı",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "Alındı",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "Dəstəyiniz üçün təşəkkürlər!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "Sizdən göndərilən mesaj",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author} tərəfindən göndərilən mesaj",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "Dəstəyiniz üçün təşəkkürlər!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "$name$ üçün bir nişan hədiyyə etdiniz. Qəbul ediləndə ona nişanı göstərmə və ya gizlətmə seçimi təqdim olunur.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "Siz {name} adından Signal-a ianə verdiniz. Ona öz dəstəyini profilində göstərmə imkanı veriləcək.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "Seçilmiş mesajı sil",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "Seçilmiş mesajları sil",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "Videonu aç/bağla",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "Zəngə görüntülü cavab verin",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "Zəngə səsli cavab verin",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "Stiker paketi hazırlayıcı",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "Əlavə etmək üçün klikləyin və ya təsvirləri bura gətirib buraxın",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "Təsvirləri bura gətir",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "Stiker paketi",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "İmtina",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "Kopyala",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "Növbəti",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "Geri",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "Stikerlərinizi əlavə edin",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "Stikeri sil",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "Bir stiker əlavə etmək üçün klikləyin və ya gətirib buraxın",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "Stikerlər, 512x512 pikselində şəffaf bir arxaplanda və PNG, APNG və ya WebP formatında olmalıdır. Tövsiyə edilən kənar boşluq 16 pikseldir.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "Kənar boşluqları göstər",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number} və ya daha çox əlavə edin",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "Hər bir stikerə bir ifadə əlavə edin",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "Bu, mesajlaşarkən sizə stiker paketlərini təklif etməyimizə şərait yaradır.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "Çox az qaldı...",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "Başlıq",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "Müəllif",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "Örtük şəkli",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "Bu, stiker paketinizi paylaşarkən görünəcək təsvirdir.",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "Stiker paketinizi yükləmək istədiyinizə əminsiniz?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "Yüklə",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "Stiker paketi yaratdıqdan sonra düzəliş edə və ya silə bilməyəcəksiniz.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "Stiker paketiniz yaradılır",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$count$ /$total$ yükləndi",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "Təbriklər! Bir stiker paketi yaratdınız.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "Yeni stikerlərinizə, stiker nişanı vasitəsilə müraciət edin və ya aşağıdakı bağlantını istifadə edərək dostlarınızla paylaşın.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "İctimai olaraq əlçatan etmək istədiyiniz özəl stiker paketlərinin URL-lərini hər kəsin tapa bilməsinə kömək etmək üçün $hashtag$ mövzu etiketlərini istifadə edin.",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "Stiker paket URL-si",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "Bağla",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "Başqa stiker paketi yarat",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Signal üçün yaratdığım yeni stiker paketinə nəzər salın. #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1 təsvir əlavə edildi} other {{count,number} təsvir əlavə edildi}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "Animasiyalı stikerlər hal-hazırda dəstəklənmir",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "Gətirilən təsvir çox böyükdür",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "Təsvirin emal olunma xətası",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "Animasiyalı PNG stikerlər, kvadrat olmalıdır",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "Animasiyalı stikerlər sonsuz dövrdə olmalıdır",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "Animasiyalı PNG stiker ölçüləri çox böyükdür",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "Animasiyalı PNG stiker ölçüləri çox kiçikdir",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "Stikerləri yükləmə xətası: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "Bağlantı kopyalandı",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "Stikerim açıq temadadır",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "Stikerim tünd temadadır",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "Stiker Paket Yaradıcını istifadə etmək üçün zəhmət olmasa Signal-ı telefon və masaüstündə quraşdırın",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Stiker Paket Yaradıcısından istifadə etmək üçün Signal-ı telefon və masaüstündə quraşdırın",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "Daha ətraflı.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ üzv",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 üzv",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 üzv} other {{count,number} üzv}}",
@@ -4604,10 +4496,6 @@
     "message": "Hamısına bax",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ ilə ortaq qrupunuz var",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ortaq qrupunuz var} other {{count,number} ortaq qrupunuz var}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "Tələbi blokla",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "Seçim rejimindən çıxın",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} seçildi",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "Seçilən mesajları sil",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "Seçilən mesajları yönləndir",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {{count,number} mesaj silinsin?} other {{count,number} mesaj silinsin?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {{count,number} mesaj silinsin?} other {{count,number} mesaj silinsin?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {Bu mesaj bu cihazdan silinəcək.} other {Bu mesajlar bu cihazdan silinəcək.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {Bu mesaj bu cihazdan silinəcək.} other {Bu mesajlar bu cihazdan silinəcək.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "Mənim üçün sil",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "Mənim üçün sil",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "Yalnız 30-a qədər mesaj yönləndirə bilərsiniz",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "Bir qrup fotosu əlavə et",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "yarat düyməsi",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "Yönləndir",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "Davam et",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "Boş və ya silinmiş mesajları yönləndirmək mümkün deyil",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ggg, AAA G",
@@ -5472,25 +5412,9 @@
     "message": "$num$ əlaqə",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "Bunu kim edə bilər...",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "Bu tənzimləmələri dəyişdirmək üçün, mobil cihazınızda Signal-ı açıb Tənzimləmələr > \"Gizlilik\"ə gedin",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "Hər kəs",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "Əlaqələrim",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "Heç kim",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Telefon nömrəsi",
@@ -5608,6 +5532,26 @@
     "messageformat": "Yeniləmə yükləndi",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "Yeniləmə tələb olunur",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal-dan istifadəyə davam etmək üçün ən son versiyanı yükləyin.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "Buradan {downloadSize} endir",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "Yeniləməni quraşdırmaq üçün Signal-ı yenidən başladın.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "\"Signal Desktop\"u yeniləmək mümkün olmadı, lakin yeni versiya mövcuddur. {downloadUrl} ünvanına keçin və yeni versiyanı əl ilə quraşdırın, sonra dəstək şöbəsi ilə əlaqə saxlayın və ya bu problem haqqında bildirin.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal, bağlanıla bilmir.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "Köhnə tətbiq faylları silinmədi. Zəhmət olmasa quraşdırıcını yenidən işə salmağa çalışın.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal-ın daha yeni bir versiyası artıq quraşdırılıb. Davam etmək istədiyinizə əminsiniz?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "Tətbiqetmə çökdü",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ baxış",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ baxış",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} baxış} other {{views,number} baxış}}",
@@ -5948,10 +5896,6 @@
     "message": "Bu hekayənin adını yalnız siz görə bilərsiniz.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "Bütün Signal kontaktları",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Xüsusi hekayə",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "Qrup hekayəsi",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ baxış",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ baxış",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {1 baxış} other {{count,number} baxış}}",
@@ -6136,14 +6072,6 @@
     "message": "Yalnız müəyyən şəxslər görə bilər",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Yeni şəxsi hekayə",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "Yalnız müəyyən şəxslərə görünən",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "Yeni qrup hekayəsi",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Baxış funksiyası sönülüdür",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "Göndərilir...",
@@ -6572,24 +6500,16 @@
     "message": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Yaddaş zolağına vizual baxış keçirmək üçün istənilən şəkil və ya video faylına klikləyib, media nəzarətçisində yeni İrəli və Geri düymələrindən istifadə edin.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Artıq səsyazma davam edərkən başqa bir çata keçsəniz də səsli mesajlar qaralama kimi yaddaşda saxlanılır.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Artıq bir stikerin göndərilməsi qaralama mətnin silinməsinə səbəb olmur. Təşəkkürlər {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "Bundan başqa, söhbət axtarışı panelinin piktoqramlarını yenidən düzləndirdiyi üçün {norstbox} adlı şəxsə də təşəkkür etmək istərdik.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "“Özünə Qeyd” söhbətini tapmağı asanlaşdıran yeni piktoqram ilə özünüzlə daha qısa zamanda danışmağa başlayın. GitHub-da verdiyi töhfəyə görə {hackerbirds} adlı istifadəçiyə təşəkkür edirik.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "İndi birdən çox mesaj seçə və hamısını eyni anda yönləndirə və ya silə bilərsiniz.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "Biz Stiker Yaradıcısını bir neçə dizayn dəyişikliyi ilə yenilədik və potensialı olan stiker yaradıcıları üçün bəzi faydalı məsləhətlər əlavə etdik. Stiker Yaradıcısı indi veb brauzerinizdə açılır, bu da Signal Desktop-u bir qədər kiçildərək, bütün sevimli stiker paketləriniz üçün cihazın sərt diskində daha çox yer açır.",
+    "description": "Release notes for v6.12"
   }
 }

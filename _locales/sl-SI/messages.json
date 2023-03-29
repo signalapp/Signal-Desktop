@@ -316,6 +316,10 @@
     "message": "Označi kot neprebrano",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "Izberi sporočila",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "Premakni v nabiralnik",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, preverite svoje novo varnostno število z uporabnikom_co $name1$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik_ca$name2$ zgolj ponovno namestil_a aplikacijo Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "Našteti uporabniki_ce so najbrž ponovno namestili Signal ali zamenjali napravo. Za potrditev istovetnosti ponovno preverite varnostno število z njimi.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "Te osebe so morda znova namestile Signal ali zamenjale napravo. Kliknite na prejemnika, da potrdite novo varnostno številko. Potrditev ni obvezna.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "Sprejmi",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "Označi kot potrjeno.",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "Označi kot nepotrjeno",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Označi kot potrjeno",
@@ -712,10 +704,6 @@
     "message": "K sporočilu ne morete več dodajati priponk.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "Izbrana datoteka presega največjo dovoljeno velikost.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "Izbrana datoteka presega največjo dovoljeno velikost. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "Urejevalnik paketov nalepk",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "O aplikaciji Signal Desktop",
@@ -1143,10 +1131,6 @@
     "messageformat": "Vi za uporabnika_co {receiverContact}",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "v",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "Poslano",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "Več informacij",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "Izberi",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "Ponovno pošlji",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Vaša zgodovina sporočil za oba pogovora je bila združena tukaj.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} pripada {conversationTitle}. Oba_e sta člana_ici {sharedGroup}.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} pripada {conversationTitle}",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Predogled slike citiranega sporočila",
@@ -2003,10 +1983,6 @@
     "message": "Varnostno število z uporabnikom $name$ je bilo spremenjeno",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "Preglej varnostno število",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Prikaz varnostne številke",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal se ni mogel posodobiti. Kliknite za ponoven poskus.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Signal",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Ponovno zaženi Signal"
   },
@@ -2336,125 +2308,61 @@
     "message": "Sporočilo je bilo izbrisano.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "Podatkov o darilni znački ni mogoče pridobiti",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "Podatkov o donaciji ni mogoče pridobiti",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "Odprite to sporočilo na mobilnem telefonu",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "Odprite to sporočilo na mobilnem telefonu",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "Za ogled darila tapnite na to sporočilo na svojem mobilnem telefonu",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "Za ogled donacije tapnite na to sporočilo na svojem mobilnem telefonu",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "Darilo",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} je doniral_a Signalu v vašem imenu",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "Odprite darilo na mobilnem telefonu",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "Odprite donacijo na mobilnem telefonu",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "Oglejte si darilo na mobilnem telefonu",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "Donacijo si oglejte na mobilnem telefonu",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "Prejeli ste darilo",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} je doniral_a za vas",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "Vnovčili ste darilno značko",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "Unovčili ste donacijo",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "Poslali ste darilno značko",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "Donirali ste za uporabnika_co {recipient}",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "Darilna značka",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "Donacija",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "Darilo",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "Donacija",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "še $days$ dni",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "še {days} dni",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "še $hours$ ur",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "še {hours} ur",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "še $minutes$ minut",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {še 1 minuto} two {še {minutes,number} minuti} few {še {minutes,number} minute} other {še {minutes,number} minut}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "še minuta",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "Poteklo",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "Potekla",
@@ -2468,25 +2376,21 @@
     "messageformat": "Prikaz",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "Vnovčeno",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "Unovčeno",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "Hvala za vašo podporo!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "Sporočilo, ki ste ga poslali vi",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "Sporočilo, ki ga je poslal_a {author}",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "Hvala za vašo podporo!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "Podarili ste značko uporabniku_ci $name$. Ko potrdi prejem, bo lahko značko prikazal_a ali skril_a.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "Donirali ste Signalu v imenu uporabnika_ce {name}. Imel_a bo možnost, da svojo podporo pokaže na svojem profilu.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "Izbris izbranega sporočila",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "Izbriši izbrana sporočila",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "Vklop in izklop kamere",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "Odgovorite na klic z videom",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "Odgovorite na klic z glasovnim sporočilom",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovorite na klic z videom (samo video klici)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "Urejevalnik paketov nalepk",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "Za dodajanje slik kliknite ali povlecite sem",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "Spustite slike sem",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "Paket nalepk",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "Prekliči",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "Kopiraj",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "Naprej",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "Nazaj",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "Dodajte svoje nalepke",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "Odstrani nalepko",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "Za dodajanje nalepke kliknite ali primite/spustite datoteko",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "Nalepke morajo biti v formatu PNG, AONG ali WebP, s prosojnim ozadjem, velikosti 512x512 pixlov. Priporočen rob je 16px.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "Prikaži robove",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "Dodaj {count,number} ali več",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "Dodaj emoji vsaki nalepki",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "To nam omogoča, da vam med tipkanjem priporočimo uporabo nalepk.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "Samo še par malenkosti ...",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "Naslov",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "Avtor",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "Naslovna podoba",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "Ta slika bo prikazana ko boste delili svoj paket nalepk z drugimi",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "Ste prepričani, da želite naložiti svoj paket nalepk?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "Naloži",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "Ko je paket nalepk enkrat ustvarjen, ga ni več mogoče popravljati, oziroma izbrisati.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "Ustvarjanje vašega paketa nalepk",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$count$ od $total$ naloženih",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "Čestitamo! Ustvarili ste paket nalepk.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "Dostopajte do svojega paketa nalepk preko ikone, ali pa delite s prijatelji spodnjo povezavo.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "Da bi ljudje lažje našli URL naslove s paketi nalepk, za katere želite, da so na voljo javnosti, uporabljajte ključnik $hashtag$.",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "URL paketa nalepk",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "Zapri",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "Ustvari nov paket nalepk",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Poglej si moj novi paket nalepk za Signal! #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {Dodana je 1 slika} two {Dodani sta {count,number} sliki} few {Dodane so {count,number} slike} other {Dodanih je {count,number} slik}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "Animirane nalepke trenutno niso podprte",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "Spuščena slika je prevelika",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "Napaka pri obdelavi slike",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "Nalepke v formatu animirani PNG morajo biti kvadratne oblike",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "Animirane nalepke se morajo vrteti v neskončnost",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "Nalepka formata animirani PNG je prevelika",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "Nalepka formata animirani PNG je premajhna",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "Napaka pri nalaganju nalepk: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "Povezava je prekopirana",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "Moja nalepka v svetli temi",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "Moja nalepka v temni temi",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "Če želite uporabljati urejevalnik paketov nalepk, prosimo povežite aplikacijo Signal na svojem telefonu s tisto na računalniku.",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Če želite uporabljati Ustvarjalnik paketov nalepk, povežite aplikacijo Signal na svojem telefonu s tisto na računalniku",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "Izvedite več.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "Članov: $count$",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 član_ica",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 član_ica} two {{count,number} člana_ici} few {{count,number} člani_ce} other {{count,number} članov_ic}}",
@@ -4604,10 +4496,6 @@
     "message": "Prikaz vseh",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ skupnih skupin",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} skupna skupina} two {{count,number} skupni skupini} few {{count,number} skupne skupine} other {{count,number} skupnih skupin}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "Blokiraj prošnjo",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "Zapusti način izbire",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} izbranih",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "Izbriši izbrana sporočila",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "Posreduj izbrana sporočila",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {Izbrišem sporočilo?} two {Izbrišem {count,number} sporočili?} few {Izbrišem {count,number} sporočila?} other {Izbrišem {count,number} sporočil?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {Izbrišem sporočilo?} two {Izbrišem {count,number} sporočili?} few {Izbrišem {count,number} sporočila?} other {Izbrišem {count,number} sporočil?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {To sporočilo bo izbrisano iz te naprave.} two {Ti sporočili bosta izbrisani iz te naprave.} few {Ta sporočila bodo izbrisana iz te naprave.} other {Ta sporočila bodo izbrisana iz te naprave.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {To sporočilo bo izbrisano iz te naprave.} two {Ti sporočili bosta izbrisani iz te naprave.} few {Ta sporočila bodo izbrisana iz te naprave.} other {Ta sporočila bodo izbrisana iz te naprave.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "Izbriši zame",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "Izbriši zame",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "Posredujete lahko največ 30 sporočil",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "Dodaj skupinsko fotografijo",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "gumb za pisanje",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "Posreduj uporabniku_ci",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "Nadaljuj",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "Ni mogoče posredovati praznih ali izbrisanih sporočil",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",
@@ -5472,25 +5412,9 @@
     "message": "$num$ stikov",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "Uporabniki_ce, ki lahko ...",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "Za spremembo te nastavitve odprite Signal na vaši mobilni napravi in pojdite na Nastavitve > Zasebnost",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "Vsi",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "Moji stiki",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "Nikogar",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Telefonska številka",
@@ -5608,6 +5532,26 @@
     "messageformat": "Posodobitev prenesena",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "Potrebna je posodobitev",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Če želite še naprej uporabljati Signal, ga morate posodobiti na najnovejšo različico.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "Prenos {downloadSize}",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "Znova zaženite Signal, da namestite posodobitev.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Posodabljanje Signal Desktopa ni uspelo, vendar je na voljo nova različica. Pojdite na {downloadUrl} in ročno namestite novo različico, nato pa se obrnite na podporo ali prijavite napako o tej težavi.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal se ne more zapreti.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "Neuspešno odnameščanje starih datotek. Poskusite ponovno zagnati inštalacijo.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Novejša različica Signala je že nameščena. Ste prepričani, da želite nadaljevati?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "Aplikacija se je zrušila",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ ogled",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ogledov",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} ogled} two {{views,number} ogleda} few {{views,number} ogledi} other {{views,number} ogledov}}",
@@ -5948,10 +5896,6 @@
     "message": "Samo vi lahko vidite ime te Zgodbe.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "Vse Signal povezave",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Zgodba po meri",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "Skupinska Zgodba",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ gledalec_ka",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ gledalci_ke",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {1 gledalec_ka} two {{count,number} gledalca_ki} few {{count,number} gledalci_ke} other {{count,number} gledalcev_k}}",
@@ -6136,14 +6072,6 @@
     "message": "Vidna le določenim ljudem",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Nova zasebna zgodba",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "Vidna le določenim ljudem",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "Nova zgodba skupine",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Ogledi so izklopljeni",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "Pošiljam ...",
@@ -6572,24 +6500,16 @@
     "message": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Kliknite katerokoli sliko ali videoposnetek in uporabite nova gumba Naprej in Nazaj v pregledovalniku medijev za vizualni sprehod po spominih.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Glasovna sporočila se zdaj shranijo kot osnutki, če med snemanjem preklopite na drug klepet.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Osnutek besedila se zdaj ob pošiljanju nalepke ne izbriše več. Hvala, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "Prav tako bi se radi zahvalili {norstbox}, ker je ikone vrstice za iskanje pogovorov ponovno poravnal_a.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "Začnite se pogovarjati sami s seboj še hitreje z novo ikono, ki olajša iskanje klepeta »Zabeležka zame«. Hvala {hackerbirds} na GitHubu za njen/-gov prispevek.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "Zdaj lahko izberete več sporočil in jih posredujete ali izbrišete vsa hkrati.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "Ustvarjalnik nalepk smo posodobili z nekaj prilagoditvami oblikovanja in dodali nekaj koristnih nasvetov za ambiciozne umetnike nalepk. Ustvarjalnik nalepk se zdaj odpre v vašem spletnem brskalniku, zaradi česar je Signal Desktop nekoliko manjši in na vašem trdem disku pusti nekaj več prostora za vse vaše najljubše pakete nalepk.",
+    "description": "Release notes for v6.12"
   }
 }

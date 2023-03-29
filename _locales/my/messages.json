@@ -316,6 +316,10 @@
     "message": "ဖတ်ပြီးပြီဟုမှတ်ပါ",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "မက်ဆေ့ချ်များ ရွေးချယ်ခြင်း",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "မှတ်တမ်းထဲမှ ပြန်ထုတ်ပါ",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "သင်အတည်ပြုရန် ကြိုးစားနေသော လုံခြုံရေးနံပါတ် ပြောင်းသွားပါသည်။ သင့်လုံခြုံရေးနံပါတ်အသစ်ကို $name1$ နှင့်အတူ သုံးသပ်ပါ။ ဤပြောင်းလဲမှုအားဖြင့် တစ်စုံတစ်ယောက်က သင်တို့၏ ဆက်သွယ်မှုကို ကြားဖြတ်နားထောင်ရန် ကြိုးစားနေကြောင်း ဆိုလိုပါသည်၊ သို့တည်းမဟုတ် $name2$ က Signal ကို ပြန်ထည့်သွင်းလိုက်ခြင်းဖြစ်ကြောင်း သတိပြုပါ။",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "အောက်ပါပုဂ္ဂိုလ်များသည် စက်ပစ္စည်းအား ပြန်လည်တပ်ဆင်ခြင့် သို့မဟုတ် ပြောင်းလဲခြင်း ပြုလုပ်ခဲ့နိုင်သည်။ ပုဂ္ဂိုလ်ရေး လုံခြုံစေရန် သင့်လုံခြုံရေးနံပါတ်ကို ၎င်းပုဂ္ဂိုလ်များဖြင့် အတည်ပြုပေးပါ။",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "ဖော်ပြထားသူများသည် Signal ကို ပြန်လည်ထည့်သွင်းခဲ့ပါသည် သို့မဟုတ် စက်များ ပြောင်းခဲ့ပါသည်။ လုံခြုံရေးနံပါတ်အသစ်ကို အတည်ပြုရန် လက်ခံသူကို နှိပ်ပါ။ ဤသည်ကို မလုပ်လည်း ဖြစ်ပါသည်။",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "လက်ခံသည်",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "Mark as verified",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "Mark as not verified",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "အတည်ပြုပြီး အမှတ်အသား",
@@ -712,10 +704,6 @@
     "message": "ဤမက်ဆေ့ချ်တွင် နောက်ထပ်ပူးတွဲဖိုင်များ မပေါင်းထည့်နိုင်ပါ။",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "စတစ်ကာတွဲ ဖန်တီးသူ",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal Desktop အကြောင်း",
@@ -1143,10 +1131,6 @@
     "messageformat": "{receiverContact} ထံသို့",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "သို့",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "ပို့ပြီးပြီ",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "နောက်ထပ် အချက်အလက်များ",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "ရွေးမည်",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "ပေးပို့မှု ပြန်ကြိုးစားရန်",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "စကားဝိုင်းနှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် ပေါင်းစည်းထားပါသည်။",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်။ သင်တို့သည် {sharedGroup} အဖွဲ့ဝင်များ ဖြစ်ပါသည်။",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Quote လုပ်ထားသော မက်ဆေ့ချ်မှ ပုံကြမ်း",
@@ -2003,10 +1983,6 @@
     "message": "$name$ နှင့် လုံခြုံရေးနံပါတ် ပြောင်းသွားသည်",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "လုံခြုံရေးနံပါတ်ကို အတည်ပြုပါ",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal ကို အပ်ဒိတ်လုပ်မရပါ။ ထပ်ကြိုးစားရန် နှိပ်ပါ။",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "အပ်ဒိတ်များကို သုံးရန်အတွက် Signal ကို ပြန်စတင်ရန်ကို နှိပ်ပါ။",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Restart Signal"
   },
@@ -2336,125 +2308,61 @@
     "message": "ဤမက်ဆေ့အား ဖျက်ပြီးပါပြီ။",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "လက်ဆောင်ဘဲ့ဂျ်အကြောင်း အသေးစိတ်ကို ရယူ၍ မရနိုင်ပါ",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "လှူဒါန်းမှု အသေးစိတ်ကို ရယူ၍ မရနိုင်ပါ",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "ဤမက်ဆေ့ချ်ကို ဖွင့်ရန် ၎င်းကို မိုဘိုင်းတွင် ကြည့်ပါ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "ဤမက်ဆေ့ချ်ကို ဖွင့်ရန် ၎င်းကို မိုဘိုင်းတွင် ကြည့်ပါ",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "သင်၏ လက်ဆောင်ကို ကြည့်ရန် မိုဘိုင်းတွင် ဤမက်ဆေ့ချ်ကို နှိပ်ပါ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "သင်၏ လှူဒါန်းမှုကို ကြည့်ရန် မိုဘိုင်းတွင် ဤမက်ဆေ့ချ်ကို နှိပ်ပါ",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "လက်ဆောင်",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} သည် သင့်ကိုယ်စား Signal သို့ လှူထားပါသည်",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "လက်ဆောင်ကို ဖွင့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "ဤလှူဒါန်းမှုကို ဖွင့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "သင့်လက်ဆောင်ကို ကြည့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "သင့်လှူဒါန်းမှုကို ကြည့်ရန် သင့်ဖုန်းကို စစ်ဆေးပါ",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "လက်ဆောင်တစ်ခု ရခဲ့ပါသည်",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} သည် သင့်အတွက် လှူထားပါသည်",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "လက်ဆောင် ဘဲ့ဂျ်ကို လဲလှယ်ခဲ့ပါသည်",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "သင်သည် လှူဒါန်းမှုကို လဲလှယ်ထားပါသည်",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "သင်သည် လက်ဆောင်ဘဲ့ဂျ် ပို့ထားသည်",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "သင်သည် {recipient} အတွက် လှူထားပါသည်",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "လက်ဆောင်ဘဲ့ဂျ်",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "လှူဒါန်းမှု",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "လက်ဆောင်",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "လှူဒါန်းမှု",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ ရက် ကျန်ရှိသည်",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} ရက် ကျန်ရှိသည်",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ နာရီ ကျန်ရှိသည်",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} နာရီ ကျန်ရှိသည်",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ မိနစ် ကျန်ရှိသည်",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, other {{minutes,number} မိနစ် ကျန်ရှိသည်}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "၁ မိနစ် ကျန်ရှိသည်",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "သက်တမ်းကုန်ပြီး",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "သက်တမ်းကုန်ပြီး",
@@ -2468,25 +2376,21 @@
     "messageformat": "ကြည့်ရန်",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "လဲလှယ်ပြီး",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "လဲလှယ်ပြီး",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "သင့်ပံ့ပိုးကူညီမှုအတွက် ကျေးဇူးတင်ပါသည်။",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "သင် ပေးပို့ထားသော မက်ဆေ့ချ်",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author} ပေးပို့ထားသော မက်ဆေ့ချ်",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "သင့်ပံ့ပိုးကူညီမှုအတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "သင်သည် $name$ သို့ ဘဲ့ဂျ်တစ်ခု လက်ဆောင်ပေးထားပါသည်။ ၎င်းတို့ လက်ခံသည့်အခါ ၎င်းတို့၏ ဘဲ့ဂျ်ကို ပြသရန် သို့မဟုတ် ဝှက်ရန် ရွေးချယ်ခွင့် ရှိပါမည်။",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "သင်သည် {name} ကိုယ်စား Signal သို့ လှူဒါန်းထားပါသည်။ ၎င်းတို့၏ ပရိုဖိုင်တွင် ပံ့ပိုးမှုကို ပြသရန်အတွက် ၎င်းတို့အား ရွေးချယ်ခွင့် ပေးပါမည်။",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "ရွေးချယ်ထားသော မက်ဆေ့ချ်ကို ဖျက်ရန်",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "ရွေးထားသော မက်ဆေ့ချ်များကို ဖျက်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "ဗီဒီယို အဖွင့်အပိတ် ပြောင်းရန်",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "ခေါ်ဆိုမှုကို ဗီဒီယိုဖြင့် ဖြေရန်",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "ခေါ်ဆိုမှုကို အသံဖြင့် ဖြေရန်",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ခေါ်ဆိုမှုကို ဗီဒီယိုဖြင့် ဖြေရန် (ဗီဒီယိုခေါ်ဆိုမှုများသာ)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "စတစ်ကာတွဲ ဖန်တီးသူ",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "ဤနေရာတွင် ရုပ်ပုံများ ပေါင်းထည့်ရန် သို့မဟုတ် ဆွဲယူနေရာချရန် နှိပ်ပါ",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "ဤနေရာတွင် ရုပ်ပုံများ ဆွဲယူနေရာချရန်",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "စတစ်တွဲ",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "မလုပ်တော့ပါ",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "ကူးသည်",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "နောက်ထက်",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "နောက်သို့",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "သင့်စတစ်ကာများကို ပေါင်းထည့်ရန်",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "စတစ်ကာ ဖယ်ရှားရန်",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "စတစ်ကာ ပေါင်းထည့်ရန် ဖိုင်ကို ဆွဲယူထည့်ပါ သို့မဟုတ် နှိပ်ပါ",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "စတစ်ကာများသည် PNG ၊ APNG သို့မဟုတ် WebP ဖောမတ်၊ ကြည်လင်သော နောက်ခံနှင့် 512x512 Pixel ဖြင့် ရှိရပါမည်။ အကြံပြုထား‌သော မာဂျင်သည် 16px ဖြစ်ပါသည်။",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "မာဂျင်များ ပြရန်",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number} သို့မဟုတ် ထိုအထက် ပေါင်းထည့်ရန်",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "စတစ်ကာတိုင်းတွင် အီမိုဂျိ ပေါင်းထည့်ရန်",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "ဤသည်က သင့်အား သင်မက်ဆေ့ချ်ရိုက်သည့်အခါ စတစ်ကာများ အကြံပြုပေးစေနိုင်ပါသည်။",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "နောက်ထပ်အသေးစိတ် အနည်းငယ်...",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "ခေါင်းစဉ်",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "ရေးသားသူ",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "မျက်နှာဖုံးပုံ",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "ဤသည်က သင့်စတစ်ကာတွဲကို ဝေမျှသည့်အခါ ပြသမည့် ရုပ်ပုံဖြစ်ပါသည်",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "သင့်စတစ်ကာတွဲကို အပ်လုဒ် လုပ်လိုသည်မှာ သေချာပါသလား။",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "အပ်လုဒ်လုပ်ရန်",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "စတစ်ကာတွဲ ဖန်တီးပြီးနောက် ပြင်ဆင်ခြင်း သို့မဟုတ် ဖျက်ခြင်း ပြုလုပ်နိုင်တော့မည် မဟုတ်ပါ။",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "သင့်စတစ်ကာတွဲကို ဖန်တီးခြင်း",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$total$ ခုတွင် $count$ ခု အပ်လုဒ် လုပ်ပြီး",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "ဂုဏ်ယူပါသည်၊ စတစ်ကာတွဲ ဖန်တီးပြီးပါပြီ။",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "စတစ်ကာ အိုင်ကွန်မှတစ်ဆင့် သင့်စတစ်ကာအသစ်များကို ဝင်ရောက် သုံးစွဲပါ သို့မဟုတ် အောက်ပါလင့်ခ်ကို သုံး၍ သင့်မိတ်ဆွေများနှင့် ဝေမျှပါ။",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "အများ ဝင်ရောက် သုံးစွဲစေလိုသော စိတ်ကြိုက် စတစ်ကာတွဲများအတွက် URL များ ရှာရာတွင် အခြားသူများအား ကူညီပေးရန် Hashtag $hashtag$ ကို သုံးပါ။",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "စတစ်ကာတွဲ URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "ပိတ်မယ်",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "အခြား စတစ်ကာတွဲကို ဖန်တီးရန်",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Signal အတွက် ကျွန်ုပ် ဖန်တီးထားသော ဤစတစ်ကာတွဲ အသစ်ကို ကြည့်လိုက်ပါ။ #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, other {{count,number} ပုံ ပေါင်းထည့်ပြီး}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "သက်ဝင်လှုပ်ရှားသော စတစ်ကာများကို လက်ရှိ မပံ့ပိုးပေးပါ",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "ဆွဲယူသော ပုံသည် ကြီးလွန်းနေပါသည်",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "ပုံ စီမံလုပ်ဆောင်ခြင်း ချို့ယွင်းချက်",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "သက်ဝင်လှုပ်ရှားသော PNG စတစ်ကာများသည် လေးထောင့်ပုံဖြစ်ရပါမည်",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "သက်ဝင်လှုပ်ရှားသော စတစ်ကာများသည် အမြဲ ပြန်ကျော့နေရပါမည်",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "သက်ဝင်လှုပ်ရှားသော PNG စတစ်ကာ အတိုင်းအတာများသည် အလွန်ကြီးနေပါသည်",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "သက်ဝင်လှုပ်ရှားသော PNG စတစ်ကာ အတိုင်းအတာများသည် အလွန်သေးနေပါသည်",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "စတစ်ကာများ အပ်လုဒ်လုပ်ခြင်း ချို့ယွင်းချက်- $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "လင့်ခ် ကူးပြီး",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "ကျွန်ုပ်၏ စတစ်ကာသည် လင်းသော Theme တွင် ရှိပါသည်",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "ကျွန်ုပ်၏ စတစ်ကာသည် မှောင်သော Theme တွင် ရှိပါသည်",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "စတစ်ကာတွဲ ဖန်တီးမှုကို သုံးရန် သင့်ဖုန်းနှင့် Desktop တွင် Signal ကို သတ်မှတ်ပါ",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Sticker Pack Creator ကို သုံးရန် သင့်ဖုန်းနှင့် Desktop တွင် Signal ကို စီစဉ်သတ်မှတ်ပေးပါ",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "ပိုမိုလေ့လာရန်။",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "မန်ဘာ $count$ ဦး",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "အဖွဲ့ဝင် ၁ ဦး",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, other {မန်ဘာ {count,number} ဦး}}",
@@ -4604,10 +4496,6 @@
     "message": "အားလုံးကြည့်မည်",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "တူညီသော အဖွဲ့ $number$ ဖွဲ့",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {တူညီသော အဖွဲ့ {count,number} ဖွဲ့}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "တောင်းဆိုချက်ကို ဘလော့ခ်ရန်",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "ရွေးချယ်မှုစနစ်မှ ထွက်မည်",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} စောင် ရွေးထားပြီး",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "ရွေးထားသော မက်ဆေ့ချ်များကို ဖျက်ရန်",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "ရွေးထားသော မက်ဆေ့ချ်များကို ထပ်ဆင့်ပို့ရန်",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, other {မက်ဆေ့ချ် {count,number} စောင်ကို ဖျက်မည်လား။}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, other {မက်ဆေ့ချ် {count,number} စောင်ကို ဖျက်မည်လား။}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, other {ဤမက်ဆေ့ချ်များကို ဤစက်မှ ဖျက်လိုက်ပါမည်။}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, other {ဤမက်ဆေ့ချ်များကို ဤစက်မှ ဖျက်လိုက်ပါမည်။}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မည်",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မည်",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "မက်ဆေ့ချ်အစောင် 30 အထိသာ ထပ်ဆင့်ပို့နိုင်သည်",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "အဖွဲ့ဓာတ်ပုံ ပေါင်းထည့်ရန်",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "ရေးသားရန် ခလုတ်",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "ဒီကို ထပ်ဆင့်ပို့မည်",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "ဆက်လက်ရန်",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "အလွတ် သို့မဟုတ် ဖျက်ထားသော မက်ဆေ့ချ်များကို ထပ်ဆင့်ပို့၍ မရပါ",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",
@@ -5472,25 +5412,9 @@
     "message": "အဆက်အသွယ် $num$ ခု",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "ခွင့်ရှိသူ...",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "ဤဆက်တင်ကို ပြောင်းရန် သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > ကိုယ်ပိုင်အချက်အလက်သို့ သွားပါ",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "အားလုံး",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "ကျွန်ုပ်၏ အဆက်အသွယ်များ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "မည်သူမျှ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "ဖုန်းနံပါတ်",
@@ -5608,6 +5532,26 @@
     "messageformat": "အပ်ဒိတ် ဒေါင်းလုဒ်လုပ်ပြီး",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "အပ်ဒိတ် လိုအပ်ပါသည်",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal ကို ဆက်လက်အသုံးပြုရန် နောက်ဆုံးထွက်ဗားရှင်းသို့ အပ်ဒိတ်လုပ်ရပါမည်။",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "ဒေါင်းလုဒ်လုပ်မည် {downloadSize}",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "အပ်ဒိတ်ထည့်သွင်းရန် Signal ကို ပြန်လည်စတင်ပါ။",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal Desktop ကို အပ်ဒိတ်လုပ်ခြင်း မအောင်မြင်သော်လည်း ဗားရှင်းအသစ်တစ်ခု ရရှိနိုင်ပါသည်။ {downloadUrl} သို့ သွားပြီး ဗားရှင်းအသစ်ကို ကိုယ်တိုင်ထည့်သွင်းပါ၊ ထို့နောက် ပံ့ပိုးကူညီရေးသို့ ဆက်သွယ်ပါ သို့မဟုတ် ဤပြဿနာနှင့်ပတ်သက်၍ ချို့ယွင်းချက်တစ်ခု တင်သွင်းပါ။",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal ကို ပိတ်၍ မရနိုင်ပါ။",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "အပလီကေးရှင်းဖိုင် အဟောင်းများကို ထည့်သွင်းထားမှုမှ ဖျက်ရန် မအောင်မြင်ခဲ့ပါ။ Installer ဖြင့် ထပ်မံ လုပ်ဆောင်ကြည့်ပါ။",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal ဗားရှင်းအသစ်တစ်ခုကို ထည့်သွင်းထားပြီးဖြစ်သည်။ သင် ဆက်လုပ်လိုသည်မှာ သေချာပါသလား။",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "အပလီကေးရှင်း ပျက်နေပါသည်",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "ကြည့်ရှုမှု $num$",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "ကြည့်ရှုမှု $num$",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, other {ကြည့်ရှုမှု {views,number} ကြိမ်}}",
@@ -5948,10 +5896,6 @@
     "message": "ဤစတိုရီ၏ အမည်ကို သင်တစ်ဦးတည်းသာ မြင်နိုင်ပါသည်။",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "Signal အဆက်အသွယ်များ အားလုံး",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "စိတ်ကြိုက်စတိုရီ",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "အဖွဲ့ စတိုရီ",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "ကြည့်ရှုသူ $num$ ဦး",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "ကြည့်ရှုသူ $num$ ဦး",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, other {ကြည့်ရှုသူ {count,number} ဦး}}",
@@ -6136,14 +6072,6 @@
     "message": "အချို့သူများကသာ မြင်နိုင်သည်",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "သီးသန့် စတိုရီ အသစ်",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "အချို့သူများကသာ မြင်နိုင်သည်",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "အဖွဲ့ စတိုရီ အသစ်",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ကြည့်ရှုမှုများကို ပိတ်ထားပါသည်",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "ပို့နေဆဲ...",
@@ -6572,24 +6500,16 @@
     "message": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "ရုပ်ပုံ အမှတ်တရများကို ပြန်လည်ကြည့်ရှုရန် ပုံ သို့မဟုတ် ဗီဒီယို တစ်ခုခုကို နှိပ်ပြီး မီဒီယာ ကြည့်ရှုမှုမြင်ကွင်းရှိ ရှေ့သို့၊ နောက်သို့ ခလုတ်သစ်များကို သုံးပါ။",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "ယခုအခါ အသံသွင်းနေစဉ် အခြားချက်(တ်)သို့ ပြောင်းလိုက်ပါက အသံမက်ဆေ့ချ်များကို ဖိုင်ကြမ်းအဖြစ် သိမ်းထားပေးပါသည်။",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "စတစ်ကာ ပေးပို့မှုကြောင့် စာကြမ်းများ ရှင်းလင်းခံရခြင်း မဖြစ်တော့ပါ။ ကျေးဇူးပါ {lamemakes}။",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "စကားဝိုင်း ရှာဖွေမှုဘား အိုင်ကွန်များကို ပြန်လည်ချိန်ညှိပေးထားသည့်အတွက် {norstbox} ကိုလည်း ကျေးဇူးတင်ပါသည်။",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "“မိမိမှတ်စု” ချက်(တ်)ကို ရှာဖွေရ ပိုမိုလွယ်ကူအောင် ပြုလုပ်ထားသည့် အိုင်ကွန်အသစ်ဖြင့် သင့်ကိုယ်သင် ပိုမိုမြန်ဆန်စွာ စကား စပြောကြည့်ပါ။ GitHub ရှိ {hackerbirds} ၏ ပံ့ပိုးကူညီမှုများအတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "ယခု သင် မက်ဆေ့ချ်အများအပြားကို ရွေးချယ်နိုင်ပြီဖြစ်သလို ၎င်းတို့အားလုံးကို တစ်ပြိုင်နက်တည်း ထပ်ဆင့်ပို့ သို့မဟုတ် ဖျက်နိုင်ပါပြီ။",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "Sticker Creator ကို ဒီဇိုင်းအပြောင်းအလဲအနည်းငယ်ဖြင့် ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားပြီး စတစ်ကာအနုပညာရှင်များ စိတ်အားထက်သန်လာစေရန် အထောက်အကူပေးသည့် အကြံပြုချက်အချို့ ထည့်သွင်းထားပါသည်။ ယခုအခါ Sticker Creator ကို သင့်ဝက်ဘ်ဘရောက်ဇာတွင် ဖွင့်နိုင်ပြီး Signal Desktop ကို အရွယ်အစား အနည်းငယ်သေးသွားစေသောကြောင့် သင့်စိတ်ကြိုက် စတစ်ကာအထုပ်များအားလုံးအတွက် hard drive ပေါ်တွင် နေရာအနည်းငယ်ပိုရစေပါသည်။",
+    "description": "Release notes for v6.12"
   }
 }

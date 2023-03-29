@@ -316,6 +316,10 @@
     "message": "Merk som ulest",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "Velg meldinger",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "Hent frem fra arkiv",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "Nummeret du forsøker å verifisere har endret seg. Vennligst sjekk ditt nye sikkerhetsnummer med $name1$. Husk, dette kan bety at noen forsøker å få tilgang til din kommunikasjon eller at $name2$ har reinstallert Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "Følgende personer kan ha reinstallert eller byttet enhet. Bekreft sikkerhetsnummeret ditt med dem for å sikre personvernet.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "Disse personene kan ha installert Signal på nytt eller byttet enhet. Trykk på en mottaker for å bekrefte det nye sikkerhetsnummeret. Dette er helt frivillig.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "Godta",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "Merk som bekreftet",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "Merk som ikke bekreftet",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Merk som bekreftet",
@@ -712,10 +704,6 @@
     "message": "Du kan ikke legge til flere vedlegg i denne meldingen.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "Den valgte filen overskrider begrensninger for meldingsstørrelse.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "Den valgte filen overskrider begrensninger for meldingsstørrelse. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "Klistremerke-skaperen",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Om Signal Desktop",
@@ -1143,10 +1131,6 @@
     "messageformat": "Fra deg til {receiverContact}",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "til",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "Sendt",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "Mer informasjon",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "Velg",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "Send på nytt",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Meldingsloggene for begge samtalene er slått sammen her.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} tilhører {conversationTitle}. Dere er begge medlemmer av {sharedGroup}.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} tilhører {conversationTitle}",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Miniatyrbilde i sitert melding",
@@ -2003,10 +1983,6 @@
     "message": "Sikkerhetsnummeret til $name$ er endret",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "Bekreft sikkerhetsnummer",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Vis sikkerhetsnummer",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal kunne ikke oppdateres. Klikk for å prøve igjen.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "Trykk «Start Signal på nytt» for å fullføre oppdateringen.",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Start Signal på nytt"
   },
@@ -2336,125 +2308,61 @@
     "message": "Denne meldingen ble slettet.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "Kunne ikke hente detaljer om gavemerket",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "Kunne ikke hente detaljene om pengegaven",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "Denne meldingen må åpnes på mobil",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "Denne meldingen må åpnes på mobil",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "Trykk på denne meldingen på mobilen din for å åpne gaven",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "Trykk på denne meldingen på mobilen din for å se pengegaven",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "Gave",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} ga penger til Signal på dine vegne",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "Åpne gaven på mobilen din",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "Åpne pengegaven på telefonen din",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "Se gaven på mobilen din",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "Åpne appen på telefonen din for å se pengegaven",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "Du har fått en gave",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} ga en pengegave for deg",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "Du løste inn et gavemerke",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "Du løste inn en pengegave",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "Du sendte et gavemerke",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "Du ga en pengegave for {recipient}",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "Gavemerke",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "Pengegave",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "Gave",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "Pengegave",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ dager igjen",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} dager igjen",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ timer igjen",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} timer igjen",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ minutter igjen",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {{minutes,number} minutt igjen} other {{minutes,number} minutter igjen}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 minutt igjen",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "Utløpt",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "Utløpt",
@@ -2468,25 +2376,21 @@
     "messageformat": "Vis",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "Innløst",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "Innløst",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "Takk for støtten!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "Melding sendt av deg",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "Melding sendt av {author}",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "Takk for støtten!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "Du har gitt et merke i gave til $name$. Når vedkommende løser det inn, får han eller hun valget om å vise frem eller skjule merket.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "Du har gitt en pengegave til Signal på vegne av {name}. Vedkommende vil få muligheten til å vise frem støtten på profilen sin.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "Slett valgt melding",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "Slett valgte meldinger",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "Skru video av og på",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "Besvar anropet med video",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "Besvar anropet med lyd",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "Klistremerke-skaperen",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "Klikk for å legge til eller slippe bilder her",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "Slipp bilder her",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "Klistremerkepakke",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "Avbryt",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "Kopier",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "Neste",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "Tilbake",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "Legg til dine klistremerker",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "Fjern klistremerket",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "Klikk eller dra og slipp en fil for å legge til et klistremerke",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "Klistremerker må være i PNG, APNG eller WebP format med transparent bakgrunn og 512x512 piksler. Anbefalt marg er 16px.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "Vis marginer",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "Legg til {count,number} eller flere",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "Legg en emoji for hvert klistremerke",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "This allows us to suggest stickers to you as you're messaging.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "Bare noen få detaljer till…",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "Tittel",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "Forfatter",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "Omslagsbilde",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "Dette er bildet som vises når du deler klistremerkepakken",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "Er du sikker på at du vil laste opp klistremerkepakken?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "Last opp",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "Du vil ikke lenger kunne endre eller slette noe etter du har opprettet en klistremerkepakke.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "Lager klistremerkepakken",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$count$ av  $total$ lastet opp",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "Gratulerer! Du opprettet en klistremerkepakke.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "Få tilgang til de nye klistremerkene dine via klistremerkeikonet, eller del med vennene dine ved hjelp av lenken nedenfor.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "Bruk hashtaggen $hashtag$ for å hjelpe andre med å finne linken til klistremerkepakken som du ønsker å gjøre offentlig tilgjengelig.",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "Klistremerkepakke Link",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "Lukk",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "Lag en ny klistremerkepakke til",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Ta en titt på denne nye klistremerkepakken jeg lagde for Signal. #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1 bilde ble lagt til} other {{count,number} bilder ble lagt til}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "Animerte klistremerker støttes for øyeblikket ikke",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "Bilde er for stort",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "Klarte ikke å behandle bildet",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "Animerte PNG-klistremerker må være kvadratiske",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "Animerte klistremerker må loope kontinuerlig",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "Dimensjonene på det animerte klistremerket er for store",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "Dimensjonene på det animerte klistremerket er for små",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "Feil ved opplasting av klistremerkene: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "Link kopiert",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "Klistremerket mitt i lyst tema",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "Klistremerket mitt i mørkt tema",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "Sett opp Signal på telefonen og desktop for å bruke Klistremerke-skaperen",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Konfigurer Signal på telefon og desktop for å bruke verktøyet for opprettelse av klistremerkepakker",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "Lær mer.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ medlemmer",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 medlem",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 medlem} other {{count,number} medlemmer}}",
@@ -4604,10 +4496,6 @@
     "message": "Se alle",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ grupper til felles",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} gruppe til felles} other {{count,number} grupper til felles}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "Blokker forespørselen",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "Avslutt valgmodus",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} valgt",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "Slett valgte meldinger",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "Videresend de valgte meldingene",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {Vil du slette {count,number} melding?} other {Vil du slette {count,number} meldinger?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {Vil du slette {count,number} melding?} other {Vil du slette {count,number} meldinger?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {Meldingen slettes fra denne enheten.} other {Meldingene slettes fra denne enheten.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {Meldingen slettes fra denne enheten.} other {Meldingene slettes fra denne enheten.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "Slett for meg",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "Slett for meg",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "Du kan videresende opptil 30 meldinger",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "Legg til gruppefoto",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "opprett-knapp",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "Videresend til",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "Fortsett",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "Det er ikke mulig å videresende meldinger som er tomme eller slettet",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, D. MMM",
@@ -5472,25 +5412,9 @@
     "message": "$num$ kontakter",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "Hvem kan …",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "Åpne Signal på mobilenheten din og gå til Innstillinger > Personvern for å endre disse innstillingene",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "Alle",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "Mine kontakter",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "Ingen",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Telefonnummer",
@@ -5608,6 +5532,26 @@
     "messageformat": "Oppdateringen er lastet ned",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "Oppdatering kreves",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Oppgrader til den nyeste versjonen av Signal for å fortsette å bruke appen.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "Last ned {downloadSize}",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "Start Signal på nytt for å installere oppdateringen.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal Desktop kunne ikke oppgraderes, med det finnes en ny versjon tilgjengelig. Gå til {downloadUrl} og installer den nyeste versjonen manuelt, og gi gjerne beskjed til brukerstøtte eller send inn en rapport om dette problemet.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal kunne ikke avsluttes.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "Kunne ikke avinstallere de gamle programfilene. Kjør installasjonsprogrammet på nytt.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "En nyere versjon av Signal er allerede installert. Er du sikker på at du vil fortsette?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "Programmet krasjet",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "Sett av $num$",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "Sett av $num$",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {Sett av {views,number}} other {{views,number} visninger}}",
@@ -5948,10 +5896,6 @@
     "message": "Navnet på denne storyen vises bare for deg.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "Alle Signal-kontaktene",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Egendefinert story",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "Gruppestory",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "Sett av $num$",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "Sett av $num$",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {Sett av 1} other {Sett av {count,number}}}",
@@ -6136,14 +6072,6 @@
     "message": "Kun synlig for utvalgte personer",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Ny privat story",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "Kun synlig for utvalgte personer",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "Ny gruppestory",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Visninger er slått av",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "Sender …",
@@ -6572,24 +6500,16 @@
     "message": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "Trykk på et hvilket som helst bilde eller en hvilken som helst video, og bruk knappene i medievisningen for å gå frem og tilbake og ta en titt på gamle minner.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "Nå blir talemeldinger lagret som utkast hvis du hopper over til en annen samtale samtidig som du tar opp.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "Nå er det mulig å sende et klistremerke uten å fjerne utkastet du har begynt på i tekstfeltet. Takk, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "Takket være {norstbox} har ikonene for samtalesøk blitt flyttet tilbake til rett plass.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "Vi har laget et nytt ikon som gjør «Notat til meg selv» lettere å finne, slik at du kan snakke med deg selv enda raskere. Takk til {hackerbirds} på GitHub for hjelpen.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "Nå kan du slette og videresende flere meldinger på samme tid.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "Vi har gjort et par endringer i designet av klistremerke-skaperen og delt et par hjelpsomme tips med alle klistremerke-kunstnere. Klistremerke-skaperen åpnes nå i nettleseren, slik at Signal Desktop tar litt mindre plass og du får mer plass på harddisken til alle klistremerkepakkene dine.",
+    "description": "Release notes for v6.12"
   }
 }

@@ -316,6 +316,10 @@
     "message": "చదవనట్లుగా గుర్తుపెట్టు",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "సందేశాలు ఎంచుకోండి",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "బయటపెట్టు",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "మీరు ధృవీకరించడానికి ప్రయత్నిస్తున్న భద్రతా సంఖ్య మార్చబడింది. దయచేసి మీ క్రొత్త భద్రతా సంఖ్యను $name1$ తో సమీక్షించండి. గుర్తుంచుకోండి, ఈ మార్పు మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తుందని లేదా $name2$ Signal‌ను తిరిగి ఇన్‌స్టాల్ చేసిందని అర్థం.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "కింది వ్యక్తులు పరికరాలను తిరిగి ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా మార్చవచ్చు. గోప్యతను నిర్ధారించడానికి వారితో మీ భద్రతా సంఖ్యను ధృవీకరించండి.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "దిగువ వ్యక్తులు Signal ను మళ్ళీ ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా పరికరాలను మార్చి ఉండవచ్చు. వారి కొత్త భద్రతా సంఖ్యను నిర్ధారించడానికి గ్రహీత మీద క్లిక్ చేయండి. ఇది ఐచ్ఛికం.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "అంగీకరించండి",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "ధృవీకరించినట్లు గుర్తించండి",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "ధృవీకరించబడలేదని గుర్తించండి",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "ధృవీకరించబడినట్లు గుర్తు పెట్టండి",
@@ -712,10 +704,6 @@
     "message": "మీరు ఈ సందేశానికి ఎక్కువ జోడింపులను జోడించలేరు.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "స్టిక్కర్ ప్యాక్ సృష్టికర్త",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal Desktop గురించి",
@@ -1143,10 +1131,6 @@
     "messageformat": "మీ నుంచి {receiverContact}కు",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "కు",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "పంపిన",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "మరింత సమాచారం",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "ఎంచుకోండి",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "తిరిగి పంపండి",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "రెండు సంభాషణల కొరకు మీ సందేశ చరిత్ర ఇక్కడ కలపబడింది.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది. మీరు {sharedGroup} రెండింటి సభ్యులు.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} {conversationTitle} కు చెందినది",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "కోట్ చేసిన సందేశం నుండి చిత్రం యొక్క సూక్ష్మచిత్రం",
@@ -2003,10 +1983,6 @@
     "message": "$name$ తో మీ భద్రత సంఖ్య మార్చబడింది.",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "భద్రత సంఖ్యను ధృవీకరించండి",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "భద్రతా సంఖ్యను వీక్షించండి",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2197,7 +2173,7 @@
     "message": "తిరిగి లింక్ చేయండి"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "అప్‌డేట్ లభ్యమవుతోంది"
+    "message": "అప్‌డేట్ అందుబాటులో ఉంది"
   },
   "autoUpdateRetry": {
     "message": "అప్‌డేట్ మళ్లీ ప్రయత్నించండి"
@@ -2214,10 +2190,6 @@
   "downloadFullNewVersionMessage": {
     "message": "Signal ని అప్‌డేట్ చేయలేకపోయింది. మళ్లీ ప్రయత్నించడానికి క్లిక్ చేయండి.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి.",
-    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal పున ప్రారంభించండి"
@@ -2336,125 +2308,61 @@
     "message": "ఈ సందేశం తొలగించబడింది.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "గిఫ్ట్ బ్యాడ్జీ వివరాలను పొందలేకపోయారు",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "విరాళం వివరాలను పొందలేకపోయింది",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "దీనిని ఓపెన్ చేయడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "దీనిని తెరవడానికి మొబైల్‌పై ఈ సందేశాన్ని వీక్షించండి",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "మీ గిఫ్ట్‌ని చూడటానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మొబైల్‌పై ఈ సందేశాన్ని తట్టండి",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "బహుమతి",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "మీ తరఫున Signal కు {sender} విరాళం ఇచ్చారు",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "బహుమతిని ఓపెన్ చేయడానికి మీ ఫోన్‌ని చెక్ చేయండి",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "ఈ విరాళాన్ని తెరవడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "మీ బహుమతిని వీక్షించడానికి మీ ఫోన్ చెక్ చేయండి",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "మీ విరాళాన్ని వీక్షించడానికి మీ ఫోన్‌ను తనిఖీ చేయండి",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "మీరు ఒక బహుమతిని అందుకున్నారు",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "మీ కొరకు {sender} విరాళం ఇచ్చారు",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "మీరు ఒక బహుమతి బ్యాడ్జిని రీడిమ్ చేసుకున్నారు",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "మీరు ఒక విరాళాన్ని రీడిమ్ చేసుకున్నారు",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "మీరు ఒక బహుమతి బ్యాడ్జిని పంపారు",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "మీరు {recipient} కొరకు విరాళం ఇచ్చారు",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "బహుమతి బ్యాడ్జి",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "విరాళం",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "బహుమతి",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "విరాళం",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ రోజులు మిగిలి ఉన్నాయి",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} రోజులు మిగిలి ఉన్నాయి",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ గంటలు మిగిలి ఉన్నాయి",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} గంటలు మిగిలి ఉన్నాయి",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ నిమిషాలు మిగిలి ఉన్నాయి",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {{minutes,number} నిమిషం మిగిలి ఉంది} other {{minutes,number} నిమిషాలు మిగిలి ఉన్నాయి}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 నిమిషం మిగిలి ఉంది",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "గడువు తీరింది",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "గడువు తీరింది",
@@ -2468,25 +2376,21 @@
     "messageformat": "వీక్షించండి",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "రీడిమ్ చేయబడింది",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "రీడిమ్ చేయబడింది",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "మీ సపోర్ట్‌కు ధన్యవాదాలు!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "మీ ద్వారా పంపబడిన సందేశం",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author} ద్వారా పంపబడిన సందేశం",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "మీ మద్దతుకు ధన్యవాదాలు!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "మీరు $name$కు బ్యాడ్జిని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జిని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "మీరు {name} తరఫున Signal కు విరాళం ఇచ్చారు. వారి ప్రొఫైల్‌లో తమ మద్దతును చూపించేందుకు ఎంపిక వారికి ఇవ్వబడుతుంది.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "ఎంచుకున్న సందేశాలను తొలగించండి",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "ఎంచుకున్న సందేశాలను తొలగించండి",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "వీడియోను ఆన్ మరియు ఆఫ్ టోగుల్ చేయండి",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "ఆడియోతో కాల్‌కు సమాధానం ఇవ్వండి",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "స్టిక్కర్ ప్యాక్ సృష్టికర్త",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "చిత్రాలను ఇక్కడ జోడించడానికి లేదా వదలడానికి క్లిక్ చేయండి",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "చిత్రాలను ఇక్కడ వదలండి",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "స్టిక్కర్ ప్యాక్",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "రద్దు",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "నకలు",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "తరువాత",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "తిరిగి",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "మీ స్టిక్కర్లను జోడించండి",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "స్టిక్కర్‌ను తొలగించండి",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "స్టిక్కర్ జోడించడానికి ఒక ఫైల్‌ని క్లిక్ చేయండి లేదా డ్రాగ్/డ్రాప్ చేయండి",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "స్టిక్కర్లు పారదర్శక నేపథ్యం మరియు 512x512 పిక్సెల్‌లతో PNG, APNG లేదా WebP ఆకృతిలో ఉండాలి. సిఫార్సు చేసిన మార్జిన్ 16px.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "మార్జిన్లు చూపించు",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number} లేదా అంతకంటే ఎక్కువ జోడించండి",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "ప్రతి స్టిక్కర్‌కు ఎమోజిని జోడించండి",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "మీరు సందేశం ఇస్తున్నప్పుడు మీకు స్టిక్కర్లను సూచించడానికి ఇది మాకు అనుమతిస్తుంది.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "కేవలం మరికొన్ని వివరాలు...",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "శీర్షిక",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "రచయిత",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "కవర్ చిత్రం",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "మీరు మీ స్టిక్కర్ ప్యాక్‌ని పంచుకున్నప్పుడు చూపించే చిత్రం ఇది",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "మీరు ఖచ్చితంగా మీ స్టిక్కర్ ప్యాక్‌ను అప్‌లోడ్ చేయాలనుకుంటున్నారా?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "అప్లోడ్",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "స్టిక్కర్ ప్యాక్‌ను సృష్టించిన తర్వాత మీరు ఇకపై సవరణలు చేయలేరు లేదా తొలగించలేరు.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "మీ స్టిక్కర్ ప్యాక్‌ని సృష్టిస్తోంది",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$total$ లో $count$ అప్‌లోడ్ చేయబడింది",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "అభినందనలు! మీరు స్టిక్కర్ ప్యాక్‌ని సృష్టించారు.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "స్టిక్కర్ చిహ్నం ద్వారా మీ క్రొత్త స్టిక్కర్లను యాక్సెస్ చేయండి లేదా క్రింది లింక్‌ను ఉపయోగించి మీ స్నేహితులతో భాగస్వామ్యం చేయండి.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "మీరు బహిరంగంగా ప్రాప్యత చేయాలనుకునే ఏదైనా అనుకూల స్టిక్కర్ ప్యాక్‌ల కోసం URL లను కనుగొనడంలో ఇతరులకు సహాయపడటానికి $hashtag$ అనే హ్యాష్‌ట్యాగ్‌ను ఉపయోగించండి.",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "స్టిక్కర్ ప్యాక్ URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "మూసివెయ్యి",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "మరొక స్టిక్కర్ ప్యాక్‌ని సృష్టించండి",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Signal కోసం నేను సృష్టించిన ఈ కొత్త స్టిక్కర్ ప్యాక్‌ని చూడండి. #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1 చిత్రం జోడించబడింది} other {{count,number} చిత్రాలు జోడించబడ్డాయి}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "యానిమేటెడ్ స్టిక్కర్‌లకు ప్రస్తుతం మద్దతు లేదు",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "పడిపోయిన చిత్రం చాలా పెద్దది",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "చిత్రాన్ని ప్రాసెస్ చేయడంలో లోపం",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "యానిమేటెడ్ PNG స్టిక్కర్లు చదరపు ఉండాలి",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "యానిమేటెడ్ స్టిక్కర్లు ఎప్పటికీ లూప్ చేయాలి",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "యానిమేటెడ్ PNG స్టిక్కర్ కొలతలు చాలా పెద్దవి",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "యానిమేటెడ్ PNG స్టిక్కర్ కొలతలు చాలా చిన్నవి",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "స్టిక్కర్లను అప్‌లోడ్ చేయడంలో లోపం: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "లింక్ కాపీ చేయబడింది",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "తేలికపాటి థీమ్‌లో నా స్టిక్కర్",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "చీకటి థీమ్‌లో నా స్టిక్కర్",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "స్టిక్కర్ ప్యాక్ సృష్టికర్తను ఉపయోగించడానికి దయచేసి మీ ఫోన్ మరియు డెస్క్‌టాప్‌లో Signal ను సెటప్ చేయండి",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "స్టిక్కర్ ప్యాక్ క్రియేటర్‌ను ఉపయోగించడానికి దయచేసి మీ ఫోన్ మరియు డెస్క్‌టాప్‌లో Signal ను సెటప్ చేయండి",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "ఇంకా నేర్చుకో.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ సభ్యులు",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 సభ్యుడు",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 సభ్యుడు} other {{count,number} సభ్యులు}}",
@@ -4604,10 +4496,6 @@
     "message": "అన్నింటిని చూడు",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ గ్రూప్‌లు ఉమ్మడిగా ఉన్నాయి",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} సమూహం ఉమ్మడిగా ఉన్నాయి} other {{count,number} సమూహాలు ఉమ్మడిగా ఉన్నాయి}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "అభ్యర్ధనను బ్లాక్ చేయండి",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "ఎంపిక మోడ్ నుండి నిష్క్రమించండి",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} ఎంచుకోబడినాయి",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "ఎంచుకున్న సందేశాలను తొలగించండి",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "ఎంచుకున్న సందేశాలను ఫార్వార్డ్ చేయండి",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {{count,number} సందేశం తొలగించేదా?} other {{count,number} సందేశాలు తొలగించేదా?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {{count,number} సందేశం తొలగించేదా?} other {{count,number} సందేశాలు తొలగించేదా?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {ఈ పరికరం నుండి ఈ సందేశం తొలగించబడుతుంది.} other {ఈ పరికరం నుండి ఈ సందేశాలు తొలగించబడతాయి.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {ఈ పరికరం నుండి ఈ సందేశం తొలగించబడుతుంది.} other {ఈ పరికరం నుండి ఈ సందేశాలు తొలగించబడతాయి.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "నాకు తొలగించండి",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "నాకు తొలగించండి",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "మీరు 30 వరకు సందేశాలను మాత్రమే ఫార్వర్డ్ చేయగలరు",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "సమూహ ఫోటోను జోడించండి",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "కంపోజ్ బటన్",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "వీరికి ఫార్వర్డ్ చేయండి",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "కొనసాగించు",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "ఖాళీ లేదా తొలగించబడిన సందేశాలను ఫార్వర్డ్ చేయలేము",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",
@@ -5472,25 +5412,9 @@
     "message": "$num$ కాంటాక్ట్‌లు",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "ఎవరు చేయగలరు...",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "ఈ సెట్టింగ్‌లను మార్చడానికి, మీ మొబైల్ పరికరంపై Signal యాప్‌ని ఓపెన్ చేయండి మరియు సెట్టింగ్‌లు > గోప్యతకు వెళ్లండి.",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "ప్రతి ఒక్కరూ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "నా పరిచయాలు",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "యెవరు లేరు",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "ఫోన్ నంబరు",
@@ -5608,6 +5532,26 @@
     "messageformat": "అప్‌డేట్ డౌన్‌లోడ్ చేయబడింది",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "అప్‌డేట్ అవసరం",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal ను ఉపయోగించడం కొనసాగించడానికి, మీరు తప్పనిసరిగా తాజా వెర్షన్‌కు అప్‌డేట్ చేయాలి.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "{downloadSize} డౌన్‌లోడ్ చేయండి",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "అప్‌డేట్‌ ఇన్‌స్టాల్ చేయడానికి Signal ను రీస్టార్ట్ చేయండి.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal డెస్క్‌టాప్ అప్‌డేట్ చేయడంలో విఫలమైంది, కానీ కొత్త వెర్షన్ అందుబాటులో ఉంది. {downloadUrl} కు వెళ్ళి కొత్త వెర్షన్ మాన్యువల్‌గా ఇన్‌స్టాల్‌ చేసుకోండి, అప్పుడు ఈ సమస్య గురించి మద్దతును సంప్రదించండి లేదా బగ్ ఫైల్ చేయండి.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal ను క్లోజ్ చేయలేరు.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "పాత అప్లికేషన్ ఫైల్స్‌ని అన్‌ఇన్‌స్టాల్ చేయడం విఫలమైంది. దయచేసి ఇన్‌స్టలర్‌ని మళ్లీ రన్ చేయడానికి ప్రయత్నించండి.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal యొక్క కొత్త వెర్షన్ ఇప్పటికే ఇన్‌స్టాల్ చేయబడింది. మీరు ఖచ్చితంగా కొనసాగించాలని అనుకుంటున్నారా?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "అప్లికేషన్ క్రాష్ అయింది",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ వీక్షణ",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ వీక్షణలు",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} వీక్షణ} other {{views,number} వీక్షణలు}}",
@@ -5948,10 +5896,6 @@
     "message": "ఈ కథ పేరును మీరు మాత్రమే చూడవచ్చు.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "అన్ని Signal కనెక్షన్‌లు",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "అనుకూల కథ",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "గ్రూప్ కథ",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ వీక్షకుడు",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ వీక్షకులు",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {1 వీక్షకుడు} other {{count,number} వీక్షకులు}}",
@@ -6136,14 +6072,6 @@
     "message": "నిర్దిష్ట వ్యక్తులకు మాత్రమే కనిపిస్తుంది",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "కొత్త ప్రైవేట్ కథ",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "నిర్దిష్ట వ్యక్తులకు మాత్రమే కనిపిస్తుంది",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "కొత్త గ్రూప్ కథ",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "వీక్షణలు ఆఫ్ చేయబడ్డాయి",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "పంపుతోంది...",
@@ -6572,24 +6500,16 @@
     "message": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "ఏదైనా చిత్రం లేదా వీడియోపై క్లిక్ చేయండి మరియు మెమరీ లేన్ గుండా దృశ్యమానంగా నడవడానికి మీడియా వీక్షణలో కొత్త ముందుకు మరియు వెనక్కు బటన్‌లను ఉపయోగించండి.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "ఒక రికార్డింగ్ జరిగేటప్పుడు ఒకవేళ మీరు మరొక చాట్‌లోనికి మారితే స్వర సందేశాలు ఇప్పుడు ముసాయిదాలుగా సేవ్ చేయబడతాయి.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "స్టిక్కర్‌ను పంపడం వల్ల ఇకపై ముసాయిదా టెక్స్ట్ తొలగించబడేందుకు కారణం కాదు. ధన్యవాదాలు, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "సంభాషణ శోధన బార్ ఐకాన్‌లను తిరిగి అమరిక లోనికి తీసుకొని వచ్చినందుకు మేము {norstbox} కి కూడా ధన్యవాదాలు చెప్పాలని అనుకుంటున్నాము.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "\"నోట్ టు సెల్ఫ్\" చాట్ కనుగొనడం సులభతరం చేసే కొత్త ఐకాన్‌తో మరింత వేగంగా మీతో మీరు మాట్లాడటం ప్రారంభించండి. వారి సహకారం కొరకు GitHub పై {hackerbirds} కు ధన్యవాదాలు.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "ఇప్పుడు మీరు ఒకటి కంటే ఎక్కువ సందేశాలను ఎంచుకుని ఒకేసారి ఫార్వర్డ్ చేయడం లేదా తొలగించడం చేయవచ్చు.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "మేము స్టిక్కర్ క్రియేటర్‌కు కొన్ని డిజైన్ మార్పులు చేసి అప్‌డేట్ చేశాము, స్టిక్కర్ ఆర్టిస్ట్ అవ్వాలనుకుంటున్న వారి కోసం కొన్ని ఉపయోగకరమైన చిట్కాలను జోడించాము. స్టిక్కర్ క్రియేటర్‌ను ఇప్పుడు మీ వెబ్ బ్రౌజర్‌లో తెరవవచ్చు దీని వలన Signal డెస్క్‌టాప్ కొద్దిగా చిన్నది అయ్యి, మీకు ఇష్టమైన అన్ని స్టిక్కర్ ప్యాక్‌ల కోసం మీ హార్డ్ డ్రైవ్‌లో కొంచెం ఎక్కువ స్థలం మిగులుతుంది.",
+    "description": "Release notes for v6.12"
   }
 }
