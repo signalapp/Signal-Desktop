@@ -316,6 +316,10 @@
     "message": "ដាក់ថាមិនបានអាន",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "ជ្រើសរើសសារ",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "បិទបណ្ណសារ",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "លេខសុវត្ថិភាពដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីរបស់អ្នកជាមួយ $name1$។ សូមចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរំខានដល់ការប្រាស្រ័យទាក់ទងរបស់អ្នក ឬថា $name2$ ទើបដំឡើង Signal ឡើងវិញ។",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "អ្នកទាំងនេះអាចដំឡើង ឬផ្លាស់ប្តូរឧបករណ៍។​ ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយពួកគេ ដើម្បីធានាឯកជនភាព។",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "មនុស្សខាងក្រោមនេះប្រហែលជាបានដំឡើង Signal ឡើងវិញ ឬបានផ្លាស់ប្តូរឧបករណ៍។ ចុចលើអ្នកទទួលដើម្បីបញ្ជាក់លេខសុវត្ថិភាពថ្មីរបស់ពួកគេ។ ស្រេចចិត្តអ្នកទេ។",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "យល់ព្រម",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "សម្គាល់ថាបានផ្ទៀងផ្ទាត់",
@@ -712,10 +704,6 @@
     "message": "អ្នកមិនអាចបន្ថែមឯកសារភ្ជាប់ទៅកាន់សារនេះទេ។",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។ {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "អំពី Signal Desktop",
@@ -1143,10 +1131,6 @@
     "messageformat": "អ្នកទៅ {receiverContact}",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "ទៅ",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "បានផ្ញើ",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "ព័ត៌មានបន្ថែម",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "ជ្រើសរើស",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "ផ្ញើម្តងទៀត",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ប្រវត្តិសាររបស់អ្នកសម្រាប់ការសន្ទនាទាំងពីរត្រូវបានបញ្ចូលគ្នានៅទីនេះ។",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}។ អ្នកទាំងពីរជាសមាជិកនៃ {sharedGroup}។",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} ជាលេខរបស់ {conversationTitle}",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
@@ -2003,10 +1983,6 @@
     "message": "លេខសុវត្ថិភាពជាមួយ$name$ បានផ្លាស់ប្តូរ",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "មើលលេខសុវត្ថិភាព",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal មិនអាចដំឡើងកំណែថ្មីបានទេ។ សូមចុចដើម្បីព្យាយាមម្តងទៀត។",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "បើកSignal ឡើងវិញ"
   },
@@ -2336,125 +2308,61 @@
     "message": "សារនេះត្រូវបានលុប។",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "មិនអាចបើកព័ត៌មានលម្អិតអំពីស្លាកកាដូបានទេ",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "មិនអាចបើកព័ត៌មានលម្អិតអំពីការបរិច្ចាគបានទេ",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "មើលសារនេះនៅលើទូរសព្ទដៃដើម្បីបើកមើលវា",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "ចុចសារនេះនៅលើទូរសព្ទដើម្បីមើលកាដូរបស់អ្នក",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "ចុចលើសារនេះនៅលើទូរសព្ទដៃ ដើម្បីមើលការបរិច្ចាគរបស់អ្នក",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "កាដូ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} បានបរិច្ចាគទៅ Signal ជំនួសឲ្យអ្នក",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីបើកមើលកាដូ",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីបើកមើលការបរិច្ចាគនេះ",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "មើលទូរសព្ទរបស់អ្នកដើម្បីមើលកាដូសម្រាប់អ្នក",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ដើម្បីមើលការបរិច្ចាគនេះ",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "អ្នកទទួលបានកាដូមួយ",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} បានបរិច្ចាគសម្រាប់អ្នក",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "អ្នកបានប្តូរយកស្លាកកាដូ",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "អ្នកបានប្តូរយកការបរិច្ចាគមួយ",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "អ្នកបានផ្ញើស្លាកកាដូ",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "អ្នកបានបរិច្ចាគសម្រាប់ {recipient}",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "ស្លាកកាដូ",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "ការបរិច្ចាគ",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "កាដូ",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "ការបរិច្ចាគ",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "នៅសល់ $days$ ថ្ងៃទៀត",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "នៅសល់ {days} ថ្ងៃទៀត",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "នៅសល់ $hours$ ម៉ោងទៀត",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "នៅសល់ {hours} ម៉ោងទៀត",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "នៅសល់ $minutes$ នាទីទៀត",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, other {នៅសល់ {minutes,number} នាទីទៀត}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "នៅសល់ 1 នាទីទៀត",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "បានផុតកំណត់",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "បានផុតកំណត់",
@@ -2468,25 +2376,21 @@
     "messageformat": "មើល",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "បានប្តូរ",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "បានប្តូរយក",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "អរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "សារដែលអ្នកបានផ្ញើ",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "សារដែល {author} បានផ្ញើ",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "អរគុណចំពោះការគាំទ្ររបស់អ្នក!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "អ្នកបានផ្តល់ស្លាកមួយទៅ $name$។ ពេលគេទទួលយករួច គេនឹងមានជម្រើសបង្ហាញ ឬលាក់ស្លាករបស់គេ។",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "អ្នកបានធ្វើការបរិច្ចាគទៅ Signal ជំនួសឲ្យ {name}។ គេនឹងត្រូវបានផ្តល់ជម្រើសដើម្បីបង្ហាញការគាំទ្ររបស់គេនៅលើប្រូហ្វាល់របស់គេ។",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "លុបសារដែលបានជ្រើសរើស",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "លុបសារដែលបានជ្រើសរើស",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "បើក ឬបិទវីដេអូ",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "ទទួលការហៅទូរសព្ទជាវីដេអូ",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "ទទួលការហៅទូរសព្ទជាសំឡេង",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ទទួលការហៅទូរសព្ទជាវីដេអូ (ការហៅជាវីដេអូតែប៉ុណ្ណោះ)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "ចុច ដើម្បីបន្ថែម ឬទម្លាក់រូបភាពនៅទីនេះ",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "ទម្លាក់រូបភាពនៅទីនេះ",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "កញ្ចប់ស្ទីកគ័រ",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "បោះបង់",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "ចម្លង",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "បន្ទាប់",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "ត្រលប់ក្រោយ",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "ដកស្ទីគ័រចេញ",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "ចុច ឬអូស/ទម្លាក់ឯកសារ ដើម្បីបញ្ចូលស្ទីគ័រ",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "ស្ទីគ័រត្រូវតែមានទម្រង់ជា PNG, APNG ឬ WebP ដែលមានផ្ទៃខាងក្រោយច្បាស់ និងមានភីកស៊ែល 512x512។ គួរតែមានរឹម 16px។",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "បង្ហាញគែម",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "បន្ថែម {count,number} ឬច្រើន",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "បន្ថែម emoji ទៅស្ទីកគ័រនីមួយៗ",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "វានឹងអនុញ្ញាតឲ្យយើង ណែនាំស្ទីកគ័រទៅកាន់អ្នក នៅពេលអ្នកកំពុងផ្ញើសារ។",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "គ្រាន់តែព័ត៌មានលំអិតពីរបីទៀតប៉ុណ្ណោះ…",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "ចំណងជើង",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "អ្នកនិពន្ធ",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "គម្របរូបភាព",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "នេះគឺជារូបភាពដែលនឹងបង្ហាញនៅពេលអ្នកចែកចាយកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "តើអ្នកច្បាស់ថាចង់បញ្ជូនកញ្ចប់ស្ទីកគ័ររបស់អ្នក?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "បញ្ជូន",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "អ្នកនឹងមិនអាចកែ ឬលុបបានទៀតទេ បន្ទាប់ពីបង្កើតកញ្ចប់ស្ទីគ័រហើយ។",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "ការបង្កើតកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$count$ នៃ $total$ បានបញ្ជូន",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "អបអរសាទរ! អ្នកបានបង្កើតកញ្ចប់ស្ទីកគ័រមួយ។",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "ចូលប្រើប្រាស់ស្ទីកគ័រថ្មីរបស់អ្នក តាមរយៈរូបតំណាងស្ទីកគ័រ ឬចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នក ដោយប្រើប្រាស់តំណខាងក្រោម។",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "ប្រើប្រាស់ hashtag $hashtag$ ដើម្បីជួយអ្នកដទៃស្វែងរក URLs សម្រាប់កញ្ចប់ស្ទីកគ័រណាមួយ ដែលអ្នកចង់ដាក់ឲ្យ​ប្រើប្រាស់ជាសាធារណៈ។",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "កញ្ចប់ស្ទីកគ័រ URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "បិទ",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "បង្កើតកញ្ចប់ស្ទីកគ័រមួយផ្សេងទៀត",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "ឆែកមើលកញ្ចប់ស្ទីកគ័រថ្មីនេះ ដែលខ្ញុំបានបង្កើតសម្រាប់ Signal ។ #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, other {{count,number} រូបភាពត្រូវបានបញ្ចូល}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "ស្ទីកគ័រជីវចល មិនទាន់គាំទ្រទេ",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "រូបភាពដែលបានទម្លាក់ធំពេក",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "បញ្ហាដំណើរការរូបភាព",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "ស្ទីគ័រ PNG ដែលមានចលនាត្រូវតែមានរាងការ៉េ",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "ស្ទីគ័រដែលមានចលនាត្រូវតែមានចលនាសាដើមរហូត",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "វិមាត្រស្ទីគ័រ PNG ដែលមានចលនាមានទំហំធំពេក",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "វិមាត្រស្ទីគ័រ PNG ដែលមានចលនាមានទំហំតូចពេក",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "បញ្ហាការបញ្ជូនស្ទីកគ័រ៖  $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "បានចម្លងតំណ",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "ស្ទីកគ័ររបស់ខ្ញុំក្នុងទម្រង់ភ្លឺ",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "ស្ទីកគ័ររបស់ខ្ញុំក្នុងទម្រង់ងងឹត",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "សូមដំឡើង Signal នៅលើទូរស័ព្ទរបស់អ្នក និងកុំព្យូទ័រ ដើម្បីប្រើប្រាស់កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "សូមរៀបចំ Signal នៅលើទូរសព្ទ និងកុំព្យូទ័ររបស់អ្នក ដើម្បីប្រើប្រាស់ឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "ស្វែងយល់បន្ថែម។",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "សមាជិក $count$ នាក់",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "សមាជិក 1",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់}}",
@@ -4604,10 +4496,6 @@
     "message": "មើលទាំងអស់",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ ក្រុមរួមគ្នា",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number}ក្រុមរួមគ្នា}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "ទប់ស្កាត់សំណើ",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "ចេញពីរបៀបជ្រើសរើស",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "បានជ្រើសរើស {count}",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "លុបសារដែលបានជ្រើសរើស",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "បញ្ជូនបន្តសារដែលបានជ្រើសរើស",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, other {លុប {count,number} សារឬ?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, other {លុប {count,number} សារឬ?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, other {សារទាំងនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, other {សារទាំងនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "លុបសម្រាប់ខ្ញុំ",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "លុបសម្រាប់ខ្ញុំ",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "អ្នកអាចបញ្ជូនបន្តបានត្រឹមតែ 30 សារប៉ុណ្ណោះ",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "បញ្ចូលរូបថតក្រុម",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "ប៊ូតុងសរសេរសារ",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "បញ្ជូនបន្តទៅកាន់",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "បន្ត",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "មិនអាចបញ្ជូនបន្តសារទទេ ឬសារដែលបានលុបទេ",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd D MMM",
@@ -5472,25 +5412,9 @@
     "message": "$num$ ឈ្មោះទំនាក់ទំនង",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "អ្នកដែលអាច…",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់ទាំងនេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "អ្នកទាំងអស់គ្នា",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "លេខទំនាក់ទំនងរបស់ខ្ញុំ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "គ្មាននរណា",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "លេខទូរសព្ទ",
@@ -5608,6 +5532,26 @@
     "messageformat": "កំណែថ្មីត្រូវបានទាញយក",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "តម្រូវឲ្យដំឡើងកំណែ",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "ដើម្បីបន្តប្រើប្រាស់ Signal អ្នកត្រូវតែដំឡើងទៅកំណែចុងក្រោយបំផុត។",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "ទាញយក {downloadSize}",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "ចាប់ផ្តើម Signal ឡើងវិញ ដើម្បីដំឡើងកំណែថ្មី។",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal Desktop មិនអាចដំឡើងកំណែបានទេ ប៉ុន្តែមានកំណែថ្មីមួយដែលអាចប្រើបាន។ សូមចូលទៅកាន់ {downloadUrl} ហើយដំឡើងកំណែថ្មីនោះដោយផ្ទាល់ បន្ទាប់មកទាក់ទងផ្នែកជំនួយ ឬរាយការណ៍អំពីបញ្ហានេះ។",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "មិនអាចបិទ Signal បានទេ។",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "មិនអាចលុបឯកសារកម្មវិធីចាស់ៗបានទេ។ សូមសាកល្បងដំណើរការកម្មវិធីដំឡើងម្តងទៀត។",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "កំណែថ្មីនៃ Signal ត្រូវបានដំឡើងរួចហើយ។ តើអ្នកច្បាស់ជាចង់បន្តឬ?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "កម្មវិធីបានគាំង",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "ចំនួនមើល $num$ ដង",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "ចំនួនមើល $num$ ដង",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, other {ចំនួនមើល {views,number}}}",
@@ -5948,10 +5896,6 @@
     "message": "មានតែអ្នកទេដែលអាចឃើញឈ្មោះនៃរឿងរ៉ាវនេះ។",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "អ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ទាំងអស់",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួន",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "រឿងរ៉ាវក្រុម",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "អ្នកមើល $num$ នាក់",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "អ្នកមើល $num$ នាក់",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, other {អ្នកមើល {count,number} នាក់}}",
@@ -6136,14 +6072,6 @@
     "message": "មានតែមនុស្សជាក់លាក់ប៉ុណ្ណោះទើបអាចមើលឃើញ",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "រឿងរ៉ាវឯកជនថ្មី",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "អាចមើលឃើញតែចំពោះមនុស្សជាក់លាក់ប៉ុណ្ណោះ",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "រឿងរ៉ាវក្រុមថ្មី",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "បានបិទចំនួនមើល",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "កំពុងផ្ញើ…",
@@ -6572,24 +6500,16 @@
     "message": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "ចុចលើរូបភាព ឬវីដេអូណាមួយ ហើយប្រើប៊ូតុងថ្មី ទៅមុខ និង ថយក្រោយ នៅក្នុងកម្មវិធីមើលមេឌៀដើម្បីរំលឹកអនុស្សាវរីយ៍។",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "ឥឡូវនេះ សារជាសំឡេងត្រូវបានរក្សាទុកជាសេចក្តីព្រាង ប្រសិនបើអ្នកប្តូរទៅការជជែកមួយទៀត ពេលដែលការថតកំពុងដំណើរការ។",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "ការផ្ញើស្ទីគ័រលែងធ្វើឲ្យអត្ថបទព្រាងត្រូវបានលុបទៀតហើយ។ អរគុណ {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "យើងក៏សូមអរគុណដល់ {norstbox} ផងដែរដែលបានធ្វើឲ្យមានរូបរបារស្វែងរកការសន្ទនាមកវិញ។",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "ចាប់ផ្តើមនិយាយជាមួយខ្លួនអ្នកកាន់តែលឿនជាងមុន ដោយប្រើរូបតំណាងថ្មីមួយដែលធ្វើឲ្យកាន់តែងាយស្រួលរកការជជែកនៅក្នុង “កំណត់ចំណាំផ្ទាល់ខ្លួន”។ សូមអរគុណដល់ {hackerbirds} នៅលើ GitHub ចំពោះការចូលរួមចំណែករបស់គេ។",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "ឥឡូវនេះ អ្នកអាចជ្រើសរើសសារជាច្រើន ហើយបញ្ជូនបន្ត ឬលុបវាទាំងអស់ក្នុងពេលតែមួយបាន។",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "យើងបានដំឡើងកំណែឧបករណ៍បង្កើតស្ទីគ័រជាមួយនឹងការកែប្រែការរចនាមួយចំនួនតូច ហើយបានបន្ថែមគន្លឹះមានប្រយោជន៍មួយចំនួនសម្រាប់សិល្បករស្ទីគ័រដែលជាប់ចិត្តនឹងវា។ ឥឡូវនេះ ឧបករណ៍បង្កើតស្ទីគ័របើកបាននៅក្នុងកម្មវិធីរុករកអ៊ីនធឺណិតរបស់អ្នក ដែលធ្វើឲ្យ Signal Desktop មានទំហំតូចជាងមុនបន្តិច ហើយទុកកន្លែងទំនេរច្រើនជាងមុននៅលើថាសរឹងរបស់អ្នកសម្រាប់កញ្ចប់ស្ទីគ័រដែលអ្នកចូលចិត្តទាំងអស់។",
+    "description": "Release notes for v6.12"
   }
 }

@@ -316,6 +316,10 @@
     "message": "വായിച്ചിട്ടില്ലെന്ന് കാണിക്കുക",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കൂ",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "ആർക്കൈവ് ചെയ്യാത്ത",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "നിങ്ങൾ സ്ഥിരീകരിക്കാൻ ശ്രമിക്കുന്ന സുരക്ഷാ നമ്പർ മാറിയിരിക്കുന്നു. നിങ്ങളുടെ പുതിയ സുരക്ഷാ നമ്പർ $name1$ ഉപയോഗിച്ച് അവലോകനം ചെയ്യുക. ഓർക്കുക, ഈ മാറ്റം അർത്ഥമാക്കുന്നത് ആരെങ്കിലും നിങ്ങളുടെ ആശയവിനിമയം തടസ്സപ്പെടുത്താൻ ശ്രമിക്കുന്നു അല്ലെങ്കിൽ $name2$ വീണ്ടും Signal ഇൻസ്റ്റാൾ ചെയ്തിരിക്കുന്നു എന്നാണ്.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "ഇനിപ്പറയുന്ന ആളുകൾ അവരുടെ  ഉപകരണങ്ങൾ വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ മാറ്റുകയോ ചെയ്‌തിരിക്കാം. സ്വകാര്യത ഉറപ്പാക്കാൻ അവരുമായി നിങ്ങളുടെ സുരക്ഷാ നമ്പർ പരിശോധിക്കുക.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "ഇനിപ്പറയുന്ന ആളുകൾ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ ഉപകരണങ്ങൾ മാറുകയോ ചെയ്‌തിട്ടുണ്ടാകാം. പുതിയ സുരക്ഷാ നമ്പർ സ്ഥിരീകരിക്കുന്നതിന്, സ്വീകർത്താവിന്റെ പേരിന് നേരെ ക്ലിക്ക് ചെയ്യുക. ഇത് നിർബന്ധമല്ല.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "സ്വീകരിക്കുക",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "പരിശോധിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
@@ -712,10 +704,6 @@
     "message": "നിങ്ങൾക്ക് ഈ സന്ദേശം-ത്തിലേക്ക് കൂടുതൽ അറ്റാച്ചുമെന്റുകൾ ചേർക്കാനാവില്ല.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് നിര്‍മ്മാതാവ്‌",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal Desktop-നെ കുറിച്ച്",
@@ -1143,10 +1131,6 @@
     "messageformat": "നിങ്ങൾ {receiverContact} എന്നയാൾക്ക് അയച്ചത്",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "ലേക്ക്",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "അയച്ചു",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "കൂടുതൽ വിവരങ്ങൾ",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "തിരഞ്ഞെടുക്കൂ",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "അയക്കുവാൻ  വീണ്ടും ശ്രമിക്കുക",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "രണ്ട് സംഭാഷണങ്ങൾക്കുമുള്ള നിങ്ങളുടെ സന്ദേശ ചരിത്രം ഇവിടെ ലയിപ്പിച്ചിരിക്കുന്നു.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} എന്ന ഫോൺ നമ്പർ {conversationTitle} എന്നയാളുടേതാണ്. നിങ്ങൾ രണ്ടുപേരും {sharedGroup} എന്നതിലെ അംഗങ്ങളാണ്.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} {conversationTitle} എന്നയാളുടെ നമ്പറാണ്",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ഉദ്ധരിച്ച സന്ദേശം-ത്തിൽ നിന്നുള്ള ചിത്രത്തിന്റെ ലഘുചിത്രം",
@@ -2003,10 +1983,6 @@
     "message": "$name$ഉള്ള സുരക്ഷാ നമ്പർ മാറി",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "സുരക്ഷാ നമ്പർ പരിശോധിക്കുക",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "സുരക്ഷാ നമ്പർ കാണുക",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക.",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal പുനരാരംഭിക്കുക"
   },
@@ -2336,125 +2308,61 @@
     "message": "ഈ സന്ദേശം ഇല്ലാതാക്കി.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ് വിശദാംശങ്ങൾ കണ്ടെത്താൻ കഴിയുന്നില്ല",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "സംഭാവനാ വിശദാംശങ്ങൾ ലഭ്യമാക്കാനായില്ല",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "ഈ സന്ദേശം തുറക്കാൻ അത് മൊബൈലിൽ കാണുക",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "നിങ്ങളുടെ ഗിഫ്റ്റ് കാണാൻ, മൊബൈലിലെ ഈ സന്ദേശത്തിൽ ടാപ്പ് ചെയ്യുക",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ മൊബൈലിൽ ഈ സന്ദേശം ടാപ്പ് ചെയ്യുക",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "ഗിഫ്റ്റ്",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} നിങ്ങളുടെ പേരിൽ Signal-ലേക്ക് സംഭാവന നൽകി",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "ഗിഫ്റ്റ് തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "ഈ സംഭാവന തുറക്കാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "ഗിഫ്റ്റ് കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "നിങ്ങളുടെ സംഭാവന കാണാൻ നിങ്ങളുടെ ഫോൺ പരിശോധിക്കുക",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "നിങ്ങൾക്കൊരു ഗിഫ്റ്റ് ലഭിച്ചു",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} നിങ്ങൾക്കായി സംഭാവന ചെയ്‌തു",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "നിങ്ങളൊരു ഗിഫ്റ്റ് ബാഡ്‍ജ് റിഡീം ചെയ്‌തു",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "നിങ്ങളൊരു സംഭാവന റിഡീം ചെയ്‌തു",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "നിങ്ങൾ ഒരു ഗിഫ്റ്റ് ബാഡ്‌ജ് അയച്ചു",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "നിങ്ങൾ {recipient} എന്നയാൾക്ക് സംഭാവന നൽകി",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "ഗിഫ്റ്റ് ബാഡ്‌ജ്",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "സംഭാവന",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "ഗിഫ്റ്റ്",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "സംഭാവന",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ ദിവസം ശേഷിക്കുന്നു",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} ദിവസം ശേഷിക്കുന്നു",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ മണിക്കൂർ ശേഷിക്കുന്നു",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} മണിക്കൂർ ശേഷിക്കുന്നു",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {ഒരു മിനിറ്റ് ശേഷിക്കുന്നു} other {{minutes,number} മിനിറ്റ് ശേഷിക്കുന്നു}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 മിനിറ്റ് ശേഷിക്കുന്നു",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "കാലഹരണപ്പെട്ടു",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "കാലഹരണപ്പെട്ടു",
@@ -2468,25 +2376,21 @@
     "messageformat": "കാണുക",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "റിഡീം ചെയ്‌തു",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "റിഡീം ചെയ്‌തു",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "നിങ്ങൾ അയച്ച സന്ദേശം",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author} അയച്ച സന്ദേശം",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "നിങ്ങൾ $name$ എന്നയാൾക്ക് ഒരു ബാഡ്‌ജ് സമ്മാനിച്ചു. ബാഡ്‌ജ് സ്വീകരിക്കുമ്പോൾ, അത് പ്രദർശിപ്പിക്കാനോ മറയ്ക്കാനോ അവര്‍ക്ക് തിരഞ്ഞെടുക്കാം.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "{name} എന്നയാൾക്ക് വേണ്ടി നിങ്ങൾ Signal-ലേക്ക് സംഭാവന നൽകി. അവരുടെ പ്രൊഫൈലിൽ പിന്തുണ കാണിക്കാനുള്ള ഓപ്ഷൻ അവർക്ക് നൽകും.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "തിരഞ്ഞെടുത്ത സന്ദേശം ഇല്ലാതാക്കുക",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "വീഡിയോ ഓൺ, ഓഫ് എന്നിവ ടോഗിൾ ചെയ്യുക",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "വീഡിയോ കോൾ സ്വീകരിക്കുക",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "ഓഡിയോ കോൾ സ്വീകരിക്കുക",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "വീഡിയോ കോൾ സ്വീകരിക്കുക (വീഡിയോ കോളുകൾ മാത്രം)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് നിര്‍മ്മാതാവ്‌",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "ഇവിടെ ചിത്രങ്ങൾ ചേർക്കാനോ ഡ്രോപ്പ് ചെയ്യാനോ ക്ലിക്ക് ചെയ്യുക",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "ചിത്രങ്ങൾ ഇവിടെ ഡ്രോപ്പ് ചെയുക",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "സ്റ്റിക്കർ പാക്ക്",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "റദ്ദാക്കുക",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "കോപ്പി ചെയ്യുക",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "ട്വിറ്റർ",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "അടുത്തത്",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "തിരികെ പോകുക",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "നിങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "സ്റ്റിക്കർ നീക്കം ചെയ്യുക",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "സ്റ്റിക്കർ ചേർക്കാൻ ഒരു ഫയലിൽ ക്ലിക്ക് ചെയ്യുക അല്ലെങ്കിൽ അത് വലിച്ചിടുക",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "സുതാര്യമായ പശ്ചാത്തലവും 512x512 പിക്സലുകളും ഉള്ള പിഎൻജി, എപിഎൻജി അല്ലെങ്കിൽ വെബ്പി ഫോർമാറ്റിൽ സ്റ്റിക്കറുകൾ ഉണ്ടായിരിക്കണം. ശുപാർശ ചെയ്ത മാർജിൻ 16പിഎക്സ് ആണ്.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "മാർജിനുകൾ കാണിക്കുക",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number} അല്ലെങ്കിൽ അതിലധികമോ ചേർക്കുക",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "ഓരോ സ്റ്റിക്കറിലും ഒരു ഇമോജി ചേർക്കുക",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "നിങ്ങൾ സന്ദേശ വിനിമയം അയക്കുന്നതിനാൽ  നിങ്ങൾക്ക് സ്റ്റിക്കറുകൾ നിർദ്ദേശിക്കാൻ ഇത് ഞങ്ങളെ അനുവദിക്കുന്നു.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "കുറച്ച് വിശദാംശങ്ങൾ കൂടി മാത്രം...",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "ശീർഷകം",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "രചയിതാവ്",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "കവർ ചിത്രം",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് പങ്കിടുമ്പോൾ കാണിക്കുന്ന ചിത്രമാണിത്",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് അപ്‌ലോഡ് ചെയ്യണമെന്ന് നിങ്ങൾക്ക് ഉറപ്പാണോ?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "അപ്‌ലോഡ്",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ വരുത്താനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കുന്നു",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$total$-ൽ $count$ അപ്‌ലോഡ് ചെയ്തു",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "അഭിനന്ദനങ്ങൾ! നിങ്ങൾ ഒരു സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചു.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "സ്റ്റിക്കർ ഐക്കണിലൂടെ നിങ്ങളുടെ പുതിയ സ്റ്റിക്കറുകൾ ആക്സസ് ചെയ്യുക, അല്ലെങ്കിൽ താഴെയുള്ള ലിങ്ക് ഉപയോഗിച്ച് നിങ്ങളുടെ സുഹൃത്തുക്കളുമായി പങ്കിടുക.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "നിങ്ങൾ പൊതുവായി ആക്സസ് ചെയ്യാൻ ആഗ്രഹിക്കുന്ന ഏതെങ്കിലും ഇഷ്ടാനുസൃത സ്റ്റിക്കർ പായ്ക്കുകൾക്കായി യുആർഎല്ലുകൾ കണ്ടെത്താൻ മറ്റ് ആളുകളെ സഹായിക്കുന്നതിന് $hashtag$ എന്ന ഹാഷ് ടാഗ് ഉപയോഗിക്കുക.",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "അടയ്ക്കുക",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "മറ്റൊരു സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കുക",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Signal-നായി സൃഷ്ടിച്ച ഈ പുതിയ സ്റ്റിക്കർ പായ്ക്ക് I പരിശോധിക്കുക. #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1 ചിത്രം ചേർത്തു} other {{count,number} ചിത്രങ്ങൾ ചേർത്തു}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "ആനിമേറ്റഡ് സ്റ്റിക്കറുകൾ നിലവിൽ പിന്തുണയ്ക്കുന്നില്ല",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "ഡ്രോപ്പ് ചെയ്ത ചിത്രം വളരെ വലുതാണ്",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "ചിത്രം പ്രോസസ്സ് ചെയ്യുന്നതിൽ പിശക്",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "ആനിമേറ്റഡ് പിഎൻജി സ്റ്റിക്കറുകൾ ചതുരാകൃതിയിലായിരിക്കണം",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "ആനിമേറ്റഡ് സ്റ്റിക്കറുകൾ എന്നെന്നേക്കുമായി ലൂപ്പ് ചെയ്യണം",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "ആനിമേറ്റഡ് പിഎൻജി സ്റ്റിക്കർ അളവുകൾ വളരെ വലുതാണ്",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "ആനിമേറ്റഡ് പിഎൻജി സ്റ്റിക്കർ അളവുകൾ വളരെ ചെറുതാണ്",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "സ്റ്റിക്കറുകൾ അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പിശക്: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "ലിങ്ക് പകർത്തി",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "ലൈറ്റ് തീമിലുള്ള എന്റെ സ്റ്റിക്കർ",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "ഇരുണ്ട തീമിൽ എന്റെ സ്റ്റിക്കർ",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "സ്റ്റിക്കർ പായ്ക്ക് സ്രഷ്ടാവ് ഉപയോഗിക്കുന്നതിന് ദയവായി നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് സ്രഷ്ടാവ് ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "കൂടുതൽ അറിയുക.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ അംഗങ്ങൾ",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 അംഗം",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} അംഗം} other {{count,number} അംഗങ്ങൾ}}",
@@ -4604,10 +4496,6 @@
     "message": "എല്ലാം കാണുക",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "പൊതുവായി $number$ ഗ്രൂപ്പുകൾ ഉണ്ട്",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {സാമാന്യമായി {count,number} ഗ്രൂപ്പ് ഉണ്ട്} other {സാമാന്യമായി {count,number} ഗ്രൂപ്പുകൾ ഉണ്ട്}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "അഭ്യർത്ഥന ബ്ലോക്ക് ചെയ്യുക",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "സെലക്റ്റ് മോഡിൽ നിന്ന് പുറത്തുകടക്കൂ",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} എണ്ണം തിരഞ്ഞെടുത്തു",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ കൈമാറുക",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {{count,number} സന്ദേശം ഇല്ലാക്കണോ?} other {{count,number} സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {{count,number} സന്ദേശം ഇല്ലാതാക്കണോ?} other {{count,number} സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.} other {ഈ സന്ദേശങ്ങൾ ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {ഈ സന്ദേശം ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.} other {ഈ സന്ദേശങ്ങൾ ഈ ഉപകരണത്തിൽ നിന്ന് ഇല്ലാതാക്കും.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "എനിക്കായി ഇല്ലാതാക്കൂ",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "എനിക്കായി ഇല്ലാതാക്കൂ",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "നിങ്ങൾക്ക് 30 സന്ദേശങ്ങൾ വരെയെ കൈമാറാനാകൂ",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "ഒരു ഗ്രൂപ്പ് ഫോട്ടോ ചേർക്കുക",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "കമ്പോസ് ബട്ടൺ",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "ഇനിപ്പറയുന്നയാൾക്ക് കൈമാറുക",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "തുടരുക",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "ശൂന്യമായതോ ഇല്ലാതാക്കിയതോ ആയ സന്ദേശങ്ങൾ കൈമാറാനാകില്ല",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",
@@ -5472,25 +5412,9 @@
     "message": "$num$ കോൺടാക്‌റ്റുകൾ",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "ആർക്ക് കഴിയും...",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "ഈ ക്രമീകരണങ്ങൾ മാറ്റാൻ, നിങ്ങളുടെ മൊബൈലിൽ Signal അപ്പ് തുറന്ന ശേഷം, ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "എല്ലാവരും",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "എന്റെ കോൺ‌ടാക്റ്റുകൾ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "ആരുംതന്നെയില്ല",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "ഫോൺ നമ്പർ",
@@ -5608,6 +5532,26 @@
     "messageformat": "അപ്ഡേറ്റ് ഡൗൺലോഡ് ചെയ്‌തു",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "അപ്‌ഡേറ്റ് ആവശ്യമാണ്",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal ഉപയോഗിക്കുന്നത് തുടരാൻ ഏറ്റവും പുതിയ പതിപ്പിലേക്ക് അപ്ഡേറ്റ് ചെയ്യേണ്ടതുണ്ട്.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "{downloadSize} ഡൗൺലോഡ് ചെയ്യുക",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "അപ്ഡേറ്റ് ഇൻസ്റ്റാൾ ചെയ്യാൻ Signal റീസ്റ്റാർട്ട് ചെയ്യുക.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal ഡെസ്‌ക്ടോപ് അപ്ഡേറ്റ് ചെയ്യാനായില്ല, പക്ഷെ പുതിയൊരു പതിപ്പ് കൂടി ലഭ്യമാണ്. {downloadUrl} എന്നതിലേക്ക് പോയി മാനുവലായി പുതിയ പതിപ്പ് ഇൻസ്റ്റാൾ ചെയ്യൂ, അതിന് ശേഷം ഈ പ്രശ്നവുമായി ബന്ധപ്പെട്ട് പിന്തുണയുമായി ബന്ധപ്പെടുക അല്ലെങ്കിൽ ഒരു ബഗ് ഫയൽ ചെയ്യുക.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal അടയ്‌ക്കാനായില്ല.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "പഴയ ആപ്ലിക്കേഷൻ ഫയലുകൾ അൺഇൻസ്റ്റാൾ ചെയ്യാനായില്ല. ഇൻസ്റ്റാളർ വീണ്ടും പ്രവർത്തിപ്പിച്ചു നോക്കുക.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal-ന്റെ പുതിയ പതിപ്പ് ഇൻസ്റ്റാൾ ചെയ്തിട്ടുണ്ട്. തുടരണമെന്ന് ഉറപ്പാണോ?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "ആപ്ലിക്കേഷൻ ക്രാഷായി",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ കാഴ്‌ച",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ കാഴ്‌ചകള്‍",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} കാഴ്‌ച} other {{views,number} കാഴ്‌ചകൾ}}",
@@ -5948,10 +5896,6 @@
     "message": "നിങ്ങൾക്ക് മാത്രമേ ഈ സ്റ്റോറിയുടെ പേര് കാണാൻ കഴിയൂ.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "എല്ലാ Signal കണക്ഷനുകളും",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "കസ്റ്റം സ്റ്റോറി",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "ഗ്രൂപ്പ് സ്റ്റോറി",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ ആൾ കണ്ടു",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ കാഴ്‌ചക്കാർ",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {{count,number} ആൾ കണ്ടു} other {{count,number} കാഴ്‌ചക്കാർ}}",
@@ -6136,14 +6072,6 @@
     "message": "നിർദ്ദിഷ്‌ട ആളുകൾക്ക് മാത്രമെ കാണാനാകൂ",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "പുതിയ സ്വകാര്യ സ്റ്റോറി",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "നിർദ്ദിഷ്ട ആളുകൾക്ക് മാത്രമെ കാണാനാകൂ",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "പുതിയ ഗ്രൂപ്പ് സ്റ്റോറി",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "കാഴ്ച്ചകൾ ഓഫാണ്",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "അയയ്ക്കുന്നു...",
@@ -6572,24 +6500,16 @@
     "message": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "മീഡിയാ വ്യൂവറിൽ പുതുതായി ചേർത്ത ഫോർവേർഡ്, ബാക്ക്‌വേർഡ് ബട്ടണുകൾ ഉപയോഗിക്കാൻ ഏതെങ്കിലും ചിത്രത്തിലോ വീഡിയോയിലോ ക്ലിക്ക് ചെയ്യൂ.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "വോയിസ് റെക്കോർഡ് ചെയ്‌തു കൊണ്ടിരിക്കുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്ക് മാറിയാൽ വോയിസ് മെസേജുകൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിക്കും.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "സ്റ്റിക്കർ അയച്ചാൽ ഇനി ഡ്രാഫ്റ്റ് ടെക്സ്റ്റ് ഇല്ലാതാകില്ല. നന്ദി, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "കോൺവർസേഷൻ സെർച്ച് ബാർ ഐക്കണുകൾ അലൈൻമെന്‍റിലേക്ക് മടക്കി കൊണ്ടുവന്നതിന് {norstbox} എന്നതിനോടും ഞങ്ങൾക്ക് നന്ദി പറയേണ്ടതുണ്ട്.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "'സ്വന്തം ഉപയോഗത്തിനുള്ള കുറിപ്പുകൾ' ചാറ്റ് വേഗത്തിൽ കണ്ടെത്താൻ സഹായിക്കുന്ന പുതിയ ഐക്കണിലൂടെ കൂടുതൽ വേഗത്തിൽ നിങ്ങളോട് തന്നെ സംസാരിക്കൂ. GitHub-ലെ {hackerbirds} നൽകിയ സംഭാവനങ്ങൾക്ക് നന്ദി.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "നിങ്ങൾക്കിപ്പോൾ ഒന്നിലധികം സന്ദേശങ്ങൾ തിരഞ്ഞെടുത്ത് കൈമാറുകയോ ഇല്ലാതാക്കുകയോ ചെയ്യാം.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "ഡിസൈനിൽ ചില മാറ്റങ്ങൾ വരുത്തിയും സ്റ്റിക്കർ ആർട്ടിസ്റ്റ് ആകാൻ ആഗ്രഹിക്കുന്നവർക്ക് സഹായകരമായ ചില നുറുങ്ങുകളും ഉൾപ്പെടുത്തി ഞങ്ങൾ സ്റ്റിക്കർ ക്രിയേറ്റർ അപ്ഡേറ്റ് ചെയ്തു. സ്റ്റിക്കർ ക്രിയേറ്റർ ഇപ്പോൾ നിങ്ങളുടെ പുതിയ വെബ് ബ്രൗസറിൽ തുറക്കും, ഇത് Signal ഡെസ്ക്ടോപ്പിന്റെ സൈസ് കുറയ്ക്കുകയും നിങ്ങളുടെ പ്രിയപ്പെട്ട സ്റ്റിക്കർ പായ്ക്കുകൾക്ക് ഹാർഡ് ഡ്രൈവിൽ കൂടുതൽ ഇടം സൃഷ്ടിക്കുകയും ചെയ്യുന്നു.",
+    "description": "Release notes for v6.12"
   }
 }

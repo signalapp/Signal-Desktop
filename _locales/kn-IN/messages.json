@@ -316,6 +316,10 @@
     "message": "ಓದಲಾಗಿಲ್ಲ ಎಂದು ಗುರುತಿಸಿ",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "ಆರ್ಕೈವ್ ತೆಗೆಯಿರಿ",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "ನೀವು ಪರಿಶೀಲಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. $name1$ ಜೊತೆಗಿನ ನಿಮ್ಮ ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ. ನೆನಪಿಡಿ, ನಿಮ್ಮ ಸಂವಹನವನ್ನು ಯಾರೋ ತಡೆಗಟ್ಟಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ ಅಥವಾ $name2$ ಅವರು Signal ಅನ್ನು ಪುನಃ ಸ್ಥಾಪಿಸಿದ್ದಾರೆ ಎಂಬ ಅರ್ಥವನ್ನು ಈ ಬದಲಾವಣೆ ನೀಡಬಹುದು.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "ಈ ಕೆಳಗಿನ ಜನರು ಸಾಧನಗಳನ್ನು ಪುನಃ ಇನ್‌‌ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು ಅಥವಾ ಬದಲಾಯಿಸಿರಬಹುದು. ಗೌಪ್ಯತೆಯನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಲು ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಯನ್ನು ದೃಢೀಕರಿಸಿ.",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "ಈ ಕೆಳಗಿನ ಜನರು Signal ಅನ್ನು ಪುನಃ ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು ಅಥವಾ ಸಾಧನಗಳನ್ನು ಬದಲಿಸಿರಬಹುದು. ಒಬ್ಬ ಸ್ವೀಕೃತಿದಾರರನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ ಅವರ ಹೊಸ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಯನ್ನು ದೃಢೀಕರಿಸಿ. ಇದು ಐಚ್ಛಿಕವಾಗಿದೆ.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "ಪರಿಶೀಲಿಸಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
@@ -712,10 +704,6 @@
     "message": "ಈ ಸಂದೇಶಕ್ಕೆ ನೀವು ಇನ್ನಷ್ಟು ಲಗತ್ತುಗಳನ್ನು ಸೇರಿಸಲಾಗದು.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಕ್ರಿಯೇಟರ್",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal Desktop ಬಗ್ಗೆ",
@@ -1143,10 +1131,6 @@
     "messageformat": "ನಿಮ್ಮಿಂದ {receiverContact} ಅವರಿಗೆ",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "ಗೆ",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "ಕಳುಹಿಸಿ",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "ಇನ್ನಷ್ಟು ಮಾಹಿತಿ",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "ಆಯ್ಕೆಮಾಡಿ",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "ಕಳುಹಿಸಲು ಮರುಪ್ರಯತ್ನಿಸು",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ಎರಡೂ ಸಂಭಾಷಣೆಗಳ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಇಲ್ಲಿ ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ. ನೀವಿಬ್ಬರೂ {sharedGroup} ನ ಸದಸ್ಯರಾಗಿದ್ದೀರಿ.",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ಕೋಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ನಿಂದ ಥಂಬ್‌ನೇಲ್ ಇಮೇಜ್",
@@ -2003,10 +1983,6 @@
     "message": "$name$ ಜೊತೆಗಿನ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ದೃಢೀಕರಿಸಿ",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2215,10 +2191,6 @@
     "message": "Signal ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ . ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
-  "autoUpdateNewVersionInstructions": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ",
-    "description": "(deleted 2023/01/18)"
-  },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
   },
@@ -2336,125 +2308,61 @@
     "message": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "ಗಿಫ್ಟ್ ಬ್ಯಾಡ್ಜ್ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "ದೇಣಿಗೆ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ನೋಡಿ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ತೆರೆಯಲು ಇದನ್ನು ಮೊಬೈಲ್‍‌ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಈ ಮೆಸೇಜ್ ಟ್ಯಾಪ್ ಮಾಡಿ",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "ಉಡುಗೊರೆ",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "{sender} ಅವರು ನಿಮ್ಮ ಪರವಾಗಿ Signal‌ಗೆ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "ಉಡುಗೊರೆ ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "ಈ ದೇಣಿಗೆಯನ್ನು ತೆರೆಯಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "ನಿಮ್ಮ ಉಡುಗೊರೆ ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಪರಿಶೀಲಿಸಿ",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ನೋಡಲು ನಿಮ್ಮ ಫೋನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೀರಿ",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} ಅವರು ನಿಮಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದಾರೆ",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಅನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "ನೀವು ದೇಣಿಗೆಯನ್ನು ರಿಡೀಮ್ ಮಾಡಿದ್ದೀರಿ",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "ನೀವು ಒಂದು ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್ ಕಳುಹಿಸಿದ್ದೀರಿ",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "ನೀವು {recipient} ಅವರಿಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "ಉಡುಗೊರೆ ಬ್ಯಾಡ್ಜ್",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "ದೇಣಿಗೆ",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "ಉಡುಗೊರೆ",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "ದೇಣಿಗೆ",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ ದಿನಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} ದಿನಗಳು ಬಾಕಿಯಿವೆ",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} ಗಂಟೆಗಳು ಬಾಕಿಯಿವೆ",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ} other {{minutes,number} ನಿಮಿಷಗಳು ಬಾಕಿಯಿವೆ}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 ನಿಮಿಷ ಬಾಕಿಯಿದೆ",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "ಅವಧಿ ಮುಗಿದಿದೆ",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "ಅವಧಿ ಮುಗಿದಿದೆ",
@@ -2468,25 +2376,21 @@
     "messageformat": "ವೀಕ್ಷಿಸಿ",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "ರೀಡೀಮ್ ಮಾಡಲಾಗಿದೆ",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "ನೀವು ಕಳುಹಿಸಿದ ಮೆಸೇಜ್",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author} ಅವರು ಕಳುಹಿಸಿದ ಮೆಸೇಜ್",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "ನೀವು $name$ ಅವರಿಗೆ ಬ್ಯಾಡ್ಜ್ ಉಡುಗೊರೆ ನೀಡಿದ್ದೀರಿ. ಅವರು ಸ್ವೀಕರಿಸಿದಾಗ, ತಮ್ಮ ಬ್ಯಾಡ್ಜ್ ತೋರಿಸಲು ಅಥವಾ ಮರೆಮಾಡಲು ಅವರಿಗೊಂಡು ಅವಕಾಶ ನೀಡಲಾಗುತ್ತದೆ.",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "{name} ಅವರ ಪರವಾಗಿ Signal ಗೆ ನೀವು ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ. ತಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ತಮ್ಮ ಬೆಂಬಲವನ್ನು ಪ್ರದರ್ಶಿಸಲು ಅವರಿಗೆ ಆಯ್ಕೆಯನ್ನು ನೀಡಲಾಗುತ್ತದೆ.",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "ಆಯ್ಕೆ ಮಾಡಿದ ಮೆಸೇಜ್ ಅಳಿಸಿ",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "ಆಯ್ಕೆ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "ವೀಡಿಯೊ ಟಾಗಲ್ ಅನ್ನು ಆನ್ ಮತ್ತು ಆಫ್ ಮಾಡಿ",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "ವೀಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "ಆಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ವೀಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ (ವೀಡಿಯೋ ಕರೆಗಳು ಮಾತ್ರ)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಕ್ರಿಯೇಟರ್",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "ಇಲ್ಲಿ ಚಿತ್ರಗಳನ್ನು ಸೇರಿಸಲು ಅಥವಾ ಡ್ರಾಪ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "ಚಿತ್ರಗಳನ್ನು ಇಲ್ಲಿ ಡ್ರಾಪ್ ಮಾಡಿ",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "ರದ್ದುಮಾಡು",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "ನಕಲಿಸು",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "ಮುಂದೆ",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "ಹಿಂದಕ್ಕೆ",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ತೆಗೆದುಹಾಕಿ",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಸೇರಿಸಲು ಒಂದು ಫೈಲ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಡ್ರ್ಯಾಗ್/ಡ್ರಾಪ್ ಮಾಡಿ",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಪಾರದರ್ಶಕ ಹಿನ್ನೆಲೆ ಹೊಂದಿದ್ದು, PNG, APNG ಅಥವಾ WebP ಫಾರ್ಮ್ಯಾಟ್‌ನಲ್ಲಿರಬೇಕು ಮತ್ತು 512x512 ಪಿಕ್ಸೆಲ್‌ಗಳು ಇರಬೇಕು. ಶಿಫಾರಸು ಮಾಡಿದ ಮಾರ್ಜಿನ್ 16px ಆಗಿದೆ.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "ಮಾರ್ಜಿನ್‌ಗಳನ್ನು ತೋರಿಸಿ",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number} ಅಥವಾ ಇನ್ನಷ್ಟನ್ನು ಸೇರಿಸಿ",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "ಪ್ರತಿ ಸ್ಟಿಕ್ಕರ್‌ಗೆ ಒಂದು ಎಮೋಜಿ ಸೇರಿಸಿ",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "ನೀವು ಮೆಸೇಜ್ ಮಾಡುತ್ತಿರುವಾಗ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸಲಹೆ ಮಾಡಲು ಇದು ನಮಗೆ ಅನುವು ಮಾಡುತ್ತದೆ.",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "ಇನ್ನು ಕೆಲವೇ ವಿವರಗಳು…",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "ಶೀರ್ಷಿಕೆ",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "ಲೇಖಕ",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "ಕವರ್ ಚಿತ್ರ",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ನೀವು ಹಂಚಿಕೊಂಡಾಗ ಕಾಣಿಸಿಕೊಳ್ಳುವ ಚಿತ್ರ ಇದು.",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ನೀವು ಖಚಿತವಾಗಿಯೂ ಬಯಸುತ್ತೀರಾ?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "ಅಪ್‌ಲೋಡ್",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "ನೀವು ಇನ್ನು ಎಡಿಟ್‌ಗಳನ್ನು ಮಾಡಲು ಆಗದು ಅಥವಾ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ರಚಿಸಿದ ನಂತರ ಅಳಿಸಲು ಆಗದು.",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ರಚಿಸುವುದು",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$total$ ಪೈಕಿ $count$ ಅಪ್‌ಲೋಡ್ ಮಾಡಲಾಗಿದೆ",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "ಅಭಿನಂದನೆಗಳು! ನೀವು ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ರಚಿಸಿದ್ದೀರಿ.",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಐಕಾನ್ ಮೂಲಕ ನಿಮ್ಮ ಹೊಸ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಆಕ್ಸೆಸ್ ಮಾಡಿ ಅಥವಾ ಈ ಕೆಳಗಿನ ಲಿಂಕ್ ಬಳಸಿ ನಿಮ್ಮ ಸ್ನೇಹಿತರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ.",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "ನೀವು ಸಾರ್ವಜನಿಕವಾಗಿ ಲಭ್ಯವಾಗಿಸಲು ಬಯಸಿದ ಯಾವುದೇ ಕಸ್ಟಮ್ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳ URL ಗಳನ್ನು ಕಂಡುಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುವುದಕ್ಕಾಗಿ $hashtag$ ಹ್ಯಾಶ್‌ಟ್ಯಾಗ್ ಬಳಸಿ",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "ಮುಚ್ಚಿ",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "ಇನ್ನೊಂದು ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ರಚಿಸಿ",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "Signal ಗಾಗಿ ನಾನು ರಚಿಸಿದ ಹೊಸ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ನೋಡಿ. #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1 ಚಿತ್ರವನ್ನು ಸೇರಿಸಲಾಗಿದೆ} other {{count,number} ಚಿತ್ರಗಳನ್ನು ಸೇರಿಸಲಾಗಿದೆ}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "ಆನಿಮೇಟೆಡ್‌ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಸದ್ಯ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "ಡ್ರಾಪ್ ಮಾಡಿದ ಚಿತ್ರ ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "ಚಿತ್ರ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸುವಲ್ಲಿ ದೋಷ",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "ಆನಿಮೇಟೆಡ್‌ PNG ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಆಯತಾಕಾರದಲ್ಲಿರಬೇಕು",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "ಆನಿಮೇಟೆಡ್ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಎಂದಿಗೂ ಲೂಪ್ ಆಗಬೇಕು",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "ಆನಿಮೇಟೆಡ್‌ PNG ಸ್ಟಿಕ್ಕರ್ ಆಯಾಮಗಳು ತುಂಬಾ ದೊಡ್ಡ",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "ಆನಿಮೇಟೆಡ್‌ PNG ಸ್ಟಿಕ್ಕರ್ ಆಯಾಮಗಳು ತುಂಬಾ ಸಣ್ಣ",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "ಲೈಟ್ ಥೀಮ್‌ನಲ್ಲಿ ನನ್ನ ಸ್ಟಿಕ್ಕರ್",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "ಡಾರ್ಕ್ ಥೀಮ್‌ನಲ್ಲಿ ನನ್ನ ಸ್ಟಿಕ್ಕರ್",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಕ್ರಿಯೇಟರ್ ಬಳಸಲು ನಿಮ್ಮ ಫೋನ್ ಮತ್ತು ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ದಯವಿಟ್ಟು Signal ಸೆಟಪ್ ಮಾಡಿ",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಕ್ರಿಯೇಟರ್ ಬಳಸಲು ನಿಮ್ಮ ಫೋನ್ ಮತ್ತು ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ದಯವಿಟ್ಟು Signal ಸೆಟಪ್ ಮಾಡಿ",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ ಸದಸ್ಯರು",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 ಸದಸ್ಯ",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 ಸದಸ್ಯ} other {{count,number} ಸದಸ್ಯರು}}",
@@ -4604,10 +4496,6 @@
     "message": "ಎಲ್ಲವನ್ನು ನೋಡಿ",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$ ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {ಸಾಮಾನ್ಯ ಗುಂಪು {count,number}} other {{count,number} ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "ವಿನಂತಿಯನ್ನು ನಿರ್ಬಂಧಿಸಿ",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಮೋಡ್‌ನಿಂದ ನಿರ್ಗಮಿಸಿ",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿ",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡಿ",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {{count,number} ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಬೇಕೇ?} other {{count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {{count,number} ಮೆಸೇಜ್ ಅಳಿಸಬೇಕೇ?} other {{count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {ಈ ಸಾಧನದಿಂದ ಈ ಮೆಸೇಜ್‌ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.} other {ಈ ಸಾಧನದಿಂದ ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {ಈ ಸಾಧನದಿಂದ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.} other {ಈ ಸಾಧನದಿಂದ ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸಿ",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸಿ",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "ನೀವು 30 ಮೆಸೇಜ್‌ಗಳ ತನಕ ಮಾತ್ರ ಫಾರ್ವರ್ಡ್ ಮಾಡಬಹುದು",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "ಗ್ರೂಪ್ ಫೋಟೋ ಸೇರಿಸಿ",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "ಕಂಪೋಸ್ ಬಟನ್",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "ಇವರಿಗೆ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "ಮುಂದುವರಿಸಿ",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "ಖಾಲಿ ಅಥವಾ ಅಳಿಸಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM D",
@@ -5472,25 +5412,9 @@
     "message": "$num$ ಸಂಪರ್ಕಗಳು",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "ಯಾರು ಮಾಡಬಹುದು ..",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಗೌಪ್ಯತೆ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "ಎಲ್ಲರೂ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "ನನ್ನ ಸಂಪರ್ಕಗಳು",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "ಯಾರೂ ಇಲ್ಲ",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ",
@@ -5608,6 +5532,26 @@
     "messageformat": "ಅಪ್‌ಡೇಟ್ ಡೌನ್‌ಲೋಡ್ ಆಗಿದೆ",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು, ನೀವು ಹೊಚ್ಚಹೊಸ ಆವೃತ್ತಿಗೆ ನವೀಕರಿಸಬೇಕು.",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "{downloadSize} ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "ಅಪ್ಡೇಟ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು Signal ಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ.",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal Desktop ಅಪ್ಡೇಟ್ ಮಾಡಲು ವಿಫಲಗೊಂಡಿದೆ, ಆದರೆ ಹೊಸ ಆವೃತ್ತಿ ಲಭ್ಯವಿದೆ. {downloadUrl} ಗೆ ಹೋಗಿ ಮತ್ತು ಕೈಯಾರೆ ಹೊಸ ಆವೃತ್ತಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ, ನಂತರ ಒಂದೋ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ ಅಥವಾ ಈ ಸಮಸ್ಯೆಯ ಕುರಿತು ಬಗ್ ಫೈಲ್ ಮಾಡಿ.",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal ಅನ್ನು ಮುಚ್ಚಲು ಸಾಧ್ಯವಿಲ್ಲ.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "ಹಳೇ ಅಪ್ಲಿಕೇಶನ್ ಫೈಲ್‌ಗಳನ್ನು ಅನ್‌ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ವಿಫಲಗೊಂಡಿದೆ. ಇನ್‌ಸ್ಟಾಲರ್ ಅನ್ನು ಮತ್ತೊಮ್ಮೆ ಚಾಲೂ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal ನ ಹೊಸ ಆವೃತ್ತಿಯನ್ನು ಈಗಾಗಲೇ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗಿದೆ. ನೀವು ಮುಂದುವರಿಸಲು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "ಅಪ್ಲಿಕೇಶನ್ ಕ್ರ್ಯಾಶ್ ಆಗಿದೆ",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ ವೀಕ್ಷಣೆ",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ವೀಕ್ಷಣೆಗಳು",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} view} other {{views,number} ವೀಕ್ಷಣೆಗಳು}}",
@@ -5948,10 +5896,6 @@
     "message": "ಈ ಸ್ಟೋರಿಯ ಹೆಸರನ್ನು ನೀವು ಮಾತ್ರ ನೋಡಬಹುದು.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "ಎಲ್ಲಾ Signal ಸಂಪರ್ಕಗಳು",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "ಗ್ರೂಪ್ ಸ್ಟೋರಿ",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ ವೀಕ್ಷಕ",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ ವೀಕ್ಷಕರು",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {1 ವೀಕ್ಷಕ} other {{count,number} ವೀಕ್ಷಕರು}}",
@@ -6136,14 +6072,6 @@
     "message": "ನಿರ್ದಿಷ್ಟ ಜನರಿಗೆ ಮಾತ್ರ ಕಾಣಿಸುತ್ತದೆ",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "ಹೊಸ ಖಾಸಗಿ ಸ್ಟೋರಿ",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "ನಿರ್ದಿಷ್ಟ ಜನರಿಗೆ ಮಾತ್ರ ಕಾಣಿಸುತ್ತದೆ",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "ಹೊಸ ಗ್ರೂಪ್ ಸ್ಟೋರಿ",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ವೀಕ್ಷಣೆಗಳು ಆಫ್ ಆಗಿವೆ",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
@@ -6572,24 +6500,16 @@
     "message": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "ಹಳೆಯ ನೆನಪುಗಳನ್ನು ಮೆಲುಕು ಹಾಕಲು ಯಾವುದೇ ಚಿತ್ರ ಅಥವಾ ವೀಡಿಯೋ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೀಡಿಯಾ ವ್ಯೂವರ್‌ನಲ್ಲಿ ಹೊಸ ಫಾರ್ವರ್ಡ್ ಮತ್ತು ಬ್ಯಾಕ್‌ವರ್ಡ್ ಬಟನ್‌ಗಳನ್ನು ಬಳಸಿ.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಗತಿಯಲ್ಲಿರುವಾಗ ಇನ್ನೊಂದು ಚಾಟ್‌ಗೆ ಬದಲಾದರೆ ವಾಯ್ಸ್ ಮೆಸೇಜ್‌ಗಳು ಈಗ ಡ್ರಾಫ್ಟ್‌ಗಳಾಗಿ ಸೇವ್ ಆಗುತ್ತವೆ.",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಕಳುಹಿಸುವುದರಿಂದ ಇನ್ನು ಮುಂದೆ ಡ್ರಾಫ್ಟ್ ಟೆಕ್ಸ್ಟ್ ತೆರವುಗೊಳ್ಳುವುದಿಲ್ಲ. ಧನ್ಯವಾದಗಳು, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "ಸಂಭಾಷಣೆಯ ಸರ್ಚ್ ಬಾರ್ ಐಕಾನ್‌ಗಳನ್ನು ಮತ್ತೆ ಅಲೈನ್‌ಮೆಂಟ್‌ಗೆ ತಂದಿದ್ದಕ್ಕಾಗಿ {norstbox} ಗೆ ಧನ್ಯವಾದ ಹೇಳಲು ನಾವು ಬಯಸುತ್ತೇವೆ.",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "“ಸ್ವಯಂ ಟಿಪ್ಪಣಿ” ಚಾಟ್ ಅನ್ನು ಹುಡುಕಲು ಸುಲಭವಾಗುವಂತೆ ಮಾಡುವ ಹೊಸ ಐಕಾನ್‌ ಮೂಲಕ ನಿಮ್ಮೊಂದಿಗೆ ಇನ್ನಷ್ಟು ವೇಗವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿ. GitHub ನಲ್ಲಿ {hackerbirds} ಅವರ ಕೊಡುಗೆಗಾಗಿ ಧನ್ಯವಾದಗಳು.",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "ನೀವೀಗ ಅನೇಕ ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು ಮತ್ತು ಅವುಗಳೆಲ್ಲವನ್ನೂ ಒಂದೇ ಬಾರಿಗೆ ಫಾರ್ವರ್ಡ್ ಮಾಡಬಹುದು ಅಥವಾ ಅಳಿಸಬಹುದು.",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಕ್ರಿಯೇಟರ್ ಅನ್ನು ಕೆಲವು ಡಿಸೈನ್ ಟ್ವೀಕ್‌ಗಳೊಂದಿಗೆ ನಾವು ಅಪ್ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ ಮತ್ತು ಮಹತ್ವಾಕಾಂಕ್ಷಿ ಸ್ಟಿಕ್ಕರ್ ಕಲಾವಿದರಿಗೆ ಕೆಲವು ಉಪಯುಕ್ತಕರ ಸಲಹೆಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ. ಸ್ಟಿಕ್ಕರ್ ಕ್ರಿಯೇಟರ್ ಈಗ ನಿಮ್ಮ ವೆಬ್ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ತೆರೆಯುತ್ತದೆ, ಇದು Signal Desktop ಅನ್ನು ತುಸು ಸಣ್ಣಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮೆಲ್ಲಾ ನೆಚ್ಚಿನ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳಿಗಾಗಿ ನಿಮ್ಮ ಹಾರ್ಡ್ ಡ್ರೈವ್‌ನಲ್ಲಿ ಸ್ವಲ್ಪ ಹೆಚ್ಚು ಸ್ಥಳಾವಕಾಶವನ್ನು ಒದಗಿಸುತ್ತದೆ.",
+    "description": "Release notes for v6.12"
   }
 }

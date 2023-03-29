@@ -316,6 +316,10 @@
     "message": "পড়া হয়নি হিসাবে চিহ্নিত করুন",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
+  "icu:ConversationHeader__menu__selectMessages": {
+    "messageformat": "ম্যাসেজ নির্বাচন করুন",
+    "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
   "moveConversationToInbox": {
     "message": "আর্কাইভ মুক্ত করুন",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -452,10 +456,6 @@
     "message": "আপনি যে নিরাপত্তা নাম্বার যাচাই করতে চাচ্ছেন সেটি বদলে গেছে। অনুগ্রহ করে আপনার নতুন নিরাপত্তা নাম্বার$name1$-এর সাথে যাচাই করুন। মনে রাখবেন, এই পরিবর্তনটির মানে হতে পারে এই যে কেউ একজন আপনার যোগাযোগে আড়িপাতার চেষ্টা করছে অথবা হতে পারে $name2$ কেবল Signal অ্যাপ পুনরায় ইনস্টল করেছেন।",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
-  "changedVerificationWarning": {
-    "message": "নিম্নোক্ত ব্যক্তিগণ পুনরায় ইনস্টল করতে অথবা ডিভাইসগুলি পরিবর্তন করে থাকতে পারে। গোপনীয়তা নিশ্চিত করতে আপনার নিরাপত্তা নাম্বার তাদের সাথে ভেরিফাই করুন।",
-    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
-  },
   "safetyNumberChangeDialog__message": {
     "message": "নিম্নলিখিত ব্যক্তিরা সম্ভবত Signal পুনরায় ইনস্টল করেছেন বা তাদের ডিভাইস পরিবর্তন করেছেন। নতুন নিরাপত্তা নম্বর নিশ্চিত করতে একজন প্রাপককে ট্যাপ করুন। এটি ঐচ্ছিক।",
     "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -578,14 +578,6 @@
   "acceptNewKey": {
     "message": "মানছি",
     "description": "Label for a button to accept a new safety number"
-  },
-  "verify": {
-    "message": "যাচাইকৃত হিসাবে চিহ্নিত করুন",
-    "description": "(deleted 2023/02/03)"
-  },
-  "unverify": {
-    "message": "অযাচাইকৃত হিসাবে চিহ্নিত করুন",
-    "description": "(deleted 2023/02/03)"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "যাচাইকৃত হিসেবে চিহ্নিত করুন",
@@ -712,10 +704,6 @@
     "message": "আপনি এই মেসেজটিতে আর কোনও সংযুক্তি যোগ করতে পারবেন না।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "fileSizeWarning": {
-    "message": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে।",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
   "icu:fileSizeWarning": {
     "messageformat": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit} {units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
@@ -789,7 +777,7 @@
   },
   "signalDesktopStickerCreator": {
     "message": "স্টিকার প্যাক ক্রিয়েটর",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "Signal ডেস্কটপ সম্পর্কে",
@@ -1143,10 +1131,6 @@
     "messageformat": "আপনার কাছ থেকে {receiverContact}-এর কাছে",
     "description": "Shown for search result items - like 'You to Jon'"
   },
-  "toJoiner": {
-    "message": "প্রতি",
-    "description": "(deleted 2023/02/02) Joiner for message search results - like 'Jon' to 'Friends Group'"
-  },
   "sent": {
     "message": "পাঠানো হয়েছে",
     "description": "Label for the time a message was sent"
@@ -1193,6 +1177,10 @@
   "moreInfo": {
     "message": "আরও তথ্য",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "icu:MessageContextMenu__select": {
+    "messageformat": "নির্বাচন করুন",
+    "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
   "retrySend": {
     "message": "পুনরায় পাঠানোর চেষ্টা করুন",
@@ -1293,14 +1281,6 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "আপনার উভয় কথোপকথনের ম্যাসেজের ইতিহাস এখানে একত্রিত করা হয়েছে।",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর। আপনারা দুজনই {sharedGroup} গ্ৰুপের সদস্য।",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর।",
-    "description": "(deleted 2023/01/11) Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ছবি এবং উদ্ধৃত মেসেজের থাম্বনেইল",
@@ -2003,10 +1983,6 @@
     "message": "$name$ এর সাথে নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
-  "verifyNewNumber": {
-    "message": "নিরাপত্তা নাম্বার যাচাই করুন",
-    "description": "(deleted 2023/02/03) Label on button included with safety number change notification in the conversation"
-  },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "নিরাপত্তা নম্বর দেখুন",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
@@ -2197,7 +2173,7 @@
     "message": "পূনঃসংযোগ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "আপডেট সহজলভ্য"
+    "message": "আপডেট পাওয়া যাচ্ছে"
   },
   "autoUpdateRetry": {
     "message": "পুনরায় আপডেট করার চেষ্টা করুন"
@@ -2214,10 +2190,6 @@
   "downloadFullNewVersionMessage": {
     "message": "Signal আপডেট করতে পারেনি। আবার চেষ্টা করতে ক্লিক করুন।",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
-  },
-  "autoUpdateNewVersionInstructions": {
-    "message": "আপডেটগুলি প্রয়োগ করতে Signal পূনরায় চালু করুন।",
-    "description": "(deleted 2023/01/18)"
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Signal পুনরায় চালু করুন"
@@ -2336,125 +2308,61 @@
     "message": "এই মেসেজটি মুছে ফেলা হয়েছে।",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
-  "giftBadge--missing": {
-    "message": "গিফট ব্যাজের বিস্তারিত সংগ্রহ করা সম্ভব হয়নি",
-    "description": "(deleted 2023/01/20) Aria label for gift badge when we can't fetch the details"
-  },
   "icu:donation--missing": {
     "messageformat": "ডোনেশনের বিস্তারিত তথ্য সংগ্রহ করা সম্ভব হয়নি",
     "description": "Aria label for donation when we can't fetch the details."
-  },
-  "message--giftBadge--unopened--incoming": {
-    "message": "এটি খুলতে মোবাইলে এই ম্যাসেজটি দেখুন",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--incoming": {
     "messageformat": "এটি খুলতে মোবাইলে এই ম্যাসেজটি দেখুন",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact"
   },
-  "message--giftBadge--unopened--outgoing": {
-    "message": "মোবাইলে এই ম্যাসেজটি ট্যাপ করে আপনার উপহার দেখুন",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've sent a gift badge to a contact"
-  },
   "icu:message--donation--unopened--outgoing": {
     "messageformat": "আপনার ডোনেশন দেখতে মোবাইলে এই ম্যাসেজটি আলতো চাপুন",
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
-  },
-  "message--giftBadge--unopened--label": {
-    "message": "উপহার",
-    "description": "(deleted 2023/01/20) Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "icu:message--donation--unopened--label": {
     "messageformat": "আপনার পক্ষ হয়ে {sender} Signal-কে ডোনেট করেছেন",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
-  "message--giftBadge--unopened--toast--incoming": {
-    "message": "গিফট খুলতে আপনার ফোন চেক করুন",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
-  },
   "icu:message--donation--unopened--toast--incoming": {
     "messageformat": "এই ডোনেশনটি খুলে দেখতে আপনার ফোন চেক করুন",
     "description": "Shown when you've clicked on an incoming donation you haven't yet redeemed."
-  },
-  "message--giftBadge--unopened--toast--outgoing": {
-    "message": "গিফট দেখতে আপনার ফোন চেক করুন",
-    "description": "(deleted 2023/01/20) Shown when you've clicked on an outgoing gift badge"
   },
   "icu:message--donation--unopened--toast--outgoing": {
     "messageformat": "আপনার ডোনেশনটি খুলে দেখতে আপনার ফোন চেক করুন",
     "description": "Shown when you've clicked on an outgoing donation badge."
   },
-  "message--giftBadge--preview--unopened": {
-    "message": "আপনি একটি উপহার পেয়েছেন",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge in notifications and the left pane"
-  },
   "icu:message--donation--preview--unopened": {
     "messageformat": "{sender} আপনার জন্য ডোনেট করেছেন",
     "description": "Shown to label the donation badge in notifications and the left pane."
-  },
-  "message--giftBadge--preview--redeemed": {
-    "message": "আপনি একটি গিফট ব্যাজ ফিরে পেয়েছেন",
-    "description": "(deleted 2023/01/20) Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "আপনি একটি ডোনেশন ছাড় করেছেন",
     "description": "Shown to label the redeemed donation badge in notifications and the left pane."
   },
-  "message--giftBadge--preview--sent": {
-    "message": "আপনি একটি গিফট ব্যাজ পাঠিয়েছেন",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've sent in notifications and the left pane"
-  },
   "icu:message--donation--preview--sent": {
     "messageformat": "আপনি {recipient}-এর পক্ষ হয়ে ডোনেট করেছেন",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
-  },
-  "message--giftBadge": {
-    "message": "গিফট ব্যাজ",
-    "description": "(deleted 2023/01/20) Shown to label the gift badge you've redeemed on another device"
   },
   "icu:message--donation": {
     "messageformat": "ডোনেশন",
     "description": "Shown to label the donation badge you've redeemed on another device."
   },
-  "quote--giftBadge": {
-    "message": "উপহার",
-    "description": "(deleted 2023/01/20) Shown to label a gift badge you've replied to"
-  },
   "icu:quote--donation": {
     "messageformat": "ডোনেশন",
     "description": "Shown to label a donation badge you've replied to."
-  },
-  "message--giftBadge--remaining--days": {
-    "message": "$days$ দিন বাকি",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)"
   },
   "icu:message--donation--remaining--days": {
     "messageformat": "{days} দিন বাকি",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
-  "message--giftBadge--remaining--hours": {
-    "message": "$hours$ ঘন্টা বাকি",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
-  },
   "icu:message--donation--remaining--hours": {
     "messageformat": "{hours} ঘন্টা বাকি",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
-  "message--giftBadge--remaining--minutes": {
-    "message": "$minutes$ মিনিট বাকি",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device (only rendered for minutes > 1)"
-  },
   "icu:message--donation--remaining--minutes": {
     "messageformat": "{minutes, plural, one {1 মিনিট বাকি আছে} other {{minutes,number} মিনিট বাকি আছে}}",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device."
-  },
-  "message--giftBadge--remaining--one-minute": {
-    "message": "1 মিনিট বাকি",
-    "description": "(deleted 2023/01/20) Describes how long remains for the donation badge you've redeemed on another device"
-  },
-  "message--giftBadge--expired": {
-    "message": "বাতিল",
-    "description": "(deleted 2023/01/20) Shows that a gift badge is expired"
+    "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
     "messageformat": "বাতিল",
@@ -2468,25 +2376,21 @@
     "messageformat": "দেখান",
     "description": "Shown when you've sent a donation badge to someone then opened it"
   },
-  "message--giftBadge--redeemed": {
-    "message": "ফিরে পাওয়া গেছে",
-    "description": "(deleted 2023/01/20) Shown when you've redeemed the gift badge on another device"
-  },
   "icu:message--donation--redeemed": {
     "messageformat": "ছাড় করা হয়েছে",
     "description": "Shown when you've redeemed the donation badge on another device"
   },
-  "modal--giftBadge--title": {
-    "message": "আপনার সহযোগীতার জন্য ধন্যবাদ!",
-    "description": "(deleted 2023/01/20) The title of the outgoing gift badge detail dialog"
+  "icu:messageAccessibilityLabel--outgoing": {
+    "messageformat": "আপনার পাঠানো ম্যাসেজ",
+    "description": "Accessibility label for outgoing messages"
+  },
+  "icu:messageAccessibilityLabel--incoming": {
+    "messageformat": "{author}-এর পাঠানো ম্যাসেজ",
+    "description": "Accessibility label for incoming messages"
   },
   "icu:modal--donation--title": {
     "messageformat": "আপনার সহযোগিতার জন্য ধন্যবাদ!",
     "description": "The title of the outgoing donation badge detail dialog"
-  },
-  "modal--giftBadge--description": {
-    "message": "আপনি $name$-কে একটি ব্যাজ উপহার দিয়েছেন। তিনি এটি গ্রহণ করলে, ব্যাজটি দেখানো বা লুকিয়ে রাখার জন্য তাদেরকে একটি অপশন দেওয়া হবে।",
-    "description": "(deleted 2023/01/20) The description of the outgoing gift badge detail dialog"
   },
   "icu:modal--donation--description": {
     "messageformat": "আপনি {name}-এর পক্ষ হয়ে Signal-এ একটি ডোনেশন দিয়েছেন। তাদের প্রোফাইলে তাদের সমর্থন প্রদর্শন করার জন্য সুযোগ দেওয়া হবে।",
@@ -2814,6 +2718,10 @@
   },
   "Keyboard--delete-message": {
     "message": "নির্বাচিত মেসেজ মুছে ফেলুন",
+    "description": "(deleted 03/24/2023) Shown in the shortcuts guide"
+  },
+  "Keyboard--delete-messages": {
+    "message": "নির্বাচিত ম্যাসেজগুলো মুছে ফেলুন",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -2912,14 +2820,6 @@
     "message": "ভিডিও চালু ও বন্ধ টগল করুন",
     "description": "Shown in the shortcuts guide"
   },
-  "Keyboard--accept-video-call": {
-    "message": "ভিডিও-এর মাধ্যমে কলের উত্তর দিন",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
-  "Keyboard--accept-audio-call": {
-    "message": "অডিও-এর মাধ্যমে কলের উত্তর দিন",
-    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
-  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ভিডিও-এর মাধ্যমে কলের উত্তর দিন (শুধু ভিডিও কল)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -2990,203 +2890,203 @@
   },
   "StickerCreator--title": {
     "message": "স্টিকার প্যাক ক্রিয়েটর",
-    "description": "The title of the Sticker Pack Creator window"
+    "description": "(deleted 03/15/2023) The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
     "message": "এখানে চিত্র যোগ করতে বা ড্রপ করতে ক্লিক করুন",
-    "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
     "message": "এখানে চিত্রগুলি ড্রপ করুন",
-    "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    "description": "(deleted 03/15/2023) Text which appears on the Sticker Creator drop zone when there is an active drag"
   },
   "StickerCreator--Preview--title": {
     "message": "স্টিকার প্যাক",
-    "description": "The 'title' of the sticker pack preview 'modal'"
+    "description": "(deleted 03/15/2023) The 'title' of the sticker pack preview 'modal'"
   },
   "StickerCreator--ConfirmDialog--cancel": {
     "message": "বাতিল করুন",
-    "description": "The default text for the confirm dialog cancel button"
+    "description": "(deleted 03/15/2023) The default text for the confirm dialog cancel button"
   },
   "StickerCreator--CopyText--button": {
     "message": "কপি করুন",
-    "description": "The text which appears on the copy button for the sticker creator share screen"
+    "description": "(deleted 03/15/2023) The text which appears on the copy button for the sticker creator share screen"
   },
   "StickerCreator--ShareButtons--facebook": {
     "message": "Facebook",
-    "description": "Title for Facebook button"
+    "description": "(deleted 03/15/2023) Title for Facebook button"
   },
   "StickerCreator--ShareButtons--twitter": {
     "message": "Twitter",
-    "description": "Title for Twitter button"
+    "description": "(deleted 03/15/2023) Title for Twitter button"
   },
   "StickerCreator--ShareButtons--pinterest": {
     "message": "Pinterest",
-    "description": "Title for Pinterest button"
+    "description": "(deleted 03/15/2023) Title for Pinterest button"
   },
   "StickerCreator--ShareButtons--whatsapp": {
     "message": "WhatsApp",
-    "description": "Title for WhatsApp button"
+    "description": "(deleted 03/15/2023) Title for WhatsApp button"
   },
   "StickerCreator--AppStage--next": {
     "message": "পরবর্তী",
-    "description": "Default text for the next button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the next button on all stages of the sticker creator"
   },
   "StickerCreator--AppStage--prev": {
     "message": "ফিরে যান",
-    "description": "Default text for the previous button on all stages of the sticker creator"
+    "description": "(deleted 03/15/2023) Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
     "messageformat": "আপনার স্টিকার যোগ করুন",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
     "message": "স্টিকার সরিয়ে ফেলুন",
-    "description": "Label for the X button used to remove a staged sticker"
+    "description": "(deleted 03/15/2023) Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
     "message": "একটি স্টিকার যোগ করতে একটি ফাইল ক্লিক করুন বা টেনে আনুন/ড্রপ করুন৷",
-    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    "description": "(deleted 03/15/2023) Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
     "message": "স্টিকারগুলিকে অবশ্যই PNG, APNG, বা WebP ফরম্যাটে থাকতে হবে এবং স্বচ্ছ ব্যাকগ্রাউন্ড ও 512x512 পিক্সেল বিশিষ্ট হতে হবে। সুপারিশকৃত মার্জিন 16px।",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "মার্জিনগুলি দেখান",
-    "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
     "messageformat": "{count,number}টি বা আরও যোগ করুন",
-    "description": "Text to show user how many more stickers they must add"
+    "description": "(deleted 03/15/2023) Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "প্রতিটি স্টিকারে একটি ইমোজি যোগ করুন",
-    "description": "Title for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the drop stage of the sticker creator"
   },
   "StickerCreator--EmojiStage--help": {
     "message": "এটি আমাদেরকে আপনি বার্তা পাঠানোর সময় আপনার কাছে স্টিকারগুলির পরামর্শ দেওয়ার অনুমতি দেয়।",
-    "description": "Help text for the drop stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
     "message": "শুধু আরো কিছু বিস্তারিত বিবরণ…",
-    "description": "Title for the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
     "message": "শিরোনাম",
-    "description": "Label for the title input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the title input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--author": {
     "message": "লেখক",
-    "description": "Label for the author input of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the author input of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover": {
     "message": "কভার ইমেজ",
-    "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
     "message": "আপনি আপনার স্টিকার প্যাক শেয়ার করার সময় এই চিত্রটি প্রদর্শিত হবে",
-    "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
     "message": "আপনি কি আপনার স্টিকার প্যাক আপলোড করতে চাওয়ার ব্যাপারে নিশ্চিত?",
-    "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the confirm dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--confirm": {
     "message": "আপলোড করুন",
-    "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--text": {
     "message": "একটি স্টিকার প্যাক তৈরি করার পর আপনি আর সেটি সম্পাদনা করতে বা মুছতে পারবেন না।",
-    "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    "description": "(deleted 03/15/2023) The text inside the confirmation dialog on the meta stage of the sticker creator"
   },
   "StickerCreator--UploadStage--title": {
     "message": "আপনার স্টিকার প্যাক তৈরি করা",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$total$টির মধ্যে $count$টি আপলোড হয়েছে",
-    "description": "Title for the upload stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "অভিনন্দন! আপনি একটি স্টিকার প্যাক তৈরি করেছেন।",
-    "description": "Title for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--help": {
     "message": "স্টিকার আইকন দিয়ে আপনার নতুন স্টিকারগুলো অ্যাক্সেস করুন অথবা নীচের লিংকটি ব্যবহার করে আপনার বন্ধুদের সাথে এটি শেয়ার করুন।",
-    "description": "Help text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Help text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "আপনি যেসব কাস্টম স্টিকার প্যাক সকলের জন্য অ্যাক্সেসযোগ্য করতে চান সেগুলির URL যাতে লোকজন খুঁজে পায় সেজন্য $hashtag$ হ্যাশট্যাগটি ব্যবহার করুন।",
-    "description": "Call to action text for the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "স্টিকার প্যাক URL",
-    "description": "Title for the copy button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Title for the copy button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--close": {
     "message": "বন্ধ করুন",
-    "description": "Text for the close button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the close button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--createAnother": {
     "message": "অন্য একটি স্টিকার প্যাক তৈরি করুন",
-    "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
     "message": "আমার Signal-এর জন্য তৈরি করা এই নতুন স্টিকার প্যাকটি দেখুন। #makeprivacystick",
-    "description": "Text which is shared to social media platforms for sticker packs"
+    "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
     "messageformat": "{count, plural, one {1টি ছবি যোগ করা হয়েছে} other {{count,number}টি ছবি যোগ করা হয়েছে}}",
-    "description": "Text for the toast when images are added to the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "অ্যানিমেট করা স্টিকারগুলি বর্তমানে সমর্থিত নয়",
-    "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "ড্রপ করা চিত্রটি অনেক বেশি বড়",
-    "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    "description": "(deleted 03/15/2023) Text for the toast when an image that is too large was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "ছবি প্রক্রিয়াকরণে ত্রুটি",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+    "description": "(deleted 03/15/2023) Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
   },
   "StickerCreator--Toasts--APNG--notSquare": {
     "message": "অ্যানিমেট করা PNG স্টিকারগুলি অবশ্যই বর্গাকৃতির হতে হবে",
-    "description": "Text for the toast when someone tries to upload a non-square APNG"
+    "description": "(deleted 03/15/2023) Text for the toast when someone tries to upload a non-square APNG"
   },
   "StickerCreator--Toasts--mustLoopForever": {
     "message": "অ্যানিমেট করা স্টিকারগুলি অবশ্যই চিরতরে লুপ করতে হবে",
-    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+    "description": "(deleted 03/15/2023) Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
     "message": "অ্যানিমেট করা PNG স্টিকারগুলির ডাইমেনশন অনেক বেশি বড়",
-    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
     "message": "অ্যানিমেট করা PNG স্টিকারের ডাইমেনশন অনেক বেশি ছোট",
-    "description": "Text for the toast when an APNG image in the sticker creator is too small"
+    "description": "(deleted 03/15/2023) Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "স্টিকারগুলি আপলোড করার সময় ত্রুটি: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded"
+    "description": "(deleted 03/15/2023) Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "লিংক কপি করা হয়েছে",
-    "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    "description": "(deleted 03/15/2023) Text for the toast when a link for sharing is copied from the Sticker Creator"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "আমার স্টিকার লাইট থিমে রয়েছে",
-    "description": "Text for the sticker preview for the light theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the light theme"
   },
   "StickerCreator--StickerPreview--dark": {
     "message": "আমার স্টিকার ডার্ক থিমে রয়েছে",
-    "description": "Text for the sticker preview for the dark theme"
+    "description": "(deleted 03/15/2023) Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
     "message": "স্টিকার প্যাক ক্রিয়েটর ব্যবহার করতে অনুগ্রহ করে আপনার ফোন ও ডেস্কটপে Signal সেট আপ করুন",
-    "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    "description": "(deleted 03/15/2023) The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "স্টিকার প্যাক ক্রিয়েটর ব্যবহার করতে অনুগ্রহ করে আপনার ফোন ও ডেস্কটপে Signal সেট আপ করুন",
@@ -3315,14 +3215,6 @@
   "MessageRequests--learn-more": {
     "message": "আরও জানুন।",
     "description": "Shown at the end of profile sharing messages as a link."
-  },
-  "ConversationHero--members": {
-    "message": "$count$ জন সদস্য",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
-  },
-  "ConversationHero--members-1": {
-    "message": "1 জন সদস্য",
-    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 জন সদস্য} other {{count,number} জন সদস্য}}",
@@ -4604,10 +4496,6 @@
     "message": "সব দেখুন",
     "description": "This is a button on the conversation details to show all members"
   },
-  "ConversationDetailsGroups--title": {
-    "message": "$number$-টি একই গ্রুপ আছে",
-    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
-  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {একসাথে {count,number}টি গ্রুপে আছেন} other {একসাথে {count,number}টি গ্রুপে আছেন}}",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -4752,6 +4640,50 @@
     "message": "ব্লক করার জন্য অনুরোধ",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
+  "icu:SelectModeActions--exitSelectMode": {
+    "messageformat": "নির্বাচন মোড থেকে বেরিয়ে আসুন",
+    "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
+  },
+  "icu:SelectModeActions--selectedMessages": {
+    "messageformat": "{count} নির্বাচিত",
+    "description": "conversation > in select mode > composition area actions > count of selected messsages"
+  },
+  "icu:SelectModeActions--deleteSelectedMessages": {
+    "messageformat": "নির্বাচিত ম্যাসেজগুলো মুছে ফেলুন",
+    "description": "conversation > in select mode > composition area actions > delete selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions--forwardSelectedMessages": {
+    "messageformat": "নির্বাচিত ম্যাসেজগুলো ফরোয়ার্ড করুন",
+    "description": "conversation > in select mode > composition area actions > forward selected messsages action > accessibility label"
+  },
+  "icu:SelectModeActions__confirmDelete--title": {
+    "messageformat": "{count, plural, one {{count,number}টি ম্যাসেজ মুছবেন?} other {{count,number}টি ম্যাসেজ মুছবেন?}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > title"
+  },
+  "icu:ConfirmDeleteForMeModal--title": {
+    "messageformat": "{count, plural, one {{count,number}টি ম্যাসেজ মুছবেন?} other {{count,number}টি ম্যাসেজ মুছবেন?}}",
+    "description": "delete selected messages > confirmation modal > title"
+  },
+  "icu:SelectModeActions__confirmDelete--description": {
+    "messageformat": "{count, plural, one {এই ম্যাসেজটি এই ডিভাইস থেকে মুছে যাবে।} other {এই ম্যাসেজগুলো এই ডিভাইস থেকে মুছে যাবে।}}",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > message"
+  },
+  "icu:ConfirmDeleteForMeModal--description": {
+    "messageformat": "{count, plural, one {এই ম্যাসেজটি এই ডিভাইস থেকে মুছে যাবে।} other {এই ম্যাসেজগুলো এই ডিভাইস থেকে মুছে যাবে।}}",
+    "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:SelectModeActions__confirmDelete--confirm": {
+    "messageformat": "আমার জন্য মুছে ফেলুন",
+    "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
+  },
+  "icu:ConfirmDeleteForMeModal--confirm": {
+    "messageformat": "আমার জন্য মুছে ফেলুন",
+    "description": "delete selected messages > confirmation modal > button"
+  },
+  "icu:SelectModeActions__toast--TooManyMessagesToForward": {
+    "messageformat": "আপনি সর্বোচ্চ 30টি ম্যাসেজ ফরোয়ার্ড করতে পারবেন",
+    "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
+  },
   "AvatarInput--no-photo-label--group": {
     "message": "একটি গ্রুপ ফটো যোগ করুন",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -4892,9 +4824,17 @@
     "message": "লিখুন বোতাম",
     "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
   },
+  "icu:ForwardMessageModal__title": {
+    "messageformat": "ফরওয়ার্ড করুন",
+    "description": "Title for the forward a message modal dialog"
+  },
   "ForwardMessageModal--continue": {
     "message": "চালিয়ে যান",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
+    "messageformat": "খালি বা মুছে ফেলা ম্যাসেজ ফরোয়ার্ড করা যাবে না",
+    "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "TimelineDateHeader--date-in-last-6-months": {
     "message": "ddd, MMM দিন",
@@ -5472,25 +5412,9 @@
     "message": "$num$ কন্টাক্টস",
     "description": "Number of contacts blocked plural"
   },
-  "Preferences__who-can--title": {
-    "message": "কে পারে…",
-    "description": "(deleted 2022/02/14) Title for the 'who can do X' setting"
-  },
   "Preferences__privacy--description": {
     "message": "এই সেটিংস পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > গোপনীয়তায় নেভিগেট করুন",
-    "description": "(deleted 2022/02/14) Description for the 'who can do X' setting"
-  },
-  "Preferences__who-can--everybody": {
-    "message": "সবাই",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--contacts": {
-    "message": "আমার কন্ট্যাক্ট",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
-  },
-  "Preferences__who-can--nobody": {
-    "message": "কেউ না",
-    "description": "(deleted 2022/02/14) Option for who can see my X select"
+    "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "ফোন নম্বর",
@@ -5608,6 +5532,26 @@
     "messageformat": "আপডেট ডাউনলোড হয়েছে",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:InstallScreenUpdateDialog--unsupported-os__title": {
+    "messageformat": "আপডেট করা প্রয়োজন",
+    "description": "The title of update dialog on install screen when user OS is unsupported"
+  },
+  "icu:InstallScreenUpdateDialog--auto-update__body": {
+    "messageformat": "Signal ব্যবহার চালিয়ে যেতে, আপনাকে অবশ্যই সর্বশেষ সংস্করণে আপডেট করতে হবে।",
+    "description": "The body of update dialog on install screen when auto update is downloaded and available."
+  },
+  "icu:InstallScreenUpdateDialog--manual-update__action": {
+    "messageformat": "{downloadSize} ডাউনলোড করুন",
+    "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--downloaded__body": {
+    "messageformat": "আপডেট ইন্সটল করতে Signal আবারো চালু করুন।",
+    "description": "The body of the update dialog on install screen when manual update was downloaded."
+  },
+  "icu:InstallScreenUpdateDialog--cannot-update__body": {
+    "messageformat": "Signal ডেস্কটপ আপডেট করতে ব্যর্থ হয়েছে, তবে একটি নতুন সংস্করণ পাওয়া যাচ্ছে। {downloadUrl}-এ যান এবং ম্যানুয়ালি নতুন সংস্করণ ইনস্টল করুন, তারপর সহায়তায় যোগাযোগ করুন বা এই সমস্যা সম্পর্কে একটি বাগ ফাইল করুন।",
+    "description": "The body of the update dialog on install screen when update cannot be installed."
+  },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal বন্ধ করা যাবে না।",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
@@ -5627,6 +5571,10 @@
   "NSIS__uninstallFailed": {
     "message": "পুরনো অ্যাপ্লিকেশন ফাইল আনইনস্টল করতে ব্যর্থ হয়েছে। আবার ইনস্টলার চালানোর চেষ্টা করুন।",
     "description": "Displayed when Windows installer cannot uninstall the old application"
+  },
+  "icu:NSIS__semver-downgrade": {
+    "messageformat": "Signal-এর নতুন সংস্করণ ইতোমধ্যেই ইনস্টল করা আছে। আপনি কি এগিয়ে যাওয়ার ব্যাপারে নিশ্চিত?",
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "CrashReportDialog__title": {
     "message": "অ্যাপ্লিকেশন ক্র্যাশ করেছে",
@@ -5770,11 +5718,11 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ ভিউ",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ভিউ",
-    "description": "(deleted 2022/10/13) Number of views your story has"
+    "description": "Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {{views,number} ভিউ} other {{views,number} ভিউ}}",
@@ -5948,10 +5896,6 @@
     "message": "শুধু আপনিই এই স্টোরির নাম দেখতে পারবেন।",
     "description": "Explanation about the visibility of custom distribution list names"
   },
-  "icu:StoriesSettings__my-story-subtitle": {
-    "messageformat": "সকল Signal কানেকশন",
-    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "কাস্টম স্টোরি",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -5959,14 +5903,6 @@
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "গ্ৰুপ স্টোরি",
     "description": "Story settings modal group story selection subtitle"
-  },
-  "StoriesSettings__viewers--singular": {
-    "message": "$num$ জন দর্শক",
-    "description": "(deleted 2022/10/21) A single viewer"
-  },
-  "StoriesSettings__viewers--plural": {
-    "message": "$num$ জন দর্শক",
-    "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, one {1 জন দর্শক} other {{count,number} জন দর্শক}}",
@@ -6136,14 +6072,6 @@
     "message": "শুধু নির্দিষ্ট কিছু ব্যক্তির কাছে দৃশ্যমান",
     "description": "Description of what a distribution list would do"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "নতুন ব্যক্তিগত স্টোরি",
-    "description": "(deleted 2022/11/21) Create a new distribution list"
-  },
-  "SendStoryModal__new-private--description": {
-    "message": "শুধু নির্দিষ্ট কিছু ব্যক্তির কাছে দৃশ্যমান",
-    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
-  },
   "SendStoryModal__new-group--title": {
     "message": "নতুন গ্ৰুপ স্টোরি",
     "description": "Select a group to send a story to"
@@ -6234,7 +6162,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ভিউ বন্ধ",
-    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+    "description": "When the user has read receipts turned off"
   },
   "StoryViewer__sending": {
     "message": "পাঠানো হচ্ছে…",
@@ -6572,24 +6500,16 @@
     "message": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.10--0": {
-    "messageformat": "যেকোনো ছবি বা ভিডিওতে ক্লিক করুন এবং মিডিয়া ভিউয়ারে নতুন ফরোয়ার্ড ও ব্যাকওয়ার্ড বাটন ব্যবহার করে ছবি দেখুন আর স্মৃতির পাতায় বিচরণ করুন।",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--1": {
-    "messageformat": "কোনো রেকর্ডিং চলাকালীন আপনি অন্য চ্যাটে স্যুইচ করলে ভয়েস ম্যাসেজগুলো এখন খসড়া হিসেবে সংরক্ষিত হয়।",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--2": {
-    "messageformat": "স্টিকার পাঠালে খসড়া টেক্সট আর মুছে যাবে না। ধন্যবাদ, {lamemakes}!",
-    "description": "Release notes for v6.10"
-  },
-  "icu:WhatsNew__v6.10--3": {
-    "messageformat": "কথোপকথন অনুসন্ধান বারের আইকনগুলোকে সারিবদ্ধ অবস্থায় ফিরিয়ে আনার জন্য আমরা {norstbox}-কে ধন্যবাদ জানাতে চাই।",
-    "description": "Release notes for v6.10"
-  },
   "icu:WhatsNew__v6.11--0": {
     "messageformat": "একটি নতুন আইকন দিয়ে আরো দ্রুত নিজের সাথে কথা বলা শুরু করুন যা \"নিজের জন্য নোট\" চ্যাট সহজে খুঁজে পেতে সাহায্য করে। GitHub-এর {hackerbirds}-কে তার অবদানের জন্য ধন্যবাদ।",
     "description": "Release notes for v6.11"
+  },
+  "icu:WhatsNew__v6.12--0": {
+    "messageformat": "এখন আপনি একাধিক ম্যাসেজ নির্বাচন করতে পারবেন এবং সেগুলোকে একবারে ফরোয়ার্ড করতে বা মুছতে পারবেন।",
+    "description": "Release notes for v6.12"
+  },
+  "icu:WhatsNew__v6.12--1": {
+    "messageformat": "আমরা 'স্টিকার ক্রিয়েটর'-কে কয়েকটি ডিজাইন পরিবর্তনের মাধ্যমে আপডেট করেছি এবং প্রতিভাবান স্টিকার শিল্পীদের জন্য কিছু সহায়ক টিপস যোগ করেছি। 'স্টিকার ক্রিয়েটর' এখন আপনার ওয়েব ব্রাউজারে খুলতে পারবেন, যা Signal ডেস্কটপকে একটু ছোট আকারে নিয়ে আসে এবং হার্ড ড্রাইভে আপনার পছন্দের সব স্টিকার প্যাকের জন্য একটু বেশি জায়গা রাখে।",
+    "description": "Release notes for v6.12"
   }
 }
