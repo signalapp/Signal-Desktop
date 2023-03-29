@@ -15,7 +15,9 @@ import {
   isVoiceMessage,
 } from '../types/Attachment';
 import { getMessageIdForLogging } from './idForLogging';
-import { isOutgoing } from '../messages/helpers';
+import { hasErrors } from '../state/selectors/message';
+import { isIncoming, isOutgoing } from '../messages/helpers';
+import { isDirectConversation } from './whatTypeOfConversation';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { shouldReplyNotifyUser } from './shouldReplyNotifyUser';
 
@@ -157,6 +159,33 @@ export async function handleEditMessage(
     mainMessageModel.set(updatedFields);
   }
 
+  const conversation = window.ConversationController.get(editAttributes.fromId);
+
+  // Send delivery receipts, but only for non-story sealed sender messages
+  // and not for messages from unaccepted conversations.
+  if (
+    isIncoming(upgradedEditedMessageData) &&
+    upgradedEditedMessageData.unidentifiedDeliveryReceived &&
+    !hasErrors(upgradedEditedMessageData) &&
+    conversation?.getAccepted()
+  ) {
+    // Note: We both queue and batch because we want to wait until we are done
+    // processing incoming messages to start sending outgoing delivery receipts.
+    // The queue can be paused easily.
+    drop(
+      window.Whisper.deliveryReceiptQueue.add(() => {
+        window.Whisper.deliveryReceiptBatcher.add({
+          messageId: mainMessage.id,
+          conversationId: editAttributes.fromId,
+          senderE164: editAttributes.message.source,
+          senderUuid: editAttributes.message.sourceUuid,
+          timestamp: editAttributes.message.timestamp,
+          isDirectConversation: isDirectConversation(conversation.attributes),
+        });
+      })
+    );
+  }
+
   // For incoming edits, we mark the message as unread so that we're able to
   // send a read receipt for the message. In case we had already sent one for
   // the original message.
@@ -181,11 +210,9 @@ export async function handleEditMessage(
   drop(mainMessageModel.getConversation()?.updateLastMessage());
 
   // Update notifications
-  const conversation = mainMessageModel.getConversation();
-  if (!conversation) {
-    return;
-  }
-  if (await shouldReplyNotifyUser(mainMessageModel, conversation)) {
-    await conversation.notify(mainMessageModel);
+  if (conversation) {
+    if (await shouldReplyNotifyUser(mainMessageModel, conversation)) {
+      await conversation.notify(mainMessageModel);
+    }
   }
 }

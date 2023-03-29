@@ -41,7 +41,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
   edits.add(edit);
 
   try {
-    // The conversation the deleted message was in; we have to find it in the database
+    // The conversation the edited message was in; we have to find it in the database
     //   to to figure that out.
     const targetConversation =
       await window.ConversationController.getConversationForTargetMessage(

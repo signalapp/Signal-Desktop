@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Proto } from '@signalapp/mock-server';
+import { Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import createDebug from 'debug';
 import Long from 'long';
@@ -10,6 +10,7 @@ import { strictAssert } from '../../util/assert';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import { ReceiptType } from '../../types/Receipt';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -74,17 +75,18 @@ describe('editing', function needsName() {
     await bootstrap.teardown();
   });
 
-  it('should edit a message', async () => {
+  it('handles outgoing edited messages phone -> desktop', async () => {
     const { phone, desktop } = bootstrap;
 
     const window = await app.getWindow();
 
     const originalMessage = createMessage();
+    const originalMessageTimestamp = Number(originalMessage.timestamp);
 
     debug('sending message');
     {
       const sendOptions = {
-        timestamp: Number(originalMessage.timestamp),
+        timestamp: originalMessageTimestamp,
       };
       await phone.sendRaw(
         desktop,
@@ -104,11 +106,18 @@ describe('editing', function needsName() {
     debug('checking for message');
     await window.locator('.module-message__text >> "hey yhere"').waitFor();
 
+    debug('waiting for receipts for original message');
+    const receipts = await app.waitForReceipts();
+    assert.strictEqual(receipts.type, ReceiptType.Read);
+    assert.strictEqual(receipts.timestamps.length, 1);
+    assert.strictEqual(receipts.timestamps[0], originalMessageTimestamp);
+
     debug('sending edited message');
+    const editedMessage = createEditedMessage(originalMessage);
+    const editedMessageTimestamp = Number(editedMessage.dataMessage?.timestamp);
     {
-      const editedMessage = createEditedMessage(originalMessage);
       const sendOptions = {
-        timestamp: Number(editedMessage.dataMessage?.timestamp),
+        timestamp: editedMessageTimestamp,
       };
       await phone.sendRaw(
         desktop,
@@ -122,5 +131,85 @@ describe('editing', function needsName() {
 
     const messages = window.locator('.module-message__text');
     assert.strictEqual(await messages.count(), 1, 'message count');
+  });
+
+  it('handles incoming edited messages contact -> desktop', async () => {
+    const { contacts, desktop } = bootstrap;
+
+    const window = await app.getWindow();
+
+    const [friend] = contacts;
+
+    const originalMessage = createMessage();
+    const originalMessageTimestamp = Number(originalMessage.timestamp);
+
+    debug('incoming message');
+    {
+      const sendOptions = {
+        timestamp: originalMessageTimestamp,
+      };
+      await friend.sendRaw(
+        desktop,
+        wrap({ dataMessage: originalMessage }),
+        sendOptions
+      );
+    }
+
+    debug('opening conversation');
+    const leftPane = window.locator('.left-pane-wrapper');
+    await leftPane
+      .locator('.module-conversation-list__item--contact-or-conversation')
+      .first()
+      .click();
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('checking for message');
+    await window.locator('.module-message__text >> "hey yhere"').waitFor();
+
+    debug('waiting for original receipt');
+    const originalReceipt = await friend.waitForReceipt();
+    {
+      const { receiptMessage } = originalReceipt;
+      strictAssert(receiptMessage.timestamp, 'receipt has a timestamp');
+      assert.strictEqual(receiptMessage.type, Proto.ReceiptMessage.Type.READ);
+      assert.strictEqual(receiptMessage.timestamp.length, 1);
+      assert.strictEqual(
+        Number(receiptMessage.timestamp[0]),
+        originalMessageTimestamp
+      );
+    }
+
+    debug('sending edited message');
+    const editedMessage = createEditedMessage(originalMessage);
+    const editedMessageTimestamp = Number(editedMessage.dataMessage?.timestamp);
+    {
+      const sendOptions = {
+        timestamp: editedMessageTimestamp,
+      };
+      await friend.sendRaw(
+        desktop,
+        wrap({ editMessage: editedMessage }),
+        sendOptions
+      );
+    }
+
+    debug('checking for edited message');
+    await window.locator('.module-message__text >> "hey there"').waitFor();
+
+    const messages = window.locator('.module-message__text');
+    assert.strictEqual(await messages.count(), 1, 'message count');
+
+    debug('waiting for receipt for edited message');
+    const editedReceipt = await friend.waitForReceipt();
+    {
+      const { receiptMessage } = editedReceipt;
+      strictAssert(receiptMessage.timestamp, 'receipt has a timestamp');
+      assert.strictEqual(receiptMessage.type, Proto.ReceiptMessage.Type.READ);
+      assert.strictEqual(receiptMessage.timestamp.length, 1);
+      assert.strictEqual(
+        Number(receiptMessage.timestamp[0]),
+        editedMessageTimestamp
+      );
+    }
   });
 });

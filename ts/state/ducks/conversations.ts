@@ -4729,7 +4729,11 @@ export function reducer(
       return state;
     }
 
-    const toIncrement = data.reactions?.length ? 1 : 0;
+    const toIncrement =
+      data.reactions?.length ||
+      existingMessage.editHistory?.length !== data.editHistory?.length
+        ? 1
+        : 0;
 
     return {
       ...maybeUpdateSelectedMessageForDetails(

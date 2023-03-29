@@ -62,9 +62,10 @@ export class ViewSyncs extends Collection {
 
   async onSync(sync: ViewSyncModel): Promise<void> {
     try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        sync.get('timestamp')
-      );
+      const messages =
+        await window.Signal.Data.getMessagesIncludingEditedBySentAt(
+          sync.get('timestamp')
+        );
 
       const found = messages.find(item => {
         const sender = window.ConversationController.lookupOrCreate({
