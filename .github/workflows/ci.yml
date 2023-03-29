@@ -59,7 +59,7 @@ jobs:
         path: |
           .eslintcache
           tsconfig.tsbuildinfo
-        key: ${{ steps.cache-lint.cache-primary-key }}
+        key: ${{ steps.cache-lint.outputs.cache-primary-key }}
 
   macos:
     needs: lint
