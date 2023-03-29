@@ -1531,7 +1531,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ReduxSogsRoomInfos.setCanWriteOutsideRedux(this.id, !!write);
     }
 
-    const adminChanged = await this.handleModsOrAdminsChanges({
+    const adminChanged = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.admins,
       hiddenModsOrAdmins: details.hidden_admins,
       type: 'admins',
@@ -1539,7 +1539,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     hasChange = hasChange || adminChanged;
 
-    const modsChanged = await this.handleModsOrAdminsChanges({
+    const modsChanged = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.moderators,
       hiddenModsOrAdmins: details.hidden_moderators,
       type: 'mods',
@@ -2045,33 +2045,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private sendTypingMessage(isTyping: boolean) {
-    if (!this.isPrivate()) {
+    // we can only send typing messages to approved contacts
+    if (!this.isPrivate() || this.isMe() || !this.isApproved()) {
       return;
     }
 
-    const recipientId = this.id;
+    const recipientId = this.id as string;
 
-    if (!recipientId) {
+    if (isEmpty(recipientId)) {
       throw new Error('Need to provide either recipientId');
     }
 
-    if (!this.isApproved()) {
-      return;
-    }
-
-    if (this.isMe()) {
-      // note to self
-      return;
-    }
-
     const typingParams = {
-      timestamp: Date.now(),
+      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
       isTyping,
-      typingTimestamp: Date.now(),
+      typingTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     };
     const typingMessage = new TypingMessage(typingParams);
 
-    // send the message to a single recipient if this is a session chat
     const device = new PubKey(recipientId);
     getMessageQueue()
       .sendToPubKey(device, typingMessage, SnodeNamespaces.UserMessages)
@@ -2091,7 +2082,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return replacedWithOurRealSessionId;
   }
 
-  private async handleModsOrAdminsChanges({
+  private async handleSogsModsOrAdminsChanges({
     modsOrAdmins,
     hiddenModsOrAdmins,
     type,
@@ -2110,12 +2101,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         uniq(localModsOrAdmins)
       );
 
-      if (type === 'admins') {
-        return await this.updateGroupAdmins(replacedWithOurRealSessionId, false);
+      switch (type) {
+        case 'admins':
+          return this.updateGroupAdmins(replacedWithOurRealSessionId, false);
+        case 'mods':
+          ReduxSogsRoomInfos.setModeratorsOutsideRedux(this.id, replacedWithOurRealSessionId);
+          return false;
+        default:
+          assertUnreachable(type, `handleSogsModsOrAdminsChanges: unhandled switch case: ${type}`);
       }
-
-      ReduxSogsRoomInfos.setModeratorsOutsideRedux(this.id, replacedWithOurRealSessionId);
-      return false;
     }
     return false;
   }

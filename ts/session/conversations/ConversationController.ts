@@ -14,6 +14,7 @@ import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJo
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
+import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
 
 let instance: ConversationController | null;
 
@@ -207,12 +208,12 @@ export class ConversationController {
     await deleteAllMessagesByConvoIdNoConfirmation(id);
     window.log.info(`deleteContact messages destroyed: ${id}`);
 
-    // Closed/Medium group leaving
+    // Legacy group leaving
     if (conversation.isClosedGroup()) {
       window.log.info(`deleteContact ClosedGroup case: ${id}`);
       await leaveClosedGroup(conversation.id);
       await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);
-      // open group v2
+      await SessionUtilUserGroups.removeLegacyGroupFromWrapper(conversation.id);
     } else if (conversation.isPublic()) {
       window?.log?.info('leaving open group v2', conversation.id);
       // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
@@ -248,7 +249,7 @@ export class ConversationController {
       });
       // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
       // await conversation.setIsApproved(false, false);
-      await conversation.commit();
+      await conversation.commit(); // this updates the wrappers content to reflect the hidden state
 
       // The note to self cannot be removed from the wrapper I suppose, as it must always be there
       // TODO I think we want to mark the contacts as hidden instead of removing them, so maybe keep the volatile info too?
@@ -281,6 +282,7 @@ export class ConversationController {
 
     if (!fromSyncMessage) {
       await ConfigurationSync.queueNewJobIfNeeded();
+      await ConfigurationDumpSync.queueNewJobIfNeeded();
     }
   }
 
@@ -292,10 +294,6 @@ export class ConversationController {
    */
   public getConversations(): Array<ConversationModel> {
     return this.conversations.models;
-  }
-
-  public unsafeDelete(convo: ConversationModel) {
-    this.conversations.remove(convo);
   }
 
   public async load() {
@@ -311,7 +309,7 @@ export class ConversationController {
 
         const start = Date.now();
         // TODO make this a switch so we take care of all wrappers and have compilation errors if we forgot to add one.
-        // also keep in mind that the convo volatile one need to run for each convo.
+        // also keep in mind that the convo volatile one need to run for each convo so it must be outside of a `else`
         for (let index = 0; index < convoModels.length; index++) {
           const convo = convoModels[index];
           if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
@@ -330,7 +328,7 @@ export class ConversationController {
             await convo.refreshInMemoryDetails();
           }
         }
-        console.info(`refreshAllWrappersMappedValues took ${Date.now() - start}ms`);
+        window.log.info(`refreshAllWrappersMappedValues took ${Date.now() - start}ms`);
 
         this._initialFetchComplete = true;
         // TODO do we really need to do this?

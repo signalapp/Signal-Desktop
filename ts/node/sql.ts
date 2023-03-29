@@ -504,6 +504,11 @@ function fetchConvoMemoryDetails(convoId: string): SaveConversationReturn {
   const unreadCount = getUnreadCountByConversation(convoId);
   const lastReadTimestampMessageSentTimestamp = getLastMessageReadInConversation(convoId);
 
+  // TODO it would be nice to be able to remove the lastMessage and lastMessageStatus from the conversation table, and just return it when saving the conversation
+  // and saving it in memory only.
+  // But we'd need to update a bunch of things as we do some logic before setting the lastUpdate text and status mostly in `getMessagePropStatus` and `getNotificationText()`
+  // const lastMessages = getLastMessagesByConversation(convoId, 1) as Array:Record<string, any>>;
+
   return {
     mentionedUs: hasMentionedUsUnread,
     unreadCount,

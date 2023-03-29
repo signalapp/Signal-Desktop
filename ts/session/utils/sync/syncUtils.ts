@@ -95,7 +95,6 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         });
       if (waitForMessageSent) {
         window.Whisper.events.once(ConfigurationSyncJobDone, () => {
-          debugger;
           resolve(true);
         });
       }

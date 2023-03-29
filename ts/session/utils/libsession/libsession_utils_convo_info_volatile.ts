@@ -62,7 +62,7 @@ function isConvoToStoreInWrapper(convo: ConversationModel): boolean {
   return (
     SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo) || // this checks for community & legacy group
     SessionUtilContact.isContactToStoreInContactsWrapper(convo) || // this checks for contacts
-    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id) // this checks for out own pubkey, as we want to keep track of the read state for the Note To Self
+    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id) // this checks for our own pubkey, as we want to keep track of the read state for the Note To Self
   );
 }
 
@@ -91,7 +91,8 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
   const isForcedUnread = foundConvo.isMarkedUnread();
   const timestampFromDbMs = (await Data.fetchConvoMemoryDetails(convoId))?.lastReadTimestampMessage;
 
-  // TODO not having a last read timestamp fallsback to 0, which keeps the existing value in the wrapper if it is already set (as done in src/convo_info_volatile_config.cpp)
+  // Note: not having a last read timestamp fallsback to 0, which keeps the existing value in the wrapper if it is already set (as done in src/convo_info_volatile_config.cpp)
+  // we actually do the max() of whatever is inside the wrapper and the value from the DB
   const lastReadMessageTimestamp =
     !!timestampFromDbMs && isFinite(timestampFromDbMs) && timestampFromDbMs > 0
       ? timestampFromDbMs
