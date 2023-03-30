@@ -42,13 +42,13 @@ export async function joinViaLink(hash: string): Promise<void> {
 
     if (error instanceof Error && error.name === LINK_VERSION_ERROR) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--unknown-link-version'),
-        title: window.i18n('GroupV2--join--unknown-link-version--title'),
+        description: window.i18n('icu:GroupV2--join--unknown-link-version'),
+        title: window.i18n('icu:GroupV2--join--unknown-link-version--title'),
       });
     } else {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--invalid-link'),
-        title: window.i18n('GroupV2--join--invalid-link--title'),
+        description: window.i18n('icu:GroupV2--join--invalid-link'),
+        title: window.i18n('icu:GroupV2--join--invalid-link--title'),
       });
     }
     return;
@@ -98,18 +98,18 @@ export async function joinViaLink(hash: string): Promise<void> {
       error.responseHeaders['x-signal-forbidden-reason']
     ) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--link-forbidden'),
-        title: window.i18n('GroupV2--join--link-forbidden--title'),
+        description: window.i18n('icu:GroupV2--join--link-forbidden'),
+        title: window.i18n('icu:GroupV2--join--link-forbidden--title'),
       });
     } else if (error instanceof HTTPError && error.code === 403) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--link-revoked'),
-        title: window.i18n('GroupV2--join--link-revoked--title'),
+        description: window.i18n('icu:GroupV2--join--link-revoked'),
+        title: window.i18n('icu:GroupV2--join--link-revoked--title'),
       });
     } else {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--general-join-failure'),
-        title: window.i18n('GroupV2--join--general-join-failure--title'),
+        description: window.i18n('icu:GroupV2--join--general-join-failure'),
+        title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
       });
     }
     return;
@@ -120,8 +120,8 @@ export async function joinViaLink(hash: string): Promise<void> {
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
     window.reduxActions.globalModals.showErrorModal({
-      description: window.i18n('GroupV2--join--link-revoked'),
-      title: window.i18n('GroupV2--join--link-revoked--title'),
+      description: window.i18n('icu:GroupV2--join--link-revoked'),
+      title: window.i18n('icu:GroupV2--join--link-revoked--title'),
     });
     return;
   }
@@ -138,7 +138,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     Proto.AccessControl.AccessRequired.ADMINISTRATOR;
   const title =
     decryptGroupTitle(result.title, secretParams) ||
-    window.i18n('unknownGroup');
+    window.i18n('icu:unknownGroup');
   const groupDescription = decryptGroupDescription(
     result.descriptionBytes,
     secretParams

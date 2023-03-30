@@ -49,13 +49,13 @@ export function CallingHeader({
         {isGroupCall && participantCount ? (
           <div className="module-calling-tools__button">
             <Tooltip
-              content={i18n('calling__participants', {
+              content={i18n('icu:calling__participants', {
                 people: String(participantCount),
               })}
               theme={Theme.Dark}
             >
               <button
-                aria-label={i18n('calling__participants', {
+                aria-label={i18n('icu:calling__participants', {
                   people: String(participantCount),
                 })}
                 className={classNames(
@@ -77,11 +77,11 @@ export function CallingHeader({
         ) : null}
         <div className="module-calling-tools__button">
           <Tooltip
-            content={i18n('callingDeviceSelection__settings')}
+            content={i18n('icu:callingDeviceSelection__settings')}
             theme={Theme.Dark}
           >
             <button
-              aria-label={i18n('callingDeviceSelection__settings')}
+              aria-label={i18n('icu:callingDeviceSelection__settings')}
               className="CallingButton__settings"
               onClick={toggleSettings}
               type="button"
@@ -93,16 +93,16 @@ export function CallingHeader({
             <Tooltip
               content={
                 isInSpeakerView
-                  ? i18n('calling__switch-view--to-grid')
-                  : i18n('calling__switch-view--to-speaker')
+                  ? i18n('icu:calling__switch-view--to-grid')
+                  : i18n('icu:calling__switch-view--to-speaker')
               }
               theme={Theme.Dark}
             >
               <button
                 aria-label={
                   isInSpeakerView
-                    ? i18n('calling__switch-view--to-grid')
-                    : i18n('calling__switch-view--to-speaker')
+                    ? i18n('icu:calling__switch-view--to-grid')
+                    : i18n('icu:calling__switch-view--to-speaker')
                 }
                 className={
                   isInSpeakerView
@@ -117,9 +117,9 @@ export function CallingHeader({
         )}
         {togglePip && (
           <div className="module-calling-tools__button">
-            <Tooltip content={i18n('calling__pip--on')} theme={Theme.Dark}>
+            <Tooltip content={i18n('icu:calling__pip--on')} theme={Theme.Dark}>
               <button
-                aria-label={i18n('calling__pip--on')}
+                aria-label={i18n('icu:calling__pip--on')}
                 className="CallingButton__pip"
                 onClick={togglePip}
                 type="button"
@@ -129,9 +129,9 @@ export function CallingHeader({
         )}
         {onCancel && (
           <div className="module-calling-tools__button">
-            <Tooltip content={i18n('cancel')} theme={Theme.Dark}>
+            <Tooltip content={i18n('icu:cancel')} theme={Theme.Dark}>
               <button
-                aria-label={i18n('cancel')}
+                aria-label={i18n('icu:cancel')}
                 className="CallingButton__cancel"
                 onClick={onCancel}
                 type="button"

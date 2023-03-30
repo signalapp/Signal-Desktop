@@ -101,8 +101,8 @@ export function CompositionRecordingDraft({
         mod={active?.playing ? 'pause' : 'play'}
         label={
           active?.playing
-            ? i18n('MessageAudio--pause')
-            : i18n('MessageAudio--play')
+            ? i18n('icu:MessageAudio--pause')
+            : i18n('icu:MessageAudio--play')
         }
         onClick={handlePlaybackClick}
       />

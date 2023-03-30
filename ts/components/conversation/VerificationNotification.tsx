@@ -39,20 +39,28 @@ export class VerificationNotification extends React.Component<Props> {
     switch (type) {
       case 'markVerified':
         return isLocal ? (
-          <Intl id="youMarkedAsVerified" components={{ name }} i18n={i18n} />
+          <Intl
+            id="icu:youMarkedAsVerified"
+            components={{ name }}
+            i18n={i18n}
+          />
         ) : (
           <Intl
-            id="youMarkedAsVerifiedOtherDevice"
+            id="icu:youMarkedAsVerifiedOtherDevice"
             components={{ name }}
             i18n={i18n}
           />
         );
       case 'markNotVerified':
         return isLocal ? (
-          <Intl id="youMarkedAsNotVerified" components={{ name }} i18n={i18n} />
+          <Intl
+            id="icu:youMarkedAsNotVerified"
+            components={{ name }}
+            i18n={i18n}
+          />
         ) : (
           <Intl
-            id="youMarkedAsNotVerifiedOtherDevice"
+            id="icu:youMarkedAsNotVerifiedOtherDevice"
             components={{ name }}
             i18n={i18n}
           />

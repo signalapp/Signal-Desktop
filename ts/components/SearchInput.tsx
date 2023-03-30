@@ -53,7 +53,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
         {hasSearchIcon && <i className={getClassName('__icon')} />}
         {children}
         <input
-          aria-label={label || i18n('search')}
+          aria-label={label || i18n('icu:search')}
           className={classNames(
             getClassName('__input'),
             value && getClassName('__input--with-text'),
@@ -85,7 +85,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
         />
         {value && onClear && (
           <button
-            aria-label={i18n('cancel')}
+            aria-label={i18n('icu:cancel')}
             className={getClassName('__cancel')}
             onClick={onClear}
             tabIndex={-1}

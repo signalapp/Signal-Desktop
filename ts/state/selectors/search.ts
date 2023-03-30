@@ -82,7 +82,7 @@ export const getSearchConversationName = createSelector(
     if (!conversation) {
       return undefined;
     }
-    return conversation.isMe ? i18n('noteToSelf') : conversation.title;
+    return conversation.isMe ? i18n('icu:noteToSelf') : conversation.title;
   }
 );
 

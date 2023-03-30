@@ -3,5 +3,5 @@
 
 const message = document.getElementById('message');
 if (message) {
-  message.innerHTML = window.SignalContext.i18n('optimizingApplication');
+  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');
 }

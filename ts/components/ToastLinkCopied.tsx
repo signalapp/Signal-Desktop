@@ -11,5 +11,5 @@ type PropsType = {
 };
 
 export function ToastLinkCopied({ i18n, onClose }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('debugLogLinkCopied')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:debugLogLinkCopied')}</Toast>;
 }

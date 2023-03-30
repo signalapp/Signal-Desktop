@@ -101,7 +101,7 @@ export function MediaQualitySelector({
       <Reference>
         {({ ref }) => (
           <button
-            aria-label={i18n('MediaQualitySelector--button')}
+            aria-label={i18n('icu:MediaQualitySelector--button')}
             className={classNames({
               MediaQualitySelector__button: true,
               'MediaQualitySelector__button--hq': isHighQuality,
@@ -125,11 +125,11 @@ export function MediaQualitySelector({
                   style={style}
                 >
                   <div className="MediaQualitySelector__title">
-                    {i18n('MediaQualitySelector--title')}
+                    {i18n('icu:MediaQualitySelector--title')}
                   </div>
                   <button
                     aria-label={i18n(
-                      'MediaQualitySelector--standard-quality-title'
+                      'icu:MediaQualitySelector--standard-quality-title'
                     )}
                     className={classNames({
                       MediaQualitySelector__option: true,
@@ -151,18 +151,20 @@ export function MediaQualitySelector({
                     />
                     <div>
                       <div className="MediaQualitySelector__option--title">
-                        {i18n('MediaQualitySelector--standard-quality-title')}
+                        {i18n(
+                          'icu:MediaQualitySelector--standard-quality-title'
+                        )}
                       </div>
                       <div className="MediaQualitySelector__option--description">
                         {i18n(
-                          'MediaQualitySelector--standard-quality-description'
+                          'icu:MediaQualitySelector--standard-quality-description'
                         )}
                       </div>
                     </div>
                   </button>
                   <button
                     aria-label={i18n(
-                      'MediaQualitySelector--high-quality-title'
+                      'icu:MediaQualitySelector--high-quality-title'
                     )}
                     className={classNames({
                       MediaQualitySelector__option: true,
@@ -183,10 +185,12 @@ export function MediaQualitySelector({
                     />
                     <div>
                       <div className="MediaQualitySelector__option--title">
-                        {i18n('MediaQualitySelector--high-quality-title')}
+                        {i18n('icu:MediaQualitySelector--high-quality-title')}
                       </div>
                       <div className="MediaQualitySelector__option--description">
-                        {i18n('MediaQualitySelector--high-quality-description')}
+                        {i18n(
+                          'icu:MediaQualitySelector--high-quality-description'
+                        )}
                       </div>
                     </div>
                   </button>

@@ -147,7 +147,7 @@ export function StoryImage({
   if (isPending) {
     overlay = (
       <div className="StoryImage__overlay-container">
-        <div className="StoryImage__spinner-bubble" title={i18n('loading')}>
+        <div className="StoryImage__spinner-bubble" title={i18n('icu:loading')}>
           <Spinner moduleClassName="StoryImage__spinner" svgSize="small" />
         </div>
       </div>
@@ -156,11 +156,11 @@ export function StoryImage({
     let content = <div className="StoryImage__error" />;
     if (!isThumbnail) {
       if (isMe) {
-        content = <>{i18n('StoryImage__error--you')}</>;
+        content = <>{i18n('icu:StoryImage__error--you')}</>;
       } else {
         content = (
           <>
-            {i18n('StoryImage__error2', {
+            {i18n('icu:StoryImage__error2', {
               name: firstName,
             })}
           </>

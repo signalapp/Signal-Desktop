@@ -180,11 +180,13 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
         '<ContactSpoofingReviewDialog> expected a direct conversation for the "safe" conversation'
       );
 
-      title = i18n('ContactSpoofingReviewDialog__title');
+      title = i18n('icu:ContactSpoofingReviewDialog__title');
       contents = (
         <>
-          <p>{i18n('ContactSpoofingReviewDialog__description')}</p>
-          <h2>{i18n('ContactSpoofingReviewDialog__possibly-unsafe-title')}</h2>
+          <p>{i18n('icu:ContactSpoofingReviewDialog__description')}</p>
+          <h2>
+            {i18n('icu:ContactSpoofingReviewDialog__possibly-unsafe-title')}
+          </h2>
           <ContactSpoofingReviewDialogPerson
             conversation={possiblyUnsafeConversation}
             getPreferredBadge={getPreferredBadge}
@@ -201,7 +203,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                   });
                 }}
               >
-                {i18n('MessageRequests--delete')}
+                {i18n('icu:MessageRequests--delete')}
               </Button>
               <Button
                 variant={ButtonVariant.SecondaryDestructive}
@@ -212,12 +214,12 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                   });
                 }}
               >
-                {i18n('MessageRequests--block')}
+                {i18n('icu:MessageRequests--block')}
               </Button>
             </div>
           </ContactSpoofingReviewDialogPerson>
           <hr />
-          <h2>{i18n('ContactSpoofingReviewDialog__safe-title')}</h2>
+          <h2>{i18n('icu:ContactSpoofingReviewDialog__safe-title')}</h2>
           <ContactSpoofingReviewDialogPerson
             conversation={safeConversation}
             getPreferredBadge={getPreferredBadge}
@@ -246,15 +248,17 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
         'id',
       ]);
 
-      title = i18n('ContactSpoofingReviewDialog__group__title');
+      title = i18n('icu:ContactSpoofingReviewDialog__group__title');
       contents = (
         <>
           <p>
-            {i18n('ContactSpoofingReviewDialog__group__description', {
+            {i18n('icu:ContactSpoofingReviewDialog__group__description', {
               count: conversationInfos.length.toString(),
             })}
           </p>
-          <h2>{i18n('ContactSpoofingReviewDialog__group__members-header')}</h2>
+          <h2>
+            {i18n('icu:ContactSpoofingReviewDialog__group__members-header')}
+          </h2>
           {conversationInfos.map((conversationInfo, index) => {
             let button: ReactNode;
             if (group.areWeAdmin) {
@@ -269,7 +273,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     });
                   }}
                 >
-                  {i18n('RemoveGroupMemberConfirmation__remove-button')}
+                  {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
                 </Button>
               );
             } else if (conversationInfo.conversation.isBlocked) {
@@ -280,7 +284,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     acceptConversation(conversationInfo.conversation.id);
                   }}
                 >
-                  {i18n('MessageRequests--unblock')}
+                  {i18n('icu:MessageRequests--unblock')}
                 </Button>
               );
             } else if (!isInSystemContacts(conversationInfo.conversation)) {
@@ -294,7 +298,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     });
                   }}
                 >
-                  {i18n('MessageRequests--block')}
+                  {i18n('icu:MessageRequests--block')}
                 </Button>
               );
             }
@@ -310,7 +314,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 <div className="module-ContactSpoofingReviewDialogPerson__info__property module-ContactSpoofingReviewDialogPerson__info__property--callout">
                   <Intl
                     i18n={i18n}
-                    id="ContactSpoofingReviewDialog__group__name-change-info"
+                    id="icu:ContactSpoofingReviewDialog__group__name-change-info"
                     components={{
                       oldName: <Emojify text={oldName} />,
                       newName: <Emojify text={newName} />,

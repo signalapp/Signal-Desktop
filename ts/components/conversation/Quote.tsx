@@ -116,26 +116,26 @@ function getTypeLabel({
 }): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     if (isViewOnce) {
-      return i18n('message--getDescription--disappearing-video');
+      return i18n('icu:message--getDescription--disappearing-video');
     }
-    return i18n('video');
+    return i18n('icu:video');
   }
   if (GoogleChrome.isImageTypeSupported(contentType)) {
     if (isViewOnce) {
-      return i18n('message--getDescription--disappearing-photo');
+      return i18n('icu:message--getDescription--disappearing-photo');
     }
-    return i18n('photo');
+    return i18n('icu:photo');
   }
 
   if (isViewOnce) {
-    return i18n('message--getDescription--disappearing-media');
+    return i18n('icu:message--getDescription--disappearing-media');
   }
 
   if (MIME.isAudio(contentType) && isVoiceMessage) {
-    return i18n('voiceMessage');
+    return i18n('icu:voiceMessage');
   }
 
-  return MIME.isAudio(contentType) ? i18n('audio') : undefined;
+  return MIME.isAudio(contentType) ? i18n('icu:audio') : undefined;
 }
 
 export class Quote extends React.Component<Props, State> {
@@ -454,7 +454,7 @@ export class Quote extends React.Component<Props, State> {
           // We can't be a button because the overall quote is a button; can't nest them
           role="button"
           className={this.getClassName('__close-button')}
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
           onKeyDown={keyDownHandler}
           onClick={clickHandler}
         />
@@ -466,10 +466,14 @@ export class Quote extends React.Component<Props, State> {
     const { authorTitle, i18n, isFromMe, isIncoming, isStoryReply } =
       this.props;
 
-    const title = isFromMe ? i18n('you') : <ContactName title={authorTitle} />;
+    const title = isFromMe ? (
+      i18n('icu:you')
+    ) : (
+      <ContactName title={authorTitle} />
+    );
     const author = isStoryReply ? (
       <>
-        {title} &middot; {i18n('Quote__story')}
+        {title} &middot; {i18n('icu:Quote__story')}
       </>
     ) : (
       title
@@ -527,7 +531,7 @@ export class Quote extends React.Component<Props, State> {
               : null
           )}
         >
-          {i18n('originalMessageNotFound')}
+          {i18n('icu:originalMessageNotFound')}
         </div>
       </div>
     );

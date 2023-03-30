@@ -32,34 +32,38 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   if (contacts.length === 1) {
     const contact = contacts[0];
 
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--one');
+    title = i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title--one');
     body = (
       <>
         <GroupDialog.Paragraph>
           <Intl
             i18n={i18n}
-            id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
+            id="icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
             components={{ name: <ContactName title={contact.title} /> }}
           />
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
+          {i18n(
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+          )}
         </GroupDialog.Paragraph>
       </>
     );
   } else {
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', {
+    title = i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title--many', {
       count: contacts.length.toString(),
     });
     body = (
       <>
         <GroupDialog.Paragraph>
           {i18n(
-            'NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
           )}
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
+          {i18n(
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+          )}
         </GroupDialog.Paragraph>
         <GroupDialog.Contacts
           contacts={contacts}
@@ -75,9 +79,9 @@ export function NewlyCreatedGroupInvitedContactsDialog({
     <GroupDialog
       i18n={i18n}
       onClickPrimaryButton={onClose}
-      primaryButtonText={i18n('Confirmation--confirm')}
+      primaryButtonText={i18n('icu:Confirmation--confirm')}
       secondaryButtonText={i18n(
-        'NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
+        'icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
       )}
       onClickSecondaryButton={() => {
         openLinkInWebBrowser(

@@ -40,7 +40,7 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
         onClick={onEraseClick}
         variant={ButtonVariant.Secondary}
       >
-        {i18n('CrashReportDialog__erase')}
+        {i18n('icu:CrashReportDialog__erase')}
       </Button>
       <Button
         disabled={isPending}
@@ -51,7 +51,7 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
         {isPending ? (
           <Spinner size="22px" svgSize="small" />
         ) : (
-          i18n('CrashReportDialog__submit')
+          i18n('icu:CrashReportDialog__submit')
         )}
       </Button>
     </>
@@ -62,12 +62,12 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
       modalName="CrashReportDialog"
       moduleClassName="module-Modal--important"
       i18n={i18n}
-      title={i18n('CrashReportDialog__title')}
+      title={i18n('icu:CrashReportDialog__title')}
       hasXButton
       onClose={eraseCrashReports}
       modalFooter={footer}
     >
-      <section>{i18n('CrashReportDialog__body')}</section>
+      <section>{i18n('icu:CrashReportDialog__body')}</section>
     </Modal>
   );
 }

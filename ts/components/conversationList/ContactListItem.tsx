@@ -71,7 +71,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       <ContactName
         isMe={isMe}
         module={HEADER_CONTACT_NAME_CLASS_NAME}
-        title={i18n('noteToSelf')}
+        title={i18n('icu:noteToSelf')}
       />
     ) : (
       <ContactName

@@ -19,16 +19,16 @@ describe('setupI18n', () => {
       assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', () => {
-      assert.strictEqual(i18n('reportIssue'), 'Contact Support');
+      assert.strictEqual(i18n('icu:reportIssue'), 'Contact Support');
     });
     it('returns message with single substitution', () => {
-      const actual = i18n('migratingToSQLCipher', {
+      const actual = i18n('icu:migratingToSQLCipher', {
         status: '45/200',
       });
       assert.equal(actual, 'Optimizing messages... 45/200 complete.');
     });
     it('returns message with multiple substitutions', () => {
-      const actual = i18n('theyChangedTheTimer', {
+      const actual = i18n('icu:theyChangedTheTimer', {
         name: 'Someone',
         time: '5 minutes',
       });

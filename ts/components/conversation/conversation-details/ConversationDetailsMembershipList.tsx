@@ -93,7 +93,7 @@ export function ConversationDetailsMembershipList({
 
   return (
     <PanelSection
-      title={i18n('ConversationDetailsMembershipList--title', {
+      title={i18n('icu:ConversationDetailsMembershipList--title', {
         number: sortedMemberships.length.toString(),
       })}
     >
@@ -102,7 +102,7 @@ export function ConversationDetailsMembershipList({
           icon={
             <div className="ConversationDetails-membership-list__add-members-icon" />
           }
-          label={i18n('ConversationDetailsMembershipList--add-members')}
+          label={i18n('icu:ConversationDetailsMembershipList--add-members')}
           onClick={() => startAddingNewMembers?.()}
         />
       )}
@@ -120,8 +120,10 @@ export function ConversationDetailsMembershipList({
               {...member}
             />
           }
-          label={<Emojify text={member.isMe ? i18n('you') : member.title} />}
-          right={isAdmin ? i18n('GroupV2--admin') : ''}
+          label={
+            <Emojify text={member.isMe ? i18n('icu:you') : member.title} />
+          }
+          right={isAdmin ? i18n('icu:GroupV2--admin') : ''}
         />
       ))}
       {showAllMembers === false && shouldHideRestMembers && (
@@ -129,12 +131,14 @@ export function ConversationDetailsMembershipList({
           className="ConversationDetails-membership-list--show-all"
           icon={
             <ConversationDetailsIcon
-              ariaLabel={i18n('ConversationDetailsMembershipList--show-all')}
+              ariaLabel={i18n(
+                'icu:ConversationDetailsMembershipList--show-all'
+              )}
               icon={IconType.down}
             />
           }
           onClick={() => setShowAllMembers(true)}
-          label={i18n('ConversationDetailsMembershipList--show-all')}
+          label={i18n('icu:ConversationDetailsMembershipList--show-all')}
         />
       )}
     </PanelSection>

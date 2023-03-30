@@ -200,7 +200,7 @@ export function ModalPage({
           >
             {onBackButtonClick && (
               <button
-                aria-label={i18n('back')}
+                aria-label={i18n('icu:back')}
                 className={getClassName('__back-button')}
                 onClick={onBackButtonClick}
                 tabIndex={0}
@@ -222,7 +222,7 @@ export function ModalPage({
             )}
             {hasXButton && (
               <button
-                aria-label={i18n('close')}
+                aria-label={i18n('icu:close')}
                 className={getClassName('__close-button')}
                 onClick={onClose}
                 tabIndex={0}

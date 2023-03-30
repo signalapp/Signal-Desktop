@@ -46,14 +46,14 @@ export function ChatSessionRefreshedNotification(
   return (
     <>
       <SystemMessage
-        contents={i18n('ChatRefresh--notification')}
+        contents={i18n('icu:ChatRefresh--notification')}
         button={
           <Button
             onClick={openDialog}
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
-            {i18n('ChatRefresh--learnMore')}
+            {i18n('icu:ChatRefresh--learnMore')}
           </Button>
         }
         icon="session-refresh"

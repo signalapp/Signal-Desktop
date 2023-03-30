@@ -622,7 +622,7 @@ export function CompositionInput(props: Props): React.ReactElement {
             },
           }}
           formats={['emoji', 'mention']}
-          placeholder={placeholder || i18n('sendMessage')}
+          placeholder={placeholder || i18n('icu:sendMessage')}
           readOnly={disabled}
           ref={element => {
             if (element) {

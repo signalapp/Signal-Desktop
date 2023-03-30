@@ -111,7 +111,7 @@ export function MessageBody({
     pendingContent = null;
   } else if (textAttachment?.pending) {
     pendingContent = (
-      <span className="MessageBody__highlight"> {i18n('downloading')}</span>
+      <span className="MessageBody__highlight"> {i18n('icu:downloading')}</span>
     );
   } else if (
     textAttachment &&
@@ -134,7 +134,7 @@ export function MessageBody({
           tabIndex={0}
           type="button"
         >
-          {i18n('downloadFullMessage')}
+          {i18n('icu:downloadFullMessage')}
         </button>
       </span>
     );
@@ -194,7 +194,7 @@ export function MessageBody({
           type="button"
         >
           {' '}
-          {i18n('MessageBody--read-more')}
+          {i18n('icu:MessageBody--read-more')}
         </button>
       ) : null}
     </span>

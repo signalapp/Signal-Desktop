@@ -73,7 +73,7 @@ export function StoryLinkPreview({
       {isImage && image ? (
         <div className="StoryLinkPreview__icon-container">
           <Image
-            alt={i18n('stagedPreviewThumbnail', {
+            alt={i18n('icu:stagedPreviewThumbnail', {
               domain: location,
             })}
             attachment={image}

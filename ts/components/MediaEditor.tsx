@@ -632,7 +632,7 @@ export function MediaEditor({
       <>
         <Slider
           handleStyle={{ backgroundColor: getHSL(sliderValue) }}
-          label={i18n('CustomColorEditor__hue')}
+          label={i18n('icu:CustomColorEditor__hue')}
           moduleClassName="HueSlider MediaEditor__tools__tool"
           onChange={setSliderValue}
           value={sliderValue}
@@ -642,19 +642,19 @@ export function MediaEditor({
           menuOptions={[
             {
               icon: 'MediaEditor__icon--text-regular',
-              label: i18n('MediaEditor__text--regular'),
+              label: i18n('icu:MediaEditor__text--regular'),
               onClick: () => setTextStyle(TextStyle.Regular),
               value: TextStyle.Regular,
             },
             {
               icon: 'MediaEditor__icon--text-highlight',
-              label: i18n('MediaEditor__text--highlight'),
+              label: i18n('icu:MediaEditor__text--highlight'),
               onClick: () => setTextStyle(TextStyle.Highlight),
               value: TextStyle.Highlight,
             },
             {
               icon: 'MediaEditor__icon--text-outline',
-              label: i18n('MediaEditor__text--outline'),
+              label: i18n('icu:MediaEditor__text--outline'),
               onClick: () => setTextStyle(TextStyle.Outline),
               value: TextStyle.Outline,
             },
@@ -682,7 +682,7 @@ export function MediaEditor({
           }}
           type="button"
         >
-          {i18n('done')}
+          {i18n('icu:done')}
         </button>
       </>
     );
@@ -691,7 +691,7 @@ export function MediaEditor({
       <>
         <Slider
           handleStyle={{ backgroundColor: getHSL(sliderValue) }}
-          label={i18n('CustomColorEditor__hue')}
+          label={i18n('icu:CustomColorEditor__hue')}
           moduleClassName="HueSlider MediaEditor__tools__tool"
           onChange={setSliderValue}
           value={sliderValue}
@@ -701,13 +701,13 @@ export function MediaEditor({
           menuOptions={[
             {
               icon: 'MediaEditor__icon--draw-pen',
-              label: i18n('MediaEditor__draw--pen'),
+              label: i18n('icu:MediaEditor__draw--pen'),
               onClick: () => setDrawTool(DrawTool.Pen),
               value: DrawTool.Pen,
             },
             {
               icon: 'MediaEditor__icon--draw-highlighter',
-              label: i18n('MediaEditor__draw--highlighter'),
+              label: i18n('icu:MediaEditor__draw--highlighter'),
               onClick: () => setDrawTool(DrawTool.Highlighter),
               value: DrawTool.Highlighter,
             },
@@ -725,25 +725,25 @@ export function MediaEditor({
           menuOptions={[
             {
               icon: 'MediaEditor__icon--width-thin',
-              label: i18n('MediaEditor__draw--thin'),
+              label: i18n('icu:MediaEditor__draw--thin'),
               onClick: () => setDrawWidth(DrawWidth.Thin),
               value: DrawWidth.Thin,
             },
             {
               icon: 'MediaEditor__icon--width-regular',
-              label: i18n('MediaEditor__draw--regular'),
+              label: i18n('icu:MediaEditor__draw--regular'),
               onClick: () => setDrawWidth(DrawWidth.Regular),
               value: DrawWidth.Regular,
             },
             {
               icon: 'MediaEditor__icon--width-medium',
-              label: i18n('MediaEditor__draw--medium'),
+              label: i18n('icu:MediaEditor__draw--medium'),
               onClick: () => setDrawWidth(DrawWidth.Medium),
               value: DrawWidth.Medium,
             },
             {
               icon: 'MediaEditor__icon--width-heavy',
-              label: i18n('MediaEditor__draw--heavy'),
+              label: i18n('icu:MediaEditor__draw--heavy'),
               onClick: () => setDrawWidth(DrawWidth.Heavy),
               value: DrawWidth.Heavy,
             },
@@ -766,7 +766,7 @@ export function MediaEditor({
           onClick={() => setEditMode(undefined)}
           type="button"
         >
-          {i18n('done')}
+          {i18n('icu:done')}
         </button>
       </>
     );
@@ -799,10 +799,10 @@ export function MediaEditor({
           }}
           type="button"
         >
-          {i18n('MediaEditor__crop--reset')}
+          {i18n('icu:MediaEditor__crop--reset')}
         </button>
         <button
-          aria-label={i18n('MediaEditor__crop--rotate')}
+          aria-label={i18n('icu:MediaEditor__crop--rotate')}
           className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--rotate"
           onClick={() => {
             if (!fabricCanvas) {
@@ -838,7 +838,7 @@ export function MediaEditor({
           type="button"
         />
         <button
-          aria-label={i18n('MediaEditor__crop--flip')}
+          aria-label={i18n('icu:MediaEditor__crop--flip')}
           className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--flip"
           onClick={() => {
             if (!fabricCanvas) {
@@ -857,7 +857,7 @@ export function MediaEditor({
           type="button"
         />
         <button
-          aria-label={i18n('MediaEditor__crop--lock')}
+          aria-label={i18n('icu:MediaEditor__crop--lock')}
           className={classNames(
             'MediaEditor__tools__button',
             `MediaEditor__tools__button--crop-${
@@ -896,7 +896,7 @@ export function MediaEditor({
           }}
           type="button"
         >
-          {i18n('done')}
+          {i18n('icu:done')}
         </button>
       </>
     );
@@ -955,7 +955,7 @@ export function MediaEditor({
                       />
                     </span>
                   ) : (
-                    i18n('MediaEditor__caption-button')
+                    i18n('icu:MediaEditor__caption-button')
                   )}
                 </button>
 
@@ -984,11 +984,11 @@ export function MediaEditor({
             theme={Theme.Dark}
             variant={ButtonVariant.Secondary}
           >
-            {i18n('discard')}
+            {i18n('icu:discard')}
           </Button>
           <div className="MediaEditor__controls">
             <button
-              aria-label={i18n('MediaEditor__control--draw')}
+              aria-label={i18n('icu:MediaEditor__control--draw')}
               className={classNames({
                 MediaEditor__control: true,
                 'MediaEditor__control--pen': true,
@@ -1002,7 +1002,7 @@ export function MediaEditor({
               type="button"
             />
             <button
-              aria-label={i18n('MediaEditor__control--text')}
+              aria-label={i18n('icu:MediaEditor__control--text')}
               className={classNames({
                 MediaEditor__control: true,
                 'MediaEditor__control--text': true,
@@ -1117,7 +1117,7 @@ export function MediaEditor({
               theme={Theme.Dark}
             />
             <button
-              aria-label={i18n('MediaEditor__control--crop')}
+              aria-label={i18n('icu:MediaEditor__control--crop')}
               className={classNames({
                 MediaEditor__control: true,
                 'MediaEditor__control--crop': true,
@@ -1140,7 +1140,7 @@ export function MediaEditor({
               type="button"
             />
             <button
-              aria-label={i18n('MediaEditor__control--undo')}
+              aria-label={i18n('icu:MediaEditor__control--undo')}
               className="MediaEditor__control MediaEditor__control--undo"
               disabled={!canUndo}
               onClick={() => {
@@ -1152,7 +1152,7 @@ export function MediaEditor({
               type="button"
             />
             <button
-              aria-label={i18n('MediaEditor__control--redo')}
+              aria-label={i18n('icu:MediaEditor__control--redo')}
               className="MediaEditor__control MediaEditor__control--redo"
               disabled={!canRedo}
               onClick={() => {
@@ -1238,7 +1238,7 @@ export function MediaEditor({
             {isSending ? (
               <Spinner svgSize="small" />
             ) : (
-              doneButtonLabel || i18n('save')
+              doneButtonLabel || i18n('icu:save')
             )}
           </Button>
         </div>

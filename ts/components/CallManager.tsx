@@ -362,7 +362,7 @@ function ActiveCallManager({
       {activeCall.callMode === CallMode.Group &&
       activeCall.conversationsWithSafetyNumberChanges.length ? (
         <SafetyNumberChangeDialog
-          confirmText={i18n('continueCall')}
+          confirmText={i18n('icu:continueCall')}
           contacts={[
             {
               story: undefined,

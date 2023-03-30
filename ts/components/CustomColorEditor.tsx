@@ -78,11 +78,11 @@ export function CustomColorEditor({
       tabs={[
         {
           id: TabViews.Solid,
-          label: i18n('CustomColorEditor__solid'),
+          label: i18n('icu:CustomColorEditor__solid'),
         },
         {
           id: TabViews.Gradient,
-          label: i18n('CustomColorEditor__gradient'),
+          label: i18n('icu:CustomColorEditor__gradient'),
         },
       ]}
     >
@@ -114,7 +114,7 @@ export function CustomColorEditor({
             )}
           </div>
           <div className="CustomColorEditor__slider-container">
-            {i18n('CustomColorEditor__hue')}
+            {i18n('icu:CustomColorEditor__hue')}
             <Slider
               handleStyle={{
                 backgroundColor: getHSL({
@@ -122,7 +122,7 @@ export function CustomColorEditor({
                   saturation: 100,
                 }),
               }}
-              label={i18n('CustomColorEditor__hue')}
+              label={i18n('icu:CustomColorEditor__hue')}
               moduleClassName="CustomColorEditor__hue-slider"
               onChange={(percentage: number) => {
                 setColor({
@@ -138,7 +138,7 @@ export function CustomColorEditor({
             />
           </div>
           <div className="CustomColorEditor__slider-container">
-            {i18n('CustomColorEditor__saturation')}
+            {i18n('icu:CustomColorEditor__saturation')}
             <Slider
               containerStyle={getCustomColorStyle({
                 deg: 180,
@@ -150,7 +150,7 @@ export function CustomColorEditor({
                   color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES
                 ),
               }}
-              label={i18n('CustomColorEditor__saturation')}
+              label={i18n('icu:CustomColorEditor__saturation')}
               moduleClassName="CustomColorEditor__saturation-slider"
               onChange={(value: number) => {
                 setColor({
@@ -167,7 +167,7 @@ export function CustomColorEditor({
           </div>
           <div className="CustomColorEditor__footer">
             <Button variant={ButtonVariant.Secondary} onClick={onClose}>
-              {i18n('cancel')}
+              {i18n('icu:cancel')}
             </Button>
             <Button
               onClick={() => {
@@ -175,7 +175,7 @@ export function CustomColorEditor({
                 onClose();
               }}
             >
-              {i18n('save')}
+              {i18n('icu:save')}
             </Button>
           </div>
         </>

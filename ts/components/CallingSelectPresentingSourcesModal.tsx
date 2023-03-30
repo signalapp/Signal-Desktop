@@ -85,13 +85,13 @@ export function CallingSelectPresentingSourcesModal({
   const footer = (
     <>
       <Button onClick={() => setPresenting()} variant={ButtonVariant.Secondary}>
-        {i18n('cancel')}
+        {i18n('icu:cancel')}
       </Button>
       <Button
         disabled={!sourceToPresent}
         onClick={() => setPresenting(sourceToPresent)}
       >
-        {i18n('calling__SelectPresentingSourcesModal--confirm')}
+        {i18n('icu:calling__SelectPresentingSourcesModal--confirm')}
       </Button>
     </>
   );
@@ -106,11 +106,11 @@ export function CallingSelectPresentingSourcesModal({
         setPresenting();
       }}
       theme={Theme.Dark}
-      title={i18n('calling__SelectPresentingSourcesModal--title')}
+      title={i18n('icu:calling__SelectPresentingSourcesModal--title')}
       modalFooter={footer}
     >
       <div className="module-CallingSelectPresentingSourcesModal__title">
-        {i18n('calling__SelectPresentingSourcesModal--entireScreen')}
+        {i18n('icu:calling__SelectPresentingSourcesModal--entireScreen')}
       </div>
       <div className="module-CallingSelectPresentingSourcesModal__sources">
         {(sources.true ?? []).map(source => (
@@ -123,7 +123,7 @@ export function CallingSelectPresentingSourcesModal({
         ))}
       </div>
       <div className="module-CallingSelectPresentingSourcesModal__title">
-        {i18n('calling__SelectPresentingSourcesModal--window')}
+        {i18n('icu:calling__SelectPresentingSourcesModal--window')}
       </div>
       <div className="module-CallingSelectPresentingSourcesModal__sources">
         {(sources.false ?? []).map(source => (

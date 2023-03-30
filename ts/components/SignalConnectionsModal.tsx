@@ -31,27 +31,27 @@ export function SignalConnectionsModal({
           <Intl
             components={{
               connections: (
-                <strong>{i18n('SignalConnectionsModal__title')}</strong>
+                <strong>{i18n('icu:SignalConnectionsModal__title')}</strong>
               ),
             }}
             i18n={i18n}
-            id="SignalConnectionsModal__header"
+            id="icu:SignalConnectionsModal__header"
           />
         </div>
 
         <ul className="SignalConnectionsModal__list">
-          <li>{i18n('SignalConnectionsModal__bullet--1')}</li>
-          <li>{i18n('SignalConnectionsModal__bullet--2')}</li>
-          <li>{i18n('SignalConnectionsModal__bullet--3')}</li>
+          <li>{i18n('icu:SignalConnectionsModal__bullet--1')}</li>
+          <li>{i18n('icu:SignalConnectionsModal__bullet--2')}</li>
+          <li>{i18n('icu:SignalConnectionsModal__bullet--3')}</li>
         </ul>
 
         <div className="SignalConnectionsModal__description">
-          {i18n('SignalConnectionsModal__footer')}
+          {i18n('icu:SignalConnectionsModal__footer')}
         </div>
 
         <div className="SignalConnectionsModal__button">
           <Button onClick={onClose} variant={ButtonVariant.Primary}>
-            {i18n('Confirmation--confirm')}
+            {i18n('icu:Confirmation--confirm')}
           </Button>
         </div>
       </div>

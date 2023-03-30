@@ -438,7 +438,7 @@ describe('Message', () => {
           source,
           flags: true,
         }).getNotificationData(),
-        { text: i18n('sessionEnded') }
+        { text: i18n('icu:sessionEnded') }
       );
     });
 
@@ -449,7 +449,7 @@ describe('Message', () => {
           source,
           errors: [{}],
         }).getNotificationData(),
-        { text: i18n('incomingError') }
+        { text: i18n('icu:incomingError') }
       );
     });
 

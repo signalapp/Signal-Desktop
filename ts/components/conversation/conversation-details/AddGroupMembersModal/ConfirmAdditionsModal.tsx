@@ -47,7 +47,7 @@ export function ConfirmAdditionsModal({
     headerText = (
       <Intl
         i18n={i18n}
-        id="AddGroupMembersModal--confirm-title--one"
+        id="icu:AddGroupMembersModal--confirm-title--one"
         components={{
           person: <ContactName title={firstContact.title} />,
           group: groupTitleNode,
@@ -58,7 +58,7 @@ export function ConfirmAdditionsModal({
     headerText = (
       <Intl
         i18n={i18n}
-        id="AddGroupMembersModal--confirm-title--many"
+        id="icu:AddGroupMembersModal--confirm-title--many"
         components={{
           count: selectedContacts.length.toString(),
           group: groupTitleNode,
@@ -73,9 +73,9 @@ export function ConfirmAdditionsModal({
       <Spinner size="20px" svgSize="small" direction="on-avatar" />
     );
   } else if (selectedContacts.length === 1) {
-    buttonContents = i18n('AddGroupMembersModal--confirm-button--one');
+    buttonContents = i18n('icu:AddGroupMembersModal--confirm-button--one');
   } else {
-    buttonContents = i18n('AddGroupMembersModal--confirm-button--many');
+    buttonContents = i18n('icu:AddGroupMembersModal--confirm-button--many');
   }
 
   return (
@@ -87,12 +87,12 @@ export function ConfirmAdditionsModal({
         <h1 className="module-AddGroupMembersModal__header">{headerText}</h1>
         {requestState === RequestState.InactiveWithError && (
           <div className="module-AddGroupMembersModal__error-message">
-            {i18n('updateGroupAttributes__error-message')}
+            {i18n('icu:updateGroupAttributes__error-message')}
           </div>
         )}
         <div className="module-AddGroupMembersModal__button-container">
           <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
 
           <Button

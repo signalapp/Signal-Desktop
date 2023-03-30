@@ -162,13 +162,13 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       noResults = (
         <>
           <div>
-            {i18n('noSearchResults', {
+            {i18n('icu:noSearchResults', {
               searchTerm,
             })}
           </div>
           {primarySendsSms && (
             <div className="module-left-pane__no-search-results__sms-only">
-              {i18n('noSearchResults--sms-only')}
+              {i18n('icu:noSearchResults--sms-only')}
             </div>
           )}
         </>
@@ -229,7 +229,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       if (rowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('conversationsHeader'),
+          getHeaderText: i18n => i18n('icu:conversationsHeader'),
         };
       }
       assertDev(
@@ -250,7 +250,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       if (localIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('contactsHeader'),
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
       assertDev(
@@ -274,7 +274,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     if (localIndex === 0) {
       return {
         type: RowType.Header,
-        getHeaderText: i18n => i18n('messagesHeader'),
+        getHeaderText: i18n => i18n('icu:messagesHeader'),
       };
     }
     assertDev(

@@ -41,10 +41,10 @@ export function ChatSessionRefreshedDialog(
           />
         </div>
         <div className="module-chat-session-refreshed-dialog__title">
-          {i18n('ChatRefresh--notification')}
+          {i18n('icu:ChatRefresh--notification')}
         </div>
         <div className="module-chat-session-refreshed-dialog__description">
-          {i18n('ChatRefresh--summary')}
+          {i18n('icu:ChatRefresh--summary')}
         </div>
         <div className="module-chat-session-refreshed-dialog__buttons">
           <button
@@ -55,7 +55,7 @@ export function ChatSessionRefreshedDialog(
               'module-chat-session-refreshed-dialog__button--secondary'
             )}
           >
-            {i18n('ChatRefresh--contactSupport')}
+            {i18n('icu:ChatRefresh--contactSupport')}
           </button>
           <button
             type="button"
@@ -63,7 +63,7 @@ export function ChatSessionRefreshedDialog(
             ref={focusRef}
             className="module-chat-session-refreshed-dialog__button"
           >
-            {i18n('Confirmation--confirm')}
+            {i18n('icu:Confirmation--confirm')}
           </button>
         </div>
       </div>

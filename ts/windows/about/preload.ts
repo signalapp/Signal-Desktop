@@ -27,7 +27,7 @@ if (config.appInstance) {
 let platform = '';
 if (process.platform === 'darwin') {
   if (process.arch === 'arm64') {
-    platform = ` (${i18n('appleSilicon')})`;
+    platform = ` (${i18n('icu:appleSilicon')})`;
   } else {
     platform = ' (Intel)';
   }

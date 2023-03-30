@@ -43,13 +43,13 @@ export function SmartSendAnywayDialog(): JSX.Element {
     : undefined;
 
   let confirmText: string | undefined = i18n(
-    'safetyNumberChangeDialog__pending-messages'
+    'icu:safetyNumberChangeDialog__pending-messages'
   );
   if (safetyNumberChangedBlockingData?.source) {
     confirmText =
       safetyNumberChangedBlockingData?.source ===
       SafetyNumberChangeSource.Calling
-        ? i18n('callAnyway')
+        ? i18n('icu:callAnyway')
         : undefined;
   }
 

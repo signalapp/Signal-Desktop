@@ -83,7 +83,7 @@ export function AvatarPopup(props: Props): JSX.Element {
           )}
         />
         <div className="module-avatar-popup__item__text">
-          {i18n('mainMenuSettings')}
+          {i18n('icu:mainMenuSettings')}
         </div>
       </button>
       <button
@@ -98,7 +98,7 @@ export function AvatarPopup(props: Props): JSX.Element {
           )}
         />
         <div className="module-avatar-popup__item__text">
-          {i18n('avatarMenuViewArchive')}
+          {i18n('icu:avatarMenuViewArchive')}
         </div>
       </button>
       {hasPendingUpdate && (
@@ -114,7 +114,7 @@ export function AvatarPopup(props: Props): JSX.Element {
             )}
           />
           <div className="module-avatar-popup__item__text">
-            {i18n('avatarMenuUpdateAvailable')}
+            {i18n('icu:avatarMenuUpdateAvailable')}
           </div>
           <div className="module-avatar-popup__item--badge" />
         </button>

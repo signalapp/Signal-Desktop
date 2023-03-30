@@ -98,12 +98,12 @@ export const StickerManagerPackRow = React.memo(
             actions={[
               {
                 style: 'negative',
-                text: i18n('stickers--StickerManager--Uninstall'),
+                text: i18n('icu:stickers--StickerManager--Uninstall'),
                 action: handleConfirmUninstall,
               },
             ]}
           >
-            {i18n('stickers--StickerManager--UninstallWarning')}
+            {i18n('icu:stickers--StickerManager--UninstallWarning')}
           </ConfirmationDialog>
         ) : null}
         <div
@@ -138,19 +138,19 @@ export const StickerManagerPackRow = React.memo(
           <div className="module-sticker-manager__pack-row__controls">
             {pack.status === 'installed' ? (
               <Button
-                aria-label={i18n('stickers--StickerManager--Uninstall')}
+                aria-label={i18n('icu:stickers--StickerManager--Uninstall')}
                 variant={ButtonVariant.Secondary}
                 onClick={handleUninstall}
               >
-                {i18n('stickers--StickerManager--Uninstall')}
+                {i18n('icu:stickers--StickerManager--Uninstall')}
               </Button>
             ) : (
               <Button
-                aria-label={i18n('stickers--StickerManager--Install')}
+                aria-label={i18n('icu:stickers--StickerManager--Install')}
                 variant={ButtonVariant.Secondary}
                 onClick={handleInstall}
               >
-                {i18n('stickers--StickerManager--Install')}
+                {i18n('icu:stickers--StickerManager--Install')}
               </Button>
             )}
           </div>

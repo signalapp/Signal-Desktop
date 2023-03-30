@@ -145,7 +145,7 @@ export function SmartInstallScreen(): ReactElement {
         false,
         'Unexpected empty device name. Falling back to placeholder value'
       );
-      deviceName = i18n('Install__choose-device-name__placeholder');
+      deviceName = i18n('icu:Install__choose-device-name__placeholder');
     }
     chooseDeviceNamePromiseWrapperRef.current.resolve(deviceName);
 

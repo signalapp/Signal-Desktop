@@ -62,14 +62,14 @@ export function ConversationNotificationsModal({
       hasXButton
       onClose={onClose}
       i18n={i18n}
-      title={i18n('muteNotificationsTitle')}
+      title={i18n('icu:muteNotificationsTitle')}
       modalFooter={
         <>
           <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
           <Button onClick={onMuteChange} variant={ButtonVariant.Primary}>
-            {i18n('mute')}
+            {i18n('icu:mute')}
           </Button>
         </>
       }

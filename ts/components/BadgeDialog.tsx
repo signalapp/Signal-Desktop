@@ -101,7 +101,7 @@ function BadgeDialogWithBadges({
     >
       <div className="BadgeDialog__contents">
         <button
-          aria-label={i18n('previous')}
+          aria-label={i18n('icu:previous')}
           className="BadgeDialog__nav BadgeDialog__nav--previous"
           disabled={currentBadgeIndex === 0}
           onClick={() => navigate(-1)}
@@ -127,7 +127,7 @@ function BadgeDialogWithBadges({
               onClick={onShowInstructions}
               size={ButtonSize.Large}
             >
-              {i18n('BadgeDialog__become-a-sustainer-button')}
+              {i18n('icu:BadgeDialog__become-a-sustainer-button')}
             </Button>
           )}
           <BadgeCarouselIndex
@@ -136,7 +136,7 @@ function BadgeDialogWithBadges({
           />
         </div>
         <button
-          aria-label={i18n('next')}
+          aria-label={i18n('icu:next')}
           className="BadgeDialog__nav BadgeDialog__nav--next"
           disabled={currentBadgeIndex === badges.length - 1}
           onClick={() => navigate(1)}

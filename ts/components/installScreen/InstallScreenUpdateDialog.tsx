@@ -76,8 +76,10 @@ export function InstallScreenUpdateDialog({
     dialogType === DialogType.FullDownloadReady ||
     dialogType === DialogType.DownloadedUpdate
   ) {
-    let title = i18n('autoUpdateNewVersionTitle');
-    let actionText: string | JSX.Element = i18n('autoUpdateRestartButtonLabel');
+    let title = i18n('icu:autoUpdateNewVersionTitle');
+    let actionText: string | JSX.Element = i18n(
+      'icu:autoUpdateRestartButtonLabel'
+    );
     let bodyText = i18n('icu:InstallScreenUpdateDialog--auto-update__body');
     if (
       dialogType === DialogType.DownloadReady ||
@@ -156,7 +158,7 @@ export function InstallScreenUpdateDialog({
     const url = isBeta(currentVersion)
       ? BETA_DOWNLOAD_URL
       : PRODUCTION_DOWNLOAD_URL;
-    const title = i18n('cannotUpdate');
+    const title = i18n('icu:cannotUpdate');
     const body = (
       <Intl
         i18n={i18n}
@@ -181,7 +183,7 @@ export function InstallScreenUpdateDialog({
           noDefaultCancelButton
           actions={[
             {
-              text: i18n('autoUpdateRetry'),
+              text: i18n('icu:autoUpdateRetry'),
               action: startUpdate,
               style: 'affirmative',
               autoClose: false,
@@ -215,7 +217,7 @@ export function InstallScreenUpdateDialog({
         modalName={dialogName}
         noMouseClose
         useFocusTrap={false}
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
       >
         <Intl
           components={{
@@ -223,7 +225,7 @@ export function InstallScreenUpdateDialog({
             folder: <strong key="folder">/Applications</strong>,
           }}
           i18n={i18n}
-          id="readOnlyVolume"
+          id="icu:readOnlyVolume"
         />
       </Modal>
     );

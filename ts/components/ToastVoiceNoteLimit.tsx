@@ -11,5 +11,5 @@ type PropsType = {
 };
 
 export function ToastVoiceNoteLimit({ i18n, onClose }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('voiceNoteLimit')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:voiceNoteLimit')}</Toast>;
 }

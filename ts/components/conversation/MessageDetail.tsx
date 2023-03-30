@@ -163,7 +163,7 @@ export class MessageDetail extends React.Component<Props> {
           className="module-message-detail__contact__show-safety-number"
           onClick={() => toggleSafetyNumberModal(contact.id)}
         >
-          {i18n('showSafetyNumber')}
+          {i18n('icu:showSafetyNumber')}
         </button>
       </div>
     ) : null;
@@ -207,22 +207,22 @@ export class MessageDetail extends React.Component<Props> {
     const { i18n } = this.props;
 
     if (sendStatus === undefined) {
-      return i18n('from');
+      return i18n('icu:from');
     }
 
     switch (sendStatus) {
       case SendStatus.Failed:
-        return i18n('MessageDetailsHeader--Failed');
+        return i18n('icu:MessageDetailsHeader--Failed');
       case SendStatus.Pending:
-        return i18n('MessageDetailsHeader--Pending');
+        return i18n('icu:MessageDetailsHeader--Pending');
       case SendStatus.Sent:
-        return i18n('MessageDetailsHeader--Sent');
+        return i18n('icu:MessageDetailsHeader--Sent');
       case SendStatus.Delivered:
-        return i18n('MessageDetailsHeader--Delivered');
+        return i18n('icu:MessageDetailsHeader--Delivered');
       case SendStatus.Read:
-        return i18n('MessageDetailsHeader--Read');
+        return i18n('icu:MessageDetailsHeader--Read');
       case SendStatus.Viewed:
-        return i18n('MessageDetailsHeader--Viewed');
+        return i18n('icu:MessageDetailsHeader--Viewed');
       default:
         throw missingCaseError(sendStatus);
     }
@@ -377,7 +377,7 @@ export class MessageDetail extends React.Component<Props> {
             {(errors || []).map(error => (
               <tr key={_keyForError(error)}>
                 <td className="module-message-detail__label">
-                  {i18n('error')}
+                  {i18n('icu:error')}
                 </td>
                 <td>
                   {' '}
@@ -386,14 +386,16 @@ export class MessageDetail extends React.Component<Props> {
               </tr>
             ))}
             <tr>
-              <td className="module-message-detail__label">{i18n('sent')}</td>
+              <td className="module-message-detail__label">
+                {i18n('icu:sent')}
+              </td>
               <td>
                 <ContextMenu
                   i18n={i18n}
                   menuOptions={[
                     {
                       icon: 'StoryDetailsModal__copy-icon',
-                      label: i18n('StoryDetailsModal__copy-timestamp'),
+                      label: i18n('icu:StoryDetailsModal__copy-timestamp'),
                       onClick: () => {
                         void window.navigator.clipboard.writeText(
                           String(sentAt)
@@ -416,7 +418,7 @@ export class MessageDetail extends React.Component<Props> {
             {receivedAt && message.direction === 'incoming' ? (
               <tr>
                 <td className="module-message-detail__label">
-                  {i18n('received')}
+                  {i18n('icu:received')}
                 </td>
                 <td>
                   <Time timestamp={receivedAt}>
@@ -431,7 +433,7 @@ export class MessageDetail extends React.Component<Props> {
             {timeRemaining && timeRemaining > 0 && (
               <tr>
                 <td className="module-message-detail__label">
-                  {i18n('MessageDetail--disappears-in')}
+                  {i18n('icu:MessageDetail--disappears-in')}
                 </td>
                 <td>
                   {formatRelativeTime(i18n, timeRemaining, {

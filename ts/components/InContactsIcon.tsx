@@ -19,7 +19,7 @@ export function InContactsIcon(props: PropsType): JSX.Element {
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
     <Tooltip
-      content={i18n('contactInAddressBook')}
+      content={i18n('icu:contactInAddressBook')}
       popperModifiers={[
         {
           name: 'preventOverflow',
@@ -30,7 +30,7 @@ export function InContactsIcon(props: PropsType): JSX.Element {
       ]}
     >
       <span
-        aria-label={i18n('contactInAddressBook')}
+        aria-label={i18n('icu:contactInAddressBook')}
         className={classNames('module-in-contacts-icon__icon', className)}
         role="img"
         tabIndex={0}

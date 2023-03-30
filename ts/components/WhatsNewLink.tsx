@@ -18,7 +18,7 @@ export function WhatsNewLink(props: PropsType): JSX.Element {
   return (
     <Intl
       i18n={i18n}
-      id="whatsNew"
+      id="icu:whatsNew"
       components={{
         whatsNew: (
           <button
@@ -26,7 +26,7 @@ export function WhatsNewLink(props: PropsType): JSX.Element {
             type="button"
             onClick={showWhatsNewModal}
           >
-            {i18n('viewReleaseNotes')}
+            {i18n('icu:viewReleaseNotes')}
           </button>
         ),
       }}

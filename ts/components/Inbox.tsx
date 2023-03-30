@@ -202,7 +202,7 @@ export function Inbox({
         ) * 100;
     }
 
-    let message = i18n('loading');
+    let message = i18n('icu:loading');
     if (envelopeTimestamp !== undefined) {
       const daysBeforeMidnight = Math.ceil(
         (midnight - envelopeTimestamp) / DAY
@@ -262,7 +262,7 @@ export function Inbox({
             <div className="no-conversation-open">
               {renderMiniPlayer({ shouldFlow: false })}
               <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
-              <h3>{i18n('welcomeToSignal')}</h3>
+              <h3>{i18n('icu:welcomeToSignal')}</h3>
               <p className="whats-new-placeholder">
                 <WhatsNewLink
                   i18n={i18n}

@@ -125,7 +125,7 @@ export function formatDateTimeLong(
   const timestamp = rawTimestamp.valueOf();
 
   if (isToday(rawTimestamp)) {
-    return i18n('timestampFormat__long--today', {
+    return i18n('icu:timestampFormat__long--today', {
       time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
@@ -134,7 +134,7 @@ export function formatDateTimeLong(
   }
 
   if (isYesterday(rawTimestamp)) {
-    return i18n('timestampFormat__long--yesterday', {
+    return i18n('icu:timestampFormat__long--yesterday', {
       time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
@@ -161,17 +161,17 @@ export function formatTime(
   const diff = now.valueOf() - timestamp;
 
   if (diff < MINUTE) {
-    return i18n('justNow');
+    return i18n('icu:justNow');
   }
 
   if (diff < HOUR) {
-    return i18n('minutesAgo', {
+    return i18n('icu:minutesAgo', {
       minutes: Math.floor(diff / MINUTE).toString(),
     });
   }
 
   if (isRelativeTime) {
-    return i18n('hoursAgo', {
+    return i18n('icu:hoursAgo', {
       hours: Math.floor(diff / HOUR).toString(),
     });
   }
@@ -187,11 +187,11 @@ export function formatDate(
   rawTimestamp: RawTimestamp
 ): string {
   if (isToday(rawTimestamp)) {
-    return i18n('today');
+    return i18n('icu:today');
   }
 
   if (isYesterday(rawTimestamp)) {
-    return i18n('yesterday');
+    return i18n('icu:yesterday');
   }
 
   const locale = window.getPreferredSystemLocales();

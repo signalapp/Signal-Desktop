@@ -66,8 +66,8 @@ export function DisappearingTimerSelect(props: Props): JSX.Element {
     {
       value: DurationInSeconds.fromSeconds(-1),
       text: isCustomTimeSelected
-        ? i18n('selectedCustomDisappearingTimeOption')
-        : i18n('customDisappearingTimeOption'),
+        ? i18n('icu:selectedCustomDisappearingTimeOption')
+        : i18n('icu:customDisappearingTimeOption'),
     },
   ];
 

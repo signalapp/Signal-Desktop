@@ -118,8 +118,8 @@ export function StoryListItem({
     {
       icon: 'StoryListItem__icon--hide',
       label: isHidden
-        ? i18n('StoryListItem__unhide')
-        : i18n('StoryListItem__hide'),
+        ? i18n('icu:StoryListItem__unhide')
+        : i18n('icu:StoryListItem__hide'),
       onClick: () => {
         if (isHidden) {
           onHideStory(conversationId);
@@ -133,7 +133,7 @@ export function StoryListItem({
   if (!isSignalOfficial) {
     menuOptions.push({
       icon: 'StoryListItem__icon--info',
-      label: i18n('StoryListItem__info'),
+      label: i18n('icu:StoryListItem__info'),
       onClick: () =>
         viewUserStories({
           conversationId,
@@ -143,7 +143,7 @@ export function StoryListItem({
 
     menuOptions.push({
       icon: 'StoryListItem__icon--chat',
-      label: i18n('StoryListItem__go-to-chat'),
+      label: i18n('icu:StoryListItem__go-to-chat'),
       onClick: () => onGoToConversation(conversationId),
     });
   }
@@ -151,7 +151,7 @@ export function StoryListItem({
   return (
     <>
       <ContextMenu
-        aria-label={i18n('StoryListItem__label')}
+        aria-label={i18n('icu:StoryListItem__label')}
         i18n={i18n}
         menuOptions={menuOptions}
         moduleClassName={classNames('StoryListItem', {
@@ -208,7 +208,7 @@ export function StoryListItem({
             {
               action: () => onHideStory(conversationId),
               style: 'affirmative',
-              text: i18n('StoryListItem__hide-modal--confirm'),
+              text: i18n('icu:StoryListItem__hide-modal--confirm'),
             },
           ]}
           i18n={i18n}
@@ -216,7 +216,7 @@ export function StoryListItem({
             setHasConfirmHideStory(false);
           }}
         >
-          {i18n('StoryListItem__hide-modal--body', {
+          {i18n('icu:StoryListItem__hide-modal--body', {
             name: String(firstName),
           })}
         </ConfirmationDialog>

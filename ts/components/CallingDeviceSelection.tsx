@@ -23,7 +23,7 @@ function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
   return deviceLabel.toLowerCase().startsWith('default')
     ? deviceLabel.replace(
         /default/i,
-        i18n('callingDeviceSelection__select--default')
+        i18n('icu:callingDeviceSelection__select--default')
       )
     : deviceLabel;
 }
@@ -36,7 +36,7 @@ function renderAudioOptions(
   if (!devices.length) {
     return (
       <option aria-selected>
-        {i18n('callingDeviceSelection__select--no-device')}
+        {i18n('icu:callingDeviceSelection__select--no-device')}
       </option>
     );
   }
@@ -68,7 +68,7 @@ function renderVideoOptions(
   if (!devices.length) {
     return (
       <option aria-selected>
-        {i18n('callingDeviceSelection__select--no-device')}
+        {i18n('icu:callingDeviceSelection__select--no-device')}
       </option>
     );
   }
@@ -147,16 +147,16 @@ export function CallingDeviceSelection({
           className="module-calling-device-selection__close-button"
           onClick={toggleSettings}
           tabIndex={0}
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
         />
       </div>
 
       <h1 className="module-calling-device-selection__title">
-        {i18n('callingDeviceSelection__settings')}
+        {i18n('icu:callingDeviceSelection__settings')}
       </h1>
 
       <label htmlFor="video" className="module-calling-device-selection__label">
-        {i18n('callingDeviceSelection__label--video')}
+        {i18n('icu:callingDeviceSelection__label--video')}
       </label>
       <div className="module-calling-device-selection__select">
         <select
@@ -173,7 +173,7 @@ export function CallingDeviceSelection({
         htmlFor="audio-input"
         className="module-calling-device-selection__label"
       >
-        {i18n('callingDeviceSelection__label--audio-input')}
+        {i18n('icu:callingDeviceSelection__label--audio-input')}
       </label>
       <div className="module-calling-device-selection__select">
         <select
@@ -194,7 +194,7 @@ export function CallingDeviceSelection({
         htmlFor="audio-output"
         className="module-calling-device-selection__label"
       >
-        {i18n('callingDeviceSelection__label--audio-output')}
+        {i18n('icu:callingDeviceSelection__label--audio-output')}
       </label>
       <div className="module-calling-device-selection__select">
         <select

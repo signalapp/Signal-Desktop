@@ -45,7 +45,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
       >
         <span>
           <Intl
@@ -57,7 +57,7 @@ export function DialogUpdate({
                   onClick={startUpdate}
                   type="button"
                 >
-                  {i18n('autoUpdateRetry')}
+                  {i18n('icu:autoUpdateRetry')}
                 </button>
               ),
               url: (
@@ -77,12 +77,12 @@ export function DialogUpdate({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {i18n('autoUpdateContactSupport')}
+                  {i18n('icu:autoUpdateContactSupport')}
                 </a>
               ),
             }}
             i18n={i18n}
-            id="cannotUpdateDetail"
+            id="icu:cannotUpdateDetail"
           />
         </span>
       </LeftPaneDialog>
@@ -97,7 +97,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
       >
         <span>
           <Intl
@@ -119,12 +119,12 @@ export function DialogUpdate({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {i18n('autoUpdateContactSupport')}
+                  {i18n('icu:autoUpdateContactSupport')}
                 </a>
               ),
             }}
             i18n={i18n}
-            id="cannotUpdateRequireManualDetail"
+            id="icu:cannotUpdateRequireManualDetail"
           />
         </span>
       </LeftPaneDialog>
@@ -134,11 +134,11 @@ export function DialogUpdate({
   if (dialogType === DialogType.MacOS_Read_Only) {
     return (
       <LeftPaneDialog
-        closeLabel={i18n('close')}
+        closeLabel={i18n('icu:close')}
         containerWidthBreakpoint={containerWidthBreakpoint}
         hasXButton
         onClose={dismissDialog}
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
         type="warning"
       >
         <span>
@@ -148,7 +148,7 @@ export function DialogUpdate({
               folder: <strong key="folder">/Applications</strong>,
             }}
             i18n={i18n}
-            id="readOnlyVolume"
+            id="icu:readOnlyVolume"
           />
         </span>
       </LeftPaneDialog>
@@ -161,7 +161,7 @@ export function DialogUpdate({
   }
 
   const versionTitle = version
-    ? i18n('DialogUpdate--version-available', {
+    ? i18n('icu:DialogUpdate--version-available', {
         version,
       })
     : undefined;
@@ -188,7 +188,7 @@ export function DialogUpdate({
     );
   }
 
-  let title = i18n('autoUpdateNewVersionTitle');
+  let title = i18n('icu:autoUpdateNewVersionTitle');
 
   if (
     downloadSize &&
@@ -198,12 +198,12 @@ export function DialogUpdate({
     title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
   }
 
-  let clickLabel = i18n('autoUpdateNewVersionMessage');
+  let clickLabel = i18n('icu:autoUpdateNewVersionMessage');
   let type: 'warning' | undefined;
   if (dialogType === DialogType.DownloadReady) {
-    clickLabel = i18n('downloadNewVersionMessage');
+    clickLabel = i18n('icu:downloadNewVersionMessage');
   } else if (dialogType === DialogType.FullDownloadReady) {
-    clickLabel = i18n('downloadFullNewVersionMessage');
+    clickLabel = i18n('icu:downloadFullNewVersionMessage');
     type = 'warning';
   } else if (dialogType === DialogType.DownloadedUpdate) {
     title = i18n('icu:DialogUpdate__downloaded');
@@ -221,7 +221,7 @@ export function DialogUpdate({
       clickLabel={clickLabel}
       hasXButton
       onClose={snoozeUpdate}
-      closeLabel={i18n('autoUpdateIgnoreButtonLabel')}
+      closeLabel={i18n('icu:autoUpdateIgnoreButtonLabel')}
     />
   );
 }

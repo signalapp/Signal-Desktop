@@ -29,12 +29,12 @@ export const StickerPackInstallButton = React.forwardRef<
         'module-sticker-manager__install-button': true,
         'module-sticker-manager__install-button--blue': blue,
       })}
-      aria-label={i18n('stickers--StickerManager--Install')}
+      aria-label={i18n('icu:stickers--StickerManager--Install')}
       {...props}
     >
       {installed
-        ? i18n('stickers--StickerManager--Uninstall')
-        : i18n('stickers--StickerManager--Install')}
+        ? i18n('icu:stickers--StickerManager--Uninstall')
+        : i18n('icu:stickers--StickerManager--Install')}
     </button>
   );
 });

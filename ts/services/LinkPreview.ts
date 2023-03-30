@@ -517,11 +517,11 @@ async function getGroupPreview(
 
   const title =
     window.Signal.Groups.decryptGroupTitle(result.title, secretParams) ||
-    window.i18n('unknownGroup');
+    window.i18n('icu:unknownGroup');
   const description =
     result.memberCount === 1 || result.memberCount === undefined
-      ? window.i18n('GroupV2--join--member-count--single')
-      : window.i18n('GroupV2--join--member-count--multiple', {
+      ? window.i18n('icu:GroupV2--join--member-count--single')
+      : window.i18n('icu:GroupV2--join--member-count--multiple', {
           count: result.memberCount.toString(),
         });
   let image: undefined | LinkPreviewImage;

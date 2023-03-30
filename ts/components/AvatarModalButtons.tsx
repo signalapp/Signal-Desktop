@@ -37,10 +37,10 @@ export function AvatarModalButtons({
         }}
         variant={ButtonVariant.Secondary}
       >
-        {i18n('cancel')}
+        {i18n('icu:cancel')}
       </Button>
       <Button disabled={!hasChanges} onClick={onSave}>
-        {i18n('save')}
+        {i18n('icu:save')}
       </Button>
       {confirmDiscardAction && (
         <ConfirmDiscardDialog

@@ -54,7 +54,9 @@ export function DebugLogWindow({
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
   const [publicLogURL, setPublicLogURL] = useState<string | undefined>();
-  const [textAreaValue, setTextAreaValue] = useState<string>(i18n('loading'));
+  const [textAreaValue, setTextAreaValue] = useState<string>(
+    i18n('icu:loading')
+  );
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
   const theme = useTheme();
@@ -82,7 +84,7 @@ export function DebugLogWindow({
       const linesToShow = Math.ceil(Math.min(window.innerHeight, 2000) / 5);
       const value = fetchedLogText.split(/\n/g, linesToShow).join('\n');
 
-      setTextAreaValue(`${value}\n\n\n${i18n('debugLogLogIsIncomplete')}`);
+      setTextAreaValue(`${value}\n\n\n${i18n('icu:debugLogLogIsIncomplete')}`);
       setToastType(undefined);
     }
 
@@ -150,10 +152,10 @@ export function DebugLogWindow({
         <div className="DebugLogWindow">
           <div>
             <div className="DebugLogWindow__title">
-              {i18n('debugLogSuccess')}
+              {i18n('icu:debugLogSuccess')}
             </div>
             <p className="DebugLogWindow__subtitle">
-              {i18n('debugLogSuccessNextSteps')}
+              {i18n('icu:debugLogSuccessNextSteps')}
             </p>
           </div>
           <div className="DebugLogWindow__container">
@@ -169,9 +171,9 @@ export function DebugLogWindow({
               onClick={() => openLinkInWebBrowser(supportURL)}
               variant={ButtonVariant.Secondary}
             >
-              {i18n('reportIssue')}
+              {i18n('icu:reportIssue')}
             </Button>
-            <Button onClick={copyLog}>{i18n('debugLogCopy')}</Button>
+            <Button onClick={copyLog}>{i18n('icu:debugLogCopy')}</Button>
           </div>
           {toastElement}
         </div>
@@ -192,9 +194,11 @@ export function DebugLogWindow({
     >
       <div className="DebugLogWindow">
         <div>
-          <div className="DebugLogWindow__title">{i18n('submitDebugLog')}</div>
+          <div className="DebugLogWindow__title">
+            {i18n('icu:submitDebugLog')}
+          </div>
           <p className="DebugLogWindow__subtitle">
-            {i18n('debugLogExplanation')}
+            {i18n('icu:debugLogExplanation')}
           </p>
         </div>
         {isLoading ? (
@@ -218,10 +222,10 @@ export function DebugLogWindow({
             }}
             variant={ButtonVariant.Secondary}
           >
-            {i18n('debugLogSave')}
+            {i18n('icu:debugLogSave')}
           </Button>
           <Button disabled={!canSubmit} onClick={handleSubmit}>
-            {i18n('submit')}
+            {i18n('icu:submit')}
           </Button>
         </div>
         {toastElement}

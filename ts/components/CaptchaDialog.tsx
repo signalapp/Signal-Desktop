@@ -37,10 +37,10 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
     const footer = (
       <>
         <Button onClick={onCancelClick} variant={ButtonVariant.Secondary}>
-          {i18n('cancel')}
+          {i18n('icu:cancel')}
         </Button>
         <Button onClick={onSkipClick} variant={ButtonVariant.Destructive}>
-          {i18n('CaptchaDialog--can_close__skip-verification')}
+          {i18n('icu:CaptchaDialog--can_close__skip-verification')}
         </Button>
       </>
     );
@@ -49,13 +49,13 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
         modalName="CaptchaDialog"
         moduleClassName="module-Modal"
         i18n={i18n}
-        title={i18n('CaptchaDialog--can-close__title')}
+        title={i18n('icu:CaptchaDialog--can-close__title')}
         onClose={() => setIsClosing(false)}
         key="skip"
         modalFooter={footer}
       >
         <section>
-          <p>{i18n('CaptchaDialog--can-close__body')}</p>
+          <p>{i18n('icu:CaptchaDialog--can-close__body')}</p>
         </section>
       </Modal>
     );
@@ -94,15 +94,15 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
       modalName="CaptchaDialog.pending"
       moduleClassName="module-Modal--important"
       i18n={i18n}
-      title={i18n('CaptchaDialog__title')}
+      title={i18n('icu:CaptchaDialog__title')}
       hasXButton
       onClose={() => setIsClosing(true)}
       key="primary"
       modalFooter={footer}
     >
       <section>
-        <p>{i18n('CaptchaDialog__first-paragraph')}</p>
-        <p>{i18n('CaptchaDialog__second-paragraph')}</p>
+        <p>{i18n('icu:CaptchaDialog__first-paragraph')}</p>
+        <p>{i18n('icu:CaptchaDialog__second-paragraph')}</p>
       </section>
     </Modal>
   );

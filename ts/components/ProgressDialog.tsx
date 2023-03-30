@@ -18,7 +18,7 @@ export const ProgressDialog = React.memo(function ProgressDialogInner({
       <div className="module-progress-dialog__spinner">
         <Spinner svgSize="normal" size="39px" direction="on-progress-dialog" />
       </div>
-      <div className="module-progress-dialog__text">{i18n('updating')}</div>
+      <div className="module-progress-dialog__text">{i18n('icu:updating')}</div>
     </div>
   );
 });

@@ -28,7 +28,7 @@ export function Alert({
     <Modal
       i18n={i18n}
       modalFooter={
-        <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
+        <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
       }
       modalName="Alert"
       onClose={onClose}

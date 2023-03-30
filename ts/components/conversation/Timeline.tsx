@@ -905,7 +905,7 @@ export class Timeline extends React.Component<
             text = (
               <Intl
                 i18n={i18n}
-                id="ContactSpoofing__same-name"
+                id="icu:ContactSpoofing__same-name"
                 components={{
                   link: (
                     <TimelineWarning.Link
@@ -915,7 +915,7 @@ export class Timeline extends React.Component<
                         });
                       }}
                     >
-                      {i18n('ContactSpoofing__same-name__link')}
+                      {i18n('icu:ContactSpoofing__same-name__link')}
                     </TimelineWarning.Link>
                   ),
                 }}
@@ -932,7 +932,7 @@ export class Timeline extends React.Component<
             text = (
               <Intl
                 i18n={i18n}
-                id="ContactSpoofing__same-name-in-group"
+                id="icu:ContactSpoofing__same-name-in-group"
                 components={{
                   count: Object.values(groupNameCollisions)
                     .reduce(
@@ -946,7 +946,7 @@ export class Timeline extends React.Component<
                         reviewGroupMemberNameCollision(id);
                       }}
                     >
-                      {i18n('ContactSpoofing__same-name-in-group__link')}
+                      {i18n('icu:ContactSpoofing__same-name-in-group__link')}
                     </TimelineWarning.Link>
                   ),
                 }}

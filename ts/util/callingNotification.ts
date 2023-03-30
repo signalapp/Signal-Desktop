@@ -46,31 +46,31 @@ function getDirectCallNotificationText(
   if (wasIncoming) {
     if (wasDeclined) {
       if (wasVideoCall) {
-        return i18n('declinedIncomingVideoCall');
+        return i18n('icu:declinedIncomingVideoCall');
       }
-      return i18n('declinedIncomingAudioCall');
+      return i18n('icu:declinedIncomingAudioCall');
     }
     if (wasAccepted) {
       if (wasVideoCall) {
-        return i18n('acceptedIncomingVideoCall');
+        return i18n('icu:acceptedIncomingVideoCall');
       }
-      return i18n('acceptedIncomingAudioCall');
+      return i18n('icu:acceptedIncomingAudioCall');
     }
     if (wasVideoCall) {
-      return i18n('missedIncomingVideoCall');
+      return i18n('icu:missedIncomingVideoCall');
     }
-    return i18n('missedIncomingAudioCall');
+    return i18n('icu:missedIncomingAudioCall');
   }
   if (wasAccepted) {
     if (wasVideoCall) {
-      return i18n('acceptedOutgoingVideoCall');
+      return i18n('icu:acceptedOutgoingVideoCall');
     }
-    return i18n('acceptedOutgoingAudioCall');
+    return i18n('icu:acceptedOutgoingAudioCall');
   }
   if (wasVideoCall) {
-    return i18n('missedOrDeclinedOutgoingVideoCall');
+    return i18n('icu:missedOrDeclinedOutgoingVideoCall');
   }
-  return i18n('missedOrDeclinedOutgoingAudioCall');
+  return i18n('icu:missedOrDeclinedOutgoingAudioCall');
 }
 
 function getGroupCallNotificationText(
@@ -78,15 +78,15 @@ function getGroupCallNotificationText(
   i18n: LocalizerType
 ): string {
   if (notification.ended) {
-    return i18n('calling__call-notification__ended');
+    return i18n('icu:calling__call-notification__ended');
   }
   if (!notification.creator) {
-    return i18n('calling__call-notification__started-by-someone');
+    return i18n('icu:calling__call-notification__started-by-someone');
   }
   if (notification.creator.isMe) {
-    return i18n('calling__call-notification__started-by-you');
+    return i18n('icu:calling__call-notification__started-by-you');
   }
-  return i18n('calling__call-notification__started', {
+  return i18n('icu:calling__call-notification__started', {
     name: notification.creator.systemGivenName ?? notification.creator.title,
   });
 }

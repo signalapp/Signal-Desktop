@@ -16,7 +16,7 @@ export function ToastAlreadyRequestedToJoin({
 }: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
-      {i18n('GroupV2--join--already-awaiting-approval')}
+      {i18n('icu:GroupV2--join--already-awaiting-approval')}
     </Toast>
   );
 }

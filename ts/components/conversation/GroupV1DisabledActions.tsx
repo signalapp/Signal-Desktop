@@ -21,7 +21,7 @@ export function GroupV1DisabledActions({
       <p className="module-group-v1-disabled-actions__message">
         <Intl
           i18n={i18n}
-          id="GroupV1--Migration--disabled"
+          id="icu:GroupV1--Migration--disabled"
           components={{
             learnMore: (
               <a
@@ -30,7 +30,7 @@ export function GroupV1DisabledActions({
                 rel="noreferrer"
                 className="module-group-v1-disabled-actions__message__learn-more"
               >
-                {i18n('MessageRequests--learn-more')}
+                {i18n('icu:MessageRequests--learn-more')}
               </a>
             ),
           }}
@@ -43,7 +43,7 @@ export function GroupV1DisabledActions({
           tabIndex={0}
           className="module-group-v1-disabled-actions__buttons__button"
         >
-          {i18n('MessageRequests--continue')}
+          {i18n('icu:MessageRequests--continue')}
         </button>
       </div>
     </div>

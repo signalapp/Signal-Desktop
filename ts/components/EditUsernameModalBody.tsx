@@ -101,23 +101,23 @@ export function EditUsernameModalBody({
       return undefined;
     }
     if (error === UsernameReservationError.NotEnoughCharacters) {
-      return i18n('ProfileEditor--username--check-character-min', {
+      return i18n('icu:ProfileEditor--username--check-character-min', {
         min: minNickname,
       });
     }
     if (error === UsernameReservationError.TooManyCharacters) {
-      return i18n('ProfileEditor--username--check-character-max', {
+      return i18n('icu:ProfileEditor--username--check-character-max', {
         max: maxNickname,
       });
     }
     if (error === UsernameReservationError.CheckStartingCharacter) {
-      return i18n('ProfileEditor--username--check-starting-character');
+      return i18n('icu:ProfileEditor--username--check-starting-character');
     }
     if (error === UsernameReservationError.CheckCharacters) {
-      return i18n('ProfileEditor--username--check-characters');
+      return i18n('icu:ProfileEditor--username--check-characters');
     }
     if (error === UsernameReservationError.UsernameNotAvailable) {
-      return i18n('ProfileEditor--username--unavailable');
+      return i18n('icu:ProfileEditor--username--unavailable');
     }
     // Displayed through confirmation modal below
     if (
@@ -157,7 +157,7 @@ export function EditUsernameModalBody({
     setIsLearnMoreVisible(true);
   }, []);
 
-  let title = i18n('ProfileEditor--username--title');
+  let title = i18n('icu:ProfileEditor--username--title');
   if (nickname && discriminator) {
     title = `${nickname}${discriminator}`;
   }
@@ -165,7 +165,7 @@ export function EditUsernameModalBody({
   const learnMoreTitle = (
     <>
       <i className="EditUsernameModalBody__learn-more__hashtag" />
-      {i18n('EditUsernameModalBody__learn-more__title')}
+      {i18n('icu:EditUsernameModalBody__learn-more__title')}
     </>
   );
 
@@ -184,7 +184,7 @@ export function EditUsernameModalBody({
         disabled={isConfirming}
         onChange={onChange}
         onEnter={onSave}
-        placeholder={i18n('EditUsernameModalBody__username-placeholder')}
+        placeholder={i18n('icu:EditUsernameModalBody__username-placeholder')}
         value={nickname}
       >
         {isReserving && <Spinner size="16px" svgSize="small" />}
@@ -207,14 +207,14 @@ export function EditUsernameModalBody({
           !errorString ? 'EditUsernameModalBody__info--no-error' : undefined
         )}
       >
-        {i18n('EditUsernameModalBody__username-helper')}
+        {i18n('icu:EditUsernameModalBody__username-helper')}
         &nbsp;
         <button
           type="button"
           className="EditUsernameModalBody__learn-more-button"
           onClick={onLearnMore}
         >
-          {i18n('EditUsernameModalBody__learn-more')}
+          {i18n('icu:EditUsernameModalBody__learn-more')}
         </button>
       </div>
 
@@ -224,13 +224,13 @@ export function EditUsernameModalBody({
           onClick={onCancel}
           variant={ButtonVariant.Secondary}
         >
-          {i18n('cancel')}
+          {i18n('icu:cancel')}
         </Button>
         <Button disabled={!canSave} onClick={onSave}>
           {isConfirming ? (
             <Spinner size="20px" svgSize="small" direction="on-avatar" />
           ) : (
-            i18n('save')
+            i18n('icu:save')
           )}
         </Button>
       </Modal.ButtonFooter>
@@ -243,14 +243,14 @@ export function EditUsernameModalBody({
           onClose={() => setIsLearnMoreVisible(false)}
           title={learnMoreTitle}
         >
-          {i18n('EditUsernameModalBody__learn-more__body')}
+          {i18n('icu:EditUsernameModalBody__learn-more__body')}
 
           <Modal.ButtonFooter>
             <Button
               onClick={() => setIsLearnMoreVisible(false)}
               variant={ButtonVariant.Secondary}
             >
-              {i18n('ok')}
+              {i18n('icu:ok')}
             </Button>
           </Modal.ButtonFooter>
         </Modal>
@@ -259,19 +259,19 @@ export function EditUsernameModalBody({
       {error === UsernameReservationError.General && (
         <ConfirmationDialog
           dialogName="EditUsernameModalBody.generalError"
-          cancelText={i18n('ok')}
+          cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
           onClose={() => setUsernameReservationError(undefined)}
         >
-          {i18n('ProfileEditor--username--general-error')}
+          {i18n('icu:ProfileEditor--username--general-error')}
         </ConfirmationDialog>
       )}
 
       {error === UsernameReservationError.ConflictOrGone && (
         <ConfirmationDialog
           dialogName="EditUsernameModalBody.conflictOrGone"
-          cancelText={i18n('ok')}
+          cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
           onClose={() => {

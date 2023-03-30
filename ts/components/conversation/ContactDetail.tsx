@@ -30,13 +30,13 @@ export type Props = {
 function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {
     case ContactFormType.CUSTOM:
-      return method.label || i18n('email');
+      return method.label || i18n('icu:email');
     case ContactFormType.HOME:
-      return i18n('home');
+      return i18n('icu:home');
     case ContactFormType.MOBILE:
-      return i18n('mobile');
+      return i18n('icu:mobile');
     case ContactFormType.WORK:
-      return i18n('work');
+      return i18n('icu:work');
     default:
       throw missingCaseError(method.type);
   }
@@ -45,13 +45,13 @@ function getLabelForEmail(method: Email, i18n: LocalizerType): string {
 function getLabelForPhone(method: Phone, i18n: LocalizerType): string {
   switch (method.type) {
     case ContactFormType.CUSTOM:
-      return method.label || i18n('phone');
+      return method.label || i18n('icu:phone');
     case ContactFormType.HOME:
-      return i18n('home');
+      return i18n('icu:home');
     case ContactFormType.MOBILE:
-      return i18n('mobile');
+      return i18n('icu:mobile');
     case ContactFormType.WORK:
-      return i18n('work');
+      return i18n('icu:work');
     default:
       throw missingCaseError(method.type);
   }
@@ -63,11 +63,11 @@ function getLabelForAddress(
 ): string {
   switch (address.type) {
     case AddressType.CUSTOM:
-      return address.label || i18n('address');
+      return address.label || i18n('icu:address');
     case AddressType.HOME:
-      return i18n('home');
+      return i18n('icu:home');
     case AddressType.WORK:
-      return i18n('work');
+      return i18n('icu:work');
     default:
       throw missingCaseError(address.type);
   }
@@ -102,7 +102,7 @@ export class ContactDetail extends React.Component<Props> {
       >
         <div className="module-contact-detail__send-message__inner">
           <div className="module-contact-detail__send-message__bubble-icon" />
-          {i18n('sendMessageToContact')}
+          {i18n('icu:sendMessageToContact')}
         </div>
       </button>
     );
@@ -172,7 +172,7 @@ export class ContactDetail extends React.Component<Props> {
 
     return (
       <div>
-        {i18n('poBox')} {poBox}
+        {i18n('icu:poBox')} {poBox}
       </div>
     );
   }

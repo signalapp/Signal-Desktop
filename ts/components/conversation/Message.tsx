@@ -836,7 +836,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className={moduleName}>
         <ContactName
           contactNameColor={contactNameColor}
-          title={author.isMe ? i18n('you') : author.title}
+          title={author.isMe ? i18n('icu:you') : author.title}
           module={moduleName}
         />
       </div>
@@ -1171,7 +1171,7 @@ export class Message extends React.PureComponent<Props, State> {
                 curveBottomRight={CurveType.Tiny}
                 curveTopRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}
-                alt={i18n('previewThumbnail', {
+                alt={i18n('icu:previewThumbnail', {
                   domain: first.domain,
                 })}
                 height={72}
@@ -1550,7 +1550,7 @@ export class Message extends React.PureComponent<Props, State> {
       <>
         {storyReplyContext.emoji && (
           <div className="module-message__quote-story-reaction-header">
-            {i18n('Quote__story-reaction', {
+            {i18n('icu:Quote__story-reaction', {
               name: storyReplyContext.authorTitle,
             })}
           </div>
@@ -1668,7 +1668,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__send-message-button--no-bottom-right-curve'
         )}
       >
-        {i18n('sendMessageToContact')}
+        {i18n('icu:sendMessageToContact')}
       </button>
     );
   }
@@ -1748,9 +1748,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     // eslint-disable-next-line no-nested-ternary
     const contents = deletedForEveryone
-      ? i18n('message--deletedForEveryone')
+      ? i18n('icu:message--deletedForEveryone')
       : direction === 'incoming' && status === 'error'
-      ? i18n('incomingError')
+      ? i18n('icu:incomingError')
       : text;
 
     if (!contents) {
@@ -1939,18 +1939,18 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
     if (isTapToViewError) {
-      return i18n('incomingError');
+      return i18n('icu:incomingError');
     }
     if (direction === 'outgoing') {
-      return i18n('Message--tap-to-view--outgoing');
+      return i18n('icu:Message--tap-to-view--outgoing');
     }
     if (isTapToViewExpired) {
-      return i18n('Message--tap-to-view-expired');
+      return i18n('icu:Message--tap-to-view-expired');
     }
     if (isVideo(attachments)) {
-      return i18n('Message--tap-to-view--incoming-video');
+      return i18n('icu:Message--tap-to-view--incoming-video');
     }
-    return i18n('Message--tap-to-view--incoming');
+    return i18n('icu:Message--tap-to-view--incoming');
   }
 
   public renderTapToView(): JSX.Element {

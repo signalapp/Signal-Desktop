@@ -184,7 +184,7 @@ export const StickerPicker = React.memo(
                         'module-sticker-picker__header__button--selected':
                           currentTab === 'recents',
                       })}
-                      aria-label={i18n('stickers--StickerPicker--Recents')}
+                      aria-label={i18n('icu:stickers--StickerPicker--Recents')}
                     />
                   ) : null}
                   {packs.map((pack, i) => (
@@ -223,7 +223,7 @@ export const StickerPicker = React.memo(
                       'module-sticker-picker__header__button--prev-page'
                     )}
                     onClick={onClickPrevPackPage}
-                    aria-label={i18n('stickers--StickerPicker--PrevPage')}
+                    aria-label={i18n('icu:stickers--StickerPicker--PrevPage')}
                   />
                 ) : null}
                 {!isUsingKeyboard &&
@@ -235,7 +235,7 @@ export const StickerPicker = React.memo(
                       'module-sticker-picker__header__button--next-page'
                     )}
                     onClick={onClickNextPackPage}
-                    aria-label={i18n('stickers--StickerPicker--NextPage')}
+                    aria-label={i18n('icu:stickers--StickerPicker--NextPage')}
                   />
                 ) : null}
               </div>
@@ -252,7 +252,7 @@ export const StickerPicker = React.memo(
                     }
                   )}
                   onClick={onClickAddPack}
-                  aria-label={i18n('stickers--StickerPicker--AddPack')}
+                  aria-label={i18n('icu:stickers--StickerPicker--AddPack')}
                 />
               )}
             </div>
@@ -271,17 +271,17 @@ export const StickerPicker = React.memo(
                     }
                   )}
                 >
-                  {i18n('stickers--StickerPicker--Hint')}
+                  {i18n('icu:stickers--StickerPicker--Hint')}
                 </div>
               ) : null}
               {!hasPacks ? (
                 <div className="module-sticker-picker__body__text">
-                  {i18n('stickers--StickerPicker--NoPacks')}
+                  {i18n('icu:stickers--StickerPicker--NoPacks')}
                 </div>
               ) : null}
               {pendingCount > 0 ? (
                 <div className="module-sticker-picker__body__text">
-                  {i18n('stickers--StickerPicker--DownloadPending')}
+                  {i18n('icu:stickers--StickerPicker--DownloadPending')}
                 </div>
               ) : null}
               {downloadError ? (
@@ -292,8 +292,8 @@ export const StickerPicker = React.memo(
                   )}
                 >
                   {stickers.length > 0
-                    ? i18n('stickers--StickerPicker--DownloadError')
-                    : i18n('stickers--StickerPicker--Empty')}
+                    ? i18n('icu:stickers--StickerPicker--DownloadError')
+                    : i18n('icu:stickers--StickerPicker--Empty')}
                 </div>
               ) : null}
               {hasPacks && showEmptyText ? (
@@ -303,8 +303,8 @@ export const StickerPicker = React.memo(
                   })}
                 >
                   {isRecents
-                    ? i18n('stickers--StickerPicker--NoRecents')
-                    : i18n('stickers--StickerPicker--Empty')}
+                    ? i18n('icu:stickers--StickerPicker--NoRecents')
+                    : i18n('icu:stickers--StickerPicker--Empty')}
                 </div>
               ) : null}
               {!isEmpty ? (

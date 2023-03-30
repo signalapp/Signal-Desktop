@@ -155,7 +155,7 @@ export class SystemTrayService {
           id: 'toggleWindowVisibility',
           ...(browserWindow?.isVisible()
             ? {
-                label: this.i18n('hide'),
+                label: this.i18n('icu:hide'),
                 click: () => {
                   log.info(
                     'System tray service: hiding the window from the context menu'
@@ -167,7 +167,7 @@ export class SystemTrayService {
                 },
               }
             : {
-                label: this.i18n('show'),
+                label: this.i18n('icu:show'),
                 click: () => {
                   log.info(
                     'System tray service: showing the window from the context menu'
@@ -181,7 +181,7 @@ export class SystemTrayService {
         },
         {
           id: 'quit',
-          label: this.i18n('quit'),
+          label: this.i18n('icu:quit'),
           click: () => {
             log.info(
               'System tray service: quitting the app from the context menu'
@@ -227,7 +227,7 @@ export class SystemTrayService {
       }
     });
 
-    result.setToolTip(this.i18n('signalDesktop'));
+    result.setToolTip(this.i18n('icu:signalDesktop'));
 
     return result;
   }

@@ -65,10 +65,10 @@ export function PlaybackRateButton({
   );
 
   const playbackRateLabels: { [key: number]: string } = {
-    1: i18n('MessageAudio--playbackRate1'),
-    1.5: i18n('MessageAudio--playbackRate1p5'),
-    2: i18n('MessageAudio--playbackRate2'),
-    0.5: i18n('MessageAudio--playbackRatep5'),
+    1: i18n('icu:MessageAudio--playbackRate1'),
+    1.5: i18n('icu:MessageAudio--playbackRate1p5'),
+    2: i18n('icu:MessageAudio--playbackRate2'),
+    0.5: i18n('icu:MessageAudio--playbackRatep5'),
   };
 
   const label = playbackRate

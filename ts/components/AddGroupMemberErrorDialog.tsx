@@ -36,18 +36,23 @@ export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
   switch (props.mode) {
     case AddGroupMemberErrorDialogMode.MaximumGroupSize: {
       const { maximumNumberOfContacts } = props;
-      title = i18n('chooseGroupMembers__maximum-group-size__title');
-      body = i18n('chooseGroupMembers__maximum-group-size__body', {
+      title = i18n('icu:chooseGroupMembers__maximum-group-size__title');
+      body = i18n('icu:chooseGroupMembers__maximum-group-size__body', {
         max: maximumNumberOfContacts.toString(),
       });
       break;
     }
     case AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize: {
       const { recommendedMaximumNumberOfContacts } = props;
-      title = i18n('chooseGroupMembers__maximum-recommended-group-size__title');
-      body = i18n('chooseGroupMembers__maximum-recommended-group-size__body', {
-        max: recommendedMaximumNumberOfContacts.toString(),
-      });
+      title = i18n(
+        'icu:chooseGroupMembers__maximum-recommended-group-size__title'
+      );
+      body = i18n(
+        'icu:chooseGroupMembers__maximum-recommended-group-size__body',
+        {
+          max: recommendedMaximumNumberOfContacts.toString(),
+        }
+      );
       break;
     }
     default:

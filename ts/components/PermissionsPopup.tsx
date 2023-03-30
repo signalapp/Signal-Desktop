@@ -36,14 +36,14 @@ export function PermissionsPopup({
           ref={focusRef}
           variant={ButtonVariant.Secondary}
         >
-          {i18n('confirmation-dialog--Cancel')}
+          {i18n('icu:confirmation-dialog--Cancel')}
         </Button>
         <Button
           onClick={onAccept}
           ref={focusRef}
           variant={ButtonVariant.Primary}
         >
-          {i18n('allowAccess')}
+          {i18n('icu:allowAccess')}
         </Button>
       </div>
     </div>

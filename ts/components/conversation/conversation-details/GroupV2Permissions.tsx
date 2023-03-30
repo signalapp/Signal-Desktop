@@ -70,10 +70,10 @@ export function GroupV2Permissions({
       <PanelRow
         label={
           <label htmlFor={addMembersSelectId}>
-            {i18n('ConversationDetails--add-members-label')}
+            {i18n('icu:ConversationDetails--add-members-label')}
           </label>
         }
-        info={i18n('ConversationDetails--add-members-info')}
+        info={i18n('icu:ConversationDetails--add-members-info')}
         right={
           <Select
             id={addMembersSelectId}
@@ -86,10 +86,10 @@ export function GroupV2Permissions({
       <PanelRow
         label={
           <label htmlFor={groupInfoSelectId}>
-            {i18n('ConversationDetails--group-info-label')}
+            {i18n('icu:ConversationDetails--group-info-label')}
           </label>
         }
-        info={i18n('ConversationDetails--group-info-info')}
+        info={i18n('icu:ConversationDetails--group-info-info')}
         right={
           <Select
             id={groupInfoSelectId}
@@ -103,10 +103,10 @@ export function GroupV2Permissions({
         <PanelRow
           label={
             <label htmlFor={announcementSelectId}>
-              {i18n('ConversationDetails--announcement-label')}
+              {i18n('icu:ConversationDetails--announcement-label')}
             </label>
           }
-          info={i18n('ConversationDetails--announcement-info')}
+          info={i18n('icu:ConversationDetails--announcement-info')}
           right={
             <Select
               id={announcementSelectId}

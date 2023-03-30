@@ -211,7 +211,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
                   >
                     <div>
                       <div className="TextAttachment__preview__tooltip__title">
-                        {i18n('TextAttachment__preview__link')}
+                        {i18n('icu:TextAttachment__preview__link')}
                       </div>
                       <div className="TextAttachment__preview__tooltip__url">
                         {textAttachment.preview.url}
@@ -245,7 +245,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
                         className="TextAttachment__text__container TextAttachment__text__textarea"
                         disabled={!isEditingText}
                         onChange={ev => onChange(ev.currentTarget.value)}
-                        placeholder={i18n('TextAttachment__placeholder')}
+                        placeholder={i18n('icu:TextAttachment__placeholder')}
                         ref={refMerger(forwardedTextEditorRef, textEditorRef)}
                         style={getTextStyles(
                           textContent,
@@ -290,7 +290,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
                       <div className="TextAttachment__preview__remove">
                         <button
                           aria-label={i18n(
-                            'Keyboard--remove-draft-link-preview'
+                            'icu:Keyboard--remove-draft-link-preview'
                           )}
                           type="button"
                           onClick={onRemoveLinkPreview}

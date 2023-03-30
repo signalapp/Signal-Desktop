@@ -11,5 +11,5 @@ type PropsType = {
 };
 
 export function ToastDebugLogError({ i18n, onClose }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('debugLogError')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:debugLogError')}</Toast>;
 }

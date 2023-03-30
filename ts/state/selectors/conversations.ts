@@ -77,7 +77,7 @@ export const getPlaceholderContact = (): ConversationType => {
     badges: [],
     id: 'placeholder-contact',
     type: 'direct',
-    title: window.i18n('unknownContact'),
+    title: window.i18n('icu:unknownContact'),
     isMe: false,
     sharedGroupNames: [],
   };

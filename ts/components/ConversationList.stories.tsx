@@ -605,22 +605,22 @@ export function Headers(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('conversationsHeader'),
+          getHeaderText: i18n => i18n('icu:conversationsHeader'),
         },
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('messagesHeader'),
+          getHeaderText: i18n => i18n('icu:messagesHeader'),
         },
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         },
       ]}
     />
@@ -634,7 +634,7 @@ export function FindByPhoneNumber(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         },
         {
           type: RowType.StartNewConversation,
@@ -679,7 +679,7 @@ export function FindByUsername(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,
@@ -752,7 +752,7 @@ export function KitchenSink(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('contactsHeader'),
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         },
         {
           type: RowType.Contact,
@@ -761,7 +761,7 @@ export function KitchenSink(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('messagesHeader'),
+          getHeaderText: i18n => i18n('icu:messagesHeader'),
         },
         {
           type: RowType.Conversation,
@@ -774,7 +774,7 @@ export function KitchenSink(): JSX.Element {
         {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,

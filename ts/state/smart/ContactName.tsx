@@ -25,7 +25,7 @@ export function SmartContactName(props: ExternalProps): JSX.Element {
   );
 
   const conversation = getConversation(conversationId) || {
-    title: i18n('unknownContact'),
+    title: i18n('icu:unknownContact'),
   };
 
   return (

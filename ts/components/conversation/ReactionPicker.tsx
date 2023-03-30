@@ -100,7 +100,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
             onPick(selected);
           }}
           isSelected
-          title={i18n('Reactions--remove')}
+          title={i18n('icu:Reactions--remove')}
         />
       );
     } else {

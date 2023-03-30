@@ -1024,20 +1024,25 @@ export class ConversationModel extends window.Backbone
     const draftAttachments = this.get('draftAttachments') || [];
     if (draftAttachments.length > 0) {
       if (isVoiceMessage(draftAttachments[0])) {
-        return window.i18n('message--getNotificationText--text-with-emoji', {
-          text: window.i18n('message--getNotificationText--voice-message'),
-          emoji: '🎤',
-        });
+        return window.i18n(
+          'icu:message--getNotificationText--text-with-emoji',
+          {
+            text: window.i18n(
+              'icu:message--getNotificationText--voice-message'
+            ),
+            emoji: '🎤',
+          }
+        );
       }
-      return window.i18n('Conversation--getDraftPreview--attachment');
+      return window.i18n('icu:Conversation--getDraftPreview--attachment');
     }
 
     const quotedMessageId = this.get('quotedMessageId');
     if (quotedMessageId) {
-      return window.i18n('Conversation--getDraftPreview--quote');
+      return window.i18n('icu:Conversation--getDraftPreview--quote');
     }
 
-    return window.i18n('Conversation--getDraftPreview--draft');
+    return window.i18n('icu:Conversation--getDraftPreview--draft');
   }
 
   bumpTyping(): void {
@@ -1938,7 +1943,7 @@ export class ConversationModel extends window.Backbone
       titleNoDefault: this.getTitleNoDefault(),
       typingContactId: typingMostRecent?.senderId,
       searchableTitle: isMe(this.attributes)
-        ? window.i18n('noteToSelf')
+        ? window.i18n('icu:noteToSelf')
         : this.getTitle(),
       unreadCount: this.get('unreadCount') || 0,
       ...(isDirectConversation(this.attributes)
@@ -2949,7 +2954,7 @@ export class ConversationModel extends window.Backbone
       return text;
     }
 
-    return window.i18n('message--getNotificationText--text-with-emoji', {
+    return window.i18n('icu:message--getNotificationText--text-with-emoji', {
       text,
       emoji,
     });
@@ -5369,10 +5374,10 @@ export class ConversationModel extends window.Backbone
       : getContact(message.attributes);
     const senderName = sender
       ? sender.getTitle()
-      : window.i18n('unknownContact');
+      : window.i18n('icu:unknownContact');
     const senderTitle = isMessageInDirectConversation
       ? senderName
-      : window.i18n('notificationSenderInGroup', {
+      : window.i18n('icu:notificationSenderInGroup', {
           sender: senderName,
           group: this.getTitle(),
         });

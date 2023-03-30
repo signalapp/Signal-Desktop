@@ -51,12 +51,12 @@ export function About({
               className="acknowledgments"
               href="https://github.com/signalapp/Signal-Desktop/blob/main/ACKNOWLEDGMENTS.md"
             >
-              {i18n('softwareAcknowledgments')}
+              {i18n('icu:softwareAcknowledgments')}
             </a>
           </div>
           <div>
             <a className="privacy" href="https://signal.org/legal">
-              {i18n('privacyPolicy')}
+              {i18n('icu:privacyPolicy')}
             </a>
           </div>
         </div>

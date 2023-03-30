@@ -15,7 +15,7 @@ export function getMutedUntilText(
   i18n: LocalizerType
 ): string {
   if (Number(muteExpiresAt) >= Number.MAX_SAFE_INTEGER) {
-    return i18n('muteExpirationLabelAlways');
+    return i18n('icu:muteExpirationLabelAlways');
   }
 
   const expires = moment(muteExpiresAt);
@@ -23,7 +23,7 @@ export function getMutedUntilText(
     ? expires.format('LT')
     : expires.format('L, LT');
 
-  return i18n('muteExpirationLabel', {
+  return i18n('icu:muteExpirationLabel', {
     duration: muteExpirationUntil,
   });
 }

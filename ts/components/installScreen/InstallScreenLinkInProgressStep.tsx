@@ -20,8 +20,8 @@ export function InstallScreenLinkInProgressStep({
       <InstallScreenSignalLogo />
 
       <Spinner size="50px" svgSize="normal" />
-      <h1>{i18n('initialSync')}</h1>
-      <h2>{i18n('initialSync__subtitle')}</h2>
+      <h1>{i18n('icu:initialSync')}</h1>
+      <h2>{i18n('icu:initialSync__subtitle')}</h2>
     </div>
   );
 }

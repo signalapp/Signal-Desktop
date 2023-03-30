@@ -254,7 +254,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
               },
               className
             )}
-            aria-label={i18n('stickers--StickerPicker--Open')}
+            aria-label={i18n('icu:stickers--StickerPicker--Open')}
           />
         )}
       </Reference>
@@ -318,14 +318,16 @@ export const StickerButton = React.memo(function StickerButtonInner({
                 <img
                   className="module-sticker-button__tooltip--introduction__image"
                   srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
-                  alt={i18n('stickers--StickerManager--Introduction--Image')}
+                  alt={i18n(
+                    'icu:stickers--StickerManager--Introduction--Image'
+                  )}
                 />
                 <div className="module-sticker-button__tooltip--introduction__meta">
                   <div className="module-sticker-button__tooltip--introduction__meta__title">
-                    {i18n('stickers--StickerManager--Introduction--Title')}
+                    {i18n('icu:stickers--StickerManager--Introduction--Title')}
                   </div>
                   <div className="module-sticker-button__tooltip--introduction__meta__subtitle">
-                    {i18n('stickers--StickerManager--Introduction--Body')}
+                    {i18n('icu:stickers--StickerManager--Introduction--Body')}
                   </div>
                 </div>
                 <div className="module-sticker-button__tooltip--introduction__close">
@@ -333,7 +335,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
                     type="button"
                     className="module-sticker-button__tooltip--introduction__close__button"
                     onClick={handleClearIntroduction}
-                    aria-label={i18n('close')}
+                    aria-label={i18n('icu:close')}
                   />
                 </div>
                 <div

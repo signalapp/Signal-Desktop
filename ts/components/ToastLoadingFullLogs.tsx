@@ -14,5 +14,5 @@ export function ToastLoadingFullLogs({
   i18n,
   onClose,
 }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('loading')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:loading')}</Toast>;
 }

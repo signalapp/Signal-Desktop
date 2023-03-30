@@ -99,23 +99,23 @@ type DefaultBio = {
 function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
   return [
     {
-      i18nLabel: i18n('Bio--speak-freely'),
+      i18nLabel: i18n('icu:Bio--speak-freely'),
       shortName: 'wave',
     },
     {
-      i18nLabel: i18n('Bio--encrypted'),
+      i18nLabel: i18n('icu:Bio--encrypted'),
       shortName: 'zipper_mouth_face',
     },
     {
-      i18nLabel: i18n('Bio--free-to-chat'),
+      i18nLabel: i18n('icu:Bio--free-to-chat'),
       shortName: '+1',
     },
     {
-      i18nLabel: i18n('Bio--coffee-lover'),
+      i18nLabel: i18n('icu:Bio--coffee-lover'),
       shortName: 'coffee',
     },
     {
-      i18nLabel: i18n('Bio--taking-break'),
+      i18nLabel: i18n('icu:Bio--taking-break'),
       shortName: 'mobile_phone_off',
     },
   ];
@@ -301,7 +301,7 @@ export function ProfileEditor({
               firstName: String(newFirstName),
             }));
           }}
-          placeholder={i18n('ProfileEditor--first-name')}
+          placeholder={i18n('icu:ProfileEditor--first-name')}
           ref={focusInputRef}
           value={stagedProfile.firstName}
         />
@@ -316,7 +316,7 @@ export function ProfileEditor({
               familyName: newFamilyName,
             }));
           }}
-          placeholder={i18n('ProfileEditor--last-name')}
+          placeholder={i18n('icu:ProfileEditor--last-name')}
           value={stagedProfile.familyName}
         />
         <Modal.ButtonFooter>
@@ -342,7 +342,7 @@ export function ProfileEditor({
             }}
             variant={ButtonVariant.Secondary}
           >
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
           <Button
             disabled={shouldDisableSave}
@@ -362,7 +362,7 @@ export function ProfileEditor({
               handleBack();
             }}
           >
-            {i18n('save')}
+            {i18n('icu:save')}
           </Button>
         </Modal.ButtonFooter>
       </>
@@ -414,7 +414,7 @@ export function ProfileEditor({
             }
           }}
           ref={focusInputRef}
-          placeholder={i18n('ProfileEditor--about-placeholder')}
+          placeholder={i18n('icu:ProfileEditor--about-placeholder')}
           value={stagedProfile.aboutText}
           whenToShowRemainingCount={40}
         />
@@ -463,7 +463,7 @@ export function ProfileEditor({
             }}
             variant={ButtonVariant.Secondary}
           >
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
           <Button
             disabled={shouldDisableSave}
@@ -480,7 +480,7 @@ export function ProfileEditor({
               handleBack();
             }}
           >
-            {i18n('save')}
+            {i18n('icu:save')}
           </Button>
         </Modal.ButtonFooter>
       </>
@@ -507,7 +507,7 @@ export function ProfileEditor({
       if (usernameEditState === UsernameEditState.Deleting) {
         actions = (
           <ConversationDetailsIcon
-            ariaLabel={i18n('ProfileEditor--username--deleting-username')}
+            ariaLabel={i18n('icu:ProfileEditor--username--deleting-username')}
             icon={IconType.spinner}
             disabled
             fakeButton
@@ -518,7 +518,7 @@ export function ProfileEditor({
           {
             group: 'copy',
             icon: 'ProfileEditor__username-menu__copy-icon',
-            label: i18n('ProfileEditor--username--copy'),
+            label: i18n('icu:ProfileEditor--username--copy'),
             onClick: () => {
               assertDev(
                 username !== undefined,
@@ -531,7 +531,7 @@ export function ProfileEditor({
           {
             group: 'copy',
             icon: 'ProfileEditor__username-menu__copy-link-icon',
-            label: i18n('ProfileEditor--username--copy-link'),
+            label: i18n('icu:ProfileEditor--username--copy-link'),
             onClick: () => {
               assertDev(
                 username !== undefined,
@@ -548,7 +548,7 @@ export function ProfileEditor({
             group: 'delete',
 
             icon: 'ProfileEditor__username-menu__trash-icon',
-            label: i18n('ProfileEditor--username--delete'),
+            label: i18n('icu:ProfileEditor--username--delete'),
             onClick: () => {
               setUsernameEditState(UsernameEditState.ConfirmingDelete);
             },
@@ -562,7 +562,7 @@ export function ProfileEditor({
               menuOptions={menuOptions}
               popperOptions={{ placement: 'bottom', strategy: 'absolute' }}
               moduleClassName="ProfileEditor__username-menu"
-              ariaLabel={i18n('ProfileEditor--username--context-menu')}
+              ariaLabel={i18n('icu:ProfileEditor--username--context-menu')}
             />
           );
         }
@@ -574,7 +574,7 @@ export function ProfileEditor({
           icon={
             <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
           }
-          label={username || i18n('ProfileEditor--username')}
+          label={username || i18n('icu:ProfileEditor--username')}
           info={username && generateUsernameLink(username, { short: true })}
           onClick={() => {
             openUsernameReservationModal();
@@ -631,7 +631,9 @@ export function ProfileEditor({
             )
           }
           label={
-            <Emojify text={fullBio.aboutText || i18n('ProfileEditor--about')} />
+            <Emojify
+              text={fullBio.aboutText || i18n('icu:ProfileEditor--about')}
+            />
           }
           onClick={() => {
             setEditState(EditState.Bio);
@@ -649,7 +651,7 @@ export function ProfileEditor({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {i18n('ProfileEditor--learnMore')}
+                  {i18n('icu:ProfileEditor--learnMore')}
                 </a>
               ),
             }}
@@ -670,13 +672,13 @@ export function ProfileEditor({
           onClose={() => setUsernameEditState(UsernameEditState.Editing)}
           actions={[
             {
-              text: i18n('ProfileEditor--username--confirm-delete-button'),
+              text: i18n('icu:ProfileEditor--username--confirm-delete-button'),
               style: 'negative',
               action: () => deleteUsername(),
             },
           ]}
         >
-          {i18n('ProfileEditor--username--confirm-delete-body')}
+          {i18n('icu:ProfileEditor--username--confirm-delete-body')}
         </ConfirmationDialog>
       )}
 

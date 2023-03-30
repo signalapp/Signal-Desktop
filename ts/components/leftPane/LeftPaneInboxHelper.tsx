@@ -124,7 +124,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
               components={{
                 composeIcon: (
                   <span>
-                    <strong>{i18n('composeIcon')}</strong>
+                    <strong>{i18n('icu:composeIcon')}</strong>
                     <span className="module-left-pane__empty--composer_icon">
                       <i className="module-left-pane__empty--composer_icon--icon" />
                     </span>
@@ -150,12 +150,12 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
         case 0:
           return {
             type: RowType.Header,
-            getHeaderText: i18n => i18n('LeftPane--pinned'),
+            getHeaderText: i18n => i18n('icu:LeftPane--pinned'),
           };
         case pinnedConversations.length + 1:
           return {
             type: RowType.Header,
-            getHeaderText: i18n => i18n('LeftPane--chats'),
+            getHeaderText: i18n => i18n('icu:LeftPane--chats'),
           };
         case pinnedConversations.length + conversations.length + 2:
           if (archivedConversationsCount) {

@@ -111,16 +111,16 @@ export function CompositionRecording({
         i18n={i18n}
         onCancel={onCancel}
         onClose={noop}
-        cancelText={i18n('discard')}
+        cancelText={i18n('icu:discard')}
         actions={[
           {
-            text: i18n('sendAnyway'),
+            text: i18n('icu:sendAnyway'),
             style: 'affirmative',
             action: onSend,
           },
         ]}
       >
-        {i18n('voiceRecordingInterruptedMax')}
+        {i18n('icu:voiceRecordingInterruptedMax')}
       </ConfirmationDialog>
     );
   } else if (
@@ -132,10 +132,10 @@ export function CompositionRecording({
         i18n={i18n}
         onCancel={onCancel}
         onClose={noop}
-        cancelText={i18n('ok')}
+        cancelText={i18n('icu:ok')}
         actions={[]}
       >
-        {i18n('voiceNoteError')}
+        {i18n('icu:voiceNoteError')}
       </ConfirmationDialog>
     );
   }

@@ -83,14 +83,14 @@ export function GroupLinkManagement({
                 generateNewGroupLink(conversation.id);
               },
               style: 'negative',
-              text: i18n('GroupLinkManagement--reset'),
+              text: i18n('icu:GroupLinkManagement--reset'),
             },
           ]}
           i18n={i18n}
           onClose={() => {
             setHasGenerateNewLinkDialog(false);
           }}
-          title={i18n('GroupLinkManagement--confirm-reset')}
+          title={i18n('icu:GroupLinkManagement--confirm-reset')}
         />
       )}
       <PanelSection>
@@ -98,7 +98,7 @@ export function GroupLinkManagement({
           info={groupLinkInfo}
           label={
             <label htmlFor={groupLinkSelectId}>
-              {i18n('ConversationDetails--group-link')}
+              {i18n('icu:ConversationDetails--group-link')}
             </label>
           }
           right={
@@ -108,11 +108,11 @@ export function GroupLinkManagement({
                 onChange={createEventHandler(changeHasGroupLink)}
                 options={[
                   {
-                    text: i18n('on'),
+                    text: i18n('icu:on'),
                     value: 'true',
                   },
                   {
-                    text: i18n('off'),
+                    text: i18n('icu:off'),
                     value: 'false',
                   },
                 ]}
@@ -130,11 +130,11 @@ export function GroupLinkManagement({
             <PanelRow
               icon={
                 <ConversationDetailsIcon
-                  ariaLabel={i18n('GroupLinkManagement--share')}
+                  ariaLabel={i18n('icu:GroupLinkManagement--share')}
                   icon={IconType.share}
                 />
               }
-              label={i18n('GroupLinkManagement--share')}
+              label={i18n('icu:GroupLinkManagement--share')}
               ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
@@ -146,11 +146,11 @@ export function GroupLinkManagement({
               <PanelRow
                 icon={
                   <ConversationDetailsIcon
-                    ariaLabel={i18n('GroupLinkManagement--reset')}
+                    ariaLabel={i18n('icu:GroupLinkManagement--reset')}
                     icon={IconType.reset}
                   />
                 }
-                label={i18n('GroupLinkManagement--reset')}
+                label={i18n('icu:GroupLinkManagement--reset')}
                 onClick={() => setHasGenerateNewLinkDialog(true)}
               />
             ) : null}
@@ -159,10 +159,10 @@ export function GroupLinkManagement({
           {isAdmin ? (
             <PanelSection>
               <PanelRow
-                info={i18n('GroupLinkManagement--approve-info')}
+                info={i18n('icu:GroupLinkManagement--approve-info')}
                 label={
                   <label htmlFor={approveSelectId}>
-                    {i18n('GroupLinkManagement--approve-label')}
+                    {i18n('icu:GroupLinkManagement--approve-label')}
                   </label>
                 }
                 right={
@@ -173,11 +173,11 @@ export function GroupLinkManagement({
                     )}
                     options={[
                       {
-                        text: i18n('on'),
+                        text: i18n('icu:on'),
                         value: 'true',
                       },
                       {
-                        text: i18n('off'),
+                        text: i18n('icu:off'),
                         value: 'false',
                       },
                     ]}

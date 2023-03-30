@@ -54,10 +54,10 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
         icon="group"
         contents={
           <>
-            <p>{i18n('GroupV1--Migration--was-upgraded')}</p>
+            <p>{i18n('icu:GroupV1--Migration--was-upgraded')}</p>
             <p>
               {areWeInvited ? (
-                i18n('GroupV1--Migration--invited--you')
+                i18n('icu:GroupV1--Migration--invited--you')
               ) : (
                 <>
                   {renderUsers(invitedMembers, i18n, 'invited')}
@@ -73,7 +73,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
-            {i18n('GroupV1--Migration--learn-more')}
+            {i18n('icu:GroupV1--Migration--learn-more')}
           </Button>
         }
       />
@@ -111,14 +111,14 @@ function renderUsers(
         {kind === 'invited' && (
           <Intl
             i18n={i18n}
-            id="GroupV1--Migration--invited--one"
+            id="icu:GroupV1--Migration--invited--one"
             components={{ contact }}
           />
         )}
         {kind === 'removed' && (
           <Intl
             i18n={i18n}
-            id="GroupV1--Migration--removed--one"
+            id="icu:GroupV1--Migration--removed--one"
             components={{ contact }}
           />
         )}
@@ -133,14 +133,14 @@ function renderUsers(
       {kind === 'invited' && members.length > 1 && (
         <Intl
           i18n={i18n}
-          id="GroupV1--Migration--invited--many"
+          id="icu:GroupV1--Migration--invited--many"
           components={{ count }}
         />
       )}
       {kind === 'removed' && members.length > 1 && (
         <Intl
           i18n={i18n}
-          id="GroupV1--Migration--removed--many"
+          id="icu:GroupV1--Migration--removed--many"
           components={{ count }}
         />
       )}

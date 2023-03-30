@@ -87,7 +87,7 @@ export function LeftPaneSearchInput({
     inputRef.current?.focus();
   };
 
-  const label = searchConversation ? i18n('searchIn') : i18n('search');
+  const label = searchConversation ? i18n('icu:searchIn') : i18n('icu:search');
 
   return (
     <SearchInput
@@ -149,7 +149,7 @@ export function LeftPaneSearchInput({
             unblurredAvatarPath={searchConversation.unblurredAvatarPath}
           />
           <button
-            aria-label={i18n('clearSearch')}
+            aria-label={i18n('icu:clearSearch')}
             className="LeftPaneSearchInput__in-conversation-pill__x-button"
             onClick={clearAndFocus}
             type="button"

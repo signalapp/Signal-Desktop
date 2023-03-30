@@ -40,7 +40,7 @@ export function RemoveGroupMemberConfirmationDialog({
       actions={[
         {
           action: onRemove,
-          text: i18n('RemoveGroupMemberConfirmation__remove-button'),
+          text: i18n('icu:RemoveGroupMemberConfirmation__remove-button'),
           style: 'negative',
         },
       ]}
@@ -50,13 +50,13 @@ export function RemoveGroupMemberConfirmationDialog({
         accessControlEnabled ? (
           <Intl
             i18n={i18n}
-            id="RemoveGroupMemberConfirmation__description__with-link"
+            id="icu:RemoveGroupMemberConfirmation__description__with-link"
             components={intlComponents}
           />
         ) : (
           <Intl
             i18n={i18n}
-            id="RemoveGroupMemberConfirmation__description"
+            id="icu:RemoveGroupMemberConfirmation__description"
             components={intlComponents}
           />
         )

@@ -130,7 +130,7 @@ export function ChatColorPicker({
             {
               action: resetDefaultChatColor,
               style: 'affirmative',
-              text: i18n('ChatColorPicker__confirm-reset-default'),
+              text: i18n('icu:ChatColorPicker__confirm-reset-default'),
             },
             {
               action: () => {
@@ -138,16 +138,16 @@ export function ChatColorPicker({
                 resetAllChatColors();
               },
               style: 'affirmative',
-              text: i18n('ChatColorPicker__resetAll'),
+              text: i18n('icu:ChatColorPicker__resetAll'),
             },
           ]}
           i18n={i18n}
           onClose={() => {
             setConfirmResetWhat(false);
           }}
-          title={i18n('ChatColorPicker__resetDefault')}
+          title={i18n('icu:ChatColorPicker__resetDefault')}
         >
-          {i18n('ChatColorPicker__confirm-reset-message')}
+          {i18n('icu:ChatColorPicker__confirm-reset-message')}
         </ConfirmationDialog>
       ) : null}
       {confirmResetAll ? (
@@ -157,16 +157,16 @@ export function ChatColorPicker({
             {
               action: resetAllChatColors,
               style: 'affirmative',
-              text: i18n('ChatColorPicker__confirm-reset'),
+              text: i18n('icu:ChatColorPicker__confirm-reset'),
             },
           ]}
           i18n={i18n}
           onClose={() => {
             setConfirmResetAll(false);
           }}
-          title={i18n('ChatColorPicker__resetAll')}
+          title={i18n('icu:ChatColorPicker__resetAll')}
         >
-          {i18n('ChatColorPicker__confirm-reset-message')}
+          {i18n('icu:ChatColorPicker__confirm-reset-message')}
         </ConfirmationDialog>
       ) : null}
       <SampleMessageBubbles
@@ -227,7 +227,7 @@ export function ChatColorPicker({
           );
         })}
         <div
-          aria-label={i18n('ChatColorPicker__custom-color--label')}
+          aria-label={i18n('icu:ChatColorPicker__custom-color--label')}
           className="ChatColorPicker__bubble ChatColorPicker__bubble--custom"
           onClick={() =>
             setCustomColorToEdit({ id: undefined, value: undefined })
@@ -246,14 +246,14 @@ export function ChatColorPicker({
       <hr />
       {conversationId ? (
         <PanelRow
-          label={i18n('ChatColorPicker__reset')}
+          label={i18n('icu:ChatColorPicker__reset')}
           onClick={() => {
             colorSelected({ conversationId });
           }}
         />
       ) : null}
       <PanelRow
-        label={i18n('ChatColorPicker__resetAll')}
+        label={i18n('icu:ChatColorPicker__resetAll')}
         onClick={() => {
           if (isGlobal) {
             setConfirmResetWhat(true);
@@ -339,16 +339,16 @@ function CustomColorBubble({
             {
               action: onDelete,
               style: 'negative',
-              text: i18n('ChatColorPicker__context--delete'),
+              text: i18n('icu:ChatColorPicker__context--delete'),
             },
           ]}
           i18n={i18n}
           onClose={() => {
             setConfirmDeleteCount(undefined);
           }}
-          title={i18n('ChatColorPicker__delete--title')}
+          title={i18n('icu:ChatColorPicker__delete--title')}
         >
-          {i18n('ChatColorPicker__delete--message', {
+          {i18n('icu:ChatColorPicker__delete--message', {
             num: String(confirmDeleteCount),
           })}
         </ConfirmationDialog>
@@ -372,7 +372,7 @@ function CustomColorBubble({
             onEdit();
           }}
         >
-          {i18n('ChatColorPicker__context--edit')}
+          {i18n('icu:ChatColorPicker__context--edit')}
         </MenuItem>
         <MenuItem
           attributes={{
@@ -385,7 +385,7 @@ function CustomColorBubble({
             onDupe();
           }}
         >
-          {i18n('ChatColorPicker__context--duplicate')}
+          {i18n('icu:ChatColorPicker__context--duplicate')}
         </MenuItem>
         <MenuItem
           attributes={{
@@ -405,7 +405,7 @@ function CustomColorBubble({
             }
           }}
         >
-          {i18n('ChatColorPicker__context--delete')}
+          {i18n('icu:ChatColorPicker__context--delete')}
         </MenuItem>
       </ContextMenu>
     </>
@@ -442,7 +442,7 @@ function CustomColorEditorWrapper({
       moduleClassName="ChatColorPicker__modal"
       noMouseClose
       onClose={onClose}
-      title={i18n('CustomColorEditor__title')}
+      title={i18n('icu:CustomColorEditor__title')}
     >
       {editor}
     </Modal>

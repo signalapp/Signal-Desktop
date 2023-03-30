@@ -19,9 +19,9 @@ export function getTitle(
   }
 
   if (isDirectConversation(attributes)) {
-    return window.i18n('unknownContact');
+    return window.i18n('icu:unknownContact');
   }
-  return window.i18n('unknownGroup');
+  return window.i18n('icu:unknownGroup');
 }
 
 export function getTitleNoDefault(

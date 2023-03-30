@@ -147,7 +147,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
               'module-emoji-button__button--profile-editor':
                 variant === EmojiButtonVariant.ProfileEditor,
             })}
-            aria-label={i18n('EmojiButton__label')}
+            aria-label={i18n('icu:EmojiButton__label')}
           >
             {emoji && <Emoji emoji={emoji} size={24} />}
           </button>

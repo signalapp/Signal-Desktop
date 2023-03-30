@@ -73,7 +73,7 @@ export function AvatarUploadButton({
         }}
         type="button"
       >
-        {i18n('photo')}
+        {i18n('icu:photo')}
       </button>
       <input
         accept=".gif,.jpg,.jpeg,.png,.webp,image/gif,image/jpeg,image/png,image/webp"

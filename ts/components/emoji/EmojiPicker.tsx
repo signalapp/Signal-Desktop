@@ -343,23 +343,23 @@ export const EmojiPicker = React.memo(
       function getCategoryButtonLabel(category: Category): string {
         switch (category) {
           case 'recents':
-            return i18n('EmojiPicker__button--recents');
+            return i18n('icu:EmojiPicker__button--recents');
           case 'emoji':
-            return i18n('EmojiPicker__button--emoji');
+            return i18n('icu:EmojiPicker__button--emoji');
           case 'animal':
-            return i18n('EmojiPicker__button--animal');
+            return i18n('icu:EmojiPicker__button--animal');
           case 'food':
-            return i18n('EmojiPicker__button--food');
+            return i18n('icu:EmojiPicker__button--food');
           case 'activity':
-            return i18n('EmojiPicker__button--activity');
+            return i18n('icu:EmojiPicker__button--activity');
           case 'travel':
-            return i18n('EmojiPicker__button--travel');
+            return i18n('icu:EmojiPicker__button--travel');
           case 'object':
-            return i18n('EmojiPicker__button--object');
+            return i18n('icu:EmojiPicker__button--object');
           case 'symbol':
-            return i18n('EmojiPicker__button--symbol');
+            return i18n('icu:EmojiPicker__button--symbol');
           case 'flag':
-            return i18n('EmojiPicker__button--flag');
+            return i18n('icu:EmojiPicker__button--flag');
           default:
             throw missingCaseError(category);
         }
@@ -381,7 +381,7 @@ export const EmojiPicker = React.memo(
                     handleToggleSearch(event);
                   }
                 }}
-                title={i18n('EmojiPicker--search-placeholder')}
+                title={i18n('icu:EmojiPicker--search-placeholder')}
                 className={classNames(
                   'module-emoji-picker__button',
                   'module-emoji-picker__button--icon',
@@ -389,14 +389,14 @@ export const EmojiPicker = React.memo(
                     ? 'module-emoji-picker__button--icon--close'
                     : 'module-emoji-picker__button--icon--search'
                 )}
-                aria-label={i18n('EmojiPicker--search-placeholder')}
+                aria-label={i18n('icu:EmojiPicker--search-placeholder')}
               />
               {searchMode ? (
                 <div className="module-emoji-picker__header__search-field">
                   <input
                     ref={focusOnRender}
                     className="module-emoji-picker__header__search-field__input"
-                    placeholder={i18n('EmojiPicker--search-placeholder')}
+                    placeholder={i18n('icu:EmojiPicker--search-placeholder')}
                     onChange={handleSearchChange}
                   />
                 </div>
@@ -459,7 +459,7 @@ export const EmojiPicker = React.memo(
                   'module-emoji-picker__body--empty'
                 )}
               >
-                {i18n('EmojiPicker--empty')}
+                {i18n('icu:EmojiPicker--empty')}
                 <Emoji
                   shortName="slightly_frowning_face"
                   size={16}
@@ -470,7 +470,7 @@ export const EmojiPicker = React.memo(
             <footer className="module-emoji-picker__footer">
               {Boolean(onClickSettings) && (
                 <button
-                  aria-label={i18n('CustomizingPreferredReactions__title')}
+                  aria-label={i18n('icu:CustomizingPreferredReactions__title')}
                   className="module-emoji-picker__button module-emoji-picker__button--footer module-emoji-picker__button--settings"
                   onClick={event => {
                     if (onClickSettings) {
@@ -491,7 +491,7 @@ export const EmojiPicker = React.memo(
                       onClickSettings();
                     }
                   }}
-                  title={i18n('CustomizingPreferredReactions__title')}
+                  title={i18n('icu:CustomizingPreferredReactions__title')}
                   type="button"
                 />
               )}
@@ -508,7 +508,7 @@ export const EmojiPicker = React.memo(
                           handlePickTone(event);
                         }
                       }}
-                      title={i18n('EmojiPicker--skin-tone', {
+                      title={i18n('icu:EmojiPicker--skin-tone', {
                         tone: `${tone}`,
                       })}
                       className={classNames(

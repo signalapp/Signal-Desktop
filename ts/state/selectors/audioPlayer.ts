@@ -70,7 +70,7 @@ export const selectVoiceNoteTitle = createSelector(
           ? conversationSelector(ourConversationId)
           : conversationSelector(sourceUuid || source);
 
-      return conversation.isMe ? i18n('you') : conversation.title;
+      return conversation.isMe ? i18n('icu:you') : conversation.title;
     };
   }
 );

@@ -22,7 +22,7 @@ export function SafetyNumberModal({
       i18n={i18n}
       moduleClassName="module-SafetyNumberViewer__modal"
       onClose={toggleSafetyNumberModal}
-      title={i18n('SafetyNumberModal__title')}
+      title={i18n('icu:SafetyNumberModal__title')}
     >
       <SafetyNumberViewer
         i18n={i18n}

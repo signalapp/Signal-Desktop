@@ -3,8 +3,8 @@
 
 const crypto = require('crypto');
 
-const messages = require('../../_locales/en/messages.json');
-const messageKeys = Object.keys(messages).sort((a, b) => {
+const globalMessages = require('../../_locales/en/messages.json');
+const messageKeys = Object.keys(globalMessages).sort((a, b) => {
   return a.localeCompare(b);
 });
 
@@ -72,8 +72,21 @@ function getIntlElementMessageKey(node) {
   return valueToMessageKey(value);
 }
 
-function isValidMessageKey(key) {
+function isValidMessageKey(messages, key) {
   return Object.hasOwn(messages, key);
+}
+
+function isIcuMessageKey(messages, key) {
+  if (!key.startsWith('icu:')) {
+    return false;
+  }
+  const message = messages[key];
+  return message?.messageformat != null;
+}
+
+function isDeletedMessageKey(messages, key) {
+  const description = messages[key]?.description;
+  return description?.toLowerCase().startsWith('(deleted ');
 }
 
 module.exports = {
@@ -89,6 +102,31 @@ module.exports = {
           messagesCacheKey: {
             type: 'string',
           },
+          __mockMessages__: {
+            type: 'object',
+            patternProperties: {
+              '.*': {
+                oneOf: [
+                  {
+                    type: 'object',
+                    properties: {
+                      message: { type: 'string' },
+                      description: { type: 'string' },
+                    },
+                    required: ['message'],
+                  },
+                  {
+                    type: 'object',
+                    properties: {
+                      messageformat: { type: 'string' },
+                      description: { type: 'string' },
+                    },
+                    required: ['messageformat'],
+                  },
+                ],
+              },
+            },
+          },
         },
         required: ['messagesCacheKey'],
         additionalProperties: false,
@@ -102,6 +140,9 @@ module.exports = {
         `The cache key for the i18n rule does not match the current messages.json file (expected: ${messagesCacheKey}, received: ${messagesCacheKeyOption})`
       );
     }
+
+    const mockMessages = context.options[0].__mockMessages__;
+    const messages = mockMessages ?? globalMessages;
 
     return {
       JSXOpeningElement(node) {
@@ -120,14 +161,29 @@ module.exports = {
           return;
         }
 
-        if (isValidMessageKey(key)) {
+        if (!isValidMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `<Intl> id "${key}" not found in _locales/en/messages.json`,
+          });
           return;
         }
 
-        context.report({
-          node,
-          message: `<Intl> id "${key}" not found in _locales/en/messages.json`,
-        });
+        if (!isIcuMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `<Intl> id "${key}" is not an ICU message in _locales/en/messages.json`,
+          });
+          return;
+        }
+
+        if (isDeletedMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `<Intl> id "${key}" is marked as deleted in _locales/en/messages.json`,
+          });
+          return;
+        }
       },
       CallExpression(node) {
         if (!isI18nCall(node)) {
@@ -145,14 +201,28 @@ module.exports = {
           return;
         }
 
-        if (isValidMessageKey(key)) {
+        if (!isValidMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `i18n() key "${key}" not found in _locales/en/messages.json`,
+          });
           return;
         }
 
-        context.report({
-          node,
-          message: `i18n() key "${key}" not found in _locales/en/messages.json`,
-        });
+        if (!isIcuMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `i18n() key "${key}" is not an ICU message in _locales/en/messages.json`,
+          });
+          return;
+        }
+
+        if (isDeletedMessageKey(messages, key)) {
+          context.report({
+            node,
+            message: `i18n() key "${key}" is marked as deleted in _locales/en/messages.json`,
+          });
+        }
       },
     };
   },

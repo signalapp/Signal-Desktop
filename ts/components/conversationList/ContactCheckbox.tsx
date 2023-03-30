@@ -78,7 +78,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     const headerName = isMe ? (
       <ContactName
         module={HEADER_CONTACT_NAME_CLASS_NAME}
-        title={i18n('noteToSelf')}
+        title={i18n('icu:noteToSelf')}
         isMe={isMe}
       />
     ) : (
@@ -87,7 +87,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
 
     let messageText: undefined | string | JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
-      messageText = i18n('alreadyAMember');
+      messageText = i18n('icu:alreadyAMember');
     } else if (about) {
       messageText = <About className="" text={about} />;
     }

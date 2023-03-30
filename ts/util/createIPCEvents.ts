@@ -501,8 +501,8 @@ export function createIPCEvents(
           Errors.toLogFormat(error)
         );
         window.reduxActions.globalModals.showErrorModal({
-          title: window.i18n('GroupV2--join--general-join-failure--title'),
-          description: window.i18n('GroupV2--join--general-join-failure'),
+          title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
+          description: window.i18n('icu:GroupV2--join--general-join-failure'),
         });
       }
     },
@@ -586,6 +586,6 @@ export function createIPCEvents(
 
 function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
-    description: window.i18n('unknown-sgnl-link'),
+    description: window.i18n('icu:unknown-sgnl-link'),
   });
 }

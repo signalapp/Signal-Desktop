@@ -247,14 +247,14 @@ export function ConversationList({
         case RowType.ArchiveButton:
           result = (
             <button
-              aria-label={i18n('archivedConversations')}
+              aria-label={i18n('icu:archivedConversations')}
               className="module-conversation-list__item--archive-button"
               onClick={onClickArchiveButton}
               type="button"
             >
               <div className="module-conversation-list__item--archive-button__icon" />
               <span className="module-conversation-list__item--archive-button__text">
-                {i18n('archivedConversations')}
+                {i18n('icu:archivedConversations')}
               </span>
               <span className="module-conversation-list__item--archive-button__archived-count">
                 {row.archivedConversationsCount}
@@ -355,10 +355,10 @@ export function ConversationList({
           const { badges, title, unreadCount, lastMessage } = itemProps;
           result = (
             <div
-              aria-label={i18n('ConversationList__aria-label', {
+              aria-label={i18n('icu:ConversationList__aria-label', {
                 lastMessage:
                   get(lastMessage, 'text') ||
-                  i18n('ConversationList__last-message-undefined'),
+                  i18n('icu:ConversationList__last-message-undefined'),
                 title,
                 unreadCount: String(unreadCount),
               })}

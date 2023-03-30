@@ -180,7 +180,7 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('view')}</div>
+          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
         )}
       </>
     );
@@ -283,7 +283,7 @@ export function Avatar({
 
   return (
     <div
-      aria-label={i18n('contactAvatarAlt', {
+      aria-label={i18n('icu:contactAvatarAlt', {
         name: title,
       })}
       className={classNames(

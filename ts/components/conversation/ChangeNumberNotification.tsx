@@ -30,7 +30,7 @@ export function ChangeNumberNotification(props: Props): JSX.Element {
       contents={
         <>
           <Intl
-            id="ChangeNumber--notification"
+            id="icu:ChangeNumber--notification"
             components={{
               sender: <Emojify text={sender.title || sender.firstName || ''} />,
             }}

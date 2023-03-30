@@ -90,88 +90,88 @@ export function renderChangeDetail<T>(
 
   if (detail.type === 'create') {
     if (fromYou) {
-      return i18n('GroupV2--create--you');
+      return i18n('icu:GroupV2--create--you');
     }
     if (from) {
-      return i18n('GroupV2--create--other', {
+      return i18n('icu:GroupV2--create--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--create--unknown');
+    return i18n('icu:GroupV2--create--unknown');
   }
   if (detail.type === 'title') {
     const { newTitle } = detail;
 
     if (newTitle) {
       if (fromYou) {
-        return i18n('GroupV2--title--change--you', { newTitle });
+        return i18n('icu:GroupV2--title--change--you', { newTitle });
       }
       if (from) {
-        return i18n('GroupV2--title--change--other', {
+        return i18n('icu:GroupV2--title--change--other', {
           memberName: renderContact(from),
           newTitle,
         });
       }
-      return i18n('GroupV2--title--change--unknown', {
+      return i18n('icu:GroupV2--title--change--unknown', {
         newTitle,
       });
     }
     if (fromYou) {
-      return i18n('GroupV2--title--remove--you');
+      return i18n('icu:GroupV2--title--remove--you');
     }
     if (from) {
-      return i18n('GroupV2--title--remove--other', {
+      return i18n('icu:GroupV2--title--remove--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--title--remove--unknown');
+    return i18n('icu:GroupV2--title--remove--unknown');
   }
   if (detail.type === 'avatar') {
     if (detail.removed) {
       if (fromYou) {
-        return i18n('GroupV2--avatar--remove--you');
+        return i18n('icu:GroupV2--avatar--remove--you');
       }
       if (from) {
-        return i18n('GroupV2--avatar--remove--other', {
+        return i18n('icu:GroupV2--avatar--remove--other', {
           memberName: renderContact(from),
         });
       }
-      return i18n('GroupV2--avatar--remove--unknown');
+      return i18n('icu:GroupV2--avatar--remove--unknown');
     }
     if (fromYou) {
-      return i18n('GroupV2--avatar--change--you');
+      return i18n('icu:GroupV2--avatar--change--you');
     }
     if (from) {
-      return i18n('GroupV2--avatar--change--other', {
+      return i18n('icu:GroupV2--avatar--change--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--avatar--change--unknown');
+    return i18n('icu:GroupV2--avatar--change--unknown');
   }
   if (detail.type === 'access-attributes') {
     const { newPrivilege } = detail;
 
     if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
       if (fromYou) {
-        return i18n('GroupV2--access-attributes--admins--you');
+        return i18n('icu:GroupV2--access-attributes--admins--you');
       }
       if (from) {
-        return i18n('GroupV2--access-attributes--admins--other', {
+        return i18n('icu:GroupV2--access-attributes--admins--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--access-attributes--admins--unknown');
+      return i18n('icu:GroupV2--access-attributes--admins--unknown');
     }
     if (newPrivilege === AccessControlEnum.MEMBER) {
       if (fromYou) {
-        return i18n('GroupV2--access-attributes--all--you');
+        return i18n('icu:GroupV2--access-attributes--all--you');
       }
       if (from) {
-        return i18n('GroupV2--access-attributes--all--other', {
+        return i18n('icu:GroupV2--access-attributes--all--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--access-attributes--all--unknown');
+      return i18n('icu:GroupV2--access-attributes--all--unknown');
     }
     log.warn(
       `access-attributes change type, privilege ${newPrivilege} is unknown`
@@ -183,25 +183,25 @@ export function renderChangeDetail<T>(
 
     if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
       if (fromYou) {
-        return i18n('GroupV2--access-members--admins--you');
+        return i18n('icu:GroupV2--access-members--admins--you');
       }
       if (from) {
-        return i18n('GroupV2--access-members--admins--other', {
+        return i18n('icu:GroupV2--access-members--admins--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--access-members--admins--unknown');
+      return i18n('icu:GroupV2--access-members--admins--unknown');
     }
     if (newPrivilege === AccessControlEnum.MEMBER) {
       if (fromYou) {
-        return i18n('GroupV2--access-members--all--you');
+        return i18n('icu:GroupV2--access-members--all--you');
       }
       if (from) {
-        return i18n('GroupV2--access-members--all--other', {
+        return i18n('icu:GroupV2--access-members--all--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--access-members--all--unknown');
+      return i18n('icu:GroupV2--access-members--all--unknown');
     }
     log.warn(
       `access-members change type, privilege ${newPrivilege} is unknown`
@@ -213,29 +213,29 @@ export function renderChangeDetail<T>(
 
     if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
       if (fromYou) {
-        return i18n('GroupV2--access-invite-link--enabled--you');
+        return i18n('icu:GroupV2--access-invite-link--enabled--you');
       }
       if (from) {
         return i18n(
-          'GroupV2--access-invite-link--enabled--other',
+          'icu:GroupV2--access-invite-link--enabled--other',
 
           { adminName: renderContact(from) }
         );
       }
-      return i18n('GroupV2--access-invite-link--enabled--unknown');
+      return i18n('icu:GroupV2--access-invite-link--enabled--unknown');
     }
     if (newPrivilege === AccessControlEnum.ANY) {
       if (fromYou) {
-        return i18n('GroupV2--access-invite-link--disabled--you');
+        return i18n('icu:GroupV2--access-invite-link--disabled--you');
       }
       if (from) {
         return i18n(
-          'GroupV2--access-invite-link--disabled--other',
+          'icu:GroupV2--access-invite-link--disabled--other',
 
           { adminName: renderContact(from) }
         );
       }
-      return i18n('GroupV2--access-invite-link--disabled--unknown');
+      return i18n('icu:GroupV2--access-invite-link--disabled--unknown');
     }
     log.warn(
       `access-invite-link change type, privilege ${newPrivilege} is unknown`
@@ -248,27 +248,27 @@ export function renderChangeDetail<T>(
 
     if (weAreJoiner) {
       if (fromYou) {
-        return i18n('GroupV2--member-add--you--you');
+        return i18n('icu:GroupV2--member-add--you--you');
       }
       if (from) {
-        return i18n('GroupV2--member-add--you--other', {
+        return i18n('icu:GroupV2--member-add--you--other', {
           memberName: renderContact(from),
         });
       }
-      return i18n('GroupV2--member-add--you--unknown');
+      return i18n('icu:GroupV2--member-add--you--unknown');
     }
     if (fromYou) {
-      return i18n('GroupV2--member-add--other--you', {
+      return i18n('icu:GroupV2--member-add--other--you', {
         memberName: renderContact(uuid),
       });
     }
     if (from) {
-      return i18n('GroupV2--member-add--other--other', {
+      return i18n('icu:GroupV2--member-add--other--other', {
         adderName: renderContact(from),
         addeeName: renderContact(uuid),
       });
     }
-    return i18n('GroupV2--member-add--other--unknown', {
+    return i18n('icu:GroupV2--member-add--other--unknown', {
       memberName: renderContact(uuid),
     });
   }
@@ -281,50 +281,50 @@ export function renderChangeDetail<T>(
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
-          return i18n('GroupV2--member-add--you--other', {
+          return i18n('icu:GroupV2--member-add--you--other', {
             memberName: renderContact(from),
           });
         }
-        return i18n('GroupV2--member-add--you--unknown');
+        return i18n('icu:GroupV2--member-add--you--unknown');
       }
 
       if (fromYou) {
-        return i18n('GroupV2--member-add--invited--you', {
+        return i18n('icu:GroupV2--member-add--invited--you', {
           inviteeName: renderContact(uuid),
         });
       }
       if (from) {
-        return i18n('GroupV2--member-add--invited--other', {
+        return i18n('icu:GroupV2--member-add--invited--other', {
           memberName: renderContact(from),
           inviteeName: renderContact(uuid),
         });
       }
-      return i18n('GroupV2--member-add--invited--unknown', {
+      return i18n('icu:GroupV2--member-add--invited--unknown', {
         inviteeName: renderContact(uuid),
       });
     }
 
     if (weAreJoiner) {
       if (inviter) {
-        return i18n('GroupV2--member-add--from-invite--you', {
+        return i18n('icu:GroupV2--member-add--from-invite--you', {
           inviterName: renderContact(inviter),
         });
       }
-      return i18n('GroupV2--member-add--from-invite--you-no-from');
+      return i18n('icu:GroupV2--member-add--from-invite--you-no-from');
     }
     if (weAreInviter) {
-      return i18n('GroupV2--member-add--from-invite--from-you', {
+      return i18n('icu:GroupV2--member-add--from-invite--from-you', {
         inviteeName: renderContact(uuid),
       });
     }
     if (inviter) {
-      return i18n('GroupV2--member-add--from-invite--other', {
+      return i18n('icu:GroupV2--member-add--from-invite--other', {
         inviteeName: renderContact(uuid),
         inviterName: renderContact(inviter),
       });
     }
     return i18n(
-      'GroupV2--member-add--from-invite--other-no-from',
+      'icu:GroupV2--member-add--from-invite--other-no-from',
 
       {
         inviteeName: renderContact(uuid),
@@ -335,10 +335,10 @@ export function renderChangeDetail<T>(
     const { uuid } = detail;
 
     if (fromYou && isOurUuid(uuid)) {
-      return i18n('GroupV2--member-add-from-link--you--you');
+      return i18n('icu:GroupV2--member-add-from-link--you--you');
     }
     if (from && uuid === from) {
-      return i18n('GroupV2--member-add-from-link--other', {
+      return i18n('icu:GroupV2--member-add-from-link--other', {
         memberName: renderContact(from),
       });
     }
@@ -346,7 +346,7 @@ export function renderChangeDetail<T>(
     // Note: this shouldn't happen, because we only capture 'add-from-link' status
     //   from group change events, which always have a sender.
     log.warn('member-add-from-link change type; we have no from!');
-    return i18n('GroupV2--member-add--other--unknown', {
+    return i18n('icu:GroupV2--member-add--other--unknown', {
       memberName: renderContact(uuid),
     });
   }
@@ -357,7 +357,7 @@ export function renderChangeDetail<T>(
     if (weAreJoiner) {
       if (from) {
         return i18n(
-          'GroupV2--member-add-from-admin-approval--you--other',
+          'icu:GroupV2--member-add-from-admin-approval--you--other',
 
           { adminName: renderContact(from) }
         );
@@ -368,19 +368,19 @@ export function renderChangeDetail<T>(
       log.warn(
         'member-add-from-admin-approval change type; we have no from, and we are joiner!'
       );
-      return i18n('GroupV2--member-add-from-admin-approval--you--unknown');
+      return i18n('icu:GroupV2--member-add-from-admin-approval--you--unknown');
     }
 
     if (fromYou) {
       return i18n(
-        'GroupV2--member-add-from-admin-approval--other--you',
+        'icu:GroupV2--member-add-from-admin-approval--other--you',
 
         { joinerName: renderContact(uuid) }
       );
     }
     if (from) {
       return i18n(
-        'GroupV2--member-add-from-admin-approval--other--other',
+        'icu:GroupV2--member-add-from-admin-approval--other--other',
 
         {
           adminName: renderContact(from),
@@ -393,7 +393,7 @@ export function renderChangeDetail<T>(
     //   status from group change events, which always have a sender.
     log.warn('member-add-from-admin-approval change type; we have no from');
     return i18n(
-      'GroupV2--member-add-from-admin-approval--other--unknown',
+      'icu:GroupV2--member-add-from-admin-approval--other--unknown',
 
       { joinerName: renderContact(uuid) }
     );
@@ -404,33 +404,33 @@ export function renderChangeDetail<T>(
 
     if (weAreLeaver) {
       if (fromYou) {
-        return i18n('GroupV2--member-remove--you--you');
+        return i18n('icu:GroupV2--member-remove--you--you');
       }
       if (from) {
-        return i18n('GroupV2--member-remove--you--other', {
+        return i18n('icu:GroupV2--member-remove--you--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--member-remove--you--unknown');
+      return i18n('icu:GroupV2--member-remove--you--unknown');
     }
 
     if (fromYou) {
-      return i18n('GroupV2--member-remove--other--you', {
+      return i18n('icu:GroupV2--member-remove--other--you', {
         memberName: renderContact(uuid),
       });
     }
     if (from && from === uuid) {
-      return i18n('GroupV2--member-remove--other--self', {
+      return i18n('icu:GroupV2--member-remove--other--self', {
         memberName: renderContact(from),
       });
     }
     if (from) {
-      return i18n('GroupV2--member-remove--other--other', {
+      return i18n('icu:GroupV2--member-remove--other--other', {
         adminName: renderContact(from),
         memberName: renderContact(uuid),
       });
     }
-    return i18n('GroupV2--member-remove--other--unknown', {
+    return i18n('icu:GroupV2--member-remove--other--unknown', {
       memberName: renderContact(uuid),
     });
   }
@@ -442,48 +442,48 @@ export function renderChangeDetail<T>(
       if (weAreMember) {
         if (from) {
           return i18n(
-            'GroupV2--member-privilege--promote--you--other',
+            'icu:GroupV2--member-privilege--promote--you--other',
 
             { adminName: renderContact(from) }
           );
         }
 
-        return i18n('GroupV2--member-privilege--promote--you--unknown');
+        return i18n('icu:GroupV2--member-privilege--promote--you--unknown');
       }
 
       if (fromYou) {
-        return i18n('GroupV2--member-privilege--promote--other--you', {
+        return i18n('icu:GroupV2--member-privilege--promote--other--you', {
           memberName: renderContact(uuid),
         });
       }
       if (from) {
-        return i18n('GroupV2--member-privilege--promote--other--other', {
+        return i18n('icu:GroupV2--member-privilege--promote--other--other', {
           adminName: renderContact(from),
           memberName: renderContact(uuid),
         });
       }
-      return i18n('GroupV2--member-privilege--promote--other--unknown', {
+      return i18n('icu:GroupV2--member-privilege--promote--other--unknown', {
         memberName: renderContact(uuid),
       });
     }
     if (newPrivilege === RoleEnum.DEFAULT) {
       if (weAreMember) {
         if (from) {
-          return i18n('GroupV2--member-privilege--demote--you--other', {
+          return i18n('icu:GroupV2--member-privilege--demote--you--other', {
             adminName: renderContact(from),
           });
         }
-        return i18n('GroupV2--member-privilege--demote--you--unknown');
+        return i18n('icu:GroupV2--member-privilege--demote--you--unknown');
       }
 
       if (fromYou) {
-        return i18n('GroupV2--member-privilege--demote--other--you', {
+        return i18n('icu:GroupV2--member-privilege--demote--other--you', {
           memberName: renderContact(uuid),
         });
       }
       if (from) {
         return i18n(
-          'GroupV2--member-privilege--demote--other--other',
+          'icu:GroupV2--member-privilege--demote--other--other',
 
           {
             adminName: renderContact(from),
@@ -492,7 +492,7 @@ export function renderChangeDetail<T>(
         );
       }
       return i18n(
-        'GroupV2--member-privilege--demote--other--unknown',
+        'icu:GroupV2--member-privilege--demote--other--unknown',
 
         { memberName: renderContact(uuid) }
       );
@@ -507,39 +507,39 @@ export function renderChangeDetail<T>(
     const weAreInvited = isOurUuid(uuid);
     if (weAreInvited) {
       if (from) {
-        return i18n('GroupV2--pending-add--one--you--other', {
+        return i18n('icu:GroupV2--pending-add--one--you--other', {
           memberName: renderContact(from),
         });
       }
-      return i18n('GroupV2--pending-add--one--you--unknown');
+      return i18n('icu:GroupV2--pending-add--one--you--unknown');
     }
     if (fromYou) {
-      return i18n('GroupV2--pending-add--one--other--you', {
+      return i18n('icu:GroupV2--pending-add--one--other--you', {
         inviteeName: renderContact(uuid),
       });
     }
     if (from) {
-      return i18n('GroupV2--pending-add--one--other--other', {
+      return i18n('icu:GroupV2--pending-add--one--other--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--pending-add--one--other--unknown');
+    return i18n('icu:GroupV2--pending-add--one--other--unknown');
   }
   if (detail.type === 'pending-add-many') {
     const { count } = detail;
 
     if (fromYou) {
-      return i18n('GroupV2--pending-add--many--you', {
+      return i18n('icu:GroupV2--pending-add--many--you', {
         count: count.toString(),
       });
     }
     if (from) {
-      return i18n('GroupV2--pending-add--many--other', {
+      return i18n('icu:GroupV2--pending-add--many--other', {
         memberName: renderContact(from),
         count: count.toString(),
       });
     }
-    return i18n('GroupV2--pending-add--many--unknown', {
+    return i18n('icu:GroupV2--pending-add--many--unknown', {
       count: count.toString(),
     });
   }
@@ -552,20 +552,20 @@ export function renderChangeDetail<T>(
 
     if (weAreInviter) {
       if (sentByInvited) {
-        return i18n('GroupV2--pending-remove--decline--you', {
+        return i18n('icu:GroupV2--pending-remove--decline--you', {
           inviteeName: renderContact(uuid),
         });
       }
       if (fromYou) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from-you--one--you',
+          'icu:GroupV2--pending-remove--revoke-invite-from-you--one--you',
 
           { inviteeName: renderContact(uuid) }
         );
       }
       if (from) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from-you--one--other',
+          'icu:GroupV2--pending-remove--revoke-invite-from-you--one--other',
 
           {
             adminName: renderContact(from),
@@ -574,32 +574,32 @@ export function renderChangeDetail<T>(
         );
       }
       return i18n(
-        'GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
+        'icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
 
         { inviteeName: renderContact(uuid) }
       );
     }
     if (sentByInvited) {
       if (fromYou) {
-        return i18n('GroupV2--pending-remove--decline--from-you');
+        return i18n('icu:GroupV2--pending-remove--decline--from-you');
       }
       if (inviter) {
-        return i18n('GroupV2--pending-remove--decline--other', {
+        return i18n('icu:GroupV2--pending-remove--decline--other', {
           memberName: renderContact(inviter),
         });
       }
-      return i18n('GroupV2--pending-remove--decline--unknown');
+      return i18n('icu:GroupV2--pending-remove--decline--unknown');
     }
     if (inviter && sentByInviter) {
       if (weAreInvited) {
         return i18n(
-          'GroupV2--pending-remove--revoke-own--to-you',
+          'icu:GroupV2--pending-remove--revoke-own--to-you',
 
           { inviterName: renderContact(inviter) }
         );
       }
       return i18n(
-        'GroupV2--pending-remove--revoke-own--unknown',
+        'icu:GroupV2--pending-remove--revoke-own--unknown',
 
         { inviterName: renderContact(inviter) }
       );
@@ -607,14 +607,14 @@ export function renderChangeDetail<T>(
     if (inviter) {
       if (fromYou) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from--one--you',
+          'icu:GroupV2--pending-remove--revoke-invite-from--one--you',
 
           { memberName: renderContact(inviter) }
         );
       }
       if (from) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from--one--other',
+          'icu:GroupV2--pending-remove--revoke-invite-from--one--other',
 
           {
             adminName: renderContact(from),
@@ -623,20 +623,20 @@ export function renderChangeDetail<T>(
         );
       }
       return i18n(
-        'GroupV2--pending-remove--revoke-invite-from--one--unknown',
+        'icu:GroupV2--pending-remove--revoke-invite-from--one--unknown',
 
         { memberName: renderContact(inviter) }
       );
     }
     if (fromYou) {
-      return i18n('GroupV2--pending-remove--revoke--one--you');
+      return i18n('icu:GroupV2--pending-remove--revoke--one--you');
     }
     if (from) {
-      return i18n('GroupV2--pending-remove--revoke--one--other', {
+      return i18n('icu:GroupV2--pending-remove--revoke--one--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--pending-remove--revoke--one--unknown');
+    return i18n('icu:GroupV2--pending-remove--revoke--one--unknown');
   }
   if (detail.type === 'pending-remove-many') {
     const { count, inviter } = detail;
@@ -645,14 +645,14 @@ export function renderChangeDetail<T>(
     if (weAreInviter) {
       if (fromYou) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from-you--many--you',
+          'icu:GroupV2--pending-remove--revoke-invite-from-you--many--you',
 
           { count: count.toString() }
         );
       }
       if (from) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from-you--many--other',
+          'icu:GroupV2--pending-remove--revoke-invite-from-you--many--other',
 
           {
             adminName: renderContact(from),
@@ -661,7 +661,7 @@ export function renderChangeDetail<T>(
         );
       }
       return i18n(
-        'GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
+        'icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
 
         { count: count.toString() }
       );
@@ -669,7 +669,7 @@ export function renderChangeDetail<T>(
     if (inviter) {
       if (fromYou) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from--many--you',
+          'icu:GroupV2--pending-remove--revoke-invite-from--many--you',
 
           {
             count: count.toString(),
@@ -679,7 +679,7 @@ export function renderChangeDetail<T>(
       }
       if (from) {
         return i18n(
-          'GroupV2--pending-remove--revoke-invite-from--many--other',
+          'icu:GroupV2--pending-remove--revoke-invite-from--many--other',
 
           {
             adminName: renderContact(from),
@@ -689,7 +689,7 @@ export function renderChangeDetail<T>(
         );
       }
       return i18n(
-        'GroupV2--pending-remove--revoke-invite-from--many--unknown',
+        'icu:GroupV2--pending-remove--revoke-invite-from--many--unknown',
 
         {
           count: count.toString(),
@@ -698,13 +698,13 @@ export function renderChangeDetail<T>(
       );
     }
     if (fromYou) {
-      return i18n('GroupV2--pending-remove--revoke--many--you', {
+      return i18n('icu:GroupV2--pending-remove--revoke--many--you', {
         count: count.toString(),
       });
     }
     if (from) {
       return i18n(
-        'GroupV2--pending-remove--revoke--many--other',
+        'icu:GroupV2--pending-remove--revoke--many--other',
 
         {
           memberName: renderContact(from),
@@ -713,7 +713,7 @@ export function renderChangeDetail<T>(
       );
     }
     return i18n(
-      'GroupV2--pending-remove--revoke--many--unknown',
+      'icu:GroupV2--pending-remove--revoke--many--unknown',
 
       { count: count.toString() }
     );
@@ -723,9 +723,9 @@ export function renderChangeDetail<T>(
     const weAreJoiner = isOurUuid(uuid);
 
     if (weAreJoiner) {
-      return i18n('GroupV2--admin-approval-add-one--you');
+      return i18n('icu:GroupV2--admin-approval-add-one--you');
     }
-    return i18n('GroupV2--admin-approval-add-one--other', {
+    return i18n('icu:GroupV2--admin-approval-add-one--other', {
       joinerName: renderContact(uuid),
     });
   }
@@ -735,28 +735,28 @@ export function renderChangeDetail<T>(
 
     if (weAreJoiner) {
       if (fromYou) {
-        return i18n('GroupV2--admin-approval-remove-one--you--you');
+        return i18n('icu:GroupV2--admin-approval-remove-one--you--you');
       }
-      return i18n('GroupV2--admin-approval-remove-one--you--unknown');
+      return i18n('icu:GroupV2--admin-approval-remove-one--you--unknown');
     }
 
     if (fromYou) {
       return i18n(
-        'GroupV2--admin-approval-remove-one--other--you',
+        'icu:GroupV2--admin-approval-remove-one--other--you',
 
         { joinerName: renderContact(uuid) }
       );
     }
     if (from && from === uuid) {
       return i18n(
-        'GroupV2--admin-approval-remove-one--other--own',
+        'icu:GroupV2--admin-approval-remove-one--other--own',
 
         { joinerName: renderContact(uuid) }
       );
     }
     if (from) {
       return i18n(
-        'GroupV2--admin-approval-remove-one--other--other',
+        'icu:GroupV2--admin-approval-remove-one--other--other',
 
         {
           adminName: renderContact(from),
@@ -768,7 +768,7 @@ export function renderChangeDetail<T>(
     // We default to the user canceling their request, because it is far more likely that
     //   if an admin does the denial, we'll get a change event from them.
     return i18n(
-      'GroupV2--admin-approval-remove-one--other--own',
+      'icu:GroupV2--admin-approval-remove-one--other--own',
 
       { joinerName: renderContact(uuid) }
     );
@@ -778,11 +778,11 @@ export function renderChangeDetail<T>(
 
     let firstMessage: T | string;
     if (times === 1) {
-      firstMessage = i18n('GroupV2--admin-approval-bounce--one', {
+      firstMessage = i18n('icu:GroupV2--admin-approval-bounce--one', {
         joinerName: renderContact(uuid),
       });
     } else {
-      firstMessage = i18n('GroupV2--admin-approval-bounce', {
+      firstMessage = i18n('icu:GroupV2--admin-approval-bounce', {
         joinerName: renderContact(uuid),
         numberOfRequests: String(times),
       });
@@ -810,96 +810,96 @@ export function renderChangeDetail<T>(
 
     if (privilege === AccessControlEnum.ADMINISTRATOR) {
       if (fromYou) {
-        return i18n('GroupV2--group-link-add--enabled--you');
+        return i18n('icu:GroupV2--group-link-add--enabled--you');
       }
       if (from) {
-        return i18n('GroupV2--group-link-add--enabled--other', {
+        return i18n('icu:GroupV2--group-link-add--enabled--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--group-link-add--enabled--unknown');
+      return i18n('icu:GroupV2--group-link-add--enabled--unknown');
     }
     if (privilege === AccessControlEnum.ANY) {
       if (fromYou) {
-        return i18n('GroupV2--group-link-add--disabled--you');
+        return i18n('icu:GroupV2--group-link-add--disabled--you');
       }
       if (from) {
-        return i18n('GroupV2--group-link-add--disabled--other', {
+        return i18n('icu:GroupV2--group-link-add--disabled--other', {
           adminName: renderContact(from),
         });
       }
-      return i18n('GroupV2--group-link-add--disabled--unknown');
+      return i18n('icu:GroupV2--group-link-add--disabled--unknown');
     }
     log.warn(`group-link-add change type, privilege ${privilege} is unknown`);
     return '';
   }
   if (detail.type === 'group-link-reset') {
     if (fromYou) {
-      return i18n('GroupV2--group-link-reset--you');
+      return i18n('icu:GroupV2--group-link-reset--you');
     }
     if (from) {
-      return i18n('GroupV2--group-link-reset--other', {
+      return i18n('icu:GroupV2--group-link-reset--other', {
         adminName: renderContact(from),
       });
     }
-    return i18n('GroupV2--group-link-reset--unknown');
+    return i18n('icu:GroupV2--group-link-reset--unknown');
   }
   if (detail.type === 'group-link-remove') {
     if (fromYou) {
-      return i18n('GroupV2--group-link-remove--you');
+      return i18n('icu:GroupV2--group-link-remove--you');
     }
     if (from) {
-      return i18n('GroupV2--group-link-remove--other', {
+      return i18n('icu:GroupV2--group-link-remove--other', {
         adminName: renderContact(from),
       });
     }
-    return i18n('GroupV2--group-link-remove--unknown');
+    return i18n('icu:GroupV2--group-link-remove--unknown');
   }
   if (detail.type === 'description') {
     if (detail.removed) {
       if (fromYou) {
-        return i18n('GroupV2--description--remove--you');
+        return i18n('icu:GroupV2--description--remove--you');
       }
       if (from) {
-        return i18n('GroupV2--description--remove--other', {
+        return i18n('icu:GroupV2--description--remove--other', {
           memberName: renderContact(from),
         });
       }
-      return i18n('GroupV2--description--remove--unknown');
+      return i18n('icu:GroupV2--description--remove--unknown');
     }
 
     if (fromYou) {
-      return i18n('GroupV2--description--change--you');
+      return i18n('icu:GroupV2--description--change--you');
     }
     if (from) {
-      return i18n('GroupV2--description--change--other', {
+      return i18n('icu:GroupV2--description--change--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--description--change--unknown');
+    return i18n('icu:GroupV2--description--change--unknown');
   }
   if (detail.type === 'announcements-only') {
     if (detail.announcementsOnly) {
       if (fromYou) {
-        return i18n('GroupV2--announcements--admin--you');
+        return i18n('icu:GroupV2--announcements--admin--you');
       }
       if (from) {
-        return i18n('GroupV2--announcements--admin--other', {
+        return i18n('icu:GroupV2--announcements--admin--other', {
           memberName: renderContact(from),
         });
       }
-      return i18n('GroupV2--announcements--admin--unknown');
+      return i18n('icu:GroupV2--announcements--admin--unknown');
     }
 
     if (fromYou) {
-      return i18n('GroupV2--announcements--member--you');
+      return i18n('icu:GroupV2--announcements--member--you');
     }
     if (from) {
-      return i18n('GroupV2--announcements--member--other', {
+      return i18n('icu:GroupV2--announcements--member--other', {
         memberName: renderContact(from),
       });
     }
-    return i18n('GroupV2--announcements--member--unknown');
+    return i18n('icu:GroupV2--announcements--member--unknown');
   }
   if (detail.type === 'summary') {
     return i18n('icu:GroupV2--summary');

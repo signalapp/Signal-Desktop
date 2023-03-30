@@ -258,11 +258,11 @@ export function ForwardMessagesModal({
       {cannotMessage && (
         <ConfirmationDialog
           dialogName="ForwardMessageModal.confirm"
-          cancelText={i18n('Confirmation--confirm')}
+          cancelText={i18n('icu:Confirmation--confirm')}
           i18n={i18n}
           onClose={() => setCannotMessage(false)}
         >
-          {i18n('GroupV2--cannot-send')}
+          {i18n('icu:GroupV2--cannot-send')}
         </ConfirmationDialog>
       )}
       <ModalHost
@@ -283,7 +283,7 @@ export function ForwardMessagesModal({
           >
             {isEditingMessage ? (
               <button
-                aria-label={i18n('back')}
+                aria-label={i18n('icu:back')}
                 className="module-ForwardMessageModal__header--back"
                 onClick={() => setIsEditingMessage(false)}
                 type="button"
@@ -292,7 +292,7 @@ export function ForwardMessagesModal({
               </button>
             ) : (
               <button
-                aria-label={i18n('close')}
+                aria-label={i18n('icu:close')}
                 className="module-ForwardMessageModal__header--close"
                 onClick={close}
                 type="button"
@@ -318,7 +318,7 @@ export function ForwardMessagesModal({
               <SearchInput
                 disabled={candidateConversations.length === 0}
                 i18n={i18n}
-                placeholder={i18n('contactSearchPlaceholder')}
+                placeholder={i18n('icu:contactSearchPlaceholder')}
                 onChange={event => {
                   setSearchTerm(event.target.value);
                 }}
@@ -370,7 +370,7 @@ export function ForwardMessagesModal({
                 </Measure>
               ) : (
                 <div className="module-ForwardMessageModal__no-candidate-contacts">
-                  {i18n('noContactsFound')}
+                  {i18n('icu:noContactsFound')}
                 </div>
               )}
             </div>
@@ -388,14 +388,14 @@ export function ForwardMessagesModal({
             <div>
               {isEditingMessage || !isLonelyDraftEditable ? (
                 <Button
-                  aria-label={i18n('ForwardMessageModal--continue')}
+                  aria-label={i18n('icu:ForwardMessageModal--continue')}
                   className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--forward"
                   aria-disabled={!canForwardMessages}
                   onClick={forwardMessages}
                 />
               ) : (
                 <Button
-                  aria-label={i18n('forwardMessage')}
+                  aria-label={i18n('icu:forwardMessage')}
                   className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--continue"
                   disabled={!hasContactsSelected}
                   onClick={() => setIsEditingMessage(true)}

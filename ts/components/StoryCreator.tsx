@@ -210,7 +210,7 @@ export function StoryCreator({
       )}
       {draftAttachment && !isReadyToSend && attachmentUrl && (
         <MediaEditor
-          doneButtonLabel={i18n('next2')}
+          doneButtonLabel={i18n('icu:next2')}
           i18n={i18n}
           imageSrc={attachmentUrl}
           installedPacks={installedPacks}

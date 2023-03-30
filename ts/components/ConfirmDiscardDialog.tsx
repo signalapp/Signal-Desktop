@@ -22,14 +22,14 @@ export function ConfirmDiscardDialog({
       actions={[
         {
           action: onDiscard,
-          text: i18n('discard'),
+          text: i18n('icu:discard'),
           style: 'negative',
         },
       ]}
       i18n={i18n}
       onClose={onClose}
     >
-      {i18n('ConfirmDiscardDialog--discard')}
+      {i18n('icu:ConfirmDiscardDialog--discard')}
     </ConfirmationDialog>
   );
 }

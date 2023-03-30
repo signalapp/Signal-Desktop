@@ -48,7 +48,7 @@ export function ConversationNotificationsSettings({
         : [
             {
               disabled: true,
-              text: i18n('notMuted'),
+              text: i18n('icu:notMuted'),
               value: -1,
             },
           ]),
@@ -81,13 +81,13 @@ export function ConversationNotificationsSettings({
         <PanelRow
           icon={
             <ConversationDetailsIcon
-              ariaLabel={i18n('muteNotificationsTitle')}
+              ariaLabel={i18n('icu:muteNotificationsTitle')}
               icon={IconType.mute}
             />
           }
           label={
             <label htmlFor={muteNotificationsSelectId}>
-              {i18n('muteNotificationsTitle')}
+              {i18n('icu:muteNotificationsTitle')}
             </label>
           }
           right={
@@ -104,30 +104,30 @@ export function ConversationNotificationsSettings({
             icon={
               <ConversationDetailsIcon
                 ariaLabel={i18n(
-                  'ConversationNotificationsSettings__mentions__label'
+                  'icu:ConversationNotificationsSettings__mentions__label'
                 )}
                 icon={IconType.mention}
               />
             }
             label={
               <label htmlFor={mentionsSelectId}>
-                {i18n('ConversationNotificationsSettings__mentions__label')}
+                {i18n('icu:ConversationNotificationsSettings__mentions__label')}
               </label>
             }
-            info={i18n('ConversationNotificationsSettings__mentions__info')}
+            info={i18n('icu:ConversationNotificationsSettings__mentions__info')}
             right={
               <Select
                 id={mentionsSelectId}
                 options={[
                   {
                     text: i18n(
-                      'ConversationNotificationsSettings__mentions__select__always-notify'
+                      'icu:ConversationNotificationsSettings__mentions__select__always-notify'
                     ),
                     value: 'no',
                   },
                   {
                     text: i18n(
-                      'ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted'
+                      'icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted'
                     ),
                     value: 'yes',
                   },

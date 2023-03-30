@@ -46,10 +46,12 @@ export function CallingLobbyJoinButton({
   const [height, setHeight] = useState<undefined | number>();
 
   const childrenByVariant: Record<CallingLobbyJoinButtonVariant, ReactChild> = {
-    [CallingLobbyJoinButtonVariant.CallIsFull]: i18n('calling__call-is-full'),
+    [CallingLobbyJoinButtonVariant.CallIsFull]: i18n(
+      'icu:calling__call-is-full'
+    ),
     [CallingLobbyJoinButtonVariant.Loading]: <Spinner svgSize="small" />,
-    [CallingLobbyJoinButtonVariant.Join]: i18n('calling__join'),
-    [CallingLobbyJoinButtonVariant.Start]: i18n('calling__start'),
+    [CallingLobbyJoinButtonVariant.Join]: i18n('icu:calling__join'),
+    [CallingLobbyJoinButtonVariant.Start]: i18n('icu:calling__start'),
   };
 
   return (

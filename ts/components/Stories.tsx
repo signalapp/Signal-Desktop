@@ -153,7 +153,7 @@ export function Stories({
       </div>
       <div className="Stories__placeholder">
         <div className="Stories__placeholder__stories" />
-        {i18n('Stories__placeholder--text')}
+        {i18n('icu:Stories__placeholder--text')}
       </div>
     </div>
   );

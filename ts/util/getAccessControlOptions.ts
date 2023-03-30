@@ -16,11 +16,11 @@ export function getAccessControlOptions(
 ): Array<AccessControlOption> {
   return [
     {
-      text: i18n('GroupV2--all-members'),
+      text: i18n('icu:GroupV2--all-members'),
       value: AccessControlEnum.MEMBER,
     },
     {
-      text: i18n('GroupV2--only-admins'),
+      text: i18n('icu:GroupV2--only-admins'),
       value: AccessControlEnum.ADMINISTRATOR,
     },
   ];

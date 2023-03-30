@@ -38,7 +38,7 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
         size={ButtonSize.Medium}
         variant={ButtonVariant.Secondary}
       >
-        {i18n('DeliveryIssue--learnMore')}
+        {i18n('icu:DeliveryIssue--learnMore')}
       </Button>
       <Button
         onClick={onClose}
@@ -47,7 +47,7 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
         variant={ButtonVariant.Primary}
         className="module-delivery-issue-dialog__close-button"
       >
-        {i18n('Confirmation--confirm')}
+        {i18n('icu:Confirmation--confirm')}
       </Button>
     </>
   );
@@ -74,18 +74,18 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
           />
         </div>
         <div className="module-delivery-issue-dialog__title">
-          {i18n('DeliveryIssue--title')}
+          {i18n('icu:DeliveryIssue--title')}
         </div>
         <div className="module-delivery-issue-dialog__description">
           {inGroup ? (
             <Intl
-              id="DeliveryIssue--summary--group"
+              id="icu:DeliveryIssue--summary--group"
               components={intlComponents}
               i18n={i18n}
             />
           ) : (
             <Intl
-              id="DeliveryIssue--summary"
+              id="icu:DeliveryIssue--summary"
               components={intlComponents}
               i18n={i18n}
             />

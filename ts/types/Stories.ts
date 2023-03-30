@@ -146,7 +146,7 @@ export function getStoryDistributionListName(
   id: string,
   name: string
 ): string {
-  return id === MY_STORY_ID ? i18n('Stories__mine') : name;
+  return id === MY_STORY_ID ? i18n('icu:Stories__mine') : name;
 }
 
 export enum HasStories {

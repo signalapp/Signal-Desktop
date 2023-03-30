@@ -24,9 +24,9 @@ export function DialogRelink({
       containerWidthBreakpoint={containerWidthBreakpoint}
       type="warning"
       icon="relink"
-      clickLabel={i18n('unlinkedWarning')}
+      clickLabel={i18n('icu:unlinkedWarning')}
       onClick={relinkDevice}
-      title={i18n('unlinked')}
+      title={i18n('icu:unlinked')}
       hasAction
     />
   );

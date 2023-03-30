@@ -52,9 +52,9 @@ export function CallingPreCallInfo({
 }: PropsType): JSX.Element {
   let subtitle: string;
   if (ringMode === RingMode.IsRinging) {
-    subtitle = i18n('outgoingCallRinging');
+    subtitle = i18n('icu:outgoingCallRinging');
   } else if (isCallFull) {
-    subtitle = i18n('calling__call-is-full');
+    subtitle = i18n('icu:calling__call-is-full');
   } else if (peekedParticipants.length) {
     // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
     //   quickly, causing the server to return stale state (2) you have joined on another
@@ -63,7 +63,7 @@ export function CallingPreCallInfo({
     const participantNames = peekedParticipants.map(participant => {
       if (participant.uuid === me.uuid) {
         hasYou = true;
-        return i18n('you');
+        return i18n('icu:you');
       }
       return getParticipantName(participant);
     });
@@ -71,26 +71,26 @@ export function CallingPreCallInfo({
     switch (participantNames.length) {
       case 1:
         subtitle = hasYou
-          ? i18n('calling__pre-call-info--another-device-in-call')
-          : i18n('calling__pre-call-info--1-person-in-call', {
+          ? i18n('icu:calling__pre-call-info--another-device-in-call')
+          : i18n('icu:calling__pre-call-info--1-person-in-call', {
               first: participantNames[0],
             });
         break;
       case 2:
-        subtitle = i18n('calling__pre-call-info--2-people-in-call', {
+        subtitle = i18n('icu:calling__pre-call-info--2-people-in-call', {
           first: participantNames[0],
           second: participantNames[1],
         });
         break;
       case 3:
-        subtitle = i18n('calling__pre-call-info--3-people-in-call', {
+        subtitle = i18n('icu:calling__pre-call-info--3-people-in-call', {
           first: participantNames[0],
           second: participantNames[1],
           third: participantNames[2],
         });
         break;
       default:
-        subtitle = i18n('calling__pre-call-info--many-people-in-call', {
+        subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
           first: participantNames[0],
           second: participantNames[1],
           others: String(participantNames.length - 2),
@@ -116,25 +116,25 @@ export function CallingPreCallInfo({
 
     switch (memberNames.length) {
       case 0:
-        subtitle = i18n('calling__pre-call-info--empty-group');
+        subtitle = i18n('icu:calling__pre-call-info--empty-group');
         break;
       case 1: {
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-1', {
+          ? i18n('icu:calling__pre-call-info--will-ring-1', {
               person: memberNames[0],
             })
-          : i18n('calling__pre-call-info--will-notify-1', {
+          : i18n('icu:calling__pre-call-info--will-notify-1', {
               person: memberNames[0],
             });
         break;
       }
       case 2: {
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-2', {
+          ? i18n('icu:calling__pre-call-info--will-ring-2', {
               first: memberNames[0],
               second: memberNames[1],
             })
-          : i18n('calling__pre-call-info--will-notify-2', {
+          : i18n('icu:calling__pre-call-info--will-notify-2', {
               first: memberNames[0],
               second: memberNames[1],
             });
@@ -142,12 +142,12 @@ export function CallingPreCallInfo({
       }
       case 3: {
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-3', {
+          ? i18n('icu:calling__pre-call-info--will-ring-3', {
               first: memberNames[0],
               second: memberNames[1],
               third: memberNames[2],
             })
-          : i18n('calling__pre-call-info--will-notify-3', {
+          : i18n('icu:calling__pre-call-info--will-notify-3', {
               first: memberNames[0],
               second: memberNames[1],
               third: memberNames[2],
@@ -156,12 +156,12 @@ export function CallingPreCallInfo({
       }
       default: {
         subtitle = ring
-          ? i18n('calling__pre-call-info--will-ring-many', {
+          ? i18n('icu:calling__pre-call-info--will-ring-many', {
               first: memberNames[0],
               second: memberNames[1],
               others: String(memberNames.length - 2),
             })
-          : i18n('calling__pre-call-info--will-notify-many', {
+          : i18n('icu:calling__pre-call-info--will-notify-many', {
               first: memberNames[0],
               second: memberNames[1],
               others: String(memberNames.length - 2),

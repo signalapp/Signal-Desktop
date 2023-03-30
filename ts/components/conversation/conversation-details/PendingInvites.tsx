@@ -107,7 +107,7 @@ export function PendingInvites({
           role="tab"
           tabIndex={0}
         >
-          {i18n('PendingInvites--tab-requests', {
+          {i18n('icu:PendingInvites--tab-requests', {
             count: String(pendingApprovalMemberships.length),
           })}
         </div>
@@ -128,7 +128,7 @@ export function PendingInvites({
           role="tab"
           tabIndex={0}
         >
-          {i18n('PendingInvites--tab-invites', {
+          {i18n('icu:PendingInvites--tab-invites', {
             count: String(pendingMemberships.length),
           })}
         </div>
@@ -229,14 +229,14 @@ function MembershipActionConfirmation({
       ? approveStagedMembership
       : revokeStagedMemberships;
 
-  let modalActionText = i18n('PendingInvites--revoke');
+  let modalActionText = i18n('icu:PendingInvites--revoke');
 
   if (membershipType === StageType.APPROVE_REQUEST) {
-    modalActionText = i18n('PendingRequests--approve');
+    modalActionText = i18n('icu:PendingRequests--approve');
   } else if (membershipType === StageType.DENY_REQUEST) {
-    modalActionText = i18n('PendingRequests--deny');
+    modalActionText = i18n('icu:PendingRequests--deny');
   } else if (membershipType === StageType.REVOKE_INVITE) {
-    modalActionText = i18n('PendingInvites--revoke');
+    modalActionText = i18n('icu:PendingInvites--revoke');
   }
 
   return (
@@ -286,16 +286,16 @@ function getConfirmationMessage({
   // Requesting a membership since they weren't added by anyone
   if (membershipType === StageType.DENY_REQUEST) {
     return isAccessControlEnabled(conversation.accessControlAddFromInviteLink)
-      ? i18n('PendingRequests--deny-for--with-link', {
+      ? i18n('icu:PendingRequests--deny-for--with-link', {
           name: firstMembership.member.title,
         })
-      : i18n('PendingRequests--deny-for', {
+      : i18n('icu:PendingRequests--deny-for', {
           name: firstMembership.member.title,
         });
   }
 
   if (membershipType === StageType.APPROVE_REQUEST) {
-    return i18n('PendingRequests--approve-for', {
+    return i18n('icu:PendingRequests--approve-for', {
       name: firstMembership.member.title,
     });
   }
@@ -310,7 +310,7 @@ function getConfirmationMessage({
   const invitedByUs = firstPendingMembership.metadata.addedByUserId === ourUuid;
 
   if (invitedByUs) {
-    return i18n('PendingInvites--revoke-for', {
+    return i18n('icu:PendingInvites--revoke-for', {
       name: firstPendingMembership.member.title,
     });
   }
@@ -326,10 +326,10 @@ function getConfirmationMessage({
   const name = inviter.title;
 
   if (stagedMemberships.length === 1) {
-    return i18n('PendingInvites--revoke-from-singular', { name });
+    return i18n('icu:PendingInvites--revoke-from-singular', { name });
   }
 
-  return i18n('PendingInvites--revoke-from-plural', {
+  return i18n('icu:PendingInvites--revoke-from-plural', {
     number: stagedMemberships.length.toString(),
     name,
   });
@@ -382,7 +382,7 @@ function MembersPendingAdminApproval({
                     ]);
                   }}
                 >
-                  {i18n('delete')}
+                  {i18n('icu:delete')}
                 </button>
                 <button
                   type="button"
@@ -396,7 +396,7 @@ function MembersPendingAdminApproval({
                     ]);
                   }}
                 >
-                  {i18n('accept')}
+                  {i18n('icu:accept')}
                 </button>
               </>
             ) : null
@@ -404,7 +404,7 @@ function MembersPendingAdminApproval({
         />
       ))}
       <div className="ConversationDetails__pending--info">
-        {i18n('PendingRequests--info', {
+        {i18n('icu:PendingRequests--info', {
           name: conversation.title,
         })}
       </div>
@@ -453,7 +453,7 @@ function MembersPendingProfileKey({
   return (
     <PanelSection>
       {ourPendingMemberships && (
-        <PanelSection title={i18n('PendingInvites--invited-by-you')}>
+        <PanelSection title={i18n('icu:PendingInvites--invited-by-you')}>
           {ourPendingMemberships.map(membership => (
             <PanelRow
               key={membership.member.id}
@@ -471,7 +471,7 @@ function MembersPendingProfileKey({
               actions={
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon
-                    ariaLabel={i18n('PendingInvites--revoke-for-label')}
+                    ariaLabel={i18n('icu:PendingInvites--revoke-for-label')}
                     icon={IconType.trash}
                     onClick={() => {
                       setStagedMemberships([
@@ -489,7 +489,7 @@ function MembersPendingProfileKey({
         </PanelSection>
       )}
       {otherPendingMemberships.length > 0 && (
-        <PanelSection title={i18n('PendingInvites--invited-by-others')}>
+        <PanelSection title={i18n('icu:PendingInvites--invited-by-others')}>
           {otherPendingMemberships.map(({ member, pendingMemberships }) => (
             <PanelRow
               key={member.id}
@@ -504,13 +504,13 @@ function MembersPendingProfileKey({
                 />
               }
               label={member.title}
-              right={i18n('PendingInvites--invited-count', {
+              right={i18n('icu:PendingInvites--invited-count', {
                 number: pendingMemberships.length.toString(),
               })}
               actions={
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon
-                    ariaLabel={i18n('PendingInvites--revoke-for-label')}
+                    ariaLabel={i18n('icu:PendingInvites--revoke-for-label')}
                     icon={IconType.trash}
                     onClick={() => {
                       setStagedMemberships(
@@ -528,7 +528,7 @@ function MembersPendingProfileKey({
         </PanelSection>
       )}
       <div className="ConversationDetails__pending--info">
-        {i18n('PendingInvites--info')}
+        {i18n('icu:PendingInvites--info')}
       </div>
     </PanelSection>
   );

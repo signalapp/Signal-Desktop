@@ -61,7 +61,7 @@ export function ReactionPickerPickerMoreButton({
 }>): JSX.Element {
   return (
     <button
-      aria-label={i18n('Reactions--more')}
+      aria-label={i18n('icu:Reactions--more')}
       className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
       onClick={event => {
         event.stopPropagation();
@@ -75,7 +75,7 @@ export function ReactionPickerPickerMoreButton({
         }
       }}
       tabIndex={0}
-      title={i18n('Reactions--more')}
+      title={i18n('icu:Reactions--more')}
       type="button"
     >
       <div className="module-ReactionPickerPicker__button--more__dot" />

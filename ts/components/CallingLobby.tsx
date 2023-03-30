@@ -234,7 +234,7 @@ export function CallingLobby({
           onClick={() => setIsMutedToastVisible(false)}
         >
           {i18n(
-            'calling__lobby-automatically-muted-because-there-are-a-lot-of-people'
+            'icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people'
           )}
         </CallingToast>
 
@@ -266,7 +266,7 @@ export function CallingLobby({
             }`
           )}
         >
-          {i18n('calling__your-video-is-off')}
+          {i18n('icu:calling__your-video-is-off')}
         </div>
 
         <div className="module-calling__buttons module-calling__buttons--inline">

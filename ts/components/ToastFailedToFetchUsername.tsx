@@ -16,7 +16,7 @@ export function ToastFailedToFetchUsername({
 }: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose} style={{ maxWidth: '280px' }}>
-      {i18n('Toast--failed-to-fetch-username')}
+      {i18n('icu:Toast--failed-to-fetch-username')}
     </Toast>
   );
 }

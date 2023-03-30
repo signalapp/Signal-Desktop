@@ -117,7 +117,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         selectedContacts: [candidateContacts[1]],
       });
 
-      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'contactsHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(1), {
         type: RowType.ContactCheckbox,
         contact: candidateContacts[0],
@@ -166,7 +166,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
 
       assert.deepEqual(
         _testHeaderText(helper.getRow(0)),
-        'findByPhoneNumberHeader'
+        'icu:findByPhoneNumberHeader'
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.PhoneNumberCheckbox,
@@ -191,7 +191,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
 
       assert.deepEqual(
         _testHeaderText(helper.getRow(0)),
-        'findByUsernameHeader'
+        'icu:findByUsernameHeader'
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.UsernameCheckbox,

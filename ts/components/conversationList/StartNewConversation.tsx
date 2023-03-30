@@ -76,12 +76,12 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       modal = (
         <ConfirmationDialog
           dialogName="StartNewConversation.invalidPhoneNumber"
-          cancelText={i18n('ok')}
+          cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
           onClose={() => setIsModalVisible(false)}
         >
-          {i18n('startConversation--phone-number-not-valid', {
+          {i18n('icu:startConversation--phone-number-not-valid', {
             phoneNumber: phoneNumber.userInput,
           })}
         </ConfirmationDialog>

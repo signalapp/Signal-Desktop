@@ -42,30 +42,30 @@ function getSendStatusLabel(
   i18n: LocalizerType
 ): string {
   if (sendStatus === SendStatus.Failed) {
-    return i18n('MessageDetailsHeader--Failed');
+    return i18n('icu:MessageDetailsHeader--Failed');
   }
 
   if (sendStatus === SendStatus.Viewed) {
-    return i18n('MessageDetailsHeader--Viewed');
+    return i18n('icu:MessageDetailsHeader--Viewed');
   }
 
   if (sendStatus === SendStatus.Read) {
-    return i18n('MessageDetailsHeader--Read');
+    return i18n('icu:MessageDetailsHeader--Read');
   }
 
   if (sendStatus === SendStatus.Delivered) {
-    return i18n('MessageDetailsHeader--Delivered');
+    return i18n('icu:MessageDetailsHeader--Delivered');
   }
 
   if (sendStatus === SendStatus.Sent) {
-    return i18n('MessageDetailsHeader--Sent');
+    return i18n('icu:MessageDetailsHeader--Sent');
   }
 
   if (sendStatus === SendStatus.Pending) {
-    return i18n('MessageDetailsHeader--Pending');
+    return i18n('icu:MessageDetailsHeader--Pending');
   }
 
-  return i18n('from');
+  return i18n('icu:from');
 }
 
 export function StoryDetailsModal({
@@ -167,7 +167,7 @@ export function StoryDetailsModal({
       <div className="StoryDetailsModal__contact-container">
         <div className="StoryDetailsModal__contact-group">
           <div className="StoryDetailsModal__contact-group__header">
-            {i18n('sent')}
+            {i18n('icu:sent')}
           </div>
           <div className="StoryDetailsModal__contact">
             <Avatar
@@ -208,7 +208,7 @@ export function StoryDetailsModal({
   const menuOptions = [
     {
       icon: 'StoryDetailsModal__copy-icon',
-      label: i18n('StoryDetailsModal__copy-timestamp'),
+      label: i18n('icu:StoryDetailsModal__copy-timestamp'),
       onClick: () => {
         void window.navigator.clipboard.writeText(String(timestamp));
       },
@@ -218,7 +218,7 @@ export function StoryDetailsModal({
   if (isInternalUser && attachment) {
     menuOptions.push({
       icon: 'StoryDetailsModal__download-icon',
-      label: i18n('StoryDetailsModal__download-attachment'),
+      label: i18n('icu:StoryDetailsModal__download-attachment'),
       onClick: () => {
         saveAttachment(attachment);
       },
@@ -248,7 +248,7 @@ export function StoryDetailsModal({
           <div>
             <Intl
               i18n={i18n}
-              id="StoryDetailsModal__sent-time"
+              id="icu:StoryDetailsModal__sent-time"
               components={{
                 time: (
                   <Time
@@ -265,7 +265,7 @@ export function StoryDetailsModal({
             <div>
               <Intl
                 i18n={i18n}
-                id="StoryDetailsModal__file-size"
+                id="icu:StoryDetailsModal__file-size"
                 components={{
                   size: (
                     <span className="StoryDetailsModal__debugger__button__text">
@@ -280,7 +280,7 @@ export function StoryDetailsModal({
             <div>
               <Intl
                 i18n={i18n}
-                id="StoryDetailsModal__disappears-in"
+                id="icu:StoryDetailsModal__disappears-in"
                 components={{
                   countdown: (
                     <span className="StoryDetailsModal__debugger__button__text">

@@ -40,13 +40,13 @@ export function GroupListItem({
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:
-      messageText = i18n('GroupListItem__message-already-member');
+      messageText = i18n('icu:GroupListItem__message-already-member');
       break;
     case DisabledReason.Pending:
-      messageText = i18n('GroupListItem__message-pending');
+      messageText = i18n('icu:GroupListItem__message-pending');
       break;
     default:
-      messageText = i18n('GroupListItem__message-default', {
+      messageText = i18n('icu:GroupListItem__message-default', {
         count: group.membersCount,
       });
   }

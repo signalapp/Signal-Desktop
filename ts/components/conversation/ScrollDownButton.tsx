@@ -20,7 +20,9 @@ export function ScrollDownButton({
   i18n,
   scrollDown,
 }: Props): JSX.Element {
-  const altText = unreadCount ? i18n('messagesBelow') : i18n('scrollDown');
+  const altText = unreadCount
+    ? i18n('icu:messagesBelow')
+    : i18n('icu:scrollDown');
 
   let badgeText: string | undefined;
   if (unreadCount) {

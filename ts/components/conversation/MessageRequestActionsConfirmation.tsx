@@ -52,7 +52,7 @@ export function MessageRequestActionsConfirmation({
           conversationType === 'direct' ? (
             <Intl
               i18n={i18n}
-              id="MessageRequests--block-direct-confirm-title"
+              id="icu:MessageRequests--block-direct-confirm-title"
               components={{
                 title: <ContactName key="name" title={title} />,
               }}
@@ -60,7 +60,7 @@ export function MessageRequestActionsConfirmation({
           ) : (
             <Intl
               i18n={i18n}
-              id="MessageRequests--block-group-confirm-title"
+              id="icu:MessageRequests--block-group-confirm-title"
               components={{
                 title: <ContactName key="name" title={title} />,
               }}
@@ -71,22 +71,22 @@ export function MessageRequestActionsConfirmation({
           ...(conversationType === 'direct'
             ? [
                 {
-                  text: i18n('MessageRequests--block-and-report-spam'),
+                  text: i18n('icu:MessageRequests--block-and-report-spam'),
                   action: () => blockAndReportSpam(conversationId),
                   style: 'negative' as const,
                 },
               ]
             : []),
           {
-            text: i18n('MessageRequests--block'),
+            text: i18n('icu:MessageRequests--block'),
             action: () => blockConversation(conversationId),
             style: 'negative',
           },
         ]}
       >
         {conversationType === 'direct'
-          ? i18n('MessageRequests--block-direct-confirm-body')
-          : i18n('MessageRequests--block-group-confirm-body')}
+          ? i18n('icu:MessageRequests--block-direct-confirm-body')
+          : i18n('icu:MessageRequests--block-group-confirm-body')}
       </ConfirmationDialog>
     );
   }
@@ -102,7 +102,7 @@ export function MessageRequestActionsConfirmation({
         title={
           <Intl
             i18n={i18n}
-            id="MessageRequests--unblock-direct-confirm-title"
+            id="icu:MessageRequests--unblock-direct-confirm-title"
             components={{
               name: <ContactName key="name" title={title} />,
             }}
@@ -110,15 +110,15 @@ export function MessageRequestActionsConfirmation({
         }
         actions={[
           {
-            text: i18n('MessageRequests--unblock'),
+            text: i18n('icu:MessageRequests--unblock'),
             action: () => acceptConversation(conversationId),
             style: 'affirmative',
           },
         ]}
       >
         {conversationType === 'direct'
-          ? i18n('MessageRequests--unblock-direct-confirm-body')
-          : i18n('MessageRequests--unblock-group-confirm-body')}
+          ? i18n('icu:MessageRequests--unblock-direct-confirm-body')
+          : i18n('icu:MessageRequests--unblock-group-confirm-body')}
       </ConfirmationDialog>
     );
   }
@@ -135,7 +135,7 @@ export function MessageRequestActionsConfirmation({
           conversationType === 'direct' ? (
             <Intl
               i18n={i18n}
-              id="MessageRequests--delete-direct-confirm-title"
+              id="icu:MessageRequests--delete-direct-confirm-title"
               components={{
                 title: <ContactName key="name" title={title} />,
               }}
@@ -143,7 +143,7 @@ export function MessageRequestActionsConfirmation({
           ) : (
             <Intl
               i18n={i18n}
-              id="MessageRequests--delete-group-confirm-title"
+              id="icu:MessageRequests--delete-group-confirm-title"
               components={{
                 title: <ContactName key="name" title={title} />,
               }}
@@ -154,16 +154,16 @@ export function MessageRequestActionsConfirmation({
           {
             text:
               conversationType === 'direct'
-                ? i18n('MessageRequests--delete-direct')
-                : i18n('MessageRequests--delete-group'),
+                ? i18n('icu:MessageRequests--delete-direct')
+                : i18n('icu:MessageRequests--delete-group'),
             action: () => deleteConversation(conversationId),
             style: 'negative',
           },
         ]}
       >
         {conversationType === 'direct'
-          ? i18n('MessageRequests--delete-direct-confirm-body')
-          : i18n('MessageRequests--delete-group-confirm-body')}
+          ? i18n('icu:MessageRequests--delete-direct-confirm-body')
+          : i18n('icu:MessageRequests--delete-group-confirm-body')}
       </ConfirmationDialog>
     );
   }

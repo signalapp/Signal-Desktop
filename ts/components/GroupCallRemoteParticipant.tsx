@@ -259,7 +259,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         {showBlockInfo && (
           <ConfirmationDialog
             dialogName="GroupCallRemoteParticipant.blockInfo"
-            cancelText={i18n('ok')}
+            cancelText={i18n('icu:ok')}
             i18n={i18n}
             onClose={() => {
               setShowBlockInfo(false);
@@ -268,7 +268,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
                 <Intl
                   i18n={i18n}
-                  id="calling__you-have-blocked"
+                  id="icu:calling__you-have-blocked"
                   components={{
                     name: <ContactName key="name" title={title} />,
                   }}
@@ -276,7 +276,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               </div>
             }
           >
-            {i18n('calling__block-info')}
+            {i18n('icu:calling__block-info')}
           </ConfirmationDialog>
         )}
 
@@ -344,7 +344,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                       setShowBlockInfo(true);
                     }}
                   >
-                    {i18n('moreInfo')}
+                    {i18n('icu:moreInfo')}
                   </button>
                 </>
               ) : (

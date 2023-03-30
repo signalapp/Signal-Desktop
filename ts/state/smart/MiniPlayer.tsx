@@ -52,7 +52,7 @@ export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
       i18n={i18n}
       title={
         AudioPlayerContent.isDraft(content)
-          ? i18n('you')
+          ? i18n('icu:you')
           : getVoiceNoteTitle(content.current)
       }
       onPlay={handlePlay}

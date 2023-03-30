@@ -120,7 +120,7 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
             (hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary)
           }
         >
-          {cancelText || i18n('confirmation-dialog--Cancel')}
+          {cancelText || i18n('icu:confirmation-dialog--Cancel')}
         </Button>
       ) : null}
       {actions.map((action, i) => (

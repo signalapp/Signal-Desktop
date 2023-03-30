@@ -188,7 +188,7 @@ export function AvatarPreview({
         )}
         {imageStatus === ImageStatus.HasImage && onClear && (
           <button
-            aria-label={i18n('delete')}
+            aria-label={i18n('icu:delete')}
             className="AvatarPreview__clear"
             onClick={onClear}
             tabIndex={-1}

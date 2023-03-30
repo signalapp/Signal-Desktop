@@ -69,10 +69,10 @@ export function MessageMetadata({
       let statusInfo: React.ReactChild;
       if (isError) {
         statusInfo = deletedForEveryone
-          ? i18n('deleteFailed')
-          : i18n('sendFailed');
+          ? i18n('icu:deleteFailed')
+          : i18n('icu:sendFailed');
       } else if (isPaused) {
-        statusInfo = i18n('sendPaused');
+        statusInfo = i18n('icu:sendPaused');
       } else {
         statusInfo = (
           <button
@@ -89,8 +89,8 @@ export function MessageMetadata({
             }}
           >
             {deletedForEveryone
-              ? i18n('partiallyDeleted')
-              : i18n('partiallySent')}
+              ? i18n('icu:partiallyDeleted')
+              : i18n('icu:partiallySent')}
           </button>
         );
       }

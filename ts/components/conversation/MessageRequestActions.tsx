@@ -65,28 +65,28 @@ export function MessageRequestActions({
           {conversationType === 'direct' && isBlocked && (
             <Intl
               i18n={i18n}
-              id="MessageRequests--message-direct-blocked"
+              id="icu:MessageRequests--message-direct-blocked"
               components={{ name }}
             />
           )}
           {conversationType === 'direct' && !isBlocked && (
             <Intl
               i18n={i18n}
-              id="MessageRequests--message-direct"
+              id="icu:MessageRequests--message-direct"
               components={{ name }}
             />
           )}
           {conversationType === 'group' && isBlocked && (
             <Intl
               i18n={i18n}
-              id="MessageRequests--message-group-blocked"
+              id="icu:MessageRequests--message-group-blocked"
               components={{ name }}
             />
           )}
           {conversationType === 'group' && !isBlocked && (
             <Intl
               i18n={i18n}
-              id="MessageRequests--message-group"
+              id="icu:MessageRequests--message-group"
               components={{ name }}
             />
           )}
@@ -98,7 +98,7 @@ export function MessageRequestActions({
             }}
             variant={ButtonVariant.SecondaryDestructive}
           >
-            {i18n('MessageRequests--delete')}
+            {i18n('icu:MessageRequests--delete')}
           </Button>
           {isBlocked ? (
             <Button
@@ -107,7 +107,7 @@ export function MessageRequestActions({
               }}
               variant={ButtonVariant.SecondaryAffirmative}
             >
-              {i18n('MessageRequests--unblock')}
+              {i18n('icu:MessageRequests--unblock')}
             </Button>
           ) : (
             <Button
@@ -116,7 +116,7 @@ export function MessageRequestActions({
               }}
               variant={ButtonVariant.SecondaryDestructive}
             >
-              {i18n('MessageRequests--block')}
+              {i18n('icu:MessageRequests--block')}
             </Button>
           )}
           {!isBlocked ? (
@@ -124,7 +124,7 @@ export function MessageRequestActions({
               onClick={() => acceptConversation(conversationId)}
               variant={ButtonVariant.SecondaryAffirmative}
             >
-              {i18n('MessageRequests--accept')}
+              {i18n('icu:MessageRequests--accept')}
             </Button>
           ) : null}
         </div>

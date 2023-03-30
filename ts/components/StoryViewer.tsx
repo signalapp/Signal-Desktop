@@ -499,14 +499,14 @@ export function StoryViewer({
   let muteAriaLabel: string;
   if (hasAudio) {
     muteAriaLabel = hasAllStoriesUnmuted
-      ? i18n('StoryViewer__mute')
-      : i18n('StoryViewer__unmute');
+      ? i18n('icu:StoryViewer__mute')
+      : i18n('icu:StoryViewer__unmute');
 
     muteClassName = hasAllStoriesUnmuted
       ? 'StoryViewer__mute'
       : 'StoryViewer__unmute';
   } else {
-    muteAriaLabel = i18n('Stories__toast--hasNoSound');
+    muteAriaLabel = i18n('icu:Stories__toast--hasNoSound');
     muteClassName = 'StoryViewer__soundless';
   }
 
@@ -520,12 +520,12 @@ export function StoryViewer({
     contextMenuOptions = [
       {
         icon: 'StoryListItem__icon--info',
-        label: i18n('StoryListItem__info'),
+        label: i18n('icu:StoryListItem__info'),
         onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
       },
       {
         icon: 'StoryListItem__icon--delete',
-        label: i18n('StoryListItem__delete'),
+        label: i18n('icu:StoryListItem__delete'),
         onClick: () => setConfirmDeleteStory(story),
       },
     ];
@@ -533,14 +533,14 @@ export function StoryViewer({
     contextMenuOptions = [
       {
         icon: 'StoryListItem__icon--info',
-        label: i18n('StoryListItem__info'),
+        label: i18n('icu:StoryListItem__info'),
         onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
       },
       {
         icon: 'StoryListItem__icon--hide',
         label: isHidden
-          ? i18n('StoryListItem__unhide')
-          : i18n('StoryListItem__hide'),
+          ? i18n('icu:StoryListItem__unhide')
+          : i18n('icu:StoryListItem__hide'),
         onClick: () => {
           if (isHidden) {
             onHideStory(conversationId);
@@ -551,7 +551,7 @@ export function StoryViewer({
       },
       {
         icon: 'StoryListItem__icon--chat',
-        label: i18n('StoryListItem__go-to-chat'),
+        label: i18n('icu:StoryListItem__go-to-chat'),
         onClick: () => {
           onGoToConversation(conversationId);
         },
@@ -586,7 +586,7 @@ export function StoryViewer({
         <div className="StoryViewer__content">
           {canNavigateLeft && (
             <button
-              aria-label={i18n('back')}
+              aria-label={i18n('icu:back')}
               className={classNames(
                 'StoryViewer__arrow StoryViewer__arrow--left',
                 {
@@ -618,7 +618,7 @@ export function StoryViewer({
               i18n={i18n}
               isPaused={shouldPauseViewing}
               isMuted={isStoryMuted}
-              label={i18n('lightboxImageAlt')}
+              label={i18n('icu:lightboxImageAlt')}
               moduleClassName="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}
               storyId={messageId}
@@ -637,7 +637,7 @@ export function StoryViewer({
             </StoryImage>
             {hasExpandedCaption && (
               <button
-                aria-label={i18n('close-popup')}
+                aria-label={i18n('icu:close-popup')}
                 className="StoryViewer__caption__overlay"
                 onClick={() => setHasExpandedCaption(false)}
                 type="button"
@@ -649,7 +649,7 @@ export function StoryViewer({
 
           {canNavigateRight && (
             <button
-              aria-label={i18n('forward')}
+              aria-label={i18n('icu:forward')}
               className={classNames(
                 'StoryViewer__arrow StoryViewer__arrow--right',
                 {
@@ -686,7 +686,7 @@ export function StoryViewer({
                     type="button"
                   >
                     ...
-                    {i18n('MessageBody--read-more')}
+                    {i18n('icu:MessageBody--read-more')}
                   </button>
                 )}
               </div>
@@ -725,11 +725,11 @@ export function StoryViewer({
                 <div className="StoryViewer__meta--title-container">
                   <div className="StoryViewer__meta--title">
                     {(group &&
-                      i18n('Stories__from-to-group', {
-                        name: isMe ? i18n('you') : title,
+                      i18n('icu:Stories__from-to-group', {
+                        name: isMe ? i18n('icu:you') : title,
                         group: group.title,
                       })) ||
-                      (isMe ? i18n('you') : title)}
+                      (isMe ? i18n('icu:you') : title)}
                   </div>
                   <MessageTimestamp
                     i18n={i18n}
@@ -752,8 +752,8 @@ export function StoryViewer({
                 <button
                   aria-label={
                     pauseStory
-                      ? i18n('StoryViewer__play')
-                      : i18n('StoryViewer__pause')
+                      ? i18n('icu:StoryViewer__play')
+                      : i18n('icu:StoryViewer__pause')
                   }
                   className={
                     pauseStory ? 'StoryViewer__play' : 'StoryViewer__pause'
@@ -773,7 +773,7 @@ export function StoryViewer({
                 />
                 {contextMenuOptions && (
                   <ContextMenu
-                    aria-label={i18n('MyStories__more')}
+                    aria-label={i18n('icu:MyStories__more')}
                     i18n={i18n}
                     menuOptions={contextMenuOptions}
                     moduleClassName="StoryViewer__more"
@@ -814,7 +814,7 @@ export function StoryViewer({
                     onClick={doRetryMessageSend}
                     type="button"
                   >
-                    {i18n('StoryViewer__failed')}
+                    {i18n('icu:StoryViewer__failed')}
                   </button>
                 )}
               {sendStatus === ResolvedSendStatus.PartiallySent &&
@@ -824,7 +824,7 @@ export function StoryViewer({
                     onClick={doRetryMessageSend}
                     type="button"
                   >
-                    {i18n('StoryViewer__partial-fail')}
+                    {i18n('icu:StoryViewer__partial-fail')}
                   </button>
                 )}
               {sendStatus === ResolvedSendStatus.Sending && (
@@ -833,7 +833,7 @@ export function StoryViewer({
                     moduleClassName="StoryViewer__sending__spinner"
                     svgSize="small"
                   />
-                  {i18n('StoryViewer__sending')}
+                  {i18n('icu:StoryViewer__sending')}
                 </div>
               )}
               {(canReply ||
@@ -849,20 +849,20 @@ export function StoryViewer({
                   {isSent || replyCount > 0 ? (
                     <span className="StoryViewer__reply__chevron">
                       {isSent && !hasViewReceiptSetting && !replyCount && (
-                        <>{i18n('StoryViewer__views-off')}</>
+                        <>{i18n('icu:StoryViewer__views-off')}</>
                       )}
                       {isSent &&
                         hasViewReceiptSetting &&
                         (viewCount === 1 ? (
                           <Intl
                             i18n={i18n}
-                            id="MyStories__views--singular"
+                            id="icu:MyStories__views--singular"
                             components={{ num: <strong>{viewCount}</strong> }}
                           />
                         ) : (
                           <Intl
                             i18n={i18n}
-                            id="MyStories__views--plural"
+                            id="icu:MyStories__views--plural"
                             components={{ num: <strong>{viewCount}</strong> }}
                           />
                         ))}
@@ -871,13 +871,13 @@ export function StoryViewer({
                         (replyCount === 1 ? (
                           <Intl
                             i18n={i18n}
-                            id="MyStories__replies--singular"
+                            id="icu:MyStories__replies--singular"
                             components={{ num: <strong>{replyCount}</strong> }}
                           />
                         ) : (
                           <Intl
                             i18n={i18n}
-                            id="MyStories__replies--plural"
+                            id="icu:MyStories__replies--plural"
                             components={{ num: <strong>{replyCount}</strong> }}
                           />
                         ))}
@@ -886,8 +886,8 @@ export function StoryViewer({
                   {!isSent && !replyCount && (
                     <span className="StoryViewer__reply__arrow">
                       {isGroupStory
-                        ? i18n('StoryViewer__reply-group')
-                        : i18n('StoryViewer__reply')}
+                        ? i18n('icu:StoryViewer__reply-group')
+                        : i18n('icu:StoryViewer__reply')}
                     </span>
                   )}
                 </button>
@@ -895,7 +895,7 @@ export function StoryViewer({
             </div>
           </div>
           <button
-            aria-label={i18n('close')}
+            aria-label={i18n('icu:close')}
             className="StoryViewer__close-button"
             onClick={onClose}
             tabIndex={0}
@@ -970,7 +970,7 @@ export function StoryViewer({
                   onClose();
                 },
                 style: 'affirmative',
-                text: i18n('StoryListItem__hide-modal--confirm'),
+                text: i18n('icu:StoryListItem__hide-modal--confirm'),
               },
             ]}
             i18n={i18n}
@@ -978,7 +978,7 @@ export function StoryViewer({
               setHasConfirmHideStory(false);
             }}
           >
-            {i18n('StoryListItem__hide-modal--body', {
+            {i18n('icu:StoryListItem__hide-modal--body', {
               name: String(firstName),
             })}
           </ConfirmationDialog>
@@ -988,7 +988,7 @@ export function StoryViewer({
             dialogName="StoryViewer.deleteStory"
             actions={[
               {
-                text: i18n('delete'),
+                text: i18n('icu:delete'),
                 action: () => deleteStoryForEveryone(confirmDeleteStory),
                 style: 'negative',
               },
@@ -996,7 +996,7 @@ export function StoryViewer({
             i18n={i18n}
             onClose={() => setConfirmDeleteStory(undefined)}
           >
-            {i18n('MyStories__delete')}
+            {i18n('icu:MyStories__delete')}
           </ConfirmationDialog>
         )}
       </div>

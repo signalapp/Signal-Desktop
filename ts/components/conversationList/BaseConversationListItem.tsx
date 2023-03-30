@@ -132,15 +132,15 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     } else if (isCheckbox) {
       let ariaLabel: string;
       if (disabled) {
-        ariaLabel = i18n('cannotSelectContact', {
+        ariaLabel = i18n('icu:cannotSelectContact', {
           name: title,
         });
       } else if (checked) {
-        ariaLabel = i18n('deselectContact', {
+        ariaLabel = i18n('icu:deselectContact', {
           name: title,
         });
       } else {
-        ariaLabel = i18n('selectContact', {
+        ariaLabel = i18n('icu:selectContact', {
           name: title,
         });
       }
@@ -250,7 +250,9 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     if (onClick) {
       return (
         <button
-          aria-label={i18n('BaseConversationListItem__aria-label', { title })}
+          aria-label={i18n('icu:BaseConversationListItem__aria-label', {
+            title,
+          })}
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-button`

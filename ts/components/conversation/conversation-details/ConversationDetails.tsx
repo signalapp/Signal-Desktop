@@ -315,12 +315,12 @@ export function ConversationDetails({
             {
               action: () => setMuteExpiration(conversation.id, 0),
               style: 'affirmative',
-              text: i18n('unmute'),
+              text: i18n('icu:unmute'),
             },
           ]}
           hasXButton
           i18n={i18n}
-          title={i18n('ConversationDetails__unmute--title')}
+          title={i18n('icu:ConversationDetails__unmute--title')}
           onClose={onCloseModal}
         >
           {getMutedUntilText(Number(conversation.muteExpiresAt), i18n)}
@@ -386,7 +386,7 @@ export function ConversationDetails({
           }}
           variant={ButtonVariant.Details}
         >
-          {isMuted ? i18n('unmute') : i18n('mute')}
+          {isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
         </Button>
         <Button
           icon={ButtonIconType.search}
@@ -395,7 +395,7 @@ export function ConversationDetails({
           }}
           variant={ButtonVariant.Details}
         >
-          {i18n('search')}
+          {i18n('icu:search')}
         </Button>
       </div>
 
@@ -405,19 +405,21 @@ export function ConversationDetails({
             icon={
               <ConversationDetailsIcon
                 ariaLabel={i18n(
-                  'ConversationDetails--disappearing-messages-label'
+                  'icu:ConversationDetails--disappearing-messages-label'
                 )}
                 icon={IconType.timer}
               />
             }
             info={
               isGroup
-                ? i18n('ConversationDetails--disappearing-messages-info--group')
+                ? i18n(
+                    'icu:ConversationDetails--disappearing-messages-info--group'
+                  )
                 : i18n(
-                    'ConversationDetails--disappearing-messages-info--direct'
+                    'icu:ConversationDetails--disappearing-messages-info--direct'
                   )
             }
-            label={i18n('ConversationDetails--disappearing-messages-label')}
+            label={i18n('icu:ConversationDetails--disappearing-messages-label')}
             right={
               <DisappearingTimerSelect
                 i18n={i18n}
@@ -432,11 +434,11 @@ export function ConversationDetails({
         <PanelRow
           icon={
             <ConversationDetailsIcon
-              ariaLabel={i18n('showChatColorEditor')}
+              ariaLabel={i18n('icu:showChatColorEditor')}
               icon={IconType.color}
             />
           }
-          label={i18n('showChatColorEditor')}
+          label={i18n('icu:showChatColorEditor')}
           onClick={() => {
             pushPanelForConversation({
               type: PanelType.ChatColorEditor,
@@ -455,11 +457,11 @@ export function ConversationDetails({
           <PanelRow
             icon={
               <ConversationDetailsIcon
-                ariaLabel={i18n('ConversationDetails--notifications')}
+                ariaLabel={i18n('icu:ConversationDetails--notifications')}
                 icon={IconType.notifications}
               />
             }
-            label={i18n('ConversationDetails--notifications')}
+            label={i18n('icu:ConversationDetails--notifications')}
             onClick={() =>
               pushPanelForConversation({
                 type: PanelType.NotificationSettings,
@@ -511,27 +513,29 @@ export function ConversationDetails({
             <PanelRow
               icon={
                 <ConversationDetailsIcon
-                  ariaLabel={i18n('ConversationDetails--group-link')}
+                  ariaLabel={i18n('icu:ConversationDetails--group-link')}
                   icon={IconType.link}
                 />
               }
-              label={i18n('ConversationDetails--group-link')}
+              label={i18n('icu:ConversationDetails--group-link')}
               onClick={() =>
                 pushPanelForConversation({
                   type: PanelType.GroupLinkManagement,
                 })
               }
-              right={hasGroupLink ? i18n('on') : i18n('off')}
+              right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
           ) : null}
           <PanelRow
             icon={
               <ConversationDetailsIcon
-                ariaLabel={i18n('ConversationDetails--requests-and-invites')}
+                ariaLabel={i18n(
+                  'icu:ConversationDetails--requests-and-invites'
+                )}
                 icon={IconType.invites}
               />
             }
-            label={i18n('ConversationDetails--requests-and-invites')}
+            label={i18n('icu:ConversationDetails--requests-and-invites')}
             onClick={() =>
               pushPanelForConversation({
                 type: PanelType.GroupInvites,
@@ -543,11 +547,11 @@ export function ConversationDetails({
             <PanelRow
               icon={
                 <ConversationDetailsIcon
-                  ariaLabel={i18n('permissions')}
+                  ariaLabel={i18n('icu:permissions')}
                   icon={IconType.lock}
                 />
               }
-              label={i18n('permissions')}
+              label={i18n('icu:permissions')}
               onClick={() =>
                 pushPanelForConversation({
                   type: PanelType.GroupPermissions,
@@ -618,13 +622,13 @@ function ConversationDetailsCallButton({
       onClick={onClick}
       variant={ButtonVariant.Details}
     >
-      {type === 'audio' ? i18n('audio') : i18n('video')}
+      {type === 'audio' ? i18n('icu:audio') : i18n('icu:video')}
     </Button>
   );
 
   if (disabled) {
     return (
-      <Tooltip content={i18n('calling__in-another-call-tooltip')}>
+      <Tooltip content={i18n('icu:calling__in-another-call-tooltip')}>
         {button}
       </Tooltip>
     );

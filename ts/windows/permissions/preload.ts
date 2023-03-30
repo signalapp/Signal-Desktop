@@ -30,12 +30,12 @@ contextBridge.exposeInMainWorld('SignalContext', {
     let message;
     if (forCalling) {
       if (forCamera) {
-        message = SignalContext.i18n('videoCallingPermissionNeeded');
+        message = SignalContext.i18n('icu:videoCallingPermissionNeeded');
       } else {
-        message = SignalContext.i18n('audioCallingPermissionNeeded');
+        message = SignalContext.i18n('icu:audioCallingPermissionNeeded');
       }
     } else {
-      message = SignalContext.i18n('audioPermissionNeeded');
+      message = SignalContext.i18n('icu:audioPermissionNeeded');
     }
 
     function onClose() {

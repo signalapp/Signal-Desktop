@@ -28,7 +28,7 @@ export function TimelineWarning({
     <div className={CLASS_NAME}>
       {children}
       <button
-        aria-label={i18n('close')}
+        aria-label={i18n('icu:close')}
         className={CLOSE_BUTTON_CLASS_NAME}
         onClick={onClose}
         type="button"

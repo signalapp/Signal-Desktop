@@ -1900,7 +1900,7 @@ export const getMessageDetails = createSelector(
       if (error.name === OUTGOING_KEY_ERROR) {
         return {
           ...error,
-          message: i18n('newIdentity'),
+          message: i18n('icu:newIdentity'),
         };
       }
 

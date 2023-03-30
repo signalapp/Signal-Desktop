@@ -66,11 +66,11 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
     }
 
     const title = hasMigrated
-      ? i18n('GroupV1--Migration--info--title')
-      : i18n('GroupV1--Migration--migrate--title');
+      ? i18n('icu:GroupV1--Migration--info--title')
+      : i18n('icu:GroupV1--Migration--migrate--title');
     const keepHistory = hasMigrated
-      ? i18n('GroupV1--Migration--info--keep-history')
-      : i18n('GroupV1--Migration--migrate--keep-history');
+      ? i18n('icu:GroupV1--Migration--info--keep-history')
+      : i18n('icu:GroupV1--Migration--migrate--keep-history');
 
     let primaryButtonText: string;
     let onClickPrimaryButton: () => void;
@@ -81,13 +81,13 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
           onClickSecondaryButton: () => void;
         };
     if (hasMigrated) {
-      primaryButtonText = i18n('Confirmation--confirm');
+      primaryButtonText = i18n('icu:Confirmation--confirm');
       onClickPrimaryButton = closeHandler;
     } else {
-      primaryButtonText = i18n('GroupV1--Migration--migrate');
+      primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
       onClickPrimaryButton = migrateHandler;
       secondaryButtonProps = {
-        secondaryButtonText: i18n('cancel'),
+        secondaryButtonText: i18n('icu:cancel'),
         onClickSecondaryButton: closeHandler,
       };
     }
@@ -102,12 +102,12 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         {...secondaryButtonProps}
       >
         <GroupDialog.Paragraph>
-          {i18n('GroupV1--Migration--info--summary')}
+          {i18n('icu:GroupV1--Migration--info--summary')}
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>{keepHistory}</GroupDialog.Paragraph>
         {areWeInvited ? (
           <GroupDialog.Paragraph>
-            {i18n('GroupV1--Migration--info--invited--you')}
+            {i18n('icu:GroupV1--Migration--info--invited--you')}
           </GroupDialog.Paragraph>
         ) : (
           <>
@@ -157,20 +157,20 @@ function renderMembers({
     case 'invited':
       text =
         members.length === 1
-          ? i18n('GroupV1--Migration--info--invited--one')
-          : i18n('GroupV1--Migration--info--invited--many');
+          ? i18n('icu:GroupV1--Migration--info--invited--one')
+          : i18n('icu:GroupV1--Migration--info--invited--many');
       break;
     case 'dropped':
       if (hasMigrated) {
         text =
           members.length === 1
-            ? i18n('GroupV1--Migration--info--removed--before--one')
-            : i18n('GroupV1--Migration--info--removed--before--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
+            : i18n('icu:GroupV1--Migration--info--removed--before--many');
       } else {
         text =
           members.length === 1
-            ? i18n('GroupV1--Migration--info--removed--after--one')
-            : i18n('GroupV1--Migration--info--removed--after--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
+            : i18n('icu:GroupV1--Migration--info--removed--after--many');
       }
       break;
     default:

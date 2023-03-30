@@ -289,7 +289,7 @@ export function ContextMenu<T>({
         )}
       >
         <button
-          aria-label={ariaLabel || i18n('ContextMenu--button')}
+          aria-label={ariaLabel || i18n('icu:ContextMenu--button')}
           className={classNames(
             getClassName('__button'),
             isMenuShowing ? getClassName('__button--active') : undefined

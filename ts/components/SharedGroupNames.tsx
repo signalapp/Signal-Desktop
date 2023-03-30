@@ -32,7 +32,7 @@ export function SharedGroupNames({
     return (
       <Intl
         i18n={i18n}
-        id="member-of-more-than-3-groups--multiple-more"
+        id="icu:member-of-more-than-3-groups--multiple-more"
         components={{
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
@@ -46,7 +46,7 @@ export function SharedGroupNames({
     return (
       <Intl
         i18n={i18n}
-        id="member-of-more-than-3-groups--one-more"
+        id="icu:member-of-more-than-3-groups--one-more"
         components={{
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
@@ -59,7 +59,7 @@ export function SharedGroupNames({
     return (
       <Intl
         i18n={i18n}
-        id="member-of-3-groups"
+        id="icu:member-of-3-groups"
         components={{
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
@@ -72,7 +72,7 @@ export function SharedGroupNames({
     return (
       <Intl
         i18n={i18n}
-        id="member-of-2-groups"
+        id="icu:member-of-2-groups"
         components={{
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
@@ -84,7 +84,7 @@ export function SharedGroupNames({
     return (
       <Intl
         i18n={i18n}
-        id="member-of-1-group"
+        id="icu:member-of-1-group"
         components={{
           group: firstThreeGroups[0],
         }}
@@ -92,5 +92,5 @@ export function SharedGroupNames({
     );
   }
 
-  return <>{i18n('no-groups-in-common')}</>;
+  return <>{i18n('icu:no-groups-in-common')}</>;
 }

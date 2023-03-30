@@ -849,9 +849,9 @@ export function getAlt(
   i18n: LocalizerType
 ): string {
   if (isVideoAttachment(attachment)) {
-    return i18n('videoAttachmentAlt');
+    return i18n('icu:videoAttachmentAlt');
   }
-  return i18n('imageAttachmentAlt');
+  return i18n('icu:imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff

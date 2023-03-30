@@ -339,7 +339,10 @@ describe('LeftPaneInboxHelper', () => {
         pinnedConversations,
       });
 
-      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'LeftPane--pinned');
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:LeftPane--pinned'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
         conversation: pinnedConversations[0],
@@ -348,7 +351,10 @@ describe('LeftPaneInboxHelper', () => {
         type: RowType.Conversation,
         conversation: pinnedConversations[1],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'LeftPane--chats');
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(3)),
+        'icu:LeftPane--chats'
+      );
       assert.deepEqual(helper.getRow(4), {
         type: RowType.Conversation,
         conversation: conversations[0],
@@ -382,7 +388,10 @@ describe('LeftPaneInboxHelper', () => {
         archivedConversations: [getDefaultConversation()],
       });
 
-      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'LeftPane--pinned');
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:LeftPane--pinned'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
         conversation: pinnedConversations[0],
@@ -391,7 +400,10 @@ describe('LeftPaneInboxHelper', () => {
         type: RowType.Conversation,
         conversation: pinnedConversations[1],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'LeftPane--chats');
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(3)),
+        'icu:LeftPane--chats'
+      );
       assert.deepEqual(helper.getRow(4), {
         type: RowType.Conversation,
         conversation: conversations[0],

@@ -280,7 +280,7 @@ export function MessageAudio(props: Props): JSX.Element {
         variant="message"
         mod="pending"
         onClick={noop}
-        label={i18n('MessageAudio--pending')}
+        label={i18n('icu:MessageAudio--pending')}
         context={direction}
       />
     );
@@ -290,7 +290,7 @@ export function MessageAudio(props: Props): JSX.Element {
         ref={buttonRef}
         variant="message"
         mod="download"
-        label={i18n('MessageAudio--download')}
+        label={i18n('icu:MessageAudio--download')}
         onClick={kickOffAttachmentDownload}
         context={direction}
       />
@@ -303,7 +303,9 @@ export function MessageAudio(props: Props): JSX.Element {
         variant="message"
         mod={isPlaying ? 'pause' : 'play'}
         label={
-          isPlaying ? i18n('MessageAudio--pause') : i18n('MessageAudio--play')
+          isPlaying
+            ? i18n('icu:MessageAudio--pause')
+            : i18n('icu:MessageAudio--play')
         }
         onClick={toggleIsPlaying}
         context={direction}

@@ -194,7 +194,7 @@ describe('LeftPaneSearchHelper', () => {
 
       assert.deepEqual(
         _testHeaderText(helper.getRow(0)),
-        'conversationsHeader'
+        'icu:conversationsHeader'
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
@@ -204,12 +204,12 @@ describe('LeftPaneSearchHelper', () => {
         type: RowType.Conversation,
         conversation: conversations[1],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'contactsHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(4), {
         type: RowType.Conversation,
         conversation: contacts[0],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(5)), 'messagesHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(5)), 'icu:messagesHeader');
       assert.deepEqual(helper.getRow(6), {
         type: RowType.MessageSearchResult,
         messageId: messages[0].id,
@@ -238,12 +238,12 @@ describe('LeftPaneSearchHelper', () => {
         startSearchCounter: 0,
       });
 
-      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'contactsHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
         conversation: contacts[0],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(2)), 'messagesHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(2)), 'icu:messagesHeader');
       assert.deepEqual(helper.getRow(3), {
         type: RowType.MessageSearchResult,
         messageId: messages[0].id,
@@ -277,7 +277,7 @@ describe('LeftPaneSearchHelper', () => {
 
       assert.deepEqual(
         _testHeaderText(helper.getRow(0)),
-        'conversationsHeader'
+        'icu:conversationsHeader'
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
@@ -287,7 +287,7 @@ describe('LeftPaneSearchHelper', () => {
         type: RowType.Conversation,
         conversation: conversations[1],
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'messagesHeader');
+      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'icu:messagesHeader');
       assert.deepEqual(helper.getRow(4), {
         type: RowType.MessageSearchResult,
         messageId: messages[0].id,
@@ -317,7 +317,10 @@ describe('LeftPaneSearchHelper', () => {
       startSearchCounter: 0,
     });
 
-    assert.deepEqual(_testHeaderText(helper.getRow(0)), 'conversationsHeader');
+    assert.deepEqual(
+      _testHeaderText(helper.getRow(0)),
+      'icu:conversationsHeader'
+    );
     assert.deepEqual(helper.getRow(1), {
       type: RowType.Conversation,
       conversation: conversations[0],
@@ -326,7 +329,7 @@ describe('LeftPaneSearchHelper', () => {
       type: RowType.Conversation,
       conversation: conversations[1],
     });
-    assert.deepEqual(_testHeaderText(helper.getRow(3)), 'contactsHeader');
+    assert.deepEqual(_testHeaderText(helper.getRow(3)), 'icu:contactsHeader');
     assert.deepEqual(helper.getRow(4), {
       type: RowType.Conversation,
       conversation: contacts[0],

@@ -94,7 +94,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
 
       assert.deepEqual(
         _testHeaderText(helper.getRow(0)),
-        'setGroupMetadata__members-header'
+        'icu:setGroupMetadata__members-header'
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,

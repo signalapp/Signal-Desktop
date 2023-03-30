@@ -110,10 +110,10 @@ function renderCallingNotificationButton(
     case CallMode.Direct: {
       const { wasIncoming, wasVideoCall } = props;
       buttonText = wasIncoming
-        ? i18n('calling__call-back')
-        : i18n('calling__call-again');
+        ? i18n('icu:calling__call-back')
+        : i18n('icu:calling__call-again');
       if (activeCallConversationId) {
-        disabledTooltipText = i18n('calling__in-another-call-tooltip');
+        disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
         onClick = noop;
       } else {
         onClick = () => {
@@ -129,24 +129,24 @@ function renderCallingNotificationButton(
       const { deviceCount, maxDevices } = props;
       if (activeCallConversationId) {
         if (activeCallConversationId === conversationId) {
-          buttonText = i18n('calling__return');
+          buttonText = i18n('icu:calling__return');
           onClick = returnToActiveCall;
         } else {
-          buttonText = i18n('calling__join');
-          disabledTooltipText = i18n('calling__in-another-call-tooltip');
+          buttonText = i18n('icu:calling__join');
+          disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
           onClick = noop;
         }
       } else if (deviceCount >= maxDevices) {
-        buttonText = i18n('calling__call-is-full');
+        buttonText = i18n('icu:calling__call-is-full');
         disabledTooltipText = i18n(
-          'calling__call-notification__button__call-full-tooltip',
+          'icu:calling__call-notification__button__call-full-tooltip',
           {
             max: String(deviceCount),
           }
         );
         onClick = noop;
       } else {
-        buttonText = i18n('calling__join');
+        buttonText = i18n('icu:calling__join');
         onClick = () => {
           startCallingLobby({ conversationId, isVideoCall: true });
         };

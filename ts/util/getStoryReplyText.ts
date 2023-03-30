@@ -10,7 +10,7 @@ export function getStoryReplyText(
   attachment?: AttachmentType
 ): string {
   if (!attachment) {
-    return i18n('Quote__story-unavailable');
+    return i18n('icu:Quote__story-unavailable');
   }
 
   if (attachment.caption) {
@@ -20,20 +20,20 @@ export function getStoryReplyText(
   const attachments = [attachment];
 
   if (isImage(attachments)) {
-    return i18n('message--getNotificationText--photo');
+    return i18n('icu:message--getNotificationText--photo');
   }
 
   if (isGIF(attachments)) {
-    return i18n('message--getNotificationText--gif');
+    return i18n('icu:message--getNotificationText--gif');
   }
 
   if (isVideo(attachments)) {
-    return i18n('message--getNotificationText--video');
+    return i18n('icu:message--getNotificationText--video');
   }
 
   if (attachment.textAttachment && attachment.textAttachment.text) {
     return attachment.textAttachment.text;
   }
 
-  return i18n('message--getNotificationText--file');
+  return i18n('icu:message--getNotificationText--file');
 }

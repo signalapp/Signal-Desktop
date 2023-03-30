@@ -25,7 +25,7 @@ export function UniversalTimerNotification(props: Props): JSX.Element | null {
   return (
     <SystemMessage
       icon="timer"
-      contents={i18n('UniversalTimerNotification__text', {
+      contents={i18n('icu:UniversalTimerNotification__text', {
         timeValue,
       })}
     />

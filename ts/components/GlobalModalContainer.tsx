@@ -198,11 +198,11 @@ export function GlobalModalContainer({
   if (userNotFoundModalState) {
     let content: string;
     if (userNotFoundModalState.type === 'phoneNumber') {
-      content = i18n('startConversation--phone-number-not-found', {
+      content = i18n('icu:startConversation--phone-number-not-found', {
         phoneNumber: userNotFoundModalState.phoneNumber,
       });
     } else if (userNotFoundModalState.type === 'username') {
-      content = i18n('startConversation--username-not-found', {
+      content = i18n('icu:startConversation--username-not-found', {
         atUsername: userNotFoundModalState.username,
       });
     } else {
@@ -212,7 +212,7 @@ export function GlobalModalContainer({
     return (
       <ConfirmationDialog
         dialogName="GlobalModalContainer.userNotFound"
-        cancelText={i18n('ok')}
+        cancelText={i18n('icu:ok')}
         cancelButtonVariant={ButtonVariant.Secondary}
         i18n={i18n}
         onClose={hideUserNotFoundModal}

@@ -79,11 +79,12 @@ export const CallingParticipantsList = React.memo(
           <div className="module-calling-participants-list">
             <div className="module-calling-participants-list__header">
               <div className="module-calling-participants-list__title">
-                {!participants.length && i18n('calling__in-this-call--zero')}
+                {!participants.length &&
+                  i18n('icu:calling__in-this-call--zero')}
                 {participants.length === 1 &&
-                  i18n('calling__in-this-call--one')}
+                  i18n('icu:calling__in-this-call--one')}
                 {participants.length > 1 &&
-                  i18n('calling__in-this-call--many', {
+                  i18n('icu:calling__in-this-call--many', {
                     people: String(participants.length),
                   })}
               </div>
@@ -92,7 +93,7 @@ export const CallingParticipantsList = React.memo(
                 className="module-calling-participants-list__close"
                 onClick={onClose}
                 tabIndex={0}
-                aria-label={i18n('close')}
+                aria-label={i18n('icu:close')}
               />
             </div>
             <ul className="module-calling-participants-list__list">
@@ -123,7 +124,7 @@ export const CallingParticipantsList = React.memo(
                       />
                       {ourUuid && participant.uuid === ourUuid ? (
                         <span className="module-calling-participants-list__name">
-                          {i18n('you')}
+                          {i18n('icu:you')}
                         </span>
                       ) : (
                         <>

@@ -80,13 +80,13 @@ export function StagedLinkPreview({
     >
       {!isLoaded ? (
         <div className={getClassName('__loading')}>
-          {i18n('loadingPreview')}
+          {i18n('icu:loadingPreview')}
         </div>
       ) : null}
       {isLoaded && image && isImage && domain ? (
         <div className={getClassName('__icon-container')}>
           <Image
-            alt={i18n('stagedPreviewThumbnail', {
+            alt={i18n('icu:stagedPreviewThumbnail', {
               domain,
             })}
             attachment={image}
@@ -105,7 +105,7 @@ export function StagedLinkPreview({
       {maybeContent}
       {onClose && (
         <button
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
           className={getClassName('__close-button')}
           onClick={onClose}
           type="button"

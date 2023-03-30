@@ -118,7 +118,7 @@ export function CustomizingPreferredReactionsModal({
         }}
         variant={ButtonVariant.SecondaryAffirmative}
       >
-        {i18n('reset')}
+        {i18n('icu:reset')}
       </Button>
       <Button
         disabled={!canSave}
@@ -131,7 +131,7 @@ export function CustomizingPreferredReactionsModal({
           }
         }}
       >
-        {i18n('save')}
+        {i18n('icu:save')}
       </Button>
     </>
   );
@@ -145,7 +145,7 @@ export function CustomizingPreferredReactionsModal({
       onClose={() => {
         cancelCustomizePreferredReactionsModal();
       }}
-      title={i18n('CustomizingPreferredReactions__title')}
+      title={i18n('icu:CustomizingPreferredReactions__title')}
       modalFooter={footer}
     >
       <div className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper">
@@ -169,8 +169,8 @@ export function CustomizingPreferredReactionsModal({
           ))}
         </ReactionPickerPicker>
         {hadSaveError
-          ? i18n('CustomizingPreferredReactions__had-save-error')
-          : i18n('CustomizingPreferredReactions__subtitle')}
+          ? i18n('icu:CustomizingPreferredReactions__had-save-error')
+          : i18n('icu:CustomizingPreferredReactions__subtitle')}
       </div>
       {isSomethingSelected && (
         <div

@@ -15,6 +15,8 @@ export function ToastStickerPackInstallFailed({
   onClose,
 }: PropsType): JSX.Element {
   return (
-    <Toast onClose={onClose}>{i18n('stickers--toast--InstallFailed')}</Toast>
+    <Toast onClose={onClose}>
+      {i18n('icu:stickers--toast--InstallFailed')}
+    </Toast>
   );
 }

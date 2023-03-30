@@ -11,5 +11,5 @@ type PropsType = {
 };
 
 export function ToastCaptchaSolved({ i18n, onClose }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('verificationComplete')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:verificationComplete')}</Toast>;
 }

@@ -223,7 +223,7 @@ export const Input = forwardRef<
         className={getClassName('__clear-icon')}
         onClick={() => onChange('')}
         type="button"
-        aria-label={i18n('cancel')}
+        aria-label={i18n('icu:cancel')}
       />
     ) : null;
 

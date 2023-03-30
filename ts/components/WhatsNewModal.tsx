@@ -70,7 +70,7 @@ export function WhatsNewModal({
       hasXButton
       i18n={i18n}
       onClose={hideWhatsNewModal}
-      title={i18n('WhatsNew__modal-title')}
+      title={i18n('icu:WhatsNew__modal-title')}
     >
       <>
         <span>

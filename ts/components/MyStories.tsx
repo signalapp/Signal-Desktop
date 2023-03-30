@@ -57,7 +57,7 @@ export function MyStories({
           dialogName="MyStories.delete"
           actions={[
             {
-              text: i18n('delete'),
+              text: i18n('icu:delete'),
               action: () => onDelete(confirmDeleteStory),
               style: 'negative',
             },
@@ -65,18 +65,18 @@ export function MyStories({
           i18n={i18n}
           onClose={() => setConfirmDeleteStory(undefined)}
         >
-          {i18n('MyStories__delete')}
+          {i18n('icu:MyStories__delete')}
         </ConfirmationDialog>
       )}
       <div className="Stories__pane__header Stories__pane__header--centered">
         <button
-          aria-label={i18n('back')}
+          aria-label={i18n('icu:back')}
           className="Stories__pane__header--back"
           onClick={onBack}
           type="button"
         />
         <div className="Stories__pane__header--title">
-          {i18n('MyStories__title')}
+          {i18n('icu:MyStories__title')}
         </div>
       </div>
       <div className="Stories__pane__list">
@@ -109,7 +109,7 @@ export function MyStories({
       </div>
       {!myStories.length && (
         <div className="Stories__pane__list--empty">
-          {i18n('Stories__list-empty')}
+          {i18n('icu:Stories__list-empty')}
         </div>
       )}
     </>
@@ -151,7 +151,7 @@ function StorySent({
     <div className="MyStories__story" key={story.timestamp}>
       {renderAlert()}
       <button
-        aria-label={i18n('MyStories__story')}
+        aria-label={i18n('icu:MyStories__story')}
         className="StoryListItem__button MyStories__story-button"
         onClick={() => {
           if (
@@ -174,11 +174,11 @@ function StorySent({
         <div className="StoryListItem__previews">
           <StoryImage
             attachment={story.attachment}
-            firstName={i18n('you')}
+            firstName={i18n('icu:you')}
             i18n={i18n}
             isMe
             isThumbnail
-            label={i18n('MyStories__story')}
+            label={i18n('icu:MyStories__story')}
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
@@ -187,14 +187,14 @@ function StorySent({
         </div>
         <div className="MyStories__story__details">
           {sendStatus === ResolvedSendStatus.Sending &&
-            i18n('Stories__list--sending')}
+            i18n('icu:Stories__list--sending')}
           {sendStatus === ResolvedSendStatus.Failed && (
             <div className="MyStories__story__details__failed">
               <div>
-                {i18n('Stories__list--send_failed')}
+                {i18n('icu:Stories__list--send_failed')}
                 {!wasManuallyRetried && (
                   <div className="MyStories__story__details__failed__button">
-                    {i18n('Stories__list--retry-send')}
+                    {i18n('icu:Stories__list--retry-send')}
                   </div>
                 )}
               </div>
@@ -203,10 +203,10 @@ function StorySent({
           {sendStatus === ResolvedSendStatus.PartiallySent && (
             <div className="MyStories__story__details__failed">
               <div>
-                {i18n('Stories__list--partially-sent')}
+                {i18n('icu:Stories__list--partially-sent')}
                 {!wasManuallyRetried && (
                   <div className="MyStories__story__details__failed__button">
-                    {i18n('Stories__list--retry-send')}
+                    {i18n('icu:Stories__list--retry-send')}
                   </div>
                 )}
               </div>
@@ -231,7 +231,7 @@ function StorySent({
       </button>
       {story.attachment && (story.attachment.path || story.attachment.data) && (
         <button
-          aria-label={i18n('MyStories__download')}
+          aria-label={i18n('icu:MyStories__download')}
           className="MyStories__story__download"
           onClick={() => {
             onSave(story);
@@ -244,14 +244,14 @@ function StorySent({
         menuOptions={[
           {
             icon: 'MyStories__icon--forward',
-            label: i18n('forward'),
+            label: i18n('icu:forward'),
             onClick: () => {
               onForward(story.messageId);
             },
           },
           {
             icon: 'StoryListItem__icon--info',
-            label: i18n('StoryListItem__info'),
+            label: i18n('icu:StoryListItem__info'),
             onClick: () => {
               viewStory({
                 storyId: story.messageId,
@@ -262,7 +262,7 @@ function StorySent({
           },
           {
             icon: 'MyStories__icon--delete',
-            label: i18n('delete'),
+            label: i18n('icu:delete'),
             onClick: () => {
               setConfirmDeleteStory(story);
             },

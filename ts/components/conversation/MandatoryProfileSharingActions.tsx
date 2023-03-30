@@ -56,7 +56,7 @@ export function MandatoryProfileSharingActions({
       rel="noreferrer"
       className="module-message-request-actions__message__learn-more"
     >
-      {i18n('MessageRequests--learn-more')}
+      {i18n('icu:MessageRequests--learn-more')}
     </a>
   );
 
@@ -85,13 +85,13 @@ export function MandatoryProfileSharingActions({
           {conversationType === 'direct' ? (
             <Intl
               i18n={i18n}
-              id="MessageRequests--profile-sharing--direct"
+              id="icu:MessageRequests--profile-sharing--direct"
               components={{ firstName: firstNameContact, learnMore }}
             />
           ) : (
             <Intl
               i18n={i18n}
-              id="MessageRequests--profile-sharing--group"
+              id="icu:MessageRequests--profile-sharing--group"
               components={{ firstName: firstNameContact, learnMore }}
             />
           )}
@@ -103,7 +103,7 @@ export function MandatoryProfileSharingActions({
             }}
             variant={ButtonVariant.SecondaryDestructive}
           >
-            {i18n('MessageRequests--block')}
+            {i18n('icu:MessageRequests--block')}
           </Button>
           <Button
             onClick={() => {
@@ -111,13 +111,13 @@ export function MandatoryProfileSharingActions({
             }}
             variant={ButtonVariant.SecondaryDestructive}
           >
-            {i18n('MessageRequests--delete')}
+            {i18n('icu:MessageRequests--delete')}
           </Button>
           <Button
             onClick={() => acceptConversation(conversationId)}
             variant={ButtonVariant.SecondaryAffirmative}
           >
-            {i18n('MessageRequests--continue')}
+            {i18n('icu:MessageRequests--continue')}
           </Button>
         </div>
       </div>

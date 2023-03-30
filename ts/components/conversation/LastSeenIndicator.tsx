@@ -14,8 +14,8 @@ export const LastSeenIndicator = forwardRef<HTMLDivElement, Props>(
   function LastSeenIndicatorInner({ count, i18n }, ref) {
     const message =
       count === 1
-        ? i18n('unreadMessage')
-        : i18n('unreadMessages', {
+        ? i18n('icu:unreadMessage')
+        : i18n('icu:unreadMessages', {
             count: String(count),
           });
 

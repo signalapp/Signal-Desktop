@@ -80,11 +80,11 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
       i18n={i18n}
       theme={theme}
       onClose={onClose}
-      title={i18n('DisappearingTimeDialog__title')}
+      title={i18n('icu:DisappearingTimeDialog__title')}
       hasXButton
       actions={[
         {
-          text: i18n('DisappearingTimeDialog__set'),
+          text: i18n('icu:DisappearingTimeDialog__set'),
           style: 'affirmative',
           action() {
             onSubmit(
@@ -96,17 +96,17 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
         },
       ]}
     >
-      <p>{i18n('DisappearingTimeDialog__body')}</p>
+      <p>{i18n('icu:DisappearingTimeDialog__body')}</p>
       <section className={`${CSS_MODULE}__time-boxes`}>
         <Select
-          ariaLabel={i18n('DisappearingTimeDialog__label--value')}
+          ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
           moduleClassName={`${CSS_MODULE}__time-boxes__value`}
           value={unitValue}
           onChange={newValue => setUnitValue(parseInt(newValue, 10))}
           options={values.map(value => ({ value, text: value.toString() }))}
         />
         <Select
-          ariaLabel={i18n('DisappearingTimeDialog__label--units')}
+          ariaLabel={i18n('icu:DisappearingTimeDialog__label--units')}
           moduleClassName={`${CSS_MODULE}__time-boxes__units`}
           value={unit}
           onChange={newUnit => {
@@ -124,11 +124,11 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
             return {
               value: unitName,
               text: {
-                seconds: i18n('DisappearingTimeDialog__seconds'),
-                minutes: i18n('DisappearingTimeDialog__minutes'),
-                hours: i18n('DisappearingTimeDialog__hours'),
-                days: i18n('DisappearingTimeDialog__days'),
-                weeks: i18n('DisappearingTimeDialog__weeks'),
+                seconds: i18n('icu:DisappearingTimeDialog__seconds'),
+                minutes: i18n('icu:DisappearingTimeDialog__minutes'),
+                hours: i18n('icu:DisappearingTimeDialog__hours'),
+                days: i18n('icu:DisappearingTimeDialog__days'),
+                weeks: i18n('icu:DisappearingTimeDialog__weeks'),
               }[unitName],
             };
           })}

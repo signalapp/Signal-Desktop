@@ -504,7 +504,7 @@ export function Lightbox({
               type="button"
             >
               <img
-                alt={i18n('lightboxImageAlt')}
+                alt={i18n('icu:lightboxImageAlt')}
                 className="Lightbox__object"
                 onContextMenu={(ev: React.MouseEvent<HTMLImageElement>) => {
                   // These are the only image types supported by Electron's NativeImage
@@ -525,7 +525,7 @@ export function Lightbox({
       } else {
         content = (
           <button
-            aria-label={i18n('lightboxImageAlt')}
+            aria-label={i18n('icu:lightboxImageAlt')}
             className={classNames({
               Lightbox__object: true,
               Lightbox__unsupported: true,
@@ -555,7 +555,7 @@ export function Lightbox({
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
       content = (
         <button
-          aria-label={i18n('unsupportedAttachment')}
+          aria-label={i18n('icu:unsupportedAttachment')}
           className={classNames({
             Lightbox__object: true,
             Lightbox__unsupported: true,
@@ -571,7 +571,7 @@ export function Lightbox({
 
       content = (
         <button
-          aria-label={i18n('unsupportedAttachment')}
+          aria-label={i18n('icu:unsupportedAttachment')}
           className="Lightbox__object Lightbox__unsupported Lightbox__unsupported--file"
           onClick={onClose}
           type="button"
@@ -629,7 +629,7 @@ export function Lightbox({
                 <div className="Lightbox__controls">
                   {!isViewOnce ? (
                     <button
-                      aria-label={i18n('forwardMessage')}
+                      aria-label={i18n('icu:forwardMessage')}
                       className="Lightbox__button Lightbox__button--forward"
                       onClick={handleForward}
                       type="button"
@@ -637,14 +637,14 @@ export function Lightbox({
                   ) : null}
                   {!isViewOnce ? (
                     <button
-                      aria-label={i18n('save')}
+                      aria-label={i18n('icu:save')}
                       className="Lightbox__button Lightbox__button--save"
                       onClick={handleSave}
                       type="button"
                     />
                   ) : null}
                   <button
-                    aria-label={i18n('close')}
+                    aria-label={i18n('icu:close')}
                     className="Lightbox__button Lightbox__button--close"
                     onClick={closeLightbox}
                     type="button"
@@ -668,7 +668,7 @@ export function Lightbox({
                 {hasPrevious && (
                   <div className="Lightbox__nav-prev">
                     <button
-                      aria-label={i18n('previous')}
+                      aria-label={i18n('icu:previous')}
                       className="Lightbox__button Lightbox__button--previous"
                       onClick={onPrevious}
                       type="button"
@@ -678,7 +678,7 @@ export function Lightbox({
                 {hasNext && (
                   <div className="Lightbox__nav-next">
                     <button
-                      aria-label={i18n('next')}
+                      aria-label={i18n('icu:next')}
                       className="Lightbox__button Lightbox__button--next"
                       onClick={onNext}
                       type="button"
@@ -725,7 +725,7 @@ export function Lightbox({
                         >
                           {item.thumbnailObjectUrl ? (
                             <img
-                              alt={i18n('lightboxImageAlt')}
+                              alt={i18n('icu:lightboxImageAlt')}
                               src={item.thumbnailObjectUrl}
                             />
                           ) : (

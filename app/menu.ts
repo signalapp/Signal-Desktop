@@ -42,14 +42,14 @@ export const createTemplate = (
 
   const template: MenuListType = [
     {
-      label: i18n('mainMenuFile'),
+      label: i18n('icu:mainMenuFile'),
       submenu: [
         {
-          label: i18n('mainMenuCreateStickers'),
+          label: i18n('icu:mainMenuCreateStickers'),
           click: openArtCreator,
         },
         {
-          label: i18n('mainMenuSettings'),
+          label: i18n('icu:mainMenuSettings'),
           accelerator: 'CommandOrControl+,',
           click: showSettings,
         },
@@ -58,78 +58,78 @@ export const createTemplate = (
         },
         {
           role: 'quit',
-          label: i18n('appMenuQuit'),
+          label: i18n('icu:appMenuQuit'),
         },
       ],
     },
     {
-      label: i18n('mainMenuEdit'),
+      label: i18n('icu:mainMenuEdit'),
       submenu: [
         {
           role: 'undo',
-          label: i18n('editMenuUndo'),
+          label: i18n('icu:editMenuUndo'),
         },
         {
           role: 'redo',
-          label: i18n('editMenuRedo'),
+          label: i18n('icu:editMenuRedo'),
         },
         {
           type: 'separator',
         },
         {
           role: 'cut',
-          label: i18n('editMenuCut'),
+          label: i18n('icu:editMenuCut'),
         },
         {
           role: 'copy',
-          label: i18n('editMenuCopy'),
+          label: i18n('icu:editMenuCopy'),
         },
         {
           role: 'paste',
-          label: i18n('editMenuPaste'),
+          label: i18n('icu:editMenuPaste'),
         },
         {
           role: 'pasteAndMatchStyle',
-          label: i18n('editMenuPasteAndMatchStyle'),
+          label: i18n('icu:editMenuPasteAndMatchStyle'),
         },
         {
           role: 'delete',
-          label: i18n('editMenuDelete'),
+          label: i18n('icu:editMenuDelete'),
         },
         {
           role: 'selectAll',
-          label: i18n('editMenuSelectAll'),
+          label: i18n('icu:editMenuSelectAll'),
         },
       ],
     },
     {
-      label: i18n('mainMenuView'),
+      label: i18n('icu:mainMenuView'),
       submenu: [
         {
           role: 'resetZoom',
-          label: i18n('viewMenuResetZoom'),
+          label: i18n('icu:viewMenuResetZoom'),
         },
         {
           accelerator: 'CmdOrCtrl+=',
           role: 'zoomIn',
-          label: i18n('viewMenuZoomIn'),
+          label: i18n('icu:viewMenuZoomIn'),
         },
         {
           role: 'zoomOut',
-          label: i18n('viewMenuZoomOut'),
+          label: i18n('icu:viewMenuZoomOut'),
         },
         {
           type: 'separator',
         },
         {
           role: 'togglefullscreen',
-          label: i18n('viewMenuToggleFullScreen'),
+          label: i18n('icu:viewMenuToggleFullScreen'),
         },
         {
           type: 'separator',
         },
         {
-          label: i18n('debugLog'),
+          label: i18n('icu:debugLog'),
           click: showDebugLog,
         },
         ...(devTools
@@ -139,14 +139,14 @@ export const createTemplate = (
               },
               {
                 role: 'toggleDevTools' as const,
-                label: i18n('viewMenuToggleDevTools'),
+                label: i18n('icu:viewMenuToggleDevTools'),
               },
             ]
           : []),
         ...(devTools && platform !== 'linux'
           ? [
               {
-                label: i18n('forceUpdate'),
+                label: i18n('icu:forceUpdate'),
                 click: forceUpdate,
               },
             ]
@@ -154,21 +154,21 @@ export const createTemplate = (
       ],
     },
     {
-      label: i18n('mainMenuWindow'),
+      label: i18n('icu:mainMenuWindow'),
       role: 'window',
       submenu: [
         {
           role: 'minimize',
-          label: i18n('windowMenuMinimize'),
+          label: i18n('icu:windowMenuMinimize'),
         },
       ],
     },
     {
-      label: i18n('mainMenuHelp'),
+      label: i18n('icu:mainMenuHelp'),
       role: 'help',
       submenu: [
         {
-          label: i18n('helpMenuShowKeyboardShortcuts'),
+          label: i18n('icu:helpMenuShowKeyboardShortcuts'),
           accelerator: 'CmdOrCtrl+/',
           click: showKeyboardShortcuts,
         },
@@ -176,25 +176,25 @@ export const createTemplate = (
           type: 'separator',
         },
         {
-          label: i18n('contactUs'),
+          label: i18n('icu:contactUs'),
           click: openContactUs,
         },
         {
-          label: i18n('goToReleaseNotes'),
+          label: i18n('icu:goToReleaseNotes'),
           click: openReleaseNotes,
         },
         {
-          label: i18n('goToForums'),
+          label: i18n('icu:goToForums'),
           click: openForums,
         },
         {
-          label: i18n('goToSupportPage'),
+          label: i18n('icu:goToSupportPage'),
           click: openSupportPage,
         },
         ...(isProduction
           ? [
               {
-                label: i18n('joinTheBeta'),
+                label: i18n('icu:joinTheBeta'),
                 click: openJoinTheBeta,
               },
             ]
@@ -203,7 +203,7 @@ export const createTemplate = (
           type: 'separator',
         },
         {
-          label: i18n('aboutSignalDesktop'),
+          label: i18n('icu:aboutSignalDesktop'),
           click: showAbout,
         },
       ],
@@ -217,7 +217,7 @@ export const createTemplate = (
       // These are in reverse order, since we're prepending them one at a time
       if (options.development) {
         fileMenu.submenu.unshift({
-          label: i18n('menuSetupAsStandalone'),
+          label: i18n('icu:menuSetupAsStandalone'),
           click: setupAsStandalone,
         });
       }
@@ -226,7 +226,7 @@ export const createTemplate = (
         type: 'separator',
       });
       fileMenu.submenu.unshift({
-        label: i18n('menuSetupAsNewDevice'),
+        label: i18n('icu:menuSetupAsNewDevice'),
         click: setupAsNewDevice,
       });
     } else {
@@ -270,7 +270,7 @@ function updateForMac(
         type: 'separator',
       },
       {
-        label: i18n('windowMenuClose'),
+        label: i18n('icu:windowMenuClose'),
         accelerator: 'CmdOrCtrl+W',
         role: 'close',
       }
@@ -281,17 +281,17 @@ function updateForMac(
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
-    label: i18n('signalDesktop'),
+    label: i18n('icu:signalDesktop'),
     submenu: [
       {
-        label: i18n('aboutSignalDesktop'),
+        label: i18n('icu:aboutSignalDesktop'),
         click: showAbout,
       },
       {
         type: 'separator',
       },
       {
-        label: i18n('mainMenuSettings'),
+        label: i18n('icu:mainMenuSettings'),
         accelerator: 'CommandOrControl+,',
         click: showSettings,
       },
@@ -299,29 +299,29 @@ function updateForMac(
         type: 'separator',
       },
       {
-        label: i18n('appMenuServices'),
+        label: i18n('icu:appMenuServices'),
         role: 'services',
       },
       {
         type: 'separator',
       },
       {
-        label: i18n('appMenuHide'),
+        label: i18n('icu:appMenuHide'),
         role: 'hide',
       },
       {
-        label: i18n('appMenuHideOthers'),
+        label: i18n('icu:appMenuHideOthers'),
         role: 'hideOthers',
       },
       {
-        label: i18n('appMenuUnhide'),
+        label: i18n('icu:appMenuUnhide'),
         role: 'unhide',
       },
       {
         type: 'separator',
       },
       {
-        label: i18n('appMenuQuit'),
+        label: i18n('icu:appMenuQuit'),
         role: 'quit',
       },
     ],
@@ -334,15 +334,15 @@ function updateForMac(
         type: 'separator',
       },
       {
-        label: i18n('speech'),
+        label: i18n('icu:speech'),
         submenu: [
           {
             role: 'startSpeaking',
-            label: i18n('editMenuStartSpeaking'),
+            label: i18n('icu:editMenuStartSpeaking'),
           },
           {
             role: 'stopSpeaking',
-            label: i18n('editMenuStopSpeaking'),
+            label: i18n('icu:editMenuStopSpeaking'),
           },
         ],
       }
@@ -355,16 +355,16 @@ function updateForMac(
   // eslint-disable-next-line no-param-reassign
   template[4].submenu = [
     {
-      label: i18n('windowMenuMinimize'),
+      label: i18n('icu:windowMenuMinimize'),
       accelerator: 'CmdOrCtrl+M',
       role: 'minimize',
     },
     {
-      label: i18n('windowMenuZoom'),
+      label: i18n('icu:windowMenuZoom'),
       role: 'zoom',
     },
     {
-      label: i18n('show'),
+      label: i18n('icu:show'),
       accelerator: 'CmdOrCtrl+Shift+0',
       click: showWindow,
     },
@@ -373,7 +373,7 @@ function updateForMac(
     },
     {
       role: 'front',
-      label: i18n('windowMenuBringAllToFront'),
+      label: i18n('icu:windowMenuBringAllToFront'),
     },
   ];
 

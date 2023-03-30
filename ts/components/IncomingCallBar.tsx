@@ -101,7 +101,7 @@ function GroupCallMessage({
     case 0:
       return (
         <Intl
-          id="incomingGroupCall__ringing-you"
+          id="icu:incomingGroupCall__ringing-you"
           i18n={i18n}
           components={{ ringer: ringerNode }}
         />
@@ -109,7 +109,7 @@ function GroupCallMessage({
     case 1:
       return (
         <Intl
-          id="incomingGroupCall__ringing-1-other"
+          id="icu:incomingGroupCall__ringing-1-other"
           i18n={i18n}
           components={{
             ringer: ringerNode,
@@ -120,7 +120,7 @@ function GroupCallMessage({
     case 2:
       return (
         <Intl
-          id="incomingGroupCall__ringing-2-others"
+          id="icu:incomingGroupCall__ringing-2-others"
           i18n={i18n}
           components={{
             ringer: ringerNode,
@@ -132,7 +132,7 @@ function GroupCallMessage({
     case 3:
       return (
         <Intl
-          id="incomingGroupCall__ringing-3-others"
+          id="icu:incomingGroupCall__ringing-3-others"
           i18n={i18n}
           components={{
             ringer: ringerNode,
@@ -144,7 +144,7 @@ function GroupCallMessage({
     default:
       return (
         <Intl
-          id="incomingGroupCall__ringing-many"
+          id="icu:incomingGroupCall__ringing-many"
           i18n={i18n}
           components={{
             ringer: ringerNode,
@@ -189,8 +189,8 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
       ({ isVideoCall } = props);
       headerNode = <ContactName title={title} />;
       messageNode = isVideoCall
-        ? i18n('incomingVideoCall')
-        : i18n('incomingAudioCall');
+        ? i18n('icu:incomingVideoCall')
+        : i18n('icu:incomingAudioCall');
       break;
     case CallMode.Group: {
       const { otherMembersRung, ringer } = props;
@@ -282,7 +282,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
             classSuffix="decline"
             onClick={declineIncomingCall}
             tabIndex={0}
-            tooltipContent={i18n('declineCall')}
+            tooltipContent={i18n('icu:declineCall')}
           />
           {isVideoCall ? (
             <>
@@ -290,13 +290,13 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
                 classSuffix="accept-video-as-audio"
                 onClick={acceptAudioCall}
                 tabIndex={0}
-                tooltipContent={i18n('acceptCallWithoutVideo')}
+                tooltipContent={i18n('icu:acceptCallWithoutVideo')}
               />
               <CallButton
                 classSuffix="accept-video"
                 onClick={acceptVideoCall}
                 tabIndex={0}
-                tooltipContent={i18n('acceptCall')}
+                tooltipContent={i18n('icu:acceptCall')}
               />
             </>
           ) : (
@@ -304,7 +304,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
               classSuffix="accept-audio"
               onClick={acceptAudioCall}
               tabIndex={0}
-              tooltipContent={i18n('acceptCall')}
+              tooltipContent={i18n('icu:acceptCall')}
             />
           )}
         </div>

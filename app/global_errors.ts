@@ -41,8 +41,8 @@ function handleError(prefix: string, error: Error): void {
 }
 
 export const updateLocale = (locale: LocaleType): void => {
-  quitText = locale.i18n('quit');
-  copyErrorAndQuitText = locale.i18n('copyErrorAndQuit');
+  quitText = locale.i18n('icu:quit');
+  copyErrorAndQuitText = locale.i18n('icu:copyErrorAndQuit');
 };
 
 function _getError(reason: unknown): Error {

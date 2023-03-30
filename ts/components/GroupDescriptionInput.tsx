@@ -24,7 +24,9 @@ export const GroupDescriptionInput = forwardRef<HTMLInputElement, PropsType>(
         expandable
         i18n={i18n}
         onChange={onChangeValue}
-        placeholder={i18n('setGroupMetadata__group-description-placeholder')}
+        placeholder={i18n(
+          'icu:setGroupMetadata__group-description-placeholder'
+        )}
         maxLengthCount={480}
         maxByteCount={8192}
         ref={ref}

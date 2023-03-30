@@ -211,7 +211,7 @@ export function ChooseGroupMembersModal({
         return {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('contactsHeader'),
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -250,7 +250,7 @@ export function ChooseGroupMembersModal({
         return {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -269,7 +269,7 @@ export function ChooseGroupMembersModal({
         return {
           type: RowType.Header,
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -383,7 +383,7 @@ export function ChooseGroupMembersModal({
     >
       <div className="module-AddGroupMembersModal module-AddGroupMembersModal--choose-members">
         <button
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
           className="module-AddGroupMembersModal__close-button"
           type="button"
           onClick={() => {
@@ -391,11 +391,11 @@ export function ChooseGroupMembersModal({
           }}
         />
         <h1 className="module-AddGroupMembersModal__header">
-          {i18n('AddGroupMembersModal--title')}
+          {i18n('icu:AddGroupMembersModal--title')}
         </h1>
         <SearchInput
           i18n={i18n}
-          placeholder={i18n('contactSearchPlaceholder')}
+          placeholder={i18n('icu:contactSearchPlaceholder')}
           onChange={event => {
             setSearchTerm(event.target.value);
           }}
@@ -483,16 +483,16 @@ export function ChooseGroupMembersModal({
           </Measure>
         ) : (
           <div className="module-AddGroupMembersModal__no-candidate-contacts">
-            {i18n('noContactsFound')}
+            {i18n('icu:noContactsFound')}
           </div>
         )}
         <div className="module-AddGroupMembersModal__button-container">
           <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
 
           <Button disabled={!canContinue} onClick={confirmAdds}>
-            {i18n('AddGroupMembersModal--continue-to-confirm')}
+            {i18n('icu:AddGroupMembersModal--continue-to-confirm')}
           </Button>
         </div>
       </div>

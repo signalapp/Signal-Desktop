@@ -63,10 +63,10 @@ export function showConfirmationDialog(
             options.resolve();
           },
           style: options.confirmStyle,
-          text: options.okText || window.i18n('ok'),
+          text: options.okText || window.i18n('icu:ok'),
         },
       ]}
-      cancelText={options.cancelText || window.i18n('cancel')}
+      cancelText={options.cancelText || window.i18n('icu:cancel')}
       i18n={window.i18n}
       onCancel={() => {
         if (options.reject) {

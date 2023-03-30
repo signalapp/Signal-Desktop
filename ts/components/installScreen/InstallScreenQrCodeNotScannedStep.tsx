@@ -67,27 +67,27 @@ export function InstallScreenQrCodeNotScannedStep({
       <div className="module-InstallScreenQrCodeNotScannedStep__contents">
         <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
         <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
-          <h1>{i18n('Install__scan-this-code')}</h1>
+          <h1>{i18n('icu:Install__scan-this-code')}</h1>
           <ol>
-            <li>{i18n('Install__instructions__1')}</li>
+            <li>{i18n('icu:Install__instructions__1')}</li>
             <li>
               <Intl
                 i18n={i18n}
-                id="Install__instructions__2"
+                id="icu:Install__instructions__2"
                 components={{
                   settings: (
                     <strong>
-                      {i18n('Install__instructions__2__settings')}
+                      {i18n('icu:Install__instructions__2__settings')}
                     </strong>
                   ),
-                  linkedDevices: <strong>{i18n('linkedDevices')}</strong>,
+                  linkedDevices: <strong>{i18n('icu:linkedDevices')}</strong>,
                 }}
               />
             </li>
             <li>
               <Intl
                 i18n={i18n}
-                id="Install__instructions__3"
+                id="icu:Install__instructions__3"
                 components={{
                   plusButton: (
                     <div
@@ -95,13 +95,13 @@ export function InstallScreenQrCodeNotScannedStep({
                       aria-label="+"
                     />
                   ),
-                  linkNewDevice: <strong>{i18n('linkNewDevice')}</strong>,
+                  linkNewDevice: <strong>{i18n('icu:linkNewDevice')}</strong>,
                 }}
               />
             </li>
           </ol>
           <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
-            {i18n('Install__support-link')}
+            {i18n('icu:Install__support-link')}
           </a>
         </div>
       </div>
@@ -138,7 +138,7 @@ function InstallScreenQrCode(
     case LoadingState.Loaded:
       contents = (
         <QrCode
-          alt={i18n('Install__scan-this-code')}
+          alt={i18n('icu:Install__scan-this-code')}
           className={getQrCodeClassName('__code')}
           data={props.value}
         />

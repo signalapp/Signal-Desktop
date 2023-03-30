@@ -36,7 +36,7 @@ function renderBody({ pack, i18n }: Props) {
   if (pack && pack.status === 'error') {
     return (
       <div className="module-sticker-manager__preview-modal__error">
-        {i18n('stickers--StickerPreview--Error')}
+        {i18n('icu:stickers--StickerPreview--Error')}
       </div>
     );
   }
@@ -156,8 +156,8 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
   }, [uninstallStickerPack, setConfirmingUninstall, pack]);
 
   const buttonLabel = isInstalled
-    ? i18n('stickers--StickerManager--Uninstall')
-    : i18n('stickers--StickerManager--Install');
+    ? i18n('icu:stickers--StickerManager--Uninstall')
+    : i18n('icu:stickers--StickerManager--Install');
 
   const modalFooter =
     pack && pack.status !== 'error' ? (
@@ -198,14 +198,14 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
           actions={[
             {
               style: 'negative',
-              text: i18n('stickers--StickerManager--Uninstall'),
+              text: i18n('icu:stickers--StickerManager--Uninstall'),
               action: handleUninstall,
             },
           ]}
           i18n={i18n}
           onClose={() => setConfirmingUninstall(false)}
         >
-          {i18n('stickers--StickerManager--UninstallWarning')}
+          {i18n('icu:stickers--StickerManager--UninstallWarning')}
         </ConfirmationDialog>
       )}
       <Modal
@@ -215,7 +215,7 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
         modalName="StickerPreviewModal"
         moduleClassName="module-sticker-manager__preview-modal__modal"
         onClose={handleClose}
-        title={i18n('stickers--StickerPreview--Title')}
+        title={i18n('icu:stickers--StickerPreview--Title')}
       >
         {renderBody(props)}
       </Modal>

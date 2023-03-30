@@ -628,10 +628,10 @@ export async function startApp(): Promise<void> {
             showConfirmationDialog({
               dialogName: 'deleteOldIndexedDBData',
               onTopOfEverything: true,
-              cancelText: window.i18n('quit'),
+              cancelText: window.i18n('icu:quit'),
               confirmStyle: 'negative',
-              title: window.i18n('deleteOldIndexedDBData'),
-              okText: window.i18n('deleteOldData'),
+              title: window.i18n('icu:deleteOldIndexedDBData'),
+              okText: window.i18n('icu:deleteOldData'),
               reject: () => reject(),
               resolve: () => resolve(),
             });
@@ -915,7 +915,7 @@ export async function startApp(): Promise<void> {
     }
 
     setAppLoadingScreenMessage(
-      window.i18n('optimizingApplication'),
+      window.i18n('icu:optimizingApplication'),
       window.i18n
     );
 
@@ -934,7 +934,7 @@ export async function startApp(): Promise<void> {
       log.error('SQL failed to initialize', Errors.toLogFormat(err));
     }
 
-    setAppLoadingScreenMessage(window.i18n('loading'), window.i18n);
+    setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
 
     let isMigrationWithIndexComplete = false;
     let isIdleTaskProcessing = false;

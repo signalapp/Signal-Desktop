@@ -63,7 +63,7 @@ const renderMembershipRow = ({
   }
 
   if (isMe) {
-    return <div className={className}>{i18n('noteToSelfHero')}</div>;
+    return <div className={className}>{i18n('icu:noteToSelfHero')}</div>;
   }
 
   if (sharedGroupNames.length > 0) {
@@ -81,20 +81,20 @@ const renderMembershipRow = ({
     if (phoneNumber) {
       return null;
     }
-    return <div className={className}>{i18n('no-groups-in-common')}</div>;
+    return <div className={className}>{i18n('icu:no-groups-in-common')}</div>;
   }
 
   return (
     <div className="module-conversation-hero__message-request-warning">
       <div className="module-conversation-hero__message-request-warning__message">
-        {i18n('no-groups-in-common-warning')}
+        {i18n('icu:no-groups-in-common-warning')}
       </div>
       <Button
         onClick={onClickMessageRequestWarning}
         size={ButtonSize.Small}
         variant={ButtonVariant.SecondaryAffirmative}
       >
-        {i18n('MessageRequestWarning__learn-more')}
+        {i18n('icu:MessageRequestWarning__learn-more')}
       </Button>
     </div>
   );
@@ -188,7 +188,7 @@ export function ConversationHero({
         />
         <h1 className="module-conversation-hero__profile-name">
           {isMe ? (
-            i18n('noteToSelf')
+            i18n('icu:noteToSelf')
           ) : (
             <ContactName
               isSignalConversation={isSignalConversation}
@@ -231,7 +231,7 @@ export function ConversationHero({
           })}
         {!isSignalConversation && (
           <div className="module-conversation-hero__linkNotification">
-            {i18n('messageHistoryUnsynced')}
+            {i18n('icu:messageHistoryUnsynced')}
           </div>
         )}
       </div>
@@ -242,7 +242,7 @@ export function ConversationHero({
           onClose={closeMessageRequestWarning}
           actions={[
             {
-              text: i18n('MessageRequestWarning__dialog__learn-even-more'),
+              text: i18n('icu:MessageRequestWarning__dialog__learn-even-more'),
               action: () => {
                 openLinkInWebBrowser(
                   'https://support.signal.org/hc/articles/360007459591'
@@ -252,7 +252,7 @@ export function ConversationHero({
             },
           ]}
         >
-          {i18n('MessageRequestWarning__dialog__details')}
+          {i18n('icu:MessageRequestWarning__dialog__details')}
         </ConfirmationDialog>
       )}
     </>

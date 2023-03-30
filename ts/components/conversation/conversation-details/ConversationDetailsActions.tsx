@@ -52,7 +52,7 @@ export function ConversationDetailsActions({
         onClick={() => gLeave(true)}
         icon={
           <ConversationDetailsIcon
-            ariaLabel={i18n('ConversationDetailsActions--leave-group')}
+            ariaLabel={i18n('icu:ConversationDetailsActions--leave-group')}
             disabled={cannotLeaveBecauseYouAreLastAdmin}
             icon={IconType.leave}
           />
@@ -65,7 +65,7 @@ export function ConversationDetailsActions({
                 'ConversationDetails__leave-group--disabled'
             )}
           >
-            {i18n('ConversationDetailsActions--leave-group')}
+            {i18n('icu:ConversationDetailsActions--leave-group')}
           </div>
         }
       />
@@ -74,7 +74,7 @@ export function ConversationDetailsActions({
       leaveGroupNode = (
         <Tooltip
           content={i18n(
-            'ConversationDetailsActions--leave-group-must-choose-new-admin'
+            'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
           )}
           direction={TooltipPlacement.Top}
         >
@@ -92,13 +92,13 @@ export function ConversationDetailsActions({
         onClick={() => gGroupBlock(true)}
         icon={
           <ConversationDetailsIcon
-            ariaLabel={i18n('ConversationDetailsActions--block-group')}
+            ariaLabel={i18n('icu:ConversationDetailsActions--block-group')}
             icon={IconType.block}
           />
         }
         label={
           <div className="ConversationDetails__block-group">
-            {i18n('ConversationDetailsActions--block-group')}
+            {i18n('icu:ConversationDetailsActions--block-group')}
           </div>
         }
       />
@@ -109,21 +109,21 @@ export function ConversationDetailsActions({
         onClick={() => gGroupUnblock(true)}
         icon={
           <ConversationDetailsIcon
-            ariaLabel={i18n('ConversationDetailsActions--unblock-group')}
+            ariaLabel={i18n('icu:ConversationDetailsActions--unblock-group')}
             icon={IconType.unblock}
           />
         }
         label={
           <div className="ConversationDetails__unblock-group">
-            {i18n('ConversationDetailsActions--unblock-group')}
+            {i18n('icu:ConversationDetailsActions--unblock-group')}
           </div>
         }
       />
     );
   } else {
     const label = isBlocked
-      ? i18n('MessageRequests--unblock')
-      : i18n('MessageRequests--block');
+      ? i18n('icu:MessageRequests--unblock')
+      : i18n('icu:MessageRequests--block');
     blockNode = (
       <PanelRow
         onClick={() => (isBlocked ? gDirectUnblock(true) : gDirectBlock(true))}
@@ -152,7 +152,7 @@ export function ConversationDetailsActions({
     blockNode = (
       <Tooltip
         content={i18n(
-          'ConversationDetailsActions--leave-group-must-choose-new-admin'
+          'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
         )}
         direction={TooltipPlacement.Top}
       >
@@ -173,7 +173,7 @@ export function ConversationDetailsActions({
           actions={[
             {
               text: i18n(
-                'ConversationDetailsActions--leave-group-modal-confirm'
+                'icu:ConversationDetailsActions--leave-group-modal-confirm'
               ),
               action: onLeave,
               style: 'affirmative',
@@ -181,9 +181,11 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gLeave(false)}
-          title={i18n('ConversationDetailsActions--leave-group-modal-title')}
+          title={i18n(
+            'icu:ConversationDetailsActions--leave-group-modal-title'
+          )}
         >
-          {i18n('ConversationDetailsActions--leave-group-modal-content')}
+          {i18n('icu:ConversationDetailsActions--leave-group-modal-content')}
         </ConfirmationDialog>
       )}
 
@@ -193,7 +195,7 @@ export function ConversationDetailsActions({
           actions={[
             {
               text: i18n(
-                'ConversationDetailsActions--block-group-modal-confirm'
+                'icu:ConversationDetailsActions--block-group-modal-confirm'
               ),
               action: () => blockConversation(conversationId),
               style: 'affirmative',
@@ -201,11 +203,14 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gGroupBlock(false)}
-          title={i18n('ConversationDetailsActions--block-group-modal-title', {
-            groupName: conversationTitle,
-          })}
+          title={i18n(
+            'icu:ConversationDetailsActions--block-group-modal-title',
+            {
+              groupName: conversationTitle,
+            }
+          )}
         >
-          {i18n('ConversationDetailsActions--block-group-modal-content')}
+          {i18n('icu:ConversationDetailsActions--block-group-modal-content')}
         </ConfirmationDialog>
       )}
       {confirmGroupUnblock && (
@@ -214,7 +219,7 @@ export function ConversationDetailsActions({
           actions={[
             {
               text: i18n(
-                'ConversationDetailsActions--unblock-group-modal-confirm'
+                'icu:ConversationDetailsActions--unblock-group-modal-confirm'
               ),
               action: () => acceptConversation(conversationId),
               style: 'affirmative',
@@ -222,11 +227,14 @@ export function ConversationDetailsActions({
           ]}
           i18n={i18n}
           onClose={() => gGroupUnblock(false)}
-          title={i18n('ConversationDetailsActions--unblock-group-modal-title', {
-            groupName: conversationTitle,
-          })}
+          title={i18n(
+            'icu:ConversationDetailsActions--unblock-group-modal-title',
+            {
+              groupName: conversationTitle,
+            }
+          )}
         >
-          {i18n('ConversationDetailsActions--unblock-group-modal-content')}
+          {i18n('icu:ConversationDetailsActions--unblock-group-modal-content')}
         </ConfirmationDialog>
       )}
 
@@ -235,18 +243,18 @@ export function ConversationDetailsActions({
           dialogName="ConversationDetailsAction.confirmDirectBlock"
           actions={[
             {
-              text: i18n('MessageRequests--block'),
+              text: i18n('icu:MessageRequests--block'),
               action: () => blockConversation(conversationId),
               style: 'affirmative',
             },
           ]}
           i18n={i18n}
           onClose={() => gDirectBlock(false)}
-          title={i18n('MessageRequests--block-direct-confirm-title', {
+          title={i18n('icu:MessageRequests--block-direct-confirm-title', {
             name: conversationTitle,
           })}
         >
-          {i18n('MessageRequests--block-direct-confirm-body')}
+          {i18n('icu:MessageRequests--block-direct-confirm-body')}
         </ConfirmationDialog>
       )}
       {confirmDirectUnblock && (
@@ -254,18 +262,18 @@ export function ConversationDetailsActions({
           dialogName="ConversationDetailsAction.confirmDirectUnblock"
           actions={[
             {
-              text: i18n('MessageRequests--unblock'),
+              text: i18n('icu:MessageRequests--unblock'),
               action: () => acceptConversation(conversationId),
               style: 'affirmative',
             },
           ]}
           i18n={i18n}
           onClose={() => gDirectUnblock(false)}
-          title={i18n('MessageRequests--unblock-direct-confirm-title', {
+          title={i18n('icu:MessageRequests--unblock-direct-confirm-title', {
             name: conversationTitle,
           })}
         >
-          {i18n('MessageRequests--unblock-direct-confirm-body')}
+          {i18n('icu:MessageRequests--unblock-direct-confirm-body')}
         </ConfirmationDialog>
       )}
     </>

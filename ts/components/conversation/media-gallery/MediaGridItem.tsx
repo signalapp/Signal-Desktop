@@ -68,7 +68,7 @@ export class MediaGridItem extends React.Component<Props, State> {
 
       return (
         <img
-          alt={i18n('lightboxImageAlt')}
+          alt={i18n('icu:lightboxImageAlt')}
           className="module-media-grid-item__image"
           src={mediaItem.thumbnailObjectUrl}
           onError={this.onImageErrorBound}
@@ -90,7 +90,7 @@ export class MediaGridItem extends React.Component<Props, State> {
       return (
         <div className="module-media-grid-item__image-container">
           <img
-            alt={i18n('lightboxImageAlt')}
+            alt={i18n('icu:lightboxImageAlt')}
             className="module-media-grid-item__image"
             src={mediaItem.thumbnailObjectUrl}
             onError={this.onImageErrorBound}

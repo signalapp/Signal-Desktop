@@ -15,6 +15,8 @@ export function ToastGroupLinkCopied({
   onClose,
 }: PropsType): JSX.Element {
   return (
-    <Toast onClose={onClose}>{i18n('GroupLinkManagement--clipboard')}</Toast>
+    <Toast onClose={onClose}>
+      {i18n('icu:GroupLinkManagement--clipboard')}
+    </Toast>
   );
 }

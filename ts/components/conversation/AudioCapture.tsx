@@ -54,10 +54,10 @@ export function AudioCapture({
     <>
       <div className="AudioCapture">
         <button
-          aria-label={i18n('voiceRecording--start')}
+          aria-label={i18n('icu:voiceRecording--start')}
           className="AudioCapture__microphone"
           onClick={handleClick}
-          title={i18n('voiceRecording--start')}
+          title={i18n('icu:voiceRecording--start')}
           type="button"
         />
       </div>

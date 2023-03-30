@@ -247,10 +247,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
         <div className="module-main-header__icon-container">
           {areStoriesEnabled && (
             <button
-              aria-label={i18n('stories')}
+              aria-label={i18n('icu:stories')}
               className="module-main-header__stories-icon"
               onClick={toggleStoriesView}
-              title={i18n('stories')}
+              title={i18n('icu:stories')}
               type="button"
             >
               {hasFailedStorySends && (
@@ -264,10 +264,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             </button>
           )}
           <button
-            aria-label={i18n('newConversation')}
+            aria-label={i18n('icu:newConversation')}
             className="module-main-header__compose-icon"
             onClick={startComposing}
-            title={i18n('newConversation')}
+            title={i18n('icu:newConversation')}
             type="button"
           />
         </div>

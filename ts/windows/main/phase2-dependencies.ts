@@ -47,9 +47,9 @@ window.ReactDOM = ReactDOM;
 const { resolvedTranslationsLocale, preferredSystemLocales } = config;
 moment.updateLocale(resolvedTranslationsLocale, {
   relativeTime: {
-    s: window.i18n('timestamp_s'),
-    m: window.i18n('timestamp_m'),
-    h: window.i18n('timestamp_h'),
+    s: window.i18n('icu:timestamp_s'),
+    m: window.i18n('icu:timestamp_m'),
+    h: window.i18n('icu:timestamp_h'),
   },
 });
 moment.locale(preferredSystemLocales);

@@ -238,7 +238,7 @@ export function GIF(props: Props): JSX.Element {
       <div className="module-image__download-pending--spinner-container">
         <div
           className="module-image__download-pending--spinner"
-          title={i18n('loading')}
+          title={i18n('icu:loading')}
         >
           <Spinner moduleClassName="module-image-spinner" svgSize="small" />
         </div>

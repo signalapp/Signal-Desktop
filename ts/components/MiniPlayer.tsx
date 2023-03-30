@@ -67,15 +67,15 @@ export function MiniPlayer({
   let mod: 'play' | 'pause' | 'pending';
   switch (state) {
     case PlayerState.playing:
-      label = i18n('MessageAudio--pause');
+      label = i18n('icu:MessageAudio--pause');
       mod = 'pause';
       break;
     case PlayerState.paused:
-      label = i18n('MessageAudio--play');
+      label = i18n('icu:MessageAudio--play');
       mod = 'play';
       break;
     case PlayerState.loading:
-      label = i18n('MessageAudio--pending');
+      label = i18n('icu:MessageAudio--pending');
       mod = 'pending';
       break;
     default:
@@ -121,7 +121,7 @@ export function MiniPlayer({
         type="button"
         className="MiniPlayer__close-button"
         onClick={onClose}
-        aria-label={i18n('close')}
+        aria-label={i18n('icu:close')}
       />
     </div>
   );

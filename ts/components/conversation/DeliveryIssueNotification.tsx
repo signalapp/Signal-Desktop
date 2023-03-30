@@ -46,7 +46,7 @@ export function DeliveryIssueNotification(
       <SystemMessage
         contents={
           <Intl
-            id="DeliveryIssue--notification"
+            id="icu:DeliveryIssue--notification"
             components={{
               sender: <Emojify text={sender.firstName || sender.title} />,
             }}
@@ -60,7 +60,7 @@ export function DeliveryIssueNotification(
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
-            {i18n('DeliveryIssue--learnMore')}
+            {i18n('icu:DeliveryIssue--learnMore')}
           </Button>
         }
       />

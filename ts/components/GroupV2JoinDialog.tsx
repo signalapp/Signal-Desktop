@@ -47,12 +47,12 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
   } = props;
 
   const joinString = approvalRequired
-    ? i18n('GroupV2--join--request-to-join-button')
-    : i18n('GroupV2--join--join-button');
+    ? i18n('icu:GroupV2--join--request-to-join-button')
+    : i18n('icu:GroupV2--join--join-button');
   const memberString =
     memberCount === 1
-      ? i18n('GroupV2--join--member-count--single')
-      : i18n('GroupV2--join--member-count--multiple', {
+      ? i18n('icu:GroupV2--join--member-count--single')
+      : i18n('icu:GroupV2--join--member-count--multiple', {
           count: memberCount.toString(),
         });
 
@@ -70,7 +70,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
   return (
     <div className="module-group-v2-join-dialog">
       <button
-        aria-label={i18n('close')}
+        aria-label={i18n('icu:close')}
         type="button"
         disabled={isWorking}
         className="module-group-v2-join-dialog__close-button"
@@ -93,7 +93,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
       </div>
       <div className="module-group-v2-join-dialog__title">{title}</div>
       <div className="module-group-v2-join-dialog__metadata">
-        {i18n('GroupV2--join--group-metadata', {
+        {i18n('icu:GroupV2--join--group-metadata', {
           memberCount: memberString,
         })}
       </div>
@@ -104,11 +104,11 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
       )}
       {approvalRequired ? (
         <div className="module-group-v2-join-dialog__prompt--approval">
-          {i18n('GroupV2--join--prompt-with-approval')}
+          {i18n('icu:GroupV2--join--prompt-with-approval')}
         </div>
       ) : (
         <div className="module-group-v2-join-dialog__prompt">
-          {i18n('GroupV2--join--prompt')}
+          {i18n('icu:GroupV2--join--prompt')}
         </div>
       )}
       <div className="module-group-v2-join-dialog__buttons">
@@ -121,7 +121,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
           onClick={wrappedClose}
           variant={ButtonVariant.Secondary}
         >
-          {i18n('cancel')}
+          {i18n('icu:cancel')}
         </Button>
         <Button
           className="module-group-v2-join-dialog__button"

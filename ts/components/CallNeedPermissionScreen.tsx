@@ -34,7 +34,7 @@ export function CallNeedPermissionScreen({
   i18n,
   close,
 }: Props): JSX.Element {
-  const title = conversation.title || i18n('unknownContact');
+  const title = conversation.title || i18n('icu:unknownContact');
 
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);
   useEffect(() => {
@@ -63,7 +63,7 @@ export function CallNeedPermissionScreen({
       <p className="module-call-need-permission-screen__text">
         <Intl
           i18n={i18n}
-          id="callNeedPermission"
+          id="icu:callNeedPermission"
           components={{
             title: <ContactName title={title} />,
           }}
@@ -77,7 +77,7 @@ export function CallNeedPermissionScreen({
           close();
         }}
       >
-        {i18n('close')}
+        {i18n('icu:close')}
       </button>
     </div>
   );

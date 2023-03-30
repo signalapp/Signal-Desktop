@@ -299,13 +299,13 @@ export function CallingPip({
       ) : null}
       <div className="module-calling-pip__actions">
         <button
-          aria-label={i18n('calling__hangup')}
+          aria-label={i18n('icu:calling__hangup')}
           className="module-calling-pip__button--hangup"
           onClick={hangUp}
           type="button"
         />
         <button
-          aria-label={i18n('calling__pip--off')}
+          aria-label={i18n('icu:calling__pip--off')}
           className="module-calling-pip__button--pip"
           onClick={togglePip}
           type="button"

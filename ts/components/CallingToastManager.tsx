@@ -27,7 +27,7 @@ function getReconnectingToast({ activeCall, i18n }: PropsType): ToastType {
     activeCall.connectionState === GroupCallConnectionState.Reconnecting
   ) {
     return {
-      message: i18n('callReconnecting'),
+      message: i18n('icu:callReconnecting'),
       type: 'static',
     };
   }
@@ -72,12 +72,12 @@ function useScreenSharingToast({ activeCall, i18n }: PropsType): ToastType {
       if (previousPresenterId === ME) {
         setResult({
           type: 'dismissable',
-          message: i18n('calling__presenting--you-stopped'),
+          message: i18n('icu:calling__presenting--you-stopped'),
         });
       } else if (previousPresenterTitle) {
         setResult({
           type: 'dismissable',
-          message: i18n('calling__presenting--person-stopped', {
+          message: i18n('icu:calling__presenting--person-stopped', {
             name: previousPresenterTitle,
           }),
         });

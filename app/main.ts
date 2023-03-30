@@ -930,10 +930,10 @@ async function createWindow() {
 
         const n = new Notification({
           title: getResolvedMessagesLocale().i18n(
-            'minimizeToTrayNotification--title'
+            'icu:minimizeToTrayNotification--title'
           ),
           body: getResolvedMessagesLocale().i18n(
-            'minimizeToTrayNotification--body'
+            'icu:minimizeToTrayNotification--body'
           ),
         });
 
@@ -1199,7 +1199,7 @@ async function showScreenShareWindow(sourceName: string) {
     minimizable: false,
     resizable: false,
     show: false,
-    title: getResolvedMessagesLocale().i18n('screenShareWindow'),
+    title: getResolvedMessagesLocale().i18n('icu:screenShareWindow'),
     titleBarStyle: nonMainTitleBarStyle,
     width,
     webPreferences: {
@@ -1251,7 +1251,7 @@ async function showAbout() {
     width: 500,
     height: 500,
     resizable: false,
-    title: getResolvedMessagesLocale().i18n('aboutSignalDesktop'),
+    title: getResolvedMessagesLocale().i18n('icu:aboutSignalDesktop'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1302,7 +1302,7 @@ async function showSettingsWindow() {
     height: 700,
     frame: true,
     resizable: false,
-    title: getResolvedMessagesLocale().i18n('signalDesktopPreferences'),
+    title: getResolvedMessagesLocale().i18n('icu:signalDesktopPreferences'),
     titleBarStyle: mainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1384,7 +1384,7 @@ async function showDebugLogWindow() {
     width: 700,
     height: 500,
     resizable: false,
-    title: getResolvedMessagesLocale().i18n('debugLog'),
+    title: getResolvedMessagesLocale().i18n('icu:debugLog'),
     titleBarStyle: nonMainTitleBarStyle,
     titleBarOverlay,
     autoHideMenuBar: true,
@@ -1449,7 +1449,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       width: Math.min(400, size[0]),
       height: Math.min(150, size[1]),
       resizable: false,
-      title: getResolvedMessagesLocale().i18n('allowAccess'),
+      title: getResolvedMessagesLocale().i18n('icu:allowAccess'),
       titleBarStyle: nonMainTitleBarStyle,
       autoHideMenuBar: true,
       backgroundColor: await getBackgroundColor(),
@@ -1587,13 +1587,13 @@ const onDatabaseError = async (error: string) => {
 
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
-      getResolvedMessagesLocale().i18n('deleteAndRestart'),
-      getResolvedMessagesLocale().i18n('copyErrorAndQuit'),
+      getResolvedMessagesLocale().i18n('icu:deleteAndRestart'),
+      getResolvedMessagesLocale().i18n('icu:copyErrorAndQuit'),
     ],
     defaultId: 1,
     cancelId: 1,
     detail: redactAll(error),
-    message: getResolvedMessagesLocale().i18n('databaseError'),
+    message: getResolvedMessagesLocale().i18n('icu:databaseError'),
     noLink: true,
     type: 'error',
   });

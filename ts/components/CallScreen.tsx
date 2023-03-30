@@ -115,12 +115,12 @@ function DirectCallHeaderMessage({
   }, [joinedAt]);
 
   if (callState === CallState.Reconnecting) {
-    return <>{i18n('callReconnecting')}</>;
+    return <>{i18n('icu:callReconnecting')}</>;
   }
   if (callState === CallState.Accepted && acceptedDuration) {
     return (
       <>
-        {i18n('callDuration', {
+        {i18n('icu:callDuration', {
           duration: renderDuration(acceptedDuration),
         })}
       </>
@@ -318,11 +318,11 @@ export function CallScreen({
       if (isRinging) {
         headerTitle = undefined;
       } else if (currentPresenter) {
-        headerTitle = i18n('calling__presenting--person-ongoing', {
+        headerTitle = i18n('icu:calling__presenting--person-ongoing', {
           name: currentPresenter.title,
         });
       } else if (!activeCall.remoteParticipants.length) {
-        headerTitle = i18n('calling__in-this-call--zero');
+        headerTitle = i18n('icu:calling__in-this-call--zero');
       }
 
       isConnected =
@@ -378,7 +378,7 @@ export function CallScreen({
               size={AvatarSize.EIGHTY}
             />
             <div className="module-calling__camera-is-off">
-              {i18n('calling__your-video-is-off')}
+              {i18n('icu:calling__your-video-is-off')}
             </div>
           </CallBackgroundBlur>
         )}

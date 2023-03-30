@@ -12,6 +12,6 @@ export type Props = {
 
 export function ResetSessionNotification({ i18n }: Props): JSX.Element {
   return (
-    <SystemMessage contents={i18n('sessionEnded')} icon="session-refresh" />
+    <SystemMessage contents={i18n('icu:sessionEnded')} icon="session-refresh" />
   );
 }

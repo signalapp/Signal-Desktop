@@ -114,14 +114,14 @@ export function StoriesPane({
       <div className="Stories__pane__header">
         <button
           ref={focusRef}
-          aria-label={i18n('back')}
+          aria-label={i18n('icu:back')}
           className="Stories__pane__header--back"
           onClick={toggleStoriesView}
           tabIndex={0}
           type="button"
         />
         <div className="Stories__pane__header--title">
-          {i18n('Stories__title')}
+          {i18n('icu:Stories__title')}
         </div>
         <StoriesAddStoryButton
           i18n={i18n}
@@ -134,7 +134,7 @@ export function StoriesPane({
           i18n={i18n}
           menuOptions={[
             {
-              label: i18n('StoriesSettings__context-menu'),
+              label: i18n('icu:StoriesSettings__context-menu'),
               onClick: () => onStoriesSettings(),
             },
           ]}
@@ -152,7 +152,7 @@ export function StoriesPane({
         onChange={event => {
           setSearchTerm(event.target.value);
         }}
-        placeholder={i18n('search')}
+        placeholder={i18n('icu:search')}
         value={searchTerm}
       />
       <div className="Stories__pane__list">
@@ -196,7 +196,7 @@ export function StoriesPane({
               onClick={() => setIsShowingHiddenStories(!isShowingHiddenStories)}
               type="button"
             >
-              {i18n('Stories__hidden-stories')}
+              {i18n('icu:Stories__hidden-stories')}
             </button>
             {isShowingHiddenStories &&
               hiddenStories.map(story => (
@@ -222,7 +222,7 @@ export function StoriesPane({
         )}
         {!stories.length && (
           <div className="Stories__pane__list--empty">
-            {i18n('Stories__list-empty')}
+            {i18n('icu:Stories__list-empty')}
           </div>
         )}
       </div>

@@ -64,9 +64,9 @@ export function ConversationDetailsHeader({
         />
       );
     } else if (canEdit) {
-      subtitle = i18n('ConversationDetailsHeader--add-group-description');
+      subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
-      subtitle = i18n('ConversationDetailsHeader--members', {
+      subtitle = i18n('icu:ConversationDetailsHeader--members', {
         number: memberships.length.toString(),
       });
     }
@@ -106,7 +106,7 @@ export function ConversationDetailsHeader({
   const contents = (
     <div>
       <div className={bem('title')}>
-        <Emojify text={isMe ? i18n('noteToSelf') : conversation.title} />
+        <Emojify text={isMe ? i18n('icu:noteToSelf') : conversation.title} />
         {isMe && <span className="ContactModal__official-badge__large" />}
       </div>
     </div>

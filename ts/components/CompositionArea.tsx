@@ -457,7 +457,7 @@ export function CompositionArea({
           type="button"
           className="CompositionArea__attach-file"
           onClick={launchAttachmentPicker}
-          aria-label={i18n('CompositionArea--attach-file')}
+          aria-label={i18n('icu:CompositionArea--attach-file')}
         />
       </div>
     );
@@ -470,7 +470,7 @@ export function CompositionArea({
           type="button"
           className="CompositionArea__send-button"
           onClick={handleForceSend}
-          aria-label={i18n('sendMessageToContact')}
+          aria-label={i18n('icu:sendMessageToContact')}
         />
       </div>
     </>
@@ -605,7 +605,7 @@ export function CompositionArea({
       >
         {isFetchingUUID ? (
           <Spinner
-            ariaLabel={i18n('CompositionArea--sms-only__spinner-label')}
+            ariaLabel={i18n('icu:CompositionArea--sms-only__spinner-label')}
             role="presentation"
             moduleClassName="module-image-spinner"
             svgSize="small"
@@ -613,10 +613,10 @@ export function CompositionArea({
         ) : (
           <>
             <h2 className="CompositionArea--sms-only__title">
-              {i18n('CompositionArea--sms-only__title')}
+              {i18n('icu:CompositionArea--sms-only__title')}
             </h2>
             <p className="CompositionArea--sms-only__body">
-              {i18n('CompositionArea--sms-only__body')}
+              {i18n('icu:CompositionArea--sms-only__body')}
             </p>
           </>
         )}
@@ -728,7 +728,7 @@ export function CompositionArea({
           // This prevents the user from tabbing here
           tabIndex={-1}
           onClick={handleToggleLarge}
-          aria-label={i18n('CompositionArea--expand')}
+          aria-label={i18n('icu:CompositionArea--expand')}
         />
       </div>
       <div

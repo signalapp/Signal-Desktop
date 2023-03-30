@@ -115,7 +115,7 @@ export class Image extends React.Component<Props> {
           <div className="module-image__download-pending--spinner-container">
             <div
               className="module-image__download-pending--spinner"
-              title={i18n('loading')}
+              title={i18n('icu:loading')}
             >
               <Spinner moduleClassName="module-image-spinner" svgSize="small" />
             </div>
@@ -133,7 +133,7 @@ export class Image extends React.Component<Props> {
           lineHeight: `${height}px`,
           textAlign: 'center',
         }}
-        title={i18n('loading')}
+        title={i18n('icu:loading')}
       >
         <Spinner svgSize="normal" />
       </div>
@@ -242,7 +242,7 @@ export class Image extends React.Component<Props> {
           <img
             className="module-image__caption-icon"
             src="images/caption-shadow.svg"
-            alt={i18n('imageCaptionIconAlt')}
+            alt={i18n('icu:imageCaptionIconAlt')}
           />
         ) : null}
         {bottomOverlay ? (
@@ -280,8 +280,8 @@ export class Image extends React.Component<Props> {
               }
             }}
             className="module-image__close-button"
-            title={i18n('remove-attachment')}
-            aria-label={i18n('remove-attachment')}
+            title={i18n('icu:remove-attachment')}
+            aria-label={i18n('icu:remove-attachment')}
           />
         ) : null}
       </div>

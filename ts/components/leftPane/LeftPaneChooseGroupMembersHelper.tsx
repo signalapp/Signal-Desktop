@@ -137,7 +137,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     i18n: LocalizerType;
     startComposing: () => void;
   }>): ReactChild {
-    const backButtonLabel = i18n('chooseGroupMembers__back-button');
+    const backButtonLabel = i18n('icu:chooseGroupMembers__back-button');
 
     return (
       <div className="module-left-pane__header__contents">
@@ -149,7 +149,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('chooseGroupMembers__title')}
+          {i18n('icu:chooseGroupMembers__title')}
         </div>
       </div>
     );
@@ -177,7 +177,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         i18n={i18n}
         moduleClassName="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
-        placeholder={i18n('contactSearchPlaceholder')}
+        placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
         value={this.searchTerm}
       />
@@ -242,7 +242,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
         {this.getRowCount() ? null : (
           <div className="module-left-pane__compose-no-contacts">
-            {i18n('noContactsFound')}
+            {i18n('icu:noContactsFound')}
           </div>
         )}
 
@@ -264,8 +264,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         onClick={startSettingGroupMetadata}
       >
         {this.selectedContacts.length
-          ? i18n('chooseGroupMembers__next')
-          : i18n('chooseGroupMembers__skip')}
+          ? i18n('icu:chooseGroupMembers__next')
+          : i18n('icu:chooseGroupMembers__skip')}
       </Button>
     );
   }
@@ -314,7 +314,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('contactsHeader'),
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -342,7 +342,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
       if (virtualRowIndex === 1) {
@@ -363,7 +363,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
       if (virtualRowIndex === 1) {

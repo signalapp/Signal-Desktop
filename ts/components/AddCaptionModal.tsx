@@ -63,18 +63,18 @@ export function AddCaptionModal({
       hasFooterDivider={!isScrolledBottom}
       moduleClassName="AddCaptionModal"
       padded={false}
-      title={i18n('AddCaptionModal__title')}
+      title={i18n('icu:AddCaptionModal__title')}
       onClose={onClose}
       modalFooter={
         <Button onClick={handleSubmit}>
-          {i18n('AddCaptionModal__submit-button')}
+          {i18n('icu:AddCaptionModal__submit-button')}
         </Button>
       }
     >
       <RenderCompositionTextArea
         maxLength={1500}
         whenToShowRemainingCount={1450}
-        placeholder={i18n('AddCaptionModal__placeholder')}
+        placeholder={i18n('icu:AddCaptionModal__placeholder')}
         onChange={setMessageText}
         scrollerRef={scrollerRef}
         draftText={draftText}

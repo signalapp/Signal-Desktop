@@ -13,7 +13,7 @@ export type Props = {
 
 export function TypingAnimation({ i18n, color }: Props): JSX.Element {
   return (
-    <div className="module-typing-animation" title={i18n('typingAlt')}>
+    <div className="module-typing-animation" title={i18n('icu:typingAlt')}>
       <div
         className={classNames(
           'module-typing-animation__dot',

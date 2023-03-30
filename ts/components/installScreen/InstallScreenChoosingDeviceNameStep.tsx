@@ -56,8 +56,8 @@ export function InstallScreenChoosingDeviceNameStep({
 
       <div className="module-InstallScreenChoosingDeviceNameStep__contents">
         <div className="module-InstallScreenChoosingDeviceNameStep__header">
-          <h1>{i18n('chooseDeviceName')}</h1>
-          <h2>{i18n('Install__choose-device-name__description')}</h2>
+          <h1>{i18n('icu:chooseDeviceName')}</h1>
+          <h2>{i18n('icu:Install__choose-device-name__description')}</h2>
         </div>
         <div className="module-InstallScreenChoosingDeviceNameStep__inputs">
           <input
@@ -66,7 +66,7 @@ export function InstallScreenChoosingDeviceNameStep({
             onChange={event => {
               setDeviceName(event.target.value);
             }}
-            placeholder={i18n('Install__choose-device-name__placeholder')}
+            placeholder={i18n('icu:Install__choose-device-name__placeholder')}
             ref={focusRef}
             spellCheck={false}
             value={deviceName}
@@ -76,7 +76,7 @@ export function InstallScreenChoosingDeviceNameStep({
             variant={ButtonVariant.Primary}
             type="submit"
           >
-            {i18n('finishLinkingPhone')}
+            {i18n('icu:finishLinkingPhone')}
           </Button>
         </div>
       </div>

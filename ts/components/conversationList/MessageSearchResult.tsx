@@ -71,7 +71,7 @@ const renderPerson = (
     title: string;
   }>
 ): ReactNode =>
-  person.isMe ? i18n('you') : <ContactName title={person.title} />;
+  person.isMe ? i18n('icu:you') : <ContactName title={person.title} />;
 
 // This function exists because bodyRanges tells us the character position
 // where the at-mention starts at according to the full body text. The snippet
@@ -162,7 +162,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
 
     let headerName: ReactNode;
     if (isNoteToSelf) {
-      headerName = i18n('noteToSelf');
+      headerName = i18n('icu:noteToSelf');
     } else if (from.isMe) {
       if (to.type === 'group') {
         headerName = (

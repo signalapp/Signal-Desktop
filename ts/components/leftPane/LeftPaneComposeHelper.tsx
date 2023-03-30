@@ -103,12 +103,12 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         <button
           onClick={this.getBackAction({ showInbox })}
           className="module-left-pane__header__contents__back-button"
-          title={i18n('backToInbox')}
-          aria-label={i18n('backToInbox')}
+          title={i18n('icu:backToInbox')}
+          aria-label={i18n('icu:backToInbox')}
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('newConversation')}
+          {i18n('icu:newConversation')}
         </div>
       </div>
     );
@@ -132,7 +132,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         i18n={i18n}
         moduleClassName="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
-        placeholder={i18n('contactSearchPlaceholder')}
+        placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
         value={this.searchTerm}
       />
@@ -146,7 +146,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }>): ReactChild | null {
     return this.getRowCount() ? null : (
       <div className="module-left-pane__compose-no-contacts">
-        {i18n('noConversationsFound')}
+        {i18n('icu:noConversationsFound')}
       </div>
     );
   }
@@ -194,7 +194,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('contactsHeader'),
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -215,7 +215,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('groupsHeader'),
+          getHeaderText: i18n => i18n('icu:groupsHeader'),
         };
       }
 
@@ -236,7 +236,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('findByUsernameHeader'),
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
 
@@ -258,7 +258,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          getHeaderText: i18n => i18n('findByPhoneNumberHeader'),
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
 

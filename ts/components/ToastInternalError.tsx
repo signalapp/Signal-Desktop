@@ -36,12 +36,12 @@ export function ToastInternalError(props: PropsType): JSX.Element {
   if (kind === ToastInternalErrorKind.DecryptionError) {
     const { deviceId, name } = props;
 
-    body = i18n('decryptionErrorToast', {
+    body = i18n('icu:decryptionErrorToast', {
       name,
       deviceId,
     });
   } else if (kind === ToastInternalErrorKind.CDSMirroringError) {
-    body = i18n('cdsMirroringErrorToast');
+    body = i18n('icu:cdsMirroringErrorToast');
   } else {
     throw missingCaseError(kind);
   }
@@ -53,7 +53,7 @@ export function ToastInternalError(props: PropsType): JSX.Element {
       onClose={onClose}
       style={{ maxWidth: '500px' }}
       toastAction={{
-        label: i18n('decryptionErrorToastAction'),
+        label: i18n('icu:decryptionErrorToastAction'),
         onClick: onShowDebugLog,
       }}
     >

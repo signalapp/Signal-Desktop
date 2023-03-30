@@ -26,7 +26,7 @@ export function StagedGenericAttachment({
       <button
         type="button"
         className="module-staged-generic-attachment__close-button"
-        aria-label={i18n('close')}
+        aria-label={i18n('icu:close')}
         onClick={() => {
           if (onClose) {
             onClose(attachment);

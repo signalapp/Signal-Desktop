@@ -349,14 +349,14 @@ export function TimelineMessage(props: Props): JSX.Element {
             {
               action: () => deleteMessageForEveryone(id),
               style: 'negative',
-              text: i18n('delete'),
+              text: i18n('icu:delete'),
             },
           ]}
           dialogName="TimelineMessage/deleteMessageForEveryone"
           i18n={i18n}
           onClose={() => setHasDOEConfirmation(false)}
         >
-          {i18n('deleteForEveryoneWarning')}
+          {i18n('icu:deleteForEveryoneWarning')}
         </ConfirmationDialog>
       )}
       {hasDeleteConfirmation && (
@@ -471,7 +471,7 @@ function MessageMenu({
                 ref={maybePopperRef}
                 role="button"
                 onClick={showMenu}
-                aria-label={i18n('messageContextMenuButton')}
+                aria-label={i18n('icu:messageContextMenuButton')}
                 className={classNames(
                   'module-message__buttons__menu',
                   `module-message__buttons__download--${direction}`
@@ -522,7 +522,7 @@ function MessageMenu({
                     }}
                     role="button"
                     className="module-message__buttons__react"
-                    aria-label={i18n('reactToMessage')}
+                    aria-label={i18n('icu:reactToMessage')}
                     onDoubleClick={ev => {
                       // Prevent double click from triggering the replyToMessage action
                       ev.stopPropagation();
@@ -540,7 +540,7 @@ function MessageMenu({
             <div
               onClick={onDownload}
               role="button"
-              aria-label={i18n('downloadAttachment')}
+              aria-label={i18n('icu:downloadAttachment')}
               className={classNames(
                 'module-message__buttons__download',
                 `module-message__buttons__download--${direction}`
@@ -565,7 +565,7 @@ function MessageMenu({
               }}
               // This a menu meant for mouse use only
               role="button"
-              aria-label={i18n('replyToMessage')}
+              aria-label={i18n('icu:replyToMessage')}
               className={classNames(
                 'module-message__buttons__reply',
                 `module-message__buttons__download--${direction}`
@@ -627,7 +627,7 @@ const MessageContextMenu = ({
               }}
               onClick={onDownload}
             >
-              {i18n('downloadAttachment')}
+              {i18n('icu:downloadAttachment')}
             </MenuItem>
           )}
           {onReplyToMessage && (
@@ -643,7 +643,7 @@ const MessageContextMenu = ({
                 onReplyToMessage();
               }}
             >
-              {i18n('replyToMessage')}
+              {i18n('icu:replyToMessage')}
             </MenuItem>
           )}
           {onReact && (
@@ -659,7 +659,7 @@ const MessageContextMenu = ({
                 onReact();
               }}
             >
-              {i18n('reactToMessage')}
+              {i18n('icu:reactToMessage')}
             </MenuItem>
           )}
         </>
@@ -676,7 +676,7 @@ const MessageContextMenu = ({
           onMoreInfo();
         }}
       >
-        {i18n('moreInfo')}
+        {i18n('icu:moreInfo')}
       </MenuItem>
       <MenuItem
         attributes={{
@@ -702,7 +702,7 @@ const MessageContextMenu = ({
             onRetryMessageSend();
           }}
         >
-          {i18n('retrySend')}
+          {i18n('icu:retrySend')}
         </MenuItem>
       )}
       {onRetryDeleteForEveryone && (
@@ -718,7 +718,7 @@ const MessageContextMenu = ({
             onRetryDeleteForEveryone();
           }}
         >
-          {i18n('retryDeleteForEveryone')}
+          {i18n('icu:retryDeleteForEveryone')}
         </MenuItem>
       )}
       {onForward && (
@@ -734,7 +734,7 @@ const MessageContextMenu = ({
             onForward();
           }}
         >
-          {i18n('forwardMessage')}
+          {i18n('icu:forwardMessage')}
         </MenuItem>
       )}
       <MenuItem
@@ -749,7 +749,7 @@ const MessageContextMenu = ({
           onDeleteForMe();
         }}
       >
-        {i18n('deleteMessage')}
+        {i18n('icu:deleteMessage')}
       </MenuItem>
       {onDeleteForEveryone && (
         <MenuItem
@@ -764,7 +764,7 @@ const MessageContextMenu = ({
             onDeleteForEveryone();
           }}
         >
-          {i18n('deleteMessageForEveryone')}
+          {i18n('icu:deleteMessageForEveryone')}
         </MenuItem>
       )}
     </ContextMenu>
