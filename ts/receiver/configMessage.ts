@@ -68,7 +68,7 @@ async function mergeConfigsWithIncomingUpdates(
 
   const groupedResults: Map<ConfigWrapperObjectTypes, IncomingConfResult> = new Map();
 
-  // TODO currently we only poll for user config messages, so this can be hardcoded
+  // TODOLATER currently we only poll for user config messages, so this can be hardcoded
   const publicKey = UserUtils.getOurPubKeyStrFromCache();
 
   try {
@@ -86,14 +86,11 @@ async function mergeConfigsWithIncomingUpdates(
       await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
-      window.log.info(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
-
-      // TODO do we need to keep track of the hashes or the library does in the end?
-      const messageHashes = toMerge.map(m => m.hash);
       const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
 
+      window.log.info(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
+
       const incomingConfResult: IncomingConfResult = {
-        messageHashes,
         needsDump,
         needsPush,
         kind: LibSessionUtil.variantToKind(variant),
@@ -311,7 +308,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   const legacyGroupsToLeaveInDB = allLegacyGroupsInDb.filter(m => {
     return !allLegacyGroupsIdsInWrapper.includes(m.id);
   });
-  // TODO we need to store the encryption keypair if needed
   window.log.info(
     `we have to join ${legacyGroupsToJoinInDB.length} legacy groups in DB compared to what is in the wrapper`
   );
@@ -366,7 +362,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
-      weWereJustAdded: false, // TODOLATER to remove
+      weWereJustAdded: false, // TODOLATER to remove once legacy groups support is dropped
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
@@ -399,6 +395,8 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     // save the encryption keypair if needed
     if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
       try {
+        // TODO we need to store the encryption keypair if needed
+
         const inWrapperKeypair: HexKeyPair = {
           publicHex: toHex(fromWrapper.encPubkey),
           privateHex: toHex(fromWrapper.encSeckey),

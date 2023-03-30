@@ -25,7 +25,6 @@ const requiredUserVariants: Array<ConfigWrapperObjectTypes> = [
 export type IncomingConfResult = {
   needsPush: boolean;
   needsDump: boolean;
-  messageHashes: Array<string>;
   kind: SignalService.SharedConfigMessage.Kind;
   publicKey: string;
   latestEnvelopeTimestamp: number;

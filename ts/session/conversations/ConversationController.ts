@@ -17,6 +17,7 @@ import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user
 import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
 import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
+import { ConvoVolatileType } from 'session_util_wrapper';
 
 let instance: ConversationController | null;
 
@@ -210,51 +211,63 @@ export class ConversationController {
     await deleteAllMessagesByConvoIdNoConfirmation(id);
     window.log.info(`deleteContact messages destroyed: ${id}`);
 
-    // Legacy group leaving
-    if (conversation.isClosedGroup()) {
-      window.log.info(`deleteContact ClosedGroup case: ${id}`);
-      await leaveClosedGroup(conversation.id);
-      await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);
-      await SessionUtilUserGroups.removeLegacyGroupFromWrapper(conversation.id);
-    } else if (conversation.isPublic()) {
-      window?.log?.info('leaving open group v2', conversation.id);
-      // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
-      try {
-        await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
-        await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
-          conversation.id,
-          conversation.id
-        );
-      } catch (e) {
-        window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
-      }
+    const convoType: ConvoVolatileType = conversation.isClosedGroup()
+      ? 'LegacyGroup'
+      : conversation.isPublic()
+      ? 'Community'
+      : '1o1';
 
-      const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
-      if (roomInfos) {
-        getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
-      }
+    switch (convoType) {
+      case '1o1':
+        // if this conversation is a private conversation it's in fact a `contact` for desktop.
+        // we just set the hidden field to true
+        // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
+        // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
+        window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
 
-      // remove the roomInfos locally for this open group room including the pubkey
-      try {
-        await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
-      } catch (e) {
-        window?.log?.info('removeV2OpenGroupRoom failed:', e);
-      }
-    } else if (conversation.isPrivate()) {
-      // if this conversation is a private conversation it's in fact a `contact` for desktop.
-      // we just want to remove everything related to it and set the hidden field to true
-      // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation
-      window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
+        conversation.set({
+          hidden: true,
+        });
+        // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
+        // await conversation.setIsApproved(false, false);
+        await conversation.commit(); // this updates the wrappers content to reflect the hidden state
 
-      conversation.set({
-        hidden: true,
-      });
-      // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
-      // await conversation.setIsApproved(false, false);
-      await conversation.commit(); // this updates the wrappers content to reflect the hidden state
+        // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
+        break;
+      case 'Community':
+        window?.log?.info('leaving open group v2', conversation.id);
+        // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
+        try {
+          await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
+          await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
+            conversation.id,
+            conversation.id
+          );
+        } catch (e) {
+          window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
+        }
 
-      // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
-      // TODO the call above won't mark the conversation as hidden in the wrapper, it will just stop being updated (which is a bad thing)
+        const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
+        if (roomInfos) {
+          getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
+        }
+
+        // remove the roomInfos locally for this open group room including the pubkey
+        try {
+          await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
+        } catch (e) {
+          window?.log?.info('removeV2OpenGroupRoom failed:', e);
+        }
+        break;
+      case 'LegacyGroup':
+        window.log.info(`deleteContact ClosedGroup case: ${id}`);
+        await leaveClosedGroup(conversation.id);
+        await SessionUtilUserGroups.removeLegacyGroupFromWrapper(conversation.id);
+        await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);
+
+        break;
+      default:
+        assertUnreachable(convoType, `deleteContact: convoType ${convoType} not handled`);
     }
 
     if (conversation.isGroup()) {
@@ -263,8 +276,6 @@ export class ConversationController {
       await Data.removeConversation(id);
 
       window.log.info(`deleteContact isGroup, convo removed from DB: ${id}`);
-
-      // TODO remove group related entries from their corresponding wrappers here
       this.conversations.remove(conversation);
 
       window?.inboxStore?.dispatch(

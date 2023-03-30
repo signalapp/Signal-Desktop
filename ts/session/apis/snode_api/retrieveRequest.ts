@@ -68,7 +68,6 @@ async function buildRetrieveRequest(
   return retrieveRequestsParams;
 }
 
-/** */
 async function retrieveNextMessages(
   targetNode: Snode,
   lastHashes: Array<string>,
@@ -106,9 +105,8 @@ async function retrieveNextMessages(
     );
   }
 
+  // do a basic check to know if we have something kind of looking right (status 200 should always be there for a retrieve)
   const firstResult = results[0];
-
-  // TODO we should probably check for status code of all the results (when polling for a few namespaces at a time)
 
   if (firstResult.code !== 200) {
     window?.log?.warn(`retrieveNextMessages result is not 200 but ${firstResult.code}`);

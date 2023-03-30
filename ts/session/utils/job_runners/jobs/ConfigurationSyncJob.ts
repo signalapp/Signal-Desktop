@@ -182,7 +182,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         }
       }
 
-      // TODO add a way to have a few configuration sync jobs running at the same time, but only a single one per pubkey
+      // TODOLATER add a way to have a few configuration sync jobs running at the same time, but only a single one per pubkey
       const thisJobDestination = us;
 
       const singleDestChanges = await retrieveSingleDestinationChanges(thisJobDestination);

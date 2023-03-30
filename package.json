@@ -27,7 +27,10 @@
     "@types/react": "17.0.2",
     "glob-parent": "^6.0.1",
     "got": "^11.8.5",
-    "jpeg-js": "^0.4.4"
+    "jpeg-js": "^0.4.4",
+    "json5": "^2.2.2",
+    "loader-utils": "^2.0.4",
+    "http-cache-semantics": "^4.1.1"
   },
   "scripts": {
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
@@ -90,7 +93,6 @@
     "filesize": "3.6.1",
     "firstline": "1.2.1",
     "fs-extra": "9.0.0",
-    "git": "^0.1.5",
     "glob": "7.1.2",
     "image-type": "^4.1.0",
     "ip2country": "1.0.1",
@@ -193,7 +195,6 @@
     "eslint-plugin-mocha": "^10.0.4",
     "eslint-plugin-more": "^1.0.5",
     "events": "^3.3.0",
-    "file-loader": "^6.2.0",
     "jsdom": "^19.0.0",
     "jsdom-global": "^3.0.2",
     "mini-css-extract-plugin": "^2.7.5",

@@ -2184,7 +2184,6 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   }
   // write to DB
   // TODOLATER remove duplicates between db and wrapper (except nickname&name as we need them for search, or move search to wrapper too)
-  // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
 
   const savedDetails = await Data.saveConversation(convo.attributes);
   await convo.refreshInMemoryDetails(savedDetails);
