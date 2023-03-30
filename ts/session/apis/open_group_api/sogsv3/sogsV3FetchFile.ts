@@ -118,7 +118,7 @@ export async function sogsV3FetchPreviewAndSaveIt(roomInfos: OpenGroupV2RoomWith
     return;
   }
   existingImageId = convo.get('avatarImageId');
-  if (existingImageId !== imageIdNumber && imageIdNumber) {
+  if (existingImageId !== imageIdNumber && isFinite(imageIdNumber)) {
     // we have to trigger an update
     // write the file to the disk (automatically encrypted),
 

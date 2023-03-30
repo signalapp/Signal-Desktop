@@ -15,6 +15,8 @@ import { SessionUtilContact } from '../utils/libsession/libsession_utils_contact
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
+import { LibSessionUtil } from '../utils/libsession/libsession_utils';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 let instance: ConversationController | null;
 
@@ -251,11 +253,7 @@ export class ConversationController {
       // await conversation.setIsApproved(false, false);
       await conversation.commit(); // this updates the wrappers content to reflect the hidden state
 
-      // The note to self cannot be removed from the wrapper I suppose, as it must always be there
-      // TODO I think we want to mark the contacts as hidden instead of removing them, so maybe keep the volatile info too?
-      // if (!isUsFromCache(conversation.id)) {
-      //   await SessionUtilConvoInfoVolatile.remove1o1(conversation.id);
-      // }
+      // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
       // TODO the call above won't mark the conversation as hidden in the wrapper, it will just stop being updated (which is a bad thing)
     }
 
@@ -308,40 +306,49 @@ export class ConversationController {
         this.conversations.add(convoModels);
 
         const start = Date.now();
-        // TODO make this a switch so we take care of all wrappers and have compilation errors if we forgot to add one.
-        // also keep in mind that the convo volatile one need to run for each convo so it must be outside of a `else`
+        const numberOfVariants = LibSessionUtil.requiredUserVariants.length;
         for (let index = 0; index < convoModels.length; index++) {
           const convo = convoModels[index];
-          if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
-            await SessionUtilContact.refreshMappedValue(convo.id, true);
-          } else if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
-            await SessionUtilUserGroups.refreshCachedUserGroup(convo.id, true);
-          }
-          // we actually want to run the convo volatile check and fetch even if one of the cases above is already true
-          if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
-            await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
-              convo.id,
-              Boolean(convo.isClosedGroup() && convo.id.startsWith('05')),
-              true
-            );
+          for (let wrapperIndex = 0; wrapperIndex < numberOfVariants; wrapperIndex++) {
+            const variant = LibSessionUtil.requiredUserVariants[wrapperIndex];
 
-            await convo.refreshInMemoryDetails();
+            switch (variant) {
+              case 'UserConfig':
+                break;
+              case 'ContactsConfig':
+                if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
+                  await SessionUtilContact.refreshMappedValue(convo.id, true);
+                }
+                break;
+              case 'UserGroupsConfig':
+                if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+                  await SessionUtilUserGroups.refreshCachedUserGroup(convo.id, true);
+                }
+                break;
+
+              case 'ConvoInfoVolatileConfig':
+                if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
+                  await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
+                    convo.id,
+                    Boolean(convo.isClosedGroup() && convo.id.startsWith('05')),
+                    true
+                  );
+
+                  await convo.refreshInMemoryDetails();
+                }
+                break;
+
+              default:
+                assertUnreachable(
+                  variant,
+                  `ConversationController: load() unhandled case "${variant}"`
+                );
+            }
           }
         }
         window.log.info(`refreshAllWrappersMappedValues took ${Date.now() - start}ms`);
 
         this._initialFetchComplete = true;
-        // TODO do we really need to do this?
-        // this.conversations.forEach((conversation: ConversationModel) => {
-        //   if (
-        //     conversation.isActive() &&
-        //     !conversation.isHidden() &&
-        //     !conversation.get('lastMessage')
-        //   ) {
-        //     conversation.updateLastMessage();
-        //   }
-        // });
-
         window?.log?.info(
           `ConversationController: done with initial fetch in ${Date.now() - startLoad}ms.`
         );

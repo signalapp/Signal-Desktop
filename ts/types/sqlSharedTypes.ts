@@ -117,6 +117,7 @@ export function getContactInfoFromDBValues({
   isPinned,
   dbProfileUrl,
   dbProfileKey,
+  expirationTimerSeconds,
 }: {
   id: string;
   dbApproved: boolean;
@@ -128,6 +129,7 @@ export function getContactInfoFromDBValues({
   isPinned: boolean;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
+  expirationTimerSeconds: number | undefined;
 }): ContactInfo {
   const wrapperContact: ContactInfo = {
     id,
@@ -135,9 +137,17 @@ export function getContactInfoFromDBValues({
     approvedMe: !!dbApprovedMe,
     blocked: !!dbBlocked,
     hidden: !!hidden,
-    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
     nickname: dbNickname,
     name: dbName,
+    expirationTimerSeconds:
+      !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
+        ? expirationTimerSeconds
+        : 0, // TODOLATER add the expiration mode handling
+    expirationMode:
+      !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
+        ? 'disappearAfterSend'
+        : 'off',
   };
 
   if (
@@ -166,7 +176,7 @@ export function getCommunityInfoFromDBValues({
 }) {
   const community = {
     fullUrl,
-    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
   };
 
   return community;
@@ -221,7 +231,7 @@ export function getLegacyGroupInfoFromDBValues({
     disappearingTimerSeconds: !expireTimer ? 0 : expireTimer,
     hidden: !!hidden,
     name: displayNameInProfile || '',
-    priority: !!isPinned ? 1 : 0, // TODO the priority handling is not that simple
+    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
     members: wrappedMembers,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
@@ -235,8 +245,9 @@ export function getLegacyGroupInfoFromDBValues({
  *
  */
 export function assertUnreachable(_x: never, message: string): never {
-  console.info(`assertUnreachable: Didn't expect to get here with "${message}"`);
-  throw new Error("Didn't expect to get here");
+  const msg = `assertUnreachable: Didn't expect to get here with "${message}"`;
+  console.info(msg);
+  throw new Error(msg);
 }
 
 export function roomHasBlindEnabled(openGroup?: OpenGroupV2Room) {

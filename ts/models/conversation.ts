@@ -119,12 +119,11 @@ type InMemoryConvoInfos = {
   unreadCount: number;
 };
 
-// TODO decide it it makes sense to move this to a redux slice?
 /**
  * Some fields are not stored in the database, but are kept in memory.
  * We use this map to keep track of them. The key is the conversation id.
  */
-const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
+const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map(); // decide it it makes sense to move this to a redux slice?
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -339,6 +338,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
     const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
 
+    // rely on the wrapper values rather than the DB ones if they exist in the wrapper
     if (foundContact) {
       if (foundContact.name) {
         toRet.displayNameInProfile = foundContact.name;
@@ -363,10 +363,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.isHidden = foundContact.hidden;
 
       if (foundContact.priority > 0) {
-        toRet.isPinned = true; // TODO priority also handles sorting
+        toRet.isPinned = true;
       }
 
-      // TODO expire timer (not in wrapper yet)
+      if (foundContact.expirationTimerSeconds > 0) {
+        toRet.expireTimer = foundContact.expirationTimerSeconds;
+      }
     } else {
       if (this.get('displayNameInProfile')) {
         toRet.displayNameInProfile = this.get('displayNameInProfile');
@@ -394,6 +396,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (this.get('isPinned')) {
         toRet.isPinned = true;
       }
+
+      if (this.get('expireTimer')) {
+        toRet.expireTimer = this.get('expireTimer');
+      }
     }
 
     if (foundLegacyGroup) {
@@ -412,7 +418,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (foundCommunity) {
       if (foundCommunity.priority > 0) {
-        toRet.isPinned = true; // TODO priority also handles sorting
+        toRet.isPinned = true;
       }
     }
 
@@ -887,7 +893,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    */
   public async addIncomingApprovalMessage(timestamp: number, source: string) {
     await this.addSingleIncomingMessage({
-      sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+      sent_at: timestamp,
       source,
       messageRequestResponse: {
         isApproved: 1,
@@ -1210,7 +1216,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
   ) {
     // if there's a message by the other user, they've replied to us which we consider an accepted convo
-    if (!this.didApproveMe() && this.isPrivate()) {
+    if (this.isPrivate()) {
       await this.setDidApproveMe(true);
     }
 
@@ -2177,7 +2183,7 @@ export async function commitConversationAndRefreshWrapper(id: string) {
     return;
   }
   // write to DB
-  // TODO remove duplicates between db and wrapper (except nickname&name as we need them for search)
+  // TODOLATER remove duplicates between db and wrapper (except nickname&name as we need them for search, or move search to wrapper too)
   // TODO when deleting a contact from the ConversationController, we still need to keep it in the wrapper but mark it as hidden (and we might need to add an hidden convo model field for it)
 
   const savedDetails = await Data.saveConversation(convo.attributes);

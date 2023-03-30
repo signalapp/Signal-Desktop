@@ -37,7 +37,7 @@ export const getImageDimensions = async ({
       window.log.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-    // TODO image/jpg is hard coded, but it does not look to cause any issues
+    // image/jpg is hard coded here but does not look to cause any issues
     const decryptedUrl = await getDecryptedMediaUrl(objectUrl, 'image/jpg', false);
     image.src = decryptedUrl;
   });

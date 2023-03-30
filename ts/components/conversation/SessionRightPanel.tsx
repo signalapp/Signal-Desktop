@@ -281,7 +281,7 @@ export const SessionRightPanelWithDetails = () => {
 
   const deleteConvoAction = isPublic
     ? () => {
-        deleteAllMessagesByConvoIdWithConfirmation(selectedConvoKey); // TODO this does not delete the public group and showLeaveGroupByConvoId is not only working for closed groups
+        deleteAllMessagesByConvoIdWithConfirmation(selectedConvoKey); // TODOLATER this does not delete the public group and showLeaveGroupByConvoId is not only working for closed groups
       }
     : () => {
         showLeaveGroupByConvoId(selectedConvoKey);

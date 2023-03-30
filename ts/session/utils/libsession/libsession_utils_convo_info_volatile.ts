@@ -219,7 +219,6 @@ async function refreshConvoVolatileCached(
       default:
         assertUnreachable(convoType, `refreshConvoVolatileCached unhandled case "${convoType}"`);
     }
-    // TODO handle the new closed groups once we got them ready
 
     if (refreshed && !duringAppStart) {
       getConversationController()
@@ -285,10 +284,10 @@ export const SessionUtilConvoInfoVolatile = {
   getVolatileInfoCached,
 
   // 1o1
-  // at the moment, we cannot remove a 1o1 from the conversation volatile info.
+  // at the moment, we cannot remove a contact from the conversation volatile info so there is nothing here
 
   // legacy group
-  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
+  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODOLATER
 
   // communities
   removeCommunityFromWrapper,

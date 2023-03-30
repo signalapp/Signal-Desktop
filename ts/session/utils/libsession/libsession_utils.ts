@@ -15,7 +15,6 @@ import { SessionUtilConvoInfoVolatile } from './libsession_utils_convo_info_vola
 import { SessionUtilUserGroups } from './libsession_utils_user_groups';
 import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
-// TODO complete this list
 const requiredUserVariants: Array<ConfigWrapperObjectTypes> = [
   'UserConfig',
   'ContactsConfig',
@@ -44,8 +43,7 @@ async function initializeLibSessionUtilWrappers() {
     throw new Error('edkeypair not found for current user');
   }
   const privateKeyEd25519 = keypair.privKeyBytes;
-  // let's plan a sync on start for now
-  // TODO is this causing any issues?
+  // let's plan a sync on start with some room for the app to be ready
   setTimeout(() => ConfigurationSync.queueNewJobIfNeeded, 20000);
 
   // fetch the dumps we already have from the database

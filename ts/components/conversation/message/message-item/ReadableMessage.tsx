@@ -98,14 +98,17 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
+      if (!selectedConversationKey) {
+        return;
+      }
       // we are the most recent message
-      if (mostRecentMessageId === messageId && selectedConversationKey) {
+      if (mostRecentMessageId === messageId) {
         // make sure the app is focused, because we mark message as read here
         if (inView === true && isAppFocused) {
           dispatch(showScrollToBottomButton(false));
           getConversationController()
             .get(selectedConversationKey)
-            ?.markConversationRead(receivedAt || 0); // TODO this should be `sentAt || serverTimestamp` I believe?
+            ?.markConversationRead(receivedAt || 0); // TODOLATER this should be `sentAt || serverTimestamp` I think
 
           dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
@@ -117,8 +120,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         oldestMessageId === messageId &&
-        !fetchingMoreInProgress &&
-        selectedConversationKey
+        !fetchingMoreInProgress
       ) {
         debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
       }
@@ -127,8 +129,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         youngestMessageId === messageId &&
-        !fetchingMoreInProgress &&
-        selectedConversationKey
+        !fetchingMoreInProgress
       ) {
         debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
       }
@@ -140,7 +141,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         isAppFocused
       ) {
         if (isUnread) {
-          // TODO this is pretty expensive and should instead use values from the redux store
+          // TODOLATER this is pretty expensive and should instead use values from the redux store
           const found = await Data.getMessageById(messageId);
 
           if (found && Boolean(found.get('unread'))) {
@@ -149,7 +150,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
             // this would be part of an redesign of the sending pipeline
             // mark the whole conversation as read until this point.
             // this will trigger the expire timer.
-            if (selectedConversationKey && foundSentAt) {
+            if (foundSentAt) {
               getConversationController()
                 .get(selectedConversationKey)
                 ?.markConversationRead(foundSentAt, Date.now());

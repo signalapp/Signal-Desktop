@@ -95,7 +95,7 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       // so when we call needsDump(), we know for sure that we are up to date
       console.time('ConfigurationSyncDumpJob insertAll');
 
-      // TODO we need to add  the dump of the wrappers of other destination than ourself once we had the closed group handling of config sync job
+      // TODOLATER we need to add  the dump of the wrappers of other destination than ourself once we had the closed group handling of config sync job
 
       for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
         const variant = LibSessionUtil.requiredUserVariants[index];

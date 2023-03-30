@@ -129,10 +129,6 @@ export const ContactsWrapperActions: ContactsWrapperActionsCalls = {
     callLibSessionWorker(['ContactsConfig', 'get', pubkeyHex]) as Promise<
       ReturnType<ContactsWrapperActionsCalls['get']>
     >,
-  getOrConstruct: async (pubkeyHex: string) =>
-    callLibSessionWorker(['ContactsConfig', 'getOrConstruct', pubkeyHex]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['getOrConstruct']>
-    >,
   getAll: async () =>
     callLibSessionWorker(['ContactsConfig', 'getAll']) as Promise<
       ReturnType<ContactsWrapperActionsCalls['getAll']>
@@ -146,30 +142,6 @@ export const ContactsWrapperActions: ContactsWrapperActionsCalls = {
   set: async (contact: ContactInfo) =>
     callLibSessionWorker(['ContactsConfig', 'set', contact]) as Promise<
       ReturnType<ContactsWrapperActionsCalls['set']>
-    >,
-  setApproved: async (pubkeyHex: string, approved: boolean) =>
-    callLibSessionWorker(['ContactsConfig', 'setApproved', pubkeyHex, approved]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setApproved']>
-    >,
-  setApprovedMe: async (pubkeyHex: string, approvedMe: boolean) =>
-    callLibSessionWorker(['ContactsConfig', 'setApprovedMe', pubkeyHex, approvedMe]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setApprovedMe']>
-    >,
-  setBlocked: async (pubkeyHex: string, blocked: boolean) =>
-    callLibSessionWorker(['ContactsConfig', 'setBlocked', pubkeyHex, blocked]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setBlocked']>
-    >,
-  setName: async (pubkeyHex: string, name: string) =>
-    callLibSessionWorker(['ContactsConfig', 'setName', pubkeyHex, name]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setName']>
-    >,
-  setNickname: async (pubkeyHex: string, nickname: string) =>
-    callLibSessionWorker(['ContactsConfig', 'setNickname', pubkeyHex, nickname]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setNickname']>
-    >,
-  setProfilePicture: async (pubkeyHex: string, url: string, key: Uint8Array) =>
-    callLibSessionWorker(['ContactsConfig', 'setProfilePicture', pubkeyHex, url, key]) as Promise<
-      ReturnType<ContactsWrapperActionsCalls['setProfilePicture']>
     >,
 };
 

@@ -13,7 +13,7 @@ export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
 
 // tslint:disable: max-func-body-length
 
-// TODO we should merge those two functions together as they are almost exactly the same
+// TODOLATER we should merge those two functions together as they are almost exactly the same
 const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
   const sodium = await getSodiumRenderer();
   const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();

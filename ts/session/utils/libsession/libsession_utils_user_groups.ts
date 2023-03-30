@@ -129,7 +129,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         groupAdmins: foundConvo.get('groupAdmins') || [],
         expireTimer: foundConvo.get('expireTimer'),
         displayNameInProfile: foundConvo.get('displayNameInProfile'),
-        hidden: false, // TODO we do not handle hidden yet for groups
+        hidden: false, // TODOLATER we do not handle hidden yet for groups
         encPubkeyHex: encryptionKeyPair?.publicHex || '',
         encSeckeyHex: encryptionKeyPair?.privateHex || '',
       });
@@ -184,7 +184,7 @@ async function refreshCachedUserGroup(convoId: string, duringAppStart = false) {
     window.log.info(`refreshMappedValue: not an opengroup convoID: ${convoId}`, e);
   }
 
-  // TODO handle the new closed groups once we got them ready
+  // TODOLATER handle the new closed groups once we got them ready
 }
 
 function getCommunityByConvoIdCached(convoId: string) {
@@ -259,5 +259,5 @@ export const SessionUtilUserGroups = {
   isLegacyGroupToStoreInWrapper,
   getLegacyGroupCached,
   getAllLegacyGroups,
-  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODO
+  removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODOLATER
 };

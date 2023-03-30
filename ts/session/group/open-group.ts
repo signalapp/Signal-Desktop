@@ -42,11 +42,11 @@ export async function initiateOpenGroupUpdate(
       return false;
     }
     try {
-      const { fileId, fileUrl } = uploadedFileDetails;
+      const { fileId: avatarImageId, fileUrl } = uploadedFileDetails;
 
       // this is kind of a hack just made to avoid having a specific function downloading from sogs by URL rather than fileID
       const downloaded = await downloadAttachmentSogsV3(
-        { id: fileId, size: null, url: fileUrl },
+        { id: avatarImageId, size: null, url: fileUrl },
         roomInfos
       );
 
@@ -67,11 +67,9 @@ export async function initiateOpenGroupUpdate(
         isRaw: true,
         contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
       });
-      const avatarImageId = fileId;
       await convo.setSessionProfile({
         displayName: groupName || convo.get('displayNameInProfile') || 'Unknown',
         avatarPath: upgraded.path,
-
         avatarImageId,
       });
     } catch (e) {

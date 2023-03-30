@@ -1218,6 +1218,7 @@ function insertContactIntoContactWrapper(
     const dbBlocked = blockedNumbers.includes(contact.id);
     const hidden = contact.hidden || false;
     const isPinned = contact.isPinned;
+    const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
       id: contact.id,
@@ -1230,6 +1231,7 @@ function insertContactIntoContactWrapper(
       dbProfileUrl: contact.avatarPointer || undefined,
       isPinned,
       hidden,
+      expirationTimerSeconds,
     });
 
     try {
@@ -1254,6 +1256,7 @@ function insertContactIntoContactWrapper(
             dbProfileUrl: undefined,
             isPinned: false,
             hidden,
+            expirationTimerSeconds: 0,
           })
         );
       } catch (e) {
@@ -1770,9 +1773,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
         data: convoVolatileDump,
       });
 
-      // TODO we've just created the initial dumps. We have to add an initial SyncJob to the database so it is run on the next app start/
-      // or find another way of adding one on the next start (store an another item in the DB and check for it on app start?)
-      // or just start a conf sync job on app start
+      // we've just created the initial dumps. A ConfSyncJob is run when the app starts after 20 seconds
     } catch (e) {
       console.error(`failed to create initial wrapper: `, e.stack);
       // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.

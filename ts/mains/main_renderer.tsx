@@ -193,7 +193,7 @@ Storage.onready(async () => {
         await LibSessionUtil.initializeLibSessionUtilWrappers();
       } catch (e) {
         window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
-        // TODO what should we do if this happens?
+        // I don't think there is anything we can do if this happens
         throw e;
       }
     }
@@ -209,7 +209,7 @@ Storage.onready(async () => {
     ]);
   } catch (error) {
     window.log.error(
-      'main_start.js: ConversationController failed to load:',
+      'main_renderer: ConversationController failed to load:',
       error && error.stack ? error.stack : error
     );
   } finally {

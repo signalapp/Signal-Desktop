@@ -366,7 +366,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
-      weWereJustAdded: false, // TODO to remove
+      weWereJustAdded: false, // TODOLATER to remove
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
@@ -473,10 +473,9 @@ async function applyConvoVolatileUpdateFromWrapper(
 async function handleConvoInfoVolatileUpdate(
   result: IncomingConfResult
 ): Promise<IncomingConfResult> {
-  // TODO do we want to enforce this?
-  // if (!result.needsDump) {
-  //   return result;
-  // }
+  if (!result.needsDump) {
+    return result;
+  }
 
   const types = SessionUtilConvoInfoVolatile.getConvoInfoVolatileTypes();
   for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
@@ -619,7 +618,6 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
 async function handleConfigMessagesViaLibSession(
   configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
 ) {
-  // TODO: Remove this once `useSharedUtilForUserConfig` is permanent
   if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     return;
   }
@@ -769,11 +767,9 @@ const handleClosedGroupsFromConfigLegacy = async (
         publicKey: c.publicKey,
       });
       try {
-        // TODO we should not drop the envelope from cache as long as we are still handling a new closed group from that same envelope
-        // check the removeFromCache inside handleNewClosedGroup()
         await handleNewClosedGroup(envelope, groupUpdate);
       } catch (e) {
-        window?.log?.warn('failed to handle  a new closed group from configuration message');
+        window?.log?.warn('failed to handle a new closed group from configuration message');
       }
     })
   );

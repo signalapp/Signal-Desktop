@@ -28,7 +28,7 @@ let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
 
-// TODO type those `any` properties
+// TODOLATER type those `any` properties
 
 export async function start(options: any = {}) {
   ({ logger } = options);

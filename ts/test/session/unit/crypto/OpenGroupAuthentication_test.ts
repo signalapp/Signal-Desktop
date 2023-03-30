@@ -379,35 +379,6 @@ describe('OpenGroupAuthentication', () => {
       }
     });
   });
-
-  // tslint:disable-next-line: no-empty
-  describe('Message Decryption', () => {
-    it.skip('Message Decryption', () => {
-      // TODO: update input and expected output
-    });
-  });
-
-  describe('V4Requests', () => {
-    it.skip('Should bencode POST/PUT request with body successfully', () => {
-      // TODO: update input and expected output
-      // const bencoded = encodeV4Request(postDataToEncoded);
-      // expect(bencoded).to.be.equal(
-      //   'l100:{"method":"POST","endpoint":"/room/test-room/pin/123","headers":{"Content-Type":"application/json"}}2:{}e'
-      // );
-    });
-
-    it.skip('Should bencode GET request without body successfully', () => {
-      // TODO: change ot accept request info and expect uint8 array output
-      // const bencoded = encodeV4Request(getDataToEncode);
-      // expect(bencoded).to.be.equal('l45:{"method":"GET","endpoint":"/room/test-room"}e');
-    });
-
-    it.skip('Should decode bencoded response successfully', () => {
-      // TODO: update input and expected output
-      // const bencoded = decodeV4Response(responseToDecode);
-      // console.error({ bencoded });
-    });
-  });
 });
 
 /**

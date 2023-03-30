@@ -201,7 +201,7 @@ const doAppStartUp = async () => {
   void getSwarmPollingInstance().start();
   void loadDefaultRooms();
 
-  // TODO make this a job of the JobRunner
+  // TODOLATER make this a job of the JobRunner
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
   /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */

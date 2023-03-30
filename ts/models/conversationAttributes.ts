@@ -53,7 +53,7 @@ export interface ConversationAttributes {
   type: ConversationTypeEnum.PRIVATE | ConversationTypeEnum.GROUPV3 | ConversationTypeEnum.GROUP;
 
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
-  active_at: number;
+  active_at: number; // this field is the one used to sort conversations in the left pane from most recent
 
   lastMessageStatus: LastMessageStatusType;
   /**
@@ -64,10 +64,10 @@ export interface ConversationAttributes {
    */
   lastMessage: string | null;
 
-  avatarImageId?: number; // SOGS ONLY: avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar
+  avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar (not only sogs I think, but our profile too?)
 
-  left: boolean; // GROUPS ONLY: if we left the group (communities are removed right away so it not relevant to communities)
-  isKickedFromGroup: boolean; // GROUPS ONLY: if we got kicked from the group (communities just stop polling and a message sent get rejected, so not relevant to communities)
+  left: boolean; // LEGACY GROUPS ONLY: if we left the group (communities are removed right away so it not relevant to communities) // TODOLATER to remove after legacy closed group are dropped
+  isKickedFromGroup: boolean; // LEGACY GROUPS ONLY: if we got kicked from the group (communities just stop polling and a message sent get rejected, so not relevant to communities) // TODOLATER to remove after legacy closed group are dropped
 
   avatarInProfile?: string; // this is the avatar path locally once downloaded and stored in the application attachments folder
 
@@ -75,9 +75,9 @@ export interface ConversationAttributes {
 
   conversationIdOrigin?: string; // Blinded message requests ONLY: The community from which this conversation originated from
 
-  // TODO those two items are only used for legacy closed groups and will be removed when we get rid of the legacy closed groups support
-  lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group // TODO to remove after legacy closed group are dropped
-  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin // TODO to remove after legacy closed group are dropped
+  // TODOLATER those two items are only used for legacy closed groups and will be removed when we get rid of the legacy closed groups support
+  lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group // TODOLATER to remove after legacy closed group are dropped
+  zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin // TODOLATER to remove after legacy closed group are dropped
 
   // ===========================================================================
   // All of the items below are duplicated one way or the other with libsession.
