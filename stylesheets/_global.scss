@@ -216,6 +216,15 @@ $loading-height: 16px;
   }
 }
 
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .app-migration-screen {
   display: flex;
   flex-direction: column;
@@ -251,11 +260,10 @@ $loading-height: 16px;
   justify-content: center;
   user-select: none;
 
-  /* Currently only used in loading window */
   .container {
     display: flex;
     gap: 7px;
-    margin: 8px 0 24px 0;
+    margin: 6px 0 22px 0;
 
     .dot {
       width: 14px;
@@ -278,13 +286,15 @@ $loading-height: 16px;
 
   &__progress {
     &--container {
+      animation: fade-in 150ms ease 1 0ms;
+
       background: $color-white-alpha-20;
       border-radius: 2px;
       height: 4px;
       max-width: 400px;
       overflow: hidden;
       width: 100%;
-      margin: 16px 0 24px 0;
+      margin: 12px 0 26px 0;
     }
 
     &--bar {
@@ -294,11 +304,15 @@ $loading-height: 16px;
       height: 100%;
       width: 100%;
       transform: translateX(-100%);
-      transition: transform 500ms ease-out;
+      transition: transform 500ms linear;
     }
   }
   .message {
+    animation: fade-in 150ms ease 1 0ms;
     max-width: 35em;
+  }
+  .message-placeholder {
+    height: 20px;
   }
 }
 
