@@ -181,6 +181,8 @@ async function registrationDone(ourPubkey: string, displayName: string) {
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
+  await Registration.markDone();
+
   try {
     await LibSessionUtil.initializeLibSessionUtilWrappers();
   } catch (e) {
@@ -202,8 +204,6 @@ async function registrationDone(ourPubkey: string, displayName: string) {
     ourPrimary: ourPubkey,
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
-
-  await Registration.markDone();
 
   window?.log?.info('dispatching registration event');
   trigger('registration_done');

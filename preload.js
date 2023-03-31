@@ -237,7 +237,6 @@ const { setupi18n } = require('./ts/util/i18n');
 window.Signal = data.initData();
 
 const { getConversationController } = require('./ts/session/conversations/ConversationController');
-const { isEmpty } = require('lodash');
 window.getConversationController = getConversationController;
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {

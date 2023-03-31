@@ -24,6 +24,7 @@ import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
+import { Registration } from '../util/registration';
 import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
@@ -654,8 +655,8 @@ async function handleOurProfileUpdateLegacy(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  // this call won't be needed with the new sharedUtilLibrary
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  // we want to allow if we are not registered, as we might need to fetch an old config message (can be removed once we released for a weeks the libsession util)
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }
   const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
@@ -678,7 +679,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }
   const envelopeTimestamp = toNumber(envelope.timestamp);
@@ -718,7 +719,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
  * @param openGroups string array of open group urls
  */
 const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }
   const numberOpenGroup = openGroups?.length || 0;
@@ -746,7 +747,7 @@ const handleClosedGroupsFromConfigLegacy = async (
   closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
   envelope: EnvelopePlus
 ) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }
   const numberClosedGroup = closedGroups?.length || 0;
@@ -781,7 +782,7 @@ const handleContactFromConfigLegacy = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
   envelope: EnvelopePlus
 ) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }
   try {
@@ -845,7 +846,11 @@ async function handleConfigurationMessageLegacy(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  // when the useSharedUtilForUserConfig flag is ON, we want only allow a legacy config message if we are registering a new user.
+  // this is to allow users linking a device to find their config message if they do not have a shared config message yet.
+  // the process of those messages is always done after the process of the shared config messages, so that's only a fallback.
+
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );
