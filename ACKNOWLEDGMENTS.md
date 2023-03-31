@@ -9,6 +9,10 @@ Signal Desktop makes use of the following open source projects.
 
     License: MIT
 
+## @formatjs/intl-localematcher
+
+    License: MIT
+
 ## @indutny/frameless-titlebar
 
     MIT License

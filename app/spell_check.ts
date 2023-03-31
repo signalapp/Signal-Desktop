@@ -3,44 +3,62 @@
 
 import type { BrowserWindow } from 'electron';
 import { Menu, clipboard, nativeImage } from 'electron';
-import { uniq } from 'lodash';
 import { fileURLToPath } from 'url';
+import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import { maybeParseUrl } from '../ts/util/url';
-import type { LocaleType } from './locale';
 
 import type { MenuListType } from '../ts/types/menu';
+import type { LocalizerType } from '../ts/types/Util';
 
 export function getLanguages(
-  userLocale: string,
-  availableLocales: ReadonlyArray<string>
+  preferredSystemLocales: ReadonlyArray<string>,
+  availableLocales: ReadonlyArray<string>,
+  defaultLocale: string
 ): Array<string> {
-  // First attempt to find the exact locale
-  const candidateLocales = uniq([userLocale, userLocale]).filter(l =>
-    availableLocales.includes(l)
-  );
-  if (candidateLocales.length > 0) {
-    return candidateLocales;
+  const matchedLocales = [];
+
+  preferredSystemLocales.forEach(preferredSystemLocale => {
+    if (preferredSystemLocale === defaultLocale) {
+      matchedLocales.push(defaultLocale);
+      return;
+    }
+    const matchedLocale = LocaleMatcher.match(
+      [preferredSystemLocale],
+      availableLocales as Array<string>, // bad types
+      defaultLocale,
+      { algorithm: 'best fit' }
+    );
+    if (matchedLocale !== defaultLocale) {
+      matchedLocales.push(matchedLocale);
+    }
+  });
+
+  if (matchedLocales.length === 0) {
+    matchedLocales.push(defaultLocale);
   }
 
-  // If no languages were found then return all locales that start with the base
-  const baseLocale = userLocale.split('-')[0];
-  return uniq(availableLocales.filter(l => l.startsWith(baseLocale)));
+  return matchedLocales;
 }
 
 export const setup = (
   browserWindow: BrowserWindow,
-  { name: userLocale, i18n }: LocaleType
+  preferredSystemLocales: ReadonlyArray<string>,
+  i18n: LocalizerType
 ): void => {
   const { session } = browserWindow.webContents;
   const availableLocales = session.availableSpellCheckerLanguages;
-  const languages = getLanguages(userLocale, availableLocales);
-  console.log(`spellcheck: user locale: ${userLocale}`);
+  const languages = getLanguages(
+    preferredSystemLocales,
+    availableLocales,
+    'en'
+  );
+  console.log('spellcheck: user locales:', preferredSystemLocales);
   console.log(
-    'spellcheck: available spellchecker languages: ',
+    'spellcheck: available spellchecker languages:',
     availableLocales
   );
-  console.log('spellcheck: setting languages to: ', languages);
+  console.log('spellcheck: setting languages to:', languages);
   session.setSpellCheckerLanguages(languages);
 
   browserWindow.webContents.on('context-menu', (_event, params) => {

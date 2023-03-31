@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "@formatjs/fast-memoize": "1.2.6",
+    "@formatjs/intl-localematcher": "0.2.32",
     "@indutny/frameless-titlebar": "2.3.5",
     "@indutny/sneequals": "4.0.0",
     "@popperjs/core": "2.11.6",

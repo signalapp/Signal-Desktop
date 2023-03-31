@@ -800,7 +800,11 @@ async function createWindow() {
   }
 
   mainWindowCreated = true;
-  setupSpellChecker(mainWindow, getResolvedMessagesLocale());
+  setupSpellChecker(
+    mainWindow,
+    getPreferredSystemLocales(),
+    getResolvedMessagesLocale().i18n
+  );
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
