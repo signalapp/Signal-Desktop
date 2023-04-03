@@ -253,11 +253,6 @@ export async function handleSwarmDataMessage(
         msgModel.get('sent_at')
       );
       msgModel.set('expirationStartTimestamp', expirationStartTimestamp);
-      console.log(
-        `WIP: handleSwarmDataMessage msgModel expirationStartTimestamp`,
-        msgModel.get('expirationStartTimestamp'),
-        msgModel.get('sent_at')
-      );
     }
   }
 

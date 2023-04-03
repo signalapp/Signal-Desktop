@@ -247,8 +247,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('mediaMessage');
     }
     if (this.isExpirationTimerUpdate()) {
+      // Backwards compatibility for Disappearing Messages in old clients
       const expireTimerUpdate = this.get('expirationTimerUpdate');
-      if (!expireTimerUpdate || !expireTimerUpdate.expireTimer) {
+      const expirationType = this.get('expirationType');
+      const expireTimer = this.get('expireTimer');
+      if (
+        !expireTimerUpdate ||
+        expireTimerUpdate.expirationType === 'off' ||
+        !expireTimerUpdate.expireTimer ||
+        expirationType === 'off' ||
+        !expireTimer ||
+        expireTimer === 0
+      ) {
         return window.i18n('disappearingMessagesDisabled');
       }
 

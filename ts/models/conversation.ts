@@ -1053,6 +1053,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer = 0;
     }
 
+    // TODO does this actually work?
+    if (
+      isEqual(expirationType, this.get('expirationType')) &&
+      isEqual(expireTimer, this.get('expireTimer'))
+    ) {
+      window.log.info(
+        'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'
+      );
+      return;
+    }
+
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 

@@ -226,8 +226,6 @@ async function handleRegularMessage(
   }
 
   handleLinkPreviews(rawDataMessage.body, rawDataMessage.preview, message);
-  const existingExpireTimer = conversation.get('expireTimer');
-
   message.set({
     flags: rawDataMessage.flags,
     // quote: rawDataMessage.quote, // do not do this copy here, it must be done only in copyFromQuotedMessage()
@@ -237,10 +235,6 @@ async function handleRegularMessage(
     messageHash,
     errors: [],
   });
-
-  if (existingExpireTimer) {
-    message.set({ expireTimer: existingExpireTimer });
-  }
 
   const ourIdInThisConversation =
     getUsBlindedInThatServer(conversation.id) || UserUtils.getOurPubKeyStrFromCache();
@@ -322,12 +316,6 @@ async function handleExpirationTimerUpdateNoCommit(
   }
 
   message.set({
-    expirationTimerUpdate: {
-      source,
-      expirationType: expirationType !== 'off' ? expirationType : null,
-      expireTimer,
-      lastDisappearingMessageChangeTimestamp: providedChangeTimestamp,
-    },
     unread: 0, // mark the message as read.
   });
 
@@ -361,20 +349,32 @@ export async function handleMessageJob(
     ConversationTypeEnum.PRIVATE
   );
   try {
-    console.log(`WIP: handleMessageJob expireUpdate`, expireUpdate, regularDataMessage);
     messageModel.set({ flags: regularDataMessage.flags });
-    // TODO remove 2 weeks after release
+
     if (messageModel.isExpirationTimerUpdate()) {
-      console.log(`WIP: isExpirationTimerUpdate`, messageModel);
       // TODO account for lastDisappearingMessageChangeTimestamp
-      const { expireTimer: oldExpireTimer } = regularDataMessage;
-      const expirationType = expireUpdate.expirationType;
-      const expireTimer = expireUpdate.expireTimer || oldExpireTimer;
+
+      // TODO in the future we will remove the dataMessage expireTimer and the expirationTimerUpdate
+      let expirationType = expireUpdate.expirationType;
+      let expireTimer = expireUpdate.expireTimer;
+
+      if (!expirationType) {
+        expirationType = conversation.isPrivate() ? 'deleteAfterRead' : 'deleteAfterSend';
+      }
+
+      // Backwards compatibility for Disappearing Messages in old clients
+      if (regularDataMessage.expireTimer) {
+        const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
+        if (!isEmpty(expirationTimerUpdate)) {
+          expirationType = expirationTimerUpdate?.expirationType;
+          expireTimer = expirationTimerUpdate?.expireTimer;
+        }
+      }
 
       // TODO compare types and change timestamps
       const oldTypeValue = conversation.get('expirationType');
       const oldTimerValue = conversation.get('expireTimer');
-      if (isEqual(expirationType, oldTypeValue) && expireTimer === oldTimerValue) {
+      if (isEqual(expirationType, oldTypeValue) && isEqual(expireTimer, oldTimerValue)) {
         confirm?.();
         window?.log?.info(
           'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'
@@ -390,6 +390,7 @@ export async function handleMessageJob(
         expireTimer
       );
     } else {
+      // NOTE this is a disappearing message NOT a expiration timer update
       if (!isEmpty(expireUpdate)) {
         messageModel.set({
           expirationType: expireUpdate.expirationType,
