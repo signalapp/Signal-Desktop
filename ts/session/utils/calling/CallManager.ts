@@ -503,7 +503,7 @@ export async function USER_callRecipient(recipient: string) {
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
-  calledConvo.set('hidden', false);
+  await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
   await calledConvo?.addSingleOutgoingMessage({
@@ -852,7 +852,8 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
-  callerConvo.set('hidden', false);
+  await callerConvo.unhideIfNeeded(false);
+
   await callerConvo?.addSingleIncomingMessage({
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
@@ -1189,7 +1190,7 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
 
   if (incomingCallConversation.isActive() || incomingCallConversation.isHidden()) {
     incomingCallConversation.set('active_at', GetNetworkTime.getNowWithNetworkOffset());
-    incomingCallConversation.set('hidden', false);
+    await incomingCallConversation.unhideIfNeeded(false);
   }
 
   await incomingCallConversation?.addSingleIncomingMessage({

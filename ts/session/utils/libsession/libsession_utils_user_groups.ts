@@ -102,7 +102,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
       );
 
       const wrapperComm = getCommunityInfoFromDBValues({
-        isPinned: !!foundConvo.get('isPinned'),
+        priority: foundConvo.get('priority'),
         fullUrl,
       });
 
@@ -124,12 +124,11 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
       const encryptionKeyPair = await Data.getLatestClosedGroupEncryptionKeyPair(convoId);
       const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
         id: foundConvo.id,
-        isPinned: !!foundConvo.get('isPinned'),
+        priority: foundConvo.get('priority'),
         members: foundConvo.get('members') || [],
         groupAdmins: foundConvo.get('groupAdmins') || [],
         expireTimer: foundConvo.get('expireTimer'),
         displayNameInProfile: foundConvo.get('displayNameInProfile'),
-        hidden: false, // TODOLATER we do not handle hidden yet for groups
         encPubkeyHex: encryptionKeyPair?.publicHex || '',
         encSeckeyHex: encryptionKeyPair?.privateHex || '',
       });

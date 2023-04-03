@@ -95,13 +95,12 @@ export interface ConversationAttributes {
   members: Array<string>; // groups only members are all members for this group. zombies excluded (not used for communities)
   groupAdmins: Array<string>; // for sogs and closed group: the unique admins of that group
 
-  isPinned: boolean;
+  priority: number; // -1 = hidden (contact and NTS only), 0 = normal, 1 = pinned
 
   isApproved: boolean; // if we sent a message request or sent a message to this contact, we approve them. If isApproved & didApproveMe, a message request becomes a contact
   didApproveMe: boolean; // if our message request was approved already (or they've sent us a message request/message themselves). If isApproved & didApproveMe, a message request becomes a contact
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
-  hidden: boolean; // hides a conversation, but keep it the history and nicknames, etc. Currently only supported for contacts
 }
 
 /**
@@ -128,12 +127,29 @@ export const fillConvoAttributesWithDefaults = (
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
 
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
-    isPinned: false,
     isApproved: false,
     didApproveMe: false,
     isKickedFromGroup: false,
     left: false,
-    hidden: true,
+    priority: CONVERSATION_PRIORITIES.default,
     markedAsUnread: false,
   });
+};
+
+/**
+ * Priorities have a weird behavior.
+ * * 0 always means unpinned and not hidden.
+ * * -1 always means hidden.
+ * * anything over 0 means pinned with the higher priority the better. (No sorting currently implemented)
+ *
+ * When our local user pins a conversation we should use 1 as the priority.
+ * When we get an update from the libsession util wrapper, we should trust the value and set it locally as is.
+ * So if we get 100 as priority, we set the conversation priority to 100.
+ * If we get -20 as priority we set it as is, even if our current client does not understand what that means.
+ *
+ */
+export const CONVERSATION_PRIORITIES = {
+  default: 0,
+  hidden: -1,
+  pinned: 1, // anything over 0 means pinned, but when our local users pins a conversation, we set the priority to 1
 };

@@ -32,29 +32,6 @@ describe('formatRowOfConversation', () => {
     });
   });
 
-  describe('isPinned', () => {
-    it('initialize isPinned if they are not given', () => {
-      expect(formatRowOfConversation({}, 'test', 0, false)).to.have.deep.property(
-        'isPinned',
-        false
-      );
-    });
-
-    it('do not override isPinned if they are set in the row as integer: true', () => {
-      expect(formatRowOfConversation({ isPinned: 1 }, 'test', 0, false)).to.have.deep.property(
-        'isPinned',
-        true
-      );
-    });
-
-    it('do not override isPinned if they are set in the row as integer: false', () => {
-      expect(formatRowOfConversation({ isPinned: 0 }, 'test', 0, false)).to.have.deep.property(
-        'isPinned',
-        false
-      );
-    });
-  });
-
   describe('isApproved', () => {
     it('initialize isApproved if they are not given', () => {
       expect(formatRowOfConversation({}, 'test', 0, false)).to.have.deep.property(

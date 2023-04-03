@@ -436,13 +436,12 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     avatarImageId,
     triggerNotificationsFor,
     isTrustedForAttachmentDownload,
-    isPinned,
     isApproved,
     didApproveMe,
     avatarInProfile,
     displayNameInProfile,
     conversationIdOrigin,
-    hidden,
+    priority,
     markedAsUnread,
   } = formatted;
 
@@ -486,13 +485,12 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       avatarImageId,
       triggerNotificationsFor,
       isTrustedForAttachmentDownload: toSqliteBoolean(isTrustedForAttachmentDownload),
-      isPinned: toSqliteBoolean(isPinned),
+      priority,
       isApproved: toSqliteBoolean(isApproved),
       didApproveMe: toSqliteBoolean(didApproveMe),
       avatarInProfile,
       displayNameInProfile,
       conversationIdOrigin,
-      hidden,
       markedAsUnread: toSqliteBoolean(markedAsUnread),
     });
 

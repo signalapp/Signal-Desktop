@@ -642,10 +642,10 @@ async function handleMessageRequestResponse(
 
   conversationToApprove.set({
     active_at: mostRecentActiveAt,
-    hidden: false,
     isApproved: true,
     didApproveMe: true,
   });
+  await conversationToApprove.unhideIfNeeded(false);
 
   if (convosToMerge.length) {
     // merge fields we care by hand

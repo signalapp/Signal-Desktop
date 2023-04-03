@@ -1,4 +1,4 @@
-import { isEmpty, pick } from 'lodash';
+import { isEmpty, isNumber, pick } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
@@ -141,7 +141,12 @@ export function useExpireTimer(convoId?: string) {
 
 export function useIsPinned(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.isPinned);
+  return Boolean(
+    convoProps &&
+      isNumber(convoProps.priority) &&
+      isFinite(convoProps.priority) &&
+      convoProps.priority > 0
+  );
 }
 
 export function useIsApproved(convoId?: string) {

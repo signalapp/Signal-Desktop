@@ -1,5 +1,8 @@
 import { assert } from 'chai';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
@@ -37,8 +40,7 @@ describe('state/selectors/conversations', () => {
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
-          isPinned: false,
-          isHidden: false,
+          priority: CONVERSATION_PRIORITIES.default,
         },
         id2: {
           id: 'id2',
@@ -63,8 +65,7 @@ describe('state/selectors/conversations', () => {
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
-          isPinned: false,
-          isHidden: false,
+          priority: CONVERSATION_PRIORITIES.default,
         },
         id3: {
           id: 'id3',
@@ -89,8 +90,7 @@ describe('state/selectors/conversations', () => {
           lastMessage: undefined,
           members: [],
           expireTimer: 0,
-          isPinned: false,
-          isHidden: false,
+          priority: CONVERSATION_PRIORITIES.default,
         },
         id4: {
           id: 'id4',
@@ -116,8 +116,7 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           lastMessage: undefined,
           members: [],
-          isPinned: false,
-          isHidden: false,
+          priority: CONVERSATION_PRIORITIES.default,
         },
         id5: {
           id: 'id5',
@@ -143,8 +142,7 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: false,
-          isHidden: false,
+          priority: CONVERSATION_PRIORITIES.default,
         },
       };
       const comparator = _getConversationComparator(i18n);
@@ -186,9 +184,8 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: false,
+          priority: CONVERSATION_PRIORITIES.default,
           isPublic: false,
-          isHidden: false,
         },
         id2: {
           id: 'id2',
@@ -214,9 +211,9 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: false,
+
+          priority: CONVERSATION_PRIORITIES.default,
           isPublic: false,
-          isHidden: false,
         },
         id3: {
           id: 'id3',
@@ -242,9 +239,8 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: true,
+          priority: CONVERSATION_PRIORITIES.pinned,
           isPublic: false,
-          isHidden: false,
         },
         id4: {
           id: 'id4',
@@ -269,9 +265,8 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: true,
+          priority: CONVERSATION_PRIORITIES.pinned,
           isPublic: false,
-          isHidden: false,
         },
         id5: {
           id: 'id5',
@@ -297,9 +292,8 @@ describe('state/selectors/conversations', () => {
           groupAdmins: [],
           lastMessage: undefined,
           members: [],
-          isPinned: false,
+          priority: CONVERSATION_PRIORITIES.default,
           isPublic: false,
-          isHidden: false,
         },
       };
       const comparator = _getConversationComparator(i18n);

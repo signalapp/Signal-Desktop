@@ -231,10 +231,12 @@ const collator = new Intl.Collator();
 export const _getConversationComparator = (testingi18n?: LocalizerType) => {
   return (left: ReduxConversationType, right: ReduxConversationType): number => {
     // Pin is the first criteria to check
-    if (left.isPinned && !right.isPinned) {
+    const leftPriority = left.priority || 0;
+    const rightPriority = right.priority || 0;
+    if (leftPriority > rightPriority) {
       return -1;
     }
-    if (!left.isPinned && right.isPinned) {
+    if (rightPriority > leftPriority) {
       return 1;
     }
     // Then if none is pinned, check other criteria
@@ -277,7 +279,7 @@ export const _getLeftPaneLists = (
       conversation.type === ConversationTypeEnum.PRIVATE &&
       conversation.isApproved &&
       !conversation.isBlocked &&
-      !conversation.isHidden
+      (conversation.priority || 0) >= 0 // filtering non-hidden conversation
     ) {
       directConversations.push(conversation);
     }

@@ -267,14 +267,15 @@ async function handleRegularMessage(
   const conversationActiveAt = conversation.get('active_at');
   if (
     !conversationActiveAt ||
-    conversation.get('hidden') ||
+    conversation.isHidden() ||
     (message.get('sent_at') || 0) > conversationActiveAt
   ) {
     conversation.set({
       active_at: message.get('sent_at'),
-      hidden: false, // a new message was received for that conversation. If it was not it should not be hidden anymore
       lastMessage: message.getNotificationText(),
     });
+    // a new message was received for that conversation. If it was not it should not be hidden anymore
+    await conversation.unhideIfNeeded(false);
   }
 
   if (rawDataMessage.profileKey) {

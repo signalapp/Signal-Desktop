@@ -1220,7 +1220,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       avatarPath: contactModel ? contactModel.getAvatarPath() : null,
       name: contactModel?.getRealSessionUsername() || null,
       profileName,
-      title: contactModel?.getTitle() || null,
+      title: contactModel?.getNicknameOrRealUsernameOrPlaceholder() || null,
       isMe,
     };
   }

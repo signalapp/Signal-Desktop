@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { from_hex, from_string } from 'libsodium-wrappers-sumo';
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 import { UserUtils } from '../../../../session/utils';
 import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
 
@@ -349,7 +352,7 @@ describe('libsession_contacts', () => {
           new ConversationModel({
             ...validArgs,
             type: ConversationTypeEnum.PRIVATE,
-            hidden: true,
+            priority: CONVERSATION_PRIORITIES.hidden,
           } as any)
         )
       ).to.be.eq(true);

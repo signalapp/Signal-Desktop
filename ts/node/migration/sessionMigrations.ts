@@ -6,7 +6,10 @@ import {
   UserConfigWrapperInsideWorker,
   UserGroupsWrapperInsideWorker,
 } from 'session_util_wrapper';
-import { ConversationAttributes } from '../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationAttributes,
+} from '../../models/conversationAttributes';
 import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
 import {
@@ -1216,8 +1219,7 @@ function insertContactIntoContactWrapper(
     const dbApproved = !!contact.isApproved || false;
     const dbApprovedMe = !!contact.didApproveMe || false;
     const dbBlocked = blockedNumbers.includes(contact.id);
-    const hidden = contact.hidden || false;
-    const isPinned = contact.isPinned;
+    const priority = contact.priority || 0;
     const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
@@ -1229,8 +1231,7 @@ function insertContactIntoContactWrapper(
       dbNickname: contact.nickname || undefined,
       dbProfileKey: contact.profileKey || undefined,
       dbProfileUrl: contact.avatarPointer || undefined,
-      isPinned,
-      hidden,
+      priority,
       expirationTimerSeconds,
     });
 
@@ -1254,8 +1255,7 @@ function insertContactIntoContactWrapper(
             dbNickname: undefined,
             dbProfileKey: undefined,
             dbProfileUrl: undefined,
-            isPinned: false,
-            hidden,
+            priority: CONVERSATION_PRIORITIES.default,
             expirationTimerSeconds: 0,
           })
         );
@@ -1295,12 +1295,12 @@ function insertContactIntoContactWrapper(
 }
 
 function insertCommunityIntoWrapper(
-  community: { id: string; isPinned: boolean },
+  community: { id: string; priority: number },
   userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
   volatileConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
   db: BetterSqlite3.Database
 ) {
-  const isPinned = community.isPinned;
+  const priority = community.priority;
   const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
 
   const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
@@ -1330,7 +1330,7 @@ function insertCommunityIntoWrapper(
   );
   const wrapperComm = getCommunityInfoFromDBValues({
     fullUrl,
-    isPinned,
+    priority,
   });
 
   try {
@@ -1364,21 +1364,13 @@ function insertCommunityIntoWrapper(
 function insertLegacyGroupIntoWrapper(
   legacyGroup: Pick<
     ConversationAttributes,
-    'hidden' | 'id' | 'isPinned' | 'expireTimer' | 'displayNameInProfile'
+    'id' | 'priority' | 'expireTimer' | 'displayNameInProfile'
   > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
   userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
   volatileInfoConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
   db: BetterSqlite3.Database
 ) {
-  const {
-    isPinned,
-    id,
-    hidden,
-    expireTimer,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-  } = legacyGroup;
+  const { priority, id, expireTimer, groupAdmins, members, displayNameInProfile } = legacyGroup;
 
   const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
     legacyGroup.id,
@@ -1387,8 +1379,7 @@ function insertLegacyGroupIntoWrapper(
 
   const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
     id,
-    hidden,
-    isPinned,
+    priority,
     expireTimer,
     groupAdmins,
     members,
@@ -1455,14 +1446,6 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
    * Create a table to store our sharedConfigMessage dumps
    */
   db.transaction(() => {
-    // when deleting a contact we now mark it as 'hidden' rather than overriding the `active_at` field.
-    // by default, conversation are hidden
-    db.exec(
-      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hidden INTEGER NOT NULL DEFAULT ${toSqliteBoolean(
-        true
-      )};
-      `
-    );
     // drop unused readCapability & uploadCapability columns. Also move `writeCapability` to memory only value.
     db.exec(`
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN readCapability; -- stored in a redux slice now
@@ -1471,6 +1454,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN subscriberCount; -- stored in a redux slice now
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN groupModerators; -- stored in a redux slice now
 
+      ALTER TABLE ${CONVERSATIONS_TABLE} RENAME COLUMN isPinned TO priority; -- isPinned was 0 for false and 1 for true, which matches our way of handling the priority
       ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN is_medium_group; -- a medium group starts with 05 and has a type of group. We cache everything renderer side so there is no need for that field
       `);
 
@@ -1478,18 +1462,13 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     db.exec(`
       ALTER TABLE unprocessed DROP COLUMN serverTimestamp;
       `);
-    // mark every "active" private chats as not hidden
-    db.prepare(
-      `UPDATE ${CONVERSATIONS_TABLE} SET
-        hidden = ${toSqliteBoolean(false)}
-        WHERE type = 'private' AND active_at > 0 AND (didApproveMe OR isApproved);`
-    ).run({});
 
-    // mark every not private chats (groups or communities) as not hidden (even if a group was left or we were kicked, we want it visible in the app)
+    // after the rename of isPinned to priority, we also need to hide any conversation that
+    // TODO do we need to update the conversation priority to hidden for some for those ( like the non active and non approved/didApproveMe?)
     db.prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
-        hidden = ${toSqliteBoolean(false)}
-        WHERE type <> 'private' AND active_at > 0;`
+        priority = ${CONVERSATION_PRIORITIES.hidden}
+        WHERE type = 'private' AND active_at IS NULL;`
     ).run({});
 
     db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(

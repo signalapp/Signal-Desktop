@@ -2,6 +2,7 @@ import { difference, omit, pick } from 'lodash';
 import {
   ConversationAttributes,
   ConversationAttributesWithNotSavedOnes,
+  CONVERSATION_PRIORITIES,
 } from '../models/conversationAttributes';
 
 import * as BetterSqlite3 from 'better-sqlite3';
@@ -51,7 +52,6 @@ const allowedKeysFormatRowOfConversation = [
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
-  'isPinned',
   'isApproved',
   'didApproveMe',
   'mentionedUs',
@@ -74,7 +74,7 @@ const allowedKeysFormatRowOfConversation = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
-  'hidden',
+  'priority',
 ];
 // tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(
@@ -121,13 +121,12 @@ export function formatRowOfConversation(
 
   // sqlite stores boolean as integer. to clean thing up we force the expected boolean fields to be boolean
   convo.isTrustedForAttachmentDownload = Boolean(convo.isTrustedForAttachmentDownload);
-  convo.isPinned = Boolean(convo.isPinned);
   convo.isApproved = Boolean(convo.isApproved);
   convo.didApproveMe = Boolean(convo.didApproveMe);
   convo.isKickedFromGroup = Boolean(convo.isKickedFromGroup);
   convo.left = Boolean(convo.left);
   convo.markedAsUnread = Boolean(convo.markedAsUnread);
-  convo.hidden = Boolean(convo.hidden);
+  convo.priority = convo.priority || CONVERSATION_PRIORITIES.default;
 
   if (!convo.conversationIdOrigin) {
     convo.conversationIdOrigin = undefined;
@@ -169,7 +168,6 @@ const allowedKeysOfConversationAttributes = [
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
-  'isPinned',
   'isApproved',
   'didApproveMe',
   'isKickedFromGroup',
@@ -190,7 +188,7 @@ const allowedKeysOfConversationAttributes = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
-  'hidden',
+  'priority',
 ];
 
 /**

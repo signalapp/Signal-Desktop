@@ -245,7 +245,6 @@ export interface ReduxConversationType {
 
   isTyping?: boolean;
   isBlocked?: boolean;
-  isHidden: boolean;
   isKickedFromGroup?: boolean;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
@@ -258,7 +257,7 @@ export interface ReduxConversationType {
    */
   currentNotificationSetting?: ConversationNotificationSettingType;
 
-  isPinned?: boolean;
+  priority?: number; // undefined means 0
   isInitialFetchingInProgress?: boolean;
   isApproved?: boolean;
   didApproveMe?: boolean;

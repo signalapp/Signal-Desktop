@@ -113,8 +113,7 @@ export function getContactInfoFromDBValues({
   dbBlocked,
   dbName,
   dbNickname,
-  hidden,
-  isPinned,
+  priority,
   dbProfileUrl,
   dbProfileKey,
   expirationTimerSeconds,
@@ -123,10 +122,9 @@ export function getContactInfoFromDBValues({
   dbApproved: boolean;
   dbApprovedMe: boolean;
   dbBlocked: boolean;
-  hidden: boolean;
   dbNickname: string | undefined;
   dbName: string | undefined;
-  isPinned: boolean;
+  priority: number;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   expirationTimerSeconds: number | undefined;
@@ -136,8 +134,7 @@ export function getContactInfoFromDBValues({
     approved: !!dbApproved,
     approvedMe: !!dbApprovedMe,
     blocked: !!dbBlocked,
-    hidden: !!hidden,
-    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
+    priority,
     nickname: dbNickname,
     name: dbName,
     expirationTimerSeconds:
@@ -168,15 +165,15 @@ export function getContactInfoFromDBValues({
  * It is created in this file so we can reuse it during the migration (node side), and from the renderer side
  */
 export function getCommunityInfoFromDBValues({
-  isPinned,
+  priority,
   fullUrl,
 }: {
-  isPinned: boolean;
+  priority: number;
   fullUrl: string;
 }) {
   const community = {
     fullUrl,
-    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
+    priority,
   };
 
   return community;
@@ -200,18 +197,14 @@ function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string> {
 
 export function getLegacyGroupInfoFromDBValues({
   id,
-  hidden,
-  isPinned,
+  priority,
   members: maybeMembers,
   displayNameInProfile,
   expireTimer,
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
-}: Pick<
-  ConversationAttributes,
-  'hidden' | 'id' | 'isPinned' | 'displayNameInProfile' | 'expireTimer'
-> & {
+}: Pick<ConversationAttributes, 'id' | 'priority' | 'displayNameInProfile' | 'expireTimer'> & {
   encPubkeyHex: string;
   encSeckeyHex: string;
   members: string | Array<string>;
@@ -229,9 +222,8 @@ export function getLegacyGroupInfoFromDBValues({
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
     disappearingTimerSeconds: !expireTimer ? 0 : expireTimer,
-    hidden: !!hidden,
     name: displayNameInProfile || '',
-    priority: !!isPinned ? 1 : 0, // TODOLATER the priority handling is not that simple
+    priority: priority || 0,
     members: wrappedMembers,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),

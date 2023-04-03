@@ -8,7 +8,10 @@ import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import autoBind from 'auto-bind';
 import _, { clone, isEqual } from 'lodash';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
 import { openGroupV2GetRoomInfoViaOnionV4 } from '../sogsv3/sogsV3RoomInfos';
 import { UserGroupsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
@@ -222,7 +225,7 @@ export class OpenGroupManagerV2 {
         displayNameInProfile: updatedRoom.roomName,
         isApproved: true,
         didApproveMe: true,
-        hidden: false,
+        priority: CONVERSATION_PRIORITIES.default,
         isTrustedForAttachmentDownload: true, // we always trust attachments when sent to an opengroup
       });
       await conversation.commit();

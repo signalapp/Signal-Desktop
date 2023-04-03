@@ -2,7 +2,10 @@ import { expect } from 'chai';
 
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 import { UserUtils } from '../../../../session/utils';
 import { SessionUtilUserGroups } from '../../../../session/utils/libsession/libsession_utils_user_groups';
 
@@ -97,7 +100,7 @@ describe('libsession_groups', () => {
           SessionUtilUserGroups.isUserGroupToStoreInWrapper(
             new ConversationModel({
               ...validLegacyGroupArgs,
-              hidden: true,
+              priority: CONVERSATION_PRIORITIES.hidden,
             })
           )
         ).to.be.eq(true);

@@ -220,13 +220,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const updates: Pick<
     ConversationAttributes,
-    | 'type'
-    | 'members'
-    | 'displayNameInProfile'
-    | 'active_at'
-    | 'left'
-    | 'lastJoinedTimestamp'
-    | 'hidden'
+    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left' | 'lastJoinedTimestamp'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -234,10 +228,10 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
-    hidden: false,
   };
 
   conversation.set(updates);
+  await conversation.unhideIfNeeded(false);
 
   const isBlocked = details.blocked || false;
   if (conversation.isClosedGroup()) {

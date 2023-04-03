@@ -156,8 +156,8 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.hidden) !== Boolean(contactConvo.isHidden())) {
-        contactConvo.set({ hidden: !!wrapperConvo.hidden });
+      if (wrapperConvo.priority !== contactConvo.get('priority')) {
+        contactConvo.set({ priority: wrapperConvo.priority });
         changes = true;
       }
 
@@ -173,13 +173,6 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
 
       if (Boolean(wrapperConvo.approvedMe) !== Boolean(contactConvo.didApproveMe())) {
         await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
-        changes = true;
-      }
-
-      //TODO priority means more than just isPinned but has an order logic in it too
-      const shouldBePinned = wrapperConvo.priority > 0;
-      if (shouldBePinned !== Boolean(contactConvo.isPinned())) {
-        await contactConvo.setIsPinned(shouldBePinned, false);
         changes = true;
       }
 
@@ -277,12 +270,8 @@ async function handleCommunitiesUpdate() {
     if (fromWrapper && communityConvo) {
       let changes = false;
 
-      //TODO priority means more than just isPinned but has an order logic in it too
-      const shouldBePinned = fromWrapper.priority > 0;
-      if (shouldBePinned !== Boolean(communityConvo.isPinned())) {
-        await communityConvo.setIsPinned(shouldBePinned, false);
-        changes = true;
-      }
+      changes =
+        (await communityConvo.setPriorityFromWrapper(fromWrapper.priority, false)) || changes;
 
       // make sure to write the changes to the database now as the `AvatarDownloadJob` below might take some time before getting run
       if (changes) {
@@ -368,13 +357,10 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 
-    let changes = false;
-    if (legacyGroupConvo.isPinned() !== fromWrapper.priority > 0) {
-      await legacyGroupConvo.setIsPinned(fromWrapper.priority > 0, false);
-      changes = true;
-    }
-    if (!!legacyGroupConvo.isHidden() !== !!fromWrapper.hidden) {
-      legacyGroupConvo.set({ hidden: !!fromWrapper.hidden });
+    let changes = await legacyGroupConvo.setPriorityFromWrapper(fromWrapper.priority, false);
+
+    if (legacyGroupConvo.get('priority') !== fromWrapper.priority) {
+      legacyGroupConvo.set({ priority: fromWrapper.priority });
       changes = true;
     }
     if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {

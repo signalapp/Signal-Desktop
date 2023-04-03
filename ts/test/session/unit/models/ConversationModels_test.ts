@@ -3,6 +3,7 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
@@ -178,20 +179,20 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('isPinned', () => {
-    it('initialize isPinned if not given', () => {
+  describe('priority', () => {
+    it('initialize priority if not given', () => {
       expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'isPinned',
-        false
+        'priority',
+        0
       );
     });
 
-    it('do not override isPinned if given', () => {
+    it('do not override priority if given', () => {
       expect(
         fillConvoAttributesWithDefaults({
-          isPinned: true,
+          priority: CONVERSATION_PRIORITIES.pinned,
         } as ConversationAttributes)
-      ).to.have.deep.property('isPinned', true);
+      ).to.have.deep.property('priority', 1);
     });
   });
 

@@ -66,9 +66,12 @@ export const OverlayMessage = () => {
     if (!convo.isActive() || !convo.isApproved() || convo.isHidden()) {
       // bump the timestamp only if we were not active before
       if (!convo.isActive()) {
-        convo.set({ active_at: Date.now(), isApproved: true, hidden: false });
+        convo.set({ active_at: Date.now() });
       }
-      convo.set({ isApproved: true, hidden: false });
+      await convo.unhideIfNeeded(false);
+
+      // TODO find a way to make this not a hack to show it in the list
+      convo.set({ isApproved: true });
       await convo.commit();
     }
 

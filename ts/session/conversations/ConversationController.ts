@@ -8,7 +8,7 @@ import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
 
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { leaveClosedGroup } from '../group/closed-group';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
@@ -224,9 +224,8 @@ export class ConversationController {
         // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
         // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
         window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
-
         conversation.set({
-          hidden: true,
+          priority: CONVERSATION_PRIORITIES.hidden,
         });
         // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
         // await conversation.setIsApproved(false, false);

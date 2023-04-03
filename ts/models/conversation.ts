@@ -97,6 +97,7 @@ import { Reactions } from '../util/reactions';
 import { Registration } from '../util/registration';
 import { Storage } from '../util/storage';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   ConversationNotificationSetting,
   ConversationTypeEnum,
@@ -263,7 +264,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isHidden() {
-    return Boolean(this.get('hidden'));
+    const priority = this.get('priority') || CONVERSATION_PRIORITIES.default;
+    return this.isPrivate() && priority === CONVERSATION_PRIORITIES.hidden;
   }
 
   public async cleanup() {
@@ -280,7 +282,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public getConversationModelProps(): ReduxConversationType {
     const isPublic = this.isPublic();
 
-    const zombies = this.isClosedGroup() ? this.get('zombies') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
@@ -289,9 +290,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
-    const isKickedFromGroup = !!this.get('isKickedFromGroup');
-    const left = !!this.get('left');
+
     const currentNotificationSetting = this.get('triggerNotificationsFor');
+    const priority = this.get('priority');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
     // For instance, a boolean can usually be not set if false, etc
@@ -299,9 +300,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       id: this.id as string,
       activeAt: this.get('active_at'),
       type: this.get('type'),
-      isHidden: !!this.get('hidden'),
-      isMarkedUnread: !!this.get('markedAsUnread'),
     };
+
+    if (isFinite(priority) && priority !== CONVERSATION_PRIORITIES.default) {
+      toRet.priority = priority;
+    }
+
+    if (this.get('markedAsUnread')) {
+      toRet.isMarkedUnread = !!this.get('markedAsUnread');
+    }
 
     if (isPrivate) {
       toRet.isPrivate = true;
@@ -333,6 +340,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
+    if (
+      currentNotificationSetting &&
+      currentNotificationSetting !== ConversationNotificationSetting[0]
+    ) {
+      toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
     const foundContact = SessionUtilContact.getContactCached(this.id);
     const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
     const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
@@ -360,10 +374,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         toRet.isApproved = foundContact.approved;
       }
 
-      toRet.isHidden = foundContact.hidden;
-
-      if (foundContact.priority > 0) {
-        toRet.isPinned = true;
+      if (foundContact.priority) {
+        toRet.priority = foundContact.priority;
       }
 
       if (foundContact.expirationTimerSeconds > 0) {
@@ -389,19 +401,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (this.get('isApproved')) {
         toRet.isApproved = this.get('isApproved');
       }
-      if (!this.get('active_at')) {
-        toRet.isHidden = true;
-      }
-
-      if (this.get('isPinned')) {
-        toRet.isPinned = true;
-      }
 
       if (this.get('expireTimer')) {
         toRet.expireTimer = this.get('expireTimer');
       }
     }
 
+    // -- Handle the group fields from the wrapper and the database --
     if (foundLegacyGroup) {
       toRet.members = foundLegacyGroup.members.map(m => m.pubkeyHex) || [];
       toRet.groupAdmins =
@@ -411,15 +417,32 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         : foundLegacyGroup.name;
       toRet.expireTimer = foundLegacyGroup.disappearingTimerSeconds;
 
-      if (foundLegacyGroup.priority > 0) {
-        toRet.isPinned = Boolean(foundLegacyGroup.priority > 0);
+      if (foundLegacyGroup.priority) {
+        toRet.priority = foundLegacyGroup.priority;
+      } // TODO grab the details from the db if we do not have an entry in the wrapper
+    }
+
+    if (this.isClosedGroup()) {
+      if (this.get('isKickedFromGroup')) {
+        toRet.isKickedFromGroup = !!this.get('isKickedFromGroup');
+      }
+      if (this.get('left')) {
+        toRet.left = !!this.get('left');
+      }
+
+      const zombies = this.get('zombies') || [];
+      if (zombies?.length) {
+        toRet.zombies = uniq(zombies);
       }
     }
 
+    // -- Handle the communities fields from the wrapper and the database --
     if (foundCommunity) {
-      if (foundCommunity.priority > 0) {
-        toRet.isPinned = true;
+      if (foundCommunity.priority) {
+        toRet.priority = foundCommunity.priority;
       }
+      // TODO grab the details from the db if we do not have an entry in the wrapper
+      // TODO should we just not rely on the db values?
     }
 
     if (foundVolatileInfo) {
@@ -428,6 +451,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
+    // -- Handle the field stored only in memory for all types of conversation--
     const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);
     if (inMemoryConvoInfo) {
       if (inMemoryConvoInfo.unreadCount) {
@@ -438,24 +462,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    if (isKickedFromGroup) {
-      toRet.isKickedFromGroup = isKickedFromGroup;
-    }
-    if (left) {
-      toRet.left = left;
-    }
-
-    if (
-      currentNotificationSetting &&
-      currentNotificationSetting !== ConversationNotificationSetting[0]
-    ) {
-      toRet.currentNotificationSetting = currentNotificationSetting;
-    }
-
-    if (zombies && zombies.length) {
-      toRet.zombies = uniq(zombies);
-    }
-
+    // -- Handle the last message status, if needed --
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');
@@ -601,10 +608,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       // we are trying to send a message to someone. If that convo is hidden in the list, make sure it is not
-      if (this.isHidden()) {
-        this.set({ hidden: false });
-        await this.commit();
-      }
+      this.unhideIfNeeded(true);
+
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body,
@@ -1432,14 +1437,68 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return Array.isArray(groupModerators) && groupModerators.includes(pubKey);
   }
 
-  public async setIsPinned(value: boolean, shouldCommit: boolean = true) {
-    const valueForced = Boolean(value);
-
-    if (valueForced !== Boolean(this.isPinned())) {
+  /**
+   * When receiving a shared config message, we need to apply the change after the merge happened to our database.
+   * This is done with this function.
+   * There are other actions to change the priority from the UI (or from )
+   * @param priority
+   * @param shouldCommit
+   */
+  public async setPriorityFromWrapper(
+    priority: number,
+    shouldCommit: boolean = true
+  ): Promise<boolean> {
+    if (priority !== this.get('priority')) {
       this.set({
-        isPinned: valueForced,
+        priority,
       });
 
+      if (shouldCommit) {
+        await this.commit();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Toggle the pinned state of a conversation.
+   * Any conversation can be pinned and the higher the priority, the higher it will be in the list.
+   * Note: Currently, we do not have an order in the list of pinned conversation, but the libsession util wrapper can handle the order.
+   */
+  public async togglePinned(shouldCommit: boolean = true) {
+    this.set({ priority: this.isPinned() ? 0 : 1 });
+    if (shouldCommit) {
+      await this.commit();
+    }
+    return true;
+  }
+
+  /**
+   * Force the priority to be -1 (PRIORITY_DEFAULT_HIDDEN) so this conversation is hidden in the list. Currently only works for private chats.
+   */
+  public async setHidden(shouldCommit: boolean = true) {
+    if (!this.isPrivate()) {
+      return;
+    }
+    const priority = this.get('priority');
+    if (priority >= CONVERSATION_PRIORITIES.default) {
+      this.set({ priority: CONVERSATION_PRIORITIES.hidden });
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  /**
+   * Reset the priority of this conversation to 0 if it was < 0, but keep anything > 0 as is.
+   * So if the conversation was pinned, we keep it pinned with its current priority.
+   * A pinned cannot be hidden, as the it is all based on the same priority values.
+   */
+  public async unhideIfNeeded(shouldCommit: boolean = true) {
+    const priority = this.get('priority');
+    if (isFinite(priority) && priority < CONVERSATION_PRIORITIES.default) {
+      this.set({ priority: CONVERSATION_PRIORITIES.default });
       if (shouldCommit) {
         await this.commit();
       }
@@ -1447,7 +1506,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async markAsUnread(forcedValue: boolean, shouldCommit: boolean = true) {
-    if (!!forcedValue !== !!this.get('markedAsUnread')) {
+    if (!!forcedValue !== this.isMarkedUnread()) {
       this.set({
         markedAsUnread: !!forcedValue,
       });
@@ -1627,7 +1686,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPinned() {
-    return Boolean(this.get('isPinned'));
+    const priority = this.get('priority');
+
+    return isFinite(priority) && priority > CONVERSATION_PRIORITIES.default;
   }
 
   public didApproveMe() {
@@ -1636,10 +1697,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isApproved() {
     return Boolean(this.get('isApproved'));
-  }
-
-  public getTitle() {
-    return this.getNicknameOrRealUsernameOrPlaceholder();
   }
 
   /**
@@ -1773,7 +1830,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       message: friendRequestText ? friendRequestText : message.getNotificationText(),
       messageId,
       messageSentAt,
-      title: friendRequestText ? '' : convo.getTitle(),
+      title: friendRequestText ? '' : convo.getNicknameOrRealUsernameOrPlaceholder(),
     });
   }
 

@@ -183,7 +183,7 @@ export const PinConversationMenuItem = (): JSX.Element | null => {
     const conversation = getConversationController().get(conversationId);
 
     const togglePinConversation = async () => {
-      await conversation?.setIsPinned(!isPinned);
+      await conversation?.togglePinned();
     };
 
     const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');

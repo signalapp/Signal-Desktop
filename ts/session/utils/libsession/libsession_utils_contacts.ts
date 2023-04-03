@@ -81,8 +81,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbApproved = !!foundConvo.get('isApproved') || false;
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
-  const hidden = foundConvo.get('hidden') || false;
-  const isPinned = foundConvo.get('isPinned');
+  const priority = foundConvo.get('priority') || 0;
   const expirationTimerSeconds = foundConvo.get('expireTimer') || 0;
 
   const wrapperContact = getContactInfoFromDBValues({
@@ -94,8 +93,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     dbNickname,
     dbProfileKey,
     dbProfileUrl,
-    isPinned,
-    hidden,
+    priority,
     expirationTimerSeconds,
   });
 
