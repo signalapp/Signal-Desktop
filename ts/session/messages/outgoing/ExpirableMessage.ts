@@ -14,8 +14,12 @@ export class ExpirableMessage extends ContentMessage {
   public readonly expireTimer?: number;
 
   constructor(params: ExpirableMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
-    this.expirationType = params.expirationType;
+    super({
+      timestamp: params.timestamp,
+      identifier: params.identifier,
+    });
+    // TODO legacy messages support will be removed in a future release
+    this.expirationType = params.expirationType !== 'legacy' ? params.expirationType : undefined;
     this.expireTimer = params.expireTimer;
   }
 
@@ -28,6 +32,13 @@ export class ExpirableMessage extends ContentMessage {
           ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
           : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
+    });
+  }
+
+  public dataProto(): SignalService.DataMessage {
+    return new SignalService.DataMessage({
+      // TODO legacy messages support will be removed in a future release
+      expireTimer: !this.expirationType && this.expireTimer ? this.expireTimer : undefined,
     });
   }
 

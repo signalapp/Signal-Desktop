@@ -63,11 +63,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       data.syncTarget = this.syncTarget;
     }
 
-    // TODO legacy messages support will be removed in a future release
-    if (this.expirationType === 'legacy' && this.expireTimer) {
-      data.expireTimer = this.expireTimer;
-    }
-
     return data;
   }
 }

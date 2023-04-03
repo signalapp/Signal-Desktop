@@ -409,8 +409,7 @@ export async function innerHandleSwarmContentMessage(
         dataMessage.profileKey = null;
       }
 
-      perfStart(`handleSwarmDataMessage-${envelope.id}`);
-
+      // debugger;
       // TODO legacy messages support will be removed in a future release
       // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
       const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
@@ -477,6 +476,7 @@ export async function innerHandleSwarmContentMessage(
         }
       }
 
+      perfStart(`handleSwarmDataMessage-${envelope.id}`);
       await handleSwarmDataMessage(
         envelope,
         sentAtTimestamp,
