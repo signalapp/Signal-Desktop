@@ -8,6 +8,7 @@ import { initWallClockListener } from './wallClockListener';
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
+import { ProtobufUtils, SignalService } from '../protobuf';
 
 // TODO Might need to be improved by using an enum
 // TODO do we need to add legacy here now that it's explicitly in the protbuf?
@@ -24,13 +25,33 @@ export const DEFAULT_TIMER_OPTION = {
 
 export type DisappearingMessageUpdate = {
   expirationType: DisappearingMessageType;
-  // TODO rename to expirationTimer?
-  expireTimer: number;
+  expirationTimer: number;
   // This is used for the expirationTimerUpdate
   lastDisappearingMessageChangeTimestamp?: number;
   isLegacyConversationSettingMessage?: boolean;
   isLegacyMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
+};
+
+// TODO legacy messages support will be removed in a future release
+// NOTE We need this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage
+function isLegacyContentMessage(contentMessage: SignalService.Content): boolean {
+  return (
+    (contentMessage.expirationType === SignalService.Content.ExpirationType.UNKNOWN ||
+      !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType')) &&
+    !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationTimer')
+  );
+}
+
+function isLegacyDataMessage(dataMessage: SignalService.DataMessage): boolean {
+  return (
+    ProtobufUtils.hasDefinedProperty(dataMessage, 'expireTimer') && dataMessage.expireTimer > -1
+  );
+}
+
+export const DisappearingMessageUtils = {
+  isLegacyContentMessage,
+  isLegacyDataMessage,
 };
 
 export async function destroyMessagesAndUpdateRedux(

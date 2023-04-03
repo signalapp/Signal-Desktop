@@ -1109,7 +1109,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         : isLegacyMessage
         ? DisappearingMessageConversationSetting[3]
         : 'off';
-      const expireTimer = isLegacyMessage
+      const expirationTimer = isLegacyMessage
         ? Number(dataMessage.expireTimer)
         : content.expirationTimer;
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
@@ -1117,10 +1117,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         : undefined;
 
       let expireUpdate: DisappearingMessageUpdate | null = null;
-      if (expirationType && expireTimer !== undefined) {
+      if (expirationType && expirationTimer !== undefined) {
         expireUpdate = {
           expirationType,
-          expireTimer,
+          expirationTimer,
           lastDisappearingMessageChangeTimestamp,
         };
       }

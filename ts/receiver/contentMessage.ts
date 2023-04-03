@@ -31,6 +31,7 @@ import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import {
   DisappearingMessageConversationSetting,
   DisappearingMessageUpdate,
+  DisappearingMessageUtils,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { checkIsFeatureReleased } from '../util/releaseFeature';
@@ -409,43 +410,55 @@ export async function innerHandleSwarmContentMessage(
         dataMessage.profileKey = null;
       }
 
-      // debugger;
       // TODO legacy messages support will be removed in a future release
       // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
       const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
         'Disappearing Messages V2'
       );
 
-      const isLegacy = Boolean(
-        (!content.expirationType && !content.expirationTimer) ||
-          content.expirationType === SignalService.Content.ExpirationType.UNKNOWN
-      );
+      const isLegacyContentMessage = DisappearingMessageUtils.isLegacyContentMessage(content);
       const isLegacyMessage = Boolean(
-        isLegacy && dataMessage.expireTimer && dataMessage.expireTimer > -1
+        isLegacyContentMessage &&
+          DisappearingMessageUtils.isLegacyDataMessage(dataMessage as SignalService.DataMessage)
       );
       // NOTE When a legacy client sends a Conversation Setting Message dataMessage.expirationType and dataMessage.expireTimer can possibly be undefined.
       const isLegacyConversationSettingMessage = Boolean(
-        isLegacy && dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+        isLegacyContentMessage &&
+          dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
       );
 
-      const expireTimer = isDisappearingMessagesV2Released
+      debugger;
+
+      let expirationTimer = isDisappearingMessagesV2Released
         ? content.expirationTimer
         : isLegacyMessage
         ? Number(dataMessage.expireTimer)
-        : 0;
+        : content.expirationTimer;
       // TODO legacy messages support will be removed in a future release
-      const expirationType = isDisappearingMessagesV2Released
-        ? DisappearingMessageConversationSetting[isLegacy ? 3 : content.expirationType]
-        : isLegacyMessage && expireTimer > 0
-        ? DisappearingMessageConversationSetting[3]
-        : 'off';
+      // TODO so close! just have to fix the case of turning off disappearing messages in modern clients. Probably if the timer is zero then override any settings.
+      let expirationType =
+        expirationTimer === 0
+          ? 'off'
+          : isDisappearingMessagesV2Released
+          ? DisappearingMessageConversationSetting[
+              isLegacyContentMessage ? 3 : content.expirationType
+            ]
+          : DisappearingMessageConversationSetting[3];
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
         ? Number(content.lastDisappearingMessageChangeTimestamp)
         : undefined;
 
+      // TODO legacy messages support will be removed in a future release
+      // if it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
+      if (isDisappearingMessagesV2Released && isLegacyContentMessage) {
+        window.log.info(`WIP: received a legacy disappearing message after v2 was released.`);
+        expirationType = conversationModelForUIUpdate.get('expirationType');
+        expirationTimer = conversationModelForUIUpdate.get('expireTimer');
+      }
+
       const expireUpdate: DisappearingMessageUpdate = {
         expirationType,
-        expireTimer,
+        expirationTimer,
         lastDisappearingMessageChangeTimestamp,
         isLegacyConversationSettingMessage,
         isLegacyMessage,

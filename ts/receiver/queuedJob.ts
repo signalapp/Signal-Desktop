@@ -328,8 +328,6 @@ export async function handleMessageJob(
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
 
-  window.log.info(`WIP: handleMessageJob()`, messageModel, conversation, regularDataMessage);
-
   const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE

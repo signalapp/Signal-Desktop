@@ -1226,8 +1226,8 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
 
     // TODO update to agreed value between platforms
-    const disappearingMessagesV2ReleaseTimestamp = 1680339600000; // unix 01/04/2023 09:00
-    // const disappearingMessagesV2ReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
+    // const disappearingMessagesV2ReleaseTimestamp = 1680339600000; // unix 01/04/2023 09:00
+    const disappearingMessagesV2ReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
 
     // support disppearing messages legacy mode until after the platform agreed timestamp
     if (Date.now() < disappearingMessagesV2ReleaseTimestamp) {
