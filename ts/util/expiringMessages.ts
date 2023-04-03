@@ -26,6 +26,7 @@ export type DisappearingMessageUpdate = {
   expireTimer: number;
   // This is used for the expirationTimerUpdate
   lastDisappearingMessageChangeTimestamp?: number;
+  isLegacyConversationSettingMessage?: boolean;
   isLegacyMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
 };

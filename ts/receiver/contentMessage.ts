@@ -416,10 +416,14 @@ export async function innerHandleSwarmContentMessage(
       const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
         'Disappearing Messages V2'
       );
+
+      const isLegacyConversationSettingMessage = Boolean(
+        !content.expirationTimer &&
+          dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+      );
       const isLegacyMessage = Boolean(
-        (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
-          (!content.expirationTimer &&
-            dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
+        (!content.expirationTimer && dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
+          isLegacyConversationSettingMessage
       );
 
       const expireTimer = isDisappearingMessagesV2Released
@@ -440,28 +444,37 @@ export async function innerHandleSwarmContentMessage(
         expirationType,
         expireTimer,
         lastDisappearingMessageChangeTimestamp,
+        isLegacyConversationSettingMessage,
         isLegacyMessage,
         isDisappearingMessagesV2Released,
       };
 
-      if (isLegacyMessage) {
-        // trigger notice banner
-        const outdatedSender =
-          senderConversationModel.get('nickname') ||
-          senderConversationModel.get('displayNameInProfile') ||
-          senderConversationModel.get('id');
+      const outdatedSender =
+        senderConversationModel.get('nickname') ||
+        senderConversationModel.get('displayNameInProfile') ||
+        senderConversationModel.get('id');
 
-        if (conversationModelForUIUpdate.get('hasOutdatedClient')) {
-          conversationModelForUIUpdate.set({
-            hasOutdatedClient:
-              conversationModelForUIUpdate.get('hasOutdatedClient') === outdatedSender
-                ? outdatedSender
-                : undefined,
-          });
+      if (conversationModelForUIUpdate.get('hasOutdatedClient')) {
+        // trigger notice banner
+        if (isLegacyMessage) {
+          if (conversationModelForUIUpdate.get('hasOutdatedClient') !== outdatedSender) {
+            conversationModelForUIUpdate.set({
+              hasOutdatedClient: outdatedSender,
+            });
+          }
         } else {
-          conversationModelForUIUpdate.set({ hasOutdatedClient: outdatedSender });
+          conversationModelForUIUpdate.set({
+            hasOutdatedClient: undefined,
+          });
         }
         conversationModelForUIUpdate.commit();
+      } else {
+        if (isLegacyMessage) {
+          conversationModelForUIUpdate.set({
+            hasOutdatedClient: outdatedSender,
+          });
+          conversationModelForUIUpdate.commit();
+        }
       }
 
       await handleSwarmDataMessage(

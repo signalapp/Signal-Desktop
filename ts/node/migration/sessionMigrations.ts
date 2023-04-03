@@ -1227,6 +1227,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
     // TODO update to agreed value between platforms
     const disappearingMessagesV2ReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
+    // const disappearingMessagesV2ReleaseTimestamp = 1677661200000; // unix 01/03/2023 09:00
 
     // support disppearing messages legacy mode until after the platform agreed timestamp
     if (Date.now() < disappearingMessagesV2ReleaseTimestamp) {
@@ -1245,7 +1246,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
+      WHERE type = 'group' AND is_medium_group = 1 AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterSend' });
     }
 

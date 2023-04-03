@@ -251,6 +251,7 @@ export async function handleSwarmDataMessage(
       expirationType,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
+      isLegacyConversationSettingMessage,
       isLegacyMessage,
       isDisappearingMessagesV2Released,
     } = expireUpdate;
@@ -270,12 +271,8 @@ export async function handleSwarmDataMessage(
 
     // TODO legacy messages support will be removed in a future release
     // This message is conversation setting change message
-    if (
-      lastDisappearingMessageChangeTimestamp ||
-      (isLegacyMessage &&
-        rawDataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
-    ) {
-      if (isDisappearingMessagesV2Released) {
+    if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
+      if (isDisappearingMessagesV2Released && isLegacyConversationSettingMessage) {
         window.log.info(`WIP: The legacy message is an expiration timer update. Ignoring it.`);
         return;
       }
@@ -283,7 +280,7 @@ export async function handleSwarmDataMessage(
       const expirationTimerUpdate = {
         expirationType,
         expireTimer,
-        lastDisappearingMessageChangeTimestamp: isLegacyMessage
+        lastDisappearingMessageChangeTimestamp: isLegacyConversationSettingMessage
           ? isDisappearingMessagesV2Released
             ? convoToAddMessageTo.get('lastDisappearingMessageChangeTimestamp')
             : Date.now()
