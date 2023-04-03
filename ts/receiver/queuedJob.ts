@@ -16,7 +16,10 @@ import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import {
+  DisappearingMessageConversationType,
+  setExpirationStartTimestamp,
+} from '../util/expiringMessages';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 function contentTypeSupported(type: string): boolean {
@@ -351,24 +354,41 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
-    if (messageModel.isExpirationTimerUpdate()) {
-      // TODO account for lastDisappearingMessageChangeTimestamp
+    if (!isEmpty(expireUpdate)) {
+      messageModel.set({
+        expirationType: expireUpdate.expirationType,
+        expireTimer: expireUpdate.expireTimer,
+      });
 
-      // TODO in the future we will remove the dataMessage expireTimer and the expirationTimerUpdate
-      let expirationType = expireUpdate.expirationType;
-      let expireTimer = expireUpdate.expireTimer;
-
-      if (!expirationType) {
-        expirationType = conversation.isPrivate() ? 'deleteAfterRead' : 'deleteAfterSend';
+      if (messageModel.isIncoming() && messageModel.get('expirationType') === 'deleteAfterSend') {
+        messageModel =
+          setExpirationStartTimestamp(
+            messageModel,
+            'deleteAfterSend',
+            messageModel.get('sent_at')
+          ) || messageModel;
       }
+    }
 
+    if (messageModel.isExpirationTimerUpdate()) {
+      // TODO in the future we will remove the dataMessage expireTimer and the expirationTimerUpdate
       // Backwards compatibility for Disappearing Messages in old clients
       if (regularDataMessage.expireTimer) {
         const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
         if (!isEmpty(expirationTimerUpdate)) {
-          expirationType = expirationTimerUpdate?.expirationType;
-          expireTimer = expirationTimerUpdate?.expireTimer;
+          messageModel.set({
+            expirationType: expirationTimerUpdate?.expirationType,
+            expireTimer: expirationTimerUpdate?.expireTimer,
+          });
         }
+      }
+
+      // TODO account for lastDisappearingMessageChangeTimestamp
+      let expirationType = messageModel.get('expirationType');
+      const expireTimer = messageModel.get('expireTimer');
+
+      if (!expirationType) {
+        expirationType = conversation.isPrivate() ? 'deleteAfterRead' : 'deleteAfterSend';
       }
 
       // TODO compare types and change timestamps
@@ -390,13 +410,6 @@ export async function handleMessageJob(
         expireTimer
       );
     } else {
-      // NOTE this is a disappearing message NOT a expiration timer update
-      if (!isEmpty(expireUpdate)) {
-        messageModel.set({
-          expirationType: expireUpdate.expirationType,
-          expireTimer: expireUpdate.expireTimer,
-        });
-      }
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(
         conversation,

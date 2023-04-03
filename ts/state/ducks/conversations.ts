@@ -83,7 +83,7 @@ export type PropsForExpiringMessage = {
   isExpired?: boolean;
 };
 
-export type PropsForExpirationTimer = {
+export interface PropsForExpirationTimer extends PropsForExpiringMessage {
   expirationType: DisappearingMessageConversationType;
   timespan: string;
   disabled: boolean;
@@ -96,7 +96,8 @@ export type PropsForExpirationTimer = {
   messageId: string;
   isUnread: boolean;
   receivedAt: number | undefined;
-};
+  direction: MessageModelType;
+}
 
 export type PropsForGroupUpdateGeneral = {
   type: 'general';

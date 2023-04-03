@@ -280,6 +280,26 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await deleteExternalMessageFiles(this.attributes);
   }
 
+  public getPropsForExpiringMessage(): PropsForExpiringMessage | null {
+    const expirationType = this.get('expirationType');
+    const expirationLength = this.get('expireTimer') || null;
+
+    const expireTimerStart = this.get('expirationStartTimestamp') || null;
+
+    const expirationTimestamp =
+      expirationType && expireTimerStart && expirationLength
+        ? expireTimerStart + expirationLength * DURATION.SECONDS
+        : null;
+
+    return {
+      convoId: this.get('conversationId'),
+      messageId: this.get('id'),
+      expirationLength,
+      expirationTimestamp,
+      isExpired: this.isExpired(),
+    };
+  }
+
   public getPropsForTimerNotification(): PropsForExpirationTimer | null {
     if (!this.isExpirationTimerUpdate()) {
       return null;
@@ -287,6 +307,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const timerUpdate = this.get('expirationTimerUpdate');
     if (!timerUpdate || !timerUpdate.source) {
       return null;
+    }
+
+    // TODO should direction be parts of expiration props?
+    let direction = this.get('direction');
+    if (!direction) {
+      direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
     }
 
     const { expirationType, expireTimer, fromSync, source } = timerUpdate;
@@ -302,27 +328,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
       expirationType: expirationType || 'off',
+      direction,
+      ...this.getPropsForExpiringMessage(),
     };
 
     return basicProps;
-  }
-
-  public getPropsForExpiringMessage(): PropsForExpiringMessage | null {
-    const expirationType = this.get('expirationType');
-    const expireTimerStart = this.get('expirationStartTimestamp') || null;
-    const expirationLength = this.get('expireTimer') || null;
-    const expirationTimestamp =
-      expirationType && expireTimerStart && expirationLength
-        ? expireTimerStart + expirationLength * DURATION.SECONDS
-        : null;
-
-    return {
-      convoId: this.get('conversationId'),
-      messageId: this.get('id'),
-      expirationLength,
-      expirationTimestamp,
-      isExpired: this.isExpired(),
-    };
   }
 
   public getPropsForGroupInvitation(): PropsForGroupInvitation | null {

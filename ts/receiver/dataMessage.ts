@@ -23,7 +23,6 @@ import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
-import { setExpirationStartTimestamp } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -246,12 +245,7 @@ export async function handleSwarmDataMessage(
   if (isSyncedMessage) {
     // TODO handle sync messages separately
     window.log.info('WIP: Sync Message dropping');
-  } else {
-    if (msgModel.isIncoming() && expireUpdate.expirationType === 'deleteAfterSend') {
-      msgModel =
-        setExpirationStartTimestamp(msgModel, 'deleteAfterSend', msgModel.get('sent_at')) ||
-        msgModel;
-    }
+    expireUpdate = null;
   }
 
   await handleSwarmMessage(

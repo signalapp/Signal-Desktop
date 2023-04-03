@@ -203,33 +203,42 @@ export function setExpirationStartTimestamp(
   timestamp?: number
 ): MessageModel | null {
   if (message.get('expirationStartTimestamp') > 0) {
-    window.log.info(`WIP: Expiration Timer already set. Ignoring.`);
+    window.log.info(`WIP: Expiration Timer already set. Ignoring new value.`);
     return null;
   }
 
   let expirationStartTimestamp = getNowWithNetworkOffset();
 
   if (timestamp) {
-    expirationStartTimestamp = Math.min(getNowWithNetworkOffset(), timestamp);
+    window.log.info(
+      `WIP: We compare 2 timestamps for a delete after ${
+        mode === 'deleteAfterRead' ? 'read' : 'send'
+      } message: \expirationStartTimestamp `,
+      new Date(expirationStartTimestamp).toLocaleTimeString(),
+      '\ntimestamp ',
+      new Date(timestamp).toLocaleTimeString()
+    );
+    expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
   }
 
   message.set('expirationStartTimestamp', expirationStartTimestamp);
 
   if (mode === 'deleteAfterRead') {
     window.log.info(
-      `WIP: setExpirationStartTimestamp we set the start timestamp for a delete after read message`,
+      `WIP: We set the start timestamp for a delete after read message to ${new Date(
+        expirationStartTimestamp
+      ).toLocaleTimeString()}`,
       message
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.info(
-      `WIP: setExpirationStartTimestamp we set the start timestamp for a delete after send message`,
+      `WIP: We set the start timestamp for a delete after send message to ${new Date(
+        expirationStartTimestamp
+      ).toLocaleTimeString()}`,
       message
     );
   } else {
-    console.log(
-      `WIP: setExpirationStartTimestamp Invalid disappearing message mode set. Ignoring.`,
-      message
-    );
+    console.log(`WIP: Invalid disappearing message mode set. Ignoring.`, message);
     return null;
   }
 

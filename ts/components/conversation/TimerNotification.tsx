@@ -3,7 +3,7 @@ import React from 'react';
 import { missingCaseError } from '../../util/missingCaseError';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
-import { ReadableMessage } from './message/message-item/ReadableMessage';
+import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {
@@ -50,10 +50,15 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     throw new Error('textToRender invalid key used TimerNotification');
   }
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
+      convoId={props.convoId}
       messageId={messageId}
+      direction={props.direction}
       receivedAt={receivedAt}
       isUnread={isUnread}
+      expirationLength={props.expirationLength}
+      expirationTimestamp={props.expirationTimestamp}
+      isExpired={props.isExpired}
       key={`readable-message-${messageId}`}
     >
       <NotificationBubble
@@ -61,6 +66,6 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         iconColor="inherit"
         notificationText={textToRender}
       />
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

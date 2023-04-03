@@ -136,9 +136,10 @@ async function handleMessageSentSuccess(
 
   if (!shouldMarkMessageAsSynced) {
     const expirationType = fetchedMessage.get('expirationType');
-    if (expirationType) {
+    if (expirationType === 'deleteAfterSend') {
       fetchedMessage =
-        setExpirationStartTimestamp(fetchedMessage, expirationType) || fetchedMessage;
+        setExpirationStartTimestamp(fetchedMessage, expirationType, effectiveTimestamp) ||
+        fetchedMessage;
     }
   }
 
@@ -167,11 +168,6 @@ async function handleMessageSentFailure(
     if (isOurDevice && !fetchedMessage.get('sync')) {
       fetchedMessage.set({ sentSync: false });
     }
-  }
-
-  const expirationType = fetchedMessage.get('expirationType');
-  if (expirationType) {
-    fetchedMessage = setExpirationStartTimestamp(fetchedMessage, expirationType) || fetchedMessage;
   }
 
   // always mark the message as sent.

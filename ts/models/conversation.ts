@@ -1097,6 +1097,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         source,
         fromSync,
       },
+      expirationType,
+      expireTimer,
     };
 
     let message: MessageModel | undefined;
