@@ -1,9 +1,10 @@
 import ByteBuffer from 'bytebuffer';
 import { isEmpty } from 'lodash';
-import { DataMessage } from '..';
+import { ContentMessage } from '..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
 import { Reaction } from '../../../../types/Reaction';
+import { DisappearingMessageType } from '../../../../util/expiringMessages';
 import { MessageParams } from '../Message';
 
 interface AttachmentPointerCommon {
@@ -66,6 +67,7 @@ export interface VisibleMessageParams extends MessageParams {
   attachments?: Array<AttachmentPointerWithUrl>;
   body?: string;
   quote?: Quote;
+  expirationType?: DisappearingMessageType;
   expireTimer?: number;
   lokiProfile?: LokiProfile;
   preview?: Array<PreviewWithAttachmentUrl>;
@@ -73,7 +75,8 @@ export interface VisibleMessageParams extends MessageParams {
   syncTarget?: string; // undefined means it is not a synced message
 }
 
-export class VisibleMessage extends DataMessage {
+export class VisibleMessage extends ContentMessage {
+  public readonly expirationType?: DisappearingMessageType;
   public readonly expireTimer?: number;
   public readonly reaction?: Reaction;
 
@@ -93,6 +96,7 @@ export class VisibleMessage extends DataMessage {
     this.attachments = params.attachments;
     this.body = params.body;
     this.quote = params.quote;
+    this.expirationType = params.expirationType;
     this.expireTimer = params.expireTimer;
 
     const profile = buildProfileForOutgoingMessage(params);
@@ -103,6 +107,17 @@ export class VisibleMessage extends DataMessage {
     this.preview = params.preview;
     this.reaction = params.reaction;
     this.syncTarget = params.syncTarget;
+  }
+
+  public contentProto(): SignalService.Content {
+    return new SignalService.Content({
+      dataMessage: this.dataProto(),
+      expirationType:
+        this.expirationType === 'deleteAfterSend'
+          ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+          : SignalService.Content.ExpirationType.DELETE_AFTER_READ,
+      expirationTimer: this.expireTimer,
+    });
   }
 
   public dataProto(): SignalService.DataMessage {

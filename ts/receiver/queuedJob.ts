@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { isEqual } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -366,7 +366,8 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
     // TODO remove 2 weeks after release
-    if (messageModel.isExpirationTimerUpdate() || !isEmpty(expireUpdate)) {
+    if (messageModel.isExpirationTimerUpdate()) {
+      // TODO account for lastDisappearingMessageChangeTimestamp
       const { expireTimer: oldExpireTimer } = regularDataMessage;
       const expirationType = expireUpdate.expirationType;
       const expireTimer = expireUpdate.expireTimer || oldExpireTimer;

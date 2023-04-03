@@ -541,7 +541,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return getOpenGroupV2FromConversationId(this.id);
   }
 
-  public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
+  public async sendMessageJob(message: MessageModel) {
     try {
       const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
       const { id } = message;
@@ -552,6 +552,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
 
+      const expirationType = message.get('expirationType');
+      const expireTimer = message.get('expireTimer');
+
       if (this.isPublic() && !this.isOpenGroupV2()) {
         throw new Error('Only opengroupv2 are supported now');
       }
@@ -561,6 +564,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         identifier: id,
         timestamp: sentAt,
         attachments,
+        expirationType,
         expireTimer,
         preview: preview ? [preview] : [],
         quote,
@@ -613,11 +617,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const destinationPubkey = new PubKey(destination);
 
+      // TODO check expiration types per different conversation setting
+
       if (this.isPrivate()) {
         if (this.isMe()) {
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
 
+          // TODO handle sync messages for disappearing messages here
           await getMessageQueue().sendSyncMessage(chatMessageMe);
           return;
         }
@@ -918,6 +925,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
+    const expirationType = this.get('expirationType');
     const expireTimer = this.get('expireTimer');
     const networkTimestamp = getNowWithNetworkOffset();
 
@@ -934,6 +942,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       preview,
       attachments,
       sent_at: networkTimestamp,
+      expirationType,
       expireTimer,
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
       groupInvitation,
@@ -958,7 +967,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await this.commit();
 
     void this.queueJob(async () => {
-      await this.sendMessageJob(messageModel, expireTimer);
+      await this.sendMessageJob(messageModel);
     });
   }
 
