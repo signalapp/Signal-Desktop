@@ -33,11 +33,7 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
-import {
-  ConversationTypeEnum,
-  DisappearingMessageSetting,
-  DisappearingMessageType,
-} from '../../models/conversationAttributes';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
@@ -1181,10 +1177,8 @@ export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
 
 export const getSelectedConversationExpirationSettings = createSelector(
   getSelectedConversation,
-  (
-    convo: ReduxConversationType | undefined
-  ): { expirationType: DisappearingMessageType; expireTimer: number } => ({
-    expirationType: convo?.expirationType || DisappearingMessageSetting[0],
-    expireTimer: convo?.expireTimer || 0,
+  (convo: ReduxConversationType | undefined) => ({
+    expirationType: convo?.expirationType,
+    expireTimer: convo?.expireTimer,
   })
 );

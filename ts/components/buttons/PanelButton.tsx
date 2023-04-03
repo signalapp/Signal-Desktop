@@ -30,6 +30,9 @@ export const PanelLabel = styled.p`
 `;
 
 const StyledRoundedPanelButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: hidden;
   background: var(--right-panel-item-background-color);
   border-radius: 16px;
@@ -40,7 +43,7 @@ const StyledRoundedPanelButtonGroup = styled.div`
 
 const PanelButtonContainer = styled.div`
   overflow: auto;
-  min-height: 40px;
+  min-height: 50px;
   max-height: 100%;
 `;
 
@@ -69,7 +72,7 @@ const StyledPanelButton = styled.button<{
   flex-grow: 1;
   font-family: var(--font-default);
   padding: 0px var(--margins-sm);
-  height: '50px';
+  min-height: 50px;
   width: 100%;
   transition: var(--default-duration);
   background-color: ${props =>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setDisappearingMessagesByConvoId } from '../../../../interactions/conversationInteractions';
@@ -94,7 +94,7 @@ const Header = (props: HeaderProps) => {
 
 type DisappearingModesProps = {
   options: Array<DisappearingMessageType>;
-  selected: DisappearingMessageType;
+  selected?: DisappearingMessageType;
   setSelected: (value: string) => void;
 };
 
@@ -140,7 +140,7 @@ const DisappearingModes = (props: DisappearingModesProps) => {
 
 type TimerOptionsProps = {
   options: Array<any>;
-  selected: number;
+  selected?: number;
   setSelected: (value: number) => void;
 };
 
@@ -173,10 +173,23 @@ export const OverlayDisappearingMessages = () => {
   const disappearingModeOptions = DisappearingMessageSetting;
   const timerOptions = useSelector(getTimerOptions).timerOptions;
 
-  const { expirationType, expireTimer } = useSelector(getSelectedConversationExpirationSettings);
+  const convoProps = useSelector(getSelectedConversationExpirationSettings);
 
-  const [modeSelected, setModeSelected] = useState(expirationType);
-  const [timeSelected, setTimeSelected] = useState(expireTimer);
+  if (!convoProps) {
+    return null;
+  }
+
+  const [modeSelected, setModeSelected] = useState(convoProps.expirationType);
+  const [timeSelected, setTimeSelected] = useState(convoProps.expireTimer);
+
+  useEffect(() => {
+    if (modeSelected !== convoProps.expirationType) {
+      setModeSelected(convoProps.expirationType);
+    }
+    if (timeSelected !== convoProps.expireTimer) {
+      setTimeSelected(convoProps.expireTimer);
+    }
+  }, [convoProps.expirationType, convoProps.expireTimer]);
 
   return (
     <StyledScrollContainer>
