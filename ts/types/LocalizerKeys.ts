@@ -211,6 +211,7 @@ export type LocalizerKeys =
   | 'timerOption_2_weeks_abbreviated'
   | 'disappearingMessages'
   | 'disappearingMessagesSubtitle'
+  | 'disappearingMessagesModeOutdated'
   | 'disappearingMessagesModeLabel'
   | 'disappearingMessagesModeOff'
   | 'disappearingMessagesModeAfterRead'

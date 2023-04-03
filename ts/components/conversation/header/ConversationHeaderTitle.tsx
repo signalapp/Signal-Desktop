@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { CSSProperties } from 'styled-components';
-import { useConversationUsername } from '../../hooks/useParamSelector';
-import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
-import { closeRightPanel, openRightPanel } from '../../state/ducks/conversations';
-import { setRightOverlayMode } from '../../state/ducks/section';
+import { useConversationUsername } from '../../../hooks/useParamSelector';
+import { ConversationNotificationSettingType } from '../../../models/conversationAttributes';
+import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
+import { setRightOverlayMode } from '../../../state/ducks/section';
 import {
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
   isRightPanelShowing,
-} from '../../state/selectors/conversations';
+} from '../../../state/selectors/conversations';
 import {
   DisappearingMessageConversationType,
   ExpirationTimerOptions,
-} from '../../util/expiringMessages';
-import { Flex } from '../basic/Flex';
-import { SessionIconButton } from '../icon';
+} from '../../../util/expiringMessages';
+import { Flex } from '../../basic/Flex';
+import { SessionIconButton } from '../../icon';
 
 export const StyledSubtitleContainer = styled.div`
   display: flex;

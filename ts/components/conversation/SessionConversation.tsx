@@ -40,7 +40,7 @@ import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
-import { ConversationHeaderWithDetails } from './ConversationHeader';
+import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 import {
   makeImageThumbnailBuffer,
@@ -58,6 +58,7 @@ import { markAllReadByConvoId } from '../../interactions/conversationInteraction
 import { SessionSpinner } from '../basic/SessionSpinner';
 import styled from 'styled-components';
 import { RightPanel } from './right-panel/RightPanel';
+import { NoticeBanner } from '../NoticeBanner';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -254,6 +255,15 @@ export class SessionConversation extends React.Component<Props, State> {
       <SessionTheme>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
+          {selectedConversation.expirationType === 'legacy' && (
+            <NoticeBanner
+              text={window.i18n('disappearingMessagesModeOutdated', [
+                selectedConversation?.nickname ||
+                  selectedConversation?.displayNameInProfile ||
+                  selectedConversation.id,
+              ])}
+            />
+          )}
         </div>
         {isSelectedConvoInitialLoadingInProgress ? (
           <ConvoLoadingSpinner />

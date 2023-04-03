@@ -1,7 +1,7 @@
 import { Data } from '../data/data';
 
 // TODO update to agreed value between platforms
-const featureReleaseTimestamp = 1676851200000; // unix 13/02/2023
+const featureReleaseTimestamp = 1677574800000; // unix 28/02/2023 09:00
 // const featureReleaseTimestamp = 1676608378; // test value
 let isFeatureReleased: boolean | undefined;
 

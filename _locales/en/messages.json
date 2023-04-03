@@ -211,6 +211,7 @@
   "timerOption_2_weeks_abbreviated": "2w",
   "disappearingMessages": "Disappearing messages",
   "disappearingMessagesSubtitle": "This setting applies to everyone in this conversation",
+  "disappearingMessagesModeOutdated": "$name$ is using an outdated client. Disappearing messages may not work as expected.",
   "disappearingMessagesModeLabel": "Delete Type",
   "disappearingMessagesModeOff": "Off",
   "disappearingMessagesModeAfterRead": "Disappear After Read",

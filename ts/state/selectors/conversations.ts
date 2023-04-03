@@ -37,7 +37,7 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
 import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
-import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeaderTitle';
+import { ConversationHeaderTitleProps } from '../../components/conversation/header/ConversationHeaderTitle';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
