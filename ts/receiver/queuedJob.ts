@@ -351,8 +351,13 @@ export async function handleMessageJob(
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
+      // TODO legacy messages support will be removed in a future release
+      // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set
       const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
-      if (!expirationTimerUpdate || isEmpty(expirationTimerUpdate)) {
+      if (
+        messageModel.get('flags') !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
+        (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
+      ) {
         window.log.info(
           `WIP: There is a problem with the expiration timer update`,
           messageModel,
@@ -361,10 +366,10 @@ export async function handleMessageJob(
         return;
       }
 
-      const expirationType = expirationTimerUpdate.expirationType || 'off';
-      const expireTimer = expirationTimerUpdate.expireTimer;
+      const expirationType = expirationTimerUpdate?.expirationType || 'off';
+      const expireTimer = expirationTimerUpdate?.expireTimer || 0;
       const lastDisappearingMessageChangeTimestamp =
-        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
+        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
 
       // Compare mode and timestamp
       const oldTypeValue = conversation.get('expirationType');

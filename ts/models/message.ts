@@ -1098,7 +1098,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       // TODO legacy messages support will be removed in a future release
-      const isLegacyMessage = Boolean(
+      const isLegacyDataMessage = Boolean(
         (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
           (!content.expirationTimer &&
             dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
@@ -1106,10 +1106,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const expirationType = content.expirationType
         ? DisappearingMessageConversationSetting[content.expirationType]
-        : isLegacyMessage
+        : isLegacyDataMessage
         ? DisappearingMessageConversationSetting[3]
         : 'off';
-      const expirationTimer = isLegacyMessage
+      const expirationTimer = isLegacyDataMessage
         ? Number(dataMessage.expireTimer)
         : content.expirationTimer;
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp

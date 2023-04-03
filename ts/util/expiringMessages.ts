@@ -33,7 +33,7 @@ export type DisappearingMessageUpdate = {
   lastDisappearingMessageChangeTimestamp?: number;
   // TODO legacy messages support will be removed in a future release
   isLegacyConversationSettingMessage?: boolean;
-  isLegacyMessage?: boolean;
+  isLegacyDataMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
   isMismatchedMessage?: boolean;
 };
@@ -283,27 +283,32 @@ export async function checkForExpireUpdate(
   convoToUpdate: ConversationModel,
   content: SignalService.Content
 ): Promise<DisappearingMessageUpdate | undefined> {
+  // debugger;
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await checkIsFeatureReleased('Disappearing Messages V2');
 
   const isLegacyContentMessage = checkIsLegacyContentMessage(content);
-  const isLegacyMessage = Boolean(
+  const isLegacyDataMessage = Boolean(
     isLegacyContentMessage && checkIsLegacyDataMessage(dataMessage as SignalService.DataMessage)
   );
+  const isLegacyConversationSettingMessage =
+    isLegacyContentMessage &&
+    isLegacyDataMessage &&
+    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
-  let expirationTimer = isLegacyMessage ? Number(dataMessage.expireTimer) : content.expirationTimer;
+  let expirationTimer = isLegacyDataMessage
+    ? Number(dataMessage.expireTimer)
+    : content.expirationTimer;
   let expirationType =
     expirationTimer > 0
-      ? DisappearingMessageConversationSetting[isLegacyContentMessage ? 3 : content.expirationType]
+      ? DisappearingMessageConversationSetting[
+          !isDisappearingMessagesV2Released || isLegacyContentMessage ? 3 : content.expirationType
+        ]
       : DisappearingMessageConversationSetting[0];
   const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
-  const isLegacyConversationSettingMessage =
-    isLegacyContentMessage &&
-    isLegacyMessage &&
-    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
   const isMismatchedMessage =
     (!isLegacyConversationSettingMessage &&
@@ -315,9 +320,9 @@ export async function checkForExpireUpdate(
   // If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
   if (
     isDisappearingMessagesV2Released &&
-    (isLegacyMessage ||
+    (isLegacyDataMessage ||
       isLegacyConversationSettingMessage ||
-      (!isLegacyConversationSettingMessage && isMismatchedMessage))
+      (isLegacyDataMessage && isMismatchedMessage))
   ) {
     window.log.info(`WIP: received a legacy disappearing message after v2 was released.`);
     expirationType = convoToUpdate.get('expirationType');
@@ -329,10 +334,12 @@ export async function checkForExpireUpdate(
     expirationTimer,
     lastDisappearingMessageChangeTimestamp,
     isLegacyConversationSettingMessage,
-    isLegacyMessage,
+    isLegacyDataMessage,
     isDisappearingMessagesV2Released,
     isMismatchedMessage,
   };
+
+  window.log.info(`WIP: checkForExpireUpdate`, expireUpdate);
 
   return expireUpdate;
 }
@@ -389,7 +396,7 @@ export function checkHasOutdatedClient(
   if (convoToUpdate.get('hasOutdatedClient')) {
     // trigger notice banner
     if (
-      expireUpdate.isLegacyMessage ||
+      expireUpdate.isLegacyDataMessage ||
       expireUpdate.isLegacyConversationSettingMessage ||
       (expireUpdate.isDisappearingMessagesV2Released && expireUpdate.isMismatchedMessage)
     ) {
@@ -406,7 +413,7 @@ export function checkHasOutdatedClient(
     convoToUpdate.commit();
   } else {
     if (
-      expireUpdate.isLegacyMessage ||
+      expireUpdate.isLegacyDataMessage ||
       expireUpdate.isLegacyConversationSettingMessage ||
       (expireUpdate.isDisappearingMessagesV2Released && expireUpdate.isMismatchedMessage)
     ) {
