@@ -1220,21 +1220,32 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     ).run();
 
     db.prepare(
-      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;
-         `
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
     ).run();
 
-    db.prepare(
-      `UPDATE ${CONVERSATIONS_TABLE} SET
+    // same value in ts/util/releaseFeature.ts but we cannot import since window doesn't exist yet.
+    // TODO update to agreed value between platforms
+    const featureReleaseTimestamp = 1676851200000; // unix 13/02/2023
+    // support disppearing messages legacy mode until after the platform agreed timestamp
+    if (Date.now() < featureReleaseTimestamp) {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE expireTimer > 0;`
+      ).run({ expirationType: 'legacy' });
+    } else {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE type = 'private' AND expireTimer > 0;`
-    ).run({ expirationType: 'deleteAfterRead' });
+      ).run({ expirationType: 'deleteAfterRead' });
 
-    db.prepare(
-      `UPDATE ${CONVERSATIONS_TABLE} SET
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
-    ).run({ expirationType: 'deleteAfterSend' });
+      ).run({ expirationType: 'deleteAfterSend' });
+    }
 
     // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
     // Update Conversation Model expireTimer calls everywhere
