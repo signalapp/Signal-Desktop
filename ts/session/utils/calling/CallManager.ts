@@ -505,8 +505,8 @@ export async function USER_callRecipient(recipient: string) {
   weAreCallerOnCurrentCall = true;
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = calledConvo.get('expirationType') !== 'legacy';
-  const expirationType = isLegacyMode ? calledConvo.get('expirationType') : 'deleteAfterSend';
+  const isLegacyMode = calledConvo.get('expirationType') === 'legacy';
+  const expirationType = !isLegacyMode ? calledConvo.get('expirationType') : 'deleteAfterSend';
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
     sent_at: now,
@@ -867,8 +867,8 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   callerConvo.set('active_at', networkTimestamp);
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = callerConvo.get('expirationType') !== 'legacy';
-  const expirationType = isLegacyMode ? callerConvo.get('expirationType') : 'deleteAfterSend';
+  const isLegacyMode = callerConvo.get('expirationType') === 'legacy';
+  const expirationType = !isLegacyMode ? callerConvo.get('expirationType') : 'deleteAfterSend';
   await callerConvo?.addSingleIncomingMessage({
     callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
@@ -1202,8 +1202,8 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   }
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = incomingCallConversation.get('expirationType') !== 'legacy';
-  const expirationType = isLegacyMode
+  const isLegacyMode = incomingCallConversation.get('expirationType') === 'legacy';
+  const expirationType = !isLegacyMode
     ? incomingCallConversation.get('expirationType')
     : 'deleteAfterSend';
   await incomingCallConversation?.addSingleIncomingMessage({

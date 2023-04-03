@@ -90,7 +90,7 @@ export const ConversationHeaderTitle = () => {
       : expirationType === 'deleteAfterSend'
       ? window.i18n('disappearingMessagesModeAfterSend')
       : // legacy mode support
-      isGroup
+      isMe || isGroup
       ? window.i18n('disappearingMessagesModeAfterSend')
       : window.i18n('disappearingMessagesModeAfterRead');
   const abbreviatedExpireTime = Boolean(expireTimer)
@@ -128,11 +128,6 @@ export const ConversationHeaderTitle = () => {
     }
   }, [visibleTitleIndex, subtitles]);
 
-  if (isMe) {
-    // TODO customise for new disappearing message system
-    return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
-  }
-
   return (
     <div className="module-conversation-header__title-container">
       <div className="module-conversation-header__title-flex">
@@ -141,12 +136,16 @@ export const ConversationHeaderTitle = () => {
           onClick={handleRightPanelToggle}
           role="button"
         >
-          <span
-            className="module-contact-name__profile-name"
-            data-testid="header-conversation-name"
-          >
-            {convoName}
-          </span>
+          {isMe ? (
+            <span>{i18n('noteToSelf')}</span>
+          ) : (
+            <span
+              className="module-contact-name__profile-name"
+              data-testid="header-conversation-name"
+            >
+              {convoName}
+            </span>
+          )}
           {subtitles && subtitles[visibleTitleIndex] && (
             <ConversationHeaderSubitle
               currentIndex={visibleTitleIndex}

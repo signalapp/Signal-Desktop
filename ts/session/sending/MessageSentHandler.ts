@@ -125,8 +125,10 @@ async function handleMessageSentSuccess(
   const expirationType = fetchedMessage.get('expirationType');
   // TODO legacy messages support will be removed in a future release
   const convo = fetchedMessage.getConversation();
-  const isLegacyReadMode = convo && convo.isPrivate() && expirationType === 'legacy';
-  const isLegacySentMode = convo && convo.isMediumGroup() && expirationType === 'legacy';
+  const isLegacyReadMode =
+    convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
+  const isLegacySentMode =
+    convo && (convo.isMe() || convo.isMediumGroup()) && expirationType === 'legacy';
 
   fetchedMessage.set({
     sent_to: sentTo,

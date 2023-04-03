@@ -166,7 +166,7 @@ function updateReadStatus(message: MessageModel) {
     const expirationType = message.get('expirationType');
     // TODO legacy messages support will be removed in a future release
     const convo = message.getConversation();
-    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+    const isLegacyMode = convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
     if ((isLegacyMode || expirationType === 'deleteAfterRead') && message.get('expireTimer')) {
       message.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
@@ -340,7 +340,8 @@ export async function handleMessageJob(
     if (
       messageModel.isIncoming() &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false &&
-      ((messageModel.get('expirationType') === 'legacy' && conversation.isGroup()) ||
+      ((messageModel.get('expirationType') === 'legacy' &&
+        (conversation.isMe() || conversation.isMediumGroup())) ||
         messageModel.get('expirationType') === 'deleteAfterSend')
     ) {
       messageModel.set({

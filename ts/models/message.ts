@@ -1224,7 +1224,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expirationType = this.get('expirationType');
     // TODO legacy messages support will be removed in a future release
     const convo = this.getConversation();
-    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+    const isLegacyMode = convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
     if ((isLegacyMode || expirationType === 'deleteAfterRead') && this.get('expireTimer')) {
       this.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
