@@ -282,7 +282,6 @@ export async function checkForExpireUpdate(
   convoToUpdate: ConversationModel,
   content: SignalService.Content
 ): Promise<DisappearingMessageUpdate | undefined> {
-  // debugger;
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await checkIsFeatureReleased('Disappearing Messages V2');

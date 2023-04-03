@@ -147,7 +147,8 @@ async function handleMessageSentSuccess(
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           'deleteAfterSend',
-          fetchedMessage.get('sent_at')
+          fetchedMessage.get('sent_at'),
+          isLegacySentMode
         ),
       });
     }

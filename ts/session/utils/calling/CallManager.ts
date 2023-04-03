@@ -504,7 +504,9 @@ export async function USER_callRecipient(recipient: string) {
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
   weAreCallerOnCurrentCall = true;
 
-  const expirationType = calledConvo.get('expirationType');
+  // TODO legacy messages support will be removed in a future release
+  const isLegacyMode = calledConvo.get('expirationType') !== 'legacy';
+  const expirationType = isLegacyMode ? calledConvo.get('expirationType') : 'deleteAfterSend';
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
     sent_at: now,
@@ -512,7 +514,8 @@ export async function USER_callRecipient(recipient: string) {
     expireTimer: calledConvo.get('expireTimer') ? calledConvo.get('expireTimer') : 0,
     expirationStartTimestamp: setExpirationStartTimestamp(
       expirationType,
-      expirationType === 'deleteAfterSend' ? now : undefined
+      expirationType === 'deleteAfterSend' ? now : undefined,
+      isLegacyMode
     ),
   });
 
@@ -804,8 +807,15 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     window?.log?.info('incoming call request cannot be accepted as uuid is invalid');
     return;
   }
-  window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
-  await openConversationWithMessages({ conversationKey: fromSender, messageId: null });
+  window.inboxStore?.dispatch(
+    answerCall({
+      pubkey: fromSender,
+    })
+  );
+  await openConversationWithMessages({
+    conversationKey: fromSender,
+    messageId: null,
+  });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
@@ -824,7 +834,10 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   try {
     await peerConnection.setRemoteDescription(
-      new RTCSessionDescription({ sdp: sdps[0], type: 'offer' })
+      new RTCSessionDescription({
+        sdp: sdps[0],
+        type: 'offer',
+      })
     );
   } catch (e) {
     window.log?.error(`Error setting RTC Session Description ${e}`);
@@ -841,7 +854,11 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       const sdp = lastCandidatesFromSender.sdps[index];
       const sdpMLineIndex = lastCandidatesFromSender.sdpMLineIndexes[index];
       const sdpMid = lastCandidatesFromSender.sdpMids[index];
-      const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+      const candicate = new RTCIceCandidate({
+        sdpMid,
+        sdpMLineIndex,
+        candidate: sdp,
+      });
       await peerConnection.addIceCandidate(candicate);
     }
   }
@@ -849,7 +866,9 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
 
-  const expirationType = callerConvo.get('expirationType');
+  // TODO legacy messages support will be removed in a future release
+  const isLegacyMode = callerConvo.get('expirationType') !== 'legacy';
+  const expirationType = isLegacyMode ? callerConvo.get('expirationType') : 'deleteAfterSend';
   await callerConvo?.addSingleIncomingMessage({
     callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
@@ -860,7 +879,8 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     expireTimer: callerConvo.get('expireTimer') ? callerConvo.get('expireTimer') : 0,
     expirationStartTimestamp: setExpirationStartTimestamp(
       expirationType,
-      expirationType === 'deleteAfterSend' ? networkTimestamp : undefined
+      expirationType === 'deleteAfterSend' ? networkTimestamp : undefined,
+      isLegacyMode
     ),
   });
   await buildAnswerAndSendIt(fromSender);
@@ -1181,7 +1201,11 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     incomingCallConversation.set('active_at', getNowWithNetworkOffset());
   }
 
-  const expirationType = incomingCallConversation.get('expirationType');
+  // TODO legacy messages support will be removed in a future release
+  const isLegacyMode = incomingCallConversation.get('expirationType') !== 'legacy';
+  const expirationType = isLegacyMode
+    ? incomingCallConversation.get('expirationType')
+    : 'deleteAfterSend';
   await incomingCallConversation?.addSingleIncomingMessage({
     callNotificationType: 'missed-call',
     source: callerPubkey,
@@ -1194,7 +1218,8 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
       : 0,
     expirationStartTimestamp: setExpirationStartTimestamp(
       expirationType,
-      expirationType === 'deleteAfterSend' ? sentAt : undefined
+      expirationType === 'deleteAfterSend' ? sentAt : undefined,
+      isLegacyMode
     ),
   });
 }

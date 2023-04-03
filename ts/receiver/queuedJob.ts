@@ -345,7 +345,8 @@ export async function handleMessageJob(
       messageModel.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           'deleteAfterSend',
-          messageModel.get('sent_at')
+          messageModel.get('sent_at'),
+          messageModel.get('expirationType') === 'legacy'
         ),
       });
     }

@@ -180,7 +180,10 @@ export async function addUpdateMessage(
     group_update: groupUpdate,
     expirationType: expirationType || undefined,
     expireTimer: expireTimer || 0,
-    expirationStartTimestamp: setExpirationStartTimestamp(expirationType, sentAt),
+    // closed groups are always deleteAfterSend
+    expirationStartTimestamp: expirationType
+      ? setExpirationStartTimestamp('deleteAfterSend', sentAt, expirationType === 'legacy')
+      : undefined,
   };
 
   if (UserUtils.isUsFromCache(sender)) {

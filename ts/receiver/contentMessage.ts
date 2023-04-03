@@ -774,6 +774,8 @@ export async function handleDataExtractionNotification(
     const envelopeTimestamp = toNumber(timestamp);
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
     const expirationType = convo.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
 
     await convo.addSingleIncomingMessage({
       source,
@@ -787,7 +789,10 @@ export async function handleDataExtractionNotification(
       expirationType: expirationType !== 'off' ? expirationType : undefined,
       expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
       // TODO should this only be for delete after send?
-      expirationStartTimestamp: setExpirationStartTimestamp(expirationType),
+      expirationStartTimestamp:
+        isLegacyMode || expirationType === 'deleteAfterSend'
+          ? setExpirationStartTimestamp('deleteAfterSend', undefined, isLegacyMode)
+          : undefined,
     });
     convo.updateLastMessage();
   }
