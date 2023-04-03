@@ -290,10 +290,12 @@ export async function checkForExpireUpdate(
   const isLegacyDataMessage = Boolean(
     isLegacyContentMessage && checkIsLegacyDataMessage(dataMessage as SignalService.DataMessage)
   );
-  const isLegacyConversationSettingMessage =
-    isLegacyContentMessage &&
-    isLegacyDataMessage &&
-    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+  const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
+    ? isLegacyContentMessage &&
+      isLegacyDataMessage &&
+      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+    : isLegacyContentMessage &&
+      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
   let expirationTimer = isLegacyDataMessage
     ? Number(dataMessage.expireTimer)
