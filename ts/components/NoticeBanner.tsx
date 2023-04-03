@@ -5,9 +5,8 @@ import { Flex } from './basic/Flex';
 const StyledNoticeBanner = styled(Flex)`
   background-color: var(--primary-color);
   color: var(--background-primary-color);
-  min-height: 30px;
   font-size: var(--font-size-lg);
-  padding: 0 var(--margins-sm);
+  padding: var(--margins-xs) var(--margins-sm);
   text-align: center;
 `;
 

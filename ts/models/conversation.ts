@@ -1088,11 +1088,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
-    if (expirationType === 'legacy') {
-      // TODO If we are the new client then we ignore these updates
-      // TODO trigger UI
-    }
-
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
