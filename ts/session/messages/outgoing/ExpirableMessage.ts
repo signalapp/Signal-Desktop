@@ -33,6 +33,7 @@ export class ExpirableMessage extends ContentMessage {
           : this.expirationType === 'legacy'
           ? SignalService.Content.ExpirationType.UNKNOWN
           : undefined,
+      // TODO could use isFinite?
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
     });
   }

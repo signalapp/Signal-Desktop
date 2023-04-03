@@ -310,6 +310,7 @@ export async function checkForExpireUpdate(
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
 
+  // TODO should review this
   const shouldDisappearButIsntMessage =
     dataMessage.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
     expirationType === 'off' &&
