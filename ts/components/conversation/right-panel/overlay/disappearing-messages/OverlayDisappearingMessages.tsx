@@ -57,6 +57,14 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
       : getSelectedConversationExpirationModesWithLegacy
   );
 
+  // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
+  const singleMode =
+    disappearingModeOptions['off'] !== undefined &&
+    Object.keys(disappearingModeOptions).length === 2
+      ? Object.keys(disappearingModeOptions)[1]
+      : undefined;
+  const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
+
   const convoProps = useSelector(getSelectedConversationExpirationSettings);
 
   if (!convoProps) {
@@ -75,7 +83,27 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
   );
 
   // TODO verify that this if fine compared to updating in the useEffect
-  const timerOptions = useTimerOptionsByMode(modeSelected);
+  const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
+
+  const handleSetMode = async () => {
+    if (hasOnlyOneMode) {
+      if (selectedConversationKey && singleMode) {
+        await setDisappearingMessagesByConvoId(
+          selectedConversationKey,
+          timeSelected === 0 ? 'off' : singleMode,
+          timeSelected
+        );
+        dispatch(closeRightPanel());
+        dispatch(resetRightOverlayMode());
+      }
+    } else {
+      if (selectedConversationKey && modeSelected && timeSelected) {
+        await setDisappearingMessagesByConvoId(selectedConversationKey, modeSelected, timeSelected);
+        dispatch(closeRightPanel());
+        dispatch(resetRightOverlayMode());
+      }
+    }
+  };
 
   useEffect(() => {
     if (modeSelected !== convoProps.expirationType) {
@@ -91,21 +119,35 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
       <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
         <Header
           title={window.i18n('disappearingMessages')}
-          subtitle={window.i18n('settingAppliesToEveryone')}
+          subtitle={
+            singleMode === 'deleteAfterRead'
+              ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
+              : singleMode === 'deleteAfterSend'
+              ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
+              : window.i18n('settingAppliesToEveryone')
+          }
         />
         <DisappearingModes
           options={disappearingModeOptions}
           selected={modeSelected}
           setSelected={setModeSelected}
+          hasOnlyOneMode={hasOnlyOneMode}
         />
-        {modeSelected !== 'off' && (
+        {(hasOnlyOneMode || modeSelected !== 'off') && (
           <>
-            <SpacerLG />
+            {!hasOnlyOneMode && <SpacerLG />}
             <TimeOptions
               options={timerOptions}
               selected={timeSelected}
               setSelected={setTimeSelected}
-              disabled={modeSelected ? disappearingModeOptions[modeSelected] : undefined}
+              hasOnlyOneMode={hasOnlyOneMode}
+              disabled={
+                singleMode
+                  ? disappearingModeOptions[singleMode]
+                  : modeSelected
+                  ? disappearingModeOptions[modeSelected]
+                  : undefined
+              }
             />
           </>
         )}
@@ -120,18 +162,14 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
           </>
         )}
         <SessionButton
-          onClick={async () => {
-            if (selectedConversationKey && modeSelected && timeSelected) {
-              await setDisappearingMessagesByConvoId(
-                selectedConversationKey,
-                modeSelected,
-                timeSelected
-              );
-              dispatch(closeRightPanel());
-              dispatch(resetRightOverlayMode());
-            }
-          }}
-          disabled={modeSelected ? disappearingModeOptions[modeSelected] : undefined}
+          onClick={handleSetMode}
+          disabled={
+            singleMode
+              ? disappearingModeOptions[singleMode]
+              : modeSelected
+              ? disappearingModeOptions[modeSelected]
+              : undefined
+          }
         >
           {window.i18n('set')}
         </SessionButton>

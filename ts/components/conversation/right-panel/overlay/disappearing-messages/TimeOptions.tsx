@@ -8,11 +8,12 @@ type TimerOptionsProps = {
   options: TimerOptionsArray | null;
   selected?: number;
   setSelected: (value: number) => void;
+  hasOnlyOneMode?: boolean;
   disabled?: boolean;
 };
 
 export const TimeOptions = (props: TimerOptionsProps) => {
-  const { options, selected, setSelected, disabled } = props;
+  const { options, selected, setSelected, hasOnlyOneMode, disabled } = props;
 
   if (!options || isEmpty(options)) {
     return null;
@@ -20,21 +21,23 @@ export const TimeOptions = (props: TimerOptionsProps) => {
 
   return (
     <>
-      <PanelLabel>{window.i18n('timer')}</PanelLabel>
+      {!hasOnlyOneMode && <PanelLabel>{window.i18n('timer')}</PanelLabel>}
       <PanelButtonGroup>
-        {options.map((option: any) => (
-          <PanelRadioButton
-            key={option.name}
-            text={option.name}
-            value={option.name}
-            isSelected={selected === option.value}
-            onSelect={() => {
-              setSelected(option.value);
-            }}
-            noBackgroundColor={true}
-            disabled={disabled}
-          />
-        ))}
+        {options.map((option: any) => {
+          return (
+            <PanelRadioButton
+              key={option.name}
+              text={option.name}
+              value={option.name}
+              isSelected={selected === option.value}
+              onSelect={() => {
+                setSelected(option.value);
+              }}
+              noBackgroundColor={true}
+              disabled={disabled}
+            />
+          );
+        })}
       </PanelButtonGroup>
     </>
   );

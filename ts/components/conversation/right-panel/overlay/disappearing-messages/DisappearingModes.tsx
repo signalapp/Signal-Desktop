@@ -7,10 +7,16 @@ type DisappearingModesProps = {
   options: Record<DisappearingMessageConversationType, boolean>;
   selected?: DisappearingMessageConversationType;
   setSelected: (value: string) => void;
+  hasOnlyOneMode?: boolean;
 };
 
 export const DisappearingModes = (props: DisappearingModesProps) => {
-  const { options, selected, setSelected } = props;
+  const { options, selected, setSelected, hasOnlyOneMode } = props;
+
+  if (hasOnlyOneMode) {
+    return null;
+  }
+
   return (
     <>
       <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>

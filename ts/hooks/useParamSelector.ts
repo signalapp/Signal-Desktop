@@ -185,7 +185,7 @@ export function useMessageReactsPropsById(messageId?: string) {
 }
 
 // TODO remove 10 seconds timer
-export function useTimerOptionsByMode(disappearingMessageMode?: string) {
+export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyOneMode?: boolean) {
   return useSelector((state: StateType) => {
     const options = state.timerOptions.timerOptions;
 
@@ -194,6 +194,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
       case 'legacy':
         return options.filter(option => {
           return (
+            (hasOnlyOneMode && option.value === 0) ||
             option.value === 5 || // 5 seconds
             option.value === 10 || // 10 seconds
             option.value === 30 || // 30 seconds
@@ -210,6 +211,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
       case 'deleteAfterSend':
         return options.filter(option => {
           return (
+            (hasOnlyOneMode && option.value === 0) ||
             option.value === 10 || // 10 seconds (for development)
             option.value === 30 || // 30 seconds (for development)
             option.value === 60 || // 1 minute (for testing)
@@ -222,6 +224,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
       case 'deleteAfterRead':
         return options.filter(option => {
           return (
+            (hasOnlyOneMode && option.value === 0) ||
             option.value === 10 || // 10 seconds (for development)
             option.value === 30 || // 30 seconds (for development)
             option.value === 60 || // 1 minute (for testing)
