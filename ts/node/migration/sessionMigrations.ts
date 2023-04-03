@@ -1205,7 +1205,6 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-// TODO can the performance be improved?
 function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 30;
   if (currentVersion >= targetVersion) {
@@ -1218,47 +1217,22 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     db.exec(`
           ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";
          `);
+
     db.exec(`
           ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;
          `);
 
-    const privateConversationsToUpdate = db
-      .prepare(
-        `SELECT rowid, * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND expireTimer > 0;`
-      )
-      .all();
-
-    privateConversationsToUpdate.forEach(convo => {
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE id = $id;`
-      ).run({ id: convo.id, expirationType: 'deleteAfterRead' });
+      WHERE type = 'private' AND expireTimer > 0;`
+    ).run({ expirationType: 'deleteAfterRead' });
 
-      db.prepare(
-        `SELECT * FROM ${CONVERSATIONS_TABLE}
-      WHERE id=$id;`
-      ).all({ id: convo.id });
-    });
-
-    const groupConversationsToUpdate = db
-      .prepare(
-        `SELECT rowid, * FROM ${CONVERSATIONS_TABLE} WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
-      )
-      .all();
-
-    groupConversationsToUpdate.forEach(convo => {
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE id = $id;`
-      ).run({ id: convo.id, expirationType: 'deleteAfterSend' });
-
-      db.prepare(
-        `SELECT * FROM ${CONVERSATIONS_TABLE}
-      WHERE id=$id;`
-      ).all({ id: convo.id });
-    });
+      WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
+    ).run({ expirationType: 'deleteAfterSend' });
 
     // TODO After testing -> renamed expireTimer column to expirationTimer everywhere.
     // Update Conversation Model expireTimer calls everywhere
