@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
@@ -230,7 +230,8 @@ const CallButton = () => {
       iconType="phone"
       iconSize="large"
       iconPadding="2px"
-      margin="0 10px 0 0"
+      // negative margin to keep conversation header title centered
+      margin="0 10px 0 -32px"
       onClick={() => {
         void callRecipient(selectedConvoKey, canCall);
       }}
@@ -243,6 +244,7 @@ export const StyledSubtitleContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
   min-width: 230px;
 
   div:first-child {
@@ -257,9 +259,9 @@ const StyledSubtitleDot = styled.span<{ active: boolean }>`
   background-color: ${props =>
     props.active ? 'var(--text-primary-color)' : 'var(--text-secondary-color)'};
 
-  height: 6px;
-  width: 6px;
-  margin: 0 3px;
+  height: 5px;
+  width: 5px;
+  margin: 0 2px;
 `;
 
 const SubtitleDotMenu = ({
@@ -327,6 +329,7 @@ const ConversationHeaderTitle = () => {
 
   const { i18n } = window;
 
+  const subtitles: Array<string> = [];
   const notificationSubtitle = notificationSetting
     ? i18n('notificationSubtitle', [notificationSetting])
     : null;
@@ -339,36 +342,38 @@ const ConversationHeaderTitle = () => {
       memberCount = members.length;
     }
   }
+  if (notificationSubtitle) {
+    subtitles.push(notificationSubtitle);
+  }
 
   let memberCountSubtitle = null;
   if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
     memberCountSubtitle = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
   }
+  if (memberCountSubtitle) {
+    subtitles.push(memberCountSubtitle);
+  }
 
   const disappearingMessageSettingText =
     expirationType === 'off'
-      ? window.i18n('disappearingMessagesModeOff')
+      ? null
       : expirationType === 'deleteAfterRead'
       ? window.i18n('disappearingMessagesModeAfterRead')
       : window.i18n('disappearingMessagesModeAfterSend');
   const abbreviatedExpireTime = Boolean(expireTimer)
     ? ExpirationTimerOptions.getAbbreviated(expireTimer)
     : null;
-  const disappearingMessageSubtitle = `${disappearingMessageSettingText}${
-    abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
-  }`;
+  const disappearingMessageSubtitle = disappearingMessageSettingText
+    ? `${disappearingMessageSettingText}${
+        abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
+      }`
+    : null;
+  if (disappearingMessageSubtitle) {
+    subtitles.push(disappearingMessageSubtitle);
+  }
 
-  const subtitles = [
-    notificationSubtitle && notificationSubtitle,
-    memberCountSubtitle && memberCountSubtitle,
-    disappearingMessageSubtitle && disappearingMessageSubtitle,
-  ];
-  window.log.info(`WIP: subtitles`, subtitles);
-
-  // const fullTextSubtitle = memberCountText
-  //   ? `${memberCountText} ● ${notificationSubtitle}`
-  //   : `${notificationSubtitle}`;
+  window.log.info(`WIP: subtitles`, subtitles, visibleTitleIndex);
 
   const handleTitleCycle = (direction: 1 | -1) => {
     let newIndex = visibleTitleIndex + direction;
@@ -384,6 +389,10 @@ const ConversationHeaderTitle = () => {
       setVisibleTitleIndex(newIndex);
     }
   };
+
+  useEffect(() => {
+    setVisibleTitleIndex(0);
+  }, [convoName]);
 
   if (isMe) {
     // TODO customise for new disappearing message system
@@ -407,15 +416,22 @@ const ConversationHeaderTitle = () => {
       }}
       role="button"
     >
-      <span className="module-contact-name__profile-name" data-testid="header-conversation-name">
+      <span
+        className="module-contact-name__profile-name"
+        data-testid="header-conversation-name"
+        style={{
+          marginBottom:
+            subtitles && subtitles[visibleTitleIndex] && subtitles.length > 1 ? '-5px' : undefined,
+        }}
+      >
         {convoName}
       </span>
-      {subtitles && (
+      {subtitles && subtitles[visibleTitleIndex] && (
         <StyledSubtitleContainer>
           <Flex
             container={true}
             flexDirection={'row'}
-            justifyContent={'space-between'}
+            justifyContent={subtitles.length < 2 ? 'center' : 'space-between'}
             alignItems={'center'}
             width={'100%'}
           >
@@ -428,8 +444,9 @@ const ConversationHeaderTitle = () => {
               onClick={() => {
                 handleTitleCycle(-1);
               }}
+              isHidden={subtitles.length < 2}
             />
-            {visibleTitleIndex === 2 && (
+            {visibleTitleIndex === 2 && expirationType !== 'off' && (
               <SessionIconButton
                 iconColor={'var(--button-icon-stroke-selected-color)'}
                 iconSize={'tiny'}
@@ -449,12 +466,13 @@ const ConversationHeaderTitle = () => {
               onClick={() => {
                 handleTitleCycle(1);
               }}
+              isHidden={subtitles.length < 2}
             />
           </Flex>
           <SubtitleDotMenu
             options={subtitles}
             selectedOptionIndex={visibleTitleIndex}
-            style={{ margin: 'var(--margins-xs) 0' }}
+            style={{ visibility: subtitles.length < 2 ? 'hidden' : undefined, margin: '3px 0' }}
           />
         </StyledSubtitleContainer>
       )}
