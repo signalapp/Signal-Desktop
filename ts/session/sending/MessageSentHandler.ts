@@ -100,14 +100,6 @@ async function handleMessageSentSuccess(
       void PnServer.notifyPnServer(wrappedEnvelope, sentMessage.device);
     }
   }
-  if (!shouldMarkMessageAsSynced) {
-    const expirationType = fetchedMessage.get('expirationType');
-    if (expirationType) {
-      fetchedMessage =
-        setExpirationStartTimestamp(fetchedMessage, expirationType, effectiveTimestamp) ||
-        fetchedMessage;
-    }
-  }
 
   // Handle the sync logic here
   if (shouldTriggerSyncMessage) {
@@ -141,6 +133,14 @@ async function handleMessageSentSuccess(
     sent: true,
     sent_at: effectiveTimestamp,
   });
+
+  if (!shouldMarkMessageAsSynced) {
+    const expirationType = fetchedMessage.get('expirationType');
+    if (expirationType) {
+      fetchedMessage =
+        setExpirationStartTimestamp(fetchedMessage, expirationType) || fetchedMessage;
+    }
+  }
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();

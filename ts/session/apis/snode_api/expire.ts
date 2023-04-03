@@ -30,10 +30,10 @@ async function generateSignature({
     `expire${timestamp}${messageHashes.join('')}`,
     'utf8'
   );
-  console.log(
-    `WIP: generateSignature verificationData`,
-    `expire${timestamp}${messageHashes.join('')}`
-  );
+  // console.log(
+  //   `WIP: generateSignature verificationData`,
+  //   `expire${timestamp}${messageHashes.join('')}`
+  // );
   const message = new Uint8Array(verificationData);
 
   const sodium = await getSodiumRenderer();
@@ -76,10 +76,10 @@ async function verifySignature({
     `${pubkey.key}${expiryApplied}${messageHashes.join('')}${resultHashes.join('')}`,
     'utf8'
   );
-  console.log(
-    `WIP: verifySignature verificationData`,
-    `${pubkey.key}${expiryApplied}${messageHashes.join('')}${resultHashes.join('')}`
-  );
+  // console.log(
+  //   `WIP: verifySignature verificationData`,
+  //   `${pubkey.key}${expiryApplied}${messageHashes.join('')}${resultHashes.join('')}`
+  // );
 
   const sodium = await getSodiumRenderer();
   try {
@@ -108,10 +108,10 @@ async function processExpirationResults(
 
   // TODO need proper typing for swarm and results
   const results: Record<string, { hashes: Array<string>; expiry: number }> = {};
-  console.log(`WIP: processExpirationResults`, swarm, messageHashes);
+  // console.log(`WIP: processExpirationResults`, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
-    console.log(`WIP: processExpirationResults we got this far`, nodeKey, swarm[nodeKey]);
+    // console.log(`WIP: processExpirationResults we got this far`, nodeKey, swarm[nodeKey]);
     if (!isEmpty(swarm[nodeKey].failed)) {
       const reason = 'Unknown';
       const statusCode = '404';
@@ -173,14 +173,9 @@ async function expireOnNodes(targetNode: Snode, params: ExpireParams) {
 
     try {
       const parsed = JSON.parse(result.body);
-      const expirationResults = await processExpirationResults(
-        params.pubkey,
-        targetNode,
-        parsed.swarm,
-        params.messages
-      );
+      await processExpirationResults(params.pubkey, targetNode, parsed.swarm, params.messages);
 
-      console.log(`WIP: expireOnNodes attempt complete. Here are the results`, expirationResults);
+      // console.log(`WIP: expireOnNodes attempt complete. Here are the results`, expirationResults);
 
       return true;
     } catch (e) {
@@ -198,12 +193,12 @@ async function expireOnNodes(targetNode: Snode, params: ExpireParams) {
 }
 
 export async function expireMessageOnSnode(messageHash: string, expireTimer: number) {
-  console.log(`WIP: expireMessageOnSnode running!`);
+  // console.log(`WIP: expireMessageOnSnode running!`);
   const ourPubKey = UserUtils.getOurPubKeyFromCache();
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
   if (!ourPubKey || !ourEd25519Key) {
-    window.log.info(`WIP: expireMessageOnSnode failed!`, messageHash);
+    // window.log.info(`WIP: expireMessageOnSnode failed!`, messageHash);
     return;
   }
 
@@ -217,7 +212,7 @@ export async function expireMessageOnSnode(messageHash: string, expireTimer: num
   });
 
   if (!signResult) {
-    window.log.info(`WIP: Signing message expiry on swarm failed!`, messageHash);
+    // window.log.info(`WIP: Signing message expiry on swarm failed!`, messageHash);
     return;
   }
 
@@ -248,7 +243,7 @@ export async function expireMessageOnSnode(messageHash: string, expireTimer: num
   try {
     const firstSuccessSnode = await firstTrue(promises);
     snode = firstSuccessSnode;
-    console.log(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
+    // console.log(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(

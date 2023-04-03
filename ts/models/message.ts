@@ -35,6 +35,7 @@ import {
   messagesChanged,
   PropsForAttachment,
   PropsForExpirationTimer,
+  PropsForExpiringMessage,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,
@@ -91,7 +92,7 @@ import {
   getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { DURATION, QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { ReactionList } from '../types/Reaction';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { expireMessageOnSnode } from '../session/apis/snode_api/expire';
@@ -306,6 +307,24 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return basicProps;
   }
 
+  public getPropsForExpiringMessage(): PropsForExpiringMessage | null {
+    const expirationType = this.get('expirationType');
+    const expireTimerStart = this.get('expirationStartTimestamp') || null;
+    const expirationLength = this.get('expireTimer') || null;
+    const expirationTimestamp =
+      expirationType && expireTimerStart && expirationLength
+        ? expireTimerStart + expirationLength * DURATION.SECONDS
+        : null;
+
+    return {
+      convoId: this.get('conversationId'),
+      messageId: this.get('id'),
+      expirationLength,
+      expirationTimestamp,
+      isExpired: this.isExpired(),
+    };
+  }
+
   public getPropsForGroupInvitation(): PropsForGroupInvitation | null {
     if (!this.isGroupInvitation()) {
       return null;
@@ -333,6 +352,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageId: this.id as string,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
+      ...this.getPropsForExpiringMessage(),
     };
   }
 

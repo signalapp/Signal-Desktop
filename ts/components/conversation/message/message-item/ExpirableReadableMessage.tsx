@@ -64,8 +64,9 @@ function useIsExpired(props: PropsForExpiringMessage) {
   return { isExpired };
 }
 
-const StyledReadableMessage = styled(ReadableMessage)`
+const StyledReadableMessage = styled(ReadableMessage)<{ isIncoming: boolean }>`
   display: flex;
+  justify-content: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   align-items: center;
   width: 100%;
 `;
@@ -106,6 +107,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       messageId={messageId}
       receivedAt={receivedAt}
       isUnread={!!isUnread}
+      isIncoming={isIncoming}
       key={`readable-message-${messageId}`}
     >
       {expirationLength && expirationTimestamp && (

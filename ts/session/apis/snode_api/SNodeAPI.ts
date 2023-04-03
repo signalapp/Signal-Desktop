@@ -554,7 +554,7 @@ export async function retrieveNextMessages(
     handleTimestampOffset('retrieve', json.t);
     await handleHardforkResult(json);
 
-    console.log(`WIP: retrieveNextMessages`, json.messages);
+    // console.log(`WIP: retrieveNextMessages`, json.messages);
 
     return json.messages || [];
   } catch (e) {

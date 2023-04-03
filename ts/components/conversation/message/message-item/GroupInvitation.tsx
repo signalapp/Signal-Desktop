@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { acceptOpenGroupInvitation } from '../../../../interactions/messageInteractions';
 import { SessionIconButton } from '../../../icon';
-import { ReadableMessage } from './ReadableMessage';
 import styled from 'styled-components';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
 const StyledIconContainer = styled.div`
   background-color: var(--message-link-preview-background-color);
@@ -21,10 +21,15 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
+      convoId={props.convoId}
       messageId={messageId}
+      direction={props.direction}
       receivedAt={receivedAt}
-      isUnread={isUnread}
+      isUnread={Boolean(isUnread)}
+      expirationLength={props.expirationLength}
+      expirationTimestamp={props.expirationTimestamp}
+      isExpired={props.isExpired}
       key={`readable-message-${messageId}`}
     >
       <div className="group-invitation-container" id={`msg-${props.messageId}`}>
@@ -52,6 +57,6 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
           </div>
         </div>
       </div>
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

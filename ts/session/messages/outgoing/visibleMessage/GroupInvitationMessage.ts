@@ -1,25 +1,30 @@
-import { DataMessage } from '..';
 import { SignalService } from '../../../../protobuf';
+import { DisappearingMessageType } from '../../../../util/expiringMessages';
 import { MessageParams } from '../Message';
+import { VisibleMessage } from './VisibleMessage';
 
 interface GroupInvitationMessageParams extends MessageParams {
   url: string;
   name: string;
-  // if there is an expire timer set for the conversation, we need to set it.
+  // if disappearing messages is set for the conversation, we need to set it.
   // otherwise, it will disable the expire timer on the receiving side.
+  expirationType?: DisappearingMessageType;
   expireTimer?: number;
 }
 
-export class GroupInvitationMessage extends DataMessage {
+export class GroupInvitationMessage extends VisibleMessage {
   private readonly url: string;
   private readonly name: string;
-  private readonly expireTimer?: number;
 
   constructor(params: GroupInvitationMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
+    super({
+      timestamp: params.timestamp,
+      identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
+    });
     this.url = params.url;
     this.name = params.name;
-    this.expireTimer = params.expireTimer;
   }
 
   public dataProto(): SignalService.DataMessage {

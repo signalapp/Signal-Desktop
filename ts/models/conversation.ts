@@ -636,7 +636,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             timestamp: sentAt,
             name: groupInvitation.name,
             url: groupInvitation.url,
-            expireTimer: this.get('expireTimer'),
+            expirationType,
+            expireTimer,
           });
           // we need the return await so that errors are caught in the catch {}
           await getMessageQueue().sendToPubKey(destinationPubkey, groupInviteMessage);

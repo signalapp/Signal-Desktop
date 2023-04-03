@@ -211,17 +211,18 @@ export function setExpirationStartTimestamp(
 
   if (timestamp) {
     expirationStartTimestamp = Math.min(getNowWithNetworkOffset(), timestamp);
-    message.set('expirationStartTimestamp', expirationStartTimestamp);
   }
+
+  message.set('expirationStartTimestamp', expirationStartTimestamp);
 
   if (mode === 'deleteAfterRead') {
     window.log.info(
-      `WIP: setExpirationStartTimestamp we set the start timetamp for a delete after read message`,
+      `WIP: setExpirationStartTimestamp we set the start timestamp for a delete after read message`,
       message
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.info(
-      `WIP: setExpirationStartTimestamp we set the start timetamp for a delete after send message`,
+      `WIP: setExpirationStartTimestamp we set the start timestamp for a delete after send message`,
       message
     );
   } else {
