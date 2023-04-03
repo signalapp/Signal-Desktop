@@ -445,16 +445,6 @@ export async function innerHandleSwarmContentMessage(
       };
 
       if (isLegacyMessage) {
-        window.log.info(
-          'WIP: Received a legacy disappearing message',
-          content,
-          `${
-            !isPrivateConversationMessage
-              ? `in closed group ${conversationModelForUIUpdate.get('displayNameInProfile')}`
-              : ''
-          }`
-        );
-
         // trigger notice banner
         if (!conversationModelForUIUpdate.get('hasOutdatedClient')) {
           conversationModelForUIUpdate.set({ hasOutdatedClient: true });
