@@ -1,12 +1,10 @@
 import ByteBuffer from 'bytebuffer';
 import { isEmpty } from 'lodash';
-import { ContentMessage } from '..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
 import { Reaction } from '../../../../types/Reaction';
-import { DisappearingMessageType } from '../../../../util/expiringMessages';
 import { DURATION, TTL_DEFAULT } from '../../../constants';
-import { MessageParams } from '../Message';
+import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
 
 interface AttachmentPointerCommon {
   contentType?: string;
@@ -64,21 +62,17 @@ export interface Quote {
   attachments?: Array<QuotedAttachmentWithUrl>;
 }
 
-export interface VisibleMessageParams extends MessageParams {
+export interface VisibleMessageParams extends ExpirableMessageParams {
   attachments?: Array<AttachmentPointerWithUrl>;
   body?: string;
   quote?: Quote;
-  expirationType?: DisappearingMessageType;
-  expireTimer?: number;
   lokiProfile?: LokiProfile;
   preview?: Array<PreviewWithAttachmentUrl>;
   reaction?: Reaction;
   syncTarget?: string; // undefined means it is not a synced message
 }
 
-export class VisibleMessage extends ContentMessage {
-  public readonly expirationType?: DisappearingMessageType;
-  public readonly expireTimer?: number;
+export class VisibleMessage extends ExpirableMessage {
   public readonly reaction?: Reaction;
 
   private readonly attachments?: Array<AttachmentPointerWithUrl>;
@@ -93,12 +87,15 @@ export class VisibleMessage extends ContentMessage {
   private readonly syncTarget?: string;
 
   constructor(params: VisibleMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
+    super({
+      timestamp: params.timestamp,
+      identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
+    });
     this.attachments = params.attachments;
     this.body = params.body;
     this.quote = params.quote;
-    this.expirationType = params.expirationType;
-    this.expireTimer = params.expireTimer;
 
     const profile = buildProfileForOutgoingMessage(params);
 
@@ -112,12 +109,8 @@ export class VisibleMessage extends ContentMessage {
 
   public contentProto(): SignalService.Content {
     return new SignalService.Content({
+      ...super.contentProto(),
       dataMessage: this.dataProto(),
-      expirationType:
-        this.expirationType === 'deleteAfterSend'
-          ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
-          : SignalService.Content.ExpirationType.DELETE_AFTER_READ,
-      expirationTimer: this.expireTimer,
     });
   }
 
@@ -200,6 +193,7 @@ export class VisibleMessage extends ContentMessage {
     return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
   }
 
+  // TODO should this be on the Expirable message? Probably
   public ttl(): number {
     switch (this.expirationType) {
       case 'deleteAfterSend':

@@ -5,7 +5,7 @@ import {
   PropsForGroupUpdateType,
 } from '../../../../state/ducks/conversations';
 import { NotificationBubble } from './notification-bubble/NotificationBubble';
-import { ReadableMessage } from './ReadableMessage';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 import { arrayContainsUsOnly } from '../../../../models/message';
 import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
 
@@ -71,16 +71,29 @@ const ChangeItem = (change: PropsForGroupUpdateType): string => {
 };
 
 export const GroupUpdateMessage = (props: PropsForGroupUpdate) => {
-  const { change, messageId, receivedAt, isUnread } = props;
+  const {
+    change,
+    messageId,
+    receivedAt,
+    isUnread,
+    direction,
+    expirationLength,
+    expirationTimestamp,
+    isExpired,
+  } = props;
 
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
       messageId={messageId}
       receivedAt={receivedAt}
       isUnread={isUnread}
+      direction={direction}
+      expirationLength={expirationLength}
+      expirationTimestamp={expirationTimestamp}
+      isExpired={isExpired}
       key={`readable-message-${messageId}`}
     >
       <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

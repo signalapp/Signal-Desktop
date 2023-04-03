@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { isEqual } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -308,16 +308,9 @@ async function handleExpirationTimerUpdateNoCommit(
   message: MessageModel,
   source: string,
   expirationType: DisappearingMessageConversationType,
-  expireTimer: number
+  expireTimer: number,
+  lastDisappearingMessageChangeTimestamp: number
 ) {
-  const providedChangeTimestamp = getNowWithNetworkOffset();
-
-  // TODO Not entirely sure that this works
-  if (conversation.get('lastDisappearingMessageChangeTimestamp') > providedChangeTimestamp) {
-    window.log.info('WIP: This is an outdated disappearing message setting');
-    return;
-  }
-
   message.set({
     unread: 0, // mark the message as read.
   });
@@ -325,10 +318,11 @@ async function handleExpirationTimerUpdateNoCommit(
   await conversation.updateExpireTimer({
     providedExpirationType: expirationType,
     providedExpireTimer: expireTimer,
-    providedChangeTimestamp,
+    providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
     providedSource: source,
     receivedAt: message.get('received_at'),
     shouldCommit: false,
+    existingMessage: message,
   });
 }
 
@@ -338,14 +332,14 @@ export async function handleMessageJob(
   regularDataMessage: RegularMessageType,
   confirm: () => void,
   source: string,
-  messageHash: string,
-  expireUpdate?: any
+  messageHash: string
 ) {
   window?.log?.info(
     `Starting handleMessageJob for message ${messageModel.idForLogging()}, ${messageModel.get(
       'serverTimestamp'
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
+
   const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE
@@ -353,36 +347,33 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
-    if (!isEmpty(expireUpdate)) {
+    if (
+      messageModel.isIncoming() &&
+      messageModel.get('expirationType') === 'deleteAfterSend' &&
+      Boolean(messageModel.get('expirationStartTimestamp')) === false
+    ) {
       messageModel.set({
-        expirationType: expireUpdate.expirationType,
-        expireTimer: expireUpdate.expireTimer,
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterSend',
+          messageModel.get('sent_at')
+        ),
       });
-
-      if (
-        messageModel.isIncoming() &&
-        messageModel.get('expirationType') === 'deleteAfterSend' &&
-        Boolean(messageModel.get('expirationStartTimestamp')) === false
-      ) {
-        messageModel.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(
-            'deleteAfterSend',
-            messageModel.get('sent_at')
-          ),
-        });
-      }
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
-      // TODO account for lastDisappearingMessageChangeTimestamp
-      let expirationType = messageModel.get('expirationType');
-      const expireTimer = messageModel.get('expireTimer');
+      const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
+      let expirationType = expirationTimerUpdate?.expirationType;
+      const expireTimer = expirationTimerUpdate?.expireTimer || 0;
+      const lastDisappearingMessageChangeTimestamp =
+        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
 
+      // TODO This could happen when we receive a legacy disappearing message
       if (!expirationType) {
         expirationType = conversation.isPrivate() ? 'deleteAfterRead' : 'deleteAfterSend';
       }
 
-      // TODO compare types and change timestamps
+      // Compare mode and timestamp
+
       const oldTypeValue = conversation.get('expirationType');
       const oldTimerValue = conversation.get('expireTimer');
       if (isEqual(expirationType, oldTypeValue) && isEqual(expireTimer, oldTimerValue)) {
@@ -398,7 +389,8 @@ export async function handleMessageJob(
         messageModel,
         source,
         expirationType,
-        expireTimer
+        expireTimer,
+        lastDisappearingMessageChangeTimestamp
       );
     } else {
       // this does not commit to db nor UI unless we need to approve a convo

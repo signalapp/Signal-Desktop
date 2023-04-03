@@ -250,18 +250,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('mediaMessage');
     }
     if (this.isExpirationTimerUpdate()) {
-      // Backwards compatibility for Disappearing Messages in old clients
+      // TODO Backwards compatibility for Disappearing Messages in old clients
+      // TODO What does this comment refer to mean?
       const expireTimerUpdate = this.get('expirationTimerUpdate');
-      const expirationType = this.get('expirationType');
-      const expireTimer = this.get('expireTimer');
-      if (
-        !expireTimerUpdate ||
-        expireTimerUpdate.expirationType === 'off' ||
-        !expireTimerUpdate.expireTimer ||
-        expirationType === 'off' ||
-        !expireTimer ||
-        expireTimer === 0
-      ) {
+      const expirationType = expireTimerUpdate?.expirationType;
+      const expireTimer = expireTimerUpdate?.expireTimer;
+      if (!expireTimerUpdate || expirationType === 'off' || !expireTimer || expireTimer === 0) {
         return window.i18n('disappearingMessagesDisabled');
       }
 
@@ -417,6 +411,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageId: this.id,
       isUnread: this.isUnread(),
       receivedAt: this.get('received_at'),
+      ...this.getPropsForExpiringMessage(),
     };
 
     if (groupUpdate.joined?.length) {
@@ -1063,20 +1058,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async sendSyncMessageOnly(dataMessage: DataMessage) {
+    const contentMessage = dataMessage.contentProto();
     const now = Date.now();
+
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],
       sent: true,
-      // NOTE if disappearing message is deleteAfterRead then we don't use this
-      expirationStartTimestamp: now,
     });
 
-    const contentMessage = dataMessage.contentProto();
     let expireUpdate = null;
+    const expirationType = dataMessage.getDisappearingMessageType();
 
-    if (contentMessage.expirationType && contentMessage.expirationTimer) {
+    if (expirationType && contentMessage.expirationTimer) {
       expireUpdate = {
-        expirationType: contentMessage.expirationType,
+        expirationType,
         expireTimer: contentMessage.expirationTimer,
         lastDisappearingMessageChangeTimestamp:
           contentMessage.lastDisappearingMessageChangeTimestamp,
@@ -1091,6 +1086,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public async sendSyncMessage(
     data: DataMessage | SignalService.DataMessage,
     sentTimestamp: number,
+    // TODO add proper types
     expireUpdate?: any
   ) {
     if (this.get('synced') || this.get('sentSync')) {
@@ -1174,6 +1170,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
     // the line below makes sure that getNextExpiringMessage will find this message as expiring.
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
+
     await this.setToExpire();
 
     const convo = this.getConversation();

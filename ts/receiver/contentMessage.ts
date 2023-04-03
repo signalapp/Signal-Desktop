@@ -3,7 +3,7 @@ import { handleSwarmDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
+import { compact, flatten, identity, isEmpty, isEqual, pickBy, toNumber } from 'lodash';
 import { KeyPrefixType, PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
@@ -406,30 +406,27 @@ export async function innerHandleSwarmContentMessage(
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
 
-      let expireUpdate = null;
-
-      const expirationType =
-        DisappearingMessageConversationSetting[content.expirationType] || 'off';
-      let expireTimer = content.expirationTimer || 0;
+      const expireUpdate = {
+        expirationType: DisappearingMessageConversationSetting[content.expirationType] || 'off',
+        // TODO rename to expirationTimer?
+        expireTimer: content.expirationTimer || 0,
+        // This is used for the expirationTimerUpdate
+        lastDisappearingMessageChangeTimestamp: content.lastDisappearingMessageChangeTimestamp
+          ? Number(content.lastDisappearingMessageChangeTimestamp)
+          : undefined,
+      };
 
       // TODO in the future we will remove the dataMessage expireTimer
       // Backwards compatibility for Disappearing Messages in old clients
-      if (dataMessage.expireTimer) {
+      if (
+        expireUpdate.expireTimer > 0 &&
+        dataMessage.expireTimer &&
+        !isEqual(expireUpdate.expireTimer, dataMessage.expireTimer)
+      ) {
         // TODO Trigger banner in UI?
-        expireTimer = dataMessage.expireTimer;
+        expireUpdate.expireTimer = dataMessage.expireTimer;
         window.log.info('WIP: Received outdated disappearing message data message', content);
       }
-
-      // NOTE In the protobuf this is a long
-      const lastDisappearingMessageChangeTimestamp =
-        Number(content.lastDisappearingMessageChangeTimestamp) || null;
-
-      expireUpdate = {
-        expirationType,
-        // TODO rename to expirationTimer?
-        expireTimer,
-        lastDisappearingMessageChangeTimestamp,
-      };
 
       await handleSwarmDataMessage(
         envelope,

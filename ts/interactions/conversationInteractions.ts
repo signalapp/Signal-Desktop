@@ -362,6 +362,7 @@ export async function setDisappearingMessagesByConvoId(
   if (!expirationType || expirationType === 'off' || !seconds || seconds <= 0) {
     await conversation.updateExpireTimer({
       providedExpirationType: 'off',
+      providedExpireTimer: 0,
       providedChangeTimestamp,
     });
   } else {

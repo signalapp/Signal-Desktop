@@ -324,6 +324,7 @@ export const buildSyncMessage = (
   data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
   sentTimestamp: number,
+  // TODO add proper types
   expireUpdate?: any
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (

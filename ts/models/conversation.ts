@@ -1036,17 +1036,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     receivedAt, // is set if it comes from outside
     fromSync,
     shouldCommit = true,
+    existingMessage,
   }: {
     providedExpirationType: DisappearingMessageConversationType;
     providedExpireTimer?: number;
-    providedChangeTimestamp?: number;
+    providedChangeTimestamp: number;
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
     fromSync?: boolean;
     shouldCommit?: boolean;
+    existingMessage?: MessageModel;
   }): Promise<void> {
     let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
+    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     let source = providedSource;
 
     defaults({ fromSync }, { fromSync: false });
@@ -1058,11 +1061,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // TODO does this actually work?
     if (
+      this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
+    ) {
+      window.log.info('WIP: updateExpireTimer() This is an outdated disappearing message setting');
+      return;
+    }
+
+    if (
       isEqual(expirationType, this.get('expirationType')) &&
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
-        'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'
+        'WIP:updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
       );
       return;
     }
@@ -1077,17 +1087,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.set({
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp: providedChangeTimestamp || undefined,
+      lastDisappearingMessageChangeTimestamp,
     });
 
-    window?.log?.info('WIP: Updated conversation disappearing messages setting', {
+    window?.log?.info('WIP: Updating conversation disappearing messages setting', {
       id: this.idForLogging(),
       expirationType,
       expireTimer,
+      lastDisappearingMessageChangeTimestamp,
       source,
     });
 
-    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp || 0;
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
@@ -1097,28 +1107,30 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         source,
         fromSync,
       },
-      expirationType,
-      expireTimer,
+      expirationType: expirationType !== 'off' ? expirationType : undefined,
+      expireTimer: expirationType !== 'off' ? expireTimer : undefined,
     };
 
-    let message: MessageModel | undefined;
+    let message: MessageModel | undefined = existingMessage || undefined;
 
-    if (isOutgoing) {
-      message = await this.addSingleOutgoingMessage({
-        ...commonAttributes,
-        sent_at: timestamp,
-      });
-    } else {
-      // TODO do we still want to handle expiration in incoming messages?
-      message = await this.addSingleIncomingMessage({
-        ...commonAttributes,
-        // Even though this isn't reflected to the user, we want to place the last seen
-        //   indicator above it. We set it to 'unread' to trigger that placement.
-        unread: 1,
-        source,
-        sent_at: timestamp,
-        received_at: timestamp,
-      });
+    if (!message) {
+      if (isOutgoing) {
+        message = await this.addSingleOutgoingMessage({
+          ...commonAttributes,
+          sent_at: timestamp,
+        });
+      } else {
+        // TODO do we still want to handle expiration in incoming messages?
+        message = await this.addSingleIncomingMessage({
+          ...commonAttributes,
+          // Even though this isn't reflected to the user, we want to place the last seen
+          //   indicator above it. We set it to 'unread' to trigger that placement.
+          unread: 1,
+          source,
+          sent_at: timestamp,
+          received_at: timestamp,
+        });
+      }
     }
 
     if (this.isActive()) {
@@ -1144,6 +1156,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.isMe()) {
       // TODO Check that the args are correct
+      // This might be happening too late in the message pipeline. Maybe should be moved to handleExpirationTimerUpdateNoCommit()
       if (expireUpdate.expirationType === 'deleteAfterRead') {
         window.log.info('WIP: Note to Self messages cannot be delete after read!');
         return;
@@ -1159,7 +1172,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
     } else {
-      // TODO Check that the args are correct
       // Cannot be an open group
       window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {

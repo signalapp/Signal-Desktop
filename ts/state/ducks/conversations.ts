@@ -130,12 +130,12 @@ export type PropsForGroupUpdateType =
   | PropsForGroupUpdateName
   | PropsForGroupUpdateLeft;
 
-export type PropsForGroupUpdate = {
+export interface PropsForGroupUpdate extends PropsForExpiringMessage {
   change: PropsForGroupUpdateType;
   messageId: string;
   receivedAt: number | undefined;
   isUnread: boolean;
-};
+}
 
 export interface PropsForGroupInvitation extends PropsForExpiringMessage {
   serverName: string;

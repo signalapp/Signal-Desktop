@@ -154,7 +154,8 @@ export async function handleSwarmDataMessage(
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
   senderConversationModel: ConversationModel,
-  expireUpdate: any
+  // TODO add proper types
+  expireUpdate?: any
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
@@ -245,6 +246,25 @@ export async function handleSwarmDataMessage(
   if (isSyncedMessage) {
     // TODO handle sync messages separately
     window.log.info('WIP: Sync Message dropping');
+  } else {
+    const { expirationType, expireTimer, lastDisappearingMessageChangeTimestamp } = expireUpdate;
+
+    msgModel.set({
+      expirationType,
+      expireTimer,
+    });
+
+    // This message is conversation setting change message
+    if (expireUpdate.lastDisappearingMessageChangeTimestamp) {
+      msgModel.set({
+        expirationTimerUpdate: {
+          expirationType,
+          expireTimer,
+          lastDisappearingMessageChangeTimestamp,
+          source: msgModel.get('source'),
+        },
+      });
+    }
   }
 
   await handleSwarmMessage(
@@ -253,8 +273,7 @@ export async function handleSwarmDataMessage(
     sentAtTimestamp,
     cleanDataMessage,
     convoToAddMessageTo,
-    () => removeFromCache(envelope),
-    isSyncedMessage ? expireUpdate : null
+    () => removeFromCache(envelope)
   );
 }
 
@@ -301,8 +320,7 @@ async function handleSwarmMessage(
   sentAt: number,
   rawDataMessage: SignalService.DataMessage,
   convoToAddMessageTo: ConversationModel,
-  confirm: () => void,
-  expireUpdate?: any
+  confirm: () => void
 ): Promise<void> {
   if (!rawDataMessage || !msgModel) {
     window?.log?.warn('Invalid data passed to handleSwarmMessage.');
@@ -350,8 +368,7 @@ async function handleSwarmMessage(
       toRegularMessage(rawDataMessage),
       confirm,
       msgModel.get('source'),
-      messageHash,
-      expireUpdate
+      messageHash
     );
   });
 }
