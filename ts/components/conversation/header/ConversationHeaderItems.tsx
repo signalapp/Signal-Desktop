@@ -1,5 +1,5 @@
-import React from 'react';
-import { contextMenu } from 'react-contexify';
+import React, { KeyboardEvent } from 'react';
+import { contextMenu, TriggerEvent } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useIsRequest } from '../../../hooks/useParamSelector';
@@ -26,15 +26,27 @@ export const TripleDotsMenu = (props: { triggerId: string; showBackButton: boole
   if (showBackButton) {
     return null;
   }
+
+  const handleOnClick = (e: TriggerEvent) => {
+    contextMenu.show({
+      id: props.triggerId,
+      event: e,
+    });
+  };
+
+  const handleOnKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      e.stopPropagation();
+      handleOnClick(e);
+    }
+  };
+
   return (
     <TripleDotContainer
       role="button"
-      onClick={(e: any) => {
-        contextMenu.show({
-          id: props.triggerId,
-          event: e,
-        });
-      }}
+      onKeyPress={handleOnKeyPress}
+      onClick={handleOnClick}
+      tabIndex={0}
       data-testid="three-dots-conversation-options"
     >
       <SessionIconButton iconType="ellipses" iconSize="medium" />

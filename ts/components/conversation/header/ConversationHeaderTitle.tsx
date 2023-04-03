@@ -233,6 +233,7 @@ export const ConversationHeaderTitle = () => {
                     handleTitleCycle(-1);
                   }}
                   isHidden={subtitles.length < 2}
+                  tabIndex={0}
                 />
                 {visibleTitleIndex === 2 && expirationType !== 'off' && (
                   <SessionIconButton
@@ -242,7 +243,16 @@ export const ConversationHeaderTitle = () => {
                     margin={'0 var(--margins-xs) 0 0'}
                   />
                 )}
-                <span className="module-conversation-header__title-text">
+                <span
+                  className="module-conversation-header__title-text"
+                  onKeyPress={(e: any) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleRightPanelToggle();
+                    }
+                  }}
+                  tabIndex={0}
+                >
                   {subtitles[visibleTitleIndex]}
                 </span>
                 <SessionIconButton
@@ -255,6 +265,7 @@ export const ConversationHeaderTitle = () => {
                     handleTitleCycle(1);
                   }}
                   isHidden={subtitles.length < 2}
+                  tabIndex={0}
                 />
               </Flex>
               <SubtitleDotMenu

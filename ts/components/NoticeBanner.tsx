@@ -42,7 +42,7 @@ export const NoticeBanner = (props: NoticeBannerProps) => {
         iconColor="inherit"
         iconSize="small"
         onClick={event => {
-          event.preventDefault();
+          event?.preventDefault();
           dismissCallback();
         }}
       />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconProps } from '../icon';
 import _ from 'lodash';
@@ -6,7 +6,7 @@ import { SessionNotificationCount } from './SessionNotificationCount';
 import styled from 'styled-components';
 
 interface SProps extends SessionIconProps {
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
@@ -14,6 +14,7 @@ interface SProps extends SessionIconProps {
   dataTestId?: string;
   id?: string;
   style?: object;
+  tabIndex?: number;
 }
 
 const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolean }>`
@@ -55,11 +56,18 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     id,
     dataTestId,
     style,
+    tabIndex,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
       e.stopPropagation();
       props.onClick(e);
+    }
+  };
+  const keyPressHandler = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && props.onClick) {
+      e.stopPropagation();
+      props.onClick();
     }
   };
 
@@ -73,6 +81,8 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       id={id}
       onClick={clickHandler}
       style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
+      tabIndex={tabIndex}
+      onKeyPress={keyPressHandler}
       data-testid={dataTestId}
     >
       <SessionIcon
