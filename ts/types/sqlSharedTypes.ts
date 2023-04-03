@@ -145,6 +145,7 @@ export function getContactInfoFromDBValues({
       !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
         ? 'disappearAfterSend'
         : 'off',
+    createdAt: 0, // this is actually unused as the wrapper keep the value as it is currently stored (this is a created at timestamp, no need to update it)
   };
 
   if (
@@ -204,7 +205,11 @@ export function getLegacyGroupInfoFromDBValues({
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
-}: Pick<ConversationAttributes, 'id' | 'priority' | 'displayNameInProfile' | 'expireTimer'> & {
+  lastJoinedTimestamp,
+}: Pick<
+  ConversationAttributes,
+  'id' | 'priority' | 'displayNameInProfile' | 'expireTimer' | 'lastJoinedTimestamp'
+> & {
   encPubkeyHex: string;
   encSeckeyHex: string;
   members: string | Array<string>;
@@ -227,6 +232,7 @@ export function getLegacyGroupInfoFromDBValues({
     members: wrappedMembers,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
+    joinedAt: lastJoinedTimestamp,
   };
 
   return legacyGroup;

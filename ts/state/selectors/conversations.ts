@@ -239,7 +239,7 @@ export const _getConversationComparator = (testingi18n?: LocalizerType) => {
     if (rightPriority > leftPriority) {
       return 1;
     }
-    // Then if none is pinned, check other criteria
+    // Then if none are pinned, check other criteria
     const leftActiveAt = left.activeAt;
     const rightActiveAt = right.activeAt;
     if (leftActiveAt && !rightActiveAt) {
@@ -262,7 +262,7 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 
 // export only because we use it in some of our tests
 // tslint:disable-next-line: cyclomatic-complexity
-export const _getLeftPaneLists = (
+const _getLeftPaneLists = (
   sortedConversations: Array<ReduxConversationType>
 ): {
   conversations: Array<ReduxConversationType>;
@@ -401,13 +401,13 @@ const _getPrivateContactsPubkeys = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<string> => {
   return filter(sortedConversations, conversation => {
-    return (
+    return !!(
       conversation.isPrivate &&
       !conversation.isBlocked &&
       !conversation.isMe &&
       conversation.didApproveMe &&
       conversation.isApproved &&
-      Boolean(conversation.activeAt)
+      conversation.activeAt
     );
   }).map(convo => convo.id);
 };
@@ -450,8 +450,9 @@ export type DirectContactsByNameType = {
 export const getDirectContactsByName = createSelector(
   getDirectContacts,
   (contacts: Array<ReduxConversationType>): Array<DirectContactsByNameType> => {
+    const us = UserUtils.getOurPubKeyStrFromCache();
     const extractedContacts = contacts
-      .filter(m => m.id !== UserUtils.getOurPubKeyStrFromCache())
+      .filter(m => m.id !== us)
       .map(m => {
         return {
           id: m.id,

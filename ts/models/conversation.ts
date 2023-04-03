@@ -311,6 +311,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (isPrivate) {
       toRet.isPrivate = true;
+      const foundContact = SessionUtilContact.getContactCached(this.id);
+      if (!toRet.activeAt && foundContact && isFinite(foundContact.createdAt)) {
+        toRet.activeAt = foundContact.createdAt;
+      }
     }
 
     if (weAreAdmin) {
@@ -342,80 +346,79 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.currentNotificationSetting = currentNotificationSetting;
     }
 
-    const foundContact = SessionUtilContact.getContactCached(this.id);
-    const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
-    const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
-    const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
+    // const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
+    // const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
+    // const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
 
-    // rely on the wrapper values rather than the DB ones if they exist in the wrapper
-    if (foundContact) {
-      if (foundContact.name) {
-        toRet.displayNameInProfile = foundContact.name;
-      }
+    // // rely on the wrapper values rather than the DB ones if they exist in the wrapper
+    // if (foundContact) {
+    //   if (foundContact.name) {
+    //     toRet.displayNameInProfile = foundContact.name;
+    //   }
 
-      if (foundContact.nickname) {
-        toRet.nickname = foundContact.nickname;
-      }
+    //   if (foundContact.nickname) {
+    //     toRet.nickname = foundContact.nickname;
+    //   }
 
-      if (foundContact.blocked) {
-        toRet.isBlocked = foundContact.blocked;
-      }
+    //   if (foundContact.blocked) {
+    //     toRet.isBlocked = foundContact.blocked;
+    //   }
 
-      if (foundContact.approvedMe) {
-        toRet.didApproveMe = foundContact.approvedMe;
-      }
+    //   if (foundContact.approvedMe) {
+    //     toRet.didApproveMe = foundContact.approvedMe;
+    //   }
 
-      if (foundContact.approved) {
-        toRet.isApproved = foundContact.approved;
-      }
+    //   if (foundContact.approved) {
+    //     toRet.isApproved = foundContact.approved;
+    //   }
 
-      if (foundContact.priority) {
-        toRet.priority = foundContact.priority;
-      }
+    //   if (foundContact.priority) {
+    //     toRet.priority = foundContact.priority;
+    //   }
 
-      if (foundContact.expirationTimerSeconds > 0) {
-        toRet.expireTimer = foundContact.expirationTimerSeconds;
-      }
-    } else {
-      if (this.get('displayNameInProfile')) {
-        toRet.displayNameInProfile = this.get('displayNameInProfile');
-      }
-
-      if (this.get('nickname')) {
-        toRet.nickname = this.get('nickname');
-      }
-
-      if (BlockedNumberController.isBlocked(this.id)) {
-        toRet.isBlocked = true;
-      }
-
-      if (this.get('didApproveMe')) {
-        toRet.didApproveMe = this.get('didApproveMe');
-      }
-
-      if (this.get('isApproved')) {
-        toRet.isApproved = this.get('isApproved');
-      }
-
-      if (this.get('expireTimer')) {
-        toRet.expireTimer = this.get('expireTimer');
-      }
+    //   if (foundContact.expirationTimerSeconds > 0) {
+    //     toRet.expireTimer = foundContact.expirationTimerSeconds;
+    //   }
+    // } else {
+    if (this.get('displayNameInProfile')) {
+      toRet.displayNameInProfile = this.get('displayNameInProfile');
     }
 
-    // -- Handle the group fields from the wrapper and the database --
-    if (foundLegacyGroup) {
-      toRet.members = foundLegacyGroup.members.map(m => m.pubkeyHex) || [];
-      toRet.groupAdmins =
-        foundLegacyGroup.members.filter(m => m.isAdmin).map(m => m.pubkeyHex) || [];
-      toRet.displayNameInProfile = isEmpty(foundLegacyGroup.name)
-        ? undefined
-        : foundLegacyGroup.name;
-      toRet.expireTimer = foundLegacyGroup.disappearingTimerSeconds;
+    if (this.get('nickname')) {
+      toRet.nickname = this.get('nickname');
+    }
 
-      if (foundLegacyGroup.priority) {
-        toRet.priority = foundLegacyGroup.priority;
-      }
-    } else if (this.isClosedGroup()) {
+    if (BlockedNumberController.isBlocked(this.id)) {
+      toRet.isBlocked = true;
+    }
+
+    if (this.get('didApproveMe')) {
+      toRet.didApproveMe = this.get('didApproveMe');
+    }
+
+    if (this.get('isApproved')) {
+      toRet.isApproved = this.get('isApproved');
+    }
+
+    if (this.get('expireTimer')) {
+      toRet.expireTimer = this.get('expireTimer');
+    }
+    // }
+
+    // // -- Handle the group fields from the wrapper and the database --
+    // if (foundLegacyGroup) {
+    //   toRet.members = foundLegacyGroup.members.map(m => m.pubkeyHex) || [];
+    //   toRet.groupAdmins =
+    //     foundLegacyGroup.members.filter(m => m.isAdmin).map(m => m.pubkeyHex) || [];
+    //   toRet.displayNameInProfile = isEmpty(foundLegacyGroup.name)
+    //     ? undefined
+    //     : foundLegacyGroup.name;
+    //   toRet.expireTimer = foundLegacyGroup.disappearingTimerSeconds;
+
+    //   if (foundLegacyGroup.priority) {
+    //     toRet.priority = foundLegacyGroup.priority;
+    //   }
+    /*} else*/ if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
       toRet.groupAdmins = this.getGroupAdmins();
       toRet.displayNameInProfile = this.get('displayNameInProfile');
@@ -438,21 +441,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // -- Handle the communities fields from the wrapper and the database --
-    if (foundCommunity) {
-      if (foundCommunity.priority) {
-        toRet.priority = foundCommunity.priority;
-      } // the priorty field is the only one currently in the wrapper community. and we already pre apply the one from the DB on the top of this function
-    }
+    // if (foundCommunity) {
+    //   if (foundCommunity.priority) {
+    //     toRet.priority = foundCommunity.priority;
+    //   } // the priorty field is the only one currently in the wrapper community. and we already pre apply the one from the DB on the top of this function
+    // }
 
-    if (foundVolatileInfo) {
-      if (foundVolatileInfo.unread) {
-        toRet.isMarkedUnread = foundVolatileInfo.unread;
-      }
-    } else {
-      if (this.get('markedAsUnread')) {
-        toRet.isMarkedUnread = this.get('markedAsUnread');
-      }
+    // if (foundVolatileInfo) {
+    //   if (foundVolatileInfo.unread) {
+    //     toRet.isMarkedUnread = foundVolatileInfo.unread;
+    //   }
+    // } else {
+    if (this.get('markedAsUnread')) {
+      toRet.isMarkedUnread = this.get('markedAsUnread');
     }
+    // }
 
     // -- Handle the field stored only in memory for all types of conversation--
     const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);

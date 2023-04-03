@@ -131,6 +131,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         displayNameInProfile: foundConvo.get('displayNameInProfile'),
         encPubkeyHex: encryptionKeyPair?.publicHex || '',
         encSeckeyHex: encryptionKeyPair?.privateHex || '',
+        lastJoinedTimestamp: foundConvo.get('lastJoinedTimestamp') || 0,
       });
 
       try {

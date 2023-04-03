@@ -157,7 +157,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       }
 
       if (wrapperConvo.priority !== contactConvo.get('priority')) {
-        contactConvo.set({ priority: wrapperConvo.priority });
+        await contactConvo.setPriorityFromWrapper(wrapperConvo.priority);
         changes = true;
       }
 
@@ -171,8 +171,8 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approvedMe) !== Boolean(contactConvo.didApproveMe())) {
-        await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
+      if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
+        await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
         changes = true;
       }
 
@@ -382,8 +382,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     // save the encryption keypair if needed
     if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
       try {
-        // TODO we need to store the encryption keypair if needed
-
         const inWrapperKeypair: HexKeyPair = {
           publicHex: toHex(fromWrapper.encPubkey),
           privateHex: toHex(fromWrapper.encSeckey),
@@ -428,30 +426,32 @@ async function applyConvoVolatileUpdateFromWrapper(
   lastReadMessageTimestamp: number
 ) {
   const foundConvo = getConversationController().get(convoId);
-  if (foundConvo) {
-    try {
-      window.log.debug(
-        `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
-      );
-      // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
-      await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
-      // this commits to the DB, if needed
-      await foundConvo.markAsUnread(forcedUnread, true);
+  if (!foundConvo) {
+    return;
+  }
 
-      if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(foundConvo)) {
-        await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
-          foundConvo.id,
-          foundConvo.isClosedGroup(),
-          false
-        );
+  try {
+    window.log.debug(
+      `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
+    );
+    // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+    await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
+    // this commits to the DB, if needed
+    await foundConvo.markAsUnread(forcedUnread, true);
 
-        await foundConvo.refreshInMemoryDetails();
-      }
-    } catch (e) {
-      window.log.warn(
-        `applyConvoVolatileUpdateFromWrapper of "${convoId}" failed with error ${e.message}`
+    if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(foundConvo)) {
+      await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
+        foundConvo.id,
+        foundConvo.isClosedGroup(),
+        false
       );
+
+      await foundConvo.refreshInMemoryDetails();
     }
+  } catch (e) {
+    window.log.warn(
+      `applyConvoVolatileUpdateFromWrapper of "${convoId}" failed with error ${e.message}`
+    );
   }
 }
 

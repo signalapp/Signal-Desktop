@@ -206,7 +206,7 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 const CallButton = () => {
   const isPrivate = useSelectedIsPrivate();
   const isBlocked = useSelectedIsBlocked();
-  const activeAt = useSelectedIsActive();
+  const isActive = useSelectedIsActive();
   const isMe = useSelectedisNoteToSelf();
   const selectedConvoKey = useSelectedConversationKey();
 
@@ -216,7 +216,7 @@ const CallButton = () => {
 
   const isRequest = useIsRequest(selectedConvoKey);
 
-  if (!isPrivate || isMe || !selectedConvoKey || isBlocked || !activeAt || isRequest) {
+  if (!isPrivate || isMe || !selectedConvoKey || isBlocked || !isActive || isRequest) {
     return null;
   }
 

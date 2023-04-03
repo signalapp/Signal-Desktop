@@ -1364,13 +1364,21 @@ function insertCommunityIntoWrapper(
 function insertLegacyGroupIntoWrapper(
   legacyGroup: Pick<
     ConversationAttributes,
-    'id' | 'priority' | 'expireTimer' | 'displayNameInProfile'
+    'id' | 'priority' | 'expireTimer' | 'displayNameInProfile' | 'lastJoinedTimestamp'
   > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
   userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
   volatileInfoConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
   db: BetterSqlite3.Database
 ) {
-  const { priority, id, expireTimer, groupAdmins, members, displayNameInProfile } = legacyGroup;
+  const {
+    priority,
+    id,
+    expireTimer,
+    groupAdmins,
+    members,
+    displayNameInProfile,
+    lastJoinedTimestamp,
+  } = legacyGroup;
 
   const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
     legacyGroup.id,
@@ -1386,6 +1394,7 @@ function insertLegacyGroupIntoWrapper(
     displayNameInProfile,
     encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
     encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
+    lastJoinedTimestamp,
   });
 
   try {

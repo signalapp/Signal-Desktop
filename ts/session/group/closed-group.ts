@@ -224,6 +224,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   > = {
     displayNameInProfile: details.name,
     members: details.members,
+    // Note: legacy group to not support change of admins.
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
