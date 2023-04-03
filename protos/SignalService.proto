@@ -187,7 +187,6 @@ message DataMessage {
 	  repeated bytes          members           = 5;
 	  repeated bytes          admins            = 6;
 	  repeated KeyPairWrapper wrappers          = 7;
-    // TODO Make sure rename doesn't break anything
     optional uint32         expirationTimer       = 8;
 	}
 

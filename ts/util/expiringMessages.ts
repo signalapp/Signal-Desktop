@@ -8,7 +8,6 @@ import { initWallClockListener } from './wallClockListener';
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
 import { MessageModel } from '../models/message';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 // TODO Might need to be improved by using an enum
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
@@ -201,11 +200,16 @@ export function setExpirationStartTimestamp(
   message: MessageModel,
   mode: DisappearingMessageType,
   timestamp?: number
-) {
-  let expirationStartTimestamp = getNowWithNetworkOffset();
+): MessageModel | null {
+  if (message.get('expirationStartTimestamp') > 0) {
+    window.log.info(`WIP: Expiration Timer already set. Ignoring.`);
+    return null;
+  }
+
+  let expirationStartTimestamp = Date.now();
 
   if (timestamp) {
-    expirationStartTimestamp = Math.max(getNowWithNetworkOffset(), timestamp);
+    expirationStartTimestamp = Math.max(Date.now(), timestamp);
     message.set('expirationStartTimestamp', expirationStartTimestamp);
   }
 
@@ -221,11 +225,11 @@ export function setExpirationStartTimestamp(
     );
   } else {
     console.log(
-      `WIP: setExpirationStartTimestamp Invalid disappearing message mode set, ignoring this message`,
+      `WIP: setExpirationStartTimestamp Invalid disappearing message mode set. Ignoring.`,
       message
     );
-    return;
+    return null;
   }
 
-  return expirationStartTimestamp;
+  return message;
 }

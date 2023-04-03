@@ -99,6 +99,15 @@ async function handleMessageSentSuccess(
     }
   }
 
+  if (!shouldMarkMessageAsSynced && fetchedMessage.get('expirationType')) {
+    fetchedMessage =
+      setExpirationStartTimestamp(
+        fetchedMessage,
+        fetchedMessage.get('expirationType')!,
+        effectiveTimestamp
+      ) || fetchedMessage;
+  }
+
   // Handle the sync logic here
   if (shouldTriggerSyncMessage) {
     if (dataMessage) {
@@ -118,14 +127,6 @@ async function handleMessageSentSuccess(
       } catch (e) {
         window?.log?.warn('Got an error while trying to sendSyncMessage():', e);
       }
-    }
-    if (fetchedMessage.get('expirationType')) {
-      const expirationStartTimestamp = setExpirationStartTimestamp(
-        fetchedMessage,
-        fetchedMessage.get('expirationType')!,
-        effectiveTimestamp
-      );
-      fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
     }
   } else if (shouldMarkMessageAsSynced) {
     fetchedMessage.set({ synced: true });
@@ -148,7 +149,7 @@ async function handleMessageSentFailure(
   sentMessage: RawMessage | OpenGroupVisibleMessage,
   error: any
 ) {
-  const fetchedMessage = await fetchHandleMessageSentData(sentMessage.identifier);
+  let fetchedMessage = await fetchHandleMessageSentData(sentMessage.identifier);
   if (!fetchedMessage) {
     return;
   }
@@ -168,11 +169,9 @@ async function handleMessageSentFailure(
   }
 
   if (fetchedMessage.get('expirationType')) {
-    const expirationStartTimestamp = setExpirationStartTimestamp(
-      fetchedMessage,
-      fetchedMessage.get('expirationType')!
-    );
-    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
+    fetchedMessage =
+      setExpirationStartTimestamp(fetchedMessage, fetchedMessage.get('expirationType')!) ||
+      fetchedMessage;
   }
 
   // always mark the message as sent.

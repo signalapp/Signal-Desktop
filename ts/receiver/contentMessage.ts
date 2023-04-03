@@ -403,20 +403,21 @@ export async function innerHandleSwarmContentMessage(
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
 
       let expireUpdate = null;
-      const expirationType = DisappearingMessageConversationSetting[content.expirationType] || null;
 
-      if (expirationType && content.expirationTimer) {
-        // NOTE In the protobuf this is a long
-        const lastDisappearingMessageChangeTimestamp =
-          Number(content.lastDisappearingMessageChangeTimestamp) || null;
+      const expirationType =
+        DisappearingMessageConversationSetting[content.expirationType] || 'off';
+      const expireTimer = content.expirationTimer || 0;
 
-        expireUpdate = {
-          expirationType,
-          // TODO rename to expireTimer
-          expireTimer: content.expirationTimer,
-          lastDisappearingMessageChangeTimestamp,
-        };
-      }
+      // NOTE In the protobuf this is a long
+      const lastDisappearingMessageChangeTimestamp =
+        Number(content.lastDisappearingMessageChangeTimestamp) || null;
+
+      expireUpdate = {
+        expirationType,
+        // TODO rename to expireTimer
+        expireTimer,
+        lastDisappearingMessageChangeTimestamp,
+      };
 
       await handleSwarmDataMessage(
         envelope,

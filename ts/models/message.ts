@@ -1182,8 +1182,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.get('expireTimer') &&
       !this.get('expirationStartTimestamp')
     ) {
-      const expirationStartTimestamp = setExpirationStartTimestamp(this, 'deleteAfterRead', readAt);
-      this.set({ expirationStartTimestamp });
+      const message = setExpirationStartTimestamp(this, 'deleteAfterRead', readAt);
+      this.set({ expirationStartTimestamp: message?.get('expirationStartTimestamp') });
     }
 
     Notifications.clearByMessageId(this.id);

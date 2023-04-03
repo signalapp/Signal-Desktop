@@ -3,10 +3,13 @@ import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
 import { VisibleMessage } from './VisibleMessage';
 import { ClosedGroupMessage } from '../controlMessage/group/ClosedGroupMessage';
+import { DisappearingMessageType } from '../../../../util/expiringMessages';
 
 interface ClosedGroupVisibleMessageParams {
   identifier?: string;
   groupId: string | PubKey;
+  expirationType?: DisappearingMessageType;
+  expireTimer?: number;
   chatMessage: VisibleMessage;
 }
 
@@ -18,12 +21,15 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
     });
     this.chatMessage = params.chatMessage;
     if (!params.groupId) {
       throw new Error('ClosedGroupVisibleMessage: groupId must be set');
     }
   }
+
   public dataProto(): SignalService.DataMessage {
     //expireTimer is set in the dataProto in this call directly
     const dataProto = this.chatMessage.dataProto();

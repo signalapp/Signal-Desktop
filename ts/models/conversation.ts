@@ -653,6 +653,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
           groupId: destination,
+          expirationType,
+          expireTimer,
         });
 
         // we need the return await so that errors are caught in the catch {}
