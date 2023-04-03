@@ -1463,8 +1463,9 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ALTER TABLE unprocessed DROP COLUMN serverTimestamp;
       `);
 
-    // after the rename of isPinned to priority, we also need to hide any conversation that
-    // TODO do we need to update the conversation priority to hidden for some for those ( like the non active and non approved/didApproveMe?)
+    // after the rename of isPinned to priority, we also need to hide any private conversation that is not active at all.
+    // as they might be contacts, we did delete from the app already.
+
     db.prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
         priority = ${CONVERSATION_PRIORITIES.hidden}

@@ -285,14 +285,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
-    const isGroup = !isPrivate;
     const weAreAdmin = this.isAdmin(ourNumber);
     const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const isMe = this.isMe();
     const isTyping = !!this.typingTimer;
 
     const currentNotificationSetting = this.get('triggerNotificationsFor');
-    const priority = this.get('priority');
+    const priorityFromDb = this.get('priority');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
     // For instance, a boolean can usually be not set if false, etc
@@ -302,8 +301,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       type: this.get('type'),
     };
 
-    if (isFinite(priority) && priority !== CONVERSATION_PRIORITIES.default) {
-      toRet.priority = priority;
+    if (isFinite(priorityFromDb) && priorityFromDb !== CONVERSATION_PRIORITIES.default) {
+      toRet.priority = priorityFromDb;
     }
 
     if (this.get('markedAsUnread')) {
@@ -312,10 +311,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (isPrivate) {
       toRet.isPrivate = true;
-    }
-
-    if (isGroup) {
-      toRet.isGroup = true;
     }
 
     if (weAreAdmin) {

@@ -71,7 +71,7 @@ export function useIsMe(pubkey?: string) {
 
 export function useIsClosedGroup(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return (convoProps && convoProps.isGroup && !convoProps.isPublic) || false;
+  return (convoProps && !convoProps.isPrivate && !convoProps.isPublic) || false;
 }
 
 export function useIsPrivate(convoId?: string) {

@@ -177,7 +177,7 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!convoProps || !convoProps.isGroup || convoProps.isPublic) {
+  if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
     throw new Error('UpdateGroupMembersDialog invalid convoProps');
   }
 

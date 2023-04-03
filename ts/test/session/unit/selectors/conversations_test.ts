@@ -32,7 +32,6 @@ describe('state/selectors/conversations', () => {
           isPublic: false,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',
@@ -58,7 +57,6 @@ describe('state/selectors/conversations', () => {
           isPublic: false,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
           avatarPath: '',
           groupAdmins: [],
@@ -83,7 +81,6 @@ describe('state/selectors/conversations', () => {
           isPublic: false,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
           avatarPath: '',
           groupAdmins: [],
@@ -108,9 +105,7 @@ describe('state/selectors/conversations', () => {
           isPublic: false,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
-
           avatarPath: '',
           groupAdmins: [],
           expireTimer: 0,
@@ -135,7 +130,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',
@@ -177,7 +171,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',
@@ -204,7 +197,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',
@@ -231,7 +223,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
           displayNameInProfile: 'C',
 
@@ -258,7 +249,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',
@@ -285,7 +275,6 @@ describe('state/selectors/conversations', () => {
           expireTimer: 0,
           currentNotificationSetting: 'all',
           weAreAdmin: false,
-          isGroup: false,
           isPrivate: false,
 
           avatarPath: '',

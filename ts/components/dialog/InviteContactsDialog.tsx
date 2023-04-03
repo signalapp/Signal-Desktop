@@ -111,7 +111,7 @@ const InviteContactsDialogInner = (props: Props) => {
   if (!convoProps) {
     throw new Error('InviteContactsDialogInner not a valid convoId given');
   }
-  if (!convoProps.isGroup) {
+  if (convoProps.isPrivate) {
     throw new Error('InviteContactsDialogInner must be a group');
   }
   if (!convoProps.isPublic) {
