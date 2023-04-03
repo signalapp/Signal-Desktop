@@ -28,16 +28,16 @@ export const deleteExternalMessageFiles = async (message: {
 
   if (attachments && attachments.length) {
     await Promise.all(attachments.map(deleteData));
-    // testing that the files were successfully deleted
+    // test that the files were deleted successfully
     try {
       await Promise.all(
         attachments.map(async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
           await readAttachmentData(attachment.path);
         })
       );
-      window.log.info(`WIP: failed in deleting files`);
+      window.log.info('[deleteExternalMessageFiles]: Failed to delete attachments for', message);
     } catch (err) {
-      window.log.info(`WIP: succeeded in deleting files`, err);
+      // If we fail to read the path then we know we deleted successfully
     }
   }
 
@@ -52,6 +52,9 @@ export const deleteExternalMessageFiles = async (message: {
         if (thumbnail && thumbnail.path && !thumbnail.copied) {
           await deleteOnDisk(thumbnail.path);
         }
+
+        attachment.thumbnail = undefined;
+        return attachment;
       })
     );
   }
@@ -64,6 +67,9 @@ export const deleteExternalMessageFiles = async (message: {
         if (image && image.path) {
           await deleteOnDisk(image.path);
         }
+
+        item.image = undefined;
+        return image;
       })
     );
   }

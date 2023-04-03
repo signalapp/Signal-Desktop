@@ -145,7 +145,6 @@ export const loadData = async (attachment: any) => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-// NOTE Flattening this function seemed to have worked
 export const deleteData = async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
   if (!isValid(attachment)) {
     throw new TypeError('deleteData: attachment is not valid');
@@ -155,15 +154,20 @@ export const deleteData = async (attachment: { path: string; thumbnail: any; scr
 
   if (isString(path)) {
     await deleteOnDisk(path);
+    attachment.path = '';
   }
 
   if (thumbnail && isString(thumbnail.path)) {
     await deleteOnDisk(thumbnail.path);
+    attachment.thumbnail = undefined;
   }
 
   if (screenshot && isString(screenshot.path)) {
     await deleteOnDisk(screenshot.path);
+    attachment.screenshot = undefined;
   }
+
+  return attachment;
 };
 
 type CaptureDimensionType = { contentType: string; path: string };
