@@ -5,6 +5,7 @@ import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
 import { Reaction } from '../../../../types/Reaction';
 import { DisappearingMessageType } from '../../../../util/expiringMessages';
+import { DURATION, TTL_DEFAULT } from '../../../constants';
 import { MessageParams } from '../Message';
 
 interface AttachmentPointerCommon {
@@ -197,6 +198,17 @@ export class VisibleMessage extends ContentMessage {
 
   public isEqual(comparator: VisibleMessage): boolean {
     return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
+  }
+
+  public ttl(): number {
+    switch (this.expirationType) {
+      case 'deleteAfterSend':
+        return this.expireTimer ? this.expireTimer * DURATION.SECONDS : TTL_DEFAULT.TTL_MAX;
+      case 'deleteAfterRead':
+        return TTL_DEFAULT.TTL_MAX;
+      default:
+        return TTL_DEFAULT.TTL_MAX;
+    }
   }
 }
 

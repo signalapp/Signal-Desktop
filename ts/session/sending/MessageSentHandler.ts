@@ -70,7 +70,9 @@ async function handleMessageSentSuccess(
     !isOurDevice &&
     !isClosedGroupMessage &&
     !fetchedMessage.get('synced') &&
-    !fetchedMessage.get('sentSync');
+    !fetchedMessage.get('sentSync') &&
+    // TODO not 100% sure about this. Might need to change for synced expiries
+    !fetchedMessage.get('expirationType');
 
   // A message is synced if we triggered a sync message (sentSync)
   // and the current message was sent to our device (so a sync message)

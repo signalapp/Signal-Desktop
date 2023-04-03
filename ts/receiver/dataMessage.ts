@@ -109,6 +109,7 @@ export function cleanIncomingDataMessage(
   if (rawDataMessage.flags == null) {
     rawDataMessage.flags = 0;
   }
+  // TODO This should be removed 2 weeks after the release
   if (rawDataMessage.expireTimer == null) {
     rawDataMessage.expireTimer = 0;
   }

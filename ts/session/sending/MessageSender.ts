@@ -10,7 +10,7 @@ import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroup
 import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { addMessagePadding } from '../crypto/BufferPadding';
-import _ from 'lodash';
+import _, { isString, slice } from 'lodash';
 import { getNowWithNetworkOffset, storeOnNode } from '../apis/snode_api/SNodeAPI';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
@@ -26,7 +26,7 @@ import {
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
 import { AbortController } from 'abort-controller';
 
-const DEFAULT_CONNECTIONS = 1;
+export const DEFAULT_CONNECTIONS = 1;
 
 // ================ SNODE STORE ================
 
@@ -168,7 +168,7 @@ export async function sendMessageToSnode(
     namespace,
   };
 
-  const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
+  const usedNodes = slice(swarm, 0, DEFAULT_CONNECTIONS);
   if (!usedNodes || usedNodes.length === 0) {
     throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   }
@@ -190,7 +190,7 @@ export async function sendMessageToSnode(
       );
     }
     if (successfulSend) {
-      if (_.isString(successfulSend)) {
+      if (isString(successfulSend)) {
         successfulSendHash = successfulSend;
       }
       return usedNode;
