@@ -31,7 +31,7 @@ async function generateSignature({
   // "expire" || ShortenOrExtend || expiry || messages[0] || ... || messages[N]
   const verificationString = `expire${shortenOrExtend}${timestamp}${messageHashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  // console.log(`WIP: generateSignature verificationString ${verificationString}`);
+  // window.log.info(`WIP: generateSignature verificationString ${verificationString}`);
   const message = new Uint8Array(verificationData);
 
   const sodium = await getSodiumRenderer();
@@ -91,7 +91,7 @@ async function verifySignature({
 
   const verificationString = `${pubkey.key}${expiryApplied}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  // console.log(`WIP: verifySignature verificationString`, verificationString);
+  // window.log.info(`WIP: verifySignature verificationString`, verificationString);
 
   const sodium = await getSodiumRenderer();
   try {
@@ -120,10 +120,10 @@ async function processExpirationResults(
 
   // TODO need proper typing for swarm and results
   const results: Record<string, { hashes: Array<string>; expiry: number }> = {};
-  // console.log(`WIP: processExpirationResults start`, swarm, messageHashes);
+  // window.log.info(`WIP: processExpirationResults start`, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
-    // console.log(`WIP: processExpirationResults processing nodeKey`, nodeKey, swarm[nodeKey]);
+    // window.log.info(`WIP: processExpirationResults processing nodeKey`, nodeKey, swarm[nodeKey]);
     if (!isEmpty(swarm[nodeKey].failed)) {
       const reason = 'Unknown';
       const statusCode = '404';
@@ -197,7 +197,7 @@ async function expireOnNodes(targetNode: Snode, params: ExpireParams) {
       //   parsed.swarm,
       //   params.messages
       // );
-      // console.log(`WIP: expireOnNodes attempt complete. Here are the results`, expirationResults);
+      // window.log.info(`WIP: expireOnNodes attempt complete. Here are the results`, expirationResults);
 
       return true;
     } catch (e) {
@@ -223,7 +223,7 @@ type ExpireMessageOnSnodeProps = {
 
 export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   const { messageHash, expireTimer, extend, shorten } = props;
-  console.log(`WIP: expireMessageOnSnode running!`);
+  window.log.info(`WIP: expireMessageOnSnode running!`);
 
   if (extend && shorten) {
     window.log.info(
@@ -289,7 +289,7 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   try {
     const firstSuccessSnode = await firstTrue(promises);
     snode = firstSuccessSnode;
-    console.log(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
+    window.log.info(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(

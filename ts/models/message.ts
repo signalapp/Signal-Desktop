@@ -1190,7 +1190,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
     // the line below makes sure that getNextExpiringMessage will find this message as expiring.
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
-
     await this.setToExpire();
 
     const convo = this.getConversation();
