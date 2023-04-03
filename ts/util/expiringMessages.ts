@@ -208,14 +208,16 @@ export const ExpirationTimerOptions = {
 
 export function setExpirationStartTimestamp(
   mode: DisappearingMessageType,
-  timestamp?: number
+  timestamp?: number,
+  isLegacyMode?: boolean
 ): number | undefined {
   let expirationStartTimestamp: number | undefined = getNowWithNetworkOffset();
 
+  // TODO legacy messages support will be removed in a future release
   if (timestamp) {
     window.log.info(
-      `WIP: We compare 2 timestamps for a delete after ${
-        mode === 'deleteAfterRead' ? 'read' : 'send'
+      `WIP: We compare 2 timestamps for a disappear ${
+        isLegacyMode ? 'legacy' : mode === 'deleteAfterRead' ? 'after read' : 'after send'
       } message: \expirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
       '\ntimestamp ',
@@ -224,17 +226,18 @@ export function setExpirationStartTimestamp(
     expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
   }
 
+  // TODO legacy messages support will be removed in a future release
   if (mode === 'deleteAfterRead') {
     window.log.info(
-      `WIP: We set the start timestamp for a delete after read message to ${new Date(
-        expirationStartTimestamp
-      ).toLocaleTimeString()}`
+      `WIP: We set the start timestamp for a ${
+        isLegacyMode ? 'legacy ' : ''
+      }delete after read message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.info(
-      `WIP: We set the start timestamp for a delete after send message to ${new Date(
-        expirationStartTimestamp
-      ).toLocaleTimeString()}`
+      `WIP: We set the start timestamp for a ${
+        isLegacyMode ? 'legacy ' : ''
+      }delete after send message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
     );
   } else if (mode === 'off') {
     window.log.info(`WIP: Disappearing message mode "${mode}" set. We can safely ignore this.`);

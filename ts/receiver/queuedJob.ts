@@ -163,9 +163,17 @@ function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: 0 });
 
-    if (message.get('expirationType') === 'deleteAfterRead' && message.get('expireTimer')) {
+    const expirationType = message.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const convo = message.getConversation();
+    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+    if ((isLegacyMode || expirationType === 'deleteAfterRead') && message.get('expireTimer')) {
       message.set({
-        expirationStartTimestamp: setExpirationStartTimestamp('deleteAfterRead'),
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterRead',
+          undefined,
+          isLegacyMode
+        ),
       });
     }
   }

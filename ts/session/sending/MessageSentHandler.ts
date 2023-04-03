@@ -122,12 +122,18 @@ async function handleMessageSentSuccess(
 
   sentTo = _.union(sentTo, [sentMessage.device]);
 
+  const expirationType = fetchedMessage.get('expirationType');
+  // TODO legacy messages support will be removed in a future release
+  const convo = fetchedMessage.getConversation();
+  const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+  const markAsUnread = isLegacyMode || expirationType === 'deleteAfterRead';
+
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
     sent_at: effectiveTimestamp,
     // TODO message status overrides this for some reason in the UI, message still disappears though
-    unread: fetchedMessage.get('expirationType') === 'deleteAfterRead' ? 1 : 0,
+    unread: markAsUnread ? 1 : 0,
   });
 
   if (

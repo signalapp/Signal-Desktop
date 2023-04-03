@@ -1209,9 +1209,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
-    if (this.get('expirationType') === 'deleteAfterRead' && this.get('expireTimer')) {
+    const expirationType = this.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const convo = this.getConversation();
+    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+    if ((isLegacyMode || expirationType === 'deleteAfterRead') && this.get('expireTimer')) {
       this.set({
-        expirationStartTimestamp: setExpirationStartTimestamp('deleteAfterRead', readAt),
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterRead',
+          readAt,
+          isLegacyMode
+        ),
       });
     }
 
@@ -1252,7 +1260,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       const expiresAt = start + delta;
 
-      this.set({ expires_at: expiresAt });
+      this.set({
+        expires_at: expiresAt,
+      });
       const id = this.get('id');
       if (id) {
         await this.commit();
@@ -1263,7 +1273,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         sentAt: this.get('sent_at'),
       });
 
-      if (this.get('expirationType') === 'deleteAfterRead') {
+      // TODO do we not need to do deleteAfterSend here?
+      // TODO legacy messages support will be removed in a future release
+      if (
+        this.get('expirationType') === 'legacy' ||
+        this.get('expirationType') === 'deleteAfterRead'
+      ) {
         const messageHash = this.get('messageHash');
         if (messageHash) {
           await expireMessageOnSnode(messageHash, this.get('expireTimer'));

@@ -33,6 +33,7 @@ export class ExpirableMessage extends ContentMessage {
     return this.expirationType;
   }
 
+  // TODO need to account for legacy messages here?
   public ttl(): number {
     switch (this.expirationType) {
       case 'deleteAfterSend':

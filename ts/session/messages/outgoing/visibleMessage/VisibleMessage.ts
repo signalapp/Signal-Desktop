@@ -186,6 +186,11 @@ export class VisibleMessage extends ExpirableMessage {
 
     dataMessage.timestamp = this.timestamp;
 
+    // TODO legacy messages support will be removed in a future release
+    if (this.expirationType === 'legacy' && this.expireTimer) {
+      dataMessage.expireTimer = this.expireTimer;
+    }
+
     return dataMessage;
   }
 

@@ -635,13 +635,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPrivate()) {
         if (this.isMe()) {
-          if (!this.isDisappearingMode('deleteAfterSend')) {
-            return;
+          if (this.isDisappearingMode) {
+            // TODO legacy messages support will be removed in a future release
+            if (!this.isDisappearingMode('legacy') || !this.isDisappearingMode('deleteAfterSend')) {
+              return;
+            }
           }
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
 
-          // TODO handle sync messages for disappearing messages here
           await getMessageQueue().sendSyncMessage(chatMessageMe);
           return;
         }
@@ -679,6 +681,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           expirationType: chatMessageParams.expirationType,
           expireTimer: chatMessageParams.expireTimer,
         });
+
+        window.log.info(
+          `WIP: sendMessageJob() closedGroupVisibleMessage`,
+          closedGroupVisibleMessage
+        );
 
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
@@ -2231,11 +2238,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private isDisappearingMode(mode: DisappearingMessageType) {
-    // TODO support legacy mode
+    // TODO legacy messages support will be removed in a future release
     const success =
-      this.get('expirationType') &&
-      this.get('expirationType') !== 'off' &&
-      mode === 'deleteAfterRead'
+      this.get('expirationType') && this.get('expirationType') !== 'off' && mode === 'legacy'
+        ? this.get('expirationType') === 'legacy'
+        : mode === 'deleteAfterRead'
         ? this.get('expirationType') === 'deleteAfterRead'
         : this.get('expirationType') === 'deleteAfterSend';
 
