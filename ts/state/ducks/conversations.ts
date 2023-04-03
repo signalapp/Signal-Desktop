@@ -75,6 +75,14 @@ export type FindAndFormatContactType = {
   isMe: boolean;
 };
 
+export type PropsForExpiringMessage = {
+  convoId?: string;
+  messageId: string;
+  expirationTimestamp?: number | null;
+  expirationLength?: number | null;
+  isExpired?: boolean;
+};
+
 export type PropsForExpirationTimer = {
   expirationType: DisappearingMessageConversationType;
   timespan: string;
@@ -128,7 +136,7 @@ export type PropsForGroupUpdate = {
   isUnread: boolean;
 };
 
-export type PropsForGroupInvitation = {
+export interface PropsForGroupInvitation extends PropsForExpiringMessage {
   serverName: string;
   url: string;
   direction: MessageModelType;
@@ -136,7 +144,7 @@ export type PropsForGroupInvitation = {
   messageId: string;
   receivedAt?: number;
   isUnread: boolean;
-};
+}
 
 export type PropsForAttachment = {
   id: number;

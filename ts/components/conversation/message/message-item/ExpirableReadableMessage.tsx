@@ -5,22 +5,14 @@ import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { MessageModelType } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messagesExpired } from '../../../../state/ducks/conversations';
+import { messagesExpired, PropsForExpiringMessage } from '../../../../state/ducks/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
-type ExpiringProps = {
-  isExpired?: boolean;
-  expirationTimestamp?: number | null;
-  expirationLength?: number | null;
-  convoId?: string;
-  messageId: string;
-};
-
-function useIsExpired(props: ExpiringProps) {
+function useIsExpired(props: PropsForExpiringMessage) {
   const {
     convoId,
     messageId,
@@ -78,7 +70,9 @@ const StyledReadableMessage = styled(ReadableMessage)`
   width: 100%;
 `;
 
-export interface ExpirableReadableMessageProps extends ReadableMessageProps, ExpiringProps {
+export interface ExpirableReadableMessageProps
+  extends ReadableMessageProps,
+    PropsForExpiringMessage {
   direction: MessageModelType;
 }
 
@@ -93,10 +87,10 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     expirationTimestamp,
   } = props;
 
-  const expiringProps: ExpiringProps = {
+  const expiringProps: PropsForExpiringMessage = {
     convoId,
-    expirationLength,
     messageId: messageId,
+    expirationLength,
     expirationTimestamp,
     isExpired: props.isExpired,
   };
