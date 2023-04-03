@@ -247,7 +247,7 @@ export async function handleSwarmDataMessage(
     // TODO handle sync messages separately
     window.log.info('WIP: Sync Message dropping');
   } else {
-    const {
+    let {
       expirationType,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
@@ -256,13 +256,19 @@ export async function handleSwarmDataMessage(
     } = expireUpdate;
 
     // TODO legacy messages support will be removed in a future release
-    msgModel.set({
-      expirationType: isDisappearingMessagesV2Released
+    // if it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
+    expirationType =
+      isDisappearingMessagesV2Released && isLegacyMessage
         ? senderConversationModel.get('expirationType')
-        : expirationType,
-      expireTimer: isDisappearingMessagesV2Released
+        : expirationType;
+    expireTimer =
+      isDisappearingMessagesV2Released && isLegacyMessage
         ? senderConversationModel.get('expireTimer')
-        : expireTimer,
+        : expireTimer;
+
+    msgModel.set({
+      expirationType,
+      expireTimer,
     });
 
     // TODO legacy messages support will be removed in a future release
@@ -276,20 +282,12 @@ export async function handleSwarmDataMessage(
         expirationType,
         expireTimer,
         lastDisappearingMessageChangeTimestamp: isLegacyMessage
-          ? Date.now()
+          ? isDisappearingMessagesV2Released
+            ? senderConversationModel.get('lastDisappearingMessageChangeTimestamp')
+            : Date.now()
           : Number(lastDisappearingMessageChangeTimestamp),
         source: msgModel.get('source'),
       };
-
-      if (isLegacyMessage && isDisappearingMessagesV2Released) {
-        // if it is a legacy message then we ignore it and use the local client's conversation settings
-        expirationTimerUpdate.expirationType = senderConversationModel.get('expirationType');
-        expirationTimerUpdate.expireTimer = senderConversationModel.get('expireTimer');
-
-        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp = senderConversationModel.get(
-          'lastDisappearingMessageChangeTimestamp'
-        );
-      }
 
       msgModel.set({
         expirationTimerUpdate,

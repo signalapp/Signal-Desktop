@@ -24,8 +24,10 @@ export class ExpirableMessage extends ContentMessage {
       expirationType:
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
-          : SignalService.Content.ExpirationType.DELETE_AFTER_READ,
-      expirationTimer: this.expireTimer,
+          : this.expirationType === 'deleteAfterRead'
+          ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
+          : undefined,
+      expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
     });
   }
 
@@ -33,7 +35,7 @@ export class ExpirableMessage extends ContentMessage {
     return this.expirationType;
   }
 
-  // TODO need to account for legacy messages here?
+  // TODO legacy messages? + update expire endpoint for message after read
   public ttl(): number {
     switch (this.expirationType) {
       case 'deleteAfterSend':

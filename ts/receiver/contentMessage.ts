@@ -408,13 +408,31 @@ export async function innerHandleSwarmContentMessage(
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
 
+      // TODO legacy messages support will be removed in a future release
       // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
       const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
         'Disappearing Messages V2'
       );
-      const isLegacyMessage = Boolean(dataMessage.expireTimer && dataMessage.expireTimer > 0);
+      const isLegacyMessage = Boolean(dataMessage.expireTimer && dataMessage.expireTimer > -1);
 
-      // TODO account for outdated groups separately probably
+      const expireUpdate: DisappearingMessageUpdate = {
+        expirationType: isDisappearingMessagesV2Released
+          ? DisappearingMessageConversationSetting[content.expirationType]
+          : isLegacyMessage
+          ? DisappearingMessageConversationSetting[3]
+          : 'off',
+        expireTimer: isDisappearingMessagesV2Released
+          ? content.expirationTimer
+          : isLegacyMessage
+          ? Number(dataMessage.expireTimer)
+          : 0,
+        lastDisappearingMessageChangeTimestamp: content.lastDisappearingMessageChangeTimestamp
+          ? Number(content.lastDisappearingMessageChangeTimestamp)
+          : undefined,
+        isLegacyMessage,
+        isDisappearingMessagesV2Released,
+      };
+
       if (isLegacyMessage) {
         window.log.info(
           'WIP: Received a legacy disappearing message',
@@ -425,6 +443,7 @@ export async function innerHandleSwarmContentMessage(
               : ''
           }`
         );
+
         // trigger notice banner
         if (!conversationModel.get('hasOutdatedClient')) {
           conversationModel.set({ hasOutdatedClient: true });
@@ -434,23 +453,6 @@ export async function innerHandleSwarmContentMessage(
           conversationModel.set({ hasOutdatedClient: false });
         }
       }
-
-      // TODO legacy messages support will be removed in a future release
-      const expireUpdate: DisappearingMessageUpdate = {
-        expirationType:
-          !isDisappearingMessagesV2Released && isLegacyMessage
-            ? DisappearingMessageConversationSetting[3]
-            : DisappearingMessageConversationSetting[content.expirationType] || 'off',
-        expireTimer:
-          !isDisappearingMessagesV2Released && isLegacyMessage
-            ? Number(dataMessage.expireTimer)
-            : content.expirationTimer,
-        lastDisappearingMessageChangeTimestamp: content.lastDisappearingMessageChangeTimestamp
-          ? Number(content.lastDisappearingMessageChangeTimestamp)
-          : undefined,
-        isLegacyMessage,
-        isDisappearingMessagesV2Released,
-      };
 
       await handleSwarmDataMessage(
         envelope,

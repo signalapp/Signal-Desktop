@@ -122,11 +122,6 @@ export class VisibleMessage extends ExpirableMessage {
 
     dataMessage.attachments = this.attachments || [];
 
-    // TODO should only happen in legacy mode and should be cancelled out once we have trigger the unix timestamp
-    // if (this.expireTimer) {
-    //   dataMessage.expireTimer = this.expireTimer;
-    // }
-
     if (this.preview) {
       dataMessage.preview = this.preview;
     }

@@ -44,6 +44,11 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
 
     dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
 
+    // TODO legacy messages support will be removed in a future release
+    if (this.expirationType === 'legacy' && this.expireTimer) {
+      dataMessage.expireTimer = this.expireTimer;
+    }
+
     return dataMessage;
   }
 }

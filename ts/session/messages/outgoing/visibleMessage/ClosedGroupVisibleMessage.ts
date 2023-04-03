@@ -45,11 +45,6 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
 
     dataProto.group = groupMessage;
 
-    // TODO legacy messages support will be removed in a future release
-    if (this.expirationType === 'legacy' && this.expireTimer) {
-      dataProto.expireTimer = this.expireTimer;
-    }
-
     return dataProto;
   }
 }

@@ -95,10 +95,7 @@ import {
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
-import {
-  DisappearingMessageConversationType,
-  DisappearingMessageType,
-} from '../util/expiringMessages';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -635,8 +632,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPrivate()) {
         if (this.isMe()) {
-          // TODO legacy messages support will be removed in a future release
-          if (!this.isDisappearingMode('legacy') && !this.isDisappearingMode('deleteAfterSend')) {
+          if (this.isDisappearingMode('deleteAfterRead')) {
             return;
           }
           chatMessageParams.syncTarget = this.id;
@@ -668,8 +664,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isMediumGroup()) {
-        // TODO legacy messages support will be removed in a future release
-        if (!this.isDisappearingMode('legacy') && !this.isDisappearingMode('disappearAfterSend')) {
+        if (this.isDisappearingMode('deleteAfterRead')) {
           return;
         }
 
@@ -1082,7 +1077,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     let source = providedSource;
 
-    if (!expirationType || !expireTimer) {
+    if (expirationType === undefined || expireTimer === undefined) {
       expirationType = 'off';
       expireTimer = 0;
     }
@@ -1198,9 +1193,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
-    } else {
-      // Cannot be an open group
-      window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
+    } else if (this.isMediumGroup()) {
       const expireUpdateForGroup = {
         ...expireUpdate,
         groupId: this.get('id'),
@@ -1209,8 +1202,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
       await getMessageQueue().sendToGroup(expirationTimerMessage);
+    } else {
+      window?.log?.warn('Communities should not use disappearing messages');
     }
-    return;
   }
 
   public triggerUIRefresh() {
@@ -2237,24 +2231,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  // TODO I think this is flawed
-  private isDisappearingMode(mode: DisappearingMessageType) {
+  private isDisappearingMode(mode: DisappearingMessageConversationType) {
     // TODO legacy messages support will be removed in a future release
     const success =
-      this.get('expirationType') && this.get('expirationType') !== 'off' && mode === 'legacy'
-        ? this.get('expirationType') === 'legacy'
-        : mode === 'deleteAfterRead'
+      mode === 'deleteAfterRead'
         ? this.get('expirationType') === 'deleteAfterRead'
-        : this.get('expirationType') === 'deleteAfterSend';
-
-    if (!success) {
-      window.log.info(
-        `WIP: This message should be ${
-          mode === 'legacy' ? ' a legacy disappearing message' : ` disappear after ${mode}`
-        }`,
-        this
-      );
-    }
+        : mode === 'deleteAfterSend'
+        ? this.get('expirationType') === 'deleteAfterSend'
+        : mode === 'legacy'
+        ? this.get('expirationType') === 'legacy'
+        : mode === 'off'
+        ? this.get('expirationType') === 'off'
+        : false;
 
     return success;
   }

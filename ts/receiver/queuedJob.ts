@@ -328,6 +328,8 @@ export async function handleMessageJob(
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
 
+  window.log.info(`WIP: handleMessageJob()`, messageModel, conversation, regularDataMessage);
+
   const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE
@@ -353,7 +355,11 @@ export async function handleMessageJob(
     if (messageModel.isExpirationTimerUpdate()) {
       const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
       if (!expirationTimerUpdate || isEmpty(expirationTimerUpdate)) {
-        window.log.info(`WIP: There is a problem with the expiration timer update`, messageModel);
+        window.log.info(
+          `WIP: There is a problem with the expiration timer update`,
+          messageModel,
+          expirationTimerUpdate
+        );
         return;
       }
 
