@@ -44,25 +44,6 @@ message MessageRequestResponse {
   optional DataMessage.LokiProfile   profile                   = 3;
 }
 
-// TODO Syncing disappearing messages
-// message SyncedExpiries {
-
-//   message SyncedConversationExpiries {
-
-//     message SyncedExpiry {
-//       // @required
-//       required string serverHash          = 1; // messageHash for desktop and serverHash for iOS
-//       // @required
-//       required uint64 expirationTimestamp = 2; // this is only used for deleteAfterRead
-//     }
-//     // @required
-//     required string       syncTarget = 1; // the conversationID those expiries are related to
-//     repeated SyncedExpiry expiries   = 2;
-//   }
-
-//   repeated SyncedConversationExpiries conversationExpiries = 1;
-// }
-
 message Content {
 
   enum ExpirationType {
@@ -81,7 +62,6 @@ message Content {
   optional ExpirationType             expirationType             = 11;
   optional uint32                     expirationTimer            = 12;
   optional uint64                     lastDisappearingMessageChangeTimestamp = 13;
-  // optional SyncedExpiries             syncedExpiries             = 14;
 }
 
 message KeyPair {
