@@ -1198,7 +1198,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPrivate()) {
-      // debugger;
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);

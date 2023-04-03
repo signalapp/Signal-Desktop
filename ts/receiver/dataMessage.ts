@@ -23,7 +23,7 @@ import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
-import { DisappearingMessageUpdate } from '../util/expiringMessages';
+import { DisappearingMessageUpdate, handleExpireUpdate } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -155,7 +155,7 @@ export async function handleSwarmDataMessage(
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
   senderConversationModel: ConversationModel,
-  expireUpdate: DisappearingMessageUpdate
+  expireUpdate?: DisappearingMessageUpdate
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
@@ -229,7 +229,7 @@ export async function handleSwarmDataMessage(
     return;
   }
 
-  const msgModel =
+  let msgModel =
     isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
       ? createSwarmMessageSentFromUs({
           conversationId: convoIdToAddTheMessageTo,
@@ -243,46 +243,12 @@ export async function handleSwarmDataMessage(
           sentAt: sentAtTimestamp,
         });
 
-  if (isSyncedMessage) {
-    // TODO handle sync messages separately
-    window.log.info('WIP: Sync Message dropping');
-  } else {
-    let {
-      expirationType,
-      // TODO renamed expireTimer to expirationTimer
-      expirationTimer: expireTimer,
-      lastDisappearingMessageChangeTimestamp,
-      isLegacyConversationSettingMessage,
-      isDisappearingMessagesV2Released,
-    } = expireUpdate;
-
-    msgModel.set({
-      expirationType,
-      expireTimer,
-    });
-
-    // TODO legacy messages support will be removed in a future release
-    // This message is conversation setting change message
-    if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
-      if (isDisappearingMessagesV2Released && isLegacyConversationSettingMessage) {
-        window.log.info(`WIP: The legacy message is an expiration timer update. Ignoring it.`);
-        return;
-      }
-
-      const expirationTimerUpdate = {
-        expirationType,
-        expireTimer,
-        lastDisappearingMessageChangeTimestamp: isLegacyConversationSettingMessage
-          ? isDisappearingMessagesV2Released
-            ? convoToAddMessageTo.get('lastDisappearingMessageChangeTimestamp')
-            : Date.now()
-          : Number(lastDisappearingMessageChangeTimestamp),
-        source: msgModel.get('source'),
-      };
-
-      msgModel.set({
-        expirationTimerUpdate,
-      });
+  if (expireUpdate && !isEmpty(expireUpdate)) {
+    if (isSyncedMessage) {
+      // TODO handle sync messages expiring separately
+      window.log.info('WIP: Sync Message dropping');
+    } else {
+      msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
     }
   }
 
