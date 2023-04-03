@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _, { isEqual } from 'lodash';
+import _, { isEmpty, isEqual } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -361,9 +361,11 @@ export async function handleMessageJob(
     ConversationTypeEnum.PRIVATE
   );
   try {
+    console.log(`WIP: handleMessageJob expireUpdate`, expireUpdate, regularDataMessage);
     messageModel.set({ flags: regularDataMessage.flags });
     // TODO remove 2 weeks after release
     if (messageModel.isExpirationTimerUpdate()) {
+      console.log(`WIP: isExpirationTimerUpdate`, messageModel);
       // TODO account for lastDisappearingMessageChangeTimestamp
       const { expireTimer: oldExpireTimer } = regularDataMessage;
       const expirationType = expireUpdate.expirationType;
@@ -375,7 +377,7 @@ export async function handleMessageJob(
       if (isEqual(expirationType, oldTypeValue) && expireTimer === oldTimerValue) {
         confirm?.();
         window?.log?.info(
-          'Dropping ExpireTimerUpdate message as we already have the same one set.'
+          'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }
@@ -388,6 +390,12 @@ export async function handleMessageJob(
         expireTimer
       );
     } else {
+      if (!isEmpty(expireUpdate)) {
+        messageModel.set({
+          expirationType: expireUpdate.expirationType,
+          expireTimer: expireUpdate.expireTimer,
+        });
+      }
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(
         conversation,

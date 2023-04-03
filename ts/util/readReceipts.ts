@@ -47,13 +47,6 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     // we do not care of who read it. If the length is > 0 , it is read and false otherwise
     let readBy = message.get('read_by') || [];
     let expirationStartTimestamp = undefined;
-    if (message.get('expirationType') === 'deleteAfterRead') {
-      expirationStartTimestamp = setExpirationStartTimestamp(
-        message,
-        'deleteAfterRead',
-        message.get('expirationStartTimestamp')
-      );
-    }
 
     if (!readBy.length) {
       readBy.push(receipt.source);
