@@ -91,7 +91,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
       <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
         <Header
           title={window.i18n('disappearingMessages')}
-          subtitle={window.i18n('disappearingMessagesSubtitle')}
+          subtitle={window.i18n('settingAppliesToEveryone')}
         />
         <DisappearingModes
           options={disappearingModeOptions}
