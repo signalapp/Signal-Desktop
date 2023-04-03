@@ -29,8 +29,11 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   } = props;
 
   const contact = profileName || pubkey;
+  // TODO legacy messages support will be removed in a future release
   const mode =
-    expirationType === 'deleteAfterRead'
+    expirationType === 'legacy'
+      ? null
+      : expirationType === 'deleteAfterRead'
       ? window.i18n('timerModeRead')
       : window.i18n('timerModeSent');
 
@@ -39,13 +42,17 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     case 'fromOther':
       textToRender = disabled
         ? window.i18n('disabledDisappearingMessages', [contact, timespan])
-        : window.i18n('theyChangedTheTimer', [contact, timespan, mode]);
+        : mode
+        ? window.i18n('theyChangedTheTimer', [contact, timespan, mode])
+        : window.i18n('theyChangedTheTimerLegacy', [contact, timespan]);
       break;
     case 'fromMe':
     case 'fromSync':
       textToRender = disabled
         ? window.i18n('youDisabledDisappearingMessages')
-        : window.i18n('youChangedTheTimer', [timespan, mode]);
+        : mode
+        ? window.i18n('youChangedTheTimer', [timespan, mode])
+        : window.i18n('youChangedTheTimerLegacy', [timespan]);
       break;
     default:
       throw missingCaseError(type);
