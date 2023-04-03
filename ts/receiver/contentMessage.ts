@@ -414,7 +414,7 @@ export async function innerHandleSwarmContentMessage(
 
       expireUpdate = {
         expirationType,
-        // TODO rename to expireTimer
+        // TODO rename to expirationTimer?
         expireTimer,
         lastDisappearingMessageChangeTimestamp,
       };

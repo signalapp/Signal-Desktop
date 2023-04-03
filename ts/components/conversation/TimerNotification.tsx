@@ -2,8 +2,12 @@ import React from 'react';
 
 import { missingCaseError } from '../../util/missingCaseError';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
-import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
+
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
+import { SessionIcon } from '../icon';
+import { SpacerSM } from '../basic/Text';
+import { Flex } from '../basic/Flex';
+import { Text } from '../basic/Text';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {
@@ -32,15 +36,10 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         : window.i18n('theyChangedTheTimer', [contact, timespan, mode]);
       break;
     case 'fromMe':
+    case 'fromSync':
       textToRender = disabled
         ? window.i18n('youDisabledDisappearingMessages')
         : window.i18n('youChangedTheTimer', [timespan, mode]);
-      break;
-    // TODO update synced control message?
-    case 'fromSync':
-      textToRender = disabled
-        ? window.i18n('disappearingMessagesDisabled')
-        : window.i18n('timerSetOnSync', [timespan]);
       break;
     default:
       throw missingCaseError(type);
@@ -49,6 +48,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   if (!textToRender || textToRender.length === 0) {
     throw new Error('textToRender invalid key used TimerNotification');
   }
+
   return (
     <ExpirableReadableMessage
       convoId={props.convoId}
@@ -61,11 +61,20 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       isExpired={props.isExpired}
       key={`readable-message-${messageId}`}
     >
-      <NotificationBubble
-        iconType="stopwatch"
-        iconColor="inherit"
-        notificationText={textToRender}
-      />
+      <Flex
+        container={true}
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        width="90%"
+        maxWidth="700px"
+        margin="10px auto"
+        padding="5px 10px"
+      >
+        <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
+        <SpacerSM />
+        <Text text={textToRender} />
+      </Flex>
     </ExpirableReadableMessage>
   );
 };

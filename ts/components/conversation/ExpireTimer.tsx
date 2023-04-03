@@ -63,6 +63,7 @@ export const ExpireTimer = (props: Props) => {
   if (timeLeft <= 60) {
     return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
   }
+
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
 
   return (

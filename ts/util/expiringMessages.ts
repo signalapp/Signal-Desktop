@@ -238,7 +238,7 @@ export function setExpirationStartTimestamp(
       message
     );
   } else {
-    console.log(`WIP: Invalid disappearing message mode set. Ignoring.`, message);
+    console.log(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
     return null;
   }
 

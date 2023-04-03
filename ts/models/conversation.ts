@@ -1238,7 +1238,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ...messageAttributes,
       conversationId: this.id,
       type: 'incoming',
-      direction: 'outgoing',
+      direction: 'incoming',
     });
   }
 
