@@ -631,7 +631,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         if (message.get('groupInvitation')) {
           const groupInvitation = message.get('groupInvitation');
-          const groupInvitMessage = new GroupInvitationMessage({
+          const groupInviteMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
             name: groupInvitation.name,
@@ -639,7 +639,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}
-          await getMessageQueue().sendToPubKey(destinationPubkey, groupInvitMessage);
+          await getMessageQueue().sendToPubKey(destinationPubkey, groupInviteMessage);
           return;
         }
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);

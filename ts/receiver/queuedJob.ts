@@ -242,9 +242,6 @@ async function handleRegularMessage(
     message.set({ expireTimer: existingExpireTimer });
   }
 
-  // Expire timer updates are now explicit.
-  // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
-
   const ourIdInThisConversation =
     getUsBlindedInThatServer(conversation.id) || UserUtils.getOurPubKeyStrFromCache();
 

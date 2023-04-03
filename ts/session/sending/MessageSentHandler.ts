@@ -125,17 +125,20 @@ async function handleMessageSentSuccess(
 
   sentTo = _.union(sentTo, [sentMessage.device]);
 
-  if (fetchedMessage.get('expirationType') === 'deleteAfterSend') {
-    const expirationStartTimestamp = setExpirationStartTimestamp(fetchedMessage, 'deleteAfterSend');
-    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
-  }
-
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
-    // TODO do we need to use this for the timestamp for the delete after send logic
     sent_at: effectiveTimestamp,
   });
+
+  if (fetchedMessage.get('expirationType') === 'deleteAfterSend') {
+    const expirationStartTimestamp = setExpirationStartTimestamp(
+      fetchedMessage,
+      'deleteAfterSend',
+      effectiveTimestamp
+    );
+    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
+  }
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();

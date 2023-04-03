@@ -208,11 +208,20 @@ export function setExpirationStartTimestamp(
   }
 
   if (mode === 'deleteAfterRead') {
-    window.log.info(`WIP: we set the start timetamp for a delete after read message`, message);
+    window.log.info(
+      `WIP: setExpirationStartTimestamp we set the start timetamp for a delete after read message`,
+      message
+    );
   } else if (mode === 'deleteAfterSend') {
-    window.log.info(`WIP: we set the start timetamp for a delete after send message`, message);
+    window.log.info(
+      `WIP: setExpirationStartTimestamp we set the start timetamp for a delete after send message`,
+      message
+    );
   } else {
-    console.log(`WIP: Invalid disappearing message mode set, ignoring this message`, message);
+    console.log(
+      `WIP: setExpirationStartTimestamp Invalid disappearing message mode set, ignoring this message`,
+      message
+    );
     return;
   }
 

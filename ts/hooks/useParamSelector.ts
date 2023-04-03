@@ -194,6 +194,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
         return options.filter(option => {
           return (
             option.value === 10 || // 10 seconds (for testing)
+            option.value === 30 || // 30 seconds (for testing)
             option.value === 43200 || // 12 hours
             option.value === 86400 || // 1 day
             option.value === 604800 || // 1 week
@@ -204,6 +205,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
         return options.filter(option => {
           return (
             option.value === 10 || // 10 seconds (for testing)
+            option.value === 30 || // 30 seconds (for testing)
             option.value === 300 || // 5 minutes
             option.value === 3600 || // 1 hour
             option.value === 43200 || // 12 hours
