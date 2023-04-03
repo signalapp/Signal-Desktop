@@ -2,10 +2,11 @@ import React, { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 // NOTE Used for descendant components
-export const StyledContent = styled.div`
+export const StyledContent = styled.div<{ disabled: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
+  color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 `;
 
 export const StyledText = styled.span`
@@ -62,9 +63,10 @@ export const PanelButtonGroup = (props: PanelButtonGroupProps) => {
 };
 
 const StyledPanelButton = styled.button<{
-  disableBg?: boolean;
+  noBackgroundColor?: boolean;
+  disabled: boolean;
 }>`
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,7 +78,8 @@ const StyledPanelButton = styled.button<{
   width: 100%;
   transition: var(--default-duration);
   background-color: ${props =>
-    !props.disableBg ? 'var(--right-panel-item-background-hover-color) !important' : null};
+    !props.noBackgroundColor ? 'var(--right-panel-item-background-hover-color) !important' : null};
+  color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 
   :not(:last-child) {
     border-bottom: 1px solid var(--border-color);
@@ -86,7 +89,8 @@ const StyledPanelButton = styled.button<{
 export type PanelButtonProps = {
   // https://styled-components.com/docs/basics#styling-any-component
   className?: string;
-  disableBg?: boolean;
+  disabled?: boolean;
+  noBackgroundColor?: boolean;
   children: ReactNode;
   onClick: (...args: Array<any>) => void;
   dataTestId?: string;
@@ -94,12 +98,21 @@ export type PanelButtonProps = {
 };
 
 export const PanelButton = (props: PanelButtonProps) => {
-  const { className, disableBg, children, onClick, dataTestId, style } = props;
+  const {
+    className,
+    disabled = false,
+    noBackgroundColor,
+    children,
+    onClick,
+    dataTestId,
+    style,
+  } = props;
 
   return (
     <StyledPanelButton
       className={className}
-      disableBg={disableBg}
+      noBackgroundColor={noBackgroundColor}
+      disabled={disabled}
       onClick={onClick}
       style={style}
       data-testid={dataTestId}

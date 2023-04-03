@@ -44,23 +44,40 @@ interface PanelRadioButtonProps extends Omit<PanelButtonProps, 'children' | 'onC
 }
 
 export const PanelRadioButton = (props: PanelRadioButtonProps) => {
-  const { value, text, subtitle, isSelected, onSelect, onUnselect, disableBg, dataTestId } = props;
+  const {
+    value,
+    text,
+    subtitle,
+    isSelected,
+    onSelect,
+    onUnselect,
+    disabled = false,
+    noBackgroundColor,
+    dataTestId,
+  } = props;
 
   return (
     <StyledPanelButton
-      disableBg={disableBg}
+      disabled={disabled}
+      noBackgroundColor={noBackgroundColor}
       onClick={() => {
         isSelected ? onUnselect?.('bye') : onSelect?.('hi');
       }}
       dataTestId={dataTestId}
     >
-      <StyledContent>
+      <StyledContent disabled={disabled}>
         <Flex container={true} width={'100%'} flexDirection={'column'} alignItems={'flex-start'}>
           <StyledText>{text}</StyledText>
           {subtitle && <StyledSubtitle>{subtitle}</StyledSubtitle>}
         </Flex>
         <StyledCheckContainer>
-          <SessionRadio active={isSelected} value={value} inputName={value} label="" />
+          <SessionRadio
+            active={isSelected}
+            value={value}
+            inputName={value}
+            label=""
+            disabled={disabled}
+          />
         </StyledCheckContainer>
       </StyledContent>
     </StyledPanelButton>
