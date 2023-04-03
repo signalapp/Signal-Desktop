@@ -293,6 +293,7 @@ export type LocalizerKeys =
   | 'cameraPermissionNeededTitle'
   | 'editMenuRedo'
   | 'hideRequestBanner'
+  | 'set'
   | 'changeNicknameMessage'
   | 'reactionPopupThree'
   | 'close'

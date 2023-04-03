@@ -1,0 +1,62 @@
+import React from 'react';
+import styled from 'styled-components';
+import { SessionRadio } from '../basic/SessionRadio';
+import { PanelButton, PanelButtonProps, StyledContent, StyledText } from './PanelButton';
+
+const StyledPanelButton = styled(PanelButton)`
+  padding-top: var(--margins-lg);
+  padding-bottom: var(--margins-lg);
+
+  div {
+    span {
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+    }
+  }
+
+  :first-child {
+    padding-top: 0;
+  }
+
+  :last-child {
+    padding-bottom: 0;
+  }
+`;
+
+const StyledSubtitle = styled.p``;
+
+const StyledCheckContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+interface PanelRadioButtonProps extends Omit<PanelButtonProps, 'children' | 'onClick'> {
+  value: any;
+  text: string;
+  subtitle?: string;
+  isSelected: boolean;
+  onSelect?: (...args: any[]) => void;
+  onUnselect?: (...args: any[]) => void;
+}
+
+export const PanelRadioButton = (props: PanelRadioButtonProps) => {
+  const { value, text, subtitle, isSelected, onSelect, onUnselect, disableBg, dataTestId } = props;
+
+  return (
+    <StyledPanelButton
+      disableBg={disableBg}
+      onClick={() => {
+        isSelected ? onUnselect?.('bye') : onSelect?.('hi');
+      }}
+      dataTestId={dataTestId}
+    >
+      <StyledContent>
+        <StyledText>{text}</StyledText>
+        {subtitle && <StyledSubtitle></StyledSubtitle>}
+        <StyledCheckContainer>
+          <SessionRadio active={isSelected} value={value} inputName={value} label="" />
+        </StyledCheckContainer>
+      </StyledContent>
+    </StyledPanelButton>
+  );
+};
