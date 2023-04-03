@@ -85,7 +85,7 @@ export type PanelButtonProps = {
   className?: string;
   disableBg?: boolean;
   children: ReactNode;
-  onClick: (...args: any[]) => void;
+  onClick: (...args: Array<any>) => void;
   dataTestId?: string;
   style?: CSSProperties;
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Flex } from '../basic/Flex';
 import { SessionRadio } from '../basic/SessionRadio';
 import { PanelButton, PanelButtonProps, StyledContent, StyledText } from './PanelButton';
 
@@ -23,7 +24,10 @@ const StyledPanelButton = styled(PanelButton)`
   }
 `;
 
-const StyledSubtitle = styled.p``;
+const StyledSubtitle = styled.p`
+  font-size: var(--font-size-xs);
+  margin: 0;
+`;
 
 const StyledCheckContainer = styled.div`
   display: flex;
@@ -35,8 +39,8 @@ interface PanelRadioButtonProps extends Omit<PanelButtonProps, 'children' | 'onC
   text: string;
   subtitle?: string;
   isSelected: boolean;
-  onSelect?: (...args: any[]) => void;
-  onUnselect?: (...args: any[]) => void;
+  onSelect?: (...args: Array<any>) => void;
+  onUnselect?: (...args: Array<any>) => void;
 }
 
 export const PanelRadioButton = (props: PanelRadioButtonProps) => {
@@ -51,8 +55,10 @@ export const PanelRadioButton = (props: PanelRadioButtonProps) => {
       dataTestId={dataTestId}
     >
       <StyledContent>
-        <StyledText>{text}</StyledText>
-        {subtitle && <StyledSubtitle></StyledSubtitle>}
+        <Flex container={true} width={'100%'} flexDirection={'column'} alignItems={'flex-start'}>
+          <StyledText>{text}</StyledText>
+          {subtitle && <StyledSubtitle>{subtitle}</StyledSubtitle>}
+        </Flex>
         <StyledCheckContainer>
           <SessionRadio active={isSelected} value={value} inputName={value} label="" />
         </StyledCheckContainer>

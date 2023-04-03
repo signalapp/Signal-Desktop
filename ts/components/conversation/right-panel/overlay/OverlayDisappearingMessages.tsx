@@ -8,10 +8,17 @@ import { getSelectedConversationKey } from '../../../../state/selectors/conversa
 import { getTimerOptions } from '../../../../state/selectors/timerOptions';
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
+import { SpacerLG } from '../../../basic/Text';
 import { PanelButtonGroup } from '../../../buttons';
 import { PanelLabel } from '../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
+
+const StyledScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: hidden auto;
+`;
 
 const StyledContainer = styled(Flex)`
   width: 100%;
@@ -83,7 +90,7 @@ const Header = (props: HeaderProps) => {
 };
 
 type TimerOptionsProps = {
-  options: any[];
+  options: Array<any>;
   selected: number;
   setSelected: (value: number) => void;
 };
@@ -116,24 +123,27 @@ export const OverlayDisappearingMessages = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const timerOptions = useSelector(getTimerOptions).timerOptions;
 
-  const [selected, setSelected] = useState(timerOptions[0].value);
+  const [timeSelected, setTimeSelected] = useState(timerOptions[0].value);
 
   return (
-    <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
-      <Header
-        title={window.i18n('disappearingMessages')}
-        subtitle={window.i18n('disappearingMessagesSubtitle')}
-      />
-      <TimeOptions options={timerOptions} selected={selected} setSelected={setSelected} />
-      <SessionButton
-        onClick={() => {
-          if (selectedConversationKey) {
-            void setDisappearingMessagesByConvoId(selectedConversationKey, selected);
-          }
-        }}
-      >
-        {window.i18n('set')}
-      </SessionButton>
-    </StyledContainer>
+    <StyledScrollContainer>
+      <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
+        <Header
+          title={window.i18n('disappearingMessages')}
+          subtitle={window.i18n('disappearingMessagesSubtitle')}
+        />
+        <TimeOptions options={timerOptions} selected={timeSelected} setSelected={setTimeSelected} />
+        <SessionButton
+          onClick={async () => {
+            if (selectedConversationKey) {
+              await setDisappearingMessagesByConvoId(selectedConversationKey, timeSelected);
+            }
+          }}
+        >
+          {window.i18n('set')}
+        </SessionButton>
+        <SpacerLG />
+      </StyledContainer>
+    </StyledScrollContainer>
   );
 };

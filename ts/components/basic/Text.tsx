@@ -27,13 +27,15 @@ export const Text = (props: TextProps) => {
 };
 
 type SpacerProps = {
-  size: 'lg' | 'md' | 'sm' | 'xs';
+  size: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
   style?: CSSProperties;
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
   height: ${props =>
-    props.size === 'lg'
+    props.size === 'xl'
+      ? 'var(--margins-xl)'
+      : props.size === 'lg'
       ? 'var(--margins-lg)'
       : props.size === 'md'
       ? 'var(--margins-md)'
@@ -42,7 +44,9 @@ const SpacerStyled = styled.div<SpacerProps>`
       : 'var(--margins-xs)'};
 
   width: ${props =>
-    props.size === 'lg'
+    props.size === 'xl'
+      ? 'var(--margins-xl)'
+      : props.size === 'lg'
       ? 'var(--margins-lg)'
       : props.size === 'md'
       ? 'var(--margins-md)'
@@ -53,6 +57,10 @@ const SpacerStyled = styled.div<SpacerProps>`
 
 const Spacer = (props: SpacerProps) => {
   return <SpacerStyled {...props} />;
+};
+
+export const SpacerXL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xl" style={props.style} />;
 };
 
 export const SpacerLG = (props: { style?: CSSProperties }) => {
