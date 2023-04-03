@@ -941,10 +941,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
       }
 
+      const timestamp = Date.now(); // force a new timestamp to handle user fixed his clock;
+
       const chatParams = {
         identifier: this.id,
         body,
-        timestamp: Date.now(), // force a new timestamp to handle user fixed his clock
+        timestamp,
         expireTimer: this.get('expireTimer'),
         attachments,
         preview: preview ? [preview] : [],
@@ -978,8 +980,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
-        chatMessage,
         groupId: this.get('conversationId'),
+        timestamp,
+        chatMessage,
       });
 
       return getMessageQueue().sendToGroup(closedGroupVisibleMessage);

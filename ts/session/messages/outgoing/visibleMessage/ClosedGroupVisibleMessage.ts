@@ -2,14 +2,14 @@ import { SignalService } from '../../../../protobuf';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
 import { VisibleMessage } from './VisibleMessage';
-import { ClosedGroupMessage } from '../controlMessage/group/ClosedGroupMessage';
-import { DisappearingMessageType } from '../../../../util/expiringMessages';
+import {
+  ClosedGroupMessage,
+  ClosedGroupMessageParams,
+} from '../controlMessage/group/ClosedGroupMessage';
 
-interface ClosedGroupVisibleMessageParams {
-  identifier?: string;
-  groupId: string | PubKey;
-  expirationType?: DisappearingMessageType;
-  expireTimer?: number;
+interface ClosedGroupVisibleMessageParams extends ClosedGroupMessageParams {
+  // TODO Do we need strings?
+  // groupId: string | PubKey;
   chatMessage: VisibleMessage;
 }
 
@@ -24,7 +24,9 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
     });
+
     this.chatMessage = params.chatMessage;
+
     if (!params.groupId) {
       throw new Error('ClosedGroupVisibleMessage: groupId must be set');
     }

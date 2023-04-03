@@ -1,32 +1,26 @@
 import { SignalService } from '../../../../../protobuf';
-import { DisappearingMessageType } from '../../../../../util/expiringMessages';
 import { PubKey } from '../../../../types';
-import { ContentMessage } from '../../ContentMessage';
-import { MessageParams } from '../../Message';
+import { ExpirableMessage, ExpirableMessageParams } from '../../ExpirableMessage';
 
-export interface ClosedGroupMessageParams extends MessageParams {
+export interface ClosedGroupMessageParams extends ExpirableMessageParams {
   groupId: string | PubKey;
-  expirationType?: DisappearingMessageType;
-  expireTimer?: number;
 }
 
-export abstract class ClosedGroupMessage extends ContentMessage {
+export abstract class ClosedGroupMessage extends ExpirableMessage {
   public readonly groupId: PubKey;
-  public readonly expirationType?: DisappearingMessageType;
-  public readonly expireTimer?: number;
 
   constructor(params: ClosedGroupMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
     });
 
     this.groupId = PubKey.cast(params.groupId);
     if (!this.groupId || this.groupId.key.length === 0) {
       throw new Error('groupId must be set');
     }
-    this.expirationType = params.expirationType;
-    this.expireTimer = params.expireTimer;
   }
 
   public static areAdminsMembers(admins: Array<string>, members: Array<string>) {
@@ -36,11 +30,12 @@ export abstract class ClosedGroupMessage extends ContentMessage {
   public contentProto(): SignalService.Content {
     return new SignalService.Content({
       dataMessage: this.dataProto(),
+      ...super.contentProto(),
+      // Closed Groups only support 'deleteAfterSend'
       expirationType:
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
           : undefined,
-      expirationTimer: this.expireTimer,
     });
   }
 

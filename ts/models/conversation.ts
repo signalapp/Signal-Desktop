@@ -654,8 +654,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
           groupId: destination,
-          expirationType,
-          expireTimer,
+          timestamp: sentAt,
+          expirationType: chatMessageParams.expirationType,
+          expireTimer: chatMessageParams.expireTimer,
         });
 
         // we need the return await so that errors are caught in the catch {}
@@ -760,6 +761,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
           groupId: destination,
+          timestamp: sentAt,
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);

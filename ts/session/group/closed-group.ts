@@ -29,7 +29,10 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
 import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
-import { DisappearingMessageConversationType } from '../../util/expiringMessages';
+import {
+  DisappearingMessageConversationType,
+  setExpirationStartTimestamp,
+} from '../../util/expiringMessages';
 
 export type GroupInfo = {
   id: string;
@@ -87,8 +90,8 @@ export async function initiateClosedGroupUpdate(
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
-    expirationType: convo.get('expirationType'), // TODO Does this have a default value
-    expireTimer: convo.get('expireTimer'),
+    expirationType: convo.get('expirationType') || undefined,
+    expireTimer: convo.get('expireTimer') || 0,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -100,8 +103,6 @@ export async function initiateClosedGroupUpdate(
     name: groupName,
     members,
     admins: convo.get('groupAdmins'),
-    expirationType: convo.get('expirationType'),
-    expireTimer: convo.get('expireTimer'),
   };
 
   if (diff.newName?.length) {
@@ -171,25 +172,36 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  if (UserUtils.isUsFromCache(sender)) {
-    const outgoingMessage = await convo.addSingleOutgoingMessage({
-      sent_at: sentAt,
-      group_update: groupUpdate,
-      expireTimer: 0,
-    });
-    return outgoingMessage;
-  }
-  const incomingMessage = await convo.addSingleIncomingMessage({
+  const expirationType = convo.get('expirationType');
+  const expireTimer = convo.get('expireTimer');
+
+  const msgModel = {
     sent_at: sentAt,
     group_update: groupUpdate,
-    expireTimer: 0,
+    expirationType: expirationType || undefined,
+    expireTimer: expireTimer || 0,
+    expirationStartTimestamp:
+      expirationType === 'deleteAfterSend'
+        ? setExpirationStartTimestamp(expirationType, sentAt)
+        : undefined,
+  };
+
+  if (UserUtils.isUsFromCache(sender)) {
+    const outgoingMessage = await convo.addSingleOutgoingMessage(msgModel);
+    return outgoingMessage;
+  }
+
+  const incomingMessage = await convo.addSingleIncomingMessage({
+    ...msgModel,
     source: sender,
   });
+
   // update the unreadCount for this convo
   const unreadCount = await convo.getUnreadCount();
   convo.set({
     unreadCount,
   });
+
   await convo.commit();
   return incomingMessage;
 }
@@ -238,6 +250,8 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     | 'left'
     | 'lastJoinedTimestamp'
     | 'zombies'
+    | 'expirationType'
+    | 'expireTimer'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -247,6 +261,8 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
+    expirationType: details.expirationType || 'off',
+    expireTimer: details.expireTimer || 0,
   };
 
   conversation.set(updates);
@@ -264,12 +280,18 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const { expirationType, expireTimer } = details;
 
-  if (expireTimer === undefined || typeof expireTimer !== 'number') {
+  if (
+    expirationType === undefined ||
+    expirationType === 'off' ||
+    expireTimer === undefined ||
+    typeof expireTimer !== 'number'
+  ) {
     return;
   }
 
   await conversation.updateExpireTimer({
-    // TODO clean up 2 weeks after release
+    // TODO clean up 2 weeks after release?
+    // TODO What are we cleaning?
     providedExpirationType: expirationType || 'deleteAfterSend',
     providedExpireTimer: expireTimer,
     providedChangeTimestamp: getNowWithNetworkOffset(),

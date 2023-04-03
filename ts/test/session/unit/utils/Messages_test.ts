@@ -96,7 +96,11 @@ describe('Message Utils', () => {
       const device = TestUtils.generateFakePubKey();
       const groupId = TestUtils.generateFakePubKey();
       const chatMessage = TestUtils.generateVisibleMessage();
-      const message = new ClosedGroupVisibleMessage({ chatMessage, groupId });
+      const message = new ClosedGroupVisibleMessage({
+        groupId,
+        timestamp: Date.now(),
+        chatMessage,
+      });
 
       const rawMessage = await MessageUtils.toRawMessage(device, message);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
