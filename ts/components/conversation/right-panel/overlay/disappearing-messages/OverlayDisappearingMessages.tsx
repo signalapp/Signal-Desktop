@@ -59,8 +59,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
 
   // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
   const singleMode =
-    disappearingModeOptions['off'] !== undefined &&
-    Object.keys(disappearingModeOptions).length === 2
+    disappearingModeOptions.off !== undefined && Object.keys(disappearingModeOptions).length === 2
       ? Object.keys(disappearingModeOptions)[1]
       : undefined;
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);

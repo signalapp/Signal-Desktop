@@ -20,7 +20,7 @@ export const clearInbox = async (roomInfos: OpenGroupRequestCommonType): Promise
   const conversation = await Data.getConversationById(converationId);
 
   if (!conversation) {
-    window.log.warn(`clearInbox Matching conversation not found in db`);
+    window.log.warn('clearInbox Matching conversation not found in db');
   } else {
     const options: Array<OpenGroupBatchRow> = [
       {

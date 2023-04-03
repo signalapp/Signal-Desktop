@@ -52,6 +52,7 @@ export async function destroyMessagesAndUpdateRedux(
     const messageIds = messages.map(m => m.messageId);
 
     // Delete any attachments
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < messageIds.length; i++) {
       const message = await Data.getMessageById(messageIds[i]);
       await message?.cleanup();

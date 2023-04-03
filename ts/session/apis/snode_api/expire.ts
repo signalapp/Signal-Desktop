@@ -223,11 +223,11 @@ type ExpireMessageOnSnodeProps = {
 
 export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   const { messageHash, expireTimer, extend, shorten } = props;
-  window.log.info(`WIP: expireMessageOnSnode running!`);
+  // window.log.info('WIP: expireMessageOnSnode running!');
 
   if (extend && shorten) {
-    window.log.info(
-      `WIP: expireMessageOnSnode failed! We cannot extend and shorten a message at the same time`,
+    window.log.error(
+      '[expireMessageOnSnode] We cannot extend and shorten a message at the same time',
       messageHash
     );
     return;
@@ -239,7 +239,7 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
   if (!ourPubKey || !ourEd25519Key) {
-    window.log.info(`WIP: expireMessageOnSnode failed! No pubkey found`, messageHash);
+    window.log.eror('[expireMessageOnSnode] No pubkey found', messageHash);
     return;
   }
 
@@ -254,7 +254,7 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   });
 
   if (!signResult) {
-    window.log.info(`WIP: Signing message expiry on swarm failed!`, messageHash);
+    window.log.error('[expireMessageOnSnode] Signing message expiry on swarm failed', messageHash);
     return;
   }
 
@@ -289,11 +289,11 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   try {
     const firstSuccessSnode = await firstTrue(promises);
     snode = firstSuccessSnode;
-    window.log.info(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
+    // window.log.info(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${e.message} by ${
+      `loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${e.message} by ${
         ourPubKey.key
       } for ${messageHash} via snode:${snodeStr}`
     );

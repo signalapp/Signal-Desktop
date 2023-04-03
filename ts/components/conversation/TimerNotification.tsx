@@ -73,8 +73,8 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       expirationTimestamp={expirationTimestamp}
       isExpired={props.isExpired}
       isCentered={true}
-      marginInlineStart={`calc(var(--margins-lg) + 6px)`}
-      marginInlineEnd={`calc(var(--margins-lg) + 6px)`}
+      marginInlineStart={'calc(var(--margins-lg) + 6px)'}
+      marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
       key={`readable-message-${messageId}`}
     >
       <StyledTimerNotification
