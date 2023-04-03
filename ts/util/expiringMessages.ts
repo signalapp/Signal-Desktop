@@ -204,7 +204,12 @@ export function setExpirationStartTimestamp(
   let expirationStartTimestamp = Date.now();
 
   if (timestamp) {
-    expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
+    expirationStartTimestamp = Math.min(Date.now(), timestamp);
+    window.log.info(
+      `WIP: setExpirationStartTimestamp has a timestamp, comparing`,
+      Date.now(),
+      timestamp
+    );
   }
 
   if (mode === 'deleteAfterRead') {

@@ -3,7 +3,6 @@ import { MessageCollection } from '../models/message';
 
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
-import { setExpirationStartTimestamp } from './expiringMessages';
 
 async function getTargetMessage(reader: string, messages: MessageCollection) {
   if (messages.length === 0) {
