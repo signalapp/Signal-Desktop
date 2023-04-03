@@ -78,7 +78,7 @@ import {
   ConversationAttributes,
   ConversationNotificationSetting,
   ConversationTypeEnum,
-  DisappearingMessageType,
+  DisappearingMessageConversationType,
   fillConvoAttributesWithDefaults,
 } from './conversationAttributes';
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
@@ -1017,7 +1017,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateExpireTimer(
-    providedExpirationType: DisappearingMessageType,
+    providedExpirationType: DisappearingMessageConversationType,
     providedExpireTimer?: number,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside

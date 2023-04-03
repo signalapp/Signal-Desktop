@@ -14,7 +14,10 @@ import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import { ConversationTypeEnum, DisappearingMessageType } from '../models/conversationAttributes';
+import {
+  ConversationTypeEnum,
+  DisappearingMessageConversationType,
+} from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 function contentTypeSupported(type: string): boolean {
@@ -311,7 +314,7 @@ async function handleExpirationTimerUpdateNoCommit(
   conversation: ConversationModel,
   message: MessageModel,
   source: string,
-  expirationType: DisappearingMessageType,
+  expirationType: DisappearingMessageConversationType,
   expireTimer: number
 ) {
   message.set({

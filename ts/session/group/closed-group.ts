@@ -31,7 +31,7 @@ import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
 import {
   ConversationAttributes,
   ConversationTypeEnum,
-  DisappearingMessageType,
+  DisappearingMessageConversationType,
 } from '../../models/conversationAttributes';
 
 export type GroupInfo = {
@@ -40,7 +40,7 @@ export type GroupInfo = {
   members: Array<string>;
   zombies?: Array<string>;
   activeAt?: number;
-  expirationType?: DisappearingMessageType[0] | DisappearingMessageType[2];
+  expirationType?: DisappearingMessageConversationType[0] | DisappearingMessageConversationType[2];
   expireTimer?: number | null;
   blocked?: boolean;
   admins?: Array<string>;

@@ -8,7 +8,7 @@ import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils'
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
-  DisappearingMessageType,
+  DisappearingMessageConversationType,
 } from '../models/conversationAttributes';
 
 import _ from 'lodash';
@@ -344,7 +344,7 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
 
 export async function setDisappearingMessagesByConvoId(
   conversationId: string,
-  expirationType: DisappearingMessageType,
+  expirationType: DisappearingMessageConversationType,
   seconds?: number
 ) {
   const conversation = getConversationController().get(conversationId);

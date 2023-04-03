@@ -14,7 +14,7 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
-  DisappearingMessageType,
+  DisappearingMessageConversationType,
 } from '../../models/conversationAttributes';
 import { ReactionList } from '../../types/Reaction';
 
@@ -247,7 +247,7 @@ export interface ReduxConversationType {
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;
-  expirationType?: DisappearingMessageType;
+  expirationType?: DisappearingMessageConversationType;
   expireTimer?: number;
   lastDisappearingMessageChangeTimestamp?: number;
 

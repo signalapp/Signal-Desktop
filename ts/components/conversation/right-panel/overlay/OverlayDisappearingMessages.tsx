@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setDisappearingMessagesByConvoId } from '../../../../interactions/conversationInteractions';
 import {
-  DisappearingMessageSetting,
-  DisappearingMessageType,
+  DisappearingMessageConversationSetting,
+  DisappearingMessageConversationType,
 } from '../../../../models/conversationAttributes';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../state/ducks/section';
@@ -93,8 +93,8 @@ const Header = (props: HeaderProps) => {
 };
 
 type DisappearingModesProps = {
-  options: Array<DisappearingMessageType>;
-  selected?: DisappearingMessageType;
+  options: Array<DisappearingMessageConversationType>;
+  selected?: DisappearingMessageConversationType;
   setSelected: (value: string) => void;
 };
 
@@ -104,7 +104,7 @@ const DisappearingModes = (props: DisappearingModesProps) => {
     <>
       <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>
       <PanelButtonGroup>
-        {options.map((option: DisappearingMessageType) => {
+        {options.map((option: DisappearingMessageConversationType) => {
           const optionI18n =
             option === 'off'
               ? window.i18n('disappearingMessagesModeOff')
@@ -170,7 +170,7 @@ const TimeOptions = (props: TimerOptionsProps) => {
 
 export const OverlayDisappearingMessages = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const disappearingModeOptions = DisappearingMessageSetting;
+  const disappearingModeOptions = DisappearingMessageConversationSetting;
   const timerOptions = useSelector(getTimerOptions).timerOptions;
 
   const convoProps = useSelector(getSelectedConversationExpirationSettings);
