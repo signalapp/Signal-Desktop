@@ -1,7 +1,6 @@
 import Backbone from 'backbone';
 import {
   debounce,
-  defaults,
   filter,
   includes,
   isArray,
@@ -1058,7 +1057,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedChangeTimestamp,
     providedSource,
     receivedAt, // is set if it comes from outside
-    fromSync,
+    fromSync = false,
     shouldCommit = true,
     existingMessage,
   }: {
@@ -1075,8 +1074,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     let source = providedSource;
-
-    defaults({ fromSync }, { fromSync: false });
 
     if (!expirationType || !expireTimer) {
       expirationType = 'off';
@@ -1191,7 +1188,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPrivate()) {
-      // TODO Check that the args are correct
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);

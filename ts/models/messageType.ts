@@ -180,10 +180,12 @@ export interface MessageAttributesOptionals {
   expireTimer?: number;
   expirationStartTimestamp?: number;
   expires_at?: number;
+  // TODO legacy messages support will be removed in a future release
+  // types will no longer have an undefined option
   expirationTimerUpdate?: {
-    expirationType: DisappearingMessageType;
+    expirationType: DisappearingMessageType | undefined;
     expireTimer: number;
-    lastDisappearingMessageChangeTimestamp: number;
+    lastDisappearingMessageChangeTimestamp: number | undefined;
     source: string;
     fromSync?: boolean;
   };

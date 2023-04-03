@@ -70,9 +70,7 @@ async function handleMessageSentSuccess(
     !isOurDevice &&
     !isClosedGroupMessage &&
     !fetchedMessage.get('synced') &&
-    !fetchedMessage.get('sentSync') &&
-    // TODO not 100% on this. Handling syncing later
-    !fetchedMessage.get('expirationType');
+    !fetchedMessage.get('sentSync');
 
   // A message is synced if we triggered a sync message (sentSync)
   // and the current message was sent to our device (so a sync message)
@@ -105,10 +103,7 @@ async function handleMessageSentSuccess(
   if (shouldTriggerSyncMessage) {
     if (dataMessage) {
       try {
-        await fetchedMessage.sendSyncMessage(
-          dataMessage as SignalService.DataMessage,
-          effectiveTimestamp
-        );
+        await fetchedMessage.sendSyncMessage(contentDecoded, effectiveTimestamp);
         const tempFetchMessage = await fetchHandleMessageSentData(sentMessage.identifier);
         if (!tempFetchMessage) {
           window?.log?.warn(
@@ -123,7 +118,6 @@ async function handleMessageSentSuccess(
     }
   } else if (shouldMarkMessageAsSynced) {
     fetchedMessage.set({ synced: true });
-    // TODO handle sync messages separately
   }
 
   sentTo = _.union(sentTo, [sentMessage.device]);

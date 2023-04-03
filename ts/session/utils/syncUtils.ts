@@ -307,7 +307,7 @@ const buildSyncExpireTimerMessage = (
     timestamp,
     expirationType,
     expireTimer,
-    lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp || null,
+    lastDisappearingMessageChangeTimestamp,
     syncTarget,
   });
 };
@@ -347,7 +347,11 @@ export const buildSyncMessage = (
   ) {
     return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
   } else {
-    window.log.info(`WIP: Something went wrong when syncing a disappearing message`);
+    window.log.info(
+      `WIP: Something went wrong when syncing a disappearing message`,
+      dataMessage,
+      expireUpdate
+    );
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };

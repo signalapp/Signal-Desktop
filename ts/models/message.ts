@@ -4,7 +4,7 @@ import filesize from 'filesize';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
-import { DataMessage } from '../../ts/session/messages/outgoing';
+import { ContentMessage } from '../../ts/session/messages/outgoing';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
 import {
@@ -82,6 +82,7 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import {
+  DisappearingMessageConversationSetting,
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
   setExpirationStartTimestamp,
@@ -1063,8 +1064,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async sendSyncMessageOnly(dataMessage: DataMessage) {
-    const contentMessage = dataMessage.contentProto();
+  public async sendSyncMessageOnly(contentMessage: ContentMessage) {
     const now = Date.now();
 
     this.set({
@@ -1072,51 +1072,56 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       sent: true,
     });
 
-    let expireUpdate: DisappearingMessageUpdate | null = null;
-    const expirationType = dataMessage.getDisappearingMessageType();
-
-    if (expirationType && contentMessage.expirationTimer) {
-      expireUpdate = {
-        expirationType,
-        expireTimer: contentMessage.expirationTimer,
-        lastDisappearingMessageChangeTimestamp: Number(
-          contentMessage.lastDisappearingMessageChangeTimestamp
-        ),
-      };
-    }
-
     await this.commit();
 
-    await this.sendSyncMessage(dataMessage, now, expireUpdate || undefined);
+    const content =
+      contentMessage instanceof ContentMessage ? contentMessage.contentProto() : contentMessage;
+    await this.sendSyncMessage(content, now);
   }
 
-  public async sendSyncMessage(
-    data: DataMessage | SignalService.DataMessage,
-    sentTimestamp: number,
-    expireUpdate?: DisappearingMessageUpdate
-  ) {
+  public async sendSyncMessage(content: SignalService.Content, sentTimestamp: number) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
     }
+    const { dataMessage } = content;
 
-    const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
-
+    // TODO maybe we need to account for lastDisappearingMessageChangeTimestamp?
     // if this message needs to be synced
     if (
-      dataMessage.body?.length ||
-      dataMessage.attachments.length ||
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+      dataMessage &&
+      (dataMessage.body?.length ||
+        dataMessage.attachments?.length ||
+        dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
+
+      // TODO legacy messages support will be removed in a future release
+      const expirationType = content.expirationType
+        ? DisappearingMessageConversationSetting[content.expirationType]
+        : DisappearingMessageConversationSetting[3];
+      const expireTimer = content.expirationTimer || content?.dataMessage?.expireTimer || undefined;
+      const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
+        ? Number(content.lastDisappearingMessageChangeTimestamp)
+        : undefined;
+      let expireUpdate: DisappearingMessageUpdate | null = null;
+
+      if (expirationType && expireTimer !== undefined) {
+        expireUpdate = {
+          expirationType,
+          expireTimer,
+          lastDisappearingMessageChangeTimestamp,
+        };
+      }
+
       const syncMessage = buildSyncMessage(
         this.id,
-        data,
+        dataMessage as SignalService.DataMessage,
         conversation.id,
         sentTimestamp,
-        expireUpdate
+        expireUpdate || undefined
       );
       await getMessageQueue().sendSyncMessage(syncMessage);
     }

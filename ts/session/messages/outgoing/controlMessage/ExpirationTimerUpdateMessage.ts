@@ -7,17 +7,16 @@ import { ExpirableMessageParams } from '../ExpirableMessage';
 interface ExpirationTimerUpdateMessageParams extends ExpirableMessageParams {
   groupId?: string | PubKey;
   syncTarget?: string | PubKey;
-  lastDisappearingMessageChangeTimestamp: number | null;
+  lastDisappearingMessageChangeTimestamp?: number;
 }
 
-// Note the old disappearing messages used a data message for the expiration time.
+// NOTE legacy messages used a data message for the expireTimer.
 // The new ones use properties on the Content Message
-// We will remove support for the old one 2 weeks after the release
+
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
   public readonly syncTarget?: string;
-  // TODO should this typing be updated
-  public readonly lastDisappearingMessageChangeTimestamp: number | null;
+  public readonly lastDisappearingMessageChangeTimestamp?: number;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
     super({
@@ -64,10 +63,10 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       data.syncTarget = this.syncTarget;
     }
 
-    // TODO should only happen in legacy mode and should be cancelled out once we have trigger the unix timestamp
-    // if (this.expireTimer) {
-    //   data.expireTimer = this.expireTimer;
-    // }
+    // TODO legacy messages support will be removed in a future release
+    if (this.expirationType === 'legacy' && this.expireTimer) {
+      data.expireTimer = this.expireTimer;
+    }
 
     return data;
   }
