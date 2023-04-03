@@ -360,6 +360,8 @@ export class SwarmPolling {
     const newMessages = messages.filter((m: Message) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
+      // TODO explain this better
+      // NOTE setting expiresAt here will trigger disappearing messages via the listener
       const newHashes = newMessages.map((m: Message) => ({
         expiresAt: m.expiration,
         hash: m.hash,
