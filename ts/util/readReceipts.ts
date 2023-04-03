@@ -3,6 +3,7 @@ import { MessageCollection } from '../models/message';
 
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
+import { setExpirationStartTimestamp } from './expiringMessages';
 
 async function getTargetMessage(reader: string, messages: MessageCollection) {
   if (messages.length === 0) {
@@ -45,7 +46,14 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     // readBy is only used for private conversations
     // we do not care of who read it. If the length is > 0 , it is read and false otherwise
     let readBy = message.get('read_by') || [];
-    const expirationStartTimestamp = message.get('expirationStartTimestamp');
+    let expirationStartTimestamp = undefined;
+    if (message.get('expirationType') === 'deleteAfterRead') {
+      expirationStartTimestamp = setExpirationStartTimestamp(
+        message,
+        'deleteAfterRead',
+        message.get('expirationStartTimestamp')
+      );
+    }
 
     if (!readBy.length) {
       readBy.push(receipt.source);
@@ -53,9 +61,10 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     if (readBy.length > 1) {
       readBy = readBy.slice(0, 1);
     }
+
     message.set({
       read_by: readBy,
-      expirationStartTimestamp: expirationStartTimestamp || Date.now(),
+      expirationStartTimestamp,
       sent: true,
     });
 

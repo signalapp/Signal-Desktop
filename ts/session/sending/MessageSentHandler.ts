@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
+import { setExpirationStartTimestamp } from '../../util/expiringMessages';
 import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { RawMessage } from '../types';
@@ -124,10 +125,15 @@ async function handleMessageSentSuccess(
 
   sentTo = _.union(sentTo, [sentMessage.device]);
 
+  if (fetchedMessage.get('expirationType') === 'deleteAfterSend') {
+    const expirationStartTimestamp = setExpirationStartTimestamp(fetchedMessage, 'deleteAfterSend');
+    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
+  }
+
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
-    expirationStartTimestamp: Date.now(),
+    // TODO do we need to use this for the timestamp for the delete after send logic
     sent_at: effectiveTimestamp,
   });
 
@@ -155,6 +161,15 @@ async function handleMessageSentFailure(
     // so just remove the flag saying that we are currently sending the sync message
     if (isOurDevice && !fetchedMessage.get('sync')) {
       fetchedMessage.set({ sentSync: false });
+    }
+
+    // TODO Need to handle messages failing to send differently?
+    if (fetchedMessage.get('expirationType') === 'deleteAfterSend') {
+      const expirationStartTimestamp = setExpirationStartTimestamp(
+        fetchedMessage,
+        'deleteAfterSend'
+      );
+      fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
     }
 
     fetchedMessage.set({

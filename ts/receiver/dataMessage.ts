@@ -23,6 +23,7 @@ import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
+import { setExpirationStartTimestamp } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -240,6 +241,15 @@ export async function handleSwarmDataMessage(
           sender: senderConversationModel.id,
           sentAt: sentAtTimestamp,
         });
+
+  if (expireUpdate.expirationType === 'deleteAfterSend') {
+    const expirationStartTimestamp = setExpirationStartTimestamp(
+      msgModel,
+      'deleteAfterSend',
+      msgModel.get('sent_at')
+    );
+    msgModel.set('expirationStartTimestamp', expirationStartTimestamp);
+  }
 
   await handleSwarmMessage(
     msgModel,

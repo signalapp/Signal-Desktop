@@ -7,6 +7,7 @@ import { initWallClockListener } from './wallClockListener';
 
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
+import { MessageModel } from '../models/message';
 
 // TODO Might need to be improved by using an enum
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
@@ -194,3 +195,26 @@ export const ExpirationTimerOptions = {
   initExpiringMessageListener,
   getTimerSecondsWithName,
 };
+
+export function setExpirationStartTimestamp(
+  message: MessageModel,
+  mode: DisappearingMessageType,
+  timestamp?: number
+) {
+  let expirationStartTimestamp = Date.now();
+
+  if (timestamp) {
+    expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
+  }
+
+  if (mode === 'deleteAfterRead') {
+    window.log.info(`WIP: we set the start timetamp for a delete after read message`, message);
+  } else if (mode === 'deleteAfterSend') {
+    window.log.info(`WIP: we set the start timetamp for a delete after send message`, message);
+  } else {
+    console.log(`WIP: Invalid disappearing message mode set, ignoring this message`, message);
+    return;
+  }
+
+  return expirationStartTimestamp;
+}

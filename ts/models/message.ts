@@ -80,7 +80,7 @@ import {
   loadPreviewData,
   loadQuoteData,
 } from '../types/MessageAttachment';
-import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { ExpirationTimerOptions, setExpirationStartTimestamp } from '../util/expiringMessages';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { LinkPreviews } from '../util/linkPreviews';
@@ -277,7 +277,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const { expireTimer, fromSync, source } = timerUpdate;
+    const { expirationType, expireTimer, fromSync, source } = timerUpdate;
     const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
@@ -289,6 +289,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageId: this.id,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
+      expirationType: expirationType || 'off',
     };
 
     return basicProps;
@@ -457,6 +458,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
+    const expirationType = this.get('expirationType');
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
@@ -490,6 +492,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (this.get('serverId')) {
       props.serverId = this.get('serverId');
+    }
+    if (expirationType) {
+      props.expirationType = expirationType;
     }
     if (expirationLength) {
       props.expirationLength = expirationLength;
@@ -1162,9 +1167,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
-    // TODO This logic needs to depend no the dm mode
-    if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-      const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
+    if (
+      this.get('expirationType') === 'deleteAfterRead' &&
+      this.get('expireTimer') &&
+      !this.get('expirationStartTimestamp')
+    ) {
+      const expirationStartTimestamp = setExpirationStartTimestamp(this, 'deleteAfterRead', readAt);
       this.set({ expirationStartTimestamp });
     }
 

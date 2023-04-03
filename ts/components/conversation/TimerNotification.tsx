@@ -6,22 +6,37 @@ import { NotificationBubble } from './message/message-item/notification-bubble/N
 import { ReadableMessage } from './message/message-item/ReadableMessage';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const { messageId, receivedAt, isUnread, pubkey, profileName, timespan, type, disabled } = props;
+  const {
+    messageId,
+    receivedAt,
+    isUnread,
+    pubkey,
+    profileName,
+    expirationType,
+    timespan,
+    type,
+    disabled,
+  } = props;
 
   const contact = profileName || pubkey;
+  const mode =
+    expirationType === 'deleteAfterRead'
+      ? window.i18n('timerModeRead')
+      : window.i18n('timerModeSent');
 
   let textToRender: string | undefined;
   switch (type) {
     case 'fromOther':
       textToRender = disabled
         ? window.i18n('disabledDisappearingMessages', [contact, timespan])
-        : window.i18n('theyChangedTheTimer', [contact, timespan]);
+        : window.i18n('theyChangedTheTimer', [contact, timespan, mode]);
       break;
     case 'fromMe':
       textToRender = disabled
         ? window.i18n('youDisabledDisappearingMessages')
-        : window.i18n('youChangedTheTimer', [timespan]);
+        : window.i18n('youChangedTheTimer', [timespan, mode]);
       break;
+    // TODO update synced control message?
     case 'fromSync':
       textToRender = disabled
         ? window.i18n('disappearingMessagesDisabled')
