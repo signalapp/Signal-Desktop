@@ -781,7 +781,7 @@ export async function handleDataExtractionNotification(
     // TODO legacy messages support will be removed in a future release
     const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
 
-    await convo.addSingleIncomingMessage({
+    const msgModel = await convo.addSingleIncomingMessage({
       source,
       sent_at: envelopeTimestamp,
       dataExtractionNotification: {
@@ -798,6 +798,10 @@ export async function handleDataExtractionNotification(
           ? setExpirationStartTimestamp('deleteAfterSend', undefined, isLegacyMode)
           : undefined,
     });
+
+    if (isLegacyMode || expirationType === 'deleteAfterSend') {
+      await msgModel.setToExpire();
+    }
     convo.updateLastMessage();
   }
 }

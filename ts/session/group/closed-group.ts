@@ -188,6 +188,10 @@ export async function addUpdateMessage(
 
   if (UserUtils.isUsFromCache(sender)) {
     const outgoingMessage = await convo.addSingleOutgoingMessage(msgModel);
+    // NOTE will always be delete after send
+    if (expirationType) {
+      outgoingMessage.setToExpire();
+    }
     return outgoingMessage;
   }
 
@@ -203,6 +207,10 @@ export async function addUpdateMessage(
   });
 
   await convo.commit();
+
+  if (expirationType) {
+    incomingMessage.setToExpire();
+  }
   return incomingMessage;
 }
 
