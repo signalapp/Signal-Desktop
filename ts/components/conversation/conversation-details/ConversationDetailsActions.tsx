@@ -251,7 +251,7 @@ export function ConversationDetailsActions({
           i18n={i18n}
           onClose={() => gDirectBlock(false)}
           title={i18n('icu:MessageRequests--block-direct-confirm-title', {
-            name: conversationTitle,
+            title: conversationTitle,
           })}
         >
           {i18n('icu:MessageRequests--block-direct-confirm-body')}
