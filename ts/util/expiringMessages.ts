@@ -153,6 +153,7 @@ const timerOptionsDurations: Array<{
   { time: 12, unit: 'hours' as moment.DurationInputArg2 },
   { time: 1, unit: 'day' as moment.DurationInputArg2 },
   { time: 1, unit: 'week' as moment.DurationInputArg2 },
+  { time: 2, unit: 'weeks' as moment.DurationInputArg2 },
 ].map(o => {
   const duration = moment.duration(o.time, o.unit); // 5, 'seconds'
   return {

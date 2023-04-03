@@ -183,3 +183,34 @@ export function useMessageReactsPropsById(messageId?: string) {
     return messageReactsProps;
   });
 }
+
+export function useTimerOptionsByMode(disappearingMessageMode?: string) {
+  return useSelector((state: StateType) => {
+    let options = state.timerOptions.timerOptions;
+
+    switch (disappearingMessageMode) {
+      case 'deleteAfterSend':
+        return options.filter(option => {
+          return (
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 || // 1 week
+            option.value === 1209600 // 2 weeks
+          );
+        });
+      case 'deleteAfterRead':
+        return options.filter(option => {
+          return (
+            option.value === 300 || // 5 minutes
+            option.value === 3600 || // 1 hour
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 || // 1 week
+            option.value === 1209600 // 2 weeks
+          );
+        });
+      default:
+        return options;
+    }
+  });
+}

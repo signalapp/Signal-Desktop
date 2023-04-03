@@ -5,7 +5,6 @@ import { setDisappearingMessagesByConvoId } from '../../../../interactions/conve
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../state/ducks/section';
 import { getSelectedConversationKey } from '../../../../state/selectors/conversations';
-import { getTimerOptions } from '../../../../state/selectors/timerOptions';
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
 import { SpacerLG, SpacerXL } from '../../../basic/Text';
@@ -18,6 +17,9 @@ import {
   DisappearingMessageConversationSetting,
   DisappearingMessageConversationType,
 } from '../../../../util/expiringMessages';
+import { TimerOptionsArray } from '../../../../state/ducks/timerOptions';
+import { useTimerOptionsByMode } from '../../../../hooks/useParamSelector';
+import { isEmpty } from 'lodash';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -139,13 +141,17 @@ const DisappearingModes = (props: DisappearingModesProps) => {
 };
 
 type TimerOptionsProps = {
-  options: Array<any>;
+  options: TimerOptionsArray | null;
   selected?: number;
   setSelected: (value: number) => void;
 };
 
 const TimeOptions = (props: TimerOptionsProps) => {
   const { options, selected, setSelected } = props;
+
+  if (!options || isEmpty(options)) {
+    return null;
+  }
 
   return (
     <>
@@ -172,7 +178,6 @@ export const OverlayDisappearingMessages = () => {
   const dispatch = useDispatch();
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const disappearingModeOptions = DisappearingMessageConversationSetting;
-  const timerOptions = useSelector(getTimerOptions).timerOptions;
 
   const convoProps = useSelector(getSelectedConversationExpirationSettings);
 
@@ -182,6 +187,7 @@ export const OverlayDisappearingMessages = () => {
 
   const [modeSelected, setModeSelected] = useState(convoProps.expirationType);
   const [timeSelected, setTimeSelected] = useState(convoProps.expireTimer);
+  const timerOptions = useTimerOptionsByMode(modeSelected);
 
   useEffect(() => {
     if (modeSelected !== convoProps.expirationType) {
