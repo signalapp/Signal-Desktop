@@ -180,10 +180,7 @@ export async function addUpdateMessage(
     group_update: groupUpdate,
     expirationType: expirationType || undefined,
     expireTimer: expireTimer || 0,
-    expirationStartTimestamp:
-      expirationType === 'deleteAfterSend'
-        ? setExpirationStartTimestamp(expirationType, sentAt)
-        : undefined,
+    expirationStartTimestamp: setExpirationStartTimestamp(expirationType, sentAt),
   };
 
   if (UserUtils.isUsFromCache(sender)) {
