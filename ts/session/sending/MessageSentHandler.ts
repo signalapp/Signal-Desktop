@@ -136,10 +136,13 @@ async function handleMessageSentSuccess(
 
   if (!shouldMarkMessageAsSynced) {
     const expirationType = fetchedMessage.get('expirationType');
-    if (expirationType === 'deleteAfterSend') {
+    if (expirationType) {
       fetchedMessage =
-        setExpirationStartTimestamp(fetchedMessage, expirationType, effectiveTimestamp) ||
-        fetchedMessage;
+        setExpirationStartTimestamp(
+          fetchedMessage,
+          expirationType,
+          expirationType === 'deleteAfterSend' ? effectiveTimestamp : undefined
+        ) || fetchedMessage;
     }
   }
 
