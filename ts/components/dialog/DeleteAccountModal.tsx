@@ -60,13 +60,12 @@ async function deleteEverythingAndNetworkData() {
     // a bit of duplicate code below, but it's easier to follow every case like that (helped with returns)
 
     // clear all sogs inboxes (includes message requests)
-    const allRoomInfosMap = await getAllValidOpenGroupV2ConversationRoomInfos();
-    if (allRoomInfosMap) {
-      const allRoomInfos = Object.values(allRoomInfosMap);
+    const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
+    if (allRoomInfos && allRoomInfos.size > 0) {
       // clear each inbox per sogs
-      for (let i = 0; i < allRoomInfos.length; i++) {
+      for (const roomInfo of allRoomInfos.values()) {
         // TODO CONTINUE testing - use a dummy account with some message requests and then if we restore from seed there should be no message requests.
-        await clearInbox(allRoomInfos[i]);
+        await clearInbox(roomInfo);
       }
     }
 
