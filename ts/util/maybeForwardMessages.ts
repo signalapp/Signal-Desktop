@@ -142,6 +142,8 @@ export async function maybeForwardMessages(
     loadStickerData,
   } = window.Signal.Migrations;
 
+  let timestampOffset = 0;
+
   // load any sticker data, attachments, or link previews that we need to
   // send along with the message and do the send to each conversation.
   const preparedMessages = await Promise.all(
@@ -228,12 +230,15 @@ export async function maybeForwardMessages(
   );
 
   // Actually send the messages
-  conversations.forEach((conversation, offset) => {
+  conversations.forEach(conversation => {
     if (conversation == null) {
       return;
     }
-    const timestamp = baseTimestamp + offset;
+
     sortedMessages.forEach(entry => {
+      const timestamp = baseTimestamp + timestampOffset;
+      timestampOffset += 1;
+
       const { enqueuedMessage, originalMessage } = entry;
       drop(
         conversation
