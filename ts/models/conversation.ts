@@ -96,6 +96,7 @@ import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogs
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
 import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { checkIsFeatureReleased } from '../util/releaseFeature';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -1099,6 +1100,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
+    // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
+    const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
+      'Disappearing Messages V2'
+    );
+
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -1129,8 +1135,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         source,
         fromSync,
       },
-      expirationType: expirationType !== 'off' ? expirationType : undefined,
-      expireTimer: expirationType !== 'off' ? expireTimer : undefined,
+      // TODO legacy messages support will be removed in a future release
+      expirationType:
+        expirationType !== 'off' || isDisappearingMessagesV2Released ? expirationType : undefined,
+      expireTimer:
+        expirationType !== 'off' || isDisappearingMessagesV2Released ? expireTimer : undefined,
     };
 
     let message: MessageModel | undefined = existingMessage || undefined;
@@ -1142,7 +1151,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           sent_at: timestamp,
         });
       } else {
-        // TODO do we still want to handle expiration in incoming messages?
         message = await this.addSingleIncomingMessage({
           ...commonAttributes,
           // Even though this isn't reflected to the user, we want to place the last seen
