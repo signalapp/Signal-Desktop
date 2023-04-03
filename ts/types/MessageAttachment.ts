@@ -28,6 +28,17 @@ export const deleteExternalMessageFiles = async (message: {
 
   if (attachments && attachments.length) {
     await Promise.all(attachments.map(deleteData));
+    // testing that the files were successfully deleted
+    try {
+      await Promise.all(
+        attachments.map(async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
+          await readAttachmentData(attachment.path);
+        })
+      );
+      window.log.info(`WIP: failed in deleting files`);
+    } catch (err) {
+      window.log.info(`WIP: succeeded in deleting files`, err);
+    }
   }
 
   if (quote && quote.attachments && quote.attachments.length) {

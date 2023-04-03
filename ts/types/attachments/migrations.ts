@@ -145,26 +145,27 @@ export const loadData = async (attachment: any) => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-export const deleteData = () => {
-  return async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
-    if (!isValid(attachment)) {
-      throw new TypeError('deleteData: attachment is not valid');
-    }
+// NOTE Flattening this function seemed to have worked
+export const deleteData = async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
+  if (!isValid(attachment)) {
+    throw new TypeError('deleteData: attachment is not valid');
+  }
 
-    const { path, thumbnail, screenshot } = attachment;
-    if (isString(path)) {
-      await deleteOnDisk(path);
-    }
+  const { path, thumbnail, screenshot } = attachment;
 
-    if (thumbnail && isString(thumbnail.path)) {
-      await deleteOnDisk(thumbnail.path);
-    }
+  if (isString(path)) {
+    await deleteOnDisk(path);
+  }
 
-    if (screenshot && isString(screenshot.path)) {
-      await deleteOnDisk(screenshot.path);
-    }
-  };
+  if (thumbnail && isString(thumbnail.path)) {
+    await deleteOnDisk(thumbnail.path);
+  }
+
+  if (screenshot && isString(screenshot.path)) {
+    await deleteOnDisk(screenshot.path);
+  }
 };
+
 type CaptureDimensionType = { contentType: string; path: string };
 
 export const captureDimensionsAndScreenshot = async (

@@ -49,8 +49,16 @@ export async function destroyMessagesAndUpdateRedux(
   const conversationWithChanges = uniq(messages.map(m => m.conversationKey));
 
   try {
+    const messageIds = messages.map(m => m.messageId);
+
+    // Delete any attachments
+    for (let i = 0; i < messageIds.length; i++) {
+      const message = await Data.getMessageById(messageIds[i]);
+      await message?.cleanup();
+    }
+
     // Delete all those messages in a single sql call
-    await Data.removeMessagesByIds(messages.map(m => m.messageId));
+    await Data.removeMessagesByIds(messageIds);
   } catch (e) {
     window.log.error('destroyMessages: removeMessagesByIds failed', e && e.message ? e.message : e);
   }
