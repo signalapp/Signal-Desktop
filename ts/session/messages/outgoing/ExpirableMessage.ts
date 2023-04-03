@@ -31,7 +31,7 @@ export class ExpirableMessage extends ContentMessage {
           : this.expirationType === 'deleteAfterRead'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
           : this.expirationType === 'legacy'
-          ? SignalService.Content.ExpirationType.LEGACY
+          ? SignalService.Content.ExpirationType.UNKNOWN
           : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
     });

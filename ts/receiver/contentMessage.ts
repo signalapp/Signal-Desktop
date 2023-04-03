@@ -418,7 +418,7 @@ export async function innerHandleSwarmContentMessage(
 
       const isLegacy = Boolean(
         (!content.expirationType && !content.expirationTimer) ||
-          content.expirationType === SignalService.Content.ExpirationType.LEGACY
+          content.expirationType === SignalService.Content.ExpirationType.UNKNOWN
       );
       const isLegacyMessage = Boolean(
         isLegacy && dataMessage.expireTimer && dataMessage.expireTimer > -1
