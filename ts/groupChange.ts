@@ -14,7 +14,7 @@ export type SmartContactRendererType<T> = (uuid: UUIDStringType) => T | string;
 export type StringRendererType<T> = (
   id: string,
   i18n: LocalizerType,
-  components?: ReplacementValuesType<T | string>
+  components?: ReplacementValuesType<T | string | number>
 ) => T | string;
 
 export type RenderOptionsType<T> = {
@@ -76,7 +76,10 @@ export function renderChangeDetail<T>(
     renderString,
   } = options;
 
-  function i18n(id: string, components?: ReplacementValuesType<T | string>) {
+  function i18n(
+    id: string,
+    components?: ReplacementValuesType<T | number | string>
+  ) {
     return renderString(id, localizer, components);
   }
 
@@ -530,17 +533,17 @@ export function renderChangeDetail<T>(
 
     if (fromYou) {
       return i18n('icu:GroupV2--pending-add--many--you', {
-        count: count.toString(),
+        count,
       });
     }
     if (from) {
       return i18n('icu:GroupV2--pending-add--many--other', {
         memberName: renderContact(from),
-        count: count.toString(),
+        count,
       });
     }
     return i18n('icu:GroupV2--pending-add--many--unknown', {
-      count: count.toString(),
+      count,
     });
   }
   if (detail.type === 'pending-remove-one') {
@@ -647,7 +650,7 @@ export function renderChangeDetail<T>(
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--many--you',
 
-          { count: count.toString() }
+          { count }
         );
       }
       if (from) {
@@ -656,14 +659,14 @@ export function renderChangeDetail<T>(
 
           {
             adminName: renderContact(from),
-            count: count.toString(),
+            count,
           }
         );
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
 
-        { count: count.toString() }
+        { count }
       );
     }
     if (inviter) {
@@ -672,7 +675,7 @@ export function renderChangeDetail<T>(
           'icu:GroupV2--pending-remove--revoke-invite-from--many--you',
 
           {
-            count: count.toString(),
+            count,
             memberName: renderContact(inviter),
           }
         );
@@ -683,7 +686,7 @@ export function renderChangeDetail<T>(
 
           {
             adminName: renderContact(from),
-            count: count.toString(),
+            count,
             memberName: renderContact(inviter),
           }
         );
@@ -692,14 +695,14 @@ export function renderChangeDetail<T>(
         'icu:GroupV2--pending-remove--revoke-invite-from--many--unknown',
 
         {
-          count: count.toString(),
+          count,
           memberName: renderContact(inviter),
         }
       );
     }
     if (fromYou) {
       return i18n('icu:GroupV2--pending-remove--revoke--many--you', {
-        count: count.toString(),
+        count,
       });
     }
     if (from) {
@@ -708,14 +711,14 @@ export function renderChangeDetail<T>(
 
         {
           memberName: renderContact(from),
-          count: count.toString(),
+          count,
         }
       );
     }
     return i18n(
       'icu:GroupV2--pending-remove--revoke--many--unknown',
 
-      { count: count.toString() }
+      { count }
     );
   }
   if (detail.type === 'admin-approval-add-one') {
@@ -784,7 +787,7 @@ export function renderChangeDetail<T>(
     } else {
       firstMessage = i18n('icu:GroupV2--admin-approval-bounce', {
         joinerName: renderContact(uuid),
-        numberOfRequests: String(times),
+        numberOfRequests: times,
       });
     }
 

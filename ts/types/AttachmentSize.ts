@@ -28,7 +28,7 @@ export const getMaximumAttachmentSizeInKb = (
 };
 
 export function getRenderDetailsForLimit(limitKb: number): {
-  limit: string;
+  limit: number;
   units: string;
 } {
   const units = ['kB', 'MB', 'GB'];
@@ -40,7 +40,7 @@ export function getRenderDetailsForLimit(limitKb: number): {
   } while (limit >= KIBIBYTE && u < units.length - 1);
 
   return {
-    limit: limit.toFixed(0),
+    limit: Math.trunc(limit),
     units: units[u],
   };
 }

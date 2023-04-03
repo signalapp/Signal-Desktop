@@ -166,13 +166,13 @@ export function formatTime(
 
   if (diff < HOUR) {
     return i18n('icu:minutesAgo', {
-      minutes: Math.floor(diff / MINUTE).toString(),
+      minutes: Math.floor(diff / MINUTE),
     });
   }
 
   if (isRelativeTime) {
     return i18n('icu:hoursAgo', {
-      hours: Math.floor(diff / HOUR).toString(),
+      hours: Math.floor(diff / HOUR),
     });
   }
 

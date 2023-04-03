@@ -94,7 +94,7 @@ export function ConversationDetailsMembershipList({
   return (
     <PanelSection
       title={i18n('icu:ConversationDetailsMembershipList--title', {
-        number: sortedMemberships.length.toString(),
+        number: sortedMemberships.length,
       })}
     >
       {canAddNewMembers && (

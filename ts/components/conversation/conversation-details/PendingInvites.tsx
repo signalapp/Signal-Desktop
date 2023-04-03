@@ -108,7 +108,7 @@ export function PendingInvites({
           tabIndex={0}
         >
           {i18n('icu:PendingInvites--tab-requests', {
-            count: String(pendingApprovalMemberships.length),
+            count: pendingApprovalMemberships.length,
           })}
         </div>
 
@@ -129,7 +129,7 @@ export function PendingInvites({
           tabIndex={0}
         >
           {i18n('icu:PendingInvites--tab-invites', {
-            count: String(pendingMemberships.length),
+            count: pendingMemberships.length,
           })}
         </div>
       </div>
@@ -325,12 +325,8 @@ function getConfirmationMessage({
 
   const name = inviter.title;
 
-  if (stagedMemberships.length === 1) {
-    return i18n('icu:PendingInvites--revoke-from-singular', { name });
-  }
-
-  return i18n('icu:PendingInvites--revoke-from-plural', {
-    number: stagedMemberships.length.toString(),
+  return i18n('icu:PendingInvites--revoke-from', {
+    number: stagedMemberships.length,
     name,
   });
 }
@@ -505,7 +501,7 @@ function MembersPendingProfileKey({
               }
               label={member.title}
               right={i18n('icu:PendingInvites--invited-count', {
-                number: pendingMemberships.length.toString(),
+                number: pendingMemberships.length,
               })}
               actions={
                 conversation.areWeAdmin ? (

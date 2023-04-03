@@ -883,15 +883,9 @@ export function Preferences({
         <SettingsRow>
           <Control
             left={i18n('icu:Preferences--blocked')}
-            right={
-              blockedCount === 1
-                ? i18n('icu:Preferences--blocked-count-singular', {
-                    num: String(blockedCount),
-                  })
-                : i18n('icu:Preferences--blocked-count-plural', {
-                    num: String(blockedCount || 0),
-                  })
-            }
+            right={i18n('icu:Preferences--blocked-count', {
+              num: blockedCount,
+            })}
           />
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--messaging')}>

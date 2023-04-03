@@ -6,7 +6,7 @@ import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
 export type ToastPropsType = {
-  limit: string;
+  limit: number;
   units: string;
 };
 

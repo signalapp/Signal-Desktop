@@ -38,7 +38,7 @@ export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
       const { maximumNumberOfContacts } = props;
       title = i18n('icu:chooseGroupMembers__maximum-group-size__title');
       body = i18n('icu:chooseGroupMembers__maximum-group-size__body', {
-        max: maximumNumberOfContacts.toString(),
+        max: maximumNumberOfContacts,
       });
       break;
     }
@@ -50,7 +50,7 @@ export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
       body = i18n(
         'icu:chooseGroupMembers__maximum-recommended-group-size__body',
         {
-          max: recommendedMaximumNumberOfContacts.toString(),
+          max: recommendedMaximumNumberOfContacts,
         }
       );
       break;

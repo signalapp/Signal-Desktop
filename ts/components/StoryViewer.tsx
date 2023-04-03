@@ -54,6 +54,10 @@ import { useRetryStorySend } from '../hooks/useRetryStorySend';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { strictAssert } from '../util/assert';
 
+function renderStrong(parts: Array<JSX.Element | string>) {
+  return <strong>{parts}</strong>;
+}
+
 export type PropsType = {
   currentIndex: number;
   deleteGroupStoryReply: (id: string) => void;
@@ -851,36 +855,21 @@ export function StoryViewer({
                       {isSent && !hasViewReceiptSetting && !replyCount && (
                         <>{i18n('icu:StoryViewer__views-off')}</>
                       )}
-                      {isSent &&
-                        hasViewReceiptSetting &&
-                        (viewCount === 1 ? (
-                          <Intl
-                            i18n={i18n}
-                            id="icu:MyStories__views--singular"
-                            components={{ num: <strong>{viewCount}</strong> }}
-                          />
-                        ) : (
-                          <Intl
-                            i18n={i18n}
-                            id="icu:MyStories__views--plural"
-                            components={{ num: <strong>{viewCount}</strong> }}
-                          />
-                        ))}
+                      {isSent && hasViewReceiptSetting && (
+                        <Intl
+                          i18n={i18n}
+                          id="icu:MyStories__views--strong"
+                          components={{ viewCount, strong: renderStrong }}
+                        />
+                      )}
                       {(isSent || viewCount > 0) && replyCount > 0 && ' '}
-                      {replyCount > 0 &&
-                        (replyCount === 1 ? (
-                          <Intl
-                            i18n={i18n}
-                            id="icu:MyStories__replies--singular"
-                            components={{ num: <strong>{replyCount}</strong> }}
-                          />
-                        ) : (
-                          <Intl
-                            i18n={i18n}
-                            id="icu:MyStories__replies--plural"
-                            components={{ num: <strong>{replyCount}</strong> }}
-                          />
-                        ))}
+                      {replyCount > 0 && (
+                        <Intl
+                          i18n={i18n}
+                          id="icu:MyStories__replies"
+                          components={{ replyCount, strong: renderStrong }}
+                        />
+                      )}
                     </span>
                   ) : null}
                   {!isSent && !replyCount && (

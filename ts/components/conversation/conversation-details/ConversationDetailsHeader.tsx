@@ -67,7 +67,7 @@ export function ConversationDetailsHeader({
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
       subtitle = i18n('icu:ConversationDetailsHeader--members', {
-        number: memberships.length.toString(),
+        number: memberships.length,
       });
     }
   } else if (!isMe) {

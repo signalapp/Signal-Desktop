@@ -905,9 +905,11 @@ export class Timeline extends React.Component<
             text = (
               <Intl
                 i18n={i18n}
-                id="icu:ContactSpoofing__same-name"
+                id="icu:ContactSpoofing__same-name--link"
                 components={{
-                  link: (
+                  // This is a render props, not a component
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  reviewRequestLink: parts => (
                     <TimelineWarning.Link
                       onClick={() => {
                         reviewMessageRequestNameCollision({
@@ -915,7 +917,7 @@ export class Timeline extends React.Component<
                         });
                       }}
                     >
-                      {i18n('icu:ContactSpoofing__same-name__link')}
+                      {parts}
                     </TimelineWarning.Link>
                   ),
                 }}
@@ -932,21 +934,21 @@ export class Timeline extends React.Component<
             text = (
               <Intl
                 i18n={i18n}
-                id="icu:ContactSpoofing__same-name-in-group"
+                id="icu:ContactSpoofing__same-name-in-group--link"
                 components={{
-                  count: Object.values(groupNameCollisions)
-                    .reduce(
-                      (result, conversations) => result + conversations.length,
-                      0
-                    )
-                    .toString(),
-                  link: (
+                  count: Object.values(groupNameCollisions).reduce(
+                    (result, conversations) => result + conversations.length,
+                    0
+                  ),
+                  // This is a render props, not a component
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  reviewRequestLink: parts => (
                     <TimelineWarning.Link
                       onClick={() => {
                         reviewGroupMemberNameCollision(id);
                       }}
                     >
-                      {i18n('icu:ContactSpoofing__same-name-in-group__link')}
+                      {parts}
                     </TimelineWarning.Link>
                   ),
                 }}

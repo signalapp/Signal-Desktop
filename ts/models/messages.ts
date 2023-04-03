@@ -510,7 +510,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         renderString: (
           key: string,
           _i18n: unknown,
-          components: ReplacementValuesType<string> | undefined
+          components: ReplacementValuesType<string | number> | undefined
         ) => {
           // eslint-disable-next-line local-rules/valid-i18n-keys
           return window.i18n(key, components);

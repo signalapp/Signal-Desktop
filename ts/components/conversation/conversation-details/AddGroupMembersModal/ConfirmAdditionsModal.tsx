@@ -60,7 +60,7 @@ export function ConfirmAdditionsModal({
         i18n={i18n}
         id="icu:AddGroupMembersModal--confirm-title--many"
         components={{
-          count: selectedContacts.length.toString(),
+          count: selectedContacts.length,
           group: groupTitleNode,
         }}
       />

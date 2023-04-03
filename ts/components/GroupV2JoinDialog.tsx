@@ -49,12 +49,6 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
   const joinString = approvalRequired
     ? i18n('icu:GroupV2--join--request-to-join-button')
     : i18n('icu:GroupV2--join--join-button');
-  const memberString =
-    memberCount === 1
-      ? i18n('icu:GroupV2--join--member-count--single')
-      : i18n('icu:GroupV2--join--member-count--multiple', {
-          count: memberCount.toString(),
-        });
 
   const wrappedJoin = React.useCallback(() => {
     setIsWorking(true);
@@ -93,9 +87,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
       </div>
       <div className="module-group-v2-join-dialog__title">{title}</div>
       <div className="module-group-v2-join-dialog__metadata">
-        {i18n('icu:GroupV2--join--group-metadata', {
-          memberCount: memberString,
-        })}
+        {i18n('icu:GroupV2--join--group-metadata--full', { memberCount })}
       </div>
       {groupDescription && (
         <div className="module-group-v2-join-dialog__description">

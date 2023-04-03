@@ -27,12 +27,10 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   onClose,
   theme,
 }: PropsType): JSX.Element {
-  let title: string;
   let body: ReactNode;
   if (contacts.length === 1) {
     const contact = contacts[0];
 
-    title = i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title--one');
     body = (
       <>
         <GroupDialog.Paragraph>
@@ -50,9 +48,6 @@ export function NewlyCreatedGroupInvitedContactsDialog({
       </>
     );
   } else {
-    title = i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title--many', {
-      count: contacts.length.toString(),
-    });
     body = (
       <>
         <GroupDialog.Paragraph>
@@ -89,7 +84,9 @@ export function NewlyCreatedGroupInvitedContactsDialog({
         );
       }}
       onClose={onClose}
-      title={title}
+      title={i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title', {
+        count: contacts.length,
+      })}
     >
       {body}
     </GroupDialog>

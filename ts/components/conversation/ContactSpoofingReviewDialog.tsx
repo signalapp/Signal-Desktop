@@ -253,7 +253,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
         <>
           <p>
             {i18n('icu:ContactSpoofingReviewDialog__group__description', {
-              count: conversationInfos.length.toString(),
+              count: conversationInfos.length,
             })}
           </p>
           <h2>

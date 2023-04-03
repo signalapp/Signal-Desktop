@@ -643,15 +643,17 @@ export function ProfileEditor({
         <div className="ProfileEditor__info">
           <Intl
             i18n={i18n}
-            id="icu:ProfileEditor--info"
+            id="icu:ProfileEditor--info--link"
             components={{
-              learnMore: (
+              // This is a render prop, not a component
+              // eslint-disable-next-line react/no-unstable-nested-components
+              learnMoreLink: parts => (
                 <a
                   href="https://support.signal.org/hc/en-us/articles/360007459591"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {i18n('icu:ProfileEditor--learnMore')}
+                  {parts}
                 </a>
               ),
             }}

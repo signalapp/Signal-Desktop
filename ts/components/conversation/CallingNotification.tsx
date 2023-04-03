@@ -141,7 +141,7 @@ function renderCallingNotificationButton(
         disabledTooltipText = i18n(
           'icu:calling__call-notification__button__call-full-tooltip',
           {
-            max: String(deviceCount),
+            max: deviceCount,
           }
         );
         onClick = noop;

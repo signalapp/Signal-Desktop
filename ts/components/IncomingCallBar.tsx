@@ -150,7 +150,7 @@ function GroupCallMessage({
             ringer: ringerNode,
             first,
             second,
-            remaining: String(otherMembersRung.length - 2),
+            remaining: otherMembersRung.length - 2,
           }}
         />
       );

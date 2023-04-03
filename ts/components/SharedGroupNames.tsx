@@ -37,7 +37,7 @@ export function SharedGroupNames({
           group1: firstThreeGroups[0],
           group2: firstThreeGroups[1],
           group3: firstThreeGroups[2],
-          remainingCount: remainingCount.toString(),
+          remainingCount,
         }}
       />
     );

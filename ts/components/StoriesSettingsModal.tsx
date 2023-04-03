@@ -816,28 +816,28 @@ export function EditMyStoryPrivacy({
   toggleSignalConnectionsModal,
   signalConnectionsCount,
 }: EditMyStoryPrivacyPropsType): JSX.Element {
-  const learnMore = (
+  const learnMoreLink = (parts: Array<JSX.Element | string>) => (
     <button
       className="StoriesSettingsModal__disclaimer__learn-more"
       onClick={toggleSignalConnectionsModal}
       type="button"
     >
-      {i18n('icu:StoriesSettings__mine__disclaimer--learn-more')}
+      {parts}
     </button>
   );
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
       {kind === 'mine' ? (
         <Intl
-          components={{ learnMore }}
+          components={{ learnMoreLink }}
           i18n={i18n}
-          id="icu:StoriesSettings__mine__disclaimer"
+          id="icu:StoriesSettings__mine__disclaimer--link"
         />
       ) : (
         <Intl
-          components={{ learnMore }}
+          components={{ learnMoreLink }}
           i18n={i18n}
-          id="icu:SendStoryModal__privacy-disclaimer"
+          id="icu:SendStoryModal__privacy-disclaimer--link"
         />
       )}
     </div>

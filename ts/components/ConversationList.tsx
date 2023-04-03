@@ -360,7 +360,7 @@ export function ConversationList({
                   get(lastMessage, 'text') ||
                   i18n('icu:ConversationList__last-message-undefined'),
                 title,
-                unreadCount: String(unreadCount),
+                unreadCount,
               })}
             >
               <ConversationListItem

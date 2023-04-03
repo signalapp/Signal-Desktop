@@ -27,6 +27,17 @@ export type Props = {
     | 'deleteConversation'
   >;
 
+const learnMoreLink = (parts: Array<JSX.Element | string>) => (
+  <a
+    href="https://support.signal.org/hc/articles/360007459591"
+    target="_blank"
+    rel="noreferrer"
+    className="module-message-request-actions__message__learn-more"
+  >
+    {parts}
+  </a>
+);
+
 export function MandatoryProfileSharingActions({
   acceptConversation,
   blockAndReportSpam,
@@ -47,17 +58,6 @@ export function MandatoryProfileSharingActions({
     >
       <ContactName firstName={firstName} title={title} preferFirstName />
     </strong>
-  );
-
-  const learnMore = (
-    <a
-      href="https://support.signal.org/hc/articles/360007459591"
-      target="_blank"
-      rel="noreferrer"
-      className="module-message-request-actions__message__learn-more"
-    >
-      {i18n('icu:MessageRequests--learn-more')}
-    </a>
   );
 
   return (
@@ -85,14 +85,14 @@ export function MandatoryProfileSharingActions({
           {conversationType === 'direct' ? (
             <Intl
               i18n={i18n}
-              id="icu:MessageRequests--profile-sharing--direct"
-              components={{ firstName: firstNameContact, learnMore }}
+              id="icu:MessageRequests--profile-sharing--direct--link"
+              components={{ firstName: firstNameContact, learnMoreLink }}
             />
           ) : (
             <Intl
               i18n={i18n}
-              id="icu:MessageRequests--profile-sharing--group"
-              components={{ firstName: firstNameContact, learnMore }}
+              id="icu:MessageRequests--profile-sharing--group--link"
+              components={{ firstName: firstNameContact, learnMoreLink }}
             />
           )}
         </p>

@@ -15,9 +15,7 @@ export const LastSeenIndicator = forwardRef<HTMLDivElement, Props>(
     const message =
       count === 1
         ? i18n('icu:unreadMessage')
-        : i18n('icu:unreadMessages', {
-            count: String(count),
-          });
+        : i18n('icu:unreadMessages', { count });
 
     return (
       <div className="module-last-seen-indicator" ref={ref}>

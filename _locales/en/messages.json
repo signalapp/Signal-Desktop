@@ -100,7 +100,7 @@
     "description": "(deleted 03/29/2023) Shown below the group name when selecting a group to invite a contact to"
   },
   "icu:GroupListItem__message-default": {
-    "messageformat": "{count} members",
+    "messageformat": "{count, plural, one {1 member} other {# members}}",
     "description": "Shown below the group name when selecting a group to invite a contact to"
   },
   "GroupListItem__message-already-member": {
@@ -768,7 +768,7 @@
     "description": "(deleted 03/25/2023) Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "icu:loadingMessages--other": {
-    "messageformat": "Loading messages from {daysAgo} days ago...",
+    "messageformat": "Loading messages from {daysAgo, plural, one {1 day} other {# days}} ago...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
   },
   "icu:loadingMessages--yesterday": {
@@ -832,7 +832,7 @@
     "description": "(deleted 03/29/2023) Text for unread message separator, with count"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count} Unread Messages",
+    "messageformat": "{count, plural, one {1 Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
   },
   "messageHistoryUnsynced": {
@@ -1376,7 +1376,7 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit, number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
@@ -3635,7 +3635,7 @@
     "description": "(deleted 03/29/2023) Contracted form of 'X hours ago' which works both for singular and plural"
   },
   "icu:hoursAgo": {
-    "messageformat": "{hours}h",
+    "messageformat": "{hours, number}h",
     "description": "Contracted form of 'X hours ago' which works both for singular and plural"
   },
   "minutesAgo": {
@@ -3643,7 +3643,7 @@
     "description": "(deleted 03/29/2023) Contracted form of 'X minutes ago' which works both for singular and plural"
   },
   "icu:minutesAgo": {
-    "messageformat": "{minutes}m",
+    "messageformat": "{minutes, number}m",
     "description": "Contracted form of 'X minutes ago' which works both for singular and plural"
   },
   "justNow": {
@@ -4107,7 +4107,7 @@
     "description": "(deleted 03/29/2023) Shown in the alert when you add the maximum number of group members"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
-    "messageformat": "Signal groups can have a maximum of {max} members.",
+    "messageformat": "Signal groups can have a maximum of {max, number} members.",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-recommended-group-size__title": {
@@ -4123,7 +4123,7 @@
     "description": "(deleted 03/29/2023) Shown in the alert when you add the maximum recommended number of group members"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__body": {
-    "messageformat": "Signal groups perform best with {max} members or less. Adding more members will cause delays sending and receiving messages.",
+    "messageformat": "Signal groups perform best with {max, number} members or less. Adding more members will cause delays sending and receiving messages.",
     "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "setGroupMetadata__title": {
@@ -4384,7 +4384,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "Conversation with {title}, {unreadCount} new messages, last message: {lastMessage}.",
+    "messageformat": "Conversation with {title}, {unreadCount, plural, one {1 new message} other {# new messages}}, last message: {lastMessage}.",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4568,11 +4568,11 @@
     "description": "Shown to label a donation badge you've replied to."
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days} days remaining",
+    "messageformat": "{days, plural, one {1 day} other {# days}} remaining",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours} hours remaining",
+    "messageformat": "{hours, plural, one {1 hour} other {# hours}} remaining",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "icu:message--donation--remaining--minutes": {
@@ -6001,6 +6001,10 @@
   },
   "icu:MessageRequests--profile-sharing--group": {
     "messageformat": "Continue your conversation with this group and share your name and photo with its members? {learnMore}",
+    "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
+  },
+  "icu:MessageRequests--profile-sharing--group--link": {
+    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6009,6 +6013,10 @@
   },
   "icu:MessageRequests--profile-sharing--direct": {
     "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? {learnMore}",
+    "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
+  },
+  "icu:MessageRequests--profile-sharing--direct--link": {
+    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -6017,7 +6025,7 @@
   },
   "icu:MessageRequests--learn-more": {
     "messageformat": "Learn more.",
-    "description": "Shown at the end of profile sharing messages as a link."
+    "description": "(deleted 03/29/2023) Shown at the end of profile sharing messages as a link."
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 member} other {# members}}",
@@ -6060,7 +6068,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount} more",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, number} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "ConversationHero--membership-added": {
@@ -6260,7 +6268,7 @@
     "description": "(deleted 03/29/2023) Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "icu:incomingGroupCall__ringing-many": {
-    "messageformat": "{ringer} is calling you, {first}, {second}, and {remaining} others",
+    "messageformat": "{ringer} is calling you, {first}, {second}, and {remaining, plural, one {1 other} other {# others}}",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
@@ -6380,7 +6388,7 @@
     "description": "(deleted 03/29/2023) Tooltip in disabled notification button when the call is full"
   },
   "icu:calling__call-notification__button__call-full-tooltip": {
-    "messageformat": "Call has reached capacity of {max} participants",
+    "messageformat": "Call has reached capacity of {max, number} participants",
     "description": "Tooltip in disabled notification button when the call is full"
   },
   "calling__pip--on": {
@@ -6789,15 +6797,15 @@
   },
   "icu:GroupV2--join--member-count--single": {
     "messageformat": "1 member",
-    "description": "Shown in the metadata section if group has just one member"
+    "description": "(deleted 03/29/2023) Shown in the metadata section if group has just one member"
   },
   "GroupV2--join--member-count--multiple": {
     "message": "$count$ members",
     "description": "(deleted 03/29/2023) Shown in the metadata section if group has more than one member"
   },
   "icu:GroupV2--join--member-count--multiple": {
-    "messageformat": "{count} members",
-    "description": "Shown in the metadata section if group has more than one member"
+    "messageformat": "{count, number} members",
+    "description": "(deleted 03/29/2023) Shown in the metadata section if group has more than one member"
   },
   "GroupV2--join--group-metadata": {
     "message": "Group · $memberCount$",
@@ -6805,6 +6813,10 @@
   },
   "icu:GroupV2--join--group-metadata": {
     "messageformat": "Group · {memberCount}",
+    "description": "(deleted 03/29/2023) A holder for two pieces of information - the type of conversation, and the member count"
+  },
+  "icu:GroupV2--join--group-metadata--full": {
+    "messageformat": "Group · {memberCount, plural, one {1 member} other {# members}}",
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
@@ -7476,7 +7488,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count} people to the group.",
+    "messageformat": "{memberName} invited {count, number} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--you": {
@@ -7484,7 +7496,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "You invited {count} people to the group.",
+    "messageformat": "You invited {count, number} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--unknown": {
@@ -7492,7 +7504,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count} people were invited to the group.",
+    "messageformat": "{count, number} people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--decline--other": {
@@ -7572,7 +7584,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} revoked invitations to the group for {count} people.",
+    "messageformat": "{memberName} revoked invitations to the group for {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--many--you": {
@@ -7580,7 +7592,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "You revoked invitations to the group for {count} people.",
+    "messageformat": "You revoked invitations to the group for {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--many--unknown": {
@@ -7588,7 +7600,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count} people.",
+    "messageformat": "An admin revoked invitations to the group for {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--one--other": {
@@ -7644,7 +7656,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count} people invited by {memberName}.",
+    "messageformat": "{adminName} revoked invitations to the group for {count, number} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -7652,7 +7664,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "You revoked invitations to the group for {count} people invited by {memberName}.",
+    "messageformat": "You revoked invitations to the group for {count, number} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
@@ -7660,7 +7672,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count} people invited by {memberName}.",
+    "messageformat": "An admin revoked invitations to the group for {count, number} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
@@ -7668,7 +7680,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} revoked the invitations to the group you sent to {count} people.",
+    "messageformat": "{adminName} revoked the invitations to the group you sent to {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
@@ -7676,7 +7688,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "You rescinded your invitation to {count} people.",
+    "messageformat": "You rescinded your invitation to {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
@@ -7684,7 +7696,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "An admin revoked the invitations to the group you sent to {count} people.",
+    "messageformat": "An admin revoked the invitations to the group you sent to {count, number} people.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-add-one--you": {
@@ -7756,7 +7768,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} requested and cancelled {numberOfRequests} requests to join via the group link",
+    "messageformat": "{joinerName} requested and cancelled {numberOfRequests, number} requests to join via the group link",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--disabled--you": {
@@ -7961,6 +7973,10 @@
   },
   "icu:GroupV1--Migration--disabled": {
     "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. {learnMore}",
+    "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
+  },
+  "icu:GroupV1--Migration--disabled--link": {
+    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8104,7 +8120,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count} members couldn’t be added to the New Group and have been invited to join.",
+    "messageformat": "{count, number} members couldn’t be added to the New Group and have been invited to join.",
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
@@ -8120,7 +8136,7 @@
     "description": "(deleted 03/29/2023) Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count} members were removed from the group.",
+    "messageformat": "{count, number} members were removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
@@ -8528,7 +8544,7 @@
     "description": "(deleted 03/29/2023) This is the number of members in a group"
   },
   "icu:ConversationDetailsHeader--members": {
-    "messageformat": "{number} members",
+    "messageformat": "{number, plural, one {1 member} other {# members}}",
     "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
@@ -8552,7 +8568,7 @@
     "description": "(deleted 03/29/2023) The title of the membership list panel"
   },
   "icu:ConversationDetailsMembershipList--title": {
-    "messageformat": "{number} members",
+    "messageformat": "{number, plural, one {1 member} other {# members}}",
     "description": "The title of the membership list panel"
   },
   "ConversationDetailsMembershipList--add-members": {
@@ -8680,7 +8696,7 @@
     "description": "(deleted 03/29/2023) Label for the tab to view pending requests"
   },
   "icu:PendingInvites--tab-requests": {
-    "messageformat": "Requests ({count})",
+    "messageformat": "Requests ({count, number})",
     "description": "Label for the tab to view pending requests"
   },
   "PendingInvites--tab-invites": {
@@ -8688,7 +8704,7 @@
     "description": "(deleted 03/29/2023) Label for the tab to view pending invites"
   },
   "icu:PendingInvites--tab-invites": {
-    "messageformat": "Invites ({count})",
+    "messageformat": "Invites ({count, number})",
     "description": "Label for the tab to view pending invites"
   },
   "PendingRequests--approve-for": {
@@ -8744,7 +8760,7 @@
     "description": "(deleted 03/29/2023) This is the label for the number of members someone has invited"
   },
   "icu:PendingInvites--invited-count": {
-    "messageformat": "Invited {number}",
+    "messageformat": "Invited {number, number}",
     "description": "This is the label for the number of members someone has invited"
   },
   "PendingInvites--revoke-for-label": {
@@ -8769,14 +8785,18 @@
   },
   "icu:PendingInvites--revoke-from-singular": {
     "messageformat": "Revoke 1 invite sent by \"{name}\"?",
-    "description": "This is the modal content when confirming revoking a single invite"
+    "description": "(deleted 03/29/2023) This is the modal content when confirming revoking a single invite"
   },
   "PendingInvites--revoke-from-plural": {
     "message": "Revoke $number$ invites sent by \"$name$\"?",
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from-plural": {
-    "messageformat": "Revoke {number} invites sent by \"{name}\"?",
+    "messageformat": "Revoke {number, number} invites sent by \"{name}\"?",
+    "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
+  },
+  "icu:PendingInvites--revoke-from": {
+    "messageformat": "Revoke {number, plural, one {1 invite} other {# invites}} sent by \"{name}\"?",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8856,7 +8876,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count} selected",
+    "messageformat": "{count, number} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -8957,14 +8977,18 @@
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title--one": {
     "messageformat": "Invitation sent",
-    "description": "When creating a new group and inviting users, this is shown in the dialog"
+    "description": "(deleted 03/29/2023) When creating a new group and inviting users, this is shown in the dialog"
   },
   "NewlyCreatedGroupInvitedContactsDialog--title--many": {
     "message": "$count$ invitations sent",
     "description": "(deleted 03/29/2023) When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title--many": {
-    "messageformat": "{count} invitations sent",
+    "messageformat": "{count, number} invitations sent",
+    "description": "(deleted 03/29/2023) When creating a new group and inviting users, this is shown in the dialog"
+  },
+  "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
+    "messageformat": "{count, plural, one {Invitation sent} other {# invitations sent}}",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
@@ -9028,7 +9052,7 @@
     "description": "(deleted 03/29/2023) When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
-    "messageformat": "Add {count} members to \"{group}\"?",
+    "messageformat": "Add {count, number} members to \"{group}\"?",
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-button--one": {
@@ -9225,6 +9249,10 @@
   },
   "icu:ContactSpoofing__same-name": {
     "messageformat": "Review requests carefully. Signal found another contact with the same name. {link}",
+    "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+  },
+  "icu:ContactSpoofing__same-name--link": {
+    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9232,7 +9260,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count} group members have the same name. {link}",
+    "messageformat": "{count, plural, one {1 group member} other {# group members}} have the same name. {link}",
+    "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "icu:ContactSpoofing__same-name-in-group--link": {
+    "messageformat": "{count, plural, one {1 group member} other {# group members}} have the same name. <reviewRequestLink>Review request</reviewRequestLink>",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9241,7 +9273,7 @@
   },
   "icu:ContactSpoofing__same-name__link": {
     "messageformat": "Review request",
-    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
+    "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group__link": {
     "message": "Click to review",
@@ -9296,7 +9328,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count} group members have similar names. Review the members below or choose to take action.",
+    "messageformat": "{count, plural, one {1 group member} other {# group members}} have similar names. Review the members below or choose to take action.",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9424,7 +9456,7 @@
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "This custom color is used in {num} chats. Do you want to delete it for all chats?",
+    "messageformat": "This custom color is used in {num, plural, one {1 chat} other {# chats}}. Do you want to delete it for all chats?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -9888,7 +9920,7 @@
     "description": "(deleted 03/29/2023) Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have a least {min} characters.",
+    "messageformat": "Usernames must have a least {min, number} characters.",
     "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "ProfileEditor--username--check-character-max": {
@@ -9896,7 +9928,7 @@
     "description": "(deleted 03/29/2023) Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Usernames must have at most {max} characters.",
+    "messageformat": "Usernames must have at most {max, number} characters.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
@@ -10049,6 +10081,10 @@
   },
   "icu:ProfileEditor--info": {
     "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. {learnMore}",
+    "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
+  },
+  "icu:ProfileEditor--info--link": {
+    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>{learnMore}</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10312,15 +10348,19 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked singular"
   },
   "icu:Preferences--blocked-count-singular": {
-    "messageformat": "{num} contact",
-    "description": "Number of contacts blocked singular"
+    "messageformat": "{num, number} contact",
+    "description": "(deleted 03/29/2023) Number of contacts blocked singular"
   },
   "Preferences--blocked-count-plural": {
     "message": "$num$ contacts",
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count-plural": {
-    "messageformat": "{num} contacts",
+    "messageformat": "{num, number} contacts",
+    "description": "(deleted 03/29/2023) Number of contacts blocked plural"
+  },
+  "icu:Preferences--blocked-count": {
+    "messageformat": "{num, plural, one {1 contact} other {# contacts}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10848,19 +10888,23 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "{num} view",
-    "description": "Number of views your story has"
+    "messageformat": "<strong>{viewCount, number}</strong> view",
+    "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ views",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "{num} views",
-    "description": "Number of views your story has"
+    "messageformat": "<strong>{viewCount, number}</strong> views",
+    "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
     "messageformat": "{views, plural, one {1 view} other {# views}}",
+    "description": "Number of views your story has"
+  },
+  "icu:MyStories__views--strong": {
+    "messageformat": "{views, plural, one {<strong>1</strong> view} other {<strong>#</strong> views}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10872,15 +10916,19 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies--singular": {
-    "messageformat": "{num} reply",
-    "description": "Number of replies your story has"
+    "messageformat": "{num, number} reply",
+    "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "MyStories__replies--plural": {
     "message": "$num$ replies",
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies--plural": {
-    "messageformat": "{num} replies",
+    "messageformat": "{num, number} replies",
+    "description": "(deleted 03/29/2023) Number of replies your story has"
+  },
+  "icu:MyStories__replies": {
+    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>#</strong> replies}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11300,7 +11348,7 @@
     "description": "(deleted 03/29/2023) Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num} people excluded",
+    "messageformat": "{num, number} people excluded",
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
@@ -11324,7 +11372,7 @@
     "description": "(deleted 03/29/2023) Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num} people",
+    "messageformat": "{num, number} people",
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
@@ -11333,6 +11381,10 @@
   },
   "icu:StoriesSettings__mine__disclaimer": {
     "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. {learnMore}",
+    "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
+  },
+  "icu:StoriesSettings__mine__disclaimer--link": {
+    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11341,7 +11393,7 @@
   },
   "icu:StoriesSettings__mine__disclaimer--learn-more": {
     "messageformat": "Learn more.",
-    "description": "Learn more link to learn about who can view your story"
+    "description": "(deleted 03/29/2023) Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
     "message": "Story privacy",
@@ -11505,6 +11557,10 @@
   },
   "icu:SendStoryModal__privacy-disclaimer": {
     "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. {learnMore}",
+    "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
+  },
+  "icu:SendStoryModal__privacy-disclaimer--link": {
+    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -11856,7 +11912,7 @@
     "description": "Error string for when a video post to story fails because video's duration is too long"
   },
   "icu:StoryCreator__error--video-too-big": {
-    "messageformat": "Cannot post video to story because it is larger than {limit}{units}.",
+    "messageformat": "Cannot post video to story because it is larger than {limit, number}{units}.",
     "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "StoryCreator__error--video-error": {
