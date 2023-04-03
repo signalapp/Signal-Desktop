@@ -382,10 +382,13 @@ export async function innerHandleSwarmContentMessage(
      * For a closed group message, this holds the conversation with that specific user outside of the closed group.
      * For a private conversation message, this is just the conversation with that user
      */
-    let conversationModel = await getConversationController().getOrCreateAndWait(
+    const senderConversationModel = await getConversationController().getOrCreateAndWait(
       isPrivateConversationMessage ? envelope.source : envelope.senderIdentity,
       ConversationTypeEnum.PRIVATE
     );
+
+    // We need to make sure that we trigger the banner ui on the correct model for the conversation and not the author (for closed groups)
+    let conversationModelForUIUpdate = senderConversationModel;
 
     /**
      * For a closed group message, this holds the closed group's conversation.
@@ -393,7 +396,7 @@ export async function innerHandleSwarmContentMessage(
      */
     if (!isPrivateConversationMessage) {
       // this is a closed group message, we have a second conversation to make sure exists
-      conversationModel = await getConversationController().getOrCreateAndWait(
+      conversationModelForUIUpdate = await getConversationController().getOrCreateAndWait(
         envelope.source,
         ConversationTypeEnum.GROUP
       );
@@ -413,22 +416,30 @@ export async function innerHandleSwarmContentMessage(
       const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
         'Disappearing Messages V2'
       );
-      const isLegacyMessage = Boolean(dataMessage.expireTimer && dataMessage.expireTimer > -1);
+      const isLegacyMessage = Boolean(
+        (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
+          (!content.expirationTimer &&
+            dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
+      );
+
+      const expireTimer = isDisappearingMessagesV2Released
+        ? content.expirationTimer
+        : isLegacyMessage
+        ? Number(dataMessage.expireTimer)
+        : 0;
+      const expirationType = isDisappearingMessagesV2Released
+        ? DisappearingMessageConversationSetting[content.expirationType]
+        : isLegacyMessage && expireTimer > 0
+        ? DisappearingMessageConversationSetting[3]
+        : 'off';
+      const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
+        ? Number(content.lastDisappearingMessageChangeTimestamp)
+        : undefined;
 
       const expireUpdate: DisappearingMessageUpdate = {
-        expirationType: isDisappearingMessagesV2Released
-          ? DisappearingMessageConversationSetting[content.expirationType]
-          : isLegacyMessage
-          ? DisappearingMessageConversationSetting[3]
-          : 'off',
-        expireTimer: isDisappearingMessagesV2Released
-          ? content.expirationTimer
-          : isLegacyMessage
-          ? Number(dataMessage.expireTimer)
-          : 0,
-        lastDisappearingMessageChangeTimestamp: content.lastDisappearingMessageChangeTimestamp
-          ? Number(content.lastDisappearingMessageChangeTimestamp)
-          : undefined,
+        expirationType,
+        expireTimer,
+        lastDisappearingMessageChangeTimestamp,
         isLegacyMessage,
         isDisappearingMessagesV2Released,
       };
@@ -439,18 +450,20 @@ export async function innerHandleSwarmContentMessage(
           content,
           `${
             !isPrivateConversationMessage
-              ? ` in closed group ${conversationModel.get('displayNameInProfile')}`
+              ? `in closed group ${conversationModelForUIUpdate.get('displayNameInProfile')}`
               : ''
           }`
         );
 
         // trigger notice banner
-        if (!conversationModel.get('hasOutdatedClient')) {
-          conversationModel.set({ hasOutdatedClient: true });
+        if (!conversationModelForUIUpdate.get('hasOutdatedClient')) {
+          conversationModelForUIUpdate.set({ hasOutdatedClient: true });
+          conversationModelForUIUpdate.commit();
         }
       } else {
-        if (conversationModel.get('hasOutdatedClient')) {
-          conversationModel.set({ hasOutdatedClient: false });
+        if (conversationModelForUIUpdate.get('hasOutdatedClient')) {
+          conversationModelForUIUpdate.set({ hasOutdatedClient: false });
+          conversationModelForUIUpdate.commit();
         }
       }
 
@@ -459,7 +472,7 @@ export async function innerHandleSwarmContentMessage(
         sentAtTimestamp,
         dataMessage as SignalService.DataMessage,
         messageHash,
-        conversationModel,
+        senderConversationModel,
         expireUpdate
       );
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');

@@ -259,11 +259,11 @@ export async function handleSwarmDataMessage(
     // if it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
     expirationType =
       isDisappearingMessagesV2Released && isLegacyMessage
-        ? senderConversationModel.get('expirationType')
+        ? convoToAddMessageTo.get('expirationType')
         : expirationType;
     expireTimer =
       isDisappearingMessagesV2Released && isLegacyMessage
-        ? senderConversationModel.get('expireTimer')
+        ? convoToAddMessageTo.get('expireTimer')
         : expireTimer;
 
     msgModel.set({
@@ -283,7 +283,7 @@ export async function handleSwarmDataMessage(
         expireTimer,
         lastDisappearingMessageChangeTimestamp: isLegacyMessage
           ? isDisappearingMessagesV2Released
-            ? senderConversationModel.get('lastDisappearingMessageChangeTimestamp')
+            ? convoToAddMessageTo.get('lastDisappearingMessageChangeTimestamp')
             : Date.now()
           : Number(lastDisappearingMessageChangeTimestamp),
         source: msgModel.get('source'),
