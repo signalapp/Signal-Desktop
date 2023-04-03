@@ -13,9 +13,7 @@ import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
-import { OpenGroupData } from '../../data/opengroups';
-import { getOpenGroupV2ConversationId } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
+import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
@@ -61,40 +59,13 @@ async function deleteEverythingAndNetworkData() {
     // DELETE EVERYTHING ON NETWORK, AND THEN STUFF LOCALLY STORED
     // a bit of duplicate code below, but it's easier to follow every case like that (helped with returns)
 
-    // send delete for all sogs message requests
-    // TODO extract function from within startPollingBouncy() to replace some of the code below.
-    // fetch all open group conversations
-    const allConvos = await OpenGroupData.getAllOpenGroupV2Conversations();
-    let allRoomInfosMap = OpenGroupData.getAllV2OpenGroupRoomsMap();
-    // this is time for some cleanup!
-    // We consider the conversations are our source-of-truth,
-    // so if there is a roomInfo without an associated convo, we remove it
-    if (allRoomInfosMap) {
-      await Promise.all(
-        [...allRoomInfosMap.values()].map(async infos => {
-          try {
-            const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
-            if (!allConvos.get(roomConvoId)) {
-              // remove the roomInfos locally for this open group room
-              await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
-              getOpenGroupManager().removeRoomFromPolledRooms(infos);
-              // no need to remove it from the ConversationController, the convo is already not there
-            }
-          } catch (e) {
-            window?.log?.warn('cleanup roomInfos error', e);
-          }
-        })
-      );
-    }
-
-    allRoomInfosMap = OpenGroupData.getAllV2OpenGroupRoomsMap();
+    // clear all sogs inboxes (includes message requests)
+    const allRoomInfosMap = await getAllValidOpenGroupV2ConversationRoomInfos();
     if (allRoomInfosMap) {
       const allRoomInfos = Object.values(allRoomInfosMap);
       // clear each inbox per sogs
       for (let i = 0; i < allRoomInfos.length; i++) {
-        // TODO handle the response to confirm this works
-        // TODO CONTINUE
-        // TODO will need to test with a dummy account with some message requests and then if we restore from seed there should be no message requests.
+        // TODO CONTINUE testing - use a dummy account with some message requests and then if we restore from seed there should be no message requests.
         await clearInbox(allRoomInfos[i]);
       }
     }
@@ -234,6 +205,7 @@ export const DeleteAccountModal = () => {
       }
     }
   };
+
   const onDeleteEverythingAndNetworkData = async () => {
     if (!isLoading) {
       setIsLoading(true);

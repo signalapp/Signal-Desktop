@@ -2,7 +2,10 @@ import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
-import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
+import {
+  getAllValidOpenGroupV2ConversationRoomInfos,
+  getOpenGroupV2ConversationId,
+} from '../utils/OpenGroupUtils';
 import {
   defaultServer,
   defaultServerHost,
@@ -124,32 +127,7 @@ export class OpenGroupManagerV2 {
     if (this.isPolling) {
       return;
     }
-    const allConvos = await OpenGroupData.getAllOpenGroupV2Conversations();
-
-    let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
-
-    // this is time for some cleanup!
-    // We consider the conversations are our source-of-truth,
-    // so if there is a roomInfo without an associated convo, we remove it
-    if (allRoomInfos) {
-      await Promise.all(
-        [...allRoomInfos.values()].map(async infos => {
-          try {
-            const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
-            if (!allConvos.get(roomConvoId)) {
-              // remove the roomInfos locally for this open group room
-              await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
-              getOpenGroupManager().removeRoomFromPolledRooms(infos);
-              // no need to remove it from the ConversationController, the convo is already not there
-            }
-          } catch (e) {
-            window?.log?.warn('cleanup roomInfos error', e);
-          }
-        })
-      );
-    }
-    // refresh our roomInfos list
-    allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
+    const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
     if (allRoomInfos) {
       this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }

@@ -14,52 +14,53 @@ type OpenGroupClearInboxResponse = {
 };
 
 export const clearInbox = async (roomInfos: OpenGroupRequestCommonType): Promise<boolean> => {
+  let success = false;
+
   const converationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
   const conversation = await Data.getConversationById(converationId);
 
   if (!conversation) {
-    window.log.warn(`clear inbox Matching conversation not found in db`);
-    // we failed
-    return false;
-  }
-
-  const options: Array<OpenGroupBatchRow> = [
-    {
-      type: 'inbox',
-      inbox: {
-        type: 'delete',
+    window.log.warn(`clearInbox Matching conversation not found in db`);
+  } else {
+    const options: Array<OpenGroupBatchRow> = [
+      {
+        type: 'inbox',
+        inbox: {
+          type: 'delete',
+        },
       },
-    },
-  ];
+    ];
 
-  const result = await sogsBatchSend(
-    roomInfos.serverUrl,
-    new Set([roomInfos.roomId]),
-    new AbortController().signal,
-    options,
-    'batch'
-  );
+    const result = await sogsBatchSend(
+      roomInfos.serverUrl,
+      new Set([roomInfos.roomId]),
+      new AbortController().signal,
+      options,
+      'batch'
+    );
 
-  if (!result) {
-    throw new Error('Could not clearInbox, res is invalid');
-  }
-
-  const rawMessage = (result.body && (result.body[0].body as OpenGroupClearInboxResponse)) || null;
-  if (!rawMessage) {
-    throw new Error('clearInbox parsing failed');
-  }
-
-  try {
-    if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
-      // we succeeded
-      return true;
-    } else {
-      // we failed
-      return false;
+    if (!result) {
+      throw new Error('Could not clearInbox, res is invalid');
     }
-  } catch (e) {
-    window?.log?.error("clearInbox Can't decode JSON body");
+
+    const rawMessage =
+      (result.body && (result.body[0].body as OpenGroupClearInboxResponse)) || null;
+    if (!rawMessage) {
+      throw new Error('clearInbox parsing failed');
+    }
+
+    try {
+      if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
+        success = true;
+        window.log.info(`clearInbox ${rawMessage.deleted} messages deleted from ${converationId} `);
+      }
+    } catch (e) {
+      window?.log?.error("clearInbox Can't decode JSON body");
+    }
   }
 
-  return false;
+  if (!success) {
+    window.log.info(`clearInbox message deletion failed for ${converationId} `);
+  }
+  return success;
 };

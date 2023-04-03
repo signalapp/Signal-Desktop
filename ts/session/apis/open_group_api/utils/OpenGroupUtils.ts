@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
+import { getOpenGroupManager } from '../opengroupV2/OpenGroupManagerV2';
 
 const protocolRegex = new RegExp('https?://');
 
@@ -114,4 +115,39 @@ export function getOpenGroupV2FromConversationId(
  */
 export function isOpenGroupV2(conversationId: string) {
   return openGroupV2ConversationIdRegex.test(conversationId);
+}
+
+/**
+ * Fetches all roomInfos for all of our opengroup conversations.
+ * We consider the conversations as our source-of-truth, so if there is a roomInfo without an associated convo, we remove it before returning.
+ * @returns A map of conversationIds to roomInfos for all valid open group conversations or undefined
+ */
+export async function getAllValidOpenGroupV2ConversationRoomInfos() {
+  const allConvos = await OpenGroupData.getAllOpenGroupV2Conversations();
+  let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
+
+  if (allRoomInfos) {
+    await Promise.all(
+      [...allRoomInfos.values()].map(async infos => {
+        try {
+          const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
+          if (!allConvos.get(roomConvoId)) {
+            // remove the roomInfos locally for this open group room
+            await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
+            getOpenGroupManager().removeRoomFromPolledRooms(infos);
+            // no need to remove it from the ConversationController, the convo is already not there
+          }
+        } catch (e) {
+          window?.log?.warn(
+            'getAllValidOpenGroupV2ConversationRoomInfos cleanup roomInfos error',
+            e
+          );
+        }
+      })
+    );
+  }
+
+  // refresh our roomInfos list
+  allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
+  return allRoomInfos;
 }
