@@ -7,6 +7,7 @@ import { PanelButton, PanelButtonProps, StyledContent, StyledText } from './Pane
 const StyledPanelButton = styled(PanelButton)`
   padding-top: var(--margins-lg);
   padding-bottom: var(--margins-lg);
+  text-align: left;
 
   div {
     span {
