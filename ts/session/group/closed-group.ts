@@ -28,11 +28,8 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
-import {
-  ConversationAttributes,
-  ConversationTypeEnum,
-  DisappearingMessageConversationType,
-} from '../../models/conversationAttributes';
+import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { DisappearingMessageConversationType } from '../../util/expiringMessages';
 
 export type GroupInfo = {
   id: string;
@@ -270,16 +267,16 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
-  // Todo Update here
-  await conversation.updateExpireTimer(
-    expirationType || 'deleteAfterSend',
-    expireTimer,
-    UserUtils.getOurPubKeyStrFromCache(),
-    Date.now(),
-    {
-      fromSync: true,
-    }
-  );
+
+  await conversation.updateExpireTimer({
+    // TODO clean up 2 weeks after release
+    providedExpirationType: expirationType || 'deleteAfterSend',
+    providedExpireTimer: expireTimer,
+    providedChangeTimestamp: getNowWithNetworkOffset(),
+    providedSource: UserUtils.getOurPubKeyStrFromCache(),
+    receivedAt: Date.now(),
+    fromSync: true,
+  });
 }
 
 export async function leaveClosedGroup(groupId: string) {

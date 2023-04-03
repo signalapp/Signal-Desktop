@@ -35,6 +35,7 @@ export function createSwarmMessageSentFromUs(args: {
   const messageData: MessageAttributesOptionals = {
     ...getSharedAttributesForSwarmMessage(args),
     ...getSharedAttributesForOutgoingMessage(),
+    // TODO need to update this for delete after read
     expirationStartTimestamp: Math.min(args.sentAt, Date.now()),
   };
 

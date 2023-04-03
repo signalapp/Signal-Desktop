@@ -398,13 +398,25 @@ export async function innerHandleSwarmContentMessage(
       if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
         content.dataMessage.profileKey = null;
       }
+
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
+
+      let expireUpdate = null;
+
+      if (content.expirationType && content.expirationTimer) {
+        expireUpdate = {
+          expirationType: content.expirationType,
+          expirationTimer: content.expirationTimer,
+        };
+      }
+
       await handleSwarmDataMessage(
         envelope,
         sentAtTimestamp,
         content.dataMessage as SignalService.DataMessage,
         messageHash,
-        senderConversationModel
+        senderConversationModel,
+        expireUpdate
       );
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');
       return;

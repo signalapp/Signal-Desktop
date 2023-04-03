@@ -78,7 +78,6 @@ import {
   ConversationAttributes,
   ConversationNotificationSetting,
   ConversationTypeEnum,
-  DisappearingMessageConversationType,
   fillConvoAttributesWithDefaults,
 } from './conversationAttributes';
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
@@ -97,6 +96,7 @@ import {
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -1016,28 +1016,31 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async updateExpireTimer(
-    providedExpirationType: DisappearingMessageConversationType,
-    providedExpireTimer?: number,
-    providedSource?: string,
-    receivedAt?: number, // is set if it comes from outside
-    options: {
-      fromSync?: boolean;
-    } = {},
-    shouldCommit = true
-  ): Promise<void> {
+  public async updateExpireTimer({
+    providedExpirationType,
+    providedExpireTimer,
+    providedChangeTimestamp,
+    providedSource,
+    receivedAt, // is set if it comes from outside
+    fromSync,
+    shouldCommit = true,
+  }: {
+    providedExpirationType: DisappearingMessageConversationType;
+    providedExpireTimer?: number;
+    providedChangeTimestamp?: number;
+    providedSource?: string;
+    receivedAt?: number; // is set if it comes from outside
+    fromSync?: boolean;
+    shouldCommit?: boolean;
+  }): Promise<void> {
     let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
     let source = providedSource;
 
-    defaults(options, { fromSync: false });
+    defaults({ fromSync }, { fromSync: false });
 
-    if (!expirationType) {
+    if (!expirationType || !expireTimer) {
       expirationType = 'off';
-      expireTimer = 0;
-    }
-
-    if (!expireTimer) {
       expireTimer = 0;
     }
 
@@ -1057,21 +1060,29 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
     // When we add a disappearing messages notification to the conversation, we want it
-    //   to be above the message that initiated that change, hence the subtraction.
-    // TODO Will we use this for lastDisappearingMessageChangeTimestamp
+    // to be above the message that initiated that change, hence the subtraction.
     const timestamp = (receivedAt || Date.now()) - 1;
 
-    this.set({ expirationType, expireTimer });
+    this.set({
+      expirationType,
+      expireTimer,
+      lastDisappearingMessageChangeTimestamp: providedChangeTimestamp || undefined,
+    });
 
-    // TODO Update for the new types of Disappearing Messages
+    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp || 0;
+
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
+        expirationType,
         expireTimer,
+        lastDisappearingMessageChangeTimestamp,
         source,
-        fromSync: options.fromSync,
+        fromSync,
       },
-      expireTimer: 0,
+      // TODO do we need this?
+      // expirationType,
+      // expireTimer,
     };
 
     let message: MessageModel | undefined;
@@ -1082,6 +1093,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         sent_at: timestamp,
       });
     } else {
+      // TODO do we still want to handle expiration in incoming messages?
       message = await this.addSingleIncomingMessage({
         ...commonAttributes,
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -1106,23 +1118,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
-    // TODO Update for the new types of Disappearing Messages
     const expireUpdate = {
       identifier: message.id,
       timestamp,
-      expireTimer: expireTimer ? expireTimer : (null as number | null),
+      expirationType,
+      expireTimer,
+      lastDisappearingMessageChangeTimestamp,
     };
 
     if (this.isMe()) {
+      // TODO Check that the args are correct
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       return message.sendSyncMessageOnly(expirationTimerMessage);
     }
 
     if (this.isPrivate()) {
+      // TODO Check that the args are correct
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
     } else {
+      // TODO Check that the args are correct
+      // Cannot be an open group
       window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {
         ...expireUpdate,

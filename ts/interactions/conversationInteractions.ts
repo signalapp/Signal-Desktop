@@ -41,6 +41,7 @@ import { getSodiumRenderer } from '../session/crypto';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -356,10 +357,19 @@ export async function setDisappearingMessagesByConvoId(
     return;
   }
 
+  const providedChangeTimestamp = getNowWithNetworkOffset();
+
   if (!expirationType || expirationType === 'off' || !seconds || seconds <= 0) {
-    await conversation.updateExpireTimer('off');
+    await conversation.updateExpireTimer({
+      providedExpirationType: 'off',
+      providedChangeTimestamp,
+    });
   } else {
-    await conversation.updateExpireTimer(expirationType, seconds);
+    await conversation.updateExpireTimer({
+      providedExpirationType: expirationType,
+      providedExpireTimer: seconds,
+      providedChangeTimestamp,
+    });
   }
 }
 

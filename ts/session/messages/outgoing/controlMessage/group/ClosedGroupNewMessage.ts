@@ -63,7 +63,7 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
 
     dataMessage.closedGroupControlMessage.admins = this.admins.map(fromHexToArray);
     dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
-    dataMessage.closedGroupControlMessage.expireTimer = this.expireTimer;
+    dataMessage.closedGroupControlMessage.expirationTimer = this.expireTimer;
     try {
       dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.KeyPair();
       dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(

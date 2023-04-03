@@ -32,6 +32,7 @@ import { MessageModel } from '../models/message';
 import { updateConfirmModal } from '../state/ducks/modalDialog';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -240,7 +241,8 @@ export async function handleNewClosedGroup(
     return;
   }
   const groupConvo = getConversationController().get(groupId);
-  const expireTimer = groupUpdate.expireTimer;
+  // TODO Rename to expirationTimer
+  const expireTimer = groupUpdate.expirationTimer;
 
   if (groupConvo) {
     // if we did not left this group, just add the keypair we got if not already there
@@ -256,12 +258,13 @@ export async function handleNewClosedGroup(
       );
 
       // TODO This is only applicable for old closed groups - will be removed in future
-      await groupConvo.updateExpireTimer(
-        expireTimer === 0 ? 'off' : 'deleteAfterSend',
-        expireTimer,
-        sender,
-        Date.now()
-      );
+      await groupConvo.updateExpireTimer({
+        providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+        providedExpireTimer: expireTimer,
+        providedChangeTimestamp: getNowWithNetworkOffset(),
+        providedSource: sender,
+        receivedAt: Date.now(),
+      });
 
       if (isKeyPairAlreadyHere) {
         window.log.info('Dropping already saved keypair for group', groupId);
@@ -322,12 +325,13 @@ export async function handleNewClosedGroup(
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', envelopeTimestamp);
   // TODO This is only applicable for old closed groups - will be removed in future
-  await convo.updateExpireTimer(
-    expireTimer === 0 ? 'off' : 'deleteAfterSend',
-    expireTimer,
-    sender,
-    envelopeTimestamp
-  );
+  await convo.updateExpireTimer({
+    providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+    providedExpireTimer: expireTimer,
+    providedChangeTimestamp: getNowWithNetworkOffset(),
+    providedSource: sender,
+    receivedAt: envelopeTimestamp,
+  });
   convo.updateLastMessage();
 
   await convo.commit();

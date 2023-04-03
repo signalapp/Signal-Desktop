@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -14,11 +14,10 @@ import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import {
-  ConversationTypeEnum,
-  DisappearingMessageConversationType,
-} from '../models/conversationAttributes';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -185,7 +184,7 @@ export type RegularMessageType = Pick<
   | 'reaction'
   | 'profile'
   | 'profileKey'
-  // TODO Add expirationType and other new props
+  // TODO Will be removed 2 weeks after release
   | 'expireTimer'
 > & { isRegularMessage: true };
 
@@ -317,23 +316,26 @@ async function handleExpirationTimerUpdateNoCommit(
   expirationType: DisappearingMessageConversationType,
   expireTimer: number
 ) {
+  const providedChangeTimestamp = getNowWithNetworkOffset();
+
   message.set({
     expirationTimerUpdate: {
       source,
+      expirationType: expirationType !== 'off' ? expirationType : null,
       expireTimer,
+      lastDisappearingMessageChangeTimestamp: providedChangeTimestamp,
     },
     unread: 0, // mark the message as read.
   });
-  conversation.set({ expirationType, expireTimer });
 
-  await conversation.updateExpireTimer(
-    expirationType,
-    expireTimer,
-    source,
-    message.get('received_at'),
-    {},
-    false
-  );
+  await conversation.updateExpireTimer({
+    providedExpirationType: expirationType,
+    providedExpireTimer: expireTimer,
+    providedChangeTimestamp,
+    providedSource: source,
+    receivedAt: message.get('received_at'),
+    shouldCommit: false,
+  });
 }
 
 export async function handleMessageJob(
@@ -342,7 +344,8 @@ export async function handleMessageJob(
   regularDataMessage: RegularMessageType,
   confirm: () => void,
   source: string,
-  messageHash: string
+  messageHash: string,
+  expireUpdate?: any
 ) {
   window?.log?.info(
     `Starting handleMessageJob for message ${messageModel.idForLogging()}, ${messageModel.get(
@@ -356,11 +359,13 @@ export async function handleMessageJob(
   );
   try {
     messageModel.set({ flags: regularDataMessage.flags });
-    // TODO update to handle the new disappearing message props
-    if (messageModel.isExpirationTimerUpdate()) {
-      // TODO Account for expirationType and lastDisappearingMessageChangeTimestamp
-      const { expireTimer } = regularDataMessage;
+    // TODO remove 2 weeks after release
+    if (messageModel.isExpirationTimerUpdate() || !isEmpty(expireUpdate)) {
+      const { expireTimer: oldExpireTimer } = regularDataMessage;
+      const expirationType = expireUpdate.expirationType;
+      const expireTimer = expireUpdate.expireTimer || oldExpireTimer;
 
+      // TODO compare types and change timestamps
       // const oldTypeValue = conversation.get('expirationType');
       const oldTimerValue = conversation.get('expireTimer');
       if (expireTimer === oldTimerValue) {
@@ -370,11 +375,12 @@ export async function handleMessageJob(
         );
         return;
       }
+
       await handleExpirationTimerUpdateNoCommit(
         conversation,
         messageModel,
         source,
-        'deleteAfterSend',
+        expirationType,
         expireTimer
       );
     } else {

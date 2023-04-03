@@ -17,10 +17,12 @@ message Envelope {
 }
 
 message TypingMessage {
+
     enum Action {
         STARTED = 0;
         STOPPED = 1;
     }
+
     // @required
     required uint64 timestamp = 1;
     // @required
@@ -42,7 +44,32 @@ message MessageRequestResponse {
   optional DataMessage.LokiProfile   profile                   = 3;
 }
 
+// TODO Syncing disappearing messages
+// message SyncedExpiries {
+
+//   message SyncedConversationExpiries {
+
+//     message SyncedExpiry {
+//       // @required
+//       required string serverHash          = 1; // messageHash for desktop and serverHash for iOS
+//       // @required
+//       required uint64 expirationTimestamp = 2; // this is only used for deleteAfterRead
+//     }
+//     // @required
+//     required string       syncTarget = 1; // the conversationID those expiries are related to
+//     repeated SyncedExpiry expiries   = 2;
+//   }
+
+//   repeated SyncedConversationExpiries conversationExpiries = 1;
+// }
+
 message Content {
+
+  enum ExpirationType {
+    DELETE_AFTER_SEND   = 1;
+    DELETE_AFTER_READ   = 2;
+  }
+
   optional DataMessage                dataMessage                = 1;
   optional CallMessage                callMessage                = 3;
   optional ReceiptMessage             receiptMessage             = 5;
@@ -51,6 +78,10 @@ message Content {
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
   optional MessageRequestResponse     messageRequestResponse     = 10;
+  optional ExpirationType             expirationType             = 11;
+  optional uint32                     expirationTimer            = 12;
+  optional uint64                     lastDisappearingMessageChangeTimestamp = 13;
+  // optional SyncedExpiries             syncedExpiries             = 14;
 }
 
 message KeyPair {
@@ -130,7 +161,7 @@ message DataMessage {
   message ClosedGroupControlMessage {
 
 	  enum Type {
-	    NEW                           = 1; // publicKey, name, encryptionKeyPair, members, admins, expireTimer
+	    NEW                           = 1; // publicKey, name, encryptionKeyPair, members, admins, expirationTimer
       ENCRYPTION_KEY_PAIR           = 3; // publicKey, wrappers
       NAME_CHANGE                   = 4; // name
       MEMBERS_ADDED                 = 5; // members
@@ -156,7 +187,8 @@ message DataMessage {
 	  repeated bytes          members           = 5;
 	  repeated bytes          admins            = 6;
 	  repeated KeyPairWrapper wrappers          = 7;
-    optional uint32         expireTimer       = 8;
+    // TODO Make sure rename doesn't break anything
+    optional uint32         expirationTimer       = 8;
 	}
 
 
@@ -164,6 +196,7 @@ message DataMessage {
   repeated AttachmentPointer         attachments               = 2;
   optional GroupContext              group                     = 3;
   optional uint32                    flags                     = 4;
+  // TODO this will be removed 2 weeks after the release
   optional uint32                    expireTimer               = 5;
   optional bytes                     profileKey                = 6;
   optional uint64                    timestamp                 = 7;

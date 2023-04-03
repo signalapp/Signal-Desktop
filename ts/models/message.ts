@@ -1028,19 +1028,24 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],
       sent: true,
+      // NOTE if disappearing message is deleteAfterRead then we don't use this
       expirationStartTimestamp: now,
     });
 
     await this.commit();
 
-    const data = dataMessage instanceof DataMessage ? dataMessage.dataProto() : dataMessage;
-    await this.sendSyncMessage(data, now);
+    await this.sendSyncMessage(dataMessage, now);
   }
 
-  public async sendSyncMessage(dataMessage: SignalService.DataMessage, sentTimestamp: number) {
+  public async sendSyncMessage(
+    data: DataMessage | SignalService.DataMessage,
+    sentTimestamp: number
+  ) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
     }
+
+    const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
 
     // if this message needs to be synced
     if (
@@ -1052,10 +1057,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = buildSyncMessage(this.id, dataMessage, conversation.id, sentTimestamp);
+      const syncMessage = buildSyncMessage(this.id, data, conversation.id, sentTimestamp);
       await getMessageQueue().sendSyncMessage(syncMessage);
     }
-    this.set({ sentSync: true });
+    this.set({
+      sentSync: true,
+    });
     await this.commit();
   }
 

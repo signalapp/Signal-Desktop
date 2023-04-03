@@ -21,11 +21,12 @@ export interface MessageAttributes {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  // NOTE this is used for the logic
   expirationType?: DisappearingMessageType;
   expireTimer: number;
   expirationStartTimestamp: number;
   expires_at?: number;
-  // TODO are having both variables redundant?
+  // NOTE this is used for conversation setting
   expirationTimerUpdate?: {
     expirationType: DisappearingMessageType;
     expireTimer: number;

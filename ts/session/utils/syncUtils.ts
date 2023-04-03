@@ -26,6 +26,8 @@ import { DURATION } from '../constants';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 import { PubKey } from '../types';
+import { DataMessage } from '../messages/outgoing';
+import { DisappearingMessageType } from '../../util/expiringMessages';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -294,16 +296,18 @@ const buildSyncVisibleMessage = (
 
 const buildSyncExpireTimerMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  expirationType: DisappearingMessageType,
+  expireTimer: number,
+  lastDisappearingMessageChangeTimestamp: number | null,
   timestamp: number,
   syncTarget: string
 ) => {
-  const expireTimer = dataMessage.expireTimer;
-
   return new ExpirationTimerUpdateMessage({
     identifier,
     timestamp,
+    expirationType: expirationType || null,
     expireTimer,
+    lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp || null,
     syncTarget,
   });
 };
@@ -317,24 +321,48 @@ export type SyncMessageType =
 
 export const buildSyncMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
   sentTimestamp: number
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (
-    (dataMessage as any).constructor.name !== 'DataMessage' &&
-    !(dataMessage instanceof SignalService.DataMessage)
+    (data as any).constructor.name !== 'DataMessage' &&
+    !(data instanceof SignalService.DataMessage)
   ) {
     window?.log?.warn('buildSyncMessage with something else than a DataMessage');
   }
+
+  // TODO Remove DataMessage expireTimer 2 weeks after the release
+  const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
+  const contentMessage = data instanceof DataMessage ? data.contentProto() : null;
+  const expirationType =
+    contentMessage?.expirationType === SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+      ? 'deleteAfterSend'
+      : contentMessage?.expirationType === SignalService.Content.ExpirationType.DELETE_AFTER_READ
+      ? 'deleteAfterRead'
+      : null;
+  const expireTimer = contentMessage?.expirationTimer || dataMessage.expireTimer;
+  const lastDisappearingMessageChangeTimestamp = contentMessage?.lastDisappearingMessageChangeTimestamp
+    ? Number(contentMessage?.lastDisappearingMessageChangeTimestamp)
+    : null;
 
   if (!sentTimestamp || !_.isNumber(sentTimestamp)) {
     throw new Error('Tried to build a sync message without a sentTimestamp');
   }
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
-  if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    return buildSyncExpireTimerMessage(identifier, dataMessage, timestamp, syncTarget);
+  if (
+    contentMessage?.expirationType &&
+    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+  ) {
+    return buildSyncExpireTimerMessage(
+      identifier,
+      expirationType,
+      expireTimer,
+      lastDisappearingMessageChangeTimestamp,
+      timestamp,
+      syncTarget
+    );
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };
