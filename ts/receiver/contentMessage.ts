@@ -409,22 +409,17 @@ export async function innerHandleSwarmContentMessage(
 
       const expireUpdate = await checkForExpireUpdate(conversationModelForUIUpdate, content);
 
-      if (expireUpdate && !isEmpty(expireUpdate)) {
-        // TODO legacy messages support will be removed in a future release
+      // TODO legacy messages support will be removed in a future release
+      if (expireUpdate && !isEmpty(expireUpdate) && expireUpdate.isDisappearingMessagesV2Released) {
         await checkHasOutdatedClient(
           conversationModelForUIUpdate,
           senderConversationModel,
           expireUpdate
         );
-      }
-
-      // TODO legacy messages support will be removed in a future release
-      if (
-        expireUpdate?.isDisappearingMessagesV2Released &&
-        expireUpdate?.isLegacyConversationSettingMessage
-      ) {
-        window.log.info('WIP: The legacy message is an expiration timer update. Ignoring it.');
-        return;
+        if (expireUpdate.isLegacyConversationSettingMessage) {
+          window.log.info('WIP: The legacy message is an expiration timer update. Ignoring it.');
+          return;
+        }
       }
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
