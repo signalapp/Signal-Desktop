@@ -134,7 +134,6 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   convo.readCapability = Boolean(convo.readCapability);
   convo.writeCapability = Boolean(convo.writeCapability);
   convo.uploadCapability = Boolean(convo.uploadCapability);
-  convo.hasOutdatedClient = Boolean(convo.hasOutdatedClient);
 
   if (!convo.conversationIdOrigin) {
     convo.conversationIdOrigin = undefined;

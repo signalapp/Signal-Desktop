@@ -255,15 +255,14 @@ export class SessionConversation extends React.Component<Props, State> {
       <SessionTheme>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
-          {selectedConversation?.hasOutdatedClient && (
-            <NoticeBanner
-              text={window.i18n('disappearingMessagesModeOutdated', [
-                selectedConversation?.nickname ||
-                  selectedConversation?.displayNameInProfile ||
-                  selectedConversation.id,
-              ])}
-            />
-          )}
+          {selectedConversation?.hasOutdatedClient &&
+            selectedConversation.hasOutdatedClient.length > 0 && (
+              <NoticeBanner
+                text={window.i18n('disappearingMessagesModeOutdated', [
+                  selectedConversation.hasOutdatedClient,
+                ])}
+              />
+            )}
         </div>
         {isSelectedConvoInitialLoadingInProgress ? (
           <ConvoLoadingSpinner />

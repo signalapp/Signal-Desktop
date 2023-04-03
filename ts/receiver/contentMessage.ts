@@ -446,15 +446,22 @@ export async function innerHandleSwarmContentMessage(
 
       if (isLegacyMessage) {
         // trigger notice banner
-        if (!conversationModelForUIUpdate.get('hasOutdatedClient')) {
-          conversationModelForUIUpdate.set({ hasOutdatedClient: true });
-          conversationModelForUIUpdate.commit();
-        }
-      } else {
+        const outdatedSender =
+          senderConversationModel.get('nickname') ||
+          senderConversationModel.get('displayNameInProfile') ||
+          senderConversationModel.get('id');
+
         if (conversationModelForUIUpdate.get('hasOutdatedClient')) {
-          conversationModelForUIUpdate.set({ hasOutdatedClient: false });
-          conversationModelForUIUpdate.commit();
+          conversationModelForUIUpdate.set({
+            hasOutdatedClient:
+              conversationModelForUIUpdate.get('hasOutdatedClient') === outdatedSender
+                ? outdatedSender
+                : undefined,
+          });
+        } else {
+          conversationModelForUIUpdate.set({ hasOutdatedClient: outdatedSender });
         }
+        conversationModelForUIUpdate.commit();
       }
 
       await handleSwarmDataMessage(
