@@ -34,7 +34,7 @@ async function insertAllContactsIntoContactsWrapper() {
     .filter(isContactToStoreInContactsWrapper)
     .map(m => m.id);
 
-  window.log.debug(`ContactsWrapper keep tracks of ${idsToInsert.length} contacts`);
+  window.log.debug(`ContactsWrapper keep tracks of ${idsToInsert.length} contacts: ${idsToInsert}`);
 
   for (let index = 0; index < idsToInsert.length; index++) {
     const id = idsToInsert[index];

@@ -287,8 +287,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isPrivate = this.isPrivate();
     const weAreAdmin = this.isAdmin(ourNumber);
     const weAreModerator = this.isModerator(ourNumber); // only used for sogs
-    const isMe = this.isMe();
-    const isTyping = !!this.typingTimer;
 
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const priorityFromDb = this.get('priority');
@@ -311,9 +309,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (isPrivate) {
       toRet.isPrivate = true;
+      if (this.typingTimer) {
+        toRet.isTyping = true;
+      }
+      if (this.isMe()) {
+        toRet.isMe = true;
+      }
+
       const foundContact = SessionUtilContact.getContactCached(this.id);
-      if (!toRet.activeAt && foundContact && isFinite(foundContact.createdAt)) {
-        toRet.activeAt = foundContact.createdAt;
+
+      if (!toRet.activeAt && foundContact && isFinite(foundContact.createdAtSeconds)) {
+        toRet.activeAt = foundContact.createdAtSeconds * 1000; // active at is in ms
       }
     }
 
@@ -325,14 +331,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.weAreModerator = true;
     }
 
-    if (isMe) {
-      toRet.isMe = true;
-    }
     if (isPublic) {
       toRet.isPublic = true;
-    }
-    if (isTyping) {
-      toRet.isTyping = true;
     }
 
     if (avatarPath) {
@@ -344,6 +344,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       currentNotificationSetting !== ConversationNotificationSetting[0]
     ) {
       toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
+    if (this.get('displayNameInProfile')) {
+      toRet.displayNameInProfile = this.get('displayNameInProfile');
+    }
+    if (this.get('nickname')) {
+      toRet.nickname = this.get('nickname');
+    }
+    if (BlockedNumberController.isBlocked(this.id)) {
+      toRet.isBlocked = true;
+    }
+    if (this.get('didApproveMe')) {
+      toRet.didApproveMe = this.get('didApproveMe');
+    }
+    if (this.get('isApproved')) {
+      toRet.isApproved = this.get('isApproved');
+    }
+    if (this.get('expireTimer')) {
+      toRet.expireTimer = this.get('expireTimer');
+    }
+    if (this.get('markedAsUnread')) {
+      toRet.isMarkedUnread = this.get('markedAsUnread');
     }
 
     // const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
@@ -380,30 +402,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //     toRet.expireTimer = foundContact.expirationTimerSeconds;
     //   }
     // } else {
-    if (this.get('displayNameInProfile')) {
-      toRet.displayNameInProfile = this.get('displayNameInProfile');
-    }
-
-    if (this.get('nickname')) {
-      toRet.nickname = this.get('nickname');
-    }
-
-    if (BlockedNumberController.isBlocked(this.id)) {
-      toRet.isBlocked = true;
-    }
-
-    if (this.get('didApproveMe')) {
-      toRet.didApproveMe = this.get('didApproveMe');
-    }
-
-    if (this.get('isApproved')) {
-      toRet.isApproved = this.get('isApproved');
-    }
-
-    if (this.get('expireTimer')) {
-      toRet.expireTimer = this.get('expireTimer');
-    }
-    // }
 
     // // -- Handle the group fields from the wrapper and the database --
     // if (foundLegacyGroup) {
@@ -418,22 +416,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //   if (foundLegacyGroup.priority) {
     //     toRet.priority = foundLegacyGroup.priority;
     //   }
-    /*} else*/ if (this.isClosedGroup()) {
+    // }
+
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
       toRet.groupAdmins = this.getGroupAdmins();
-      toRet.displayNameInProfile = this.get('displayNameInProfile');
-      toRet.expireTimer = this.get('expireTimer');
     }
 
     // those are values coming only from the DB when this is a closed group
     if (this.isClosedGroup()) {
       if (this.get('isKickedFromGroup')) {
-        toRet.isKickedFromGroup = !!this.get('isKickedFromGroup');
+        toRet.isKickedFromGroup = this.get('isKickedFromGroup');
       }
       if (this.get('left')) {
-        toRet.left = !!this.get('left');
+        toRet.left = this.get('left');
       }
-
+      // to be dropped once we get rid of the legacy closed groups
       const zombies = this.get('zombies') || [];
       if (zombies?.length) {
         toRet.zombies = uniq(zombies);
@@ -451,10 +450,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //   if (foundVolatileInfo.unread) {
     //     toRet.isMarkedUnread = foundVolatileInfo.unread;
     //   }
-    // } else {
-    if (this.get('markedAsUnread')) {
-      toRet.isMarkedUnread = this.get('markedAsUnread');
-    }
     // }
 
     // -- Handle the field stored only in memory for all types of conversation--
@@ -468,7 +463,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    // -- Handle the last message status, if needed --
+    // -- Handle the last message status, if present --
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');
@@ -2273,13 +2268,11 @@ export async function commitConversationAndRefreshWrapper(id: string) {
           await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;
-
       case 'ConvoInfoVolatileConfig':
         if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
           await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;
-
       default:
         assertUnreachable(
           variant,

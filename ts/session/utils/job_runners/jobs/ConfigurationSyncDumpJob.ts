@@ -15,6 +15,10 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
+import { SessionUtilUserProfile } from '../../libsession/libsession_utils_user_profile';
+import { SessionUtilContact } from '../../libsession/libsession_utils_contacts';
+import { SessionUtilUserGroups } from '../../libsession/libsession_utils_user_groups';
+import { SessionUtilConvoInfoVolatile } from '../../libsession/libsession_utils_convo_info_volatile';
 
 const defaultMsBetweenRetries = DURATION.SECONDS * 5;
 const defaultMaxAttempts = 2;
@@ -93,7 +97,6 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       }
       // refresh all the data stored by the wrappers we need to store.
       // so when we call needsDump(), we know for sure that we are up to date
-      console.time('ConfigurationSyncDumpJob insertAll');
 
       // TODOLATER we need to add  the dump of the wrappers of other destination than ourself once we had the closed group handling of config sync job
 
@@ -101,22 +104,21 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
         const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
           case 'UserConfig':
-            await LibSessionUtil.insertUserProfileIntoWrapper(us);
+            await SessionUtilUserProfile.insertUserProfileIntoWrapper(us);
             break;
           case 'ContactsConfig':
-            await LibSessionUtil.insertAllContactsIntoContactsWrapper();
+            await SessionUtilContact.insertAllContactsIntoContactsWrapper();
             break;
           case 'UserGroupsConfig':
-            await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+            await SessionUtilUserGroups.insertAllUserGroupsIntoWrapper();
             break;
           case 'ConvoInfoVolatileConfig':
-            await LibSessionUtil.insertAllConvoInfoVolatileIntoWrapper();
+            await SessionUtilConvoInfoVolatile.insertAllConvoInfoVolatileIntoWrapper();
             break;
           default:
             assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
         }
       }
-      console.timeEnd('ConfigurationSyncDumpJob insertAll');
       await saveDumpsNeededToDB();
       return RunJobResult.Success;
     } catch (e) {

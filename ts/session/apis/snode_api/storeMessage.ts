@@ -68,7 +68,6 @@ async function storeOnNode(
     }
 
     const firstResult = result[0];
-    console.warn('we should probably check other results code');
 
     if (firstResult.code !== 200) {
       window?.log?.warn('first result status is not 200 for storeOnNode but: ', firstResult.code);

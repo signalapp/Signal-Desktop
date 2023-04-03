@@ -17,6 +17,10 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
+import { SessionUtilUserProfile } from '../../libsession/libsession_utils_user_profile';
+import { SessionUtilContact } from '../../libsession/libsession_utils_contacts';
+import { SessionUtilUserGroups } from '../../libsession/libsession_utils_user_groups';
+import { SessionUtilConvoInfoVolatile } from '../../libsession/libsession_utils_convo_info_volatile';
 
 const defaultMsBetweenRetries = 3000;
 const defaultMaxAttempts = 3;
@@ -166,16 +170,16 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
           case 'UserConfig':
-            await LibSessionUtil.insertUserProfileIntoWrapper(us);
+            await SessionUtilUserProfile.insertUserProfileIntoWrapper(us);
             break;
           case 'ContactsConfig':
-            await LibSessionUtil.insertAllContactsIntoContactsWrapper();
+            await SessionUtilContact.insertAllContactsIntoContactsWrapper();
             break;
           case 'UserGroupsConfig':
-            await LibSessionUtil.insertAllUserGroupsIntoWrapper();
+            await SessionUtilUserGroups.insertAllUserGroupsIntoWrapper();
             break;
           case 'ConvoInfoVolatileConfig':
-            await LibSessionUtil.insertAllConvoInfoVolatileIntoWrapper();
+            await SessionUtilConvoInfoVolatile.insertAllConvoInfoVolatileIntoWrapper();
             break;
           default:
             assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);

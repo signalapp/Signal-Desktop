@@ -161,18 +161,29 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approved) !== Boolean(contactConvo.isApproved())) {
+      if (Boolean(wrapperConvo.approved) !== contactConvo.isApproved()) {
         await contactConvo.setIsApproved(Boolean(wrapperConvo.approved), false);
         changes = true;
       }
 
-      if (Boolean(wrapperConvo.approvedMe) !== Boolean(contactConvo.didApproveMe())) {
+      if (Boolean(wrapperConvo.approvedMe) !== contactConvo.didApproveMe()) {
         await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
         changes = true;
       }
 
       if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
         await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
+        changes = true;
+      }
+      console.warn(
+        `contactConvo.id: ${contactConvo}; wrapperConvo.createdAtSeconds:${
+          wrapperConvo.createdAtSeconds
+        }; current:${contactConvo.get('active_at')}`
+      );
+
+      // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
+      if (!contactConvo.get('active_at') && wrapperConvo.createdAtSeconds) {
+        contactConvo.set({ active_at: wrapperConvo.createdAtSeconds * 1000 });
         changes = true;
       }
 
@@ -363,6 +374,12 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       legacyGroupConvo.set({ priority: fromWrapper.priority });
       changes = true;
     }
+    const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
+    if (Math.floor(existingTimestampMs / 1000) !== fromWrapper.joinedAtSeconds) {
+      legacyGroupConvo.set({ lastJoinedTimestamp: fromWrapper.joinedAtSeconds * 1000 });
+      changes = true;
+    }
+
     if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
       await legacyGroupConvo.updateExpireTimer(
         fromWrapper.disappearingTimerSeconds,

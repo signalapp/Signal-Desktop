@@ -107,7 +107,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
       });
 
       try {
-        console.info(`inserting into usergroup wrapper "${wrapperComm.fullUrl}"...`);
+        window.log.debug(`inserting into usergroup wrapper "${wrapperComm.fullUrl}"...`);
         // this does the create or the update of the matching existing community
         await UserGroupsWrapperActions.setCommunityByFullUrl(
           wrapperComm.fullUrl,
@@ -135,7 +135,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
       });
 
       try {
-        console.info(`inserting into usergroup wrapper "${foundConvo.id}"... }`);
+        window.log.debug(`inserting into usergroup wrapper "${foundConvo.id}"... }`);
         // this does the create or the update of the matching existing legacy group
 
         await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);

@@ -98,7 +98,7 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
       ? timestampFromDbMs
       : 0;
 
-  console.info(
+  window.log.debug(
     `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadMessageTimestamp};forcedUnread:${isForcedUnread}...`
   );
 

@@ -5,7 +5,7 @@ import { ConfigWrapperObjectTypes, LibSessionWorkerFunctions } from './libsessio
 
 import {
   BaseWrapperActionsCalls,
-  ContactInfo,
+  ContactInfoSet,
   ContactsWrapperActionsCalls,
   ConvoInfoVolatileWrapperActionsCalls,
   LegacyGroupInfo,
@@ -139,7 +139,7 @@ export const ContactsWrapperActions: ContactsWrapperActionsCalls = {
       ReturnType<ContactsWrapperActionsCalls['erase']>
     >,
 
-  set: async (contact: ContactInfo) =>
+  set: async (contact: ContactInfoSet) =>
     callLibSessionWorker(['ContactsConfig', 'set', contact]) as Promise<
       ReturnType<ContactsWrapperActionsCalls['set']>
     >,

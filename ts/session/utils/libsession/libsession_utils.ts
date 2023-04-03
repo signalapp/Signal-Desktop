@@ -10,10 +10,6 @@ import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
-import { SessionUtilContact } from './libsession_utils_contacts';
-import { SessionUtilConvoInfoVolatile } from './libsession_utils_convo_info_volatile';
-import { SessionUtilUserGroups } from './libsession_utils_user_groups';
-import { SessionUtilUserProfile } from './libsession_utils_user_profile';
 
 const requiredUserVariants: Array<ConfigWrapperObjectTypes> = [
   'UserConfig',
@@ -107,8 +103,9 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
     const dump = dumps[index];
     const variant = dump.variant;
     const needsPush = await GenericWrapperActions.needsPush(variant);
+    window.log.debug(`needsPush ${needsPush} for variant: ${variant}`);
+
     if (!needsPush) {
-      console.info('needsPush false for ', variant);
       continue;
     }
 
@@ -181,12 +178,6 @@ export const LibSessionUtil = {
   initializeLibSessionUtilWrappers,
   requiredUserVariants,
   pendingChangesForPubkey,
-  insertUserProfileIntoWrapper: SessionUtilUserProfile.insertUserProfileIntoWrapper,
-  insertAllContactsIntoContactsWrapper: SessionUtilContact.insertAllContactsIntoContactsWrapper,
-  insertAllUserGroupsIntoWrapper: SessionUtilUserGroups.insertAllUserGroupsIntoWrapper,
-  insertAllConvoInfoVolatileIntoWrapper:
-    SessionUtilConvoInfoVolatile.insertAllConvoInfoVolatileIntoWrapper,
-  removeCommunityFromWrapper: SessionUtilUserGroups.removeCommunityFromWrapper,
   kindToVariant,
   variantToKind,
   markAsPushed,

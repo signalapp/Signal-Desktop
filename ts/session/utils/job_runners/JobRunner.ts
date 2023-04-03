@@ -258,7 +258,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private deleteJobsByIdentifier(identifiers: Array<string>) {
     identifiers.forEach(identifier => {
       const jobIndex = this.jobsScheduled.findIndex(f => f.persistedData.identifier === identifier);
-      window.log.info(
+      window.log.debug(
         `removing job ${jobToLogId(
           this.jobRunnerType,
           this.jobsScheduled[jobIndex]

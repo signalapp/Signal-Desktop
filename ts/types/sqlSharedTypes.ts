@@ -1,6 +1,6 @@
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
-import { ContactInfo, LegacyGroupInfo, LegacyGroupMemberInfo } from 'session_util_wrapper';
+import { ContactInfoSet, LegacyGroupInfo, LegacyGroupMemberInfo } from 'session_util_wrapper';
 import { OpenGroupV2Room } from '../data/opengroups';
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
@@ -40,7 +40,6 @@ export type ConfigDumpRow = {
   variant: ConfigWrapperObjectTypes; // the variant this entry is about. (user pr, contacts, ...)
   publicKey: string; // either our pubkey if a dump for our own swarm or the closed group pubkey
   data: Uint8Array; // the blob returned by libsession.dump() call
-  // we might need to add a `seqno` field here.
 };
 
 export type ConfigDumpRowWithoutData = Pick<ConfigDumpRow, 'publicKey' | 'variant'>;
@@ -128,8 +127,8 @@ export function getContactInfoFromDBValues({
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   expirationTimerSeconds: number | undefined;
-}): ContactInfo {
-  const wrapperContact: ContactInfo = {
+}): ContactInfoSet {
+  const wrapperContact: ContactInfoSet = {
     id,
     approved: !!dbApproved,
     approvedMe: !!dbApprovedMe,
@@ -145,7 +144,6 @@ export function getContactInfoFromDBValues({
       !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
         ? 'disappearAfterSend'
         : 'off',
-    createdAt: 0, // this is actually unused as the wrapper keep the value as it is currently stored (this is a created at timestamp, no need to update it)
   };
 
   if (
@@ -232,7 +230,7 @@ export function getLegacyGroupInfoFromDBValues({
     members: wrappedMembers,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
-    joinedAt: lastJoinedTimestamp,
+    joinedAtSeconds: Math.floor(lastJoinedTimestamp / 1000),
   };
 
   return legacyGroup;
