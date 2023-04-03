@@ -7,7 +7,11 @@ import { ExpirableReadableMessage } from './message/message-item/ExpirableReadab
 import { SessionIcon } from '../icon';
 import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
+import styled from 'styled-components';
 
+const StyledTimerNotification = styled(Flex)`
+  text-align: center;
+`;
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {
     messageId,
@@ -63,7 +67,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       isExpired={props.isExpired}
       key={`readable-message-${messageId}`}
     >
-      <Flex
+      <StyledTimerNotification
         container={true}
         flexDirection="column"
         alignItems="center"
@@ -76,7 +80,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
         <SpacerSM />
         <Text text={textToRender} />
-      </Flex>
+      </StyledTimerNotification>
     </ExpirableReadableMessage>
   );
 };
