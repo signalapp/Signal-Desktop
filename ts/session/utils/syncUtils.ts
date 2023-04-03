@@ -12,7 +12,7 @@ import {
 import { ConversationModel } from '../../models/conversation';
 import { fromBase64ToArray, fromHexToArray } from './String';
 import { SignalService } from '../../protobuf';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
@@ -323,7 +323,8 @@ export const buildSyncMessage = (
   identifier: string,
   data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
-  sentTimestamp: number
+  sentTimestamp: number,
+  expireUpdate?: any
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (
     (data as any).constructor.name !== 'DataMessage' &&
@@ -332,19 +333,7 @@ export const buildSyncMessage = (
     window?.log?.warn('buildSyncMessage with something else than a DataMessage');
   }
 
-  // TODO Remove DataMessage expireTimer 2 weeks after the release
   const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
-  const contentMessage = data instanceof DataMessage ? data.contentProto() : null;
-  const expirationType =
-    contentMessage?.expirationType === SignalService.Content.ExpirationType.DELETE_AFTER_SEND
-      ? 'deleteAfterSend'
-      : contentMessage?.expirationType === SignalService.Content.ExpirationType.DELETE_AFTER_READ
-      ? 'deleteAfterRead'
-      : null;
-  const expireTimer = contentMessage?.expirationTimer || dataMessage.expireTimer;
-  const lastDisappearingMessageChangeTimestamp = contentMessage?.lastDisappearingMessageChangeTimestamp
-    ? Number(contentMessage?.lastDisappearingMessageChangeTimestamp)
-    : null;
 
   if (!sentTimestamp || !_.isNumber(sentTimestamp)) {
     throw new Error('Tried to build a sync message without a sentTimestamp');
@@ -352,14 +341,14 @@ export const buildSyncMessage = (
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
   if (
-    contentMessage?.expirationType &&
+    !isEmpty(expireUpdate) &&
     dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
   ) {
     return buildSyncExpireTimerMessage(
       identifier,
-      expirationType,
-      expireTimer,
-      lastDisappearingMessageChangeTimestamp,
+      expireUpdate.expirationType,
+      expireUpdate.expireTimer,
+      expireUpdate.lastDisappearingMessageChangeTimestamp,
       timestamp,
       syncTarget
     );

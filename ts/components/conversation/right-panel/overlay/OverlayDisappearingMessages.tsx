@@ -169,6 +169,7 @@ const TimeOptions = (props: TimerOptionsProps) => {
 };
 
 export const OverlayDisappearingMessages = () => {
+  const dispatch = useDispatch();
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const disappearingModeOptions = DisappearingMessageConversationSetting;
   const timerOptions = useSelector(getTimerOptions).timerOptions;
@@ -221,6 +222,8 @@ export const OverlayDisappearingMessages = () => {
                 modeSelected,
                 timeSelected
               );
+              dispatch(closeRightPanel());
+              dispatch(resetRightOverlayMode());
             }
           }}
         >

@@ -10,7 +10,6 @@ import { getConversationController } from '../session/conversations';
 
 // TODO Might need to be improved by using an enum
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
-// TODO might need to be improved
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode];

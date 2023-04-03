@@ -66,8 +66,8 @@ message MessageRequestResponse {
 message Content {
 
   enum ExpirationType {
-    DELETE_AFTER_SEND   = 1;
-    DELETE_AFTER_READ   = 2;
+    DELETE_AFTER_READ   = 1;
+    DELETE_AFTER_SEND   = 2;
   }
 
   optional DataMessage                dataMessage                = 1;

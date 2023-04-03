@@ -436,7 +436,10 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     profileKey,
     zombies,
     left,
+    expirationType,
+    // TODO rename expireTimer to expirationTimer
     expireTimer,
+    lastDisappearingMessageChangeTimestamp,
     mentionedUs,
     unreadCount,
     lastMessageStatus,
@@ -480,7 +483,9 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
   profileKey,
   zombies,
   left,
+  expirationType,
   expireTimer,
+  lastDisappearingMessageChangeTimestamp,
   mentionedUs,
   unreadCount,
   lastMessageStatus,
@@ -513,7 +518,9 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       $profileKey,
       $zombies,
       $left,
+      $expirationType,
       $expireTimer,
+      $lastDisappearingMessageChangeTimestamp,
       $mentionedUs,
       $unreadCount,
       $lastMessageStatus,
@@ -548,7 +555,9 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       profileKey,
       zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
       left: toSqliteBoolean(left),
+      expirationType,
       expireTimer,
+      lastDisappearingMessageChangeTimestamp,
       mentionedUs: toSqliteBoolean(mentionedUs),
       unreadCount,
       lastMessageStatus,
@@ -782,6 +791,7 @@ function saveMessage(data: any) {
     source,
     type,
     unread,
+    expirationType,
     expireTimer,
     expirationStartTimestamp,
   } = data;
@@ -804,6 +814,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -827,6 +838,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -846,6 +858,7 @@ function saveMessage(data: any) {
     $conversationId,
     $expirationStartTimestamp,
     $expires_at,
+    $expirationType,
     $expireTimer,
     $hasAttachments,
     $hasFileAttachments,
@@ -1454,6 +1467,7 @@ function getSeenMessagesByHashList(hashes: Array<string>) {
 function getExpiredMessages() {
   const now = Date.now();
 
+  // TODO probably need to update and also add functions to find specific kinds of disappearing messages
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -1485,6 +1499,7 @@ function getOutgoingWithoutExpiresAt() {
   return map(rows, row => jsonToObject(row.json));
 }
 
+// TODO Maybe we need different queries for the different modes?
 function getNextExpiringMessage() {
   const rows = assertGlobalInstance()
     .prepare(

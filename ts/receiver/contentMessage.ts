@@ -28,6 +28,7 @@ import {
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
+import { DisappearingMessageConversationSetting } from '../util/expiringMessages';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -401,12 +402,18 @@ export async function innerHandleSwarmContentMessage(
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
 
+      const expirationType = DisappearingMessageConversationSetting[content.expirationType] || null;
+      // NOTE In the protobuf this is a long
+      const lastDisappearingMessageChangeTimestamp =
+        Number(content.lastDisappearingMessageChangeTimestamp) || null;
       let expireUpdate = null;
 
-      if (content.expirationType && content.expirationTimer) {
+      if (expirationType && content.expirationTimer) {
         expireUpdate = {
-          expirationType: content.expirationType,
-          expirationTimer: content.expirationTimer,
+          expirationType,
+          // TODO rename to expireTimer
+          expireTimer: content.expirationTimer,
+          lastDisappearingMessageChangeTimestamp,
         };
       }
 

@@ -1032,14 +1032,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expirationStartTimestamp: now,
     });
 
+    const contentMessage = dataMessage.contentProto();
+    let expireUpdate = null;
+
+    if (contentMessage.expirationType && contentMessage.expirationTimer) {
+      expireUpdate = {
+        expirationType: contentMessage.expirationType,
+        expireTimer: contentMessage.expirationTimer,
+        lastDisappearingMessageChangeTimestamp:
+          contentMessage.lastDisappearingMessageChangeTimestamp,
+      };
+    }
+
     await this.commit();
 
-    await this.sendSyncMessage(dataMessage, now);
+    await this.sendSyncMessage(dataMessage, now, expireUpdate);
   }
 
   public async sendSyncMessage(
     data: DataMessage | SignalService.DataMessage,
-    sentTimestamp: number
+    sentTimestamp: number,
+    expireUpdate?: any
   ) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
@@ -1057,7 +1070,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = buildSyncMessage(this.id, data, conversation.id, sentTimestamp);
+      const syncMessage = buildSyncMessage(
+        this.id,
+        data,
+        conversation.id,
+        sentTimestamp,
+        expireUpdate
+      );
       await getMessageQueue().sendSyncMessage(syncMessage);
     }
     this.set({
