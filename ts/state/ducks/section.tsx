@@ -5,6 +5,8 @@ export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
 export const IS_APP_FOCUSED = 'IS_APP_FOCUSED';
 export const OVERLAY_MODE = 'OVERLAY_MODE';
 export const RESET_OVERLAY_MODE = 'RESET_OVERLAY_MODE';
+export const RIGHT_OVERLAY_MODE = 'RIGHT_OVERLAY_MODE';
+export const RESET_RIGHT_OVERLAY_MODE = 'RESET_RIGHT_OVERLAY_MODE';
 
 export enum SectionType {
   Profile,
@@ -38,6 +40,15 @@ type ResetOverlayModeActionType = {
   type: 'RESET_OVERLAY_MODE';
 };
 
+type RightOverlayModeActionType = {
+  type: 'RIGHT_OVERLAY_MODE';
+  payload: RightOverlayMode;
+};
+
+type ResetRightOverlayModeActionType = {
+  type: 'RESET_RIGHT_OVERLAY_MODE';
+};
+
 export function showLeftPaneSection(section: SectionType): FocusSectionActionType {
   return {
     type: FOCUS_SECTION,
@@ -54,6 +65,7 @@ export function setIsAppFocused(focused: boolean): IsAppFocusedActionType {
   };
 }
 
+// TODO Should be renamed to LeftOverlayMode
 export type OverlayMode =
   | 'choose-action'
   | 'message'
@@ -74,6 +86,22 @@ export function resetOverlayMode(): ResetOverlayModeActionType {
   };
 }
 
+// TODO possibly more overlays here
+export type RightOverlayMode = 'disappearing-messages' | 'panel-settings';
+
+export function setRightOverlayMode(overlayMode: RightOverlayMode): RightOverlayModeActionType {
+  return {
+    type: RIGHT_OVERLAY_MODE,
+    payload: overlayMode,
+  };
+}
+
+export function resetRightOverlayMode(): ResetRightOverlayModeActionType {
+  return {
+    type: RESET_RIGHT_OVERLAY_MODE,
+  };
+}
+
 export function showSettingsSection(
   category: SessionSettingCategory
 ): FocusSettingsSectionActionType {
@@ -88,6 +116,8 @@ export const actions = {
   showSettingsSection,
   setOverlayMode,
   resetOverlayMode,
+  setRightOverlayMode,
+  resetRightOverlayMode,
 };
 
 export const initialSectionState: SectionStateType = {
@@ -95,6 +125,7 @@ export const initialSectionState: SectionStateType = {
   focusedSettingsSection: undefined,
   isAppFocused: false,
   overlayMode: undefined,
+  rightOverlayMode: undefined,
 };
 
 export type SectionStateType = {
@@ -102,6 +133,7 @@ export type SectionStateType = {
   focusedSettingsSection?: SessionSettingCategory;
   isAppFocused: boolean;
   overlayMode: OverlayMode | undefined;
+  rightOverlayMode: RightOverlayMode | undefined;
 };
 
 export const reducer = (
@@ -153,6 +185,16 @@ export const reducer = (
       return {
         ...state,
         overlayMode: undefined,
+      };
+    case RIGHT_OVERLAY_MODE:
+      return {
+        ...state,
+        rightOverlayMode: payload,
+      };
+    case RESET_RIGHT_OVERLAY_MODE:
+      return {
+        ...state,
+        rightOverlayMode: undefined,
       };
     default:
       return state;

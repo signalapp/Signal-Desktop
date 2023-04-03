@@ -42,7 +42,6 @@ import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
-import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import {
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
@@ -58,6 +57,7 @@ import { markAllReadByConvoId } from '../../interactions/conversationInteraction
 
 import { SessionSpinner } from '../basic/SessionSpinner';
 import styled from 'styled-components';
+import { RightPanel } from './right-panel/RightPanel';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -300,7 +300,7 @@ export class SessionConversation extends React.Component<Props, State> {
                 isRightPanelShowing && 'show'
               )}
             >
-              <SessionRightPanelWithDetails />
+              <RightPanel />
             </div>
           </>
         )}

@@ -9,7 +9,7 @@ import { getFocusedSection, getOverlayMode } from '../../state/selectors/section
 import { SectionType } from '../../state/ducks/section';
 import { SessionButton } from '../basic/SessionButton';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
-import { MenuButton } from '../button/MenuButton';
+import { MenuButton } from '../buttons';
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);
