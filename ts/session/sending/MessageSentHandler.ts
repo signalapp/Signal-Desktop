@@ -119,8 +119,17 @@ async function handleMessageSentSuccess(
         window?.log?.warn('Got an error while trying to sendSyncMessage():', e);
       }
     }
+    if (fetchedMessage.get('expirationType')) {
+      const expirationStartTimestamp = setExpirationStartTimestamp(
+        fetchedMessage,
+        fetchedMessage.get('expirationType')!,
+        effectiveTimestamp
+      );
+      fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
+    }
   } else if (shouldMarkMessageAsSynced) {
     fetchedMessage.set({ synced: true });
+    // TODO handle sync messages separately
   }
 
   sentTo = _.union(sentTo, [sentMessage.device]);
@@ -130,15 +139,6 @@ async function handleMessageSentSuccess(
     sent: true,
     sent_at: effectiveTimestamp,
   });
-
-  if (fetchedMessage.get('expirationType')) {
-    const expirationStartTimestamp = setExpirationStartTimestamp(
-      fetchedMessage,
-      fetchedMessage.get('expirationType')!,
-      effectiveTimestamp
-    );
-    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
-  }
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();
@@ -165,19 +165,14 @@ async function handleMessageSentFailure(
     if (isOurDevice && !fetchedMessage.get('sync')) {
       fetchedMessage.set({ sentSync: false });
     }
+  }
 
-    // TODO Need to handle messages failing to send differently?
-    if (fetchedMessage.get('expirationType') === 'deleteAfterSend') {
-      const expirationStartTimestamp = setExpirationStartTimestamp(
-        fetchedMessage,
-        'deleteAfterSend'
-      );
-      fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
-    }
-
-    fetchedMessage.set({
-      expirationStartTimestamp: Date.now(),
-    });
+  if (fetchedMessage.get('expirationType')) {
+    const expirationStartTimestamp = setExpirationStartTimestamp(
+      fetchedMessage,
+      fetchedMessage.get('expirationType')!
+    );
+    fetchedMessage.set('expirationStartTimestamp', expirationStartTimestamp);
   }
 
   // always mark the message as sent.

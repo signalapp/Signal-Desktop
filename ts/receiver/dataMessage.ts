@@ -242,18 +242,23 @@ export async function handleSwarmDataMessage(
           sentAt: sentAtTimestamp,
         });
 
-  if (expireUpdate.expirationType === 'deleteAfterSend') {
-    const expirationStartTimestamp = setExpirationStartTimestamp(
-      msgModel,
-      'deleteAfterSend',
-      msgModel.get('sent_at')
-    );
-    msgModel.set('expirationStartTimestamp', expirationStartTimestamp);
-    console.log(
-      `WIP: handleSwarmDataMessage msgModel expirationStartTimestamp`,
-      msgModel.get('expirationStartTimestamp'),
-      msgModel.get('sent_at')
-    );
+  if (isSyncedMessage) {
+    // TODO handle sync messages separately
+    console.log(`WIP: Sync Message dropping`);
+  } else {
+    if (expireUpdate.expirationType === 'deleteAfterSend') {
+      const expirationStartTimestamp = setExpirationStartTimestamp(
+        msgModel,
+        'deleteAfterSend',
+        msgModel.get('sent_at')
+      );
+      msgModel.set('expirationStartTimestamp', expirationStartTimestamp);
+      console.log(
+        `WIP: handleSwarmDataMessage msgModel expirationStartTimestamp`,
+        msgModel.get('expirationStartTimestamp'),
+        msgModel.get('sent_at')
+      );
+    }
   }
 
   await handleSwarmMessage(
