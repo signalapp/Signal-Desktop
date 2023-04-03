@@ -340,18 +340,12 @@ export const buildSyncMessage = (
   }
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
-  if (
-    expireUpdate &&
-    !isEmpty(expireUpdate) &&
-    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-  ) {
-    return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
-  } else {
-    window.log.info(
-      `WIP: Something went wrong when syncing a disappearing message`,
-      dataMessage,
-      expireUpdate
-    );
+  if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
+    if (expireUpdate && !isEmpty(expireUpdate)) {
+      return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
+    } else {
+      window.log.info(`WIP: Building Sync Expire Timer Message failed`, dataMessage, expireUpdate);
+    }
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };
