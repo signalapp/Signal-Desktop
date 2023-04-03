@@ -1188,14 +1188,15 @@ export const getSelectedConversationExpirationModes = createSelector(
     modes = modes.slice(0, -1);
 
     // Note to Self and Closed Groups only support deleteAfterSend
-    if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
+    const isClosedGroup = convo?.isGroup && !convo.isPublic;
+    if (convo?.isMe || isClosedGroup) {
       modes = [modes[0], modes[2]];
     }
 
     const modesWithDisabledState: any = {};
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
-        modesWithDisabledState[mode] = false;
+        modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
       });
     }
 
@@ -1210,7 +1211,8 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
     let modes = DisappearingMessageConversationSetting;
 
     // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
-    if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
+    const isClosedGroup = convo?.isGroup && !convo.isPublic;
+    if (convo?.isMe || isClosedGroup) {
       modes = [modes[0], ...modes.slice(2)];
     }
 
@@ -1221,7 +1223,9 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
     // The new modes are disabled by default
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
-        modesWithDisabledState[mode] = Boolean(mode !== 'legacy' && mode !== 'off');
+        modesWithDisabledState[mode] = Boolean(
+          (mode !== 'legacy' && mode !== 'off') || (isClosedGroup && !convo.weAreAdmin)
+        );
       });
     }
 
@@ -1235,5 +1239,6 @@ export const getSelectedConversationExpirationSettings = createSelector(
     expirationType: convo?.expirationType,
     expireTimer: convo?.expireTimer,
     isGroup: convo?.isGroup,
+    weAreAdmin: convo?.weAreAdmin,
   })
 );

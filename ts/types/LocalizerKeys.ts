@@ -513,4 +513,6 @@ export type LocalizerKeys =
   | 'reactionPopupThree'
   | 'reactionPopupMany'
   | 'reactionListCountSingular'
-  | 'reactionListCountPlural';
+  | 'reactionListCountPlural'
+  | 'settingAppliesToEveryone'
+  | 'onlyGroupAdminsCanChange';

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getRightOverlayMode } from '../../../state/selectors/section';
 import { checkIsFeatureReleased } from '../../../util/releaseFeature';
-import { OverlayDisappearingMessages } from './overlay/OverlayDisappearingMessages';
+import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 
 const ClosableOverlay = () => {
