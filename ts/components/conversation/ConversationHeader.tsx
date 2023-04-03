@@ -33,12 +33,7 @@ import {
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
-import {
-  useConversationUsername,
-  useExpireTimer,
-  useIsKickedFromGroup,
-  useIsRequest,
-} from '../../hooks/useParamSelector';
+import { useConversationUsername, useIsRequest } from '../../hooks/useParamSelector';
 import {
   SessionButton,
   SessionButtonColor,
@@ -52,6 +47,7 @@ import {
   DisappearingMessageConversationType,
   ExpirationTimerOptions,
 } from '../../util/expiringMessages';
+import { setRightOverlayMode } from '../../state/ducks/section';
 
 export interface TimerOption {
   name: string;
@@ -168,26 +164,6 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
     >
       <SessionIconButton iconType="ellipses" iconSize="medium" />
     </TripleDotContainer>
-  );
-};
-
-const ExpirationLength = (props: { expirationSettingName?: string }) => {
-  const { expirationSettingName } = props;
-
-  if (!expirationSettingName) {
-    return null;
-  }
-
-  return (
-    <div className="module-conversation-header__expiration">
-      <div className="module-conversation-header__expiration__clock-icon" />
-      <div
-        className="module-conversation-header__expiration__setting"
-        data-testid="disappearing-messages-indicator"
-      >
-        {expirationSettingName}
-      </div>
-    </div>
   );
 };
 
@@ -417,13 +393,18 @@ const ConversationHeaderTitle = () => {
   return (
     <div
       className="module-conversation-header__title"
-      // onClick={() => {
-      //   if (isRightPanelOn) {
-      //     dispatch(closeRightPanel());
-      //   } else {
-      //     dispatch(openRightPanel());
-      //   }
-      // }}
+      onClick={() => {
+        if (isRightPanelOn) {
+          dispatch(closeRightPanel());
+        } else {
+          if (visibleTitleIndex === 2) {
+            dispatch(setRightOverlayMode('disappearing-messages'));
+          } else {
+            dispatch(setRightOverlayMode('panel-settings'));
+          }
+          dispatch(openRightPanel());
+        }
+      }}
       role="button"
     >
       <span className="module-contact-name__profile-name" data-testid="header-conversation-name">
@@ -491,12 +472,6 @@ export const ConversationHeaderWithDetails = () => {
     return null;
   }
 
-  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
-  const expireTimerSetting = useExpireTimer(selectedConvoKey);
-  const expirationSettingName = expireTimerSetting
-    ? ExpirationTimerOptions.getName(expireTimerSetting || 0)
-    : undefined;
-
   const triggerId = 'conversation-header';
 
   return (
@@ -524,9 +499,6 @@ export const ConversationHeaderWithDetails = () => {
             flexGrow={0}
             flexShrink={0}
           >
-            {!isKickedFromGroup && (
-              <ExpirationLength expirationSettingName={expirationSettingName} />
-            )}
             <CallButton />
             <AvatarHeader
               onAvatarClick={() => {

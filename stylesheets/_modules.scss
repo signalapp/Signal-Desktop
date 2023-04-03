@@ -366,27 +366,6 @@
   }
 }
 
-.module-conversation-header__expiration {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
-  flex-shrink: 0;
-}
-
-.module-conversation-header__expiration__clock-icon {
-  @include color-svg('../images/timer.svg', var(--button-icon-stroke-color));
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-}
-
-.module-conversation-header__expiration__setting {
-  margin-inline-start: 5px;
-  text-align: center;
-}
-
 // Module: Message Detail
 
 .module-message-detail {
