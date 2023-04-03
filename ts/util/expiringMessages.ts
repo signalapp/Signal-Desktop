@@ -13,8 +13,16 @@ import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
-export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode];
+export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
+
+export type DisappearingMessageUpdate = {
+  expirationType: DisappearingMessageType;
+  // TODO rename to expirationTimer?
+  expireTimer: number;
+  // This is used for the expirationTimerUpdate
+  lastDisappearingMessageChangeTimestamp?: number;
+};
 
 export async function destroyMessagesAndUpdateRedux(
   messages: Array<{

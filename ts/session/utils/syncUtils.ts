@@ -27,7 +27,7 @@ import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage
 import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 import { PubKey } from '../types';
 import { DataMessage } from '../messages/outgoing';
-import { DisappearingMessageType } from '../../util/expiringMessages';
+import { DisappearingMessageUpdate } from '../../util/expiringMessages';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -296,16 +296,16 @@ const buildSyncVisibleMessage = (
 
 const buildSyncExpireTimerMessage = (
   identifier: string,
-  expirationType: DisappearingMessageType,
-  expireTimer: number,
-  lastDisappearingMessageChangeTimestamp: number | null,
+  expireUpdate: DisappearingMessageUpdate,
   timestamp: number,
   syncTarget: string
 ) => {
+  const { expirationType, expireTimer, lastDisappearingMessageChangeTimestamp } = expireUpdate;
+
   return new ExpirationTimerUpdateMessage({
     identifier,
     timestamp,
-    expirationType: expirationType || null,
+    expirationType,
     expireTimer,
     lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp || null,
     syncTarget,
@@ -324,8 +324,7 @@ export const buildSyncMessage = (
   data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
   sentTimestamp: number,
-  // TODO add proper types
-  expireUpdate?: any
+  expireUpdate?: DisappearingMessageUpdate
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (
     (data as any).constructor.name !== 'DataMessage' &&
@@ -342,17 +341,13 @@ export const buildSyncMessage = (
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
   if (
+    expireUpdate &&
     !isEmpty(expireUpdate) &&
     dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
   ) {
-    return buildSyncExpireTimerMessage(
-      identifier,
-      expireUpdate.expirationType,
-      expireUpdate.expireTimer,
-      expireUpdate.lastDisappearingMessageChangeTimestamp,
-      timestamp,
-      syncTarget
-    );
+    return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
+  } else {
+    window.log.info(`WIP: Something went wrong when syncing a disappearing message`);
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };

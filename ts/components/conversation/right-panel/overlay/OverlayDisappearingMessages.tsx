@@ -16,7 +16,10 @@ import {
   getSelectedConversationExpirationSettings,
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
-import { DisappearingMessageConversationType } from '../../../../util/expiringMessages';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageConversationType,
+} from '../../../../util/expiringMessages';
 import { TimerOptionsArray } from '../../../../state/ducks/timerOptions';
 import { useTimerOptionsByMode } from '../../../../hooks/useParamSelector';
 import { isEmpty } from 'lodash';
@@ -108,14 +111,18 @@ const DisappearingModes = (props: DisappearingModesProps) => {
       <PanelButtonGroup>
         {options.map((option: DisappearingMessageConversationType) => {
           const optionI18n =
-            option === 'off'
-              ? window.i18n('disappearingMessagesModeOff')
+            option === 'legacy'
+              ? window.i18n('disappearingMessagesModeLegacy')
               : option === 'deleteAfterRead'
               ? window.i18n('disappearingMessagesModeAfterRead')
-              : window.i18n('disappearingMessagesModeAfterSend');
+              : option === 'deleteAfterSend'
+              ? window.i18n('disappearingMessagesModeAfterSend')
+              : window.i18n('disappearingMessagesModeOff');
 
           const subtitleI18n =
-            option === 'deleteAfterRead'
+            option === 'legacy'
+              ? window.i18n('disappearingMessagesModeLegacySubtitle')
+              : option === 'deleteAfterRead'
               ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
               : option === 'deleteAfterSend'
               ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
@@ -185,9 +192,19 @@ export const OverlayDisappearingMessages = () => {
     return null;
   }
 
+  const { isGroup } = convoProps;
+
   const [modeSelected, setModeSelected] = useState(convoProps.expirationType);
   const [timeSelected, setTimeSelected] = useState(convoProps.expireTimer);
-  const timerOptions = useTimerOptionsByMode(modeSelected);
+  // Legacy mode uses the default timer options depending on the conversation type
+  // TODO verify that this if fine compared to updating in the useEffect
+  const timerOptions = useTimerOptionsByMode(
+    modeSelected === 'legacy'
+      ? isGroup
+        ? DisappearingMessageConversationSetting[2]
+        : DisappearingMessageConversationSetting[1]
+      : modeSelected
+  );
 
   useEffect(() => {
     if (modeSelected !== convoProps.expirationType) {

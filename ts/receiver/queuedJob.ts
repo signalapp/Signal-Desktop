@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _, { isEqual } from 'lodash';
+import _, { isEmpty, isEqual } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -364,18 +364,17 @@ export async function handleMessageJob(
 
     if (messageModel.isExpirationTimerUpdate()) {
       const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
-      let expirationType = expirationTimerUpdate?.expirationType;
-      const expireTimer = expirationTimerUpdate?.expireTimer || 0;
-      const lastDisappearingMessageChangeTimestamp =
-        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
-
-      // TODO This could happen when we receive a legacy disappearing message
-      if (!expirationType) {
-        expirationType = conversation.isPrivate() ? 'deleteAfterRead' : 'deleteAfterSend';
+      if (!expirationTimerUpdate || isEmpty(expirationTimerUpdate)) {
+        window.log.info(`WIP: There is a problem with the expiration timer update`, messageModel);
+        return;
       }
 
-      // Compare mode and timestamp
+      const expirationType = expirationTimerUpdate.expirationType || 'off';
+      const expireTimer = expirationTimerUpdate.expireTimer;
+      const lastDisappearingMessageChangeTimestamp =
+        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
 
+      // Compare mode and timestamp
       const oldTypeValue = conversation.get('expirationType');
       const oldTimerValue = conversation.get('expireTimer');
       if (isEqual(expirationType, oldTypeValue) && isEqual(expireTimer, oldTimerValue)) {

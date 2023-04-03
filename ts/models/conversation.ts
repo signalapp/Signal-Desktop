@@ -1061,7 +1061,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer = 0;
     }
 
-    // TODO does this actually work?
     if (
       this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
     ) {
@@ -1077,6 +1076,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         'WIP:updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
       );
       return;
+    }
+
+    if (expirationType === 'legacy') {
+      // TODO If we are the new client then we ignore these updates
+      // TODO trigger UI
     }
 
     const isOutgoing = Boolean(!receivedAt);

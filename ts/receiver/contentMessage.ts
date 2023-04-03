@@ -3,7 +3,7 @@ import { handleSwarmDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import { compact, flatten, identity, isEmpty, isEqual, pickBy, toNumber } from 'lodash';
+import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
 import { KeyPrefixType, PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
@@ -30,6 +30,7 @@ import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import {
   DisappearingMessageConversationSetting,
+  DisappearingMessageUpdate,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 
@@ -406,27 +407,25 @@ export async function innerHandleSwarmContentMessage(
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
 
-      const expireUpdate = {
-        expirationType: DisappearingMessageConversationSetting[content.expirationType] || 'off',
-        // TODO rename to expirationTimer?
-        expireTimer: content.expirationTimer || 0,
-        // This is used for the expirationTimerUpdate
+      // TODO Trigger banner in UI?
+      // TODO maybe trigger the banner later based on the expirationType for the conversation
+      const isLegacyMode = dataMessage.expireTimer && dataMessage.expireTimer > 0;
+
+      if (isLegacyMode) {
+        window.log.info('WIP: Received legacy disappearing message', content);
+      }
+
+      const expireUpdate: DisappearingMessageUpdate = {
+        // TODO When sending a message if it's a legacy message then we need to set the type to the default for compatiblity reasons
+        expirationType: isLegacyMode
+          ? DisappearingMessageConversationSetting[3]
+          : DisappearingMessageConversationSetting[content.expirationType] || 'off',
+        // TODO in the future we will remove the dataMessage expireTimer
+        expireTimer: isLegacyMode ? Number(dataMessage.expireTimer) : content.expirationTimer,
         lastDisappearingMessageChangeTimestamp: content.lastDisappearingMessageChangeTimestamp
           ? Number(content.lastDisappearingMessageChangeTimestamp)
           : undefined,
       };
-
-      // TODO in the future we will remove the dataMessage expireTimer
-      // Backwards compatibility for Disappearing Messages in old clients
-      if (
-        expireUpdate.expireTimer > 0 &&
-        dataMessage.expireTimer &&
-        !isEqual(expireUpdate.expireTimer, dataMessage.expireTimer)
-      ) {
-        // TODO Trigger banner in UI?
-        expireUpdate.expireTimer = dataMessage.expireTimer;
-        window.log.info('WIP: Received outdated disappearing message data message', content);
-      }
 
       await handleSwarmDataMessage(
         envelope,

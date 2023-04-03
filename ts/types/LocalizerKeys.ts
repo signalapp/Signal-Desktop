@@ -217,6 +217,8 @@ export type LocalizerKeys =
   | 'disappearingMessagesModeAfterReadSubtitle'
   | 'disappearingMessagesModeAfterSend'
   | 'disappearingMessagesModeAfterSendSubtitle'
+  | 'disappearingMessagesModeLegacy'
+  | 'disappearingMessagesModeLegacySubtitle'
   | 'disappearingMessagesDisabled'
   | 'disabledDisappearingMessages'
   | 'youDisabledDisappearingMessages'

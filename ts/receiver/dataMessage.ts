@@ -23,6 +23,7 @@ import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
+import { DisappearingMessageUpdate } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -154,8 +155,7 @@ export async function handleSwarmDataMessage(
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
   senderConversationModel: ConversationModel,
-  // TODO add proper types
-  expireUpdate?: any
+  expireUpdate: DisappearingMessageUpdate
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
@@ -255,7 +255,7 @@ export async function handleSwarmDataMessage(
     });
 
     // This message is conversation setting change message
-    if (expireUpdate.lastDisappearingMessageChangeTimestamp) {
+    if (lastDisappearingMessageChangeTimestamp) {
       msgModel.set({
         expirationTimerUpdate: {
           expirationType,

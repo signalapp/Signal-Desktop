@@ -217,6 +217,8 @@
   "disappearingMessagesModeAfterReadSubtitle": "Messages delete after they have been read.",
   "disappearingMessagesModeAfterSend": "Disappear After Send",
   "disappearingMessagesModeAfterSendSubtitle": "Messages delete after they have been sent.",
+  "disappearingMessagesModeLegacy": "Legacy",
+  "disappearingMessagesModeLegacySubtitle": "Original version of disappearing messages.",
   "disappearingMessagesDisabled": "Disappearing messages disabled",
   "disabledDisappearingMessages": "$name$ has turned off disappearing messages.",
   "youDisabledDisappearingMessages": "You have turned off disappearing messages.",

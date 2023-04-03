@@ -1184,11 +1184,14 @@ export const getSelectedConversationExpirationModes = createSelector(
   (convo: ReduxConversationType | undefined) => {
     let modes = DisappearingMessageConversationSetting;
 
-    // Note to Self and Closed Groups only support deleteAfterSend
+    // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
     if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
       // only deleteAfterSend
-      modes = [modes[0], modes[2]];
+      modes = [modes[0], modes[2], modes[modes.length - 1]];
     }
+
+    // Legacy mode is the 2nd option in the UI
+    modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
 
     return modes;
   }
@@ -1199,5 +1202,6 @@ export const getSelectedConversationExpirationSettings = createSelector(
   (convo: ReduxConversationType | undefined) => ({
     expirationType: convo?.expirationType,
     expireTimer: convo?.expireTimer,
+    isGroup: convo?.isGroup,
   })
 );
