@@ -395,9 +395,10 @@ export async function innerHandleSwarmContentMessage(
     }
 
     if (content.dataMessage) {
+      const dataMessage = content.dataMessage;
       // because typescript is funky with incoming protobufs
-      if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
-        content.dataMessage.profileKey = null;
+      if (dataMessage.profileKey && dataMessage.profileKey.length === 0) {
+        dataMessage.profileKey = null;
       }
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
@@ -406,7 +407,15 @@ export async function innerHandleSwarmContentMessage(
 
       const expirationType =
         DisappearingMessageConversationSetting[content.expirationType] || 'off';
-      const expireTimer = content.expirationTimer || 0;
+      let expireTimer = content.expirationTimer || 0;
+
+      // TODO in the future we will remove the dataMessage expireTimer
+      // Backwards compatibility for Disappearing Messages in old clients
+      if (dataMessage.expireTimer) {
+        // TODO Trigger banner in UI?
+        expireTimer = dataMessage.expireTimer;
+        window.log.info(`WIP: Received outdated disappearing message data message`, content);
+      }
 
       // NOTE In the protobuf this is a long
       const lastDisappearingMessageChangeTimestamp =
@@ -422,7 +431,7 @@ export async function innerHandleSwarmContentMessage(
       await handleSwarmDataMessage(
         envelope,
         sentAtTimestamp,
-        content.dataMessage as SignalService.DataMessage,
+        dataMessage as SignalService.DataMessage,
         messageHash,
         senderConversationModel,
         expireUpdate

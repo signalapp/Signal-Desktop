@@ -346,7 +346,6 @@ export async function handleMessageJob(
       'serverTimestamp'
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
-
   const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
     source,
     ConversationTypeEnum.PRIVATE
@@ -371,18 +370,6 @@ export async function handleMessageJob(
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
-      // TODO in the future we will remove the dataMessage expireTimer and the expirationTimerUpdate
-      // Backwards compatibility for Disappearing Messages in old clients
-      if (regularDataMessage.expireTimer) {
-        const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
-        if (!isEmpty(expirationTimerUpdate)) {
-          messageModel.set({
-            expirationType: expirationTimerUpdate?.expirationType,
-            expireTimer: expirationTimerUpdate?.expireTimer,
-          });
-        }
-      }
-
       // TODO account for lastDisappearingMessageChangeTimestamp
       let expirationType = messageModel.get('expirationType');
       const expireTimer = messageModel.get('expireTimer');

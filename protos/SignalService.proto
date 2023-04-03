@@ -167,7 +167,7 @@ message DataMessage {
 	  repeated bytes          members           = 5;
 	  repeated bytes          admins            = 6;
 	  repeated KeyPairWrapper wrappers          = 7;
-    optional uint32         expirationTimer       = 8;
+    optional uint32         expirationTimer   = 8;
 	}
 
 
