@@ -35,7 +35,6 @@ export type DisappearingMessageUpdate = {
   isLegacyConversationSettingMessage?: boolean;
   isLegacyDataMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
-  isMismatchedMessage?: boolean;
 };
 
 export async function destroyMessagesAndUpdateRedux(
@@ -310,19 +309,17 @@ export async function checkForExpireUpdate(
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
 
-  const isMismatchedMessage =
-    (!isLegacyConversationSettingMessage &&
-      convoToUpdate.get('expirationType') !== 'off' &&
-      convoToUpdate.get('expirationType') !== expirationType) ||
-    (convoToUpdate.get('expireTimer') !== 0 &&
-      convoToUpdate.get('expireTimer') !== expirationTimer);
+  const shouldDisappearButIsntMessage =
+    dataMessage.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
+    expirationType === 'off' &&
+    expirationTimer === 0 &&
+    convoToUpdate.get('expirationType') !== 'off' &&
+    convoToUpdate.get('expireTimer') !== 0;
 
   // If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
   if (
     isDisappearingMessagesV2Released &&
-    (isLegacyDataMessage ||
-      isLegacyConversationSettingMessage ||
-      (isLegacyDataMessage && isMismatchedMessage))
+    (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
     window.log.info(`WIP: received a legacy disappearing message after v2 was released.`);
     expirationType = convoToUpdate.get('expirationType');
@@ -336,7 +333,6 @@ export async function checkForExpireUpdate(
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
-    isMismatchedMessage,
   };
 
   window.log.info(`WIP: checkForExpireUpdate`, expireUpdate);
@@ -395,11 +391,7 @@ export function checkHasOutdatedClient(
 
   if (convoToUpdate.get('hasOutdatedClient')) {
     // trigger notice banner
-    if (
-      expireUpdate.isLegacyDataMessage ||
-      expireUpdate.isLegacyConversationSettingMessage ||
-      (expireUpdate.isDisappearingMessagesV2Released && expireUpdate.isMismatchedMessage)
-    ) {
+    if (expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage) {
       if (convoToUpdate.get('hasOutdatedClient') !== outdatedSender) {
         convoToUpdate.set({
           hasOutdatedClient: outdatedSender,
@@ -412,11 +404,7 @@ export function checkHasOutdatedClient(
     }
     convoToUpdate.commit();
   } else {
-    if (
-      expireUpdate.isLegacyDataMessage ||
-      expireUpdate.isLegacyConversationSettingMessage ||
-      (expireUpdate.isDisappearingMessagesV2Released && expireUpdate.isMismatchedMessage)
-    ) {
+    if (expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage) {
       convoToUpdate.set({
         hasOutdatedClient: outdatedSender,
       });
