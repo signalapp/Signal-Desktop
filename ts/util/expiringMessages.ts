@@ -334,7 +334,7 @@ export async function checkForExpireUpdate(
     isDisappearingMessagesV2Released,
   };
 
-  window.log.info('WIP: checkForExpireUpdate', expireUpdate);
+  // window.log.info('WIP: checkForExpireUpdate', expireUpdate);
 
   return expireUpdate;
 }

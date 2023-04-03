@@ -1277,21 +1277,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window?.log?.info('Set message expiration', {
+      window?.log?.info('WIP: Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });
 
-      // TODO do we not need to do deleteAfterSend here?
-      // TODO legacy messages support will be removed in a future release
-      if (
-        this.get('expirationType') === 'legacy' ||
-        this.get('expirationType') === 'deleteAfterRead'
-      ) {
-        const messageHash = this.get('messageHash');
-        if (messageHash) {
-          await expireMessageOnSnode(messageHash, this.get('expireTimer'));
-        }
+      const messageHash = this.get('messageHash');
+      if (messageHash) {
+        await expireMessageOnSnode({
+          messageHash,
+          expireTimer: this.get('expireTimer'),
+          shorten: true,
+        });
       }
     }
   }
