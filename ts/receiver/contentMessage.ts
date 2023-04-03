@@ -411,7 +411,11 @@ export async function innerHandleSwarmContentMessage(
 
       if (expireUpdate && !isEmpty(expireUpdate)) {
         // TODO legacy messages support will be removed in a future release
-        checkHasOutdatedClient(conversationModelForUIUpdate, senderConversationModel, expireUpdate);
+        await checkHasOutdatedClient(
+          conversationModelForUIUpdate,
+          senderConversationModel,
+          expireUpdate
+        );
       }
 
       // TODO legacy messages support will be removed in a future release
@@ -419,7 +423,7 @@ export async function innerHandleSwarmContentMessage(
         expireUpdate?.isDisappearingMessagesV2Released &&
         expireUpdate?.isLegacyConversationSettingMessage
       ) {
-        window.log.info(`WIP: The legacy message is an expiration timer update. Ignoring it.`);
+        window.log.info('WIP: The legacy message is an expiration timer update. Ignoring it.');
         return;
       }
 

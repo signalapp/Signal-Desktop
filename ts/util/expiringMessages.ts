@@ -320,7 +320,7 @@ export async function checkForExpireUpdate(
     isDisappearingMessagesV2Released &&
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
-    window.log.info(`WIP: received a legacy disappearing message after v2 was released.`);
+    window.log.info('WIP: received a legacy disappearing message after v2 was released.');
     expirationType = convoToUpdate.get('expirationType');
     expirationTimer = convoToUpdate.get('expireTimer');
   }
@@ -334,7 +334,7 @@ export async function checkForExpireUpdate(
     isDisappearingMessagesV2Released,
   };
 
-  window.log.info(`WIP: checkForExpireUpdate`, expireUpdate);
+  window.log.info('WIP: checkForExpireUpdate', expireUpdate);
 
   return expireUpdate;
 }
@@ -345,7 +345,7 @@ export function handleExpireUpdate(
   messageModel: MessageModel,
   expireUpdate: DisappearingMessageUpdate
 ) {
-  let {
+  const {
     expirationType,
     // TODO renamed expireTimer to expirationTimer
     expirationTimer: expireTimer,
@@ -380,7 +380,7 @@ export function handleExpireUpdate(
   return messageModel;
 }
 
-export function checkHasOutdatedClient(
+export async function checkHasOutdatedClient(
   convoToUpdate: ConversationModel,
   sender: ConversationModel,
   expireUpdate: DisappearingMessageUpdate
@@ -401,13 +401,13 @@ export function checkHasOutdatedClient(
         hasOutdatedClient: undefined,
       });
     }
-    convoToUpdate.commit();
+    await convoToUpdate.commit();
   } else {
     if (expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage) {
       convoToUpdate.set({
         hasOutdatedClient: outdatedSender,
       });
-      convoToUpdate.commit();
+      await convoToUpdate.commit();
     }
   }
 }

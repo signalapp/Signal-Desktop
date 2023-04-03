@@ -25,7 +25,9 @@ const ClosableOverlay = () => {
         setShowNewDisppearingMessageModes(result);
       })
       .catch(() => {
-        if (isCancelled) return;
+        if (isCancelled) {
+          return;
+        }
       });
 
     return () => {

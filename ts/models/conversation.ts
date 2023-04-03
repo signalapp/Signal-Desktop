@@ -679,7 +679,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
 
         window.log.info(
-          `WIP: sendMessageJob() closedGroupVisibleMessage`,
+          'WIP: sendMessageJob() closedGroupVisibleMessage',
           closedGroupVisibleMessage
         );
 
@@ -1054,6 +1054,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  // tslint:disable: cyclomatic-complexity
   public async updateExpireTimer({
     providedExpirationType,
     providedExpireTimer,

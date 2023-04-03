@@ -314,6 +314,7 @@ async function handleRegularMessage(
   });
 }
 
+// tslint:disable: max-func-body-length cyclomatic-complexity
 export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,
@@ -352,7 +353,6 @@ export async function handleMessageJob(
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
-      // TODO legacy messages support will be removed in a future release
       // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set
       const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
       if (
@@ -360,7 +360,7 @@ export async function handleMessageJob(
         (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
       ) {
         window.log.info(
-          `WIP: There is a problem with the expiration timer update`,
+          'WIP: There is a problem with the expiration timer update',
           messageModel,
           expirationTimerUpdate
         );
@@ -373,9 +373,10 @@ export async function handleMessageJob(
         expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp || getNowWithNetworkOffset();
 
       // Compare mode and timestamp
-      const oldTypeValue = conversation.get('expirationType');
-      const oldTimerValue = conversation.get('expireTimer');
-      if (isEqual(expirationType, oldTypeValue) && isEqual(expireTimer, oldTimerValue)) {
+      if (
+        isEqual(expirationType, conversation.get('expirationType')) &&
+        isEqual(expireTimer, conversation.get('expireTimer'))
+      ) {
         confirm?.();
         window?.log?.info(
           'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'

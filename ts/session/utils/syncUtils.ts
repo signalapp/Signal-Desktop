@@ -349,7 +349,7 @@ export const buildSyncMessage = (
     if (expireUpdate && !isEmpty(expireUpdate)) {
       return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
     } else {
-      window.log.info(`WIP: Building Sync Expire Timer Message failed`, dataMessage, expireUpdate);
+      window.log.info('WIP: Building Sync Expire Timer Message failed', dataMessage, expireUpdate);
     }
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);

@@ -261,10 +261,10 @@ export class SessionConversation extends React.Component<Props, State> {
                 text={window.i18n('disappearingMessagesModeOutdated', [
                   selectedConversation.hasOutdatedClient,
                 ])}
-                dismissCallback={() => {
+                dismissCallback={async () => {
                   const conversation = getConversationController().get(selectedConversation.id);
                   conversation.set({ hasOutdatedClient: undefined });
-                  conversation.commit();
+                  await conversation.commit();
                 }}
               />
             )}
