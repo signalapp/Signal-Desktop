@@ -7,25 +7,6 @@ import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import { SessionIcon } from '../icon/SessionIcon';
 
-type Props = {
-  expirationLength: number;
-  expirationTimestamp: number | null;
-  isCorrectSide: boolean;
-};
-
-const ExpireTimerCount = styled.div<{
-  color: string;
-}>`
-  margin-inline-start: 6px;
-  font-size: var(--font-size-xs);
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  user-select: none;
-  color: ${props => props.color};
-  flex-shrink: 0;
-`;
-
 const ExpireTimerBucket = styled.div`
   margin-inline-start: 6px;
   font-size: var(--font-size-xs);
@@ -35,6 +16,12 @@ const ExpireTimerBucket = styled.div`
   user-select: none;
   color: var(--text-primary-color);
 `;
+
+type Props = {
+  expirationLength: number; // should be in milliseconds
+  expirationTimestamp: number | null;
+  isCorrectSide: boolean;
+};
 
 export const ExpireTimer = (props: Props) => {
   const { expirationLength, expirationTimestamp, isCorrectSide } = props;
@@ -59,10 +46,6 @@ export const ExpireTimer = (props: Props) => {
   }
 
   const expireTimerColor = 'var(--primary-text-color)';
-
-  if (timeLeft <= 60) {
-    return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
-  }
 
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
 
