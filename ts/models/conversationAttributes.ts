@@ -1,5 +1,6 @@
 import { defaults } from 'lodash';
 import { LastMessageStatusType } from '../state/ducks/conversations';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -13,10 +14,6 @@ export enum ConversationTypeEnum {
  */
 export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
 export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
-
-// TODO Might need to be improved by using an enum
-export const DisappearingMessageConversationSetting = ['off', 'deleteAfterRead', 'deleteAfterSend'];
-export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
 
 export interface ConversationAttributes {
   id: string;

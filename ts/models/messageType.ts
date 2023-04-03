@@ -3,14 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
+import { DisappearingMessageType } from '../util/expiringMessages';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';
-
-// TODO Might need to be improved by using an enum
-export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
-// TODO might need to be improved
-export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
 export interface MessageAttributes {
   // the id of the message
@@ -29,8 +25,11 @@ export interface MessageAttributes {
   expireTimer: number;
   expirationStartTimestamp: number;
   expires_at?: number;
+  // TODO are having both variables redundant?
   expirationTimerUpdate?: {
+    expirationType: DisappearingMessageType;
     expireTimer: number;
+    lastDisappearingMessageChangeTimestamp: number;
     source: string;
     fromSync?: boolean;
   };
@@ -175,7 +174,9 @@ export interface MessageAttributesOptionals {
   expirationStartTimestamp?: number;
   expires_at?: number;
   expirationTimerUpdate?: {
+    expirationType: DisappearingMessageType;
     expireTimer: number;
+    lastDisappearingMessageChangeTimestamp: number;
     source: string;
     fromSync?: boolean;
   };

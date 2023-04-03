@@ -14,9 +14,9 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
-  DisappearingMessageConversationType,
 } from '../../models/conversationAttributes';
 import { ReactionList } from '../../types/Reaction';
+import { DisappearingMessageConversationType } from '../../util/expiringMessages';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {

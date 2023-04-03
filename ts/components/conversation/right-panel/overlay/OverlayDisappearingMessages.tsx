@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setDisappearingMessagesByConvoId } from '../../../../interactions/conversationInteractions';
-import {
-  DisappearingMessageConversationSetting,
-  DisappearingMessageConversationType,
-} from '../../../../models/conversationAttributes';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../state/ducks/section';
 import { getSelectedConversationKey } from '../../../../state/selectors/conversations';
@@ -18,6 +14,10 @@ import { PanelLabel } from '../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
 import { getSelectedConversationExpirationSettings } from '../../../../state/selectors/conversations';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageConversationType,
+} from '../../../../util/expiringMessages';
 
 const StyledScrollContainer = styled.div`
   width: 100%;

@@ -8,7 +8,6 @@ import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils'
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
-  DisappearingMessageConversationType,
 } from '../models/conversationAttributes';
 
 import _ from 'lodash';
@@ -41,6 +40,7 @@ import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { getSodiumRenderer } from '../session/crypto';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
