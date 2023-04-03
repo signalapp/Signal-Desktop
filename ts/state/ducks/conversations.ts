@@ -16,7 +16,10 @@ import {
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
 import { ReactionList } from '../../types/Reaction';
-import { DisappearingMessageConversationType } from '../../util/expiringMessages';
+import {
+  DisappearingMessageConversationType,
+  DisappearingMessageType,
+} from '../../util/expiringMessages';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {
@@ -72,8 +75,8 @@ export type FindAndFormatContactType = {
   isMe: boolean;
 };
 
-// TODO Should this be updated?
 export type PropsForExpirationTimer = {
+  expirationType: DisappearingMessageConversationType;
   timespan: string;
   disabled: boolean;
   pubkey: string;
@@ -194,6 +197,7 @@ export type PropsForMessageWithoutConvoProps = {
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
+  expirationType?: DisappearingMessageType;
   expirationLength?: number;
   expirationTimestamp?: number | null;
   isExpired?: boolean;

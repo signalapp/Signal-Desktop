@@ -35,8 +35,6 @@ export function createSwarmMessageSentFromUs(args: {
   const messageData: MessageAttributesOptionals = {
     ...getSharedAttributesForSwarmMessage(args),
     ...getSharedAttributesForOutgoingMessage(),
-    // TODO need to update this for delete after read
-    expirationStartTimestamp: Math.min(args.sentAt, Date.now()),
   };
 
   return new MessageModel(messageData);
@@ -80,6 +78,7 @@ function getSharedAttributesForPublicMessage({
     isPublic: true,
     conversationId,
     messageHash: '', // we do not care of a messageHash for an opengroup message. we have serverId for that
+    // TODO do we need to worry about this?
     expirationStartTimestamp: undefined,
   };
 }

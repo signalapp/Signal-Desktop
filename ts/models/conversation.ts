@@ -1044,16 +1044,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer = 0;
     }
 
-    if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
-      window.log.info(`WIP: This disappearing message setting is invalid`, {
-        id: this.idForLogging(),
-        expirationType,
-        expireTimer,
-        source,
-      });
-      return;
-    }
-
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -1314,6 +1304,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         hasErrors: Boolean(errors && errors.length),
       });
     }
+
     const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
     if (oldUnreadNowReadAttrs?.length) {
       await Data.saveMessages(oldUnreadNowReadAttrs);

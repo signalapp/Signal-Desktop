@@ -179,6 +179,8 @@ export type LocalizerKeys =
   | 'unblockToSend'
   | 'unblockGroupToSend'
   | 'timer'
+  | 'timerModeRead'
+  | 'timerModeSent'
   | 'youChangedTheTimer'
   | 'timerSetOnSync'
   | 'theyChangedTheTimer'

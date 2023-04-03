@@ -1148,6 +1148,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       'convoId',
       'direction',
       'conversationType',
+      'expirationType',
       'expirationLength',
       'expirationTimestamp',
       'isExpired',
