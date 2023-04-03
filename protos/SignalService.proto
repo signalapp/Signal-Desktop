@@ -47,6 +47,7 @@ message MessageRequestResponse {
 message Content {
 
   enum ExpirationType {
+    LEGACY              = 0;
     DELETE_AFTER_READ   = 1;
     DELETE_AFTER_SEND   = 2;
   }

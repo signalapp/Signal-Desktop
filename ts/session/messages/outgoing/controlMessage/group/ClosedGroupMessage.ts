@@ -31,16 +31,19 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
     return new SignalService.Content({
       dataMessage: this.dataProto(),
       ...super.contentProto(),
-      // Closed Groups only support 'deleteAfterSend'
+      // TODO legacy messages support will be removed in a future release
+      // Closed Groups only support 'deleteAfterSend' and 'legacy'
       expirationType:
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+          : !this.expirationType || this.expirationType === 'legacy'
+          ? SignalService.Content.ExpirationType.LEGACY
           : undefined,
     });
   }
 
   public dataProto(): SignalService.DataMessage {
-    const dataMessage = new SignalService.DataMessage();
+    const dataMessage = super.dataProto();
 
     dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
 

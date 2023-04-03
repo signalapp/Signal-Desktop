@@ -18,18 +18,20 @@ export class ExpirableMessage extends ContentMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
     });
-    // TODO legacy messages support will be removed in a future release
-    this.expirationType = params.expirationType !== 'legacy' ? params.expirationType : undefined;
+    this.expirationType = params.expirationType;
     this.expireTimer = params.expireTimer;
   }
 
   public contentProto(): SignalService.Content {
     return new SignalService.Content({
+      // TODO legacy messages support will be removed in a future release
       expirationType:
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
           : this.expirationType === 'deleteAfterRead'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
+          : this.expirationType === 'legacy'
+          ? SignalService.Content.ExpirationType.LEGACY
           : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
     });
@@ -38,7 +40,10 @@ export class ExpirableMessage extends ContentMessage {
   public dataProto(): SignalService.DataMessage {
     return new SignalService.DataMessage({
       // TODO legacy messages support will be removed in a future release
-      expireTimer: !this.expirationType && this.expireTimer ? this.expireTimer : undefined,
+      expireTimer:
+        (!this.expirationType || this.expirationType === 'legacy') && this.expireTimer
+          ? this.expireTimer
+          : undefined,
     });
   }
 

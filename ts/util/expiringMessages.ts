@@ -10,9 +10,11 @@ import { getConversationController } from '../session/conversations';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 // TODO Might need to be improved by using an enum
+// TODO do we need to add legacy here now that it's explicitly in the protbuf?
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
+// TODO legacy messages support will be removed in a future release
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
 export const DEFAULT_TIMER_OPTION = {

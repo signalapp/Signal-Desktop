@@ -114,7 +114,7 @@ export class VisibleMessage extends ExpirableMessage {
   }
 
   public dataProto(): SignalService.DataMessage {
-    const dataMessage = new SignalService.DataMessage();
+    const dataMessage = super.dataProto();
 
     if (this.body) {
       dataMessage.body = this.body;

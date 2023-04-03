@@ -387,7 +387,7 @@ export async function innerHandleSwarmContentMessage(
       ConversationTypeEnum.PRIVATE
     );
 
-    // We need to make sure that we trigger the banner ui on the correct model for the conversation and not the author (for closed groups)
+    // We need to make sure that we trigger the outdated client banner ui on the correct model for the conversation and not the author (for closed groups)
     let conversationModelForUIUpdate = senderConversationModel;
 
     /**
@@ -416,13 +416,16 @@ export async function innerHandleSwarmContentMessage(
         'Disappearing Messages V2'
       );
 
-      const isLegacyConversationSettingMessage = Boolean(
-        !content.expirationTimer &&
-          dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+      const isLegacy = Boolean(
+        (!content.expirationType && !content.expirationTimer) ||
+          content.expirationType === SignalService.Content.ExpirationType.LEGACY
       );
       const isLegacyMessage = Boolean(
-        (!content.expirationTimer && dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
-          isLegacyConversationSettingMessage
+        isLegacy && dataMessage.expireTimer && dataMessage.expireTimer > -1
+      );
+      // NOTE When a legacy client sends a Conversation Setting Message dataMessage.expirationType and dataMessage.expireTimer can possibly be undefined.
+      const isLegacyConversationSettingMessage = Boolean(
+        isLegacy && dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
       );
 
       const expireTimer = isDisappearingMessagesV2Released
@@ -430,8 +433,9 @@ export async function innerHandleSwarmContentMessage(
         : isLegacyMessage
         ? Number(dataMessage.expireTimer)
         : 0;
+      // TODO legacy messages support will be removed in a future release
       const expirationType = isDisappearingMessagesV2Released
-        ? DisappearingMessageConversationSetting[content.expirationType]
+        ? DisappearingMessageConversationSetting[isLegacy ? 3 : content.expirationType]
         : isLegacyMessage && expireTimer > 0
         ? DisappearingMessageConversationSetting[3]
         : 'off';
@@ -455,7 +459,7 @@ export async function innerHandleSwarmContentMessage(
 
       if (conversationModelForUIUpdate.get('hasOutdatedClient')) {
         // trigger notice banner
-        if (isLegacyMessage) {
+        if (isLegacyMessage || isLegacyConversationSettingMessage) {
           if (conversationModelForUIUpdate.get('hasOutdatedClient') !== outdatedSender) {
             conversationModelForUIUpdate.set({
               hasOutdatedClient: outdatedSender,
@@ -468,7 +472,7 @@ export async function innerHandleSwarmContentMessage(
         }
         conversationModelForUIUpdate.commit();
       } else {
-        if (isLegacyMessage) {
+        if (isLegacyMessage || isLegacyConversationSettingMessage) {
           conversationModelForUIUpdate.set({
             hasOutdatedClient: outdatedSender,
           });
