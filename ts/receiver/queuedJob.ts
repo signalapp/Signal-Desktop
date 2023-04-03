@@ -1,7 +1,7 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import _, { isEmpty } from 'lodash';
+import _, { isEmpty, isEqual } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
@@ -318,6 +318,12 @@ async function handleExpirationTimerUpdateNoCommit(
 ) {
   const providedChangeTimestamp = getNowWithNetworkOffset();
 
+  // TODO Not entirely sure that this works
+  if (conversation.get('lastDisappearingMessageChangeTimestamp') > providedChangeTimestamp) {
+    window.log.info(`WIP: This is an outdated disappearing message setting`);
+    return;
+  }
+
   message.set({
     expirationTimerUpdate: {
       source,
@@ -366,9 +372,9 @@ export async function handleMessageJob(
       const expireTimer = expireUpdate.expireTimer || oldExpireTimer;
 
       // TODO compare types and change timestamps
-      // const oldTypeValue = conversation.get('expirationType');
+      const oldTypeValue = conversation.get('expirationType');
       const oldTimerValue = conversation.get('expireTimer');
-      if (expireTimer === oldTimerValue) {
+      if (isEqual(expirationType, oldTypeValue) && expireTimer === oldTimerValue) {
         confirm?.();
         window?.log?.info(
           'Dropping ExpireTimerUpdate message as we already have the same one set.'

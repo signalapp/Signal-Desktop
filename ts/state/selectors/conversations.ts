@@ -37,6 +37,7 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -1173,6 +1174,21 @@ export const getOldBottomMessageId = createSelector(
 export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
   getSelectedConversation,
   (convo: ReduxConversationType | undefined): boolean => Boolean(convo?.isInitialFetchingInProgress)
+);
+
+export const getSelectedConversationExpirationModes = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined) => {
+    let modes = DisappearingMessageConversationSetting;
+
+    // Note to Self and Closed Groups only support deleteAfterSend
+    if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
+      // only deleteAfterSend
+      modes = [modes[0], modes[2]];
+    }
+
+    return modes;
+  }
 );
 
 export const getSelectedConversationExpirationSettings = createSelector(

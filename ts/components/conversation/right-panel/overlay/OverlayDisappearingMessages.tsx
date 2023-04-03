@@ -12,11 +12,11 @@ import { PanelButtonGroup } from '../../../buttons';
 import { PanelLabel } from '../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
-import { getSelectedConversationExpirationSettings } from '../../../../state/selectors/conversations';
 import {
-  DisappearingMessageConversationSetting,
-  DisappearingMessageConversationType,
-} from '../../../../util/expiringMessages';
+  getSelectedConversationExpirationModes,
+  getSelectedConversationExpirationSettings,
+} from '../../../../state/selectors/conversations';
+import { DisappearingMessageConversationType } from '../../../../util/expiringMessages';
 import { TimerOptionsArray } from '../../../../state/ducks/timerOptions';
 import { useTimerOptionsByMode } from '../../../../hooks/useParamSelector';
 import { isEmpty } from 'lodash';
@@ -177,7 +177,7 @@ const TimeOptions = (props: TimerOptionsProps) => {
 export const OverlayDisappearingMessages = () => {
   const dispatch = useDispatch();
   const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const disappearingModeOptions = DisappearingMessageConversationSetting;
+  const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
 
   const convoProps = useSelector(getSelectedConversationExpirationSettings);
 

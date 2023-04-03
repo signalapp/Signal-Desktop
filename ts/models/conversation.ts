@@ -1045,18 +1045,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
+      window.log.info(`WIP: This disappearing message setting is invalid`, {
+        id: this.idForLogging(),
+        expirationType,
+        expireTimer,
+        source,
+      });
       return;
     }
 
-    window?.log?.info('WIP: Updated conversation disappearing messages setting', {
-      id: this.idForLogging(),
-      expirationType,
-      expireTimer,
-      source,
-    });
-
     const isOutgoing = Boolean(!receivedAt);
-
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
     // When we add a disappearing messages notification to the conversation, we want it
@@ -1069,8 +1067,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp: providedChangeTimestamp || undefined,
     });
 
-    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp || 0;
+    window?.log?.info('WIP: Updated conversation disappearing messages setting', {
+      id: this.idForLogging(),
+      expirationType,
+      expireTimer,
+      source,
+    });
 
+    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp || 0;
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
@@ -1125,6 +1129,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.isMe()) {
       // TODO Check that the args are correct
+      if (expireUpdate.expirationType === 'deleteAfterRead') {
+        window.log.info(`WIP: Note to Self messages cannot be delete after read!`);
+        return;
+      }
+
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       return message.sendSyncMessageOnly(expirationTimerMessage);
     }
