@@ -144,12 +144,6 @@ export const ConversationHeaderTitle = () => {
           <span
             className="module-contact-name__profile-name"
             data-testid="header-conversation-name"
-            style={{
-              marginBottom:
-                subtitles && subtitles[visibleTitleIndex] && subtitles.length > 1
-                  ? '-5px'
-                  : undefined,
-            }}
           >
             {convoName}
           </span>

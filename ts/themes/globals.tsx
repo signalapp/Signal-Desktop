@@ -110,7 +110,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--border-radius': '5px',
   '--border-radius-message-box': '16px',
 
-  '--main-view-header-height': '63px',
+  '--main-view-header-height': '68px',
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
 

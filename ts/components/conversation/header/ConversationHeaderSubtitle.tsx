@@ -96,10 +96,10 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
       >
         <SessionIconButton
           iconColor={'var(--button-icon-stroke-selected-color)'}
-          iconSize={'medium'}
+          iconSize={'small'}
           iconType="chevron"
           iconRotation={90}
-          margin={'0 var(--margins-xs) 0 0'}
+          margin={'0 3px 0 0'}
           onClick={() => {
             handleTitleCycle(-1);
           }}
@@ -128,10 +128,10 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
         </span>
         <SessionIconButton
           iconColor={'var(--button-icon-stroke-selected-color)'}
-          iconSize={'medium'}
+          iconSize={'small'}
           iconType="chevron"
           iconRotation={270}
-          margin={'0 0 0 var(--margins-xs)'}
+          margin={'0 0 0 3px'}
           onClick={() => {
             handleTitleCycle(1);
           }}
@@ -142,7 +142,7 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
       <SubtitleDotMenu
         options={subtitles}
         selectedOptionIndex={currentIndex}
-        style={{ visibility: subtitles.length < 2 ? 'hidden' : undefined, margin: '3px 0' }}
+        style={{ display: subtitles.length < 2 ? 'none' : undefined, margin: '8px 0' }}
       />
     </StyledSubtitleContainer>
   );
