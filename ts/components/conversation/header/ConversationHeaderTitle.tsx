@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { CSSProperties } from 'styled-components';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { ConversationNotificationSettingType } from '../../../models/conversationAttributes';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
@@ -14,58 +13,7 @@ import {
   DisappearingMessageConversationType,
   ExpirationTimerOptions,
 } from '../../../util/expiringMessages';
-import { Flex } from '../../basic/Flex';
-import { SessionIconButton } from '../../icon';
-
-export const StyledSubtitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  min-width: 230px;
-
-  div:first-child {
-    span:last-child {
-      margin-bottom: 0;
-    }
-  }
-`;
-
-const StyledSubtitleDot = styled.span<{ active: boolean }>`
-  border-radius: 50%;
-  background-color: ${props =>
-    props.active ? 'var(--text-primary-color)' : 'var(--text-secondary-color)'};
-
-  height: 5px;
-  width: 5px;
-  margin: 0 2px;
-`;
-
-const SubtitleDotMenu = ({
-  options,
-  selectedOptionIndex,
-  style,
-}: {
-  options: Array<string | null>;
-  selectedOptionIndex: number;
-  style: CSSProperties;
-}) => (
-  <Flex container={true} alignItems={'center'} style={style}>
-    {options.map((option, index) => {
-      if (!option) {
-        return null;
-      }
-
-      return (
-        <StyledSubtitleDot
-          key={`subtitleDotMenu-${index}`}
-          active={selectedOptionIndex === index}
-        />
-      );
-    })}
-  </Flex>
-);
+import { ConversationHeaderSubitle } from './ConversationHeaderSubtitle';
 
 export type ConversationHeaderTitleProps = {
   conversationKey: string;
@@ -157,21 +105,6 @@ export const ConversationHeaderTitle = () => {
     subtitles.push(disappearingMessageSubtitle);
   }
 
-  const handleTitleCycle = (direction: 1 | -1) => {
-    let newIndex = visibleTitleIndex + direction;
-    if (newIndex > subtitles.length - 1) {
-      newIndex = 0;
-    }
-
-    if (newIndex < 0) {
-      newIndex = subtitles.length - 1;
-    }
-
-    if (subtitles[newIndex]) {
-      setVisibleTitleIndex(newIndex);
-    }
-  };
-
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
       dispatch(closeRightPanel());
@@ -188,6 +121,12 @@ export const ConversationHeaderTitle = () => {
   useEffect(() => {
     setVisibleTitleIndex(0);
   }, [convoName]);
+
+  useEffect(() => {
+    if (!subtitles[visibleTitleIndex]) {
+      setVisibleTitleIndex(0);
+    }
+  }, [visibleTitleIndex, subtitles]);
 
   if (isMe) {
     // TODO customise for new disappearing message system
@@ -215,65 +154,13 @@ export const ConversationHeaderTitle = () => {
             {convoName}
           </span>
           {subtitles && subtitles[visibleTitleIndex] && (
-            <StyledSubtitleContainer>
-              <Flex
-                container={true}
-                flexDirection={'row'}
-                justifyContent={subtitles.length < 2 ? 'center' : 'space-between'}
-                alignItems={'center'}
-                width={'100%'}
-              >
-                <SessionIconButton
-                  iconColor={'var(--button-icon-stroke-selected-color)'}
-                  iconSize={'medium'}
-                  iconType="chevron"
-                  iconRotation={90}
-                  margin={'0 var(--margins-xs) 0 0'}
-                  onClick={() => {
-                    handleTitleCycle(-1);
-                  }}
-                  isHidden={subtitles.length < 2}
-                  tabIndex={0}
-                />
-                {visibleTitleIndex === 2 && expirationType !== 'off' && (
-                  <SessionIconButton
-                    iconColor={'var(--button-icon-stroke-selected-color)'}
-                    iconSize={'tiny'}
-                    iconType="timer50"
-                    margin={'0 var(--margins-xs) 0 0'}
-                  />
-                )}
-                <span
-                  className="module-conversation-header__title-text"
-                  onKeyPress={(e: any) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleRightPanelToggle();
-                    }
-                  }}
-                  tabIndex={0}
-                >
-                  {subtitles[visibleTitleIndex]}
-                </span>
-                <SessionIconButton
-                  iconColor={'var(--button-icon-stroke-selected-color)'}
-                  iconSize={'medium'}
-                  iconType="chevron"
-                  iconRotation={270}
-                  margin={'0 0 0 var(--margins-xs)'}
-                  onClick={() => {
-                    handleTitleCycle(1);
-                  }}
-                  isHidden={subtitles.length < 2}
-                  tabIndex={0}
-                />
-              </Flex>
-              <SubtitleDotMenu
-                options={subtitles}
-                selectedOptionIndex={visibleTitleIndex}
-                style={{ visibility: subtitles.length < 2 ? 'hidden' : undefined, margin: '3px 0' }}
-              />
-            </StyledSubtitleContainer>
+            <ConversationHeaderSubitle
+              currentIndex={visibleTitleIndex}
+              setCurrentIndex={setVisibleTitleIndex}
+              subtitles={subtitles}
+              onClickFunction={handleRightPanelToggle}
+              showDisappearingMessageIcon={visibleTitleIndex === 2 && expirationType !== 'off'}
+            />
           )}
         </div>
       </div>
