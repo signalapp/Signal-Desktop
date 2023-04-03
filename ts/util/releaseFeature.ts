@@ -1,8 +1,8 @@
 import { Data } from '../data/data';
 
 // TODO update to agreed value between platforms
-// const featureReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
-const featureReleaseTimestamp = 1677661200000; // unix 01/03/2023 09:00
+const featureReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
+// const featureReleaseTimestamp = 1677661200000; // unix 01/03/2023 09:00
 let isFeatureReleased: boolean | undefined;
 
 /**
@@ -35,7 +35,6 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
     if (Date.now() >= featureReleaseTimestamp) {
       if (featureAlreadyReleased) {
         // Feature is already released and we don't need to update the db
-        window.log.info(`WIP: [releaseFeature]: ${featureName} is released`);
       } else {
         window.log.info(
           `WIP: [releaseFeature]: It is time to release ${featureName}. Releasing it now`
@@ -45,7 +44,7 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
           value: true,
         });
       }
-      return true;
+      isFeatureReleased = true;
     } else {
       // Reset featureReleased to false if we have already released a feature since we have updated the featureReleaseTimestamp to a later date.
       // The alternative solution would be to do a db migration everytime we want to use this system.
@@ -54,10 +53,15 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
           id: 'featureReleased',
           value: false,
         });
+        isFeatureReleased = false;
       }
     }
   }
 
-  window.log.info(`WIP: [releaseFeature]: ${featureName} has not been released yet`);
-  return false;
+  window.log.info(
+    `WIP: [releaseFeature]: ${featureName} ${
+      Boolean(isFeatureReleased) ? 'is released' : 'has not been released yet'
+    }`
+  );
+  return Boolean(isFeatureReleased);
 }
