@@ -94,6 +94,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     expirationLength,
     expirationTimestamp,
     isExpired: props.isExpired,
+    direction: props.direction,
   };
   const { isExpired } = useIsExpired(expiringProps);
   const isIncoming = direction === 'incoming';

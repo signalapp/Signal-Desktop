@@ -359,13 +359,17 @@ export async function handleMessageJob(
         expireTimer: expireUpdate.expireTimer,
       });
 
-      if (messageModel.isIncoming() && messageModel.get('expirationType') === 'deleteAfterSend') {
-        messageModel =
-          setExpirationStartTimestamp(
-            messageModel,
+      if (
+        messageModel.isIncoming() &&
+        messageModel.get('expirationType') === 'deleteAfterSend' &&
+        Boolean(messageModel.get('expirationStartTimestamp')) === false
+      ) {
+        messageModel.set({
+          expirationStartTimestamp: setExpirationStartTimestamp(
             'deleteAfterSend',
             messageModel.get('sent_at')
-          ) || messageModel;
+          ),
+        });
       }
     }
 

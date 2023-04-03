@@ -22,12 +22,12 @@ import {
 } from '../../util/expiringMessages';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
-export type PropsForCallNotification = {
+
+export interface PropsForCallNotification extends PropsForExpiringMessage {
   notificationType: CallNotificationType;
-  messageId: string;
   receivedAt: number;
   isUnread: boolean;
-};
+}
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
@@ -78,6 +78,7 @@ export type FindAndFormatContactType = {
 export type PropsForExpiringMessage = {
   convoId?: string;
   messageId: string;
+  direction: MessageModelType;
   expirationTimestamp?: number | null;
   expirationLength?: number | null;
   isExpired?: boolean;
@@ -96,7 +97,6 @@ export interface PropsForExpirationTimer extends PropsForExpiringMessage {
   messageId: string;
   isUnread: boolean;
   receivedAt: number | undefined;
-  direction: MessageModelType;
 }
 
 export type PropsForGroupUpdateGeneral = {
@@ -140,7 +140,6 @@ export type PropsForGroupUpdate = {
 export interface PropsForGroupInvitation extends PropsForExpiringMessage {
   serverName: string;
   url: string;
-  direction: MessageModelType;
   acceptUrl: string;
   messageId: string;
   receivedAt?: number;

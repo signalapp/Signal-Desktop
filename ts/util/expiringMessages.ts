@@ -7,7 +7,6 @@ import { initWallClockListener } from './wallClockListener';
 
 import { Data } from '../data/data';
 import { getConversationController } from '../session/conversations';
-import { MessageModel } from '../models/message';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 // TODO Might need to be improved by using an enum
@@ -198,16 +197,10 @@ export const ExpirationTimerOptions = {
 };
 
 export function setExpirationStartTimestamp(
-  message: MessageModel,
   mode: DisappearingMessageType,
   timestamp?: number
-): MessageModel | null {
-  if (message.get('expirationStartTimestamp') > 0) {
-    window.log.info(`WIP: Expiration Timer already set. Ignoring new value.`);
-    return null;
-  }
-
-  let expirationStartTimestamp = getNowWithNetworkOffset();
+): number | undefined {
+  let expirationStartTimestamp: number | undefined = getNowWithNetworkOffset();
 
   if (timestamp) {
     window.log.info(
@@ -221,26 +214,25 @@ export function setExpirationStartTimestamp(
     expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
   }
 
-  message.set('expirationStartTimestamp', expirationStartTimestamp);
-
   if (mode === 'deleteAfterRead') {
     window.log.info(
       `WIP: We set the start timestamp for a delete after read message to ${new Date(
         expirationStartTimestamp
-      ).toLocaleTimeString()}`,
-      message
+      ).toLocaleTimeString()}`
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.info(
       `WIP: We set the start timestamp for a delete after send message to ${new Date(
         expirationStartTimestamp
-      ).toLocaleTimeString()}`,
-      message
+      ).toLocaleTimeString()}`
     );
+  } else if (mode === 'off') {
+    window.log.info(`WIP: Disappearing message mode "${mode}" set. We can safely ignore this.`);
+    expirationStartTimestamp = undefined;
   } else {
-    console.log(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
-    return null;
+    window.log.info(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
+    expirationStartTimestamp = undefined;
   }
 
-  return message;
+  return expirationStartTimestamp;
 }

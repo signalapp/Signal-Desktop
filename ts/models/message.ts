@@ -171,6 +171,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         messageId: this.id,
         receivedAt: this.get('received_at') || Date.now(),
         isUnread: this.isUnread(),
+        ...this.getPropsForExpiringMessage(),
       };
     }
     perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
@@ -280,7 +281,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await deleteExternalMessageFiles(this.attributes);
   }
 
-  public getPropsForExpiringMessage(): PropsForExpiringMessage | null {
+  public getPropsForExpiringMessage(): PropsForExpiringMessage | { direction: MessageModelType } {
     const expirationType = this.get('expirationType');
     const expirationLength = this.get('expireTimer') || null;
 
@@ -291,9 +292,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ? expireTimerStart + expirationLength * DURATION.SECONDS
         : null;
 
+    const direction =
+      this.get('direction') || this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
+
     return {
       convoId: this.get('conversationId'),
       messageId: this.get('id'),
+      direction,
       expirationLength,
       expirationTimestamp,
       isExpired: this.isExpired(),
@@ -309,12 +314,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    // TODO should direction be parts of expiration props?
-    let direction = this.get('direction');
-    if (!direction) {
-      direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
-    }
-
     const { expirationType, expireTimer, fromSync, source } = timerUpdate;
     const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
@@ -328,7 +327,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
       expirationType: expirationType || 'off',
-      direction,
       ...this.getPropsForExpiringMessage(),
     };
 
@@ -357,7 +355,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       serverName: invitation.name,
       url: serverAddress,
-      direction,
       acceptUrl: invitation.url,
       messageId: this.id as string,
       receivedAt: this.get('received_at'),
@@ -1211,10 +1208,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (
       this.get('expirationType') === 'deleteAfterRead' &&
       this.get('expireTimer') &&
-      !this.get('expirationStartTimestamp')
+      Boolean(this.get('expirationStartTimestamp')) === false
     ) {
-      const message = setExpirationStartTimestamp(this, 'deleteAfterRead', readAt);
-      this.set({ expirationStartTimestamp: message?.get('expirationStartTimestamp') });
+      this.set({
+        expirationStartTimestamp: setExpirationStartTimestamp('deleteAfterRead', readAt),
+      });
     }
 
     Notifications.clearByMessageId(this.id);

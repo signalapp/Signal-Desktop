@@ -28,6 +28,7 @@ import { getCallMediaPermissionsSettings } from '../../../components/settings/Se
 import { PnServer } from '../../apis/push_notification_api';
 import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
+import { setExpirationStartTimestamp } from '../../../util/expiringMessages';
 
 // tslint:disable: function-name
 
@@ -503,10 +504,16 @@ export async function USER_callRecipient(recipient: string) {
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
   weAreCallerOnCurrentCall = true;
 
+  const expirationType = calledConvo.get('expirationType');
   await calledConvo?.addSingleOutgoingMessage({
-    sent_at: now,
-    expireTimer: 0,
     callNotificationType: 'started-call',
+    sent_at: now,
+    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expireTimer: calledConvo.get('expireTimer') ? calledConvo.get('expireTimer') : 0,
+    expirationStartTimestamp: setExpirationStartTimestamp(
+      expirationType,
+      expirationType === 'deleteAfterSend' ? now : undefined
+    ),
   });
 
   // initiating a call is analogous to sending a message request
@@ -841,13 +848,20 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const networkTimestamp = getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
+
+  const expirationType = callerConvo.get('expirationType');
   await callerConvo?.addSingleIncomingMessage({
+    callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
-    expireTimer: 0,
-    callNotificationType: 'answered-a-call',
     unread: 0,
+    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expireTimer: callerConvo.get('expireTimer') ? callerConvo.get('expireTimer') : 0,
+    expirationStartTimestamp: setExpirationStartTimestamp(
+      expirationType,
+      expirationType === 'deleteAfterSend' ? networkTimestamp : undefined
+    ),
   });
   await buildAnswerAndSendIt(fromSender);
 
@@ -1167,13 +1181,21 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     incomingCallConversation.set('active_at', getNowWithNetworkOffset());
   }
 
+  const expirationType = incomingCallConversation.get('expirationType');
   await incomingCallConversation?.addSingleIncomingMessage({
+    callNotificationType: 'missed-call',
     source: callerPubkey,
     sent_at: sentAt,
     received_at: getNowWithNetworkOffset(),
-    expireTimer: 0,
-    callNotificationType: 'missed-call',
     unread: 1,
+    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expireTimer: incomingCallConversation.get('expireTimer')
+      ? incomingCallConversation.get('expireTimer')
+      : 0,
+    expirationStartTimestamp: setExpirationStartTimestamp(
+      expirationType,
+      expirationType === 'deleteAfterSend' ? sentAt : undefined
+    ),
   });
 }
 

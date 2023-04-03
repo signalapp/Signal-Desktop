@@ -1215,6 +1215,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         }
       }
     }
+
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,

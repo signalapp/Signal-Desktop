@@ -9,7 +9,7 @@ import {
 import { getSelectedConversation } from '../../../../../state/selectors/conversations';
 import { LocalizerKeys } from '../../../../../types/LocalizerKeys';
 import { SessionIconType } from '../../../../icon';
-import { ReadableMessage } from '../ReadableMessage';
+import { ExpirableReadableMessage } from '../ExpirableReadableMessage';
 import { NotificationBubble } from './NotificationBubble';
 
 type StyleType = Record<
@@ -36,7 +36,16 @@ const style: StyleType = {
 };
 
 export const CallNotification = (props: PropsForCallNotification) => {
-  const { messageId, receivedAt, isUnread, notificationType } = props;
+  const {
+    messageId,
+    receivedAt,
+    isUnread,
+    notificationType,
+    direction,
+    expirationLength,
+    expirationTimestamp,
+    isExpired,
+  } = props;
 
   const selectedConvoProps = useSelector(getSelectedConversation);
 
@@ -54,10 +63,14 @@ export const CallNotification = (props: PropsForCallNotification) => {
   const iconColor = styleItem.iconColor;
 
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
       messageId={messageId}
       receivedAt={receivedAt}
+      direction={direction}
       isUnread={isUnread}
+      expirationLength={expirationLength}
+      expirationTimestamp={expirationTimestamp}
+      isExpired={isExpired}
       key={`readable-message-${messageId}`}
     >
       <NotificationBubble
@@ -65,6 +78,6 @@ export const CallNotification = (props: PropsForCallNotification) => {
         iconType={iconType}
         iconColor={iconColor}
       />
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };
