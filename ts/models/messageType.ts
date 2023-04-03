@@ -7,13 +7,17 @@ import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 export type MessageModelType = 'incoming' | 'outgoing';
 export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';
 
+// TODO Might need to be improved by using an enum
+export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
+// TODO might need to be improved
+export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
+
 export interface MessageAttributes {
   // the id of the message
   // this can have several uses:
   id: string;
   source: string;
   quote?: any;
-  expireTimer: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -21,9 +25,16 @@ export interface MessageAttributes {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  expirationType?: DisappearingMessageType;
+  expireTimer: number;
   expirationStartTimestamp: number;
-  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source: string;
+    fromSync?: boolean;
+  };
+  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -34,11 +45,6 @@ export interface MessageAttributes {
   hasAttachments: 1 | 0;
   hasFileAttachments: 1 | 0;
   hasVisualMediaAttachments: 1 | 0;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   /**
    * 1 means unread, 0 or anything else is read.
    */
@@ -157,7 +163,6 @@ export interface MessageAttributesOptionals {
   id?: string;
   source: string;
   quote?: any;
-  expireTimer?: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -165,9 +170,16 @@ export interface MessageAttributesOptionals {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  expirationType?: DisappearingMessageType;
+  expireTimer?: number;
   expirationStartTimestamp?: number;
-  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source: string;
+    fromSync?: boolean;
+  };
+  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -179,11 +191,6 @@ export interface MessageAttributesOptionals {
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   dataExtractionNotification?: {
     type: number;
     source: string;

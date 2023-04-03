@@ -1214,13 +1214,15 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
-    db.exec(`
-          ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";
-         `);
+    // Conversation changes
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
+    ).run();
 
-    db.exec(`
-          ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;
-         `);
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;
+         `
+    ).run();
 
     db.prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1234,14 +1236,19 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
     ).run({ expirationType: 'deleteAfterSend' });
 
-    // TODO After testing -> renamed expireTimer column to expirationTimer everywhere.
+    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
     // Update Conversation Model expireTimer calls everywhere
     //  db.exec(
     //    `ALTER TABLE ${CONVERSATIONS_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
     //  );
 
-    // NOTE we won't update messages only conversations
-    // TODO but we do need to add the new columns later with the defaults
+    // Message changes
+    db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+
+    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
+    //  db.exec(
+    //    `ALTER TABLE ${MESSAGES_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
+    //  );
 
     writeSessionSchemaVersion(targetVersion, db);
   })();

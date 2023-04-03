@@ -1136,6 +1136,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
+    // TODO This logic needs to depend no the dm mode
     if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
