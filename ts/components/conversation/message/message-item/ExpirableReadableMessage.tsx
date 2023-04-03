@@ -64,7 +64,9 @@ function useIsExpired(props: PropsForExpiringMessage) {
   return { isExpired };
 }
 
-const StyledReadableMessage = styled(ReadableMessage)<{ isIncoming: boolean }>`
+const StyledReadableMessage = styled(ReadableMessage)<{
+  isIncoming: boolean;
+}>`
   display: flex;
   justify-content: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   align-items: center;
@@ -75,6 +77,9 @@ export interface ExpirableReadableMessageProps
   extends ReadableMessageProps,
     PropsForExpiringMessage {
   direction: MessageModelType;
+  isCentered?: boolean;
+  marginInlineStart?: string;
+  marginInlineEnd?: string;
 }
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
@@ -86,6 +91,9 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     isUnread,
     expirationLength,
     expirationTimestamp,
+    isCentered,
+    marginInlineStart = '6px',
+    marginInlineEnd = '6px',
   } = props;
 
   const expiringProps: PropsForExpiringMessage = {
@@ -113,17 +121,25 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     >
       {expirationLength && expirationTimestamp && (
         <ExpireTimer
-          isCorrectSide={!isIncoming}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
+          style={{
+            display: !isCentered && isIncoming ? 'none' : 'block',
+            visibility: !isIncoming ? 'visible' : 'hidden',
+            marginInlineStart,
+          }}
         />
       )}
       {props.children}
       {expirationLength && expirationTimestamp && (
         <ExpireTimer
-          isCorrectSide={isIncoming}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
+          style={{
+            display: !isCentered && !isIncoming ? 'none' : 'block',
+            visibility: isIncoming ? 'visible' : 'hidden',
+            marginInlineEnd,
+          }}
         />
       )}
     </StyledReadableMessage>

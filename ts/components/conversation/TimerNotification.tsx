@@ -12,11 +12,11 @@ import styled from 'styled-components';
 const StyledTimerNotification = styled(Flex)`
   text-align: center;
 `;
+
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {
     messageId,
     receivedAt,
-    direction,
     isUnread,
     pubkey,
     profileName,
@@ -66,12 +66,15 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     <ExpirableReadableMessage
       convoId={props.convoId}
       messageId={messageId}
-      direction={direction}
+      direction={type === 'fromOther' ? 'incoming' : 'outgoing'}
       receivedAt={receivedAt}
       isUnread={isUnread}
       expirationLength={expirationLength}
       expirationTimestamp={expirationTimestamp}
       isExpired={props.isExpired}
+      isCentered={true}
+      marginInlineStart={`calc(var(--margins-lg) + 6px)`}
+      marginInlineEnd={`calc(var(--margins-lg) + 6px)`}
       key={`readable-message-${messageId}`}
     >
       <StyledTimerNotification
