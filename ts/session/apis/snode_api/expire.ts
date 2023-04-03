@@ -247,6 +247,7 @@ export async function expireMessageOnSnode(messageHash: string, expireTimer: num
   let snode: Snode | undefined;
   try {
     const firstSuccessSnode = await firstTrue(promises);
+    snode = firstSuccessSnode;
     console.log(`WIP: expireMessageOnSnode firstSuccessSnode`, firstSuccessSnode);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';

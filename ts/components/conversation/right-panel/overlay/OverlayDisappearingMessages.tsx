@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { setDisappearingMessagesByConvoId } from '../../../../interactions/conversationInteractions';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../state/ducks/section';
-import { getSelectedConversationKey } from '../../../../state/selectors/conversations';
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
 import { SpacerLG, SpacerXL } from '../../../basic/Text';
@@ -15,6 +14,7 @@ import { SessionIconButton } from '../../../icon';
 import {
   getSelectedConversationExpirationModes,
   getSelectedConversationExpirationSettings,
+  getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
 import { DisappearingMessageConversationType } from '../../../../util/expiringMessages';
 import { TimerOptionsArray } from '../../../../state/ducks/timerOptions';

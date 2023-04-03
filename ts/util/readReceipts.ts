@@ -45,7 +45,9 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     // readBy is only used for private conversations
     // we do not care of who read it. If the length is > 0 , it is read and false otherwise
     let readBy = message.get('read_by') || [];
-    let expirationStartTimestamp = undefined;
+    // TODO Fix this with read receipts
+    // tslint:disable-next-line: no-unnecessary-initializer
+    const expirationStartTimestamp = undefined;
 
     if (!readBy.length) {
       readBy.push(receipt.source);

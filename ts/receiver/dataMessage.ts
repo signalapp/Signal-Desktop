@@ -245,7 +245,7 @@ export async function handleSwarmDataMessage(
 
   if (isSyncedMessage) {
     // TODO handle sync messages separately
-    console.log(`WIP: Sync Message dropping`);
+    window.log.info('WIP: Sync Message dropping');
   } else {
     if (msgModel.isIncoming() && expireUpdate.expirationType === 'deleteAfterSend') {
       msgModel =

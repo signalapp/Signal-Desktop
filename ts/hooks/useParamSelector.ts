@@ -187,7 +187,7 @@ export function useMessageReactsPropsById(messageId?: string) {
 // TODO remove 10 seconds timer
 export function useTimerOptionsByMode(disappearingMessageMode?: string) {
   return useSelector((state: StateType) => {
-    let options = state.timerOptions.timerOptions;
+    const options = state.timerOptions.timerOptions;
 
     switch (disappearingMessageMode) {
       case 'deleteAfterSend':

@@ -80,6 +80,7 @@ export type ConversationHeaderTitleProps = {
   expireTimer?: number;
 };
 
+// tslint:disable: cyclomatic-complexity max-func-body-length
 export const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
@@ -111,6 +112,9 @@ export const ConversationHeaderTitle = () => {
   const notificationSubtitle = notificationSetting
     ? i18n('notificationSubtitle', [notificationSetting])
     : null;
+  if (notificationSubtitle) {
+    subtitles.push(notificationSubtitle);
+  }
 
   let memberCount = 0;
   if (isGroup) {
@@ -119,9 +123,6 @@ export const ConversationHeaderTitle = () => {
     } else {
       memberCount = members.length;
     }
-  }
-  if (notificationSubtitle) {
-    subtitles.push(notificationSubtitle);
   }
 
   let memberCountSubtitle = null;
@@ -166,6 +167,19 @@ export const ConversationHeaderTitle = () => {
     }
   };
 
+  const handleRightPanelToggle = () => {
+    if (isRightPanelOn) {
+      dispatch(closeRightPanel());
+    } else {
+      if (visibleTitleIndex === 2) {
+        dispatch(setRightOverlayMode('disappearing-messages'));
+      } else {
+        dispatch(setRightOverlayMode('panel-settings'));
+      }
+      dispatch(openRightPanel());
+    }
+  };
+
   useEffect(() => {
     setVisibleTitleIndex(0);
   }, [convoName]);
@@ -180,18 +194,7 @@ export const ConversationHeaderTitle = () => {
       <div className="module-conversation-header__title-flex">
         <div
           className="module-conversation-header__title"
-          onClick={() => {
-            if (isRightPanelOn) {
-              dispatch(closeRightPanel());
-            } else {
-              if (visibleTitleIndex === 2) {
-                dispatch(setRightOverlayMode('disappearing-messages'));
-              } else {
-                dispatch(setRightOverlayMode('panel-settings'));
-              }
-              dispatch(openRightPanel());
-            }
-          }}
+          onClick={handleRightPanelToggle}
           role="button"
         >
           <span

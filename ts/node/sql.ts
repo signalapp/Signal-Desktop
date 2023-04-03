@@ -2281,7 +2281,7 @@ function cleanUpOldOpengroupsOnStart() {
   })();
 }
 
-// tslint:disable: binary-expression-operand-order insecure-random
+// tslint:disable: max-func-body-length binary-expression-operand-order insecure-random
 /**
  * Only using this for development. Populate conversation and message tables.
  */

@@ -41,7 +41,7 @@ async function handlePublicMessageSentSuccess(
   }
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line:// tslint:disable-next-line: cyclomatic-complexity
 async function handleMessageSentSuccess(
   sentMessage: RawMessage,
   effectiveTimestamp: number,
@@ -100,14 +100,13 @@ async function handleMessageSentSuccess(
       void PnServer.notifyPnServer(wrappedEnvelope, sentMessage.device);
     }
   }
-
-  if (!shouldMarkMessageAsSynced && fetchedMessage.get('expirationType')) {
-    fetchedMessage =
-      setExpirationStartTimestamp(
-        fetchedMessage,
-        fetchedMessage.get('expirationType')!,
-        effectiveTimestamp
-      ) || fetchedMessage;
+  if (!shouldMarkMessageAsSynced) {
+    const expirationType = fetchedMessage.get('expirationType');
+    if (expirationType) {
+      fetchedMessage =
+        setExpirationStartTimestamp(fetchedMessage, expirationType, effectiveTimestamp) ||
+        fetchedMessage;
+    }
   }
 
   // Handle the sync logic here
@@ -170,10 +169,9 @@ async function handleMessageSentFailure(
     }
   }
 
-  if (fetchedMessage.get('expirationType')) {
-    fetchedMessage =
-      setExpirationStartTimestamp(fetchedMessage, fetchedMessage.get('expirationType')!) ||
-      fetchedMessage;
+  const expirationType = fetchedMessage.get('expirationType');
+  if (expirationType) {
+    fetchedMessage = setExpirationStartTimestamp(fetchedMessage, expirationType) || fetchedMessage;
   }
 
   // always mark the message as sent.

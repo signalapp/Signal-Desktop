@@ -1142,7 +1142,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isMe()) {
       // TODO Check that the args are correct
       if (expireUpdate.expirationType === 'deleteAfterRead') {
-        window.log.info(`WIP: Note to Self messages cannot be delete after read!`);
+        window.log.info('WIP: Note to Self messages cannot be delete after read!');
         return;
       }
 
