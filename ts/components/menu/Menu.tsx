@@ -6,7 +6,6 @@ import {
   useAvatarPath,
   useConversationUsername,
   useHasNickname,
-  useIsActive,
   useIsBlinded,
   useIsBlocked,
   useIsKickedFromGroup,
@@ -26,7 +25,6 @@ import {
   declineConversationWithConfirm,
   deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
-  setDisappearingMessagesByConvoId,
   setNotificationForConvoId,
   showAddModeratorsByConvoId,
   showBanUserByConvoId,
@@ -50,21 +48,9 @@ import {
 import { SectionType } from '../../state/ducks/section';
 import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
 import { getFocusedSection } from '../../state/selectors/section';
-import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
-
-function showTimerOptions(
-  isPublic: boolean,
-  isKickedFromGroup: boolean,
-  left: boolean,
-  isBlocked: boolean,
-  isRequest: boolean,
-  isActive: boolean
-): boolean {
-  return !isPublic && !left && !isKickedFromGroup && !isBlocked && !isRequest && isActive;
-}
 
 function showNotificationConvo(
   isKickedFromGroup: boolean,
@@ -410,50 +396,6 @@ export const MarkAllReadMenuItem = (): JSX.Element | null => {
   } else {
     return null;
   }
-};
-
-export const DisappearingMessageMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
-  const isBlocked = useIsBlocked(convoId);
-  const isActive = useIsActive(convoId);
-  const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
-  const timerOptions = useSelector(getTimerOptions).timerOptions;
-  const isRequest = useIsRequest(convoId);
-
-  if (
-    showTimerOptions(
-      Boolean(isPublic),
-      Boolean(isKickedFromGroup),
-      Boolean(isLeft),
-      Boolean(isBlocked),
-      isRequest,
-      isActive
-    )
-  ) {
-    // const isRtlMode = isRtlBody();
-
-    return (
-      // Remove the && false to make context menu work with RTL support
-      <Submenu
-        label={window.i18n('disappearingMessages')}
-        // rtl={isRtlMode && false}
-      >
-        {timerOptions.map(item => (
-          <Item
-            key={item.value}
-            onClick={async () => {
-              await setDisappearingMessagesByConvoId(convoId, item.value);
-            }}
-          >
-            {item.name}
-          </Item>
-        ))}
-      </Submenu>
-    );
-  }
-  return null;
 };
 
 export const NotificationForConvoMenuItem = (): JSX.Element | null => {

@@ -11,7 +11,6 @@ import {
   DeclineMenuItem,
   DeleteContactMenuItem,
   DeleteMessagesMenuItem,
-  DisappearingMessageMenuItem,
   InviteContactMenuItem,
   LeaveGroupMenuItem,
   MarkAllReadMenuItem,
@@ -47,7 +46,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         <Menu id={triggerId} animation={animation.fade}>
           <AcceptMenuItem />
           <DeclineMenuItem />
-          <DisappearingMessageMenuItem />
           <NotificationForConvoMenuItem />
           <PinConversationMenuItem />
           <BlockMenuItem />
