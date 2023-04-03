@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { contextMenu } from 'react-contexify';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
   getConversationHeaderTitleProps,
@@ -48,7 +48,10 @@ import {
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
-import { ExpirationTimerOptions } from '../../util/expiringMessages';
+import {
+  DisappearingMessageConversationType,
+  ExpirationTimerOptions,
+} from '../../util/expiringMessages';
 
 export interface TimerOption {
   name: string;
@@ -261,14 +264,52 @@ const CallButton = () => {
 
 export const StyledSubtitleContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  min-width: 230px;
 
-  span:last-child {
-    margin-bottom: 0;
+  div:first-child {
+    span:last-child {
+      margin-bottom: 0;
+    }
   }
 `;
+
+const StyledSubtitleDot = styled.span<{ active: boolean }>`
+  border-radius: 50%;
+  background-color: ${props =>
+    props.active ? 'var(--text-primary-color)' : 'var(--text-secondary-color)'};
+
+  height: 6px;
+  width: 6px;
+  margin: 0 3px;
+`;
+
+const SubtitleDotMenu = ({
+  options,
+  selectedOptionIndex,
+  style,
+}: {
+  options: Array<string | null>;
+  selectedOptionIndex: number;
+  style: CSSProperties;
+}) => (
+  <Flex container={true} alignItems={'center'} style={style}>
+    {options.map((option, index) => {
+      if (!option) {
+        return null;
+      }
+
+      return (
+        <StyledSubtitleDot
+          key={`subtitleDotMenu-${index}`}
+          active={selectedOptionIndex === index}
+        />
+      );
+    })}
+  </Flex>
+);
 
 export type ConversationHeaderTitleProps = {
   conversationKey: string;
@@ -279,19 +320,8 @@ export type ConversationHeaderTitleProps = {
   subscriberCount?: number;
   isKickedFromGroup: boolean;
   currentNotificationSetting?: ConversationNotificationSettingType;
-};
-
-/**
- * The subtitle beneath a conversation title when looking at a conversation screen.
- * @param props props for subtitle. Text to be displayed
- * @returns JSX Element of the subtitle of conversation header
- */
-export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX.Element | null => {
-  const { text } = props;
-  if (!text) {
-    return null;
-  }
-  return <span className="module-conversation-header__title-text">{text}</span>;
+  expirationType?: DisappearingMessageConversationType;
+  expireTimer?: number;
 };
 
 const ConversationHeaderTitle = () => {
@@ -301,17 +331,29 @@ const ConversationHeaderTitle = () => {
 
   const convoName = useConversationUsername(headerTitleProps?.conversationKey);
   const dispatch = useDispatch();
+
+  const [visibleTitleIndex, setVisibleTitleIndex] = useState(0);
+
   if (!headerTitleProps) {
     return null;
   }
 
-  const { isGroup, isPublic, members, subscriberCount, isMe, isKickedFromGroup } = headerTitleProps;
+  const {
+    isGroup,
+    isPublic,
+    members,
+    subscriberCount,
+    isMe,
+    isKickedFromGroup,
+    expirationType,
+    expireTimer,
+  } = headerTitleProps;
 
   const { i18n } = window;
 
-  if (isMe) {
-    return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
-  }
+  const notificationSubtitle = notificationSetting
+    ? i18n('notificationSubtitle', [notificationSetting])
+    : null;
 
   let memberCount = 0;
   if (isGroup) {
@@ -322,37 +364,119 @@ const ConversationHeaderTitle = () => {
     }
   }
 
-  let memberCountText = '';
+  let memberCountSubtitle = null;
   if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
-    memberCountText = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
+    memberCountSubtitle = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
   }
 
-  const notificationSubtitle = notificationSetting
-    ? window.i18n('notificationSubtitle', [notificationSetting])
+  const disappearingMessageSettingText =
+    expirationType === 'off'
+      ? window.i18n('disappearingMessagesModeOff')
+      : expirationType === 'deleteAfterRead'
+      ? window.i18n('disappearingMessagesModeAfterRead')
+      : window.i18n('disappearingMessagesModeAfterSend');
+  const abbreviatedExpireTime = Boolean(expireTimer)
+    ? ExpirationTimerOptions.getAbbreviated(expireTimer)
     : null;
-  const fullTextSubtitle = memberCountText
-    ? `${memberCountText} ● ${notificationSubtitle}`
-    : `${notificationSubtitle}`;
+  const disappearingMessageSubtitle = `${disappearingMessageSettingText}${
+    abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
+  }`;
+
+  const subtitles = [
+    notificationSubtitle && notificationSubtitle,
+    memberCountSubtitle && memberCountSubtitle,
+    disappearingMessageSubtitle && disappearingMessageSubtitle,
+  ];
+  window.log.info(`WIP: subtitles`, subtitles);
+
+  // const fullTextSubtitle = memberCountText
+  //   ? `${memberCountText} ● ${notificationSubtitle}`
+  //   : `${notificationSubtitle}`;
+
+  const handleTitleCycle = (direction: 1 | -1) => {
+    let newIndex = visibleTitleIndex + direction;
+    if (newIndex > subtitles.length - 1) {
+      newIndex = 0;
+    }
+
+    if (newIndex < 0) {
+      newIndex = subtitles.length - 1;
+    }
+
+    if (subtitles[newIndex]) {
+      setVisibleTitleIndex(newIndex);
+    }
+  };
+
+  if (isMe) {
+    // TODO customise for new disappearing message system
+    return <div className="module-conversation-header__title">{i18n('noteToSelf')}</div>;
+  }
 
   return (
     <div
       className="module-conversation-header__title"
-      onClick={() => {
-        if (isRightPanelOn) {
-          dispatch(closeRightPanel());
-        } else {
-          dispatch(openRightPanel());
-        }
-      }}
+      // onClick={() => {
+      //   if (isRightPanelOn) {
+      //     dispatch(closeRightPanel());
+      //   } else {
+      //     dispatch(openRightPanel());
+      //   }
+      // }}
       role="button"
     >
       <span className="module-contact-name__profile-name" data-testid="header-conversation-name">
         {convoName}
       </span>
-      <StyledSubtitleContainer>
-        <ConversationHeaderSubtitle text={fullTextSubtitle} />
-      </StyledSubtitleContainer>
+      {subtitles && (
+        <StyledSubtitleContainer>
+          <Flex
+            container={true}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            width={'100%'}
+          >
+            <SessionIconButton
+              iconColor={'var(--button-icon-stroke-selected-color)'}
+              iconSize={'medium'}
+              iconType="chevron"
+              iconRotation={90}
+              margin={'0 var(--margins-xs) 0 0'}
+              onClick={() => {
+                handleTitleCycle(-1);
+              }}
+            />
+            {visibleTitleIndex === 2 && (
+              <SessionIconButton
+                iconColor={'var(--button-icon-stroke-selected-color)'}
+                iconSize={'tiny'}
+                iconType="timer50"
+                margin={'0 var(--margins-xs) 0 0'}
+              />
+            )}
+            <span className="module-conversation-header__title-text">
+              {subtitles[visibleTitleIndex]}
+            </span>
+            <SessionIconButton
+              iconColor={'var(--button-icon-stroke-selected-color)'}
+              iconSize={'medium'}
+              iconType="chevron"
+              iconRotation={270}
+              margin={'0 0 0 var(--margins-xs)'}
+              onClick={() => {
+                handleTitleCycle(1);
+              }}
+            />
+          </Flex>
+          <SubtitleDotMenu
+            options={subtitles}
+            selectedOptionIndex={visibleTitleIndex}
+            style={{ margin: 'var(--margins-xs) 0' }}
+          />
+        </StyledSubtitleContainer>
+      )}
     </div>
   );
 };

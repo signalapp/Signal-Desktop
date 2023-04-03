@@ -563,6 +563,8 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     subscriberCount: state.subscriberCount,
     isGroup: state.type === 'group',
     currentNotificationSetting: state.currentNotificationSetting,
+    expirationType: state.expirationType,
+    expireTimer: state.expireTimer,
   };
 });
 
