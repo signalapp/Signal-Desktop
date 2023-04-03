@@ -125,8 +125,9 @@ async function handleMessageSentSuccess(
   const expirationType = fetchedMessage.get('expirationType');
   // TODO legacy messages support will be removed in a future release
   const convo = fetchedMessage.getConversation();
-  const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
-  const markAsUnread = isLegacyMode || expirationType === 'deleteAfterRead';
+  const isLegacyReadMode = convo && convo.isPrivate() && expirationType === 'legacy';
+  const isLegacySentMode = convo && convo.isMediumGroup() && expirationType === 'legacy';
+  const markAsUnread = isLegacyReadMode || expirationType === 'deleteAfterRead';
 
   fetchedMessage.set({
     sent_to: sentTo,
@@ -136,16 +137,16 @@ async function handleMessageSentSuccess(
     unread: markAsUnread ? 1 : 0,
   });
 
+  // TODO legacy messages support will be removed in a future release
   if (
-    fetchedMessage.get('expirationType') === 'deleteAfterSend' &&
+    (isLegacySentMode || expirationType === 'deleteAfterSend') &&
     Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
   ) {
-    const expirationType = fetchedMessage.get('expirationType');
-    if (expirationType === 'deleteAfterSend') {
+    if (expirationType === 'legacy' || expirationType === 'deleteAfterSend') {
       // TODO message timer start is a few seconds less than the amount due to it's position in the pipeline, not sure on a fix yet
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
-          expirationType,
+          'deleteAfterSend',
           fetchedMessage.get('sent_at')
         ),
       });

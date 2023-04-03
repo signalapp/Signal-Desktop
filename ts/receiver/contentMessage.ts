@@ -382,7 +382,7 @@ export async function innerHandleSwarmContentMessage(
      * For a closed group message, this holds the conversation with that specific user outside of the closed group.
      * For a private conversation message, this is just the conversation with that user
      */
-    const senderConversationModel = await getConversationController().getOrCreateAndWait(
+    let conversationModel = await getConversationController().getOrCreateAndWait(
       isPrivateConversationMessage ? envelope.source : envelope.senderIdentity,
       ConversationTypeEnum.PRIVATE
     );
@@ -393,7 +393,7 @@ export async function innerHandleSwarmContentMessage(
      */
     if (!isPrivateConversationMessage) {
       // this is a closed group message, we have a second conversation to make sure exists
-      await getConversationController().getOrCreateAndWait(
+      conversationModel = await getConversationController().getOrCreateAndWait(
         envelope.source,
         ConversationTypeEnum.GROUP
       );
@@ -416,14 +416,22 @@ export async function innerHandleSwarmContentMessage(
 
       // TODO account for outdated groups separately probably
       if (isLegacyMessage) {
-        window.log.info('WIP: Received a legacy disappearing message', content);
+        window.log.info(
+          'WIP: Received a legacy disappearing message',
+          content,
+          `${
+            !isPrivateConversationMessage
+              ? ` in closed group ${conversationModel.get('displayNameInProfile')}`
+              : ''
+          }`
+        );
         // trigger notice banner
-        if (!senderConversationModel.get('hasOutdatedClient')) {
-          senderConversationModel.set({ hasOutdatedClient: true });
+        if (!conversationModel.get('hasOutdatedClient')) {
+          conversationModel.set({ hasOutdatedClient: true });
         }
       } else {
-        if (senderConversationModel.get('hasOutdatedClient')) {
-          senderConversationModel.set({ hasOutdatedClient: false });
+        if (conversationModel.get('hasOutdatedClient')) {
+          conversationModel.set({ hasOutdatedClient: false });
         }
       }
 
@@ -449,7 +457,7 @@ export async function innerHandleSwarmContentMessage(
         sentAtTimestamp,
         dataMessage as SignalService.DataMessage,
         messageHash,
-        senderConversationModel,
+        conversationModel,
         expireUpdate
       );
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');

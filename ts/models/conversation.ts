@@ -635,11 +635,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPrivate()) {
         if (this.isMe()) {
-          if (this.isDisappearingMode) {
-            // TODO legacy messages support will be removed in a future release
-            if (!this.isDisappearingMode('legacy') || !this.isDisappearingMode('deleteAfterSend')) {
-              return;
-            }
+          // TODO legacy messages support will be removed in a future release
+          if (!this.isDisappearingMode('legacy') && !this.isDisappearingMode('deleteAfterSend')) {
+            return;
           }
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
@@ -670,9 +668,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isMediumGroup()) {
-        if (!this.isDisappearingMode('deleteAfterSend')) {
+        // TODO legacy messages support will be removed in a future release
+        if (!this.isDisappearingMode('legacy') && !this.isDisappearingMode('disappearAfterSend')) {
           return;
         }
+
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
@@ -2237,6 +2237,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
+  // TODO I think this is flawed
   private isDisappearingMode(mode: DisappearingMessageType) {
     // TODO legacy messages support will be removed in a future release
     const success =
@@ -2247,7 +2248,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         : this.get('expirationType') === 'deleteAfterSend';
 
     if (!success) {
-      window.log.info(`WIP: This message should be disappear after ${mode}`, this);
+      window.log.info(
+        `WIP: This message should be ${
+          mode === 'legacy' ? ' a legacy disappearing message' : ` disappear after ${mode}`
+        }`,
+        this
+      );
     }
 
     return success;
