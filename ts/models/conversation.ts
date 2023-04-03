@@ -96,7 +96,10 @@ import {
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import {
+  DisappearingMessageConversationType,
+  DisappearingMessageType,
+} from '../util/expiringMessages';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -558,12 +561,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (this.isPublic() && !this.isOpenGroupV2()) {
         throw new Error('Only opengroupv2 are supported now');
       }
+
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body,
         identifier: id,
         timestamp: sentAt,
         attachments,
+        // TODO not supported in open groups
         expirationType,
         expireTimer,
         preview: preview ? [preview] : [],
@@ -617,10 +622,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const destinationPubkey = new PubKey(destination);
 
-      // TODO check expiration types per different conversation setting
-
       if (this.isPrivate()) {
         if (this.isMe()) {
+          if (!this.isDisappearingMode('deleteAfterSend')) {
+            return;
+          }
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
 
@@ -639,17 +645,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             expirationType,
             expireTimer,
           });
+
           // we need the return await so that errors are caught in the catch {}
           await getMessageQueue().sendToPubKey(destinationPubkey, groupInviteMessage);
           return;
         }
-        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
+        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
         return;
       }
 
       if (this.isMediumGroup()) {
+        if (!this.isDisappearingMode('deleteAfterSend')) {
+          return;
+        }
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
@@ -2215,6 +2225,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     return [];
+  }
+
+  private isDisappearingMode(mode: DisappearingMessageType) {
+    // TODO support legacy mode
+    const success =
+      this.get('expirationType') &&
+      this.get('expirationType') !== 'off' &&
+      mode === 'deleteAfterRead'
+        ? this.get('expirationType') === 'deleteAfterRead'
+        : this.get('expirationType') === 'deleteAfterSend';
+
+    if (!success) {
+      window.log.info(`WIP: This message should be disappear after ${mode}`, this);
+    }
+
+    return success;
   }
 }
 

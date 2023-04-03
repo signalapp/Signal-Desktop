@@ -111,6 +111,7 @@ export async function send(
         found.set({ sent_at: networkTimestamp });
         await found.commit();
       }
+
       await MessageSender.sendMessageToSnode(
         recipient.key,
         data,

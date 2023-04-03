@@ -71,7 +71,7 @@ async function handleMessageSentSuccess(
     !isClosedGroupMessage &&
     !fetchedMessage.get('synced') &&
     !fetchedMessage.get('sentSync') &&
-    // TODO not 100% sure about this. Might need to change for synced expiries
+    // TODO not 100% on this. Handling syncing later
     !fetchedMessage.get('expirationType');
 
   // A message is synced if we triggered a sync message (sentSync)
@@ -132,15 +132,21 @@ async function handleMessageSentSuccess(
     sent_to: sentTo,
     sent: true,
     sent_at: effectiveTimestamp,
+    // TODO message status overrides this for some reason in the UI, message still disappears though
+    unread: fetchedMessage.get('expirationType') === 'deleteAfterRead' ? 1 : 0,
   });
 
-  if (!shouldMarkMessageAsSynced) {
+  if (
+    fetchedMessage.get('expirationType') === 'deleteAfterSend' &&
+    Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
+  ) {
     const expirationType = fetchedMessage.get('expirationType');
-    if (expirationType && Boolean(fetchedMessage.get('expirationStartTimestamp')) === false) {
+    if (expirationType === 'deleteAfterSend') {
+      // TODO message timer start is a few seconds less than the amount due to it's position in the pipeline, not sure on a fix yet
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           expirationType,
-          expirationType === 'deleteAfterSend' ? effectiveTimestamp : undefined
+          fetchedMessage.get('sent_at')
         ),
       });
     }
@@ -178,6 +184,8 @@ async function handleMessageSentFailure(
   fetchedMessage.set({
     sent: true,
   });
+
+  // We don't set the expirationStartTimestamp on a disappearing message here incase the user wishes to try and resend the message
 
   await fetchedMessage.commit();
   await fetchedMessage.getConversation()?.updateLastMessage();

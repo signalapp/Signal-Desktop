@@ -1,5 +1,6 @@
 import { SignalService } from '../../../protobuf';
 import { DisappearingMessageType } from '../../../util/expiringMessages';
+import { DURATION, TTL_DEFAULT } from '../../constants';
 import { ContentMessage } from './ContentMessage';
 import { MessageParams } from './Message';
 
@@ -30,5 +31,16 @@ export class ExpirableMessage extends ContentMessage {
 
   public getDisappearingMessageType(): DisappearingMessageType | undefined {
     return this.expirationType;
+  }
+
+  public ttl(): number {
+    switch (this.expirationType) {
+      case 'deleteAfterSend':
+        return this.expireTimer ? this.expireTimer * DURATION.SECONDS : TTL_DEFAULT.TTL_MAX;
+      case 'deleteAfterRead':
+        return TTL_DEFAULT.TTL_MAX;
+      default:
+        return TTL_DEFAULT.TTL_MAX;
+    }
   }
 }

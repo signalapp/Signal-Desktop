@@ -789,6 +789,7 @@ export async function handleDataExtractionNotification(
       unread: 1, // 1 means unread
       expirationType: expirationType !== 'off' ? expirationType : undefined,
       expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
+      // TODO should this only be for delete after send?
       expirationStartTimestamp: setExpirationStartTimestamp(expirationType),
     });
     convo.updateLastMessage();

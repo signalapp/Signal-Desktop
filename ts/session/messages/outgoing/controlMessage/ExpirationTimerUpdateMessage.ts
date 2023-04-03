@@ -64,10 +64,10 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       data.syncTarget = this.syncTarget;
     }
 
-    // TODO Legacy support remove 2 weeks after the release
-    if (this.expireTimer) {
-      data.expireTimer = this.expireTimer;
-    }
+    // TODO should only happen in legacy mode and should be cancelled out once we have trigger the unix timestamp
+    // if (this.expireTimer) {
+    //   data.expireTimer = this.expireTimer;
+    // }
 
     return data;
   }

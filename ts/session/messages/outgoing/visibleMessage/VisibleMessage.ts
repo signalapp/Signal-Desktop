@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
 import { Reaction } from '../../../../types/Reaction';
-import { DURATION, TTL_DEFAULT } from '../../../constants';
 import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
 
 interface AttachmentPointerCommon {
@@ -123,9 +122,10 @@ export class VisibleMessage extends ExpirableMessage {
 
     dataMessage.attachments = this.attachments || [];
 
-    if (this.expireTimer) {
-      dataMessage.expireTimer = this.expireTimer;
-    }
+    // TODO should only happen in legacy mode and should be cancelled out once we have trigger the unix timestamp
+    // if (this.expireTimer) {
+    //   dataMessage.expireTimer = this.expireTimer;
+    // }
 
     if (this.preview) {
       dataMessage.preview = this.preview;
@@ -191,18 +191,6 @@ export class VisibleMessage extends ExpirableMessage {
 
   public isEqual(comparator: VisibleMessage): boolean {
     return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
-  }
-
-  // TODO should this be on the Expirable message? Probably
-  public ttl(): number {
-    switch (this.expirationType) {
-      case 'deleteAfterSend':
-        return this.expireTimer ? this.expireTimer * DURATION.SECONDS : TTL_DEFAULT.TTL_MAX;
-      case 'deleteAfterRead':
-        return TTL_DEFAULT.TTL_MAX;
-      default:
-        return TTL_DEFAULT.TTL_MAX;
-    }
   }
 }
 
