@@ -5,9 +5,8 @@ import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 import { SessionIcon } from '../icon';
-import { SpacerSM } from '../basic/Text';
+import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
-import { Text } from '../basic/Text';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {

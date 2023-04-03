@@ -139,7 +139,7 @@ async function processExpirationResults(
 
     if (!isValid) {
       window.log.warn(
-        `WIP: loki_message:::expireMessage - Signature verification failed!`,
+        'WIP: loki_message:::expireMessage - Signature verification failed!',
         messageHashes
       );
     }

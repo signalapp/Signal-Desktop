@@ -1,6 +1,10 @@
 import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
+import {
+  CallNotificationType,
+  PropsForExpiringMessage,
+  PropsForMessageWithConvoProps,
+} from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 import { DisappearingMessageType } from '../util/expiringMessages';
@@ -135,12 +139,14 @@ export enum MessageDirection {
   any = '%',
 }
 
-export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
+export interface PropsForDataExtractionNotification
+  extends DataExtractionNotificationMsg,
+    PropsForExpiringMessage {
   name: string;
   messageId: string;
   receivedAt?: number;
   isUnread: boolean;
-};
+}
 
 export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
   conversationId?: string;

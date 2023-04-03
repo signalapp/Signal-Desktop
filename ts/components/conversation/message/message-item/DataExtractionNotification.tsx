@@ -4,10 +4,21 @@ import { SignalService } from '../../../../protobuf';
 import { Flex } from '../../../basic/Flex';
 import { SpacerSM, Text } from '../../../basic/Text';
 import { SessionIcon } from '../../../icon';
-import { ReadableMessage } from './ReadableMessage';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
-  const { name, type, source, messageId, isUnread, receivedAt } = props;
+  const {
+    name,
+    type,
+    source,
+    messageId,
+    isUnread,
+    receivedAt,
+    direction,
+    expirationLength,
+    expirationTimestamp,
+    isExpired,
+  } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -17,10 +28,14 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
       messageId={messageId}
       receivedAt={receivedAt}
       isUnread={isUnread}
+      direction={direction}
+      expirationLength={expirationLength}
+      expirationTimestamp={expirationTimestamp}
+      isExpired={isExpired}
       key={`readable-message-${messageId}`}
     >
       <Flex
@@ -35,6 +50,6 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         <SpacerSM />
         <Text text={contentText} subtle={true} ellipsisOverflow={true} />
       </Flex>
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

@@ -28,7 +28,10 @@ import {
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import { DisappearingMessageConversationSetting } from '../util/expiringMessages';
+import {
+  DisappearingMessageConversationSetting,
+  setExpirationStartTimestamp,
+} from '../util/expiringMessages';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -332,7 +335,7 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: cyclomatic-complexity max-func-body-length
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -414,7 +417,7 @@ export async function innerHandleSwarmContentMessage(
       if (dataMessage.expireTimer) {
         // TODO Trigger banner in UI?
         expireTimer = dataMessage.expireTimer;
-        window.log.info(`WIP: Received outdated disappearing message data message`, content);
+        window.log.info('WIP: Received outdated disappearing message data message', content);
       }
 
       // NOTE In the protobuf this is a long
@@ -777,6 +780,7 @@ export async function handleDataExtractionNotification(
   if (timestamp) {
     const envelopeTimestamp = toNumber(timestamp);
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
+    const expirationType = convo.get('expirationType');
 
     await convo.addSingleIncomingMessage({
       source,
@@ -787,7 +791,9 @@ export async function handleDataExtractionNotification(
         source,
       },
       unread: 1, // 1 means unread
-      expireTimer: 0,
+      expirationType: expirationType !== 'off' ? expirationType : undefined,
+      expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
+      expirationStartTimestamp: setExpirationStartTimestamp(expirationType),
     });
     convo.updateLastMessage();
   }

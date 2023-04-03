@@ -314,7 +314,7 @@ async function handleExpirationTimerUpdateNoCommit(
 
   // TODO Not entirely sure that this works
   if (conversation.get('lastDisappearingMessageChangeTimestamp') > providedChangeTimestamp) {
-    window.log.info(`WIP: This is an outdated disappearing message setting`);
+    window.log.info('WIP: This is an outdated disappearing message setting');
     return;
   }
 

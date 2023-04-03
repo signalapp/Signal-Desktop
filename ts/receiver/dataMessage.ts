@@ -228,7 +228,7 @@ export async function handleSwarmDataMessage(
     return;
   }
 
-  let msgModel =
+  const msgModel =
     isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
       ? createSwarmMessageSentFromUs({
           conversationId: convoIdToAddTheMessageTo,
@@ -245,7 +245,6 @@ export async function handleSwarmDataMessage(
   if (isSyncedMessage) {
     // TODO handle sync messages separately
     window.log.info('WIP: Sync Message dropping');
-    expireUpdate = null;
   }
 
   await handleSwarmMessage(
@@ -255,7 +254,7 @@ export async function handleSwarmDataMessage(
     cleanDataMessage,
     convoToAddMessageTo,
     () => removeFromCache(envelope),
-    expireUpdate
+    isSyncedMessage ? expireUpdate : null
   );
 }
 

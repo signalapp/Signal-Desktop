@@ -154,7 +154,7 @@ async function handleMessageSentFailure(
   sentMessage: RawMessage | OpenGroupVisibleMessage,
   error: any
 ) {
-  let fetchedMessage = await fetchHandleMessageSentData(sentMessage.identifier);
+  const fetchedMessage = await fetchHandleMessageSentData(sentMessage.identifier);
   if (!fetchedMessage) {
     return;
   }
