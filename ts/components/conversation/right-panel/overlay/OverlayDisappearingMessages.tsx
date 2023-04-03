@@ -13,7 +13,7 @@ import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
 import {
   getSelectedConversationExpirationModes,
-  getSelectedConversationExpirationModesLocked,
+  getSelectedConversationExpirationModesWithLegacy,
   getSelectedConversationExpirationSettings,
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
@@ -183,16 +183,16 @@ const TimeOptions = (props: TimerOptionsProps) => {
   );
 };
 
-type OverlayDisappearingMessagesProps = { unlockAllModes: boolean };
+type OverlayDisappearingMessagesProps = { unlockNewModes: boolean };
 
 export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesProps) => {
-  const { unlockAllModes } = props;
+  const { unlockNewModes } = props;
   const dispatch = useDispatch();
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const disappearingModeOptions = useSelector(
-    unlockAllModes
+    unlockNewModes
       ? getSelectedConversationExpirationModes
-      : getSelectedConversationExpirationModesLocked
+      : getSelectedConversationExpirationModesWithLegacy
   );
 
   const convoProps = useSelector(getSelectedConversationExpirationSettings);

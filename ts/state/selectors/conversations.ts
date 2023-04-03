@@ -1183,18 +1183,16 @@ export const getSelectedConversationExpirationModes = createSelector(
   getSelectedConversation,
   (convo: ReduxConversationType | undefined) => {
     let modes = DisappearingMessageConversationSetting;
+    // TODO legacy messages support will be removed in a future release
+    // TODO remove legacy mode
+    modes = modes.slice(0, -1);
 
-    // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
+    // Note to Self and Closed Groups only support deleteAfterSend
     if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
-      // only deleteAfterSend
-      modes = [modes[0], modes[2], modes[modes.length - 1]];
+      modes = [modes[0], modes[2]];
     }
 
-    // Legacy mode is the 2nd option in the UI
-    modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
-
     const modesWithDisabledState: any = {};
-
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
         modesWithDisabledState[mode] = false;
@@ -1205,18 +1203,25 @@ export const getSelectedConversationExpirationModes = createSelector(
   }
 );
 
-export const getSelectedConversationExpirationModesLocked = createSelector(
-  getSelectedConversationExpirationModes,
-  (modes: any | undefined) => {
-    const modesWithDisabledState: any = {};
+// TODO legacy messages support will be removed in a future release
+export const getSelectedConversationExpirationModesWithLegacy = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined) => {
+    let modes = DisappearingMessageConversationSetting;
 
-    if (modes && Object.keys(modes).length > 1) {
-      Object.keys(modes).forEach(mode => {
-        let result = false;
-        if (mode !== 'legacy' && mode !== 'off') {
-          result = true;
-        }
-        modesWithDisabledState[mode] = result;
+    // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
+    if (convo?.isMe || (convo?.isGroup && !convo.isPublic)) {
+      modes = [modes[0], ...modes.slice(2)];
+    }
+
+    // Legacy mode is the 2nd option in the UI
+    modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
+
+    const modesWithDisabledState: any = {};
+    // The new modes are disabled by default
+    if (modes && modes.length > 1) {
+      modes.forEach(mode => {
+        modesWithDisabledState[mode] = Boolean(mode !== 'legacy' && mode !== 'off');
       });
     }
 
