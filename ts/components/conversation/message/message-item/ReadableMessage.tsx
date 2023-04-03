@@ -24,7 +24,7 @@ import {
 import { getIsAppFocused } from '../../../../state/selectors/section';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
-type ReadableMessageProps = {
+export type ReadableMessageProps = {
   children: React.ReactNode;
   messageId: string;
   className?: string;

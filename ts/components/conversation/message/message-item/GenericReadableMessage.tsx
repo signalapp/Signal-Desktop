@@ -1,25 +1,20 @@
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
-import useInterval from 'react-use/lib/useInterval';
 import _ from 'lodash';
-import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messagesExpired } from '../../../../state/ducks/conversations';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { getIncrement } from '../../../../util/timer';
-import { ExpireTimer } from '../../ExpireTimer';
-
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { ReadableMessage } from './ReadableMessage';
 import styled, { keyframes } from 'styled-components';
+import { ExpirableReadableMessage } from './ExpirableReadableMEssage';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -34,66 +29,6 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'convoId'
   | 'isDeleted'
 >;
-
-type ExpiringProps = {
-  isExpired?: boolean;
-  expirationTimestamp?: number | null;
-  expirationLength?: number | null;
-  convoId?: string;
-  messageId: string;
-};
-const EXPIRATION_CHECK_MINIMUM = 2000;
-
-function useIsExpired(props: ExpiringProps) {
-  const {
-    convoId,
-    messageId,
-    expirationLength,
-    expirationTimestamp,
-    isExpired: isExpiredProps,
-  } = props;
-
-  const dispatch = useDispatch();
-
-  const [isExpired] = useState(isExpiredProps);
-
-  const checkExpired = useCallback(async () => {
-    const now = Date.now();
-
-    if (!expirationTimestamp || !expirationLength) {
-      return;
-    }
-
-    if (isExpired || now >= expirationTimestamp) {
-      await Data.removeMessage(messageId);
-      if (convoId) {
-        dispatch(
-          messagesExpired([
-            {
-              conversationKey: convoId,
-              messageId,
-            },
-          ])
-        );
-        const convo = getConversationController().get(convoId);
-        convo?.updateLastMessage();
-      }
-    }
-  }, [expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
-
-  let checkFrequency: number | null = null;
-  if (expirationLength) {
-    const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
-    checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
-  }
-
-  useEffect(() => {
-    void checkExpired();
-  }, []); // check on mount
-  useInterval(checkExpired, checkFrequency); // check every 2sec or sooner if needed
-
-  return { isExpired };
-}
 
 type Props = {
   messageId: string;
@@ -150,15 +85,6 @@ export const GenericReadableMessage = (props: Props) => {
     getGenericReadableMessageSelectorProps(state as any, props.messageId)
   );
 
-  const expiringProps: ExpiringProps = {
-    convoId: msgProps?.convoId,
-    expirationLength: msgProps?.expirationLength,
-    messageId: props.messageId,
-    expirationTimestamp: msgProps?.expirationTimestamp,
-    isExpired: msgProps?.isExpired,
-  };
-  const { isExpired } = useIsExpired(expiringProps);
-
   const isMessageSelected = useSelector(state =>
     getIsMessageSelected(state as any, props.messageId)
   );
@@ -207,22 +133,10 @@ export const GenericReadableMessage = (props: Props) => {
   if (!msgProps) {
     return null;
   }
-  const {
-    direction,
-    conversationType,
-    receivedAt,
-    isUnread,
-    expirationLength,
-    expirationTimestamp,
-  } = msgProps;
-
-  if (isExpired) {
-    return null;
-  }
+  const { conversationType, receivedAt, isUnread } = msgProps;
 
   const selected = isMessageSelected || false;
   const isGroup = conversationType === 'group';
-  const isIncoming = direction === 'incoming';
 
   return (
     <StyledReadableMessage
@@ -238,27 +152,24 @@ export const GenericReadableMessage = (props: Props) => {
       isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      {expirationLength && expirationTimestamp && (
-        <ExpireTimer
-          isCorrectSide={!isIncoming}
-          expirationLength={expirationLength}
-          expirationTimestamp={expirationTimestamp}
-        />
-      )}
-      <MessageContentWithStatuses
-        ctxMenuID={ctxMenuID}
+      <ExpirableReadableMessage
+        convoId={msgProps.convoId}
         messageId={messageId}
-        isDetailView={isDetailView}
-        dataTestId={`message-content-${messageId}`}
-        enableReactions={enableReactions}
-      />
-      {expirationLength && expirationTimestamp && (
-        <ExpireTimer
-          isCorrectSide={isIncoming}
-          expirationLength={expirationLength}
-          expirationTimestamp={expirationTimestamp}
+        direction={msgProps.direction}
+        receivedAt={receivedAt}
+        isUnread={Boolean(isUnread)}
+        expirationLength={msgProps.expirationLength}
+        expirationTimestamp={msgProps.expirationTimestamp}
+        isExpired={msgProps.isExpired}
+      >
+        <MessageContentWithStatuses
+          ctxMenuID={ctxMenuID}
+          messageId={messageId}
+          isDetailView={isDetailView}
+          dataTestId={`message-content-${messageId}`}
+          enableReactions={enableReactions}
         />
-      )}
+      </ExpirableReadableMessage>
     </StyledReadableMessage>
   );
 };
