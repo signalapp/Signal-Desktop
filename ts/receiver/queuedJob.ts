@@ -165,6 +165,12 @@ function handleMentions(
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: 0 });
+
+    if (message.get('expirationType') === 'deleteAfterRead' && message.get('expireTimer')) {
+      message.set({
+        expirationStartTimestamp: setExpirationStartTimestamp('deleteAfterRead'),
+      });
+    }
   }
 }
 
@@ -311,10 +317,6 @@ async function handleExpirationTimerUpdateNoCommit(
   expireTimer: number,
   lastDisappearingMessageChangeTimestamp: number
 ) {
-  message.set({
-    unread: 0, // mark the message as read.
-  });
-
   await conversation.updateExpireTimer({
     providedExpirationType: expirationType,
     providedExpireTimer: expireTimer,

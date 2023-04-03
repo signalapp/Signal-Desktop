@@ -303,6 +303,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!this.isExpirationTimerUpdate()) {
       return null;
     }
+
     const timerUpdate = this.get('expirationTimerUpdate');
     if (!timerUpdate || !timerUpdate.source) {
       return null;
@@ -1198,11 +1199,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markReadNoCommit(readAt: number) {
     this.set({ unread: 0 });
 
-    if (
-      this.get('expirationType') === 'deleteAfterRead' &&
-      this.get('expireTimer') &&
-      Boolean(this.get('expirationStartTimestamp')) === false
-    ) {
+    if (this.get('expirationType') === 'deleteAfterRead' && this.get('expireTimer')) {
       this.set({
         expirationStartTimestamp: setExpirationStartTimestamp('deleteAfterRead', readAt),
       });

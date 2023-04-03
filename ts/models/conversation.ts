@@ -1141,6 +1141,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // tell the UI this conversation was updated
       await this.commit();
     }
+
     // if change was made remotely, don't send it to the number/group
     if (receivedAt) {
       return;

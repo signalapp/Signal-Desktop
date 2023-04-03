@@ -12,10 +12,13 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   const {
     messageId,
     receivedAt,
+    direction,
     isUnread,
     pubkey,
     profileName,
     expirationType,
+    expirationLength,
+    expirationTimestamp,
     timespan,
     type,
     disabled,
@@ -52,11 +55,11 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     <ExpirableReadableMessage
       convoId={props.convoId}
       messageId={messageId}
-      direction={props.direction}
+      direction={direction}
       receivedAt={receivedAt}
       isUnread={isUnread}
-      expirationLength={props.expirationLength}
-      expirationTimestamp={props.expirationTimestamp}
+      expirationLength={expirationLength}
+      expirationTimestamp={expirationTimestamp}
       isExpired={props.isExpired}
       key={`readable-message-${messageId}`}
     >
