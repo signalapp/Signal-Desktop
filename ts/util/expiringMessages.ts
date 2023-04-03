@@ -15,6 +15,10 @@ export type DisappearingMessageType = typeof DisappearingMessageMode[number] | n
 
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
+export const DEFAULT_TIMER_OPTION = {
+  PRIVATE_CONVERSATION: 86400, // 1 day
+  GROUP: 43200, // 12 hours
+};
 
 export type DisappearingMessageUpdate = {
   expirationType: DisappearingMessageType;

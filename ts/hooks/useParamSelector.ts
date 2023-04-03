@@ -190,11 +190,29 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
     const options = state.timerOptions.timerOptions;
 
     switch (disappearingMessageMode) {
+      // TODO legacy messages support will be removed in a future release
+      case 'legacy':
+        return options.filter(option => {
+          return (
+            option.value === 5 || // 5 seconds
+            option.value === 10 || // 10 seconds
+            option.value === 30 || // 30 seconds
+            option.value === 60 || // 1 minute
+            option.value === 300 || // 5 minutes
+            option.value === 1800 || // 30 minutes
+            option.value === 3600 || // 1 hour
+            option.value === 21600 || // 6 hours
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 // 1 week
+          );
+        });
       case 'deleteAfterSend':
         return options.filter(option => {
           return (
-            option.value === 10 || // 10 seconds (for testing)
-            option.value === 30 || // 30 seconds (for testing)
+            option.value === 10 || // 10 seconds (for development)
+            option.value === 30 || // 30 seconds (for development)
+            option.value === 60 || // 1 minute (for testing)
             option.value === 43200 || // 12 hours
             option.value === 86400 || // 1 day
             option.value === 604800 || // 1 week
@@ -204,8 +222,9 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string) {
       case 'deleteAfterRead':
         return options.filter(option => {
           return (
-            option.value === 10 || // 10 seconds (for testing)
-            option.value === 30 || // 30 seconds (for testing)
+            option.value === 10 || // 10 seconds (for development)
+            option.value === 30 || // 30 seconds (for development)
+            option.value === 60 || // 1 minute (for testing)
             option.value === 300 || // 5 minutes
             option.value === 3600 || // 1 hour
             option.value === 43200 || // 12 hours

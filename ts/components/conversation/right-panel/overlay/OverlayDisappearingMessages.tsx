@@ -18,7 +18,7 @@ import {
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
 import {
-  DisappearingMessageConversationSetting,
+  DEFAULT_TIMER_OPTION,
   DisappearingMessageConversationType,
 } from '../../../../util/expiringMessages';
 import { TimerOptionsArray } from '../../../../state/ducks/timerOptions';
@@ -204,22 +204,22 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
   const { isGroup } = convoProps;
 
   const [modeSelected, setModeSelected] = useState(convoProps.expirationType);
-  const [timeSelected, setTimeSelected] = useState(convoProps.expireTimer);
-  // Legacy mode uses the default timer options depending on the conversation type
-  // TODO verify that this if fine compared to updating in the useEffect
-  const timerOptions = useTimerOptionsByMode(
-    modeSelected === 'legacy'
-      ? isGroup
-        ? DisappearingMessageConversationSetting[2]
-        : DisappearingMessageConversationSetting[1]
-      : modeSelected
+  const [timeSelected, setTimeSelected] = useState(
+    convoProps.expireTimer && convoProps.expireTimer > -1
+      ? convoProps.expireTimer
+      : isGroup
+      ? DEFAULT_TIMER_OPTION.GROUP
+      : DEFAULT_TIMER_OPTION.PRIVATE_CONVERSATION
   );
+
+  // TODO verify that this if fine compared to updating in the useEffect
+  const timerOptions = useTimerOptionsByMode(modeSelected);
 
   useEffect(() => {
     if (modeSelected !== convoProps.expirationType) {
       setModeSelected(convoProps.expirationType);
     }
-    if (timeSelected !== convoProps.expireTimer) {
+    if (convoProps.expireTimer && timeSelected !== convoProps.expireTimer) {
       setTimeSelected(convoProps.expireTimer);
     }
   }, [convoProps.expirationType, convoProps.expireTimer]);
