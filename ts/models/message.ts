@@ -280,13 +280,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForExpiringMessage(): PropsForExpiringMessage | { direction: MessageModelType } {
     const expirationType = this.get('expirationType');
-    const expirationLength = this.get('expireTimer') || null;
+    const expirationLength = this.get('expireTimer')
+      ? this.get('expireTimer') * DURATION.SECONDS
+      : null;
 
     const expireTimerStart = this.get('expirationStartTimestamp') || null;
 
     const expirationTimestamp =
       expirationType && expireTimerStart && expirationLength
-        ? expireTimerStart + expirationLength * DURATION.SECONDS
+        ? expireTimerStart + expirationLength
         : null;
 
     const direction =
@@ -492,10 +494,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.get('expirationType');
-    const expirationLength = this.get('expireTimer') * 1000;
+    const expirationLength = this.get('expireTimer') * DURATION.SECONDS;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
-      expirationLength && expireTimerStart ? expireTimerStart + expirationLength : null;
+      expirationType && expirationLength && expireTimerStart
+        ? expireTimerStart + expirationLength
+        : null;
 
     const attachments = this.get('attachments') || [];
     const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();

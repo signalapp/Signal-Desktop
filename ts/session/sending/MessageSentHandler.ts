@@ -151,7 +151,6 @@ async function handleMessageSentSuccess(
           isLegacySentMode
         ),
       });
-      fetchedMessage.setToExpire();
     }
   }
 

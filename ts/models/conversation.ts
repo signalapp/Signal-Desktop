@@ -2010,6 +2010,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageId = await model.commit(false);
     model.set({ id: messageId });
 
+    await model.setToExpire();
+
     const messageModelProps = model.getMessageModelProps();
     window.inboxStore?.dispatch(conversationActions.messagesChanged([messageModelProps]));
     const unreadCount = await this.getUnreadCount();

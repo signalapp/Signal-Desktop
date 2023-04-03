@@ -350,7 +350,6 @@ export async function handleMessageJob(
           messageModel.get('expirationType') === 'legacy'
         ),
       });
-      messageModel.setToExpire();
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
