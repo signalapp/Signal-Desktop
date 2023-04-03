@@ -6,6 +6,7 @@ import {
   getIsSelectedConvoInitialLoadingInProgress,
   getLightBoxOptions,
   getSelectedConversation,
+  getSelectedConversationExpirationSettings,
   getSelectedConversationKey,
   getSelectedMessageIds,
   getSortedMessagesOfSelectedConversation,
@@ -31,6 +32,7 @@ const mapStateToProps = (state: StateType) => {
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
+    selectedConversationExpirationSettings: getSelectedConversationExpirationSettings(state),
   };
 };
 

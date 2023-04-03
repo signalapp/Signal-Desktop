@@ -78,6 +78,7 @@ import {
   ConversationAttributes,
   ConversationNotificationSetting,
   ConversationTypeEnum,
+  DisappearingMessageType,
   fillConvoAttributesWithDefaults,
 } from './conversationAttributes';
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
@@ -294,6 +295,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const hasNickname = !!this.getNickname();
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
+    const expirationType = this.get('expirationType');
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const displayNameInProfile = this.get('displayNameInProfile');
@@ -399,6 +401,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (zombies && zombies.length) {
       toRet.zombies = uniq(zombies);
+    }
+
+    if (expirationType) {
+      toRet.expirationType = expirationType;
     }
 
     if (expireTimer) {
@@ -1011,7 +1017,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateExpireTimer(
-    providedExpireTimer: number | null,
+    providedExpirationType: DisappearingMessageType,
+    providedExpireTimer?: number,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
     options: {
@@ -1019,20 +1026,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     } = {},
     shouldCommit = true
   ): Promise<void> {
+    let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
     let source = providedSource;
 
     defaults(options, { fromSync: false });
 
+    if (!expirationType) {
+      expirationType = 'off';
+      expireTimer = 0;
+    }
+
     if (!expireTimer) {
       expireTimer = 0;
     }
+
     if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
       return;
     }
 
-    window?.log?.info("Update conversation 'expireTimer'", {
+    window?.log?.info('Updated conversation disappearing messages setting', {
       id: this.idForLogging(),
+      expirationType,
       expireTimer,
       source,
     });
@@ -1043,10 +1058,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // When we add a disappearing messages notification to the conversation, we want it
     //   to be above the message that initiated that change, hence the subtraction.
+    // TODO Will we use this for lastDisappearingMessageChangeTimestamp
     const timestamp = (receivedAt || Date.now()) - 1;
 
-    this.set({ expireTimer });
+    this.set({ expirationType, expireTimer });
 
+    // TODO Update for the new types of Disappearing Messages
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
@@ -1089,6 +1106,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
+    // TODO Update for the new types of Disappearing Messages
     const expireUpdate = {
       identifier: message.id,
       timestamp,

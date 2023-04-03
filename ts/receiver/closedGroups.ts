@@ -255,7 +255,13 @@ export async function handleNewClosedGroup(
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
 
-      await groupConvo.updateExpireTimer(expireTimer, sender, Date.now());
+      // TODO This is only applicable for old closed groups - will be removed in future
+      await groupConvo.updateExpireTimer(
+        expireTimer === 0 ? 'off' : 'deleteAfterSend',
+        expireTimer,
+        sender,
+        Date.now()
+      );
 
       if (isKeyPairAlreadyHere) {
         window.log.info('Dropping already saved keypair for group', groupId);
@@ -303,6 +309,7 @@ export async function handleNewClosedGroup(
     admins,
     activeAt: envelopeTimestamp,
     weWereJustAdded: true,
+    expirationType: 'off',
   };
 
   // be sure to call this before sending the message.
@@ -314,7 +321,13 @@ export async function handleNewClosedGroup(
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', envelopeTimestamp);
-  await convo.updateExpireTimer(expireTimer, sender, envelopeTimestamp);
+  // TODO This is only applicable for old closed groups - will be removed in future
+  await convo.updateExpireTimer(
+    expireTimer === 0 ? 'off' : 'deleteAfterSend',
+    expireTimer,
+    sender,
+    envelopeTimestamp
+  );
   convo.updateLastMessage();
 
   await convo.commit();
@@ -935,6 +948,8 @@ export async function createClosedGroup(groupName: string, members: Array<string
     members: listOfMembers,
     admins,
     activeAt: Date.now(),
+    // TODO This is only applicable for old closed groups - will be removed in future
+    expirationType: existingExpireTimer === 0 ? 'off' : 'deleteAfterSend',
     expireTimer: existingExpireTimer,
   };
 

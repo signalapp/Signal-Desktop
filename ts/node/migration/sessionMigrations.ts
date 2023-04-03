@@ -79,6 +79,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion27,
   updateToSessionSchemaVersion28,
   updateToSessionSchemaVersion29,
+  updateToSessionSchemaVersion30,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1198,6 +1199,76 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
     );`);
     rebuildFtsTable(db);
     // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+// TODO can the performance be improved?
+function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 30;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+          ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";
+         `);
+    db.exec(`
+          ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;
+         `);
+
+    const privateConversationsToUpdate = db
+      .prepare(
+        `SELECT rowid, * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND expireTimer > 0;`
+      )
+      .all();
+
+    privateConversationsToUpdate.forEach(convo => {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE id = $id;`
+      ).run({ id: convo.id, expirationType: 'deleteAfterRead' });
+
+      db.prepare(
+        `SELECT * FROM ${CONVERSATIONS_TABLE}
+      WHERE id=$id;`
+      ).all({ id: convo.id });
+    });
+
+    const groupConversationsToUpdate = db
+      .prepare(
+        `SELECT rowid, * FROM ${CONVERSATIONS_TABLE} WHERE (type = 'group' AND is_medium_group = true) AND expireTimer > 0;`
+      )
+      .all();
+
+    groupConversationsToUpdate.forEach(convo => {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE id = $id;`
+      ).run({ id: convo.id, expirationType: 'deleteAfterSend' });
+
+      db.prepare(
+        `SELECT * FROM ${CONVERSATIONS_TABLE}
+      WHERE id=$id;`
+      ).all({ id: convo.id });
+    });
+
+    // TODO After testing -> renamed expireTimer column to expirationTimer everywhere.
+    // Update Conversation Model expireTimer calls everywhere
+    //  db.exec(
+    //    `ALTER TABLE ${CONVERSATIONS_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
+    //  );
+
+    // NOTE we won't update messages only conversations
+    // TODO but we do need to add the new columns later with the defaults
+
     writeSessionSchemaVersion(targetVersion, db);
   })();
 

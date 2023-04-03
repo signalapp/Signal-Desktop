@@ -14,6 +14,10 @@ export enum ConversationTypeEnum {
 export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
 export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
 
+// TODO Might need to be improved by using an enum
+export const DisappearingMessageSetting = ['off', 'deleteAfterRead', 'deleteAfterSend'];
+export type DisappearingMessageType = typeof DisappearingMessageSetting[number];
+
 export interface ConversationAttributes {
   id: string;
   type: string;
@@ -29,7 +33,11 @@ export interface ConversationAttributes {
   members: Array<string>; // members are all members for this group. zombies excluded
   zombies: Array<string>; // only used for closed groups. Zombies are users which left but not yet removed by the admin
   left: boolean;
+
+  expirationType: DisappearingMessageType;
   expireTimer: number;
+  lastDisappearingMessageChangeTimestamp: number;
+
   mentionedUs: boolean;
   unreadCount: number;
   lastMessageStatus: LastMessageStatusType;
@@ -84,7 +92,9 @@ export const fillConvoAttributesWithDefaults = (
     unreadCount: 0,
     lastJoinedTimestamp: 0,
     subscriberCount: 0,
+    expirationType: 'off',
     expireTimer: 0,
+    lastDisappearingMessageChangeTimestamp: 0,
     active_at: 0,
 
     lastMessageStatus: undefined,

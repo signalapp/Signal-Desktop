@@ -28,7 +28,11 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
-import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
+import {
+  ConversationAttributes,
+  ConversationTypeEnum,
+  DisappearingMessageType,
+} from '../../models/conversationAttributes';
 
 export type GroupInfo = {
   id: string;
@@ -36,6 +40,7 @@ export type GroupInfo = {
   members: Array<string>;
   zombies?: Array<string>;
   activeAt?: number;
+  expirationType?: DisappearingMessageType[0] | DisappearingMessageType[2];
   expireTimer?: number | null;
   blocked?: boolean;
   admins?: Array<string>;
@@ -85,6 +90,7 @@ export async function initiateClosedGroupUpdate(
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
+    expirationType: convo.get('expirationType'), // TODO Does this have a default value
     expireTimer: convo.get('expireTimer'),
   };
 
@@ -97,6 +103,7 @@ export async function initiateClosedGroupUpdate(
     name: groupName,
     members,
     admins: convo.get('groupAdmins'),
+    expirationType: convo.get('expirationType'),
     expireTimer: convo.get('expireTimer'),
   };
 
@@ -258,12 +265,14 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   await conversation.commit();
 
-  const { expireTimer } = details;
+  const { expirationType, expireTimer } = details;
 
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
   }
+  // Todo Update here
   await conversation.updateExpireTimer(
+    expirationType || 'deleteAfterSend',
     expireTimer,
     UserUtils.getOurPubKeyStrFromCache(),
     Date.now(),

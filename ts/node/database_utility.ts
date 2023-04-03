@@ -76,6 +76,8 @@ const allowedKeysFormatRowOfConversation = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'expirationType',
+  'lastDisappearingMessageChangeTimestamp',
 ];
 
 export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
@@ -204,6 +206,8 @@ const allowedKeysOfConversationAttributes = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'expirationType',
+  'lastDisappearingMessageChangeTimestamp',
 ];
 
 /**

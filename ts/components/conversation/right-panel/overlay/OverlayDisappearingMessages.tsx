@@ -2,17 +2,22 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setDisappearingMessagesByConvoId } from '../../../../interactions/conversationInteractions';
+import {
+  DisappearingMessageSetting,
+  DisappearingMessageType,
+} from '../../../../models/conversationAttributes';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../state/ducks/section';
 import { getSelectedConversationKey } from '../../../../state/selectors/conversations';
 import { getTimerOptions } from '../../../../state/selectors/timerOptions';
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
-import { SpacerLG } from '../../../basic/Text';
+import { SpacerLG, SpacerXL } from '../../../basic/Text';
 import { PanelButtonGroup } from '../../../buttons';
 import { PanelLabel } from '../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
+import { getSelectedConversationExpirationSettings } from '../../../../state/selectors/conversations';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -21,8 +26,6 @@ const StyledScrollContainer = styled.div`
 `;
 
 const StyledContainer = styled(Flex)`
-  width: 100%;
-
   .session-button {
     font-weight: 500;
     min-width: 90px;
@@ -89,6 +92,52 @@ const Header = (props: HeaderProps) => {
   );
 };
 
+type DisappearingModesProps = {
+  options: Array<DisappearingMessageType>;
+  selected: DisappearingMessageType;
+  setSelected: (value: string) => void;
+};
+
+const DisappearingModes = (props: DisappearingModesProps) => {
+  const { options, selected, setSelected } = props;
+  return (
+    <>
+      <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>
+      <PanelButtonGroup>
+        {options.map((option: DisappearingMessageType) => {
+          const optionI18n =
+            option === 'off'
+              ? window.i18n('disappearingMessagesModeOff')
+              : option === 'deleteAfterRead'
+              ? window.i18n('disappearingMessagesModeAfterRead')
+              : window.i18n('disappearingMessagesModeAfterSend');
+
+          const subtitleI18n =
+            option === 'deleteAfterRead'
+              ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
+              : option === 'deleteAfterSend'
+              ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
+              : undefined;
+
+          return (
+            <PanelRadioButton
+              key={option}
+              text={optionI18n}
+              subtitle={subtitleI18n}
+              value={option}
+              isSelected={selected === option}
+              onSelect={() => {
+                setSelected(option);
+              }}
+              disableBg={true}
+            />
+          );
+        })}
+      </PanelButtonGroup>
+    </>
+  );
+};
+
 type TimerOptionsProps = {
   options: Array<any>;
   selected: number;
@@ -121,9 +170,13 @@ const TimeOptions = (props: TimerOptionsProps) => {
 
 export const OverlayDisappearingMessages = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const disappearingModeOptions = DisappearingMessageSetting;
   const timerOptions = useSelector(getTimerOptions).timerOptions;
 
-  const [timeSelected, setTimeSelected] = useState(timerOptions[0].value);
+  const { expirationType, expireTimer } = useSelector(getSelectedConversationExpirationSettings);
+
+  const [modeSelected, setModeSelected] = useState(expirationType);
+  const [timeSelected, setTimeSelected] = useState(expireTimer);
 
   return (
     <StyledScrollContainer>
@@ -132,17 +185,36 @@ export const OverlayDisappearingMessages = () => {
           title={window.i18n('disappearingMessages')}
           subtitle={window.i18n('disappearingMessagesSubtitle')}
         />
-        <TimeOptions options={timerOptions} selected={timeSelected} setSelected={setTimeSelected} />
+        <DisappearingModes
+          options={disappearingModeOptions}
+          selected={modeSelected}
+          setSelected={setModeSelected}
+        />
+        {modeSelected !== 'off' && (
+          <>
+            <SpacerLG />
+            <TimeOptions
+              options={timerOptions}
+              selected={timeSelected}
+              setSelected={setTimeSelected}
+            />
+          </>
+        )}
         <SessionButton
           onClick={async () => {
-            if (selectedConversationKey) {
-              await setDisappearingMessagesByConvoId(selectedConversationKey, timeSelected);
+            if (selectedConversationKey && modeSelected && timeSelected) {
+              await setDisappearingMessagesByConvoId(
+                selectedConversationKey,
+                modeSelected,
+                timeSelected
+              );
             }
           }}
         >
           {window.i18n('set')}
         </SessionButton>
         <SpacerLG />
+        <SpacerXL />
       </StyledContainer>
     </StyledScrollContainer>
   );

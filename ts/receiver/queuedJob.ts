@@ -14,7 +14,7 @@ import { MessageDirection } from '../models/messageType';
 import { LinkPreviews } from '../util/linkPreviews';
 import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { ConversationTypeEnum, DisappearingMessageType } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 function contentTypeSupported(type: string): boolean {
@@ -182,6 +182,7 @@ export type RegularMessageType = Pick<
   | 'reaction'
   | 'profile'
   | 'profileKey'
+  // TODO Add expirationType and other new props
   | 'expireTimer'
 > & { isRegularMessage: true };
 
@@ -310,6 +311,7 @@ async function handleExpirationTimerUpdateNoCommit(
   conversation: ConversationModel,
   message: MessageModel,
   source: string,
+  expirationType: DisappearingMessageType,
   expireTimer: number
 ) {
   message.set({
@@ -319,9 +321,16 @@ async function handleExpirationTimerUpdateNoCommit(
     },
     unread: 0, // mark the message as read.
   });
-  conversation.set({ expireTimer });
+  conversation.set({ expirationType, expireTimer });
 
-  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'), {}, false);
+  await conversation.updateExpireTimer(
+    expirationType,
+    expireTimer,
+    source,
+    message.get('received_at'),
+    {},
+    false
+  );
 }
 
 export async function handleMessageJob(
@@ -344,17 +353,27 @@ export async function handleMessageJob(
   );
   try {
     messageModel.set({ flags: regularDataMessage.flags });
+    // TODO update to handle the new disappearing message props
     if (messageModel.isExpirationTimerUpdate()) {
+      // TODO Account for expirationType and lastDisappearingMessageChangeTimestamp
       const { expireTimer } = regularDataMessage;
-      const oldValue = conversation.get('expireTimer');
-      if (expireTimer === oldValue) {
+
+      // const oldTypeValue = conversation.get('expirationType');
+      const oldTimerValue = conversation.get('expireTimer');
+      if (expireTimer === oldTimerValue) {
         confirm?.();
         window?.log?.info(
           'Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }
-      await handleExpirationTimerUpdateNoCommit(conversation, messageModel, source, expireTimer);
+      await handleExpirationTimerUpdateNoCommit(
+        conversation,
+        messageModel,
+        source,
+        'deleteAfterSend',
+        expireTimer
+      );
     } else {
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(

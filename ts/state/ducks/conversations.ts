@@ -14,6 +14,7 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
+  DisappearingMessageType,
 } from '../../models/conversationAttributes';
 import { ReactionList } from '../../types/Reaction';
 
@@ -71,6 +72,7 @@ export type FindAndFormatContactType = {
   isMe: boolean;
 };
 
+// TODO Should this be updated?
 export type PropsForExpirationTimer = {
   timespan: string;
   disabled: boolean;
@@ -245,7 +247,9 @@ export interface ReduxConversationType {
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;
+  expirationType?: DisappearingMessageType;
   expireTimer?: number;
+  lastDisappearingMessageChangeTimestamp?: number;
 
   isTyping?: boolean;
   isBlocked?: boolean;
