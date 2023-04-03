@@ -1601,7 +1601,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
        * Setup up the Contacts Wrapper with all the contact details which needs to be stored in it.
        */
 
-      // this filter is based on the `isContactToStoreInContactsWrapper` function.
+      // this filter is based on the `isContactToStoreInContactsWrapper` function. Note, blocked contacts won't be added to the wrapper at first, but will on the first start
       const contactsToWriteInWrapper = db
         .prepare(
           `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND NOT hidden AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' ;`

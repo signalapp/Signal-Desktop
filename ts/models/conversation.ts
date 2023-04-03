@@ -414,9 +414,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (foundLegacyGroup.priority) {
         toRet.priority = foundLegacyGroup.priority;
-      } // TODO grab the details from the db if we do not have an entry in the wrapper
+      }
+    } else if (this.isClosedGroup()) {
+      toRet.members = this.get('members') || [];
+      toRet.groupAdmins = this.getGroupAdmins();
+      toRet.displayNameInProfile = this.get('displayNameInProfile');
+      toRet.expireTimer = this.get('expireTimer');
     }
 
+    // those are values coming only from the DB when this is a closed group
     if (this.isClosedGroup()) {
       if (this.get('isKickedFromGroup')) {
         toRet.isKickedFromGroup = !!this.get('isKickedFromGroup');
@@ -435,14 +441,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (foundCommunity) {
       if (foundCommunity.priority) {
         toRet.priority = foundCommunity.priority;
-      }
-      // TODO grab the details from the db if we do not have an entry in the wrapper
-      // TODO should we just not rely on the db values?
+      } // the priorty field is the only one currently in the wrapper community. and we already pre apply the one from the DB on the top of this function
     }
 
     if (foundVolatileInfo) {
       if (foundVolatileInfo.unread) {
         toRet.isMarkedUnread = foundVolatileInfo.unread;
+      }
+    } else {
+      if (this.get('markedAsUnread')) {
+        toRet.isMarkedUnread = this.get('markedAsUnread');
       }
     }
 
@@ -2234,12 +2242,15 @@ export async function commitConversationAndRefreshWrapper(id: string) {
   if (!convo) {
     return;
   }
-  // write to DB
-  // TODOLATER remove duplicates between db and wrapper (except nickname&name as we need them for search, or move search to wrapper too)
 
+  // TODOLATER remove duplicates between db and wrapper (and move search by name or nickname to wrapper)
+  // TODOLATER insertConvoFromDBIntoWrapperAndRefresh and insertContactFromDBIntoWrapperAndRefresh both fetches the same data from the DB. Might be worth fetching it and providing it to both?
+
+  // write to db
   const savedDetails = await Data.saveConversation(convo.attributes);
   await convo.refreshInMemoryDetails(savedDetails);
 
+  // Performance impact on this is probably to be pretty bad. We might want to push for that DB refactor to be done sooner so we do not need to fetch info from the DB anymore
   for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
     const variant = LibSessionUtil.requiredUserVariants[index];
 

@@ -54,9 +54,10 @@ function isContactToStoreInContactsWrapper(convo: ConversationModel): boolean {
     convo.isPrivate() &&
     convo.isActive() &&
     !PubKey.hasBlindedPrefix(convo.id) &&
-    (convo.isApproved() || convo.didApproveMe())
+    (convo.isApproved() || convo.didApproveMe() || convo.isBlocked())
   );
 }
+// TODOLATER should we allow a blinded pubkey to be in the contact wrapper when we blocked it (can we block a blinded message request?)
 
 /**
  * Fetches the specified convo and updates the required field in the wrapper.
