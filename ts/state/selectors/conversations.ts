@@ -1213,7 +1213,7 @@ export const getSelectedConversationExpirationModesLocked = createSelector(
     if (modes && Object.keys(modes).length > 1) {
       Object.keys(modes).forEach(mode => {
         let result = false;
-        if (mode !== 'legacy') {
+        if (mode !== 'legacy' && mode !== 'off') {
           result = true;
         }
         modesWithDisabledState[mode] = result;
