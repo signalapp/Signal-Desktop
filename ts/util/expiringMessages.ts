@@ -345,6 +345,13 @@ export function handleExpireUpdate(
   messageModel: MessageModel,
   expireUpdate: DisappearingMessageUpdate
 ) {
+  if (converationModel.isPublic()) {
+    window.log.warning(
+      "WIP: updateExpireTimer() Disappearing messages aren't supported in communities"
+    );
+    return messageModel;
+  }
+
   const {
     expirationType,
     // TODO renamed expireTimer to expirationTimer

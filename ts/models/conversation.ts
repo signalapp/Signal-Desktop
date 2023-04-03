@@ -1074,6 +1074,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     shouldCommit?: boolean;
     existingMessage?: MessageModel;
   }): Promise<void> {
+    if (this.isPublic()) {
+      window.log.warning(
+        "WIP: updateExpireTimer() Disappearing messages aren't supported in communities"
+      );
+      return;
+    }
+
     let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
