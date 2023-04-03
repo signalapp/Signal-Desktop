@@ -344,6 +344,7 @@ const renderItem = ({
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
     theme={ThemeType.light}
+    platform="darwin"
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""

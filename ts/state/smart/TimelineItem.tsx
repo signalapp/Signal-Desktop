@@ -16,7 +16,12 @@ import { useLightboxActions } from '../ducks/lightbox';
 import { useStoriesActions } from '../ducks/stories';
 import { useCallingActions } from '../ducks/calling';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
+import {
+  getIntl,
+  getInteractionMode,
+  getTheme,
+  getPlatform,
+} from '../selectors/user';
 import { getTargetedMessage } from '../selectors/conversations';
 import { getTimelineItem } from '../selectors/timeline';
 import {
@@ -67,6 +72,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
+  const platform = useSelector(getPlatform);
   const item = useProxySelector(getTimelineItem, messageId);
   const previousItem = useProxySelector(getTimelineItem, previousMessageId);
   const nextItem = useProxySelector(getTimelineItem, nextMessageId);
@@ -166,6 +172,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       i18n={i18n}
       interactionMode={interactionMode}
       theme={theme}
+      platform={platform}
       blockGroupLinkRequests={blockGroupLinkRequests}
       checkForAccount={checkForAccount}
       clearTargetedMessage={clearSelectedMessage}

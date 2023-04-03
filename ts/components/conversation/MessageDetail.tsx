@@ -67,6 +67,7 @@ export type PropsData = {
   sentAt: number;
 
   i18n: LocalizerType;
+  platform: string;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
 } & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
@@ -303,6 +304,7 @@ export class MessageDetail extends React.Component<Props> {
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       openGiftBadge,
+      platform,
       pushPanelForConversation,
       renderAudioAttachment,
       saveAttachment,
@@ -346,6 +348,7 @@ export class MessageDetail extends React.Component<Props> {
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
             messageExpanded={noop}
+            platform={platform}
             showConversation={showConversation}
             openGiftBadge={openGiftBadge}
             pushPanelForConversation={pushPanelForConversation}

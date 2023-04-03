@@ -7,7 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { GroupDialog } from './GroupDialog';
 import { sortByTitle } from '../util/sortByTitle';
-import { missingCaseError } from '../util';
+import { missingCaseError } from '../util/missingCaseError';
 
 export type DataPropsType = {
   conversationId: string;

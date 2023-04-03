@@ -7,7 +7,7 @@ import type { GlobalModalsStateType } from '../ducks/globalModals';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { StateType } from '../reducer';
 import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal';
-import { getIntl } from '../selectors/user';
+import { getIntl, getPlatform } from '../selectors/user';
 import { getMessagePropsSelector } from '../selectors/message';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useConversationsActions } from '../ducks/conversations';
@@ -17,6 +17,7 @@ import { strictAssert } from '../../util/assert';
 
 export function SmartEditHistoryMessagesModal(): JSX.Element {
   const i18n = useSelector(getIntl);
+  const platform = useSelector(getPlatform);
 
   const { closeEditHistoryModal } = useGlobalModalActions();
 
@@ -50,6 +51,7 @@ export function SmartEditHistoryMessagesModal(): JSX.Element {
       editHistoryMessages={editHistoryMessages}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
+      platform={platform}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       showLightbox={showLightbox}
     />

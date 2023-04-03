@@ -44,6 +44,9 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    platform: {
+      defautlValue: 'darwin',
+    },
     isFromMe: {
       control: { type: 'checkbox' },
       defaultValue: false,
@@ -103,6 +106,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   ),
   getPreferredBadge: () => undefined,
   i18n,
+  platform: 'darwin',
   id: 'messageId',
   // renderingContext: 'storybook',
   interactionMode: 'keyboard',

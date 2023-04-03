@@ -19,6 +19,7 @@ export type PropsType = {
   editHistoryMessages: Array<MessagePropsType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  platform: string;
   kickOffAttachmentDownload: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -70,6 +71,7 @@ export function EditHistoryMessagesModal({
   getPreferredBadge,
   editHistoryMessages,
   i18n,
+  platform,
   kickOffAttachmentDownload,
   showLightbox,
 }: PropsType): JSX.Element {
@@ -100,6 +102,7 @@ export function EditHistoryMessagesModal({
             containerElementRef={containerElementRef}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
+            platform={platform}
             key={messageAttributes.timestamp}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             showLightbox={closeAndShowLightbox}

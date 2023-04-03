@@ -98,7 +98,6 @@ import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
-import { isMacOS } from '../../OS';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -297,6 +296,7 @@ export type PropsHousekeeping = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
+  platform: string;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
@@ -2577,6 +2577,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSelected,
       isSelectMode,
       onKeyDown,
+      platform,
       renderMenu,
       shouldCollapseAbove,
       shouldCollapseBelow,
@@ -2584,6 +2585,7 @@ export class Message extends React.PureComponent<Props, State> {
       onToggleSelect,
       onReplyToMessage,
     } = this.props;
+    const isMacOS = platform === 'darwin';
     const { expired, expiring, isTargeted, imageBroken } = this.state;
 
     if (expired) {
@@ -2622,7 +2624,7 @@ export class Message extends React.PureComponent<Props, State> {
         // We use `onClickCapture` here and preven default/stop propagation to
         // prevent other click handlers from firing.
         onClickCapture: event => {
-          if (isMacOS() ? event.metaKey : event.ctrlKey) {
+          if (isMacOS ? event.metaKey : event.ctrlKey) {
             event.preventDefault();
             event.stopPropagation();
             onToggleSelect(true, false);

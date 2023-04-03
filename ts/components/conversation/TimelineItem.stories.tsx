@@ -61,6 +61,7 @@ const getDefaultProps = () => ({
   isTargeted: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
+  platform: 'darwin',
   targetMessage: action('targetMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),
   reactToMessage: action('reactToMessage'),

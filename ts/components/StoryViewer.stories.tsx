@@ -39,6 +39,9 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    platform: {
+      defaultValue: 'darwin',
+    },
     loadStoryReplies: { action: true },
     markStoryRead: { action: true },
     numStories: {

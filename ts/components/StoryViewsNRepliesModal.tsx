@@ -87,6 +87,7 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   hasViewsCapability: boolean;
   i18n: LocalizerType;
+  platform: string;
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
@@ -120,6 +121,7 @@ export function StoryViewsNRepliesModal({
   hasViewReceiptSetting,
   hasViewsCapability,
   i18n,
+  platform,
   isInternalUser,
   onChangeViewTarget,
   onClose,
@@ -286,6 +288,7 @@ export function StoryViewsNRepliesModal({
               }
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
+              platform={platform}
               id={reply.id}
               isInternalUser={isInternalUser}
               reply={reply}
@@ -463,6 +466,7 @@ type ReplyOrReactionMessageProps = {
   deleteGroupStoryReplyForEveryone: (replyId: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  platform: string;
   id: string;
   isInternalUser?: boolean;
   onContextMenu?: (ev: React.MouseEvent) => void;
@@ -481,6 +485,7 @@ function ReplyOrReactionMessage({
   deleteGroupStoryReplyForEveryone,
   containerElementRef,
   getPreferredBadge,
+  platform,
   shouldCollapseAbove,
   shouldCollapseBelow,
   showContactModal,
@@ -549,6 +554,7 @@ function ReplyOrReactionMessage({
           onContextMenu={onContextMenu}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          platform={platform}
           id={reply.id}
           interactionMode="mouse"
           readStatus={reply.readStatus}

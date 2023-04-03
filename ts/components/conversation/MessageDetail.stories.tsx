@@ -68,6 +68,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
   getPreferredBadge: () => getFakeBadge(),
   i18n,
+  platform: 'darwin',
   interactionMode: 'keyboard',
   theme: ThemeType.light,
 

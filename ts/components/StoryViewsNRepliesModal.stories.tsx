@@ -39,6 +39,9 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    platform: {
+      defaultValue: 'darwin',
+    },
     onClose: { action: true },
     onSetSkinTone: { action: true },
     onReact: { action: true },

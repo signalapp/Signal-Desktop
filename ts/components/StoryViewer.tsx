@@ -101,6 +101,7 @@ export type PropsType = {
   ) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
   onMediaPlaybackStart: () => void;
+  platform: string;
   preferredReactionEmoji: ReadonlyArray<string>;
   queueStoryDownload: (storyId: string) => unknown;
   recentEmojis?: ReadonlyArray<string>;
@@ -155,6 +156,7 @@ export function StoryViewer({
   onTextTooLong,
   onUseEmoji,
   onMediaPlaybackStart,
+  platform,
   preferredReactionEmoji,
   queueStoryDownload,
   recentEmojis,
@@ -914,6 +916,7 @@ export function StoryViewer({
             hasViewReceiptSetting={hasViewReceiptSetting}
             hasViewsCapability={isSent}
             i18n={i18n}
+            platform={platform}
             isInternalUser={isInternalUser}
             group={group}
             onClose={() => setCurrentViewTarget(null)}

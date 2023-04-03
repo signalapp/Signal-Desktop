@@ -281,6 +281,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   giftBadge: overrideProps.giftBadge,
   i18n,
+  platform: 'darwin',
   id: text('id', overrideProps.id || 'random-message-id'),
   // renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',

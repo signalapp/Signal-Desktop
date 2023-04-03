@@ -18,7 +18,7 @@ import {
   getPreferredReactionEmoji,
   isInternalUser,
 } from '../selectors/items';
-import { getIntl } from '../selectors/user';
+import { getIntl, getPlatform } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getSelectedStoryData,
@@ -56,6 +56,7 @@ export function SmartStoryViewer(): JSX.Element | null {
   const isWindowActive = useIsWindowActive();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const platform = useSelector(getPlatform);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
     getPreferredReactionEmoji
@@ -111,6 +112,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       hasAllStoriesUnmuted={hasAllStoriesUnmuted}
       hasViewReceiptSetting={hasViewReceiptSetting}
       i18n={i18n}
+      platform={platform}
       isInternalUser={internalUser}
       saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}
       isSignalConversation={isSignalConversation({

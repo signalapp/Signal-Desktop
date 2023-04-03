@@ -151,6 +151,7 @@ type PropsLocalType = {
   isTargeted: boolean;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
+  platform: string;
   renderContact: SmartContactRendererType<FullJSXType>;
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
@@ -188,6 +189,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       isNextItemCallingNotification,
       isTargeted,
       item,
+      platform,
       renderUniversalTimerNotification,
       returnToActiveCall,
       targetMessage,
@@ -223,6 +225,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           shouldHideMetadata={shouldHideMetadata}
           containerElementRef={containerElementRef}
           getPreferredBadge={getPreferredBadge}
+          platform={platform}
           i18n={i18n}
           theme={theme}
         />

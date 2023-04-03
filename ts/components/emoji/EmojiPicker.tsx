@@ -24,7 +24,7 @@ import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
-import { missingCaseError } from '../../util';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export type EmojiPickDataType = {
   skinTone?: number;

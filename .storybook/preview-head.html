@@ -50,5 +50,9 @@
       hasCustomTitleBar: () => false,
     },
   };
+
+  window.ConversationController = window.ConversationController || {};
+  window.ConversationController.isSignalConversation = () => false;
+  window.ConversationController.onConvoMessageMount = noop;
   window.getPreferredSystemLocales = () => ['en'];
 </script>

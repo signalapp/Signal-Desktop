@@ -7,7 +7,12 @@ import { useSelector } from 'react-redux';
 import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail';
 import { MessageDetail } from '../../components/conversation/MessageDetail';
 import { getContactNameColorSelector } from '../selectors/conversations';
-import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
+import {
+  getIntl,
+  getInteractionMode,
+  getTheme,
+  getPlatform,
+} from '../selectors/user';
 import { getMessageDetails } from '../selectors/message';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { renderAudioAttachment } from './renderAudioAttachment';
@@ -27,6 +32,7 @@ export function SmartMessageDetail(): JSX.Element | null {
   const getContactNameColor = useSelector(getContactNameColorSelector);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
+  const platform = useSelector(getPlatform);
   const interactionMode = useSelector(getInteractionMode);
   const messageDetails = useSelector(getMessageDetails);
   const theme = useSelector(getTheme);
@@ -76,6 +82,7 @@ export function SmartMessageDetail(): JSX.Element | null {
       errors={errors}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
+      platform={platform}
       interactionMode={interactionMode}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}
