@@ -127,31 +127,34 @@ async function handleMessageSentSuccess(
   const convo = fetchedMessage.getConversation();
   const isLegacyReadMode = convo && convo.isPrivate() && expirationType === 'legacy';
   const isLegacySentMode = convo && convo.isMediumGroup() && expirationType === 'legacy';
-  const markAsUnread = isLegacyReadMode || expirationType === 'deleteAfterRead';
 
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
     sent_at: effectiveTimestamp,
-    // TODO message status overrides this for some reason in the UI, message still disappears though
-    unread: markAsUnread ? 1 : 0,
   });
 
   // TODO legacy messages support will be removed in a future release
+  // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
   if (
-    (isLegacySentMode || expirationType === 'deleteAfterSend') &&
+    (isLegacyReadMode ||
+      isLegacySentMode ||
+      expirationType === 'deleteAfterRead' ||
+      expirationType === 'deleteAfterSend') &&
     Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
   ) {
-    if (expirationType === 'legacy' || expirationType === 'deleteAfterSend') {
-      // TODO message timer start is a few seconds less than the amount due to it's position in the pipeline, not sure on a fix yet
-      fetchedMessage.set({
-        expirationStartTimestamp: setExpirationStartTimestamp(
-          'deleteAfterSend',
-          fetchedMessage.get('sent_at'),
-          isLegacySentMode
-        ),
-      });
-    }
+    const expirationMode =
+      isLegacyReadMode || expirationType === 'deleteAfterRead'
+        ? 'deleteAfterRead'
+        : 'deleteAfterSend';
+
+    fetchedMessage.set({
+      expirationStartTimestamp: setExpirationStartTimestamp(
+        expirationMode,
+        fetchedMessage.get('sent_at'),
+        isLegacyReadMode || isLegacySentMode
+      ),
+    });
   }
 
   await fetchedMessage.commit();
