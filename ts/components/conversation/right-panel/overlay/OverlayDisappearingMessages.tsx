@@ -9,6 +9,7 @@ import { getTimerOptions } from '../../../../state/selectors/timerOptions';
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
 import { PanelButtonGroup } from '../../../buttons';
+import { PanelLabel } from '../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
 
@@ -91,20 +92,23 @@ const TimeOptions = (props: TimerOptionsProps) => {
   const { options, selected, setSelected } = props;
 
   return (
-    <PanelButtonGroup>
-      {options.map((option: any) => (
-        <PanelRadioButton
-          key={option.name}
-          text={option.name}
-          value={option.name}
-          isSelected={selected === option.value}
-          onSelect={() => {
-            setSelected(option.value);
-          }}
-          disableBg={true}
-        />
-      ))}
-    </PanelButtonGroup>
+    <>
+      <PanelLabel>{window.i18n('timer')}</PanelLabel>
+      <PanelButtonGroup>
+        {options.map((option: any) => (
+          <PanelRadioButton
+            key={option.name}
+            text={option.name}
+            value={option.name}
+            isSelected={selected === option.value}
+            onSelect={() => {
+              setSelected(option.value);
+            }}
+            disableBg={true}
+          />
+        ))}
+      </PanelButtonGroup>
+    </>
   );
 };
 

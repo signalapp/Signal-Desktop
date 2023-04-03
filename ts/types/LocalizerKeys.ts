@@ -188,6 +188,7 @@ export type LocalizerKeys =
   | 'areYouSureDeleteEntireAccount'
   | 'noGivenPassword'
   | 'closedGroupInviteOkText'
+  | 'timer'
   | 'readReceiptSettingTitle'
   | 'copySessionID'
   | 'timerOption_0_seconds'

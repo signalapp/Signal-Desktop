@@ -21,6 +21,14 @@ export const StyledText = styled.span`
   text-align: left;
 `;
 
+export const PanelLabel = styled.p`
+  color: var(--text-secondary-color);
+  width: 100%;
+  margin: 0;
+  padding-left: calc(var(--margins-lg) * 2 + var(--margins-sm));
+  padding-bottom: var(--margins-sm);
+`;
+
 const StyledRoundedPanelButtonGroup = styled.div`
   overflow: hidden;
   background: var(--right-panel-item-background-color);
