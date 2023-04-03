@@ -31,7 +31,7 @@ async function generateSignature({
   // "expire" || ShortenOrExtend || expiry || messages[0] || ... || messages[N]
   const verificationString = `expire${shortenOrExtend}${timestamp}${messageHashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  console.log(`WIP: generateSignature verificationString ${verificationString}`);
+  // console.log(`WIP: generateSignature verificationString ${verificationString}`);
   const message = new Uint8Array(verificationData);
 
   const sodium = await getSodiumRenderer();
@@ -53,27 +53,43 @@ async function verifySignature({
   pubkey,
   snodePubkey,
   expiryApplied,
-  messageHashes,
-  resultHashes,
   signature,
+  messageHashes,
+  updatedHashes,
+  unchangedHashes,
 }: {
   pubkey: PubKey;
   snodePubkey: any;
   expiryApplied: number;
-  messageHashes: Array<string>;
-  resultHashes: Array<string>;
   signature: string;
+  messageHashes: Array<string>;
+  updatedHashes: Array<string>;
+  // only used when shorten or extend is in the request
+  unchangedHashes?: Record<string, string>;
 }): Promise<boolean> {
-  if (!expiryApplied || isEmpty(messageHashes) || isEmpty(resultHashes) || isEmpty(signature)) {
+  if (!expiryApplied || isEmpty(messageHashes) || isEmpty(signature)) {
+    // window.log.info('WIP: WIP: verifySignature missing argument');
     return false;
   }
 
   const edKeyPrivBytes = fromHexToArray(snodePubkey);
+  /* PUBKEY_HEX || EXPIRY || RMSGs... || UMSGs... || CMSG_EXPs...
+  where RMSGs are the requested expiry hashes,
+  UMSGs are the actual updated hashes, and
+  CMSG_EXPs are (HASH || EXPIRY) values, ascii-sorted by hash, for the unchanged message hashes included in the "unchanged" field.
+  */
+  const hashes = [...messageHashes, ...updatedHashes];
+  if (unchangedHashes && Object.keys(unchangedHashes).length > 0) {
+    hashes.push(
+      ...Object.entries(unchangedHashes)
+        .map(([key, value]: [string, string]) => {
+          return `${key}${value}`;
+        })
+        .sort()
+    );
+  }
 
-  // pubkey || "expireApplied" || messages[0] || ... || messages[N]
-  const verificationString = `${pubkey.key}${expiryApplied}${messageHashes.join(
-    ''
-  )}${resultHashes.join('')}`;
+  const verificationString = `${pubkey.key}${expiryApplied}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
   // console.log(`WIP: verifySignature verificationString`, verificationString);
 
@@ -120,17 +136,21 @@ async function processExpirationResults(
       results[nodeKey] = { hashes: [], expiry: 0 };
     }
 
-    const resultHashes = swarm[nodeKey].updated;
+    const updatedHashes = swarm[nodeKey].updated;
+    const unchangedHashes = swarm[nodeKey].unchanged;
     const expiryApplied = swarm[nodeKey].expiry;
     const signature = swarm[nodeKey].signature;
+
+    // window.log.info(`WIP: processExpirationResults swarm[nodeKey]`, swarm[nodeKey]);
 
     const isValid = await verifySignature({
       pubkey,
       snodePubkey: nodeKey,
       expiryApplied,
-      messageHashes,
-      resultHashes,
       signature,
+      messageHashes,
+      updatedHashes,
+      unchangedHashes,
     });
 
     if (!isValid) {
@@ -139,7 +159,7 @@ async function processExpirationResults(
         messageHashes
       );
     }
-    results[nodeKey] = { hashes: resultHashes, expiry: expiryApplied };
+    results[nodeKey] = { hashes: updatedHashes, expiry: expiryApplied };
   }
 
   return results;
@@ -245,10 +265,12 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
     // messages: ['WabEZS4RH/NrDhm8vh1gXK4xSmyJL1d4BUC/Ho6GRxA'],
     messages: [messageHash],
     expiry,
+    extend: extend || undefined,
+    shorten: shorten || undefined,
     signature: signResult?.signature,
   };
 
-  window.log.info(`WIP: expireMessageOnSnode params`, params);
+  // window.log.info(`WIP: expireMessageOnSnode params`, params);
 
   const usedNodes = slice(swarm, 0, DEFAULT_CONNECTIONS);
   if (!usedNodes || usedNodes.length === 0) {
