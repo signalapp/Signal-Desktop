@@ -1193,7 +1193,34 @@ export const getSelectedConversationExpirationModes = createSelector(
     // Legacy mode is the 2nd option in the UI
     modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
 
-    return modes;
+    const modesWithDisabledState: any = {};
+
+    if (modes && modes.length > 1) {
+      modes.forEach(mode => {
+        modesWithDisabledState[mode] = false;
+      });
+    }
+
+    return modesWithDisabledState;
+  }
+);
+
+export const getSelectedConversationExpirationModesLocked = createSelector(
+  getSelectedConversationExpirationModes,
+  (modes: any | undefined) => {
+    const modesWithDisabledState: any = {};
+
+    if (modes && Object.keys(modes).length > 1) {
+      Object.keys(modes).forEach(mode => {
+        let result = false;
+        if (mode !== 'legacy') {
+          result = true;
+        }
+        modesWithDisabledState[mode] = result;
+      });
+    }
+
+    return modesWithDisabledState;
   }
 );
 

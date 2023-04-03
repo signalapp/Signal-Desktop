@@ -13,6 +13,7 @@ import { PanelRadioButton } from '../../../buttons/PanelRadioButton';
 import { SessionIconButton } from '../../../icon';
 import {
   getSelectedConversationExpirationModes,
+  getSelectedConversationExpirationModesLocked,
   getSelectedConversationExpirationSettings,
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
@@ -98,7 +99,7 @@ const Header = (props: HeaderProps) => {
 };
 
 type DisappearingModesProps = {
-  options: Array<DisappearingMessageConversationType>;
+  options: Record<DisappearingMessageConversationType, boolean>;
   selected?: DisappearingMessageConversationType;
   setSelected: (value: string) => void;
 };
@@ -109,36 +110,37 @@ const DisappearingModes = (props: DisappearingModesProps) => {
     <>
       <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>
       <PanelButtonGroup>
-        {options.map((option: DisappearingMessageConversationType) => {
+        {Object.keys(options).map((mode: DisappearingMessageConversationType) => {
           const optionI18n =
-            option === 'legacy'
+            mode === 'legacy'
               ? window.i18n('disappearingMessagesModeLegacy')
-              : option === 'deleteAfterRead'
+              : mode === 'deleteAfterRead'
               ? window.i18n('disappearingMessagesModeAfterRead')
-              : option === 'deleteAfterSend'
+              : mode === 'deleteAfterSend'
               ? window.i18n('disappearingMessagesModeAfterSend')
               : window.i18n('disappearingMessagesModeOff');
 
           const subtitleI18n =
-            option === 'legacy'
+            mode === 'legacy'
               ? window.i18n('disappearingMessagesModeLegacySubtitle')
-              : option === 'deleteAfterRead'
+              : mode === 'deleteAfterRead'
               ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
-              : option === 'deleteAfterSend'
+              : mode === 'deleteAfterSend'
               ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
               : undefined;
 
           return (
             <PanelRadioButton
-              key={option}
+              key={mode}
               text={optionI18n}
               subtitle={subtitleI18n}
-              value={option}
-              isSelected={selected === option}
+              value={mode}
+              isSelected={selected === mode}
               onSelect={() => {
-                setSelected(option);
+                setSelected(mode);
               }}
-              disableBg={true}
+              disabled={options[mode]}
+              noBackgroundColor={true}
             />
           );
         })}
@@ -173,7 +175,7 @@ const TimeOptions = (props: TimerOptionsProps) => {
             onSelect={() => {
               setSelected(option.value);
             }}
-            disableBg={true}
+            noBackgroundColor={true}
           />
         ))}
       </PanelButtonGroup>
@@ -181,10 +183,17 @@ const TimeOptions = (props: TimerOptionsProps) => {
   );
 };
 
-export const OverlayDisappearingMessages = () => {
+type OverlayDisappearingMessagesProps = { unlockAllModes: boolean };
+
+export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesProps) => {
+  const { unlockAllModes } = props;
   const dispatch = useDispatch();
   const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
+  const disappearingModeOptions = useSelector(
+    unlockAllModes
+      ? getSelectedConversationExpirationModes
+      : getSelectedConversationExpirationModesLocked
+  );
 
   const convoProps = useSelector(getSelectedConversationExpirationSettings);
 
