@@ -247,22 +247,52 @@ export async function handleSwarmDataMessage(
     // TODO handle sync messages separately
     window.log.info('WIP: Sync Message dropping');
   } else {
-    const { expirationType, expireTimer, lastDisappearingMessageChangeTimestamp } = expireUpdate;
-
-    msgModel.set({
+    const {
       expirationType,
       expireTimer,
+      lastDisappearingMessageChangeTimestamp,
+      isLegacyMessage,
+      isDisappearingMessagesV2Released,
+    } = expireUpdate;
+
+    // TODO legacy messages support will be removed in a future release
+    msgModel.set({
+      expirationType: isDisappearingMessagesV2Released
+        ? senderConversationModel.get('expirationType')
+        : expirationType,
+      expireTimer: isDisappearingMessagesV2Released
+        ? senderConversationModel.get('expireTimer')
+        : expireTimer,
     });
 
+    // TODO legacy messages support will be removed in a future release
     // This message is conversation setting change message
-    if (lastDisappearingMessageChangeTimestamp) {
+    if (
+      lastDisappearingMessageChangeTimestamp ||
+      (isLegacyMessage &&
+        rawDataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
+    ) {
+      const expirationTimerUpdate = {
+        expirationType,
+        expireTimer,
+        lastDisappearingMessageChangeTimestamp: isLegacyMessage
+          ? Date.now()
+          : Number(lastDisappearingMessageChangeTimestamp),
+        source: msgModel.get('source'),
+      };
+
+      if (isLegacyMessage && isDisappearingMessagesV2Released) {
+        // if it is a legacy message then we ignore it and use the local client's conversation settings
+        expirationTimerUpdate.expirationType = senderConversationModel.get('expirationType');
+        expirationTimerUpdate.expireTimer = senderConversationModel.get('expireTimer');
+
+        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp = senderConversationModel.get(
+          'lastDisappearingMessageChangeTimestamp'
+        );
+      }
+
       msgModel.set({
-        expirationTimerUpdate: {
-          expirationType,
-          expireTimer,
-          lastDisappearingMessageChangeTimestamp,
-          source: msgModel.get('source'),
-        },
+        expirationTimerUpdate,
       });
     }
   }

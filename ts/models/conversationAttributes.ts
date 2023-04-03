@@ -35,6 +35,8 @@ export interface ConversationAttributes {
   expireTimer: number;
   lastDisappearingMessageChangeTimestamp: number;
 
+  hasOutdatedClient: boolean;
+
   mentionedUs: boolean;
   unreadCount: number;
   lastMessageStatus: LastMessageStatusType;
@@ -89,9 +91,12 @@ export const fillConvoAttributesWithDefaults = (
     unreadCount: 0,
     lastJoinedTimestamp: 0,
     subscriberCount: 0,
+
     expirationType: 'off',
     expireTimer: 0,
     lastDisappearingMessageChangeTimestamp: 0,
+
+    hasOutdatedClient: false,
     active_at: 0,
 
     lastMessageStatus: undefined,

@@ -78,6 +78,7 @@ const allowedKeysFormatRowOfConversation = [
   'conversationIdOrigin',
   'expirationType',
   'lastDisappearingMessageChangeTimestamp',
+  'hasOutdatedClient',
 ];
 
 export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
@@ -133,6 +134,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   convo.readCapability = Boolean(convo.readCapability);
   convo.writeCapability = Boolean(convo.writeCapability);
   convo.uploadCapability = Boolean(convo.uploadCapability);
+  convo.hasOutdatedClient = Boolean(convo.hasOutdatedClient);
 
   if (!convo.conversationIdOrigin) {
     convo.conversationIdOrigin = undefined;
@@ -208,6 +210,7 @@ const allowedKeysOfConversationAttributes = [
   'conversationIdOrigin',
   'expirationType',
   'lastDisappearingMessageChangeTimestamp',
+  'hasOutdatedClient',
 ];
 
 /**

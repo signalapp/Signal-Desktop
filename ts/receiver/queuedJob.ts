@@ -16,10 +16,7 @@ import { GoogleChrome } from '../util';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import {
-  DisappearingMessageConversationType,
-  setExpirationStartTimestamp,
-} from '../util/expiringMessages';
+import { setExpirationStartTimestamp } from '../util/expiringMessages';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 function contentTypeSupported(type: string): boolean {
@@ -309,25 +306,6 @@ async function handleRegularMessage(
   });
 }
 
-async function handleExpirationTimerUpdateNoCommit(
-  conversation: ConversationModel,
-  message: MessageModel,
-  source: string,
-  expirationType: DisappearingMessageConversationType,
-  expireTimer: number,
-  lastDisappearingMessageChangeTimestamp: number
-) {
-  await conversation.updateExpireTimer({
-    providedExpirationType: expirationType,
-    providedExpireTimer: expireTimer,
-    providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
-    providedSource: source,
-    receivedAt: message.get('received_at'),
-    shouldCommit: false,
-    existingMessage: message,
-  });
-}
-
 export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,
@@ -349,10 +327,12 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
+    // TODO legacy messages support will be removed in a future release
     if (
       messageModel.isIncoming() &&
-      messageModel.get('expirationType') === 'deleteAfterSend' &&
-      Boolean(messageModel.get('expirationStartTimestamp')) === false
+      Boolean(messageModel.get('expirationStartTimestamp')) === false &&
+      ((messageModel.get('expirationType') === 'legacy' && conversation.isGroup()) ||
+        messageModel.get('expirationType') === 'deleteAfterSend')
     ) {
       messageModel.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
@@ -385,14 +365,15 @@ export async function handleMessageJob(
         return;
       }
 
-      await handleExpirationTimerUpdateNoCommit(
-        conversation,
-        messageModel,
-        source,
-        expirationType,
-        expireTimer,
-        lastDisappearingMessageChangeTimestamp
-      );
+      await conversation.updateExpireTimer({
+        providedExpirationType: expirationType,
+        providedExpireTimer: expireTimer,
+        providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
+        providedSource: source,
+        receivedAt: messageModel.get('received_at'),
+        shouldCommit: false,
+        existingMessage: messageModel,
+      });
     } else {
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(

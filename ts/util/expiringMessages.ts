@@ -22,6 +22,8 @@ export type DisappearingMessageUpdate = {
   expireTimer: number;
   // This is used for the expirationTimerUpdate
   lastDisappearingMessageChangeTimestamp?: number;
+  isLegacyMessage?: boolean;
+  isDisappearingMessagesV2Released?: boolean;
 };
 
 export async function destroyMessagesAndUpdateRedux(

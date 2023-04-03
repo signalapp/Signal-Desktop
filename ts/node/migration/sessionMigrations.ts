@@ -1223,6 +1223,10 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
     ).run();
 
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient BOOLEAN DEFAULT false;`
+    ).run();
+
     // same value in ts/util/releaseFeature.ts but we cannot import since window doesn't exist yet.
     // TODO update to agreed value between platforms
     const featureReleaseTimestamp = 1677574800000; // unix 28/02/2023 09:00

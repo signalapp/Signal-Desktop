@@ -300,6 +300,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const left = !!this.get('left');
     const expirationType = this.get('expirationType');
     const expireTimer = this.get('expireTimer');
+    const lastDisappearingMessageChangeTimestamp = this.get(
+      'lastDisappearingMessageChangeTimestamp'
+    );
+    const hasOutdatedClient = this.get('hasOutdatedClient');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const displayNameInProfile = this.get('displayNameInProfile');
     const nickname = this.get('nickname');
@@ -412,6 +416,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (expireTimer) {
       toRet.expireTimer = expireTimer;
+    }
+
+    if (lastDisappearingMessageChangeTimestamp) {
+      toRet.lastDisappearingMessageChangeTimestamp = lastDisappearingMessageChangeTimestamp;
+    }
+
+    if (hasOutdatedClient) {
+      toRet.hasOutdatedClient = hasOutdatedClient;
     }
 
     if (
