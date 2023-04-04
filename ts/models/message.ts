@@ -789,9 +789,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isPublic()) {
-      if (!conversation?.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
-      }
       const openGroupV2 = conversation.toOpenGroupV2();
       attachmentPromise = uploadAttachmentsV3(finalAttachments, openGroupV2);
       linkPreviewPromise = uploadLinkPreviewsV3(firstPreviewWithData, openGroupV2);

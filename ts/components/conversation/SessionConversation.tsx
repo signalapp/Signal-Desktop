@@ -51,7 +51,10 @@ import {
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
-import { ConversationRequestinfo } from './ConversationRequestInfo';
+import {
+  NoMessageNoMessageInConversation,
+  RespondToMessageRequestWarning,
+} from './SubtleNotification';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import loadImage from 'blueimp-load-image';
 import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
@@ -247,7 +250,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // return an empty message view
       return <MessageView />;
     }
-
+    // TODOLATER break showMessageDetails & selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
 
     return (
@@ -272,6 +275,7 @@ export class SessionConversation extends React.Component<Props, State> {
               {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
               <div className="conversation-messages">
+                <NoMessageNoMessageInConversation />
                 <ConversationMessageRequestButtons />
                 <SplitViewContainer
                   top={<InConversationCallContainer />}
@@ -283,11 +287,10 @@ export class SessionConversation extends React.Component<Props, State> {
                   }
                   disableTop={!this.props.hasOngoingCallWithFocusedConvo}
                 />
-
                 {isDraggingFile && <SessionFileDropzone />}
               </div>
+              <RespondToMessageRequestWarning />
 
-              <ConversationRequestinfo />
               <CompositionBox
                 sendMessage={this.sendMessageFn}
                 stagedAttachments={this.props.stagedAttachments}

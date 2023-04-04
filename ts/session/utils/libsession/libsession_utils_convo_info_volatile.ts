@@ -79,12 +79,13 @@ function getConvoType(convo: ConversationModel): ConvoVolatileType {
 }
 
 /**
- * Fetches the specified convo and updates the required field in the wrapper.
+ * Updates the required field in the wrapper from the data from the `ConversationController`
  * If that community does not exist in the wrapper, it is created before being updated.
  * Same applies for a legacy group.
  */
 async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<void> {
-  const foundConvo = await Data.getConversationById(convoId);
+  // this is too slow to fetch from the database the up to date data here. Let's hope that what we have in memory is up to date enough
+  const foundConvo = getConversationController().get(convoId);
   if (!foundConvo || !isConvoToStoreInWrapper(foundConvo)) {
     return;
   }

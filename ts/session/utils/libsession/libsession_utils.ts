@@ -43,9 +43,9 @@ async function initializeLibSessionUtilWrappers() {
 
   // fetch the dumps we already have from the database
   const dumps = await ConfigDumpData.getAllDumpsWithData();
-  console.warn(
+  window.log.info(
     'initializeLibSessionUtilWrappers alldumpsInDB already: ',
-    dumps.map(m => omit(m, 'data'))
+    JSON.stringify(dumps.map(m => omit(m, 'data')))
   );
 
   const userVariantsBuildWithoutErrors = new Set<ConfigWrapperObjectTypes>();
@@ -53,7 +53,7 @@ async function initializeLibSessionUtilWrappers() {
   // load the dumps retrieved from the database into their corresponding wrappers
   for (let index = 0; index < dumps.length; index++) {
     const dump = dumps[index];
-    console.warn('initializeLibSessionUtilWrappers initing from dump', dump.variant);
+    window.log.debug('initializeLibSessionUtilWrappers initing from dump', dump.variant);
     try {
       await GenericWrapperActions.init(
         dump.variant,

@@ -11,6 +11,7 @@ import { ReplyingToMessageProps } from '../../components/conversation/compositio
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
@@ -972,9 +973,22 @@ function applyConversationChanged(
     return state;
   }
 
+  let selected = selectedConversation;
+  if (
+    data &&
+    data.isPrivate &&
+    data.id === selectedConversation &&
+    data.priority &&
+    data.priority < CONVERSATION_PRIORITIES.default
+  ) {
+    // A private conversation hidden cannot be a selected.
+    // When opening a hidden conversation, we unhide it so it can be selected again.
+    selected = undefined;
+  }
+
   return {
     ...state,
-    selectedConversation,
+    selectedConversation: selected,
     conversationLookup: {
       ...conversationLookup,
       [id]: { ...data, isInitialFetchingInProgress: existing.isInitialFetchingInProgress },
@@ -982,7 +996,6 @@ function applyConversationChanged(
   };
 }
 
-// destructures
 export const { actions, reducer } = conversationsSlice;
 export const {
   // conversation and messages list
@@ -1020,7 +1033,7 @@ async function unmarkAsForcedUnread(convoId: string) {
   const convo = getConversationController().get(convoId);
   if (convo && convo.isMarkedUnread()) {
     // we just opened it and it was forced "Unread", so we reset the unread state here
-    await convo.markAsUnread(false);
+    await convo.markAsUnread(false, true);
   }
 }
 

@@ -151,6 +151,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
   }
 
   public async run(): Promise<RunJobResult> {
+    const start = Date.now();
+
     try {
       if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
         this.triggerConfSyncJobDone();
@@ -237,6 +239,8 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
     } catch (e) {
       throw e;
     } finally {
+      window.log.debug(`ConfigurationSyncJob run() took ${Date.now() - start}ms`);
+
       // this is a simple way to make sure whatever happens here, we update the lastest timestamp.
       // (a finally statement is always executed (no matter if exception or returns in other try/catch block)
       this.updateLastTickTimestamp();

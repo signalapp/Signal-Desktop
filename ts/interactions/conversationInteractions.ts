@@ -15,7 +15,11 @@ import { ConfigurationSync } from '../session/utils/job_runners/jobs/Configurati
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
-import { quoteMessage, resetConversationExternal } from '../state/ducks/conversations';
+import {
+  conversationReset,
+  quoteMessage,
+  resetConversationExternal,
+} from '../state/ducks/conversations';
 import {
   adminLeaveClosedGroup,
   changeNickNameModal,
@@ -134,9 +138,9 @@ export const declineConversationWithConfirm = (convoId: string, syncToDevices: b
 };
 
 /**
- * Sets the approval fields to false for conversation. Sends decline message.
+ * Sets the approval fields to false for conversation. Does not send anything back.
  */
-export const declineConversationWithoutConfirm = async (
+const declineConversationWithoutConfirm = async (
   conversationId: string,
   syncToDevices: boolean = true
 ) => {
@@ -284,6 +288,7 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
   });
 
   await conversation.commit();
+  window.inboxStore?.dispatch(conversationReset(conversationId));
 }
 
 export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: string) {

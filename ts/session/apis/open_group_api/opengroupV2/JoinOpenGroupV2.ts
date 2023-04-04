@@ -62,7 +62,7 @@ async function joinOpenGroupV2(
   room: OpenGroupV2Room,
   fromConfigMessage: boolean
 ): Promise<ConversationModel | undefined> {
-  if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
+  if (!room.serverUrl || !room.roomId || room.roomId.length < 1 || !room.serverPublicKey) {
     return undefined;
   }
 

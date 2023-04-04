@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { LeftPane } from './leftpane/LeftPane';
 
 // tslint:disable-next-line: no-submodule-imports
-import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
+import { createStore } from '../state/createStore';
 import { initialCallState } from '../state/ducks/call';
 import {
   getEmptyConversationState,
@@ -15,18 +16,17 @@ import {
 import { initialDefaultRoomState } from '../state/ducks/defaultRooms';
 import { initialModalState } from '../state/ducks/modalDialog';
 import { initialOnionPathState } from '../state/ducks/onion';
+import { initialPrimaryColorState } from '../state/ducks/primaryColor';
 import { initialSearchState } from '../state/ducks/search';
 import { initialSectionState } from '../state/ducks/section';
 import { getEmptyStagedAttachmentsState } from '../state/ducks/stagedAttachments';
 import { initialThemeState } from '../state/ducks/theme';
-import { initialPrimaryColorState } from '../state/ducks/primaryColor';
 import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { initialUserConfigState } from '../state/ducks/userConfig';
 import { StateType } from '../state/reducer';
 import { makeLookup } from '../util';
-import { SessionMainPanel } from './SessionMainPanel';
-import { createStore } from '../state/createStore';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { SessionMainPanel } from './SessionMainPanel';
 
 // moment does not support es-419 correctly (and cause white screen on app start)
 import moment from 'moment';
@@ -41,91 +41,76 @@ moment.locale((window.i18n as any).getLocale());
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-
-type State = {
-  isInitialLoadComplete: boolean;
-};
+import useUpdate from 'react-use/lib/useUpdate';
 
 const StyledGutter = styled.div`
   width: 380px !important;
   transition: none;
 `;
 
-export class SessionInboxView extends React.Component<any, State> {
-  private store: any;
+function createSessionInboxStore() {
+  // Here we set up a full redux store with initial state for our LeftPane Root
+  const conversations = getConversationController()
+    .getConversations()
+    .map(conversation => conversation.getConversationModelProps());
 
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      isInitialLoadComplete: false,
-    };
-  }
+  const timerOptions: TimerOptionsArray = ExpirationTimerOptions.getTimerSecondsWithName();
 
-  public componentDidMount() {
-    this.setupLeftPane();
-  }
+  const initialState: StateType = {
+    conversations: {
+      ...getEmptyConversationState(),
+      conversationLookup: makeLookup(conversations, 'id'),
+    },
+    user: {
+      ourNumber: UserUtils.getOurPubKeyStrFromCache(),
+    },
+    section: initialSectionState,
+    defaultRooms: initialDefaultRoomState,
+    search: initialSearchState,
+    theme: initialThemeState,
+    primaryColor: initialPrimaryColorState,
+    onionPaths: initialOnionPathState,
+    modals: initialModalState,
+    userConfig: initialUserConfigState,
+    timerOptions: {
+      timerOptions,
+    },
+    stagedAttachments: getEmptyStagedAttachmentsState(),
+    call: initialCallState,
+    sogsRoomInfo: initialSogsRoomInfoState,
+  };
 
-  public render() {
-    if (!this.state.isInitialLoadComplete) {
-      return null;
-    }
-
-    const persistor = persistStore(this.store);
-    window.persistStore = persistor;
-
-    return (
-      <div className="inbox index">
-        <Provider store={this.store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <StyledGutter>{this.renderLeftPane()}</StyledGutter>
-            <SessionMainPanel />
-          </PersistGate>
-        </Provider>
-      </div>
-    );
-  }
-
-  private renderLeftPane() {
-    return <LeftPane />;
-  }
-
-  private setupLeftPane() {
-    // Here we set up a full redux store with initial state for our LeftPane Root
-    const conversations = getConversationController()
-      .getConversations()
-      .map(conversation => conversation.getConversationModelProps());
-
-    const timerOptions: TimerOptionsArray = ExpirationTimerOptions.getTimerSecondsWithName();
-
-    const initialState: StateType = {
-      conversations: {
-        ...getEmptyConversationState(),
-        conversationLookup: makeLookup(conversations, 'id'),
-      },
-      user: {
-        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
-      },
-      section: initialSectionState,
-      defaultRooms: initialDefaultRoomState,
-      search: initialSearchState,
-      theme: initialThemeState,
-      primaryColor: initialPrimaryColorState,
-      onionPaths: initialOnionPathState,
-      modals: initialModalState,
-      userConfig: initialUserConfigState,
-      timerOptions: {
-        timerOptions,
-      },
-      stagedAttachments: getEmptyStagedAttachmentsState(),
-      call: initialCallState,
-      sogsRoomInfo: initialSogsRoomInfoState,
-    };
-
-    this.store = createStore(initialState);
-    window.inboxStore = this.store;
-
-    window.openConversationWithMessages = openConversationWithMessages;
-
-    this.setState({ isInitialLoadComplete: true });
-  }
+  return createStore(initialState);
 }
+
+function setupLeftPane(forceUpdateInboxComponent: () => void) {
+  window.openConversationWithMessages = openConversationWithMessages;
+  window.inboxStore = createSessionInboxStore();
+  forceUpdateInboxComponent();
+}
+
+export const SessionInboxView = () => {
+  const update = useUpdate();
+  // run only on mount
+  useEffect(() => setupLeftPane(update), []);
+
+  if (!window.inboxStore) {
+    return null;
+  }
+
+  const persistor = persistStore(window.inboxStore);
+  window.persistStore = persistor;
+
+  return (
+    <div className="inbox index">
+      <Provider store={window.inboxStore}>
+        <PersistGate loading={null} persistor={persistor}>
+          <StyledGutter>
+            <LeftPane />
+          </StyledGutter>
+          <SessionMainPanel />
+        </PersistGate>
+      </Provider>
+    </div>
+  );
+};

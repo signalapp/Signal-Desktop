@@ -3,6 +3,7 @@ import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversa
 import { ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
+import { PubKey } from '../../session/types';
 
 /**
  * Returns the formatted text for notification setting.
@@ -178,6 +179,38 @@ export function useSelectedNickname() {
 
 export function useSelectedDisplayNameInProfile() {
   return useSelector((state: StateType) => getSelectedConversation(state)?.displayNameInProfile);
+}
+
+/**
+ * For a private chat, this returns the (xxxx...xxxx) shortened pubkey
+ * If this is a private chat, but somehow, we have no pubkey, this returns the localized `anonymous` string
+ * Otherwise, this returns the localized `unknown` string
+ */
+export function useSelectedShortenedPubkeyOrFallback() {
+  const isPrivate = useSelectedIsPrivate();
+  const selected = useSelectedConversationKey();
+  if (isPrivate && selected) {
+    return PubKey.shorten(selected);
+  }
+  if (isPrivate) {
+    return window.i18n('anonymous');
+  }
+  return window.i18n('unknown');
+}
+
+/**
+ * That's a very convoluted way to say "nickname or profile name or shortened pubkey or ("Anonymous" or "unknown" depending on the type of conversation).
+ * This also returns the localized "Note to Self" if the conversation is the note to self.
+ */
+export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
+  const nickname = useSelectedNickname();
+  const profileName = useSelectedDisplayNameInProfile();
+  const shortenedPubkey = useSelectedShortenedPubkeyOrFallback();
+  const isMe = useSelectedisNoteToSelf();
+  if (isMe) {
+    return window.i18n('noteToSelf');
+  }
+  return nickname || profileName || shortenedPubkey;
 }
 
 export function useSelectedWeAreAdmin() {

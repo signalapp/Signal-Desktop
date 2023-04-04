@@ -297,8 +297,8 @@ export class ConversationController {
   /**
    *
    * @returns the reference of the list of conversations stored.
-   * Warning: You should not not edit things directly from that list. This must only be used for reading things.
-   * If you need to make change, do the usual getConversationControler().get('the id you want to edit')
+   * Warning: You should not edit things directly from that list. This must only be used for reading things.
+   * If you need to make a change, do the usual getConversationControler().get('the id you want to edit')
    */
   public getConversations(): Array<ConversationModel> {
     return this.conversations.models;

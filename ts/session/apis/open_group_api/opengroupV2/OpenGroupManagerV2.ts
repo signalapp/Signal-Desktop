@@ -51,6 +51,8 @@ export class OpenGroupManagerV2 {
     roomId: string,
     publicKey: string
   ): Promise<ConversationModel | undefined> {
+    // TODOLATER we should rewrite serverUrl when it matches our sogs (by ip, domain name with http or https or nothing)
+    // we should also make sure that whoever calls this function, uses the overriden  serverUrl
     const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${serverUrl}${roomId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
       return this.attemptConnectionV2(serverUrl, roomId, publicKey);
@@ -177,10 +179,10 @@ export class OpenGroupManagerV2 {
         roomId,
         serverPublicKey
       );
-      // here, the convo does not exist. Make sure the db is clean too
+      // here, the convo does not exist. Make sure the db & wrappers are clean too
       await OpenGroupData.removeV2OpenGroupRoom(conversationId);
-
       await SessionUtilUserGroups.removeCommunityFromWrapper(conversationId, fullUrl);
+
       const room: OpenGroupV2Room = {
         serverUrl,
         roomId,

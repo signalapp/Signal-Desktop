@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
@@ -33,7 +33,7 @@ export const openGroupV2CompleteURLRegex = new RegExp(
  * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
  */
 // tslint:disable-next-line: no-http-string
-export const openGroupPrefix = 'http'; // can be http:// or https://
+const openGroupPrefix = 'http'; // can be http:// or https://
 
 /**
  * This function returns a full url on an open group v2 room used for sync messages for instance.
@@ -42,9 +42,9 @@ export const openGroupPrefix = 'http'; // can be http:// or https://
  */
 export function getCompleteUrlFromRoom(roomInfos: OpenGroupV2Room) {
   if (
-    _.isEmpty(roomInfos.serverUrl) ||
-    _.isEmpty(roomInfos.roomId) ||
-    _.isEmpty(roomInfos.serverPublicKey)
+    isEmpty(roomInfos.serverUrl) ||
+    isEmpty(roomInfos.roomId) ||
+    isEmpty(roomInfos.serverPublicKey)
   ) {
     throw new Error('getCompleteUrlFromRoom needs serverPublicKey, roomid and serverUrl to be set');
   }
@@ -71,6 +71,7 @@ export function prefixify(server: string): string {
  * @returns `${openGroupPrefix}${roomId}@${serverUrl}`
  */
 export function getOpenGroupV2ConversationId(serverUrl: string, roomId: string) {
+  // TODOLATER we should probably make this force the serverURL to be our sogs with https when it matches pubkey or domain name
   if (!roomId.match(`^${roomIdV2Regex}$`)) {
     throw new Error('getOpenGroupV2ConversationId: Invalid roomId');
   }

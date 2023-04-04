@@ -11,10 +11,6 @@ import { hasSelectedConversationIncomingMessages } from '../../state/selectors/c
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 
-const handleDeclineConversationRequest = (convoId: string) => {
-  declineConversationWithConfirm(convoId, true);
-};
-
 const handleAcceptConversationRequest = async (convoId: string) => {
   const convo = getConversationController().get(convoId);
   await convo.setDidApproveMe(true);
@@ -69,7 +65,7 @@ export const ConversationMessageRequestButtons = () => {
           buttonColor={SessionButtonColor.Danger}
           text={window.i18n('decline')}
           onClick={() => {
-            handleDeclineConversationRequest(selectedConvoId);
+            declineConversationWithConfirm(selectedConvoId, true);
           }}
           dataTestId="decline-message-request"
         />

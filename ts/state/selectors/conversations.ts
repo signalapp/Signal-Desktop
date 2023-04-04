@@ -26,7 +26,11 @@ import { MessageTextSelectorProps } from '../../components/conversation/message/
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { ConversationModel } from '../../models/conversation';
-import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+  isOpenOrClosedGroup,
+} from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { LocalizerType } from '../../types/Util';
@@ -34,7 +38,7 @@ import { BlockedNumberController } from '../../util';
 import { Storage } from '../../util/storage';
 import { getIntl } from './user';
 
-import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
@@ -88,10 +92,7 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
 export const hasSelectedConversationIncomingMessages = createSelector(
   getSortedMessagesOfSelectedConversation,
   (messages: Array<MessageModelPropsWithoutConvoProps>): boolean => {
-    if (messages.length === 0) {
-      return false;
-    }
-    return Boolean(messages.filter(m => m.propsForMessage.direction === 'incoming').length);
+    return messages.some(m => m.propsForMessage.direction === 'incoming');
   }
 );
 
@@ -260,7 +261,6 @@ export const _getConversationComparator = (testingi18n?: LocalizerType) => {
 
 export const getConversationComparator = createSelector(getIntl, _getConversationComparator);
 
-// export only because we use it in some of our tests
 // tslint:disable-next-line: cyclomatic-complexity
 const _getLeftPaneLists = (
   sortedConversations: Array<ReduxConversationType>
@@ -274,28 +274,34 @@ const _getLeftPaneLists = (
 
   let globalUnreadCount = 0;
   for (const conversation of sortedConversations) {
+    // Blocked conversation are now only visible from the settings, not in the conversation list, so don't add it neither to the contacts list nor the conversation list
+    if (conversation.isBlocked) {
+      continue;
+    }
+    // a contact is a private conversation that is approved by us and active
     if (
       conversation.activeAt !== undefined &&
       conversation.type === ConversationTypeEnum.PRIVATE &&
-      conversation.isApproved &&
-      !conversation.isBlocked &&
-      (conversation.priority || 0) >= 0 // filtering non-hidden conversation
+      conversation.isApproved
+      // we want to keep the hidden conversation in the direct contact list, so we don't filter based on priority
     ) {
       directConversations.push(conversation);
     }
 
-    if (!conversation.isApproved && conversation.isPrivate) {
+    if (
+      (conversation.isPrivate && !conversation.isApproved) ||
+      (conversation.isPrivate &&
+        conversation.priority &&
+        conversation.priority <= CONVERSATION_PRIORITIES.default) // a hidden contact conversation is only visible from the contact list, not from the global conversation list
+    ) {
       // dont increase unread counter, don't push to convo list.
-      continue;
-    }
-
-    if (conversation.isBlocked) {
       continue;
     }
 
     if (
       globalUnreadCount < 100 &&
-      conversation.unreadCount &&
+      isNumber(conversation.unreadCount) &&
+      isFinite(conversation.unreadCount) &&
       conversation.unreadCount > 0 &&
       conversation.currentNotificationSetting !== 'disabled'
     ) {
@@ -322,30 +328,21 @@ export const _getSortedConversations = (
 
   const sortedConversations: Array<ReduxConversationType> = [];
 
-  for (let conversation of sorted) {
-    if (selectedConversation === conversation.id) {
-      conversation = {
-        ...conversation,
-        isSelected: true,
-      };
-    }
-
-    const isBlocked = BlockedNumberController.isBlocked(conversation.id);
-
-    if (isBlocked) {
-      conversation = {
-        ...conversation,
-        isBlocked: true,
-      };
-    }
-
+  for (const conversation of sorted) {
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
     if (!conversation.isPublic && !conversation.activeAt) {
       continue;
     }
 
-    sortedConversations.push(conversation);
+    const isBlocked = BlockedNumberController.isBlocked(conversation.id);
+    const isSelected = selectedConversation === conversation.id;
+
+    sortedConversations.push({
+      ...conversation,
+      isSelected: isSelected || undefined,
+      isBlocked: isBlocked || undefined,
+    });
   }
 
   return sortedConversations;
@@ -634,12 +631,17 @@ export const getYoungestMessageId = createSelector(
   }
 );
 
-export const getLoadedMessagesLength = createSelector(
-  getConversations,
-  (state: ConversationsStateType): number => {
-    return state.messages.length || 0;
-  }
-);
+function getMessagesFromState(state: StateType) {
+  return state.conversations.messages;
+}
+
+export function getLoadedMessagesLength(state: StateType) {
+  return getMessagesFromState(state).length;
+}
+
+export function getSelectedHasMessages(state: StateType): boolean {
+  return !isEmpty(getMessagesFromState(state));
+}
 
 export const isFirstUnreadMessageIdAbove = createSelector(
   getConversations,
@@ -1020,6 +1022,8 @@ export const getOldTopMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | null => state.oldTopMessageId || null
 );
+
+// TODOLATER get rid of all the unneeded createSelector calls
 
 export const getOldBottomMessageId = createSelector(
   getConversations,

@@ -220,9 +220,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMe() {
     return UserUtils.isUsFromCache(this.id);
   }
+
+  /**
+   * Same as this.isOpenGroupV2().
+   *
+   * // TODOLATER merge them together
+   */
   public isPublic(): boolean {
     return this.isOpenGroupV2();
   }
+
+  /**
+   * Same as this.isPublic().
+   *
+   * // TODOLATER merge them together
+   */
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
   }
@@ -232,6 +244,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         (this.get('type') === ConversationTypeEnum.GROUPV3 && this.id.startsWith('03'))
     );
   }
+
   public isPrivate() {
     return isDirectConversation(this.get('type'));
   }
@@ -593,143 +606,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return getOpenGroupV2FromConversationId(this.id);
   }
 
-  public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
-    try {
-      const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
-      const { id } = message;
-      const destination = this.id;
-
-      const sentAt = message.get('sent_at');
-      if (!sentAt) {
-        throw new Error('sendMessageJob() sent_at must be set.');
-      }
-
-      if (this.isPublic() && !this.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
-      }
-
-      // we are trying to send a message to someone. If that convo is hidden in the list, make sure it is not
-      this.unhideIfNeeded(true);
-
-      // an OpenGroupV2 message is just a visible message
-      const chatMessageParams: VisibleMessageParams = {
-        body,
-        identifier: id,
-        timestamp: sentAt,
-        attachments,
-        expireTimer,
-        preview: preview ? [preview] : [],
-        quote,
-        lokiProfile: UserUtils.getOurProfile(),
-      };
-
-      const shouldApprove = !this.isApproved() && this.isPrivate();
-      const incomingMessageCount = await Data.getMessageCountByType(
-        this.id,
-        MessageDirection.incoming
-      );
-      const hasIncomingMessages = incomingMessageCount > 0;
-
-      if (this.id.startsWith('15')) {
-        window.log.info('Sending a blinded message to this user: ', this.id);
-        await this.sendBlindedMessageRequest(chatMessageParams);
-        return;
-      }
-
-      if (shouldApprove) {
-        await this.setIsApproved(true);
-        if (hasIncomingMessages) {
-          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
-          await this.addOutgoingApprovalMessage(Date.now());
-          if (!this.didApproveMe()) {
-            await this.setDidApproveMe(true);
-          }
-          // should only send once
-          await this.sendMessageRequestResponse();
-          void forceSyncConfigurationNowIfNeeded();
-        }
-      }
-
-      if (this.isOpenGroupV2()) {
-        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
-        const roomInfos = this.toOpenGroupV2();
-        if (!roomInfos) {
-          throw new Error('Could not find this room in db');
-        }
-        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
-        // send with blinding if we need to
-        await getMessageQueue().sendToOpenGroupV2({
-          message: chatMessageOpenGroupV2,
-          roomInfos,
-          blinded: Boolean(roomHasBlindEnabled(openGroup)),
-          filesToLink: fileIdsToLink,
-        });
-        return;
-      }
-
-      const destinationPubkey = new PubKey(destination);
-
-      if (this.isPrivate()) {
-        if (this.isMe()) {
-          chatMessageParams.syncTarget = this.id;
-          const chatMessageMe = new VisibleMessage(chatMessageParams);
-
-          await getMessageQueue().sendSyncMessage({
-            namespace: SnodeNamespaces.UserMessages,
-            message: chatMessageMe,
-          });
-          return;
-        }
-
-        if (message.get('groupInvitation')) {
-          const groupInvitation = message.get('groupInvitation');
-          const groupInvitMessage = new GroupInvitationMessage({
-            identifier: id,
-            timestamp: sentAt,
-            name: groupInvitation.name,
-            url: groupInvitation.url,
-            expireTimer: this.get('expireTimer'),
-          });
-          // we need the return await so that errors are caught in the catch {}
-          await getMessageQueue().sendToPubKey(
-            destinationPubkey,
-            groupInvitMessage,
-            SnodeNamespaces.UserMessages
-          );
-          return;
-        }
-        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
-
-        await getMessageQueue().sendToPubKey(
-          destinationPubkey,
-          chatMessagePrivate,
-          SnodeNamespaces.UserMessages
-        );
-        return;
-      }
-
-      if (this.isClosedGroup()) {
-        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
-        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
-          chatMessage: chatMessageMediumGroup,
-          groupId: destination,
-        });
-
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup({
-          message: closedGroupVisibleMessage,
-          namespace: SnodeNamespaces.ClosedGroupMessage,
-        });
-        return;
-      }
-
-      throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
-    } catch (e) {
-      await message.saveErrors(e);
-      return null;
-    }
-  }
-
   public async sendReactionJob(sourceMessage: MessageModel, reaction: Reaction) {
     try {
       const destination = this.id;
@@ -737,10 +613,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const sentAt = sourceMessage.get('sent_at');
       if (!sentAt) {
         throw new Error('sendReactMessageJob() sent_at must be set.');
-      }
-
-      if (this.isPublic() && !this.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
       }
 
       // an OpenGroupV2 message is just a visible message
@@ -908,67 +780,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer: 0,
     });
     this.updateLastMessage();
-  }
-
-  public async sendBlindedMessageRequest(messageParams: VisibleMessageParams) {
-    const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
-    const groupUrl = this.getSogsOriginMessage();
-
-    if (!PubKey.hasBlindedPrefix(this.id)) {
-      window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
-      return;
-    }
-
-    if (!messageParams.body) {
-      window?.log?.warn('sendBlindedMessageRequest - needs a body');
-      return;
-    }
-
-    // include our profile (displayName + avatar url + key for the recipient)
-    messageParams.lokiProfile = getOurProfile();
-
-    if (!ourSignKeyBytes || !groupUrl) {
-      window?.log?.error(
-        'sendBlindedMessageRequest - Cannot get required information for encrypting blinded message.'
-      );
-      return;
-    }
-
-    const roomInfo = OpenGroupData.getV2OpenGroupRoom(groupUrl);
-
-    if (!roomInfo || !roomInfo.serverPublicKey) {
-      ToastUtils.pushToastError('no-sogs-matching', window.i18n('couldntFindServerMatching'));
-      window?.log?.error('Could not find room with matching server url', groupUrl);
-      throw new Error(`Could not find room with matching server url: ${groupUrl}`);
-    }
-
-    const sogsVisibleMessage = new OpenGroupVisibleMessage(messageParams);
-    const paddedBody = addMessagePadding(sogsVisibleMessage.plainTextBuffer());
-
-    const serverPubKey = roomInfo.serverPublicKey;
-
-    const encryptedMsg = await SogsBlinding.encryptBlindedMessage({
-      rawData: paddedBody,
-      senderSigningKey: ourSignKeyBytes,
-      serverPubKey: from_hex(serverPubKey),
-      recipientBlindedPublicKey: from_hex(this.id.slice(2)),
-    });
-
-    if (!encryptedMsg) {
-      throw new Error('encryptBlindedMessage failed');
-    }
-    if (!messageParams.identifier) {
-      throw new Error('encryptBlindedMessage messageParams needs an identifier');
-    }
-
-    this.set({ active_at: Date.now(), isApproved: true });
-
-    await getMessageQueue().sendToOpenGroupV2BlindedRequest({
-      encryptedContent: encryptedMsg,
-      roomInfos: roomInfo,
-      message: sogsVisibleMessage,
-      recipientBlindedId: this.id,
-    });
   }
 
   /**
@@ -1207,14 +1018,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         }
       }
     }
+
+    // TODOLATER we should maybe mark things here as read, but we need a readAt timestamp, and I am not too sure what we should use (considering that disappearing messages needs a real readAt)
+    // const sentAt = messageAttributes.sent_at || messageAttributes.serverTimestamp;
+    // if (sentAt) {
+    //   await this.markConversationRead(sentAt);
+    // }
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
       source: sender,
       type: 'outgoing',
       direction: 'outgoing',
-      unread: 0, // an outgoing message must be read right?
-      received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
+      unread: 0, // an outgoing message must be already read
+      received_at: messageAttributes.sent_at, // make sure to set a received_at timestamp for an outgoing message, so the order are right.
     });
   }
 
@@ -1521,8 +1338,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return !!this.get('markedAsUnread');
   }
 
+  /**
+   * Mark a private conversation as approved to the specified value.
+   * Does not do anything on non private chats.
+   */
   public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
     const valueForced = Boolean(value);
+
+    if (!this.isPrivate()) {
+      return;
+    }
 
     if (valueForced !== Boolean(this.isApproved())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} isApproved to: ${value}`);
@@ -1536,7 +1361,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  /**
+   * Mark a private conversation as approved_me to the specified value
+   * Does not do anything on non private chats.
+   */
   public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
+    if (!this.isPrivate()) {
+      return;
+    }
     const valueForced = Boolean(value);
     if (valueForced !== Boolean(this.didApproveMe())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} didApproveMe to: ${value}`);
@@ -1561,8 +1393,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   /**
-   * Saves the infos of that room directly on the conversation table.
-   * This does not write anything to the db if no changes are detected
+   * Save the pollInfo to the Database or to the in memory redux slice depending on the data.
+   * things stored to the redux slice of the sogs (ReduxSogsRoomInfos)  are:
+   * - subscriberCount
+   * - canWrite
+   * - moderators
+   *
+   * things stored in the database are
+   * - admins (as they are also stored for groups we just reuse the same field, saved in the DB for now)
+   * - display name of that room
+   *
+   * This function also triggers the download of the new avatar if needed.
+   *
+   * Does not do anything for non public chats.
    */
   // tslint:disable-next-line: cyclomatic-complexity
   public async setPollInfo(infos?: {
@@ -1579,10 +1422,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       hidden_moderators?: Array<string>;
     };
   }) {
+    if (!this.isPublic()) {
+      return;
+    }
     if (!infos || isEmpty(infos)) {
       return;
     }
-    let hasChange = false;
     const { write, active_users, details } = infos;
 
     if (
@@ -1597,13 +1442,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ReduxSogsRoomInfos.setCanWriteOutsideRedux(this.id, !!write);
     }
 
-    const adminChanged = await this.handleSogsModsOrAdminsChanges({
+    let hasChange = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.admins,
       hiddenModsOrAdmins: details.hidden_admins,
       type: 'admins',
     });
-
-    hasChange = hasChange || adminChanged;
 
     const modsChanged = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.moderators,
@@ -1618,7 +1461,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     hasChange = hasChange || modsChanged;
 
-    if (this.isOpenGroupV2() && details.image_id && isNumber(details.image_id)) {
+    if (this.isPublic() && details.image_id && isNumber(details.image_id)) {
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
       if (roomInfos) {
         void sogsV3FetchPreviewAndSaveIt({ ...roomInfos, imageID: `${details.image_id}` });
@@ -1894,6 +1737,200 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    */
   public async markReadFromConfigMessage(newestUnreadDate: number) {
     return this.markConversationReadBouncy(newestUnreadDate);
+  }
+
+  private async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
+    try {
+      const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
+      const { id } = message;
+      const destination = this.id;
+
+      const sentAt = message.get('sent_at');
+      if (!sentAt) {
+        throw new Error('sendMessageJob() sent_at must be set.');
+      }
+
+      // we are trying to send a message to someone. Make sure this convo is not hidden
+      this.unhideIfNeeded(true);
+
+      // an OpenGroupV2 message is just a visible message
+      const chatMessageParams: VisibleMessageParams = {
+        body,
+        identifier: id,
+        timestamp: sentAt,
+        attachments,
+        expireTimer,
+        preview: preview ? [preview] : [],
+        quote,
+        lokiProfile: UserUtils.getOurProfile(),
+      };
+
+      const shouldApprove = !this.isApproved() && this.isPrivate();
+      const incomingMessageCount = await Data.getMessageCountByType(
+        this.id,
+        MessageDirection.incoming
+      );
+      const hasIncomingMessages = incomingMessageCount > 0;
+
+      if (this.id.startsWith('15')) {
+        window.log.info('Sending a blinded message to this user: ', this.id);
+        await this.sendBlindedMessageRequest(chatMessageParams);
+        return;
+      }
+
+      if (shouldApprove) {
+        await this.setIsApproved(true);
+        if (hasIncomingMessages) {
+          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
+          await this.addOutgoingApprovalMessage(Date.now());
+          if (!this.didApproveMe()) {
+            await this.setDidApproveMe(true);
+          }
+          // should only send once
+          await this.sendMessageRequestResponse();
+          void forceSyncConfigurationNowIfNeeded();
+        }
+      }
+
+      if (this.isOpenGroupV2()) {
+        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
+        const roomInfos = this.toOpenGroupV2();
+        if (!roomInfos) {
+          throw new Error('Could not find this room in db');
+        }
+        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+        // send with blinding if we need to
+        await getMessageQueue().sendToOpenGroupV2({
+          message: chatMessageOpenGroupV2,
+          roomInfos,
+          blinded: Boolean(roomHasBlindEnabled(openGroup)),
+          filesToLink: fileIdsToLink,
+        });
+        return;
+      }
+
+      const destinationPubkey = new PubKey(destination);
+
+      if (this.isPrivate()) {
+        if (this.isMe()) {
+          chatMessageParams.syncTarget = this.id;
+          const chatMessageMe = new VisibleMessage(chatMessageParams);
+
+          await getMessageQueue().sendSyncMessage({
+            namespace: SnodeNamespaces.UserMessages,
+            message: chatMessageMe,
+          });
+          return;
+        }
+
+        if (message.get('groupInvitation')) {
+          const groupInvitation = message.get('groupInvitation');
+          const groupInvitMessage = new GroupInvitationMessage({
+            identifier: id,
+            timestamp: sentAt,
+            name: groupInvitation.name,
+            url: groupInvitation.url,
+            expireTimer: this.get('expireTimer'),
+          });
+          // we need the return await so that errors are caught in the catch {}
+          await getMessageQueue().sendToPubKey(
+            destinationPubkey,
+            groupInvitMessage,
+            SnodeNamespaces.UserMessages
+          );
+          return;
+        }
+        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
+
+        await getMessageQueue().sendToPubKey(
+          destinationPubkey,
+          chatMessagePrivate,
+          SnodeNamespaces.UserMessages
+        );
+        return;
+      }
+
+      if (this.isClosedGroup()) {
+        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
+        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
+          chatMessage: chatMessageMediumGroup,
+          groupId: destination,
+        });
+
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToGroup({
+          message: closedGroupVisibleMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
+        return;
+      }
+
+      throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
+    } catch (e) {
+      await message.saveErrors(e);
+      return null;
+    }
+  }
+
+  private async sendBlindedMessageRequest(messageParams: VisibleMessageParams) {
+    const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
+    const groupUrl = this.getSogsOriginMessage();
+
+    if (!PubKey.hasBlindedPrefix(this.id)) {
+      window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
+      return;
+    }
+
+    if (!messageParams.body) {
+      window?.log?.warn('sendBlindedMessageRequest - needs a body');
+      return;
+    }
+
+    // include our profile (displayName + avatar url + key for the recipient)
+    messageParams.lokiProfile = getOurProfile();
+
+    if (!ourSignKeyBytes || !groupUrl) {
+      window?.log?.error(
+        'sendBlindedMessageRequest - Cannot get required information for encrypting blinded message.'
+      );
+      return;
+    }
+
+    const roomInfo = OpenGroupData.getV2OpenGroupRoom(groupUrl);
+
+    if (!roomInfo || !roomInfo.serverPublicKey) {
+      ToastUtils.pushToastError('no-sogs-matching', window.i18n('couldntFindServerMatching'));
+      window?.log?.error('Could not find room with matching server url', groupUrl);
+      throw new Error(`Could not find room with matching server url: ${groupUrl}`);
+    }
+
+    const sogsVisibleMessage = new OpenGroupVisibleMessage(messageParams);
+    const paddedBody = addMessagePadding(sogsVisibleMessage.plainTextBuffer());
+
+    const serverPubKey = roomInfo.serverPublicKey;
+
+    const encryptedMsg = await SogsBlinding.encryptBlindedMessage({
+      rawData: paddedBody,
+      senderSigningKey: ourSignKeyBytes,
+      serverPubKey: from_hex(serverPubKey),
+      recipientBlindedPublicKey: from_hex(this.id.slice(2)),
+    });
+
+    if (!encryptedMsg) {
+      throw new Error('encryptBlindedMessage failed');
+    }
+    if (!messageParams.identifier) {
+      throw new Error('encryptBlindedMessage messageParams needs an identifier');
+    }
+
+    this.set({ active_at: Date.now(), isApproved: true });
+
+    await getMessageQueue().sendToOpenGroupV2BlindedRequest({
+      encryptedContent: encryptedMsg,
+      roomInfos: roomInfo,
+      message: sogsVisibleMessage,
+      recipientBlindedId: this.id,
+    });
   }
 
   private async bouncyUpdateLastMessage() {
