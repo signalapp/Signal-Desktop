@@ -50,28 +50,23 @@ function UnsupportedMessageContents({ canProcessNow, contact, i18n }: Props) {
         />
       );
     }
-    return (
-      <Intl
-        id="icu:Message--from-me-unsupported-message"
-        components={{ contact: contactName }}
-        i18n={i18n}
-      />
-    );
+    return <Intl id="icu:Message--from-me-unsupported-message" i18n={i18n} />;
   }
   if (canProcessNow) {
     return (
       <Intl
         id="icu:Message--from-me-unsupported-message-ask-to-resend"
-        components={{ contact: contactName }}
         i18n={i18n}
       />
     );
   }
   return (
     <Intl
-      id="icu:Message--from-me-unsupported-message"
-      components={{ contact: contactName }}
+      id="icu:Message--unsupported-message"
       i18n={i18n}
+      components={{
+        contact: contactName,
+      }}
     />
   );
 }

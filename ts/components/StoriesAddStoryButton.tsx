@@ -70,7 +70,10 @@ export function StoriesAddStoryButton({
 
       if (result.reason === ReasonVideoNotGood.TooBig) {
         setError(
-          i18n('icu:StoryCreator__error--video-too-big', result.renderDetails)
+          i18n('icu:StoryCreator__error--video-too-big', {
+            limit: result.renderDetails.limit,
+            units: result.renderDetails.units,
+          })
         );
         return;
       }

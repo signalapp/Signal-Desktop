@@ -57,11 +57,7 @@ export function SafetyNumberNotification({
             i18n={i18n}
           />
         ) : (
-          <Intl
-            id="icu:safetyNumberChanged"
-            components={{ name }}
-            i18n={i18n}
-          />
+          <Intl id="icu:safetyNumberChanged" i18n={i18n} />
         )
       }
       button={

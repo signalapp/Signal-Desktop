@@ -519,7 +519,7 @@ async function getGroupPreview(
     window.Signal.Groups.decryptGroupTitle(result.title, secretParams) ||
     window.i18n('icu:unknownGroup');
   const description = window.i18n('icu:GroupV2--join--group-metadata--full', {
-    count: result?.memberCount ?? 0,
+    memberCount: result?.memberCount ?? 0,
   });
   let image: undefined | LinkPreviewImage;
 

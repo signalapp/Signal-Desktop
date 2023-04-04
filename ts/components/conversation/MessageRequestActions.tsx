@@ -77,18 +77,10 @@ export function MessageRequestActions({
             />
           )}
           {conversationType === 'group' && isBlocked && (
-            <Intl
-              i18n={i18n}
-              id="icu:MessageRequests--message-group-blocked"
-              components={{ name }}
-            />
+            <Intl i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
           )}
           {conversationType === 'group' && !isBlocked && (
-            <Intl
-              i18n={i18n}
-              id="icu:MessageRequests--message-group"
-              components={{ name }}
-            />
+            <Intl i18n={i18n} id="icu:MessageRequests--message-group" />
           )}
         </p>
         <div className="module-message-request-actions__buttons">

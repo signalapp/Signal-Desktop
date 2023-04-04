@@ -92,7 +92,7 @@ export function MandatoryProfileSharingActions({
             <Intl
               i18n={i18n}
               id="icu:MessageRequests--profile-sharing--group--link"
-              components={{ firstName: firstNameContact, learnMoreLink }}
+              components={{ learnMoreLink }}
             />
           )}
         </p>

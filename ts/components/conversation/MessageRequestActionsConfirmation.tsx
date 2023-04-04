@@ -136,9 +136,6 @@ export function MessageRequestActionsConfirmation({
             <Intl
               i18n={i18n}
               id="icu:MessageRequests--delete-direct-confirm-title"
-              components={{
-                title: <ContactName key="name" title={title} />,
-              }}
             />
           ) : (
             <Intl

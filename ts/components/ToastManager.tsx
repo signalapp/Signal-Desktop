@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { get } from 'lodash';
 import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
@@ -41,7 +40,7 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--adding-user-to-group', {
-          ...toast.parameters,
+          contact: toast.parameters?.contact,
         })}
       </Toast>
     );
@@ -106,9 +105,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:GroupV2--cannot-start-group-call', {
-          ...toast.parameters,
-        })}
+        {i18n('icu:GroupV2--cannot-start-group-call')}
       </Toast>
     );
   }
@@ -219,7 +216,10 @@ export function ToastManager({
   if (toastType === ToastType.FileSize) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:fileSizeWarning', toast?.parameters)}
+        {i18n('icu:fileSizeWarning', {
+          limit: toast.parameters?.limit,
+          units: toast.parameters?.units,
+        })}
       </Toast>
     );
   }
@@ -323,9 +323,7 @@ export function ToastManager({
   if (toastType === ToastType.TooManyMessagesToForward) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:SelectModeActions__toast--TooManyMessagesToForward', {
-          count: get(toast.parameters, 'count'),
-        })}
+        {i18n('icu:SelectModeActions__toast--TooManyMessagesToForward')}
       </Toast>
     );
   }
@@ -356,7 +354,8 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--user-added-to-group', {
-          ...toast.parameters,
+          contact: toast.parameters?.contact,
+          group: toast.parameters?.group,
         })}
       </Toast>
     );

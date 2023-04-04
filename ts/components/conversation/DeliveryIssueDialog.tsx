@@ -52,9 +52,7 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
     </>
   );
 
-  const intlComponents = {
-    sender: <Emojify text={sender.title} />,
-  };
+  const senderTitle = <Emojify text={sender.title} />;
 
   return (
     <Modal
@@ -80,13 +78,13 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
           {inGroup ? (
             <Intl
               id="icu:DeliveryIssue--summary--group"
-              components={intlComponents}
+              components={{ sender: senderTitle }}
               i18n={i18n}
             />
           ) : (
             <Intl
               id="icu:DeliveryIssue--summary"
-              components={intlComponents}
+              components={{ sender: senderTitle }}
               i18n={i18n}
             />
           )}

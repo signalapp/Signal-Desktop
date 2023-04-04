@@ -861,7 +861,10 @@ export function StoryViewer({
                         <Intl
                           i18n={i18n}
                           id="icu:MyStories__views--strong"
-                          components={{ viewCount, strong: renderStrong }}
+                          components={{
+                            views: viewCount,
+                            strong: renderStrong,
+                          }}
                         />
                       )}
                       {(isSent || viewCount > 0) && replyCount > 0 && ' '}

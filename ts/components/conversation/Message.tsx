@@ -2555,7 +2555,7 @@ export class Message extends React.PureComponent<Props, State> {
       <span className="module-message__alt-accessibility-tree">
         <span id={`message-accessibility-label:${id}`}>
           {author.isMe
-            ? i18n('icu:messageAccessibilityLabel--outgoing', {})
+            ? i18n('icu:messageAccessibilityLabel--outgoing')
             : i18n('icu:messageAccessibilityLabel--incoming', {
                 author: author.title,
               })}

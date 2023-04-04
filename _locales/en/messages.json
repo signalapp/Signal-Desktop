@@ -10084,7 +10084,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>{learnMore}</learnMoreLink>",
+    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10093,7 +10093,7 @@
   },
   "icu:ProfileEditor--learnMore": {
     "messageformat": "Learn More",
-    "description": "Text that links to a support article"
+    "description": "(deleted 04/03/2023) Text that links to a support article"
   },
   "Bio--speak-freely": {
     "message": "Speak Freely",
