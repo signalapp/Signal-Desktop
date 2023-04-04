@@ -100,7 +100,7 @@
     "description": "(deleted 03/29/2023) Shown below the group name when selecting a group to invite a contact to"
   },
   "icu:GroupListItem__message-default": {
-    "messageformat": "{count, plural, one {1 member} other {# members}}",
+    "messageformat": "{count, plural, one {# member} other {# members}}",
     "description": "Shown below the group name when selecting a group to invite a contact to"
   },
   "GroupListItem__message-already-member": {
@@ -768,7 +768,7 @@
     "description": "(deleted 03/25/2023) Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "icu:loadingMessages--other": {
-    "messageformat": "Loading messages from {daysAgo, plural, one {1 day} other {# days}} ago...",
+    "messageformat": "Loading messages from {daysAgo, plural, one {# day} other {# days}} ago...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
   },
   "icu:loadingMessages--yesterday": {
@@ -832,7 +832,7 @@
     "description": "(deleted 03/29/2023) Text for unread message separator, with count"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, one {1 Unread Message} other {# Unread Messages}}",
+    "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
   },
   "messageHistoryUnsynced": {
@@ -916,7 +916,7 @@
     "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "You have {count, plural, one {1 connection} other {# connections}} who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.",
+    "messageformat": "You have {count, plural, one {# connection} other {# connections}} who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.",
     "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
   },
   "safetyNumberChangeDialog__post-review": {
@@ -928,7 +928,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "Are you sure you want to remove {count, plural, one {1 recipient} other {# recipients}} from story {story}?",
+    "messageformat": "Are you sure you want to remove {count, plural, one {# recipient} other {# recipients}} from story {story}?",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -4384,7 +4384,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "Conversation with {title}, {unreadCount, plural, one {1 new message} other {# new messages}}, last message: {lastMessage}.",
+    "messageformat": "Conversation with {title}, {unreadCount, plural, one {# new message} other {# new messages}}, last message: {lastMessage}.",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4568,15 +4568,15 @@
     "description": "Shown to label a donation badge you've replied to."
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {1 day} other {# days}} remaining",
+    "messageformat": "{days, plural, one {# day} other {# days}} remaining",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for days > 1)."
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {1 hour} other {# hours}} remaining",
+    "messageformat": "{hours, plural, one {# hour} other {# hours}} remaining",
     "description": "Describes how long remains for the donation badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "icu:message--donation--remaining--minutes": {
-    "messageformat": "{minutes, plural, one {1 minute} other {# minutes}} remaining",
+    "messageformat": "{minutes, plural, one {# minute} other {# minutes}} remaining",
     "description": "Describes how long remains for the donation badge you've redeemed on another device."
   },
   "icu:message--donation--expired": {
@@ -5716,7 +5716,7 @@
     "description": "(deleted 03/15/2023) Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
-    "messageformat": "{count, plural, one {1 image} other {# images}} added",
+    "messageformat": "{count, plural, one {# image} other {# images}} added",
     "description": "(deleted 03/15/2023) Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -6028,7 +6028,7 @@
     "description": "(deleted 03/29/2023) Shown at the end of profile sharing messages as a link."
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 member} other {# members}}",
+    "messageformat": "{count, plural, one {# member} other {# members}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
@@ -6268,7 +6268,7 @@
     "description": "(deleted 03/29/2023) Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "icu:incomingGroupCall__ringing-many": {
-    "messageformat": "{ringer} is calling you, {first}, {second}, and {remaining, plural, one {1 other} other {# others}}",
+    "messageformat": "{ringer} is calling you, {first}, {second}, and {remaining, plural, one {# other} other {# others}}",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
@@ -6816,7 +6816,7 @@
     "description": "(deleted 03/29/2023) A holder for two pieces of information - the type of conversation, and the member count"
   },
   "icu:GroupV2--join--group-metadata--full": {
-    "messageformat": "Group · {memberCount, plural, one {1 member} other {# members}}",
+    "messageformat": "Group · {memberCount, plural, one {# member} other {# members}}",
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
@@ -8544,7 +8544,7 @@
     "description": "(deleted 03/29/2023) This is the number of members in a group"
   },
   "icu:ConversationDetailsHeader--members": {
-    "messageformat": "{number, plural, one {1 member} other {# members}}",
+    "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
@@ -8568,7 +8568,7 @@
     "description": "(deleted 03/29/2023) The title of the membership list panel"
   },
   "icu:ConversationDetailsMembershipList--title": {
-    "messageformat": "{number, plural, one {1 member} other {# members}}",
+    "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "The title of the membership list panel"
   },
   "ConversationDetailsMembershipList--add-members": {
@@ -8588,7 +8588,7 @@
     "description": "This is a button on the conversation details to show all members"
   },
   "icu:ConversationDetailsGroups--title": {
-    "messageformat": "{count, plural, one {1 group} other {# groups}} in common",
+    "messageformat": "{count, plural, one {# group} other {# groups}} in common",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
@@ -8796,7 +8796,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "Revoke {number, plural, one {1 invite} other {# invites}} sent by \"{name}\"?",
+    "messageformat": "Revoke {number, plural, one {# invite} other {# invites}} sent by \"{name}\"?",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -9260,11 +9260,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {1 group member} other {# group members}} have the same name. {link}",
-    "description": "Shown in the timeline warning when you multiple group members have the same name"
+    "messageformat": "{count, plural, one {# group member has} other {# group members have}} the same name. {link}",
+    "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {1 group member} other {# group members}} have the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "{count, plural, one {# group member has} other {# group members have}} the same name. <reviewRequestLink>Review request</reviewRequestLink>",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9328,7 +9328,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {1 group member} other {# group members}} have similar names. Review the members below or choose to take action.",
+    "messageformat": "{count, plural, one {# group member} other {# group members}} have similar names. Review the members below or choose to take action.",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9456,7 +9456,7 @@
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "This custom color is used in {num, plural, one {1 chat} other {# chats}}. Do you want to delete it for all chats?",
+    "messageformat": "This custom color is used in {num, plural, one {# chat} other {# chats}}. Do you want to delete it for all chats?",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -10360,7 +10360,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {1 contact} other {# contacts}}",
+    "messageformat": "{num, plural, one {# contact} other {# contacts}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10900,11 +10900,11 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
-    "messageformat": "{views, plural, one {1 view} other {# views}}",
+    "messageformat": "{views, plural, one {# view} other {# views}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>1</strong> view} other {<strong>#</strong> views}}",
+    "messageformat": "{views, plural, one {<strong>#</strong> view} other {<strong>#</strong> views}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -11204,7 +11204,7 @@
     "description": "Story settings modal group story selection subtitle"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {1 viewer} other {# viewers}}",
+    "messageformat": "{count, plural, one {# viewer} other {# viewers}}",
     "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
@@ -11484,7 +11484,7 @@
     "description": "Subtitle for My Story when the user has chosen an exclude list"
   },
   "icu:SendStoryModal__excluded": {
-    "messageformat": "{count, plural, one {1 excluded} other {# excluded}}",
+    "messageformat": "{count, plural, one {# excluded} other {# excluded}}",
     "description": "Label for excluded count for My Story as an exclude list"
   },
   "SendStoryModal__new": {
@@ -11588,19 +11588,19 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "All Signal connections · {viewersCount, plural, one {1 viewer} other {# viewers}}",
+    "messageformat": "All Signal connections · {viewersCount, plural, one {# viewer} other {# viewers}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "All Signal connections · {excludedCount, plural, one {1 excluded} other {# excluded}}",
+    "messageformat": "All Signal connections · {excludedCount, plural, one {# excluded} other {# excluded}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
-    "messageformat": "Private story · {viewersCount, plural, one {1 viewer} other {# viewers}}",
+    "messageformat": "Private story · {viewersCount, plural, one {# viewer} other {# viewers}}",
     "description": "Shown as a subtitle of each private story in the send-story-to dialog"
   },
   "icu:SendStoryModal__group-story-description": {
-    "messageformat": "Group story · {membersCount, plural, one {1 member} other {# members}}",
+    "messageformat": "Group story · {membersCount, plural, one {# member} other {# members}}",
     "description": "Shown as a subtitle of each group story in the send-story-to dialog"
   },
   "Stories__settings-toggle--title": {
@@ -11908,7 +11908,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "Cannot post video to story because it is longer than {maxDurationInSec, plural, one {1 second} other {# seconds}}.",
+    "messageformat": "Cannot post video to story because it is longer than {maxDurationInSec, plural, one {# second} other {# seconds}}.",
     "description": "Error string for when a video post to story fails because video's duration is too long"
   },
   "icu:StoryCreator__error--video-too-big": {

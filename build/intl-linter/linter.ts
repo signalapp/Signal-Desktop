@@ -19,6 +19,7 @@ import noLegacyVariables from './rules/noLegacyVariables';
 import noNestedChoice from './rules/noNestedChoice';
 import noOffset from './rules/noOffset';
 import noOrdinal from './rules/noOrdinal';
+import pluralPound from './rules/pluralPound';
 
 const RULES = [
   icuPrefix,
@@ -27,6 +28,7 @@ const RULES = [
   noOffset,
   noOrdinal,
   onePlural,
+  pluralPound,
 ];
 
 type Test = {
@@ -65,6 +67,7 @@ type Report = {
   id: string;
   message: string;
   location: Location | void;
+  locationOffset: number;
 };
 
 function lintMessage(
@@ -76,8 +79,8 @@ function lintMessage(
   for (const rule of rules) {
     rule.run(elements, {
       messageId,
-      report(message, location) {
-        reports.push({ id: rule.id, message, location });
+      report(message, location, locationOffset = 0) {
+        reports.push({ id: rule.id, message, location, locationOffset });
       },
     });
   }
@@ -151,11 +154,13 @@ async function lintMessages() {
         const line =
           icuMesssageLiteral.loc.start.line + (report.location.start.line - 1);
         const column =
-          icuMesssageLiteral.loc.start.column + report.location.start.column;
+          icuMesssageLiteral.loc.start.column +
+          report.location.start.column +
+          report.locationOffset;
         loc = `:${line}:${column}`;
       } else if (icuMesssageLiteral.loc != null) {
         const { line, column } = icuMesssageLiteral.loc.start;
-        loc = `:${line}:${column}`;
+        loc = `:${line}:${column + report.locationOffset}`;
       }
 
       // eslint-disable-next-line no-console

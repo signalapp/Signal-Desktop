@@ -16,7 +16,8 @@ import type {
 import { TYPE } from '@formatjs/icu-messageformat-parser';
 
 export type VisitorMethod<T extends MessageFormatElement> = (
-  element: T
+  element: T,
+  parent: MessageFormatElement | null
 ) => void;
 
 export type Visitor = {
@@ -41,44 +42,45 @@ export type Visitor = {
 };
 
 export function traverse(
+  parent: MessageFormatElement | null,
   elements: Array<MessageFormatElement>,
   visitor: Visitor
 ): void {
   for (const element of elements) {
     if (element.type === TYPE.literal) {
-      visitor.enterLiteral?.(element);
-      visitor.exitLiteral?.(element);
+      visitor.enterLiteral?.(element, parent);
+      visitor.exitLiteral?.(element, parent);
     } else if (element.type === TYPE.argument) {
-      visitor.enterArgument?.(element);
-      visitor.exitArgument?.(element);
+      visitor.enterArgument?.(element, parent);
+      visitor.exitArgument?.(element, parent);
     } else if (element.type === TYPE.number) {
-      visitor.enterNumber?.(element);
-      visitor.exitNumber?.(element);
+      visitor.enterNumber?.(element, parent);
+      visitor.exitNumber?.(element, parent);
     } else if (element.type === TYPE.date) {
-      visitor.enterDate?.(element);
-      visitor.exitDate?.(element);
+      visitor.enterDate?.(element, parent);
+      visitor.exitDate?.(element, parent);
     } else if (element.type === TYPE.time) {
-      visitor.enterTime?.(element);
-      visitor.exitTime?.(element);
+      visitor.enterTime?.(element, parent);
+      visitor.exitTime?.(element, parent);
     } else if (element.type === TYPE.select) {
-      visitor.enterSelect?.(element);
+      visitor.enterSelect?.(element, parent);
       for (const node of Object.values(element.options)) {
-        traverse(node.value, visitor);
+        traverse(element, node.value, visitor);
       }
-      visitor.exitSelect?.(element);
+      visitor.exitSelect?.(element, parent);
     } else if (element.type === TYPE.plural) {
-      visitor.enterPlural?.(element);
+      visitor.enterPlural?.(element, parent);
       for (const node of Object.values(element.options)) {
-        traverse(node.value, visitor);
+        traverse(element, node.value, visitor);
       }
-      visitor.exitPlural?.(element);
+      visitor.exitPlural?.(element, parent);
     } else if (element.type === TYPE.pound) {
-      visitor.enterPound?.(element);
-      visitor.exitPound?.(element);
+      visitor.enterPound?.(element, parent);
+      visitor.exitPound?.(element, parent);
     } else if (element.type === TYPE.tag) {
-      visitor.enterTag?.(element);
-      traverse(element.children, visitor);
-      visitor.exitTag?.(element);
+      visitor.enterTag?.(element, parent);
+      traverse(element, element.children, visitor);
+      visitor.exitTag?.(element, parent);
     } else {
       unreachable(element);
     }
