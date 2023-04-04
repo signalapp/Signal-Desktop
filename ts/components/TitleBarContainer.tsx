@@ -259,7 +259,7 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
       <TitleBar
         className="TitleBarContainer__title"
         platform="win32"
-        iconSrc="images/icon_32.png"
+        iconSrc="images/titlebar_icon.svg"
         theme={titleBarTheme}
         maximized={isMaximized}
         menu={maybeMenu}
