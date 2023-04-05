@@ -247,11 +247,12 @@ window.clipboard = clipboard;
 
 window.getSeedNodeList = () =>
   window.sessionFeatureFlags.useTestNet
-    ? ['http://public.loki.foundation:38157']
+    ? ['http://seed2.getsession.org:38157']
     : [
-        'https://storage.seed1.loki.network:4433/',
-        'https://storage.seed3.loki.network:4433/',
-        'https://public.loki.foundation:4433/',
+        // Note: for each of the seed nodes, the cert pinned is the one provided on the port 4443 and not the 4433, because the 4443 is a 10year one
+        'https://seed1.getsession.org:4443/',
+        'https://seed2.getsession.org:4443/',
+        'https://seed3.getsession.org:4443/',
       ];
 
 const { locale: localFromEnv } = config;
