@@ -1,5 +1,7 @@
 # Building
 
+This document alongside [Releasing.md](RELEASING.md) primarily cover our internal build process for release builds, if you are an external contributor please refer to [Contributing.md](CONTRIBUTING.md) for building instructions. 
+
 ## Automated
 
 Automatic building of session binaries is done using github actions. Windows and linux binaries will build right out of the box but there are some extra steps needed for Mac OS
@@ -65,7 +67,7 @@ git lfs install
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
-yarn install --frozen-lockfile # install all dependecies of this project
+yarn install --frozen-lockfile # install all dependencies of this project
 yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```
@@ -115,7 +117,7 @@ git lfs install # once git lfs is installed, you have to run this command too
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
-yarn install --frozen-lockfile # install all dependecies of this project
+yarn install --frozen-lockfile # install all dependencies of this project
 yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```

@@ -391,7 +391,7 @@ export async function handleMessageJob(
     void queueAttachmentDownloads(messageModel, conversation);
     // Check if we need to update any profile names
     // the only profile we don't update with what is coming here is ours,
-    // as our profile is shared accross our devices with a ConfigurationMessage
+    // as our profile is shared across our devices with a ConfigurationMessage
     if (messageModel.isIncoming() && regularDataMessage.profile) {
       void appendFetchAvatarAndProfileJob(
         sendingDeviceConversation,
@@ -400,7 +400,7 @@ export async function handleMessageJob(
       );
     }
 
-    // even with all the warnings, I am very sus about if this is usefull or not
+    // even with all the warnings, I am very sus about if this is useful or not
     // try {
     //   // We go to the database here because, between the message save above and
     //   // the previous line's trigger() call, we might have marked all messages

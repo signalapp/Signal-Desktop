@@ -26,7 +26,7 @@ export function combineKeys(
 //
 // BLAKE2b(a kB || kA || kB)
 //
-// The receiver can calulate the same value via:
+// The receiver can calculate the same value via:
 //
 // BLAKE2b(b kA || kA || kB)
 export function sharedBlindedEncryptionKey({

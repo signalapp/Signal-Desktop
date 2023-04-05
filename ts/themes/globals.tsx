@@ -1,7 +1,7 @@
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS } from './constants/colors';
 
-// These variables are independant of the current theme
+// These variables are independent of the current theme
 export type ThemeGlobals = {
   /* Fonts */
   '--font-default': string;

@@ -166,7 +166,7 @@ export async function poll(
 }
 
 /**
- * Creates a promise which waits until `check` returns `true` or rejects if `timeout` preiod is reached.
+ * Creates a promise which waits until `check` returns `true` or rejects if `timeout` period is reached.
  * If `timeout` is reached then this will throw an Error.
  *
  * @param check The boolean check.

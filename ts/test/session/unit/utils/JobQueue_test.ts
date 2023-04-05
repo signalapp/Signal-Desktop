@@ -42,7 +42,7 @@ describe('JobQueue', () => {
       const start = Date.now();
       await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [10, 20, 30]);
       const timeTaken = Date.now() - start;
-      assert.isAtLeast(timeTaken, 20, 'Queue should take atleast 100ms to run.');
+      assert.isAtLeast(timeTaken, 20, 'Queue should take at least 100ms to run.');
     });
 
     it('should return the result of the job', async () => {

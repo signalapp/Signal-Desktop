@@ -509,7 +509,7 @@ export async function USER_callRecipient(recipient: string) {
     callNotificationType: 'started-call',
   });
 
-  // initiating a call is analgous to sending a message request
+  // initiating a call is analogous to sending a message request
   await approveConvoAndSendResponse(recipient, true);
 
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
@@ -521,7 +521,7 @@ export async function USER_callRecipient(recipient: string) {
   await openMediaDevicesAndAddTracks();
   await createOfferAndSendIt(recipient);
 
-  // close and end the call if callTimeoutMs is reached ans still not connected
+  // close and end the call if callTimeoutMs is reached and still not connected
   global.setTimeout(async () => {
     if (justCreatedCallUUID === currentCallUUID && getIsRinging()) {
       window.log.info(
@@ -751,7 +751,7 @@ function createOrGetPeerConnection(withPubkey: string) {
     );
 
     if (peerConnection && peerConnection?.iceConnectionState === 'disconnected') {
-      //this will trigger a negotation event with iceRestart set to true in the createOffer options set
+      //this will trigger a negotiation event with iceRestart set to true in the createOffer options set
       global.setTimeout(async () => {
         window.log.info('onconnectionstatechange disconnected: restartIce()');
 

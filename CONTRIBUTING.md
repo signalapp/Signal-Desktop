@@ -3,34 +3,30 @@
 ## Advice for new contributors
 
 Start small. The PRs most likely to be merged are the ones that make small,
-easily reviewed changes with clear and specific intentions. See below for more
+easily reviewed changes with clear and specific intentions.
 [guidelines on pull requests](#pull-requests).
 
 It's a good idea to gauge interest in your intended work by finding the current issue
-for it or creating a new one yourself. You can use also that issue as a place to signal
+for it or creating a new one yourself. Use Github issues as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
-If you intend to make a pull request for a new feature and the feature is user facing,
-please let us know in a new, or existing issue, so we can guide your efforts around 
-UX/UI considerations.
 
-You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/oxen-io/session-desktop/projects/1),
-especially if they are near the top of the Backlog column. Those are what we'll be looking
-at next, so it would be great if you helped us out!
+You're most likely to have your pull request accepted if it addresses an existing Github issue marked with the [good-first-issue](https://github.com/oxen-io/session-desktop/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) tag, these issues are specifically tagged, because they are generally features/bug fixes which can be cleanly merged on a single platform without requiring cross platform work, are generally of lower complexity than larger features and are non contentious, meaning that the core team doesn't need to try and assess the community desire for such a feature before merging. 
 
-Once you've spent a little bit of time planning your solution, it's a good idea to go
-back to the issue and talk about your approach. We'd be happy to provide feedback. [An
-ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
+Of course we encourage community developers to work on ANY issue filed on our Github regardless of how it’s tagged, however if you pick up or create an issue without the “Good first issue” tag it would be best if you leave a comment on the issue so that the core team can give you any guidance required, especially around UI heavy features or issues which require cross platform integration.
 
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
 You can check [`.nvmrc` in the `clearnet` branch](https://github.com/oxen-io/session-desktop/blob/clearnet/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
-desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
-still useful, but it doesn't support `.nvmrc` files.
+desired Node.js version.
+
+If you are using Windows [nvm for windows](https://github.com/coreybutler/nvm-windows) is
+still useful, but it doesn't support `.nvmrc` files. In this case you will need to `nvm install` the projects node version and `nvm use` the installed version
 
 Then you need `git`, if you don't have that yet: https://git-scm.com/
+
+## Platform Specific Instructions
 
 ### macOS
 
@@ -38,12 +34,7 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 
 ### Windows
 
-1.  **Windows 7 only:**
-    - Install Microsoft .NET Framework 4.5.1:
-      https://www.microsoft.com/en-us/download/details.aspx?id=40773
-    - Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
-1.  Install _Windows Build Tools_: Open the [Command Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
-    and run: `npm install --vs2015 --global --production --add-python-to-path windows-build-tools`
+Building on Windows versions 8+ is supported out of the box
 
 ### Linux
 
@@ -53,6 +44,12 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 1.  Install `g++`
 1.  Install `make`
 1.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
+
+If you are using a Debian based Linux distribution gcc, g++ and make can be installed as part of the `build-essential` package using 
+
+``` 
+apt install build-essential 
+```
 
 ### All platforms
 
@@ -102,7 +99,7 @@ For example, running:
 NODE_APP_INSTANCE=alice yarn start-prod
 ```
 
-Will run the development environment with the `alice` instance and thus create a seperate storage profile.
+Will run the development environment with the `alice` instance and thus create a separate storage profile.
 
 If a fixed profile is needed (in the case of tests), you can specify it using `storageProfile` in the config file. If the change is local then put it in `local-{instance}.json` otherwise put it in `default-{instance}.json` or `{env}-{instance}.json`.
 
@@ -136,25 +133,20 @@ The easiest way to run all tests at once is `yarn test`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
-<!-- TODO:
-* Please do not submit pull requests for translation fixes. Anyone can update
-  the translations in
-  [Transifex](https://www.transifex.com/projects/p/signal-desktop).
--->
-
 - First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 - Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json).
-  <!-- TODO:
     Other locales are generated automatically based on that file and then periodically
-    uploaded to Transifex for translation. -->
+    uploaded to Crowdin for translation.
+- Please do not submit pull requests for pure translation fixes. Anyone can update
+  the translations at [Crowdin](https://crowdin.com/project/session-desktop).
 - [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
-  changes on the latest `development` branch, resolving any conflicts.
+  changes on the latest `clearnet` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
 - Be sure to add and run tests!
-- Make sure the diff between our master and your branch contains only the
+- Make sure the diff between `clearnet` and your branch contains only the
   minimal set of changes needed to implement your feature or bugfix. This will
   make it easier for the person reviewing your code to approve the changes.
   Please do not submit a PR with commented out code or unfinished features.
@@ -174,7 +166,6 @@ So you wanna make a pull request? Please observe the following guidelines.
       choices that may be helpful to someone reviewing or auditing the commit
       history in the future. When in doubt, err on the side of a longer
       commit message.
-
 Above all, spend some time with the repository. Follow the pull request template added to
 your pull request description automatically. Take a look at recent approved pull requests,
 see how they did things.

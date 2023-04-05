@@ -301,7 +301,7 @@ export type ConversationsStateType = {
    * Saving it here, make it possible to restore the position of the user before the refresh by pointing
    * at that same messageId and aligning the list to the top.
    *
-   * Once the view scrolled, this value is reseted by resetOldTopMessageId
+   * Once the view scrolled, this value is reset by resetOldTopMessageId
    */
 
   oldTopMessageId: string | null;
@@ -310,7 +310,7 @@ export type ConversationsStateType = {
    * Saving it here, make it possible to restore the position of the user before the refresh by pointing
    * at that same messageId and aligning the list to the bottom.
    *
-   * Once the view scrolled, this value is reseted by resetOldBottomMessageId
+   * Once the view scrolled, this value is reset by resetOldBottomMessageId
    */
   oldBottomMessageId: string | null;
 

@@ -92,7 +92,7 @@ export const SessionInput = (props: Props) => {
         data-testid={inputDataTestId}
         onChange={updateInputValue}
         className={classNames(enableShowHide ? 'session-input-floating-label-show-hide' : '')}
-        // just incase onChange isn't triggered
+        // just in case onChange isn't triggered
         onBlur={updateInputValue}
         onKeyPress={event => {
           if (event.key === 'Enter' && props.onEnterPressed) {

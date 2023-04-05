@@ -173,7 +173,9 @@ export const ConversationListItemHeaderItem = () => {
     ) : null;
     unreadCountDiv = (
       <p className="module-conversation-list-item__unread-count">
-        {unreadCount > CONVERSATION.MAX_UNREAD_COUNT ? `${CONVERSATION.MAX_UNREAD_COUNT}+` : unreadCount}
+        {unreadCount > CONVERSATION.MAX_UNREAD_COUNT
+          ? `${CONVERSATION.MAX_UNREAD_COUNT}+`
+          : unreadCount}
       </p>
     );
   }

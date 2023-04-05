@@ -330,7 +330,7 @@ const makeBatchRequestPayload = (
 };
 
 /**
- * Get the request to get all of the details we care from an opengroup, accross all rooms.
+ * Get the request to get all of the details we care from an opengroup, across all rooms.
  * Only compatible with v4 onion requests.
  *
  * if isSequence is set to true, each rows will be run in order until the first one fails

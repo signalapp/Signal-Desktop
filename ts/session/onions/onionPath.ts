@@ -260,7 +260,7 @@ async function dropPathStartingWithGuardNode(guardNodeEd25519: string) {
   guardNodes = guardNodes.filter(g => g.pubkey_ed25519 !== guardNodeEd25519);
   // write the updates guard nodes to the db.
   await internalUpdateGuardNodes(guardNodes);
-  // we are dropping it. Reset the counter in case this same guard gets choosen later
+  // we are dropping it. Reset the counter in case this same guard gets chosen later
   pathFailureCount[guardNodeEd25519] = 0;
 
   // trigger path rebuilding for the dropped path. This will throw if anything happens
@@ -516,7 +516,7 @@ async function buildNewOnionPathsWorker() {
       minTimeout: 1000,
       onFailedAttempt: e => {
         window?.log?.warn(
-          `buildNewOnionPathsWorker attemp #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+          `buildNewOnionPathsWorker attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
         );
       },
     }

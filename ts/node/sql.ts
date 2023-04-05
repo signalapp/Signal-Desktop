@@ -2147,7 +2147,7 @@ function cleanUpOldOpengroupsOnStart() {
   let pruneSetting = getItemById(SettingsKey.settingsOpengroupPruning)?.value;
 
   if (pruneSetting === undefined) {
-    console.info('Prune settings is undefined (and not explicitely false), forcing it to true.');
+    console.info('Prune settings is undefined (and not explicitly false), forcing it to true.');
     createOrUpdateItem({ id: SettingsKey.settingsOpengroupPruning, value: true });
     pruneSetting = true;
   }
