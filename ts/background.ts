@@ -740,11 +740,13 @@ export async function startApp(): Promise<void> {
         sleeper.shutdown();
 
         const shutdownQueues = async () => {
+          log.info('background/shutdown: shutting down queues');
           await Promise.allSettled([
             StartupQueue.shutdown(),
             shutdownAllJobQueues(),
           ]);
 
+          log.info('background/shutdown: shutting down conversation queues');
           await Promise.allSettled(
             window.ConversationController.getAll().map(async convo => {
               try {
@@ -757,9 +759,11 @@ export async function startApp(): Promise<void> {
               }
             })
           );
+
+          log.info('background/shutdown: all queues shutdown');
         };
 
-        // wait for at most 2 minutes for startup queue and job queues to drain
+        // wait for at most 1 minutes for startup queue and job queues to drain
         let timeout: NodeJS.Timeout | undefined;
         await Promise.race([
           shutdownQueues(),
@@ -770,7 +774,7 @@ export async function startApp(): Promise<void> {
               );
               timeout = undefined;
               resolve();
-            }, 2 * MINUTE);
+            }, 1 * MINUTE);
           }),
         ]);
         if (timeout) {
