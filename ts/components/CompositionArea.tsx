@@ -162,14 +162,15 @@ export type OwnProps = Readonly<{
 
 export type Props = Pick<
   CompositionInputProps,
-  | 'sortedGroupMembers'
-  | 'onEditorStateChange'
-  | 'onTextTooLong'
+  | 'clearQuotedMessage'
   | 'draftText'
   | 'draftBodyRanges'
-  | 'clearQuotedMessage'
   | 'getPreferredBadge'
   | 'getQuotedMessage'
+  | 'onEditorStateChange'
+  | 'onTextTooLong'
+  | 'sendCounter'
+  | 'sortedGroupMembers'
 > &
   Pick<
     EmojiButtonProps,
@@ -231,13 +232,14 @@ export function CompositionArea({
   setMediaQualitySetting,
   shouldSendHighQualityAttachments,
   // CompositionInput
-  onEditorStateChange,
-  onTextTooLong,
+  clearQuotedMessage,
   draftText,
   draftBodyRanges,
-  clearQuotedMessage,
   getPreferredBadge,
   getQuotedMessage,
+  onEditorStateChange,
+  onTextTooLong,
+  sendCounter,
   sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
@@ -805,6 +807,7 @@ export function CompositionArea({
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
+            sendCounter={sendCounter}
             skinTone={skinTone}
             sortedGroupMembers={sortedGroupMembers}
             theme={theme}

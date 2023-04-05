@@ -33,6 +33,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
+  sendCounter: 0,
   sortedGroupMembers: overrideProps.sortedGroupMembers || [],
   skinTone: select(
     'skinTone',

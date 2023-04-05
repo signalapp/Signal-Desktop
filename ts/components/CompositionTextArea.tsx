@@ -86,12 +86,7 @@ export function CompositionTextArea({
   }, [inputApiRef]);
 
   const handleChange = React.useCallback(
-    (
-      _conversationId: string | undefined,
-      newValue: string,
-      bodyRanges: DraftBodyRangesType,
-      caretLocation?: number | undefined
-    ) => {
+    ({ bodyRanges, caretLocation, messageText: newValue }) => {
       const inputEl = inputApiRef.current;
       if (!inputEl) {
         return;
@@ -124,21 +119,22 @@ export function CompositionTextArea({
   return (
     <div className="CompositionTextArea">
       <CompositionInput
-        placeholder={placeholder}
         clearQuotedMessage={shouldNeverBeCalled}
-        scrollerRef={scrollerRef}
+        draftText={draftText}
         getPreferredBadge={getPreferredBadge}
         getQuotedMessage={noop}
         i18n={i18n}
         inputApi={inputApiRef}
         large
         moduleClassName="CompositionTextArea__input"
-        onScroll={onScroll}
         onEditorStateChange={handleChange}
         onPickEmoji={onPickEmoji}
+        onScroll={onScroll}
         onSubmit={onSubmit}
         onTextTooLong={onTextTooLong}
-        draftText={draftText}
+        placeholder={placeholder}
+        scrollerRef={scrollerRef}
+        sendCounter={0}
         theme={theme}
       />
       <div className="CompositionTextArea__emoji">

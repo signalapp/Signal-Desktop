@@ -225,7 +225,7 @@ export function StoryViewsNRepliesModal({
               i18n={i18n}
               inputApi={inputApiRef}
               moduleClassName="StoryViewsNRepliesModal__input"
-              onEditorStateChange={(_conversationId, messageText) => {
+              onEditorStateChange={({ messageText }) => {
                 setMessageBodyText(messageText);
               }}
               onPickEmoji={onUseEmoji}
@@ -242,6 +242,7 @@ export function StoryViewsNRepliesModal({
                       firstName: authorTitle,
                     })
               }
+              sendCounter={0}
               sortedGroupMembers={sortedGroupMembers}
               theme={ThemeType.dark}
             >

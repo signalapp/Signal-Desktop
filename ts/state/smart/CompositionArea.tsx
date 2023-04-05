@@ -86,6 +86,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     linkPreviewResult,
     messageCompositionId,
     quotedMessage,
+    sendCounter,
     shouldSendHighQualityAttachments,
   } = composerStateForConversationIdSelector(id);
 
@@ -102,6 +103,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     isDisabled,
     messageCompositionId,
+    sendCounter,
     theme: getTheme(state),
 
     // AudioCapture

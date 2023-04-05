@@ -79,6 +79,7 @@ export type Props = Readonly<{
   getPreferredBadge: PreferredBadgeSelectorType;
   large?: boolean;
   inputApi?: React.MutableRefObject<InputApi | undefined>;
+  sendCounter: number;
   skinTone?: EmojiPickDataType['skinTone'];
   draftText?: string;
   draftBodyRanges?: DraftBodyRangesType;
@@ -88,12 +89,13 @@ export type Props = Readonly<{
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
-  onEditorStateChange?(
-    conversationId: string | undefined,
-    messageText: string,
-    bodyRanges: DraftBodyRangesType,
-    caretLocation?: number
-  ): unknown;
+  onEditorStateChange?(options: {
+    bodyRanges: DraftBodyRangesType;
+    caretLocation?: number;
+    conversationId: string | undefined;
+    messageText: string;
+    sendCounter: number;
+  }): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
   onSubmit(
@@ -134,6 +136,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onSubmit,
     placeholder,
     skinTone,
+    sendCounter,
     sortedGroupMembers,
     theme,
   } = props;
@@ -458,12 +461,13 @@ export function CompositionInput(props: Props): React.ReactElement {
         setTimeout(() => {
           const selection = quill.getSelection();
 
-          onEditorStateChange(
+          onEditorStateChange({
+            bodyRanges: mentions,
+            caretLocation: selection ? selection.index : undefined,
             conversationId,
-            text,
-            mentions,
-            selection ? selection.index : undefined
-          );
+            messageText: text,
+            sendCounter,
+          });
         }, 0);
       }
     }

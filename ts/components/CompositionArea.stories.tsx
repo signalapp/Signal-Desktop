@@ -35,6 +35,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
   conversationId: '123',
   focusCounter: 0,
+  sendCounter: 0,
   i18n,
   isDisabled: false,
   messageCompositionId: '456',
