@@ -28,7 +28,11 @@ export function isConversationAccepted(
 
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-  const { messageRequestResponseType } = conversationAttrs;
+  const { messageRequestResponseType, removalStage } = conversationAttrs;
+  if (removalStage !== undefined) {
+    return false;
+  }
+
   if (messageRequestResponseType === messageRequestEnum.ACCEPT) {
     return true;
   }

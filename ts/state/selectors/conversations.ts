@@ -471,6 +471,7 @@ function canComposeConversation(conversation: ConversationType): boolean {
   return Boolean(
     !isSignalConversation(conversation) &&
       !conversation.isBlocked &&
+      !conversation.removalStage &&
       !isConversationUnregistered(conversation) &&
       hasDisplayInfo(conversation) &&
       isTrusted(conversation)
@@ -484,6 +485,7 @@ export const getAllComposableConversations = createSelector(
       conversation =>
         !isSignalConversation(conversation) &&
         !conversation.isBlocked &&
+        !conversation.removalStage &&
         !conversation.isGroupV1AndDisabled &&
         !isConversationUnregistered(conversation) &&
         // All conversation should have a title except in weird cases where

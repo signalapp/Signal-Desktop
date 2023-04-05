@@ -98,6 +98,7 @@ import {
   hasErrors,
   isCallHistory,
   isChatSessionRefreshed,
+  isContactRemovedNotification,
   isDeliveryIssue,
   isEndSession,
   isExpirationTimerUpdate,
@@ -341,6 +342,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return (
       !isCallHistory(attributes) &&
       !isChatSessionRefreshed(attributes) &&
+      !isContactRemovedNotification(attributes) &&
       !isConversationMerge(attributes) &&
       !isEndSession(attributes) &&
       !isExpirationTimerUpdate(attributes) &&

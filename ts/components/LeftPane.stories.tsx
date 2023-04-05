@@ -127,6 +127,10 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   }
 
   const isUpdateDownloaded = boolean('isUpdateDownloaded', false);
+  const isContactManagementEnabled = boolean(
+    'isContactManagementEnabled',
+    true
+  );
 
   return {
     clearConversationSearch: action('clearConversationSearch'),
@@ -160,12 +164,21 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       undefined
     ),
     isUpdateDownloaded,
+    isContactManagementEnabled,
 
     setChallengeStatus: action('setChallengeStatus'),
     lookupConversationWithoutUuid: makeFakeLookupConversationWithoutUuid(),
     showUserNotFoundModal: action('showUserNotFoundModal'),
     setIsFetchingUUID,
     showConversation: action('showConversation'),
+    blockConversation: action('blockConversation'),
+    onOutgoingAudioCallInConversation: action(
+      'onOutgoingAudioCallInConversation'
+    ),
+    onOutgoingVideoCallInConversation: action(
+      'onOutgoingVideoCallInConversation'
+    ),
+    removeConversation: action('removeConversation'),
     renderMainHeader: () => <div />,
     renderMessageSearchResult: (id: string) => (
       <MessageSearchResult
@@ -268,9 +281,17 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   };
 };
 
+function LeftPaneInContainer(props: PropsType): JSX.Element {
+  return (
+    <div style={{ height: '600px' }}>
+      <LeftPane {...props} />
+    </div>
+  );
+}
+
 export function InboxNoConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -291,7 +312,7 @@ InboxNoConversations.story = {
 
 export function InboxOnlyPinnedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -312,7 +333,7 @@ InboxOnlyPinnedConversations.story = {
 
 export function InboxOnlyNonPinnedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -333,7 +354,7 @@ InboxOnlyNonPinnedConversations.story = {
 
 export function InboxOnlyArchivedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -354,7 +375,7 @@ InboxOnlyArchivedConversations.story = {
 
 export function InboxPinnedAndArchivedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -375,7 +396,7 @@ InboxPinnedAndArchivedConversations.story = {
 
 export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -396,7 +417,7 @@ InboxNonPinnedAndArchivedConversations.story = {
 
 export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -416,7 +437,7 @@ InboxPinnedAndNonPinnedConversations.story = {
 };
 
 export function InboxPinnedNonPinnedAndArchivedConversations(): JSX.Element {
-  return <LeftPane {...useProps()} />;
+  return <LeftPaneInContainer {...useProps()} />;
 }
 
 InboxPinnedNonPinnedAndArchivedConversations.story = {
@@ -425,7 +446,7 @@ InboxPinnedNonPinnedAndArchivedConversations.story = {
 
 export function SearchNoResultsWhenSearchingEverywhere(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -446,7 +467,7 @@ SearchNoResultsWhenSearchingEverywhere.story = {
 
 export function SearchNoResultsWhenSearchingEverywhereSms(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -467,7 +488,7 @@ SearchNoResultsWhenSearchingEverywhereSms.story = {
 
 export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -489,7 +510,7 @@ SearchNoResultsWhenSearchingInAConversation.story = {
 
 export function SearchAllResultsLoading(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -510,7 +531,7 @@ SearchAllResultsLoading.story = {
 
 export function SearchSomeResultsLoading(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -534,7 +555,7 @@ SearchSomeResultsLoading.story = {
 
 export function SearchHasConversationsAndContactsButNotMessages(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -558,7 +579,7 @@ SearchHasConversationsAndContactsButNotMessages.story = {
 
 export function SearchAllResults(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -588,7 +609,7 @@ SearchAllResults.story = {
 
 export function ArchiveNoArchivedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
@@ -608,7 +629,7 @@ ArchiveNoArchivedConversations.story = {
 
 export function ArchiveArchivedConversations(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
@@ -628,7 +649,7 @@ ArchiveArchivedConversations.story = {
 
 export function ArchiveSearchingAConversation(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
@@ -648,7 +669,7 @@ ArchiveSearchingAConversation.story = {
 
 export function ComposeNoResults(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -670,7 +691,7 @@ ComposeNoResults.story = {
 
 export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -692,7 +713,7 @@ ComposeSomeContactsNoSearchTerm.story = {
 
 export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -714,7 +735,7 @@ ComposeSomeContactsWithASearchTerm.story = {
 
 export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -736,7 +757,7 @@ ComposeSomeGroupsNoSearchTerm.story = {
 
 export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -758,7 +779,7 @@ ComposeSomeGroupsWithSearchTerm.story = {
 
 export function ComposeSearchIsValidUsername(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -780,7 +801,7 @@ ComposeSearchIsValidUsername.story = {
 
 export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -804,7 +825,7 @@ ComposeSearchIsValidUsernameFetchingUsername.story = {
 
 export function ComposeSearchIsValidUsernameButFlagIsNotEnabled(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -826,7 +847,7 @@ ComposeSearchIsValidUsernameButFlagIsNotEnabled.story = {
 
 export function ComposeSearchIsPartialPhoneNumber(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -848,7 +869,7 @@ ComposeSearchIsPartialPhoneNumber.story = {
 
 export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -870,7 +891,7 @@ ComposeSearchIsValidPhoneNumber.story = {
 
 export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -894,7 +915,7 @@ ComposeSearchIsValidPhoneNumberFetchingPhoneNumber.story = {
 
 export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -916,7 +937,7 @@ ComposeAllKindsOfResultsNoSearchTerm.story = {
 
 export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.Compose,
@@ -938,7 +959,7 @@ ComposeAllKindsOfResultsWithASearchTerm.story = {
 
 export function CaptchaDialogRequired(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -961,7 +982,7 @@ CaptchaDialogRequired.story = {
 
 export function CaptchaDialogPending(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,
@@ -983,7 +1004,7 @@ CaptchaDialogPending.story = {
 };
 
 export const _CrashReportDialog = (): JSX.Element => (
-  <LeftPane
+  <LeftPaneInContainer
     {...useProps({
       modeSpecificProps: {
         ...defaultSearchProps,
@@ -1005,7 +1026,7 @@ _CrashReportDialog.story = {
 
 export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.ChooseGroupMembers,
@@ -1031,7 +1052,7 @@ ChooseGroupMembersPartialPhoneNumber.story = {
 
 export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.ChooseGroupMembers,
@@ -1057,7 +1078,7 @@ ChooseGroupMembersValidPhoneNumber.story = {
 
 export function ChooseGroupMembersUsername(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.ChooseGroupMembers,
@@ -1083,7 +1104,7 @@ ChooseGroupMembersUsername.story = {
 
 export function GroupMetadataNoTimer(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.SetGroupMetadata,
@@ -1107,7 +1128,7 @@ GroupMetadataNoTimer.story = {
 
 export function GroupMetadataRegularTimer(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.SetGroupMetadata,
@@ -1131,7 +1152,7 @@ GroupMetadataRegularTimer.story = {
 
 export function GroupMetadataCustomTimer(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           mode: LeftPaneMode.SetGroupMetadata,
@@ -1155,7 +1176,7 @@ GroupMetadataCustomTimer.story = {
 
 export function SearchingConversation(): JSX.Element {
   return (
-    <LeftPane
+    <LeftPaneInContainer
       {...useProps({
         modeSpecificProps: {
           ...defaultSearchProps,

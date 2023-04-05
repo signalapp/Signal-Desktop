@@ -190,6 +190,7 @@ export type MessageAttributesType = {
     | 'story'
     | 'timer-notification'
     | 'universal-timer-notification'
+    | 'contact-removed-notification'
     | 'verified-change';
   body?: string;
   attachments?: Array<AttachmentType>;
@@ -301,6 +302,12 @@ export type ConversationAttributesType = {
   draftTimestamp?: number | null;
   hideStory?: boolean;
   inbox_position?: number;
+  // When contact is removed - it is initially placed into `justNotification`
+  // removal stage. In this stage user can still send messages (which will
+  // set `removalStage` to `undefined`), but if a new incoming message arrives -
+  // the stage will progress to `messageRequest` and composition area will be
+  // replaced with a message request.
+  removalStage?: 'justNotification' | 'messageRequest';
   isPinned?: boolean;
   lastMessageDeletedForEveryone?: boolean;
   lastMessageStatus?: LastMessageStatus | null;
@@ -361,6 +368,7 @@ export type ConversationAttributesType = {
   verified?: number;
   profileLastFetchedAt?: number;
   pendingUniversalTimer?: string;
+  pendingRemovedContactNotification?: string;
   username?: string;
   shareMyPhoneNumber?: boolean;
   previousIdentityKey?: string;

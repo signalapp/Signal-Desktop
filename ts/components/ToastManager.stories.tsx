@@ -127,6 +127,16 @@ ConversationMarkedUnread.args = {
   },
 };
 
+export const ConversationRemoved = Template.bind({});
+ConversationRemoved.args = {
+  toast: {
+    toastType: ToastType.ConversationRemoved,
+    parameters: {
+      title: 'Alice',
+    },
+  },
+};
+
 export const ConversationUnarchived = Template.bind({});
 ConversationUnarchived.args = {
   toast: {

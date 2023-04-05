@@ -12,6 +12,7 @@ export type Props = {
   subtitle?: string | JSX.Element;
   leading?: string | JSX.Element;
   trailing?: string | JSX.Element;
+  moduleClassName?: string;
   onClick?: () => void;
   onContextMenu?: (ev: React.MouseEvent<Element, MouseEvent>) => void;
   // show hover highlight,
@@ -27,8 +28,6 @@ export type Props = {
   rootElement?: 'div' | 'button';
   testId?: string;
 };
-
-const getClassName = getClassNamesFor('ListTile');
 
 /**
  * A single row that typically contains some text and leading/trailing icons/widgets
@@ -72,6 +71,7 @@ const ListTileImpl = React.forwardRef<HTMLButtonElement, Props>(
       subtitle,
       leading,
       trailing,
+      moduleClassName,
       onClick,
       onContextMenu,
       clickable,
@@ -84,6 +84,8 @@ const ListTileImpl = React.forwardRef<HTMLButtonElement, Props>(
     ref
   ) {
     const isClickable = clickable ?? Boolean(onClick);
+
+    const getClassName = getClassNamesFor('ListTile', moduleClassName);
 
     const rootProps = {
       className: classNames(

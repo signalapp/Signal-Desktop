@@ -226,6 +226,7 @@ export type ConversationType = ReadonlyDeep<
     hideStory?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
+    removalStage?: 'justNotification' | 'messageRequest';
     isGroupV1AndDisabled?: boolean;
     isPinned?: boolean;
     isUntrusted?: boolean;
@@ -1009,6 +1010,7 @@ export const actions = {
   popPanelForConversation,
   pushPanelForConversation,
   removeAllConversations,
+  removeConversation,
   removeCustomColorOnConversations,
   removeMember,
   removeMemberFromGroup,
@@ -3061,6 +3063,27 @@ function acceptConversation(conversationId: string): NoopActionType {
   return {
     type: 'NOOP',
     payload: null,
+  };
+}
+
+function removeConversation(conversationId: string): ShowToastActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'acceptConversation: Expected a conversation to be found. Doing nothing'
+    );
+  }
+
+  drop(conversation.removeContact());
+
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.ConversationRemoved,
+      parameters: {
+        title: conversation.getTitle(),
+      },
+    },
   };
 }
 

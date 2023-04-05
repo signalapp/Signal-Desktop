@@ -871,6 +871,13 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isContactRemovedNotification(message)) {
+    return {
+      type: 'contactRemovedNotification',
+      data: null,
+      timestamp,
+    };
+  }
   if (isChangeNumberNotification(message)) {
     return {
       type: 'changeNumberNotification',
@@ -1372,6 +1379,16 @@ export function isUniversalTimerNotification(
   message: MessageWithUIFieldsType
 ): boolean {
   return message.type === 'universal-timer-notification';
+}
+
+// Contact Removed Notification
+
+// Note: smart, so props not generated here
+
+export function isContactRemovedNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'contact-removed-notification';
 }
 
 // Change Number Notification

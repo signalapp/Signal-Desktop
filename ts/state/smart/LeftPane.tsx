@@ -40,6 +40,7 @@ import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
+  getContactManagementEnabled,
 } from '../selectors/items';
 import {
   getComposeAvatarData,
@@ -233,6 +234,7 @@ const mapStateToProps = (state: StateType) => {
     targetedMessageId: getTargetedMessage(state)?.id,
     showArchived: getShowArchived(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
+    isContactManagementEnabled: getContactManagementEnabled(state),
     i18n: getIntl(state),
     isMacOS: getIsMacOS(state),
     regionCode: getRegionCode(state),

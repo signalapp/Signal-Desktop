@@ -16,6 +16,8 @@ export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.calling.audioLevelForSpeaking'
   | 'desktop.cdsi.returnAcisWithoutUaks'
+  | 'desktop.contactManagement'
+  | 'desktop.contactManagement.beta'
   | 'desktop.clientExpiration'
   | 'desktop.groupCallOutboundRing2'
   | 'desktop.groupCallOutboundRing2.beta'

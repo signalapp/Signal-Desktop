@@ -154,6 +154,10 @@ export function Notification(): JSX.Element {
       type: 'chatSessionRefreshed',
     },
     {
+      type: 'contactRemovedNotification',
+      data: null,
+    },
+    {
       type: 'safetyNumberNotification',
       data: {
         isGroup: false,

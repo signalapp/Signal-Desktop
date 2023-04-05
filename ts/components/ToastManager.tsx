@@ -134,6 +134,16 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.ConversationRemoved) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--ConversationRemoved', {
+          title: toast?.parameters?.title ?? '',
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ConversationUnarchived) {
     return (
       <Toast onClose={hideToast}>

@@ -4,6 +4,7 @@
 import type { KeyboardEvent, ReactNode } from 'react';
 import type { Options, VirtualElement } from '@popperjs/core';
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import { noop } from 'lodash';
@@ -42,6 +43,7 @@ export type PropsType<T> = Readonly<{
   onClick?: (ev: React.MouseEvent) => unknown;
   onMenuShowingChanged?: (value: boolean) => unknown;
   popperOptions?: Pick<Options, 'placement' | 'strategy'>;
+  portalToRoot?: boolean;
   theme?: Theme;
   title?: string;
   value?: T;
@@ -67,6 +69,7 @@ export function ContextMenu<T>({
   onClick,
   onMenuShowingChanged,
   popperOptions,
+  portalToRoot,
   theme,
   title,
   value,
@@ -117,6 +120,21 @@ export function ContextMenu<T>({
       }
     );
   }, [isMenuShowing, referenceElement, popperElement]);
+
+  const [portalNode, setPortalNode] = React.useState<HTMLElement | null>(null);
+  useEffect(() => {
+    if (!portalToRoot || !isMenuShowing) {
+      return noop;
+    }
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    setPortalNode(div);
+
+    return () => {
+      document.body.removeChild(div);
+    };
+  }, [portalToRoot, isMenuShowing]);
 
   const handleKeyDown = (ev: KeyboardEvent) => {
     if ((ev.key === 'Enter' || ev.key === 'Space') && !isMenuShowing) {
@@ -302,7 +320,7 @@ export function ContextMenu<T>({
         >
           {children}
         </button>
-        {menuNode}
+        {portalNode ? createPortal(menuNode, portalNode) : menuNode}
       </div>
     );
   }

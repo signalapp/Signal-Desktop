@@ -67,9 +67,17 @@ function Wrapper({
       getRow={(index: number) => rows[index]}
       shouldRecomputeRowHeights={false}
       i18n={i18n}
+      blockConversation={action('blockConversation')}
       onSelectConversation={action('onSelectConversation')}
+      onOutgoingAudioCallInConversation={action(
+        'onOutgoingAudioCallInConversation'
+      )}
+      onOutgoingVideoCallInConversation={action(
+        'onOutgoingVideoCallInConversation'
+      )}
       onClickArchiveButton={action('onClickArchiveButton')}
       onClickContactCheckbox={action('onClickContactCheckbox')}
+      removeConversation={action('removeConversation')}
       renderMessageSearchResult={(id: string) => (
         <MessageSearchResult
           body="Lorem ipsum wow"
@@ -138,6 +146,24 @@ export function ContactDirect(): JSX.Element {
 
 ContactDirect.story = {
   name: 'Contact: direct',
+};
+
+export function ContactDirectWithContextMenu(): JSX.Element {
+  return (
+    <Wrapper
+      rows={[
+        {
+          type: RowType.Contact,
+          contact: defaultConversations[0],
+          hasContextMenu: true,
+        },
+      ]}
+    />
+  );
+}
+
+ContactDirectWithContextMenu.story = {
+  name: 'Contact: context menu',
 };
 
 export function ContactDirectWithShortAbout(): JSX.Element {

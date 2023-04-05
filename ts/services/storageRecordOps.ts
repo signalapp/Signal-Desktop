@@ -203,6 +203,7 @@ export async function toContactRecord(
     contactRecord.systemNickname = systemNickname;
   }
   contactRecord.blocked = conversation.isBlocked();
+  contactRecord.hidden = conversation.get('removalStage') !== undefined;
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
   contactRecord.markedUnread = Boolean(conversation.get('markedUnread'));
@@ -1082,6 +1083,18 @@ export async function mergeContactRecord(
     storageID,
     storageVersion,
   });
+
+  if (contactRecord.hidden) {
+    await conversation.removeContact({
+      viaStorageServiceSync: true,
+      shouldSave: false,
+    });
+  } else {
+    await conversation.restoreContact({
+      viaStorageServiceSync: true,
+      shouldSave: false,
+    });
+  }
 
   conversation.setMuteExpiration(
     getTimestampFromLong(contactRecord.mutedUntilTimestamp),

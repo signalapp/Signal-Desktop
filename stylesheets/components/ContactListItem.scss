@@ -1,0 +1,129 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ContactListItem {
+  &__context-menu {
+    &__chat-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/chat--compact.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/chat--compact.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__phone-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/phone--compact.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/phone--compact.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__video-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/video--compact.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/video--compact.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__delete-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/minus--circle--compact.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/minus--circle--compact.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__block-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/block--compact.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/block--compact.svg',
+          $color-black
+        );
+      }
+    }
+
+    // Overrides
+    &__popper.ContextMenu__popper {
+      min-width: 240px;
+    }
+
+    &__button.ContextMenu__button {
+      opacity: 0;
+
+      .ContactListItem:hover & {
+        opacity: 1;
+      }
+
+      &:hover {
+        @include light-theme {
+          background-color: $color-gray-20;
+        }
+
+        @include dark-theme {
+          background-color: $color-gray-80;
+        }
+      }
+
+      width: 28px;
+      height: 28px;
+      padding: 4px;
+      border-radius: 4px;
+
+      &::after {
+        display: block;
+        width: 20px;
+        height: 20px;
+        content: '';
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/more-horiz-24.svg',
+            $color-white
+          );
+        }
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/more-horiz-24.svg',
+            $color-black
+          );
+        }
+      }
+    }
+  }
+}

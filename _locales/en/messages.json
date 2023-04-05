@@ -611,6 +611,50 @@
     "messageformat": "Select messages",
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
+  "icu:ContactListItem__menu": {
+    "messageformat": "Manage Contact",
+    "description": "Shown as aria label for context menu for a contact"
+  },
+  "icu:ContactListItem__menu__message": {
+    "messageformat": "Message",
+    "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
+  },
+  "icu:ContactListItem__menu__audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
+  },
+  "icu:ContactListItem__menu__video-call": {
+    "messageformat": "Video call",
+    "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
+  },
+  "icu:ContactListItem__menu__remove": {
+    "messageformat": "Remove",
+    "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
+  },
+  "icu:ContactListItem__menu__block": {
+    "messageformat": "Block",
+    "description": "Shown in a context menu for a contact, allows the user to block the contact"
+  },
+  "icu:ContactListItem__remove--title": {
+    "messageformat": "Remove {title}?",
+    "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
+  },
+  "icu:ContactListItem__remove--body": {
+    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
+  },
+  "icu:ContactListItem__remove--confirm": {
+    "messageformat": "Remove",
+    "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
+  },
+  "icu:ContactListItem__remove-system--title": {
+    "messageformat": "Unable to remove {title}",
+    "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
+  },
+  "icu:ContactListItem__remove-system--body": {
+    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
+  },
   "moveConversationToInbox": {
     "message": "Unarchive",
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
@@ -4006,6 +4050,10 @@
     "messageformat": "No conversations found",
     "description": "Label shown when there are no conversations to compose to"
   },
+  "icu:Toast--ConversationRemoved": {
+    "messageformat": "{title} has been removed.",
+    "description": "Shown after the contact was removed from the contact list"
+  },
   "Toast--error": {
     "message": "An error has occurred",
     "description": "(deleted 03/29/2023) Toast for general errors"
@@ -5810,6 +5858,10 @@
   "icu:MessageRequests--message-direct": {
     "messageformat": "Let {name} message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
     "description": "Shown as the message for a message request in a direct message"
+  },
+  "icu:MessageRequests--message-direct-hidden": {
+    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
     "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
@@ -9738,6 +9790,10 @@
   "icu:UniversalTimerNotification__text": {
     "messageformat": "The disappearing message time will be set to {timeValue} when you message them.",
     "description": "A message displayed when default disappearing message timeout is about to be applied"
+  },
+  "icu:ContactRemovedNotification__text": {
+    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
     "message": "Couldn't display this message. Click to submit a debug log.",

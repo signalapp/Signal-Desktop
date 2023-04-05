@@ -53,6 +53,7 @@ export type PropsData = Pick<
   | 'muteExpiresAt'
   | 'phoneNumber'
   | 'profileName'
+  | 'removalStage'
   | 'sharedGroupNames'
   | 'shouldShowDraft'
   | 'title'
@@ -92,6 +93,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     onClick,
     phoneNumber,
     profileName,
+    removalStage,
     sharedGroupNames,
     shouldShowDraft,
     theme,
@@ -125,7 +127,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
-    if (!acceptedMessageRequest) {
+    if (!acceptedMessageRequest && removalStage !== 'justNotification') {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
           {i18n('icu:ConversationListItem--message-request')}

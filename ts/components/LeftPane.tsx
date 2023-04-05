@@ -67,6 +67,7 @@ export type PropsType = {
   hasRelinkDialog: boolean;
   hasUpdateDialog: boolean;
   isUpdateDownloaded: boolean;
+  isContactManagementEnabled: boolean;
   unsupportedOSDialogType: 'error' | 'warning' | undefined;
 
   // These help prevent invalid states. For example, we don't need the list of pinned
@@ -104,6 +105,7 @@ export type PropsType = {
   theme: ThemeType;
 
   // Action Creators
+  blockConversation: (conversationId: string) => void;
   clearConversationSearch: () => void;
   clearGroupCreationError: () => void;
   clearSearch: () => void;
@@ -113,6 +115,9 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
+  removeConversation: (conversationId: string) => void;
   savePreferredLeftPaneWidth: (_: number) => void;
   searchInConversation: (conversationId: string) => unknown;
   setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
@@ -151,6 +156,7 @@ export type PropsType = {
 } & LookupConversationWithoutUuidActionsType;
 
 export function LeftPane({
+  blockConversation,
   challengeStatus,
   clearConversationSearch,
   clearGroupCreationError,
@@ -171,8 +177,12 @@ export function LeftPane({
   lookupConversationWithoutUuid,
   isMacOS,
   isUpdateDownloaded,
+  isContactManagementEnabled,
   modeSpecificProps,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
   preferredWidthFromStorage,
+  removeConversation,
   renderCaptchaDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
@@ -678,7 +688,17 @@ export function LeftPane({
                   setIsFetchingUUID={setIsFetchingUUID}
                   lookupConversationWithoutUuid={lookupConversationWithoutUuid}
                   showConversation={showConversation}
+                  blockConversation={blockConversation}
                   onSelectConversation={onSelectConversation}
+                  onOutgoingAudioCallInConversation={
+                    onOutgoingAudioCallInConversation
+                  }
+                  onOutgoingVideoCallInConversation={
+                    onOutgoingVideoCallInConversation
+                  }
+                  removeConversation={
+                    isContactManagementEnabled ? removeConversation : undefined
+                  }
                   renderMessageSearchResult={renderMessageSearchResult}
                   rowCount={helper.getRowCount()}
                   scrollBehavior={scrollBehavior}

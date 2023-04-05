@@ -14,6 +14,7 @@ export enum ToastType {
   CannotStartGroupCall = 'CannotStartGroupCall',
   ConversationArchived = 'ConversationArchived',
   ConversationMarkedUnread = 'ConversationMarkedUnread',
+  ConversationRemoved = 'ConversationRemoved',
   ConversationUnarchived = 'ConversationUnarchived',
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',

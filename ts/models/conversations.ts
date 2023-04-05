@@ -974,6 +974,79 @@ export class ConversationModel extends window.Backbone
     return unblocked;
   }
 
+  async removeContact({
+    viaStorageServiceSync = false,
+    shouldSave = true,
+  } = {}): Promise<void> {
+    const logId = `removeContact(${this.idForLogging()}) storage? ${viaStorageServiceSync}`;
+
+    if (!isDirectConversation(this.attributes)) {
+      log.warn(`${logId}: not direct conversation`);
+      return;
+    }
+
+    if (this.get('removalStage')) {
+      log.warn(`${logId}: already removed`);
+      return;
+    }
+
+    // Don't show message request state until first incoming message.
+    log.info(`${logId}: updating`);
+    this.set({ removalStage: 'justNotification' });
+
+    if (!viaStorageServiceSync) {
+      this.captureChange('removeContact');
+    }
+
+    this.disableProfileSharing({ viaStorageServiceSync });
+
+    // Drop existing message request state to avoid sending receipts and
+    // display MR actions.
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    await this.applyMessageRequestResponse(messageRequestEnum.UNKNOWN, {
+      viaStorageServiceSync,
+      shouldSave: false,
+    });
+
+    // Add notification
+    drop(this.queueJob('removeContact', () => this.maybeSetContactRemoved()));
+
+    if (shouldSave) {
+      await window.Signal.Data.updateConversation(this.attributes);
+    }
+  }
+
+  async restoreContact({
+    viaStorageServiceSync = false,
+    shouldSave = true,
+  } = {}): Promise<void> {
+    const logId = `restoreContact(${this.idForLogging()}) storage? ${viaStorageServiceSync}`;
+
+    if (!isDirectConversation(this.attributes)) {
+      log.warn(`${logId}: not direct conversation`);
+      return;
+    }
+
+    if (this.get('removalStage') === undefined) {
+      log.warn(`${logId}: not removed`);
+      return;
+    }
+
+    log.info(`${logId}: updating`);
+    this.set({ removalStage: undefined });
+
+    if (!viaStorageServiceSync) {
+      this.captureChange('restoreContact');
+    }
+
+    // Remove notification since the conversation isn't hidden anymore
+    await this.maybeClearContactRemoved();
+
+    if (shouldSave) {
+      await window.Signal.Data.updateConversation(this.attributes);
+    }
+  }
+
   enableProfileSharing({ viaStorageServiceSync = false } = {}): void {
     log.info(
       `enableProfileSharing: ${this.idForLogging()} storage? ${viaStorageServiceSync}`
@@ -1377,6 +1450,17 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    // Change to message request state if contact was removed and sent message.
+    if (
+      this.get('removalStage') === 'justNotification' &&
+      isIncoming(message.attributes)
+    ) {
+      this.set({
+        removalStage: 'messageRequest',
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    }
+
     void this.addSingleMessage(message);
   }
 
@@ -1506,7 +1590,12 @@ export class ConversationModel extends window.Backbone
       //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
       //   scroll directly to the oldest message, because that could scroll the hero off
       //   the screen.
-      if (!newestMessageId && !this.getAccepted() && metrics.oldest) {
+      if (
+        !newestMessageId &&
+        !this.getAccepted() &&
+        this.get('removalStage') !== 'justNotification' &&
+        metrics.oldest
+      ) {
         void this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
         return;
       }
@@ -1899,6 +1988,7 @@ export class ConversationModel extends window.Backbone
       inboxPosition,
       isArchived: this.get('isArchived'),
       isBlocked: this.isBlocked(),
+      removalStage: this.get('removalStage'),
       isMe: isMe(this.attributes),
       isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
       isPinned: this.get('isPinned'),
@@ -2259,7 +2349,7 @@ export class ConversationModel extends window.Backbone
 
   async applyMessageRequestResponse(
     response: number,
-    { fromSync = false, viaStorageServiceSync = false } = {}
+    { fromSync = false, viaStorageServiceSync = false, shouldSave = true } = {}
   ): Promise<void> {
     try {
       const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -2276,6 +2366,9 @@ export class ConversationModel extends window.Backbone
 
       if (response === messageRequestEnum.ACCEPT) {
         this.unblock({ viaStorageServiceSync });
+        if (!viaStorageServiceSync) {
+          await this.restoreContact({ shouldSave: false });
+        }
         this.enableProfileSharing({ viaStorageServiceSync });
 
         // We really don't want to call this if we don't have to. It can take a lot of
@@ -2382,7 +2475,9 @@ export class ConversationModel extends window.Backbone
         }
       }
     } finally {
-      window.Signal.Data.updateConversation(this.attributes);
+      if (shouldSave) {
+        window.Signal.Data.updateConversation(this.attributes);
+      }
     }
   }
 
@@ -2628,10 +2723,13 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async syncMessageRequestResponse(response: number): Promise<void> {
+  async syncMessageRequestResponse(
+    response: number,
+    { shouldSave = true } = {}
+  ): Promise<void> {
     // In GroupsV2, this may modify the server. We only want to continue if those
     //   server updates were successful.
-    await this.applyMessageRequestResponse(response);
+    await this.applyMessageRequestResponse(response, { shouldSave });
 
     const groupId = this.getGroupIdBuffer();
 
@@ -3555,6 +3653,44 @@ export class ConversationModel extends window.Backbone
     return true;
   }
 
+  async maybeSetContactRemoved(): Promise<void> {
+    if (!isDirectConversation(this.attributes)) {
+      return;
+    }
+
+    if (this.get('pendingRemovedContactNotification')) {
+      return;
+    }
+
+    log.info(
+      `maybeSetContactRemoved(${this.idForLogging()}): added notification`
+    );
+    const notificationId = await this.addNotification(
+      'contact-removed-notification'
+    );
+    this.set('pendingRemovedContactNotification', notificationId);
+    await window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  async maybeClearContactRemoved(): Promise<boolean> {
+    const notificationId = this.get('pendingRemovedContactNotification');
+    if (!notificationId) {
+      return false;
+    }
+
+    this.set('pendingRemovedContactNotification', undefined);
+    log.info(
+      `maybeClearContactRemoved(${this.idForLogging()}): removed notification`
+    );
+
+    const message = window.MessageController.getById(notificationId);
+    if (message) {
+      await window.Signal.Data.removeMessage(message.id);
+    }
+
+    return true;
+  }
+
   async addChangeNumberNotification(
     oldValue: string,
     newValue: string
@@ -4010,6 +4146,7 @@ export class ConversationModel extends window.Backbone
     if (!storyId || isDirectConversation(this.attributes)) {
       await this.maybeApplyUniversalTimer();
       expireTimer = this.get('expireTimer');
+      await this.restoreContact();
     }
 
     const recipientMaybeConversations = map(

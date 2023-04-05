@@ -356,6 +356,10 @@ export function ForwardMessagesModal({
                         showUserNotFoundModal={shouldNeverBeCalled}
                         setIsFetchingUUID={shouldNeverBeCalled}
                         onSelectConversation={shouldNeverBeCalled}
+                        blockConversation={shouldNeverBeCalled}
+                        removeConversation={shouldNeverBeCalled}
+                        onOutgoingAudioCallInConversation={shouldNeverBeCalled}
+                        onOutgoingVideoCallInConversation={shouldNeverBeCalled}
                         renderMessageSearchResult={() => {
                           shouldNeverBeCalled();
                           return <div />;

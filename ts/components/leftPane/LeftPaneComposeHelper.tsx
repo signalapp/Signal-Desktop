@@ -205,6 +205,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         return {
           type: RowType.Contact,
           contact,
+          hasContextMenu: true,
         };
       }
 

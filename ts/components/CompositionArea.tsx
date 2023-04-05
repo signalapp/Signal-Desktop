@@ -71,6 +71,7 @@ import type { ShowToastAction } from '../state/ducks/toast';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
+  removalStage?: 'justNotification' | 'messageRequest';
   addAttachment: (
     conversationId: string,
     attachment: InMemoryAttachmentDraftType
@@ -265,6 +266,7 @@ export function CompositionArea({
   isMissingMandatoryProfileSharing,
   left,
   messageRequestsEnabled,
+  removalStage,
   acceptConversation,
   blockConversation,
   blockAndReportSpam,
@@ -577,7 +579,9 @@ export function CompositionArea({
   if (
     isBlocked ||
     areWePending ||
-    (messageRequestsEnabled && !acceptedMessageRequest)
+    (messageRequestsEnabled &&
+      !acceptedMessageRequest &&
+      removalStage !== 'justNotification')
   ) {
     return (
       <MessageRequestActions
@@ -589,6 +593,7 @@ export function CompositionArea({
         deleteConversation={deleteConversation}
         i18n={i18n}
         isBlocked={isBlocked}
+        isHidden={removalStage !== undefined}
         title={title}
       />
     );
@@ -627,7 +632,7 @@ export function CompositionArea({
   // If no message request, but we haven't shared profile yet, we show profile-sharing UI
   if (
     !left &&
-    (conversationType === 'direct' ||
+    ((conversationType === 'direct' && removalStage !== 'justNotification') ||
       (conversationType === 'group' && groupVersion === 1)) &&
     isMissingMandatoryProfileSharing
   ) {

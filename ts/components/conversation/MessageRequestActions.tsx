@@ -15,6 +15,7 @@ import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
+  isHidden?: boolean;
 } & Omit<ContactNameProps, 'module'> &
   Omit<
     MessageRequestActionsConfirmationProps,
@@ -30,6 +31,7 @@ export function MessageRequestActions({
   deleteConversation,
   firstName,
   i18n,
+  isHidden,
   isBlocked,
   title,
 }: Props): JSX.Element {
@@ -43,6 +45,43 @@ export function MessageRequestActions({
       <ContactName firstName={firstName} title={title} preferFirstName />
     </strong>
   );
+
+  let message: JSX.Element | undefined;
+  if (conversationType === 'direct') {
+    if (isBlocked) {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct-blocked"
+          components={{ name }}
+        />
+      );
+    } else if (isHidden) {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct-hidden"
+          components={{ name }}
+        />
+      );
+    } else {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct"
+          components={{ name }}
+        />
+      );
+    }
+  } else if (conversationType === 'group') {
+    if (isBlocked) {
+      message = (
+        <Intl i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
+      );
+    } else {
+      message = <Intl i18n={i18n} id="icu:MessageRequests--message-group" />;
+    }
+  }
 
   return (
     <>
@@ -61,28 +100,7 @@ export function MessageRequestActions({
         />
       ) : null}
       <div className="module-message-request-actions">
-        <p className="module-message-request-actions__message">
-          {conversationType === 'direct' && isBlocked && (
-            <Intl
-              i18n={i18n}
-              id="icu:MessageRequests--message-direct-blocked"
-              components={{ name }}
-            />
-          )}
-          {conversationType === 'direct' && !isBlocked && (
-            <Intl
-              i18n={i18n}
-              id="icu:MessageRequests--message-direct"
-              components={{ name }}
-            />
-          )}
-          {conversationType === 'group' && isBlocked && (
-            <Intl i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
-          )}
-          {conversationType === 'group' && !isBlocked && (
-            <Intl i18n={i18n} id="icu:MessageRequests--message-group" />
-          )}
-        </p>
+        <p className="module-message-request-actions__message">{message}</p>
         <div className="module-message-request-actions__buttons">
           <Button
             onClick={() => {

@@ -11,7 +11,7 @@
   &__popper {
     @extend %module-composition-popper;
     margin: 0;
-    padding: 6px 2px;
+    padding: 6px 0px;
     width: auto;
 
     &--single-item {
@@ -36,10 +36,9 @@
     }
 
     align-items: center;
-    border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    padding: 6px;
+    padding: 7px 12px;
     min-width: 150px;
     width: 100%;
 
@@ -88,7 +87,6 @@
     &:focus,
     &:active {
       @include keyboard-mode {
-        border-radius: 6px;
         box-shadow: 0 0 1px 1px $color-ultramarine;
         outline: none;
       }
