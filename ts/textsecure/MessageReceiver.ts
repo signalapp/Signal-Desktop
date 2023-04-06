@@ -37,7 +37,7 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { assertDev, strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { drop } from '../util/drop';
@@ -3398,7 +3398,7 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleCallEvent', logId);
-    const { peerUuid, callId } = callEvent;
+    const { peerUuid, callId, type } = callEvent;
 
     if (!peerUuid) {
       throw new Error('MessageReceiver.handleCallEvent: missing peerUuid');
@@ -3410,9 +3410,17 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'callEventSync');
 
+    if (
+      type !== Proto.SyncMessage.CallEvent.Type.VIDEO_CALL &&
+      type !== Proto.SyncMessage.CallEvent.Type.AUDIO_CALL
+    ) {
+      log.warn('MessageReceiver.handleCallEvent: unknown call type');
+      return;
+    }
+
     const peerUuidStr = bytesToUuid(peerUuid);
 
-    assertDev(
+    strictAssert(
       peerUuidStr != null,
       'MessageReceiver.handleCallEvent: invalid peerUuid'
     );
