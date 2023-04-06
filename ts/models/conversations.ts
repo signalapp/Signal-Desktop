@@ -1483,7 +1483,7 @@ export class ConversationModel extends window.Backbone
     if (!this.newMessageQueue) {
       this.newMessageQueue = new PQueue({
         concurrency: 1,
-        timeout: MINUTE * 30,
+        timeout: FETCH_TIMEOUT * 2,
       });
     }
 
@@ -1527,7 +1527,10 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  setInProgressFetch(): () => unknown {
+  private setInProgressFetch(): () => unknown {
+    const logId = `setInProgressFetch(${this.idForLogging()})`;
+    const start = Date.now();
+
     let resolvePromise: (value?: unknown) => void;
     this.inProgressFetch = new Promise(resolve => {
       resolvePromise = resolve;
@@ -1535,14 +1538,17 @@ export class ConversationModel extends window.Backbone
 
     let timeout: NodeJS.Timeout;
     const finish = () => {
+      const duration = Date.now() - start;
+      if (duration > 500) {
+        log.warn(`${logId}: in progress fetch took ${duration}ms`);
+      }
+
       resolvePromise();
       clearTimeout(timeout);
       this.inProgressFetch = undefined;
     };
     timeout = setTimeout(() => {
-      log.warn(
-        `setInProgressFetch(${this.idForLogging()}): Calling finish manually after timeout`
-      );
+      log.warn(`${logId}: Calling finish manually after timeout`);
       finish();
     }, FETCH_TIMEOUT);
 
@@ -1553,6 +1559,8 @@ export class ConversationModel extends window.Backbone
     newestMessageId: string | undefined,
     setFocus: boolean | undefined
   ): Promise<void> {
+    const logId = `loadNewestMessages/${this.idForLogging()}`;
+
     const { messagesReset, setMessageLoadingState } =
       window.reduxActions.conversations;
     const conversationId = this.id;
@@ -1596,11 +1604,15 @@ export class ConversationModel extends window.Backbone
         this.get('removalStage') !== 'justNotification' &&
         metrics.oldest
       ) {
+        log.info(`${logId}: scrolling to oldest ${metrics.oldest.sent_at}`);
         void this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
         return;
       }
 
       if (scrollToLatestUnread && metrics.oldestUnseen) {
+        log.info(
+          `${logId}: scrolling to oldest unseen ${metrics.oldestUnseen.sent_at}`
+        );
         void this.loadAndScroll(metrics.oldestUnseen.id, {
           disableScroll: !setFocus,
         });
@@ -1617,6 +1629,11 @@ export class ConversationModel extends window.Backbone
       const cleaned: Array<MessageModel> = await this.cleanModels(messages);
       const scrollToMessageId =
         setFocus && metrics.newest ? metrics.newest.id : undefined;
+
+      log.info(
+        `${logId}: loaded ${cleaned.length} messages, ` +
+          `latest timestamp=${cleaned.at(-1)?.get('sent_at')}`
+      );
 
       // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
       //   the most recent N messages in the conversation. If it has a conflict with
@@ -1641,6 +1658,8 @@ export class ConversationModel extends window.Backbone
     }
   }
   async loadOlderMessages(oldestMessageId: string): Promise<void> {
+    const logId = `loadOlderMessages/${this.idForLogging()}`;
+
     const { messagesAdded, setMessageLoadingState, repairOldestMessage } =
       window.reduxActions.conversations;
     const conversationId = this.id;
@@ -1654,9 +1673,7 @@ export class ConversationModel extends window.Backbone
     try {
       const message = await getMessageById(oldestMessageId);
       if (!message) {
-        throw new Error(
-          `loadOlderMessages: failed to load message ${oldestMessageId}`
-        );
+        throw new Error(`${logId}: failed to load message ${oldestMessageId}`);
       }
 
       const receivedAt = message.received_at;
@@ -1672,12 +1689,17 @@ export class ConversationModel extends window.Backbone
       });
 
       if (models.length < 1) {
-        log.warn('loadOlderMessages: requested, but loaded no messages');
+        log.warn(`${logId}: requested, but loaded no messages`);
         repairOldestMessage(conversationId);
         return;
       }
 
       const cleaned = await this.cleanModels(models);
+
+      log.info(
+        `${logId}: loaded ${cleaned.length} messages, ` +
+          `first timestamp=${cleaned.at(0)?.get('sent_at')}`
+      );
 
       messagesAdded({
         conversationId,
