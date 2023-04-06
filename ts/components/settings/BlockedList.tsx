@@ -134,7 +134,7 @@ export const BlockedContactsList = () => {
               {hasAtLeastOneSelected && expanded ? (
                 <SessionButton
                   buttonColor={SessionButtonColor.Danger}
-                  text={window.i18n('unblockUser')}
+                  text={window.i18n('unblock')}
                   onClick={unBlockThoseUsers}
                   dataTestId="unblock-button-settings-screen"
                 />

@@ -2,14 +2,29 @@ import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import _ from 'lodash';
 
-import { HideBannerMenuItem } from './Menu';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
+import { useDispatch } from 'react-redux';
+import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
+import { Item } from 'react-contexify';
 
 export type PropsContextConversationItem = {
   triggerId: string;
 };
 
-const MessageRequestBannerContextMenu = (props: PropsContextConversationItem) => {
+const HideBannerMenuItem = (): JSX.Element => {
+  const dispatch = useDispatch();
+  return (
+    <Item
+      onClick={() => {
+        dispatch(hideMessageRequestBanner());
+      }}
+    >
+      {window.i18n('hideBanner')}
+    </Item>
+  );
+};
+
+export const MessageRequestBannerContextMenu = (props: PropsContextConversationItem) => {
   const { triggerId } = props;
 
   return (
@@ -20,11 +35,3 @@ const MessageRequestBannerContextMenu = (props: PropsContextConversationItem) =>
     </SessionContextMenuContainer>
   );
 };
-
-function propsAreEqual(prev: PropsContextConversationItem, next: PropsContextConversationItem) {
-  return _.isEqual(prev, next);
-}
-export const MemoMessageRequestBannerContextMenu = React.memo(
-  MessageRequestBannerContextMenu,
-  propsAreEqual
-);

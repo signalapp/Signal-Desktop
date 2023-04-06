@@ -3,20 +3,20 @@ import { animation, Menu } from 'react-contexify';
 import _ from 'lodash';
 
 import {
-  AcceptMenuItem,
+  AcceptMsgRequestMenuItem,
   BanMenuItem,
   BlockMenuItem,
   ChangeNicknameMenuItem,
   ClearNicknameMenuItem,
   CopyMenuItem,
-  DeclineMenuItem,
+  DeclineAndBlockMsgRequestMenuItem,
+  DeclineMsgRequestMenuItem,
   DeleteContactMenuItem,
   DeleteMessagesMenuItem,
   InviteContactMenuItem,
   LeaveGroupMenuItem,
   MarkAllReadMenuItem,
   MarkConversationUnreadMenuItem,
-  NotificationForConvoMenuItem,
   PinConversationMenuItem,
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
@@ -33,9 +33,9 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   return (
     <SessionContextMenuContainer>
       <Menu id={triggerId} animation={animation.fade}>
-        <AcceptMenuItem />
-        <DeclineMenuItem />
-        <NotificationForConvoMenuItem />
+        <AcceptMsgRequestMenuItem />
+        <DeclineMsgRequestMenuItem />
+        <DeclineAndBlockMsgRequestMenuItem />
         <PinConversationMenuItem />
         <BlockMenuItem />
         <CopyMenuItem />

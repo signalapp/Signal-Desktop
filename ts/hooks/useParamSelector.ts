@@ -1,10 +1,14 @@
-import { isEmpty, isNumber, pick } from 'lodash';
+import { isEmpty, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
-import { ConversationModel } from '../models/conversation';
+import {
+  hasValidIncomingRequestValues,
+  hasValidOutgoingRequestValues,
+} from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
+import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -77,6 +81,18 @@ export function useIsClosedGroup(convoId?: string) {
 export function useIsPrivate(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.isPrivate);
+}
+
+export function useIsPrivateAndFriend(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return false;
+  }
+  return isPrivateAndFriend({
+    approvedMe: convoProps.didApproveMe || false,
+    isApproved: convoProps.isApproved || false,
+    isPrivate: convoProps.isPrivate || false,
+  });
 }
 
 export function useIsBlinded(convoId?: string) {
@@ -154,16 +170,39 @@ export function useIsApproved(convoId?: string) {
   return Boolean(convoProps && convoProps.isApproved);
 }
 
-export function useIsRequest(convoId?: string) {
+export function useIsIncomingRequest(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return false;
   }
   return Boolean(
     convoProps &&
-      ConversationModel.hasValidIncomingRequestValues(
-        pick(convoProps, ['isMe', 'isApproved', 'isPrivate', 'isBlocked', 'activeAt'])
-      )
+      hasValidIncomingRequestValues({
+        isMe: convoProps.isMe || false,
+        isApproved: convoProps.isApproved || false,
+        isPrivate: convoProps.isPrivate || false,
+        isBlocked: convoProps.isBlocked || false,
+        didApproveMe: convoProps.didApproveMe || false,
+        activeAt: convoProps.activeAt || 0,
+      })
+  );
+}
+
+export function useIsOutgoingRequest(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return false;
+  }
+  return Boolean(
+    convoProps &&
+      hasValidOutgoingRequestValues({
+        isMe: convoProps.isMe || false,
+        isApproved: convoProps.isApproved || false,
+        didApproveMe: convoProps.didApproveMe || false,
+        isPrivate: convoProps.isPrivate || false,
+        isBlocked: convoProps.isBlocked || false,
+        activeAt: convoProps.activeAt || 0,
+      })
   );
 }
 

@@ -1,20 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getConversationController } from '../../session/conversations';
-import { Data } from '../../data/data';
-import {
-  MessageModelType,
-  PropsForDataExtractionNotification,
-  PropsForMessageRequestResponse,
-} from '../../models/messageType';
 import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
+import { Data } from '../../data/data';
 import {
   CONVERSATION_PRIORITIES,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
+import {
+  MessageModelType,
+  PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
+} from '../../models/messageType';
+import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
@@ -571,7 +571,20 @@ const conversationsSlice = createSlice({
     },
 
     openRightPanel(state: ConversationsStateType) {
-      return { ...state, showRightPanel: true };
+      if (
+        state.selectedConversation === undefined ||
+        !state.conversationLookup[state.selectedConversation]
+      ) {
+        return state;
+      }
+      const selected = state.conversationLookup[state.selectedConversation];
+
+      // we can open the right panel always for non private chats. and also when the chat is private, and we are friends with the other person
+      if (!selected.isPrivate || (selected.isApproved && selected.didApproveMe)) {
+        return { ...state, showRightPanel: true };
+      }
+
+      return state;
     },
     closeRightPanel(state: ConversationsStateType) {
       return { ...state, showRightPanel: false };

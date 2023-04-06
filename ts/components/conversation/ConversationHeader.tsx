@@ -3,6 +3,7 @@ import React from 'react';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { contextMenu } from 'react-contexify';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
@@ -11,8 +12,13 @@ import {
   isMessageSelectionMode,
   isRightPanelShowing,
 } from '../../state/selectors/conversations';
-import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  useConversationUsername,
+  useExpireTimer,
+  useIsKickedFromGroup,
+} from '../../hooks/useParamSelector';
+import { callRecipient } from '../../interactions/conversationInteractions';
 import {
   deleteMessagesById,
   deleteMessagesByIdForEveryone,
@@ -23,14 +29,23 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
-import { callRecipient } from '../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
 import {
-  useConversationUsername,
-  useExpireTimer,
-  useIsKickedFromGroup,
-  useIsRequest,
-} from '../../hooks/useParamSelector';
+  useSelectedConversationKey,
+  useSelectedIsActive,
+  useSelectedIsBlocked,
+  useSelectedIsPrivateFriend,
+  useSelectedIsGroup,
+  useSelectedIsKickedFromGroup,
+  useSelectedIsPrivate,
+  useSelectedIsPublic,
+  useSelectedMembers,
+  useSelectedNotificationSetting,
+  useSelectedSubscriberCount,
+  useSelectedisNoteToSelf,
+} from '../../state/selectors/selectedConversation';
+import { ExpirationTimerOptions } from '../../util/expiringMessages';
+import { Flex } from '../basic/Flex';
 import {
   SessionButton,
   SessionButtonColor,
@@ -39,21 +54,6 @@ import {
 } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
-import { Flex } from '../basic/Flex';
-import { ExpirationTimerOptions } from '../../util/expiringMessages';
-import {
-  useSelectedConversationKey,
-  useSelectedIsActive,
-  useSelectedIsBlocked,
-  useSelectedIsGroup,
-  useSelectedIsKickedFromGroup,
-  useSelectedisNoteToSelf,
-  useSelectedIsPrivate,
-  useSelectedIsPublic,
-  useSelectedMembers,
-  useSelectedNotificationSetting,
-  useSelectedSubscriberCount,
-} from '../../state/selectors/selectedConversation';
 
 export interface TimerOption {
   name: string;
@@ -123,7 +123,13 @@ const TripleDotContainer = styled.div`
 
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
+
+  const isPrivateFriend = useSelectedIsPrivateFriend();
+  const isPrivate = useSelectedIsPrivate();
   if (showBackButton) {
+    return null;
+  }
+  if (isPrivate && !isPrivateFriend) {
     return null;
   }
   return (
@@ -214,9 +220,16 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  const isRequest = useIsRequest(selectedConvoKey);
+  const isPrivateFriend = useSelectedIsPrivateFriend();
 
-  if (!isPrivate || isMe || !selectedConvoKey || isBlocked || !isActive || isRequest) {
+  if (
+    !isPrivate ||
+    isMe ||
+    !selectedConvoKey ||
+    isBlocked ||
+    !isActive ||
+    !isPrivateFriend // call requires us to be friends
+  ) {
     return null;
   }
 

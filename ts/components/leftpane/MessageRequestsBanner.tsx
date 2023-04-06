@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { getUnreadConversationRequests } from '../../state/selectors/conversations';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
-import { MemoMessageRequestBannerContextMenu } from '../menu/MessageRequestBannerContextMenu';
+import { MessageRequestBannerContextMenu } from '../menu/MessageRequestBannerContextMenu';
 
 const StyledMessageRequestBanner = styled.div`
   height: 64px;
@@ -126,7 +126,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
         </StyledUnreadCounter>
       </StyledMessageRequestBanner>
       <Portal>
-        <MemoMessageRequestBannerContextMenu triggerId={triggerId} />
+        <MessageRequestBannerContextMenu triggerId={triggerId} />
       </Portal>
     </>
   );

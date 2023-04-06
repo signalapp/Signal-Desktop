@@ -33,6 +33,14 @@ const getIsSelectedBlocked = (state: StateType): boolean => {
   return Boolean(getSelectedConversation(state)?.isBlocked) || false;
 };
 
+const getSelectedIsApproved = (state: StateType): boolean => {
+  return Boolean(getSelectedConversation(state)?.isApproved) || false;
+};
+
+const getSelectedApprovedMe = (state: StateType): boolean => {
+  return Boolean(getSelectedConversation(state)?.didApproveMe) || false;
+};
+
 /**
  * Returns true if the currently selected conversation is active (has an active_at field > 0)
  */
@@ -141,6 +149,39 @@ export function useSelectedIsPrivate() {
 
 export function useSelectedIsBlocked() {
   return useSelector(getIsSelectedBlocked);
+}
+
+export function useSelectedIsApproved() {
+  return useSelector(getSelectedIsApproved);
+}
+
+export function useSelectedApprovedMe() {
+  return useSelector(getSelectedApprovedMe);
+}
+
+/**
+ * Returns true if the given arguments corresponds to a private contact which is approved both sides. i.e. a friend.
+ */
+export function isPrivateAndFriend({
+  approvedMe,
+  isApproved,
+  isPrivate,
+}: {
+  isPrivate: boolean;
+  isApproved: boolean;
+  approvedMe: boolean;
+}) {
+  return isPrivate && isApproved && approvedMe;
+}
+
+/**
+ * Returns true if the selected conversation is private and is approved both sides
+ */
+export function useSelectedIsPrivateFriend() {
+  const isPrivate = useSelectedIsPrivate();
+  const isApproved = useSelectedIsApproved();
+  const approvedMe = useSelectedApprovedMe();
+  return isPrivateAndFriend({ isPrivate, isApproved, approvedMe });
 }
 
 export function useSelectedIsActive() {

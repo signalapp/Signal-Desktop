@@ -1,8 +1,8 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 
-import classNames from 'classnames';
 import autoBind from 'auto-bind';
+import classNames from 'classnames';
 
 import {
   CompositionBox,
@@ -18,49 +18,45 @@ import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 
 import { SessionFileDropzone } from './SessionFileDropzone';
 
-import { InConversationCallContainer } from '../calling/InConversationCallContainer';
-import { SplitViewContainer } from '../SplitViewContainer';
-import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
+import { blobToArrayBuffer } from 'blob-util';
+import loadImage from 'blueimp-load-image';
 import { Data } from '../../data/data';
+import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import {
+  ReduxConversationType,
+  SortedMessageModelProps,
   openConversationToSpecificMessage,
   quoteMessage,
-  ReduxConversationType,
   resetSelectedMessageIds,
-  SortedMessageModelProps,
   updateMentionsMembers,
 } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
-import { SessionButtonColor } from '../basic/SessionButton';
-import { MessageView } from '../MainViewController';
-import { ConversationHeaderWithDetails } from './ConversationHeader';
-import { MessageDetail } from './message/message-item/MessageDetail';
-import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import {
+  THUMBNAIL_CONTENT_TYPE,
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
-  THUMBNAIL_CONTENT_TYPE,
 } from '../../types/attachments/VisualAttachment';
-import { blobToArrayBuffer } from 'blob-util';
-import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
-import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
-import {
-  NoMessageNoMessageInConversation,
-  RespondToMessageRequestWarning,
-} from './SubtleNotification';
+import { AttachmentUtil, GoogleChrome, arrayBufferToObjectURL } from '../../util';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
-import loadImage from 'blueimp-load-image';
-import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+import { MessageView } from '../MainViewController';
+import { SplitViewContainer } from '../SplitViewContainer';
+import { SessionButtonColor } from '../basic/SessionButton';
+import { InConversationCallContainer } from '../calling/InConversationCallContainer';
+import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
+import { ConversationHeaderWithDetails } from './ConversationHeader';
+import { SessionRightPanelWithDetails } from './SessionRightPanel';
+import { NoMessageNoMessageInConversation } from './SubtleNotification';
+import { MessageDetail } from './message/message-item/MessageDetail';
 
-import { SessionSpinner } from '../basic/SessionSpinner';
 import styled from 'styled-components';
+import { SessionSpinner } from '../basic/SessionSpinner';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -276,7 +272,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
               <div className="conversation-messages">
                 <NoMessageNoMessageInConversation />
-                <ConversationMessageRequestButtons />
+
                 <SplitViewContainer
                   top={<InConversationCallContainer />}
                   bottom={
@@ -289,7 +285,6 @@ export class SessionConversation extends React.Component<Props, State> {
                 />
                 {isDraggingFile && <SessionFileDropzone />}
               </div>
-              <RespondToMessageRequestWarning />
 
               <CompositionBox
                 sendMessage={this.sendMessageFn}

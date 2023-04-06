@@ -25,7 +25,7 @@ import { MessageStatusSelectorProps } from '../../components/conversation/messag
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
-import { ConversationModel } from '../../models/conversation';
+import { hasValidIncomingRequestValues } from '../../models/conversation';
 import {
   CONVERSATION_PRIORITIES,
   ConversationTypeEnum,
@@ -364,15 +364,16 @@ const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return filter(sortedConversations, conversation => {
-    const { isApproved, isBlocked, isPrivate, isMe, activeAt } = conversation;
-    const isRequest = ConversationModel.hasValidIncomingRequestValues({
-      isApproved,
-      isBlocked,
-      isPrivate,
-      isMe,
-      activeAt,
+    const { isApproved, isBlocked, isPrivate, isMe, activeAt, didApproveMe } = conversation;
+    const isIncomingRequest = hasValidIncomingRequestValues({
+      isApproved: isApproved || false,
+      isBlocked: isBlocked || false,
+      isPrivate: isPrivate || false,
+      isMe: isMe || false,
+      activeAt: activeAt || 0,
+      didApproveMe: didApproveMe || false,
     });
-    return isRequest;
+    return isIncomingRequest;
   });
 };
 

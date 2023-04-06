@@ -41,6 +41,7 @@ import { setLastProfileUpdateTimestamp } from '../util/storage';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { leaveClosedGroup } from '../session/group/closed-group';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 
 export function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -66,6 +67,11 @@ export async function blockConvoById(conversationId: string) {
   if (!conversation.id || conversation.isPublic()) {
     return;
   }
+
+  // I don't think we want to reset the approved fields when blocking a contact
+  // if (conversation.isPrivate()) {
+  //   await conversation.setIsApproved(false);
+  // }
 
   await BlockedNumberController.block(conversation.id);
   await conversation.commit();
@@ -115,17 +121,76 @@ export const approveConvoAndSendResponse = async (
   }
 };
 
-export const declineConversationWithConfirm = (convoId: string, syncToDevices: boolean = true) => {
+export async function declineConversationWithoutConfirm({
+  blockContact,
+  conversationId,
+  currentlySelectedConvo,
+  syncToDevices,
+}: {
+  conversationId: string;
+  currentlySelectedConvo: string | undefined;
+  syncToDevices: boolean;
+  blockContact: boolean; // if set to false, the contact will just be set to not approved
+}) {
+  const conversationToDecline = getConversationController().get(conversationId);
+
+  if (!conversationToDecline || conversationToDecline.isApproved()) {
+    window?.log?.info('Conversation is already declined.');
+    return;
+  }
+
+  // we mark the conversation as inactive. This way it wont' show up in the UI.
+  // we cannot delete it completely on desktop, because we might need the convo details for sogs/group convos.
+  conversationToDecline.set('active_at', undefined);
+  await conversationToDecline.setIsApproved(false, false);
+  await conversationToDecline.setDidApproveMe(false, false);
+  // this will update the value in the wrapper if needed but not remove the entry if we want it gone. The remove is done below with removeContactFromWrapper
+  await conversationToDecline.commit();
+  if (blockContact) {
+    await blockConvoById(conversationId);
+  }
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    // when removing a message request, without blocking it, we actually have no need to store the conversation in the wrapper. So just remove the entry
+
+    if (
+      conversationToDecline.isPrivate() &&
+      !SessionUtilContact.isContactToStoreInContactsWrapper(conversationToDecline)
+    ) {
+      await SessionUtilContact.removeContactFromWrapper(conversationToDecline.id);
+    }
+  }
+
+  if (syncToDevices) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
+  if (currentlySelectedConvo && currentlySelectedConvo === conversationId) {
+    window?.inboxStore?.dispatch(resetConversationExternal());
+  }
+}
+
+export const declineConversationWithConfirm = ({
+  conversationId,
+  syncToDevices,
+  blockContact,
+  currentlySelectedConvo,
+}: {
+  conversationId: string;
+  currentlySelectedConvo: string | undefined;
+  syncToDevices: boolean;
+  blockContact: boolean; // if set to false, the contact will just be set to not approved
+}) => {
   window?.inboxStore?.dispatch(
     updateConfirmModal({
-      okText: window.i18n('decline'),
+      okText: blockContact ? window.i18n('block') : window.i18n('decline'),
       cancelText: window.i18n('cancel'),
       message: window.i18n('declineRequestMessage'),
       onClickOk: async () => {
-        await declineConversationWithoutConfirm(convoId, syncToDevices);
-        await blockConvoById(convoId);
-        await forceSyncConfigurationNowIfNeeded();
-        window?.inboxStore?.dispatch(resetConversationExternal());
+        await declineConversationWithoutConfirm({
+          conversationId,
+          currentlySelectedConvo,
+          blockContact,
+          syncToDevices,
+        });
       },
       onClickCancel: () => {
         window?.inboxStore?.dispatch(updateConfirmModal(null));
@@ -135,28 +200,6 @@ export const declineConversationWithConfirm = (convoId: string, syncToDevices: b
       },
     })
   );
-};
-
-/**
- * Sets the approval fields to false for conversation. Does not send anything back.
- */
-const declineConversationWithoutConfirm = async (
-  conversationId: string,
-  syncToDevices: boolean = true
-) => {
-  const conversationToDecline = getConversationController().get(conversationId);
-
-  if (!conversationToDecline || conversationToDecline.isApproved()) {
-    window?.log?.info('Conversation is already declined.');
-    return;
-  }
-
-  await conversationToDecline.setIsApproved(false);
-
-  // Conversation was not approved before so a sync is needed
-  if (syncToDevices) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
 };
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {

@@ -113,12 +113,21 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
  */
 async function refreshMappedValue(id: string, duringAppStart = false) {
   const fromWrapper = await ContactsWrapperActions.get(id);
+
   if (fromWrapper) {
     setMappedValue(fromWrapper);
     if (!duringAppStart) {
       getConversationController()
         .get(id)
         ?.triggerUIRefresh();
+    }
+  } else {
+    if (mappedContactWrapperValues.delete(id)) {
+      if (!duringAppStart) {
+        getConversationController()
+          .get(id)
+          ?.triggerUIRefresh();
+      }
     }
   }
 }
@@ -131,10 +140,18 @@ function getContactCached(id: string) {
   return mappedContactWrapperValues.get(id);
 }
 
+async function removeContactFromWrapper(id: string) {
+  try {
+    await ContactsWrapperActions.erase(id);
+  } catch (e) {
+    window.log.warn(`ContactsWrapperActions.erase of ${id} failed with ${e.message}`);
+  }
+}
 export const SessionUtilContact = {
   isContactToStoreInContactsWrapper,
   insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
+  removeContactFromWrapper,
   getContactCached,
   refreshMappedValue,
 };

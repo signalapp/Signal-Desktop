@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useIsRequest } from '../../hooks/useParamSelector';
 import {
   getSelectedHasMessages,
   hasSelectedConversationIncomingMessages,
@@ -14,6 +13,7 @@ import {
 } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 
 const Container = styled.div`
   display: flex;
@@ -33,9 +33,9 @@ const TextInner = styled.div`
  * This component is used to display a warning when the user is responding to a message request.
  *
  */
-export const RespondToMessageRequestWarning = () => {
+export const ConversationRequestExplanation = () => {
   const selectedConversation = useSelectedConversationKey();
-  const isIncomingMessageRequest = useIsRequest(selectedConversation);
+  const isIncomingMessageRequest = useIsIncomingRequest(selectedConversation);
 
   const showMsgRequestUI = selectedConversation && isIncomingMessageRequest;
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
