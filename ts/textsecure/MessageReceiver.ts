@@ -123,6 +123,7 @@ import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
 import { chunk } from '../util/iterables';
 import { isOlderThan } from '../util/timestamp';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -3068,8 +3069,10 @@ export default class MessageReceiver
     }
 
     this.removeFromCache(envelope);
+    const envelopeId = getEnvelopeId(envelope);
+    const unknownFieldTags = inspectUnknownFieldTags(syncMessage).join(',');
     log.warn(
-      `handleSyncMessage/${getEnvelopeId(envelope)}: Got empty SyncMessage`
+      `handleSyncMessage/${envelopeId}: Got unknown SyncMessage (Unknown field tags: ${unknownFieldTags})`
     );
   }
 
