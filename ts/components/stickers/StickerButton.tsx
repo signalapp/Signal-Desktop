@@ -201,7 +201,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
         return;
       }
 
-      if (commandOrCtrl && shiftKey && (key === 's' || key === 'S')) {
+      if (commandOrCtrl && shiftKey && (key === 'g' || key === 'G')) {
         event.stopPropagation();
         event.preventDefault();
 

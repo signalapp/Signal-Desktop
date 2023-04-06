@@ -1753,6 +1753,31 @@ export async function startApp(): Promise<void> {
         }
       }
 
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 's' || key === 'S')
+      ) {
+        const { hasConfirmationModal } = state.globalModals;
+        const { targetedMessage, selectedMessageIds } = state.conversations;
+
+        const messageIds =
+          selectedMessageIds ??
+          (targetedMessage != null ? [targetedMessage] : null);
+
+        if (!hasConfirmationModal && messageIds != null) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          window.reduxActions.globalModals.toggleForwardMessagesModal(
+            messageIds
+          );
+
+          return;
+        }
+      }
+
       // COMPOSER
 
       // Create a newline in your message - handled by component

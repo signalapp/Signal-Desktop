@@ -30,6 +30,7 @@ type KeyType =
   | 'D'
   | 'E'
   | 'F'
+  | 'G'
   | 'J'
   | 'L'
   | 'M'
@@ -130,7 +131,7 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--open-sticker-chooser',
       description: i18n('icu:Keyboard--open-sticker-chooser'),
-      keys: [['commandOrCtrl', 'shift', 'S']],
+      keys: [['commandOrCtrl', 'shift', 'G']],
     },
     {
       id: 'Keyboard--begin-recording-voice-note',
@@ -196,6 +197,11 @@ function getMessageShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       id: 'Keyboard--delete-messages',
       description: i18n('icu:Keyboard--delete-messages'),
       keys: [['commandOrCtrl', 'shift', 'D']],
+    },
+    {
+      id: 'Keyboard--forward-messages',
+      description: i18n('icu:Keyboard--forward-messages'),
+      keys: [['commandOrCtrl', 'shift', 'S']],
     },
   ];
 }

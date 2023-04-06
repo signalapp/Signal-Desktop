@@ -5307,6 +5307,10 @@
     "messageformat": "Delete selected messages",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--forward-messages": {
+    "messageformat": "Forward selected messages",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--add-newline": {
     "message": "Add newline to message",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
