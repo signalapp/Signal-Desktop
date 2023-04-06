@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
@@ -7,8 +7,8 @@ import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  openConversationWithMessages,
   ReduxConversationType,
+  openConversationWithMessages,
 } from '../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
@@ -24,17 +24,12 @@ import {
 import { isSearching } from '../../../state/selectors/search';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
+import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdContext';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 
 // tslint:disable-next-line: no-empty-interface
 export type ConversationListItemProps = Pick<ReduxConversationType, 'id'>;
-
-/**
- * This React context is used to share deeply in the tree of the ConversationListItem what is the ID we are currently rendering.
- * This is to avoid passing the prop to all the subtree component
- */
-export const ContextConversationId = React.createContext('');
 
 type PropsHousekeeping = {
   style?: Object;
@@ -48,7 +43,7 @@ const Portal = ({ children }: { children: any }) => {
 };
 
 const AvatarItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
   const userName = useConversationUsername(conversationId);
   const isPrivate = useIsPrivate(conversationId);
   const avatarPath = useAvatarPath(conversationId);
@@ -107,7 +102,7 @@ const ConversationListItem = (props: Props) => {
   );
 
   return (
-    <ContextConversationId.Provider value={conversationId}>
+    <ContextConversationProvider value={conversationId}>
       <div key={key}>
         <div
           role="button"
@@ -141,7 +136,7 @@ const ConversationListItem = (props: Props) => {
           <MemoConversationListItemContextMenu triggerId={triggerId} />
         </Portal>
       </div>
-    </ContextConversationId.Provider>
+    </ContextConversationProvider>
   );
 };
 

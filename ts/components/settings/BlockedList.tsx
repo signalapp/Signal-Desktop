@@ -32,7 +32,7 @@ const BlockedEntriesRoundedContainer = styled.div`
 const BlockedContactsSection = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 80px;
 
   background: var(--settings-tab-background-color);
   color: var(--settings-tab-text-color);

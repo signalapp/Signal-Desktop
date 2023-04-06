@@ -63,15 +63,13 @@ export const OverlayMessage = () => {
     );
 
     // we now want to show a conversation we just started on the leftpane, even if we did not send a message to it yet
-    if (!convo.isActive() || !convo.isApproved() || convo.isHidden()) {
+    if (!convo.isActive() || convo.isHidden()) {
       // bump the timestamp only if we were not active before
       if (!convo.isActive()) {
         convo.set({ active_at: Date.now() });
       }
       await convo.unhideIfNeeded(false);
 
-      // TODO find a way to make this not a hack to show it in the list
-      convo.set({ isApproved: true });
       await convo.commit();
     }
 

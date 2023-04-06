@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../data/data';
@@ -20,12 +20,12 @@ import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
-import { ContextConversationId } from './ConversationListItem';
+import { useConvoIdFromContext } from './ConvoIdContext';
 import { UserItem } from './UserItem';
 
 const NotificationSettingIcon = () => {
   const isMessagesSection = useSelector(getIsMessageSection);
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const convoSetting = useConversationPropsById(convoId)?.currentNotificationSetting;
 
   if (!isMessagesSection) {
@@ -66,7 +66,7 @@ const StyledConversationListItemIconWrapper = styled.div`
 `;
 
 const PinIcon = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
 
   const isMessagesSection = useSelector(getIsMessageSection);
   const isPinned = useIsPinned(conversationId);
@@ -165,7 +165,7 @@ const UnreadCount = ({ convoId }: { convoId: string }) => {
 };
 
 export const ConversationListItemHeaderItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
 
   const isSearchingMode = useSelector(isSearching);
 

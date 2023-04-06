@@ -31,7 +31,7 @@ const mappedContactWrapperValues = new Map<string, ContactInfo>();
 async function insertAllContactsIntoContactsWrapper() {
   const idsToInsert = getConversationController()
     .getConversations()
-    .filter(isContactToStoreInContactsWrapper)
+    .filter(isContactToStoreInWrapper)
     .map(m => m.id);
 
   window.log.debug(`ContactsWrapper keep tracks of ${idsToInsert.length} contacts: ${idsToInsert}`);
@@ -44,17 +44,13 @@ async function insertAllContactsIntoContactsWrapper() {
 }
 
 /**
- * Returns true if that conversation is not us, is private, is not blinded and has either the
- * `isApproved` or `didApproveMe` field set.
- * So that would be all the private conversations we either sent or receive a message from, not blinded
+ * Returns true if that conversation is not us, is private, is not blinded.
+ *
+ * We want to sync the message request status so we need to allow a contact even if it's not approved, did not approve us and is not blocked.
  */
-function isContactToStoreInContactsWrapper(convo: ConversationModel): boolean {
+function isContactToStoreInWrapper(convo: ConversationModel): boolean {
   return (
-    !convo.isMe() &&
-    convo.isPrivate() &&
-    convo.isActive() &&
-    !PubKey.hasBlindedPrefix(convo.id) &&
-    (convo.isApproved() || convo.didApproveMe() || convo.isBlocked())
+    !convo.isMe() && convo.isPrivate() && convo.isActive() && !PubKey.hasBlindedPrefix(convo.id)
   );
 }
 // TODOLATER should we allow a blinded pubkey to be in the contact wrapper when we blocked it (can we block a blinded message request?)
@@ -70,8 +66,10 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     return;
   }
 
-  if (!isContactToStoreInContactsWrapper(foundConvo)) {
-    // window.log.info(`insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved. Skipping`);
+  if (!isContactToStoreInWrapper(foundConvo)) {
+    console.warn(
+      `insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved. Skipping`
+    );
     return;
   }
 
@@ -148,7 +146,7 @@ async function removeContactFromWrapper(id: string) {
   }
 }
 export const SessionUtilContact = {
-  isContactToStoreInContactsWrapper,
+  isContactToStoreInWrapper,
   insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
   removeContactFromWrapper,

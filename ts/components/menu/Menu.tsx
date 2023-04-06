@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Item } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import {
   useIsKickedFromGroup,
   useIsLeft,
   useIsMe,
-  useIsPinned,
   useIsPrivate,
   useIsPrivateAndFriend,
   useIsPublic,
@@ -47,7 +46,7 @@ import {
   useSelectedIsPrivateFriend,
 } from '../../state/selectors/selectedConversation';
 import { SessionButtonColor } from '../basic/SessionButton';
-import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
+import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
 
 function showDeleteContact(
   isGroup: boolean,
@@ -84,7 +83,7 @@ function showInviteContact(isPublic: boolean): boolean {
 /** Menu items standardized */
 
 export const InviteContactMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
 
   if (showInviteContact(isPublic)) {
@@ -101,31 +100,13 @@ export const InviteContactMenuItem = (): JSX.Element | null => {
   return null;
 };
 
-export const PinConversationMenuItem = (): JSX.Element | null => {
-  const conversationId = useContext(ContextConversationId);
-  const isMessagesSection = useSelector(getIsMessageSection);
-  const isRequest = useIsIncomingRequest(conversationId);
-  const isPinned = useIsPinned(conversationId);
-
-  if (isMessagesSection && !isRequest) {
-    const conversation = getConversationController().get(conversationId);
-
-    const togglePinConversation = async () => {
-      await conversation?.togglePinned();
-    };
-
-    const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
-    return <Item onClick={togglePinConversation}>{menuText}</Item>;
-  }
-  return null;
-};
-
 export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
   const isMessagesSection = useSelector(getIsMessageSection);
-  const isRequest = useIsIncomingRequest(conversationId);
+  const isPrivate = useIsPrivate(conversationId);
+  const isPrivateAndFriend = useIsPrivateAndFriend(conversationId);
 
-  if (isMessagesSection && !isRequest) {
+  if (isMessagesSection && (!isPrivate || (isPrivate && isPrivateAndFriend))) {
     const conversation = getConversationController().get(conversationId);
 
     const markUnread = async () => {
@@ -139,7 +120,7 @@ export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
 
 export const DeleteContactMenuItem = () => {
   const dispatch = useDispatch();
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
@@ -182,7 +163,7 @@ export const DeleteContactMenuItem = () => {
 };
 
 export const LeaveGroupMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
@@ -205,7 +186,7 @@ export const LeaveGroupMenuItem = () => {
 
 export const ShowUserDetailsMenuItem = () => {
   const dispatch = useDispatch();
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPrivate = useIsPrivate(convoId);
   const avatarPath = useAvatarPath(convoId);
   const userName = useConversationUsername(convoId) || convoId;
@@ -233,7 +214,7 @@ export const ShowUserDetailsMenuItem = () => {
 };
 
 export const UpdateGroupNameMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const left = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
@@ -253,7 +234,7 @@ export const UpdateGroupNameMenuItem = () => {
 };
 
 export const RemoveModeratorsMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
@@ -273,7 +254,7 @@ export const RemoveModeratorsMenuItem = (): JSX.Element | null => {
 };
 
 export const AddModeratorsMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
@@ -293,7 +274,7 @@ export const AddModeratorsMenuItem = (): JSX.Element | null => {
 };
 
 export const UnbanMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
@@ -313,7 +294,7 @@ export const UnbanMenuItem = (): JSX.Element | null => {
 };
 
 export const BanMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
@@ -333,7 +314,7 @@ export const BanMenuItem = (): JSX.Element | null => {
 };
 
 export const CopyMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isPrivate = useIsPrivate(convoId);
   const isBlinded = useIsBlinded(convoId);
@@ -356,7 +337,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
 };
 
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isIncomingRequest = useIsIncomingRequest(convoId);
   if (!isIncomingRequest) {
     return (
@@ -374,7 +355,7 @@ export function isRtlBody(): boolean {
 }
 
 export const BlockMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const isBlocked = useIsBlocked(convoId);
   const isPrivate = useIsPrivate(convoId);
@@ -391,7 +372,7 @@ export const BlockMenuItem = (): JSX.Element | null => {
 };
 
 export const ClearNicknameMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const hasNickname = useHasNickname(convoId);
   const isPrivate = useIsPrivate(convoId);
@@ -407,7 +388,7 @@ export const ClearNicknameMenuItem = (): JSX.Element | null => {
 };
 
 export const ChangeNicknameMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const isPrivate = useIsPrivate(convoId);
   const isPrivateAndFriend = useSelectedIsPrivateFriend();
@@ -428,7 +409,7 @@ export const ChangeNicknameMenuItem = () => {
 };
 
 export const DeleteMessagesMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
 
   if (!convoId) {
     return null;
@@ -446,7 +427,7 @@ export const DeleteMessagesMenuItem = () => {
 };
 
 export const AcceptMsgRequestMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isRequest = useIsIncomingRequest(convoId);
   const convo = getConversationController().get(convoId);
   const isPrivate = useIsPrivate(convoId);
@@ -468,7 +449,7 @@ export const AcceptMsgRequestMenuItem = () => {
 };
 
 export const DeclineMsgRequestMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isRequest = useIsIncomingRequest(convoId);
   const isPrivate = useIsPrivate(convoId);
   const selected = useSelectedConversationKey();
@@ -493,7 +474,7 @@ export const DeclineMsgRequestMenuItem = () => {
 };
 
 export const DeclineAndBlockMsgRequestMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isRequest = useIsIncomingRequest(convoId);
   const selected = useSelectedConversationKey();
   const isPrivate = useIsPrivate(convoId);

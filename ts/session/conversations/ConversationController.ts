@@ -326,7 +326,7 @@ export class ConversationController {
               case 'UserConfig':
                 break;
               case 'ContactsConfig':
-                if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
+                if (SessionUtilContact.isContactToStoreInWrapper(convo)) {
                   await SessionUtilContact.refreshMappedValue(convo.id, true);
                 }
                 break;

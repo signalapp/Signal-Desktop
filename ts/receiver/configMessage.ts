@@ -142,7 +142,6 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       // our profile update comes from our userProfile, not from the contacts wrapper.
       continue;
     }
-
     const contactConvo = await getConversationController().getOrCreateAndWait(
       wrapperConvo.id,
       ConversationTypeEnum.PRIVATE
@@ -175,11 +174,6 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
         changes = true;
       }
-      console.warn(
-        `contactConvo.id: ${contactConvo}; wrapperConvo.createdAtSeconds:${
-          wrapperConvo.createdAtSeconds
-        }; current:${contactConvo.get('active_at')}`
-      );
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
       if (!contactConvo.get('active_at') && wrapperConvo.createdAtSeconds) {

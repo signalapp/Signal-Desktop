@@ -2256,12 +2256,12 @@ export async function commitConversationAndRefreshWrapper(id: string) {
 
     switch (variant) {
       case 'UserConfig':
-        if (SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id)) {
+        if (SessionUtilUserProfile.isUserProfileToStoreInWrapper(convo.id)) {
           await SessionUtilUserProfile.insertUserProfileIntoWrapper(convo.id);
         }
         break;
       case 'ContactsConfig':
-        if (SessionUtilContact.isContactToStoreInContactsWrapper(convo)) {
+        if (SessionUtilContact.isContactToStoreInWrapper(convo)) {
           await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;

@@ -5,7 +5,7 @@ import { getConversationController } from '../../conversations';
 import { fromHexToArray } from '../String';
 
 async function insertUserProfileIntoWrapper(convoId: string) {
-  if (!isUserProfileToStoreInContactsWrapper(convoId)) {
+  if (!isUserProfileToStoreInWrapper(convoId)) {
     return;
   }
   const us = UserUtils.getOurPubKeyStrFromCache();
@@ -27,7 +27,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   }
 }
 
-function isUserProfileToStoreInContactsWrapper(convoId: string) {
+function isUserProfileToStoreInWrapper(convoId: string) {
   try {
     const us = UserUtils.getOurPubKeyStrFromCache();
     return convoId === us;
@@ -38,5 +38,5 @@ function isUserProfileToStoreInContactsWrapper(convoId: string) {
 
 export const SessionUtilUserProfile = {
   insertUserProfileIntoWrapper,
-  isUserProfileToStoreInContactsWrapper,
+  isUserProfileToStoreInWrapper,
 };

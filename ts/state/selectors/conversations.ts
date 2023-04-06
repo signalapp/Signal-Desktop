@@ -288,11 +288,20 @@ const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
+    const isPrivateButHidden =
+      conversation.isPrivate &&
+      conversation.priority &&
+      conversation.priority <= CONVERSATION_PRIORITIES.default;
+
+    /**
+     * When getting a contact from a linked device, before he sent a message, the approved field is false, but a createdAt is used as activeAt
+     */
+    const isPrivateUnapprovedButActive =
+      conversation.isPrivate && !conversation.isApproved && !conversation.activeAt;
+
     if (
-      (conversation.isPrivate && !conversation.isApproved) ||
-      (conversation.isPrivate &&
-        conversation.priority &&
-        conversation.priority <= CONVERSATION_PRIORITIES.default) // a hidden contact conversation is only visible from the contact list, not from the global conversation list
+      isPrivateUnapprovedButActive ||
+      isPrivateButHidden // a hidden contact conversation is only visible from the contact list, not from the global conversation list
     ) {
       // dont increase unread counter, don't push to convo list.
       continue;

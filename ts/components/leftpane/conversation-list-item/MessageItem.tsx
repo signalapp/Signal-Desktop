@@ -1,19 +1,19 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
 import { isEmpty } from 'lodash';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   useConversationPropsById,
   useHasUnread,
   useIsPrivate,
   useIsTyping,
 } from '../../../hooks/useParamSelector';
-import { MessageBody } from '../../conversation/message/message-content/MessageBody';
-import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
-import { TypingAnimation } from '../../conversation/TypingAnimation';
-import { ContextConversationId } from './ConversationListItem';
-import { useSelector } from 'react-redux';
 import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageRequestOverlayShown } from '../../../state/selectors/section';
+import { TypingAnimation } from '../../conversation/TypingAnimation';
+import { MessageBody } from '../../conversation/message/message-content/MessageBody';
+import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
+import { useConvoIdFromContext } from './ConvoIdContext';
 
 function useLastMessageFromConvo(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
@@ -24,7 +24,7 @@ function useLastMessageFromConvo(convoId: string) {
 }
 
 export const MessageItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
   const lastMessage = useLastMessageFromConvo(conversationId);
   const isGroup = !useIsPrivate(conversationId);
 

@@ -134,14 +134,12 @@ export async function declineConversationWithoutConfirm({
 }) {
   const conversationToDecline = getConversationController().get(conversationId);
 
-  if (!conversationToDecline || conversationToDecline.isApproved()) {
+  if (!conversationToDecline || !conversationToDecline.isApproved()) {
     window?.log?.info('Conversation is already declined.');
     return;
   }
 
-  // we mark the conversation as inactive. This way it wont' show up in the UI.
-  // we cannot delete it completely on desktop, because we might need the convo details for sogs/group convos.
-  conversationToDecline.set('active_at', undefined);
+  // Note: do not set the active_at undefined as this would make that conversation not synced with the libsession wrapper
   await conversationToDecline.setIsApproved(false, false);
   await conversationToDecline.setDidApproveMe(false, false);
   // this will update the value in the wrapper if needed but not remove the entry if we want it gone. The remove is done below with removeContactFromWrapper
@@ -154,7 +152,7 @@ export async function declineConversationWithoutConfirm({
 
     if (
       conversationToDecline.isPrivate() &&
-      !SessionUtilContact.isContactToStoreInContactsWrapper(conversationToDecline)
+      !SessionUtilContact.isContactToStoreInWrapper(conversationToDecline)
     ) {
       await SessionUtilContact.removeContactFromWrapper(conversationToDecline.id);
     }

@@ -61,15 +61,15 @@ async function insertAllConvoInfoVolatileIntoWrapper() {
 function isConvoToStoreInWrapper(convo: ConversationModel): boolean {
   return (
     SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo) || // this checks for community & legacy group
-    SessionUtilContact.isContactToStoreInContactsWrapper(convo) || // this checks for contacts
-    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id) // this checks for our own pubkey, as we want to keep track of the read state for the Note To Self
+    SessionUtilContact.isContactToStoreInWrapper(convo) || // this checks for contacts
+    SessionUtilUserProfile.isUserProfileToStoreInWrapper(convo.id) // this checks for our own pubkey, as we want to keep track of the read state for the Note To Self
   );
 }
 
 function getConvoType(convo: ConversationModel): ConvoVolatileType {
   const convoType: ConvoVolatileType =
-    SessionUtilContact.isContactToStoreInContactsWrapper(convo) ||
-    SessionUtilUserProfile.isUserProfileToStoreInContactsWrapper(convo.id)
+    SessionUtilContact.isContactToStoreInWrapper(convo) ||
+    SessionUtilUserProfile.isUserProfileToStoreInWrapper(convo.id)
       ? '1o1'
       : SessionUtilUserGroups.isCommunityToStoreInWrapper(convo)
       ? 'Community'

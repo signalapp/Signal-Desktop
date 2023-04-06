@@ -22,7 +22,6 @@ import {
 } from '../../state/selectors/selectedConversation';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 import {
   AddModeratorsMenuItem,
@@ -40,6 +39,7 @@ import {
   UnbanMenuItem,
   UpdateGroupNameMenuItem,
 } from './Menu';
+import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -62,7 +62,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   }
 
   return (
-    <ContextConversationId.Provider value={convoId}>
+    <ContextConversationProvider value={convoId}>
       <SessionContextMenuContainer>
         <Menu id={triggerId} animation={animation.fade}>
           <DisappearingMessageMenuItem />
@@ -83,7 +83,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           <ShowUserDetailsMenuItem />
         </Menu>
       </SessionContextMenuContainer>
-    </ContextConversationId.Provider>
+    </ContextConversationProvider>
   );
 };
 
