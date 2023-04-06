@@ -8,6 +8,7 @@ import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { isChallengePending } from '../selectors/network';
 import { getChallengeURL } from '../../challenge';
+import * as log from '../../logging/log';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -16,7 +17,9 @@ const mapStateToProps = (state: StateType) => {
     i18n: getIntl(state),
 
     onContinue() {
-      document.location.href = getChallengeURL();
+      const url = getChallengeURL('chat');
+      log.info(`CaptchaDialog: navigating to ${url}`);
+      document.location.href = url;
     },
   };
 };

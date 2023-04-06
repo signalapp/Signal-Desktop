@@ -7,6 +7,7 @@ import type { Plugin } from 'intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 
 import { strictAssert } from '../util/assert';
+import * as log from '../logging/log';
 import { parseNumber } from '../util/libphonenumberUtil';
 import { getChallengeURL } from '../challenge';
 
@@ -128,7 +129,9 @@ export function StandaloneRegistration({
         return;
       }
 
-      document.location.href = getChallengeURL();
+      const url = getChallengeURL('registration');
+      log.info(`StandaloneRegistration: navigating to ${url}`);
+      document.location.href = url;
       if (!window.Signal.challengeHandler) {
         setError('Captcha handler is not ready!');
         return;

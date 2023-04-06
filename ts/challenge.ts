@@ -16,7 +16,7 @@ import { assertDev } from './util/assert';
 import { isOlderThan } from './util/timestamp';
 import { parseRetryAfterWithDefault } from './util/parseRetryAfter';
 import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
-import { getEnvironment, Environment } from './environment';
+import { missingCaseError } from './util/missingCaseError';
 import type { StorageInterface } from './types/Storage.d';
 import * as Errors from './types/errors';
 import { HTTPError } from './textsecure/Errors';
@@ -93,9 +93,6 @@ export type RequestCaptchaOptionsType = Readonly<{
 }>;
 
 const DEFAULT_EXPIRE_AFTER = 24 * 3600 * 1000; // one day
-const CAPTCHA_URL = 'https://signalcaptchas.org/challenge/generate.html';
-const CAPTCHA_STAGING_URL =
-  'https://signalcaptchas.org/staging/challenge/generate.html';
 
 function shouldStartQueue(registered: RegisteredChallengeType): boolean {
   // No retryAt provided; waiting for user to complete captcha
@@ -110,11 +107,14 @@ function shouldStartQueue(registered: RegisteredChallengeType): boolean {
   return false;
 }
 
-export function getChallengeURL(): string {
-  if (getEnvironment() === Environment.Staging) {
-    return CAPTCHA_STAGING_URL;
+export function getChallengeURL(type: 'chat' | 'registration'): string {
+  if (type === 'chat') {
+    return window.SignalContext.config.challengeUrl;
   }
-  return CAPTCHA_URL;
+  if (type === 'registration') {
+    return window.SignalContext.config.registrationChallengeUrl;
+  }
+  throw missingCaseError(type);
 }
 
 // Note that even though this is a class - only one instance of
