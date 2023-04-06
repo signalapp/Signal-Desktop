@@ -2625,9 +2625,14 @@ export class Message extends React.PureComponent<Props, State> {
         // prevent other click handlers from firing.
         onClickCapture: event => {
           if (isMacOS ? event.metaKey : event.ctrlKey) {
-            event.preventDefault();
-            event.stopPropagation();
-            onToggleSelect(true, false);
+            const target = event.target as HTMLElement;
+            const link = target.closest('a[href], [role=link]');
+
+            if (!event.currentTarget.contains(link)) {
+              event.preventDefault();
+              event.stopPropagation();
+              onToggleSelect(true, false);
+            }
           }
         },
         onDoubleClick: event => {
