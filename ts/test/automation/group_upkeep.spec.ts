@@ -1,63 +1,71 @@
 import { _electron, Page, test } from '@playwright/test';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { openAppsNoNewUsers } from './setup/new_user';
-import { sendNewMessage } from './send_message';
+import { beforeAllClean } from './setup/beforeEach';
+import { openApp } from './setup/new_user';
+import { sendNewMessage } from './utilities/send_message';
 import { logIn } from './setup/log_in';
-import {
-  testContactFour,
-  testContactOne,
-  testContactThree,
-  testContactTwo,
-  testUser,
-} from './setup/test_user';
+import { userA, userB, userC, userD, userE } from './setup/test_user';
 
 let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
-test.afterEach(() => forceCloseAllWindows(windows));
-
 test.skip('Group upkeep', async () => {
-  const [windowA, windowB, windowC, windowD, windowE] = await openAppsNoNewUsers(5);
+  const [windowA, windowB, windowC, windowD, windowE] = await openApp(5);
   windows = [windowA, windowB, windowC, windowD, windowE];
   await Promise.all([
-    logIn(windowA, testUser.recoveryPhrase),
-    logIn(windowB, testContactOne.recoveryPhrase),
-    logIn(windowC, testContactTwo.recoveryPhrase),
-    logIn(windowD, testContactThree.recoveryPhrase),
-    logIn(windowE, testContactFour.recoveryPhrase),
+    logIn(windowA, userA.recoveryPhrase),
+    logIn(windowB, userB.recoveryPhrase),
+    logIn(windowC, userC.recoveryPhrase),
+    logIn(windowD, userD.recoveryPhrase),
+    logIn(windowE, userE.recoveryPhrase),
   ]);
   // Send message from test users to all of it's contacts to maintain contact status
 
   // Send message from user A to Whale(TC1)
   await sendNewMessage(
     windowA,
-    testContactOne.sessionid,
-    `Test user -> Whale (TC1): ${Date.now()}`
+    userB.sessionid,
+    `${userA.userName} -> ${userB.userName}: ${Date.now()}`
   );
   // Send message from Whale to user A
-  await sendNewMessage(windowB, testUser.sessionid, `Whale (TC1) -> Test user : ${Date.now()}`);
+  await sendNewMessage(
+    windowB,
+    userA.sessionid,
+    `${userB.userName} -> ${userA.userName} : ${Date.now()}`
+  );
   // Send message from user A to Dragon(TC2)
   await sendNewMessage(
     windowA,
-    testContactTwo.sessionid,
-    `Test user -> Dragon (TC2): ${Date.now()}`
+    userC.sessionid,
+    `${userA.userName} -> ${userC.userName}: ${Date.now()}`
   );
   // Send message from Dragon to user A
-  await sendNewMessage(windowC, testUser.sessionid, `Dragon (TC2) -> Test user : ${Date.now()}`);
+  await sendNewMessage(
+    windowC,
+    userA.sessionid,
+    `${userC.userName} -> ${userA.userName} : ${Date.now()}`
+  );
   // Send message from user A to Fish(TC3)
   await sendNewMessage(
     windowA,
-    testContactThree.sessionid,
-    `Test user -> Fish (TC3): ${Date.now()}`
+    userD.sessionid,
+    `${userA.userName} -> ${userD.userName}: ${Date.now()}`
   );
   // Send message from Fish to user A
-  await sendNewMessage(windowD, testUser.sessionid, `Fish (TC3) -> Test user : ${Date.now()}`);
+  await sendNewMessage(
+    windowD,
+    userA.sessionid,
+    `${userD.userName} -> ${userA.userName} : ${Date.now()}`
+  );
   // Send message from user A to Gopher(TC4)
   await sendNewMessage(
     windowA,
-    testContactFour.sessionid,
-    `Test user -> Gopher (TC4): ${Date.now()}`
+    userE.sessionid,
+    `${userA.userName} -> ${userD.userName}: ${Date.now()}`
   );
   // Send message from Gopher to user A
-  await sendNewMessage(windowE, testUser.sessionid, `Gopher (TC4) -> Test user : ${Date.now()}`);
+  await sendNewMessage(
+    windowE,
+    userA.sessionid,
+    `${userD.userName} -> ${userA.userName} : ${Date.now()}`
+  );
 });

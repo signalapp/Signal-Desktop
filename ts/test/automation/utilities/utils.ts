@@ -14,8 +14,8 @@ export async function waitForTestIdWithText(window: Page, dataTestId: string, te
   return found;
 }
 
-export async function waitForReadableMessageWithText(window: Page, text: string) {
-  return waitForTestIdWithText(window, 'readable-message', text);
+export async function waitForControlMessageWithText(window: Page, text: string) {
+  return waitForTestIdWithText(window, 'control-message', text);
 }
 
 export async function waitForMatchingText(window: Page, text: string) {

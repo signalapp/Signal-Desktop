@@ -9,7 +9,7 @@ import {
   typeIntoInput,
   waitForMatchingText,
   waitForTestIdWithText,
-} from './utils';
+} from './utilities/utils';
 let window: Page | undefined;
 
 test.beforeEach(beforeAllClean);

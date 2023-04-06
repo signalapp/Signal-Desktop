@@ -2,7 +2,7 @@ import { _electron, expect, Page, test } from '@playwright/test';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { clickOnTestIdWithText, typeIntoInput } from './utils';
+import { clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
 let window: Page | undefined;
 
 test.beforeEach(beforeAllClean);

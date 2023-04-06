@@ -1,15 +1,15 @@
 import { _electron, Page, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { messageSent } from './message';
+import { messageSent } from './utilities/message';
 import { openAppsAndNewUsers } from './setup/new_user';
-import { sendNewMessage } from './send_message';
+import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   waitForMatchingText,
   waitForReadableMessageWithText,
   waitForTestIdWithText,
-} from './utils';
+} from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
 
 let windows: Array<Page> = [];

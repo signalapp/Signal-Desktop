@@ -1,16 +1,11 @@
 import { _electron, Page } from '@playwright/test';
 import _ from 'lodash';
-import { clickOnMatchingText, typeIntoInput } from '../utils';
+import { User } from '../types/testing';
+import { clickOnMatchingText, typeIntoInput } from '../utilities/utils';
 import { openAppAndWait } from './open';
 const multisAvailable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-export type UserLoggedInType = {
-  userName: string;
-  sessionid: string;
-  recoveryPhrase: string;
-};
-
-export const newUser = async (window: Page, userName: string): Promise<UserLoggedInType> => {
+export const newUser = async (window: Page, userName: string): Promise<User> => {
   // Create User
   await clickOnMatchingText(window, 'Create Session ID');
   // Wait for animation for finish creating ID
@@ -29,7 +24,7 @@ export const newUser = async (window: Page, userName: string): Promise<UserLogge
   return { userName, sessionid, recoveryPhrase };
 };
 
-const openAppAndNewUser = async (multi: string): Promise<UserLoggedInType & { window: Page }> => {
+const openAppAndNewUser = async (multi: string): Promise<User & { window: Page }> => {
   const window = await openAppAndWait(multi);
 
   const userName = `${multi}-user`;
@@ -56,12 +51,12 @@ export async function openAppsAndNewUsers(windowToCreate: number) {
   return { windows, users };
 }
 
-export async function openAppsNoNewUsers(windowToCreate: number) {
-  if (windowToCreate >= multisAvailable.length) {
+export async function openApp(windowsToCreate: number) {
+  if (windowsToCreate >= multisAvailable.length) {
     throw new Error(`Do you really need ${multisAvailable.length} windows?!`);
   }
   // if windowToCreate = 3, this array will be ABC. If windowToCreate = 5, this array will be ABCDE
-  const multisToUse = multisAvailable.slice(0, windowToCreate);
+  const multisToUse = multisAvailable.slice(0, windowsToCreate);
   return Promise.all(
     [...multisToUse].map(async m => {
       return openAppAndWait(`${m}`);

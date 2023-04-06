@@ -2,7 +2,7 @@ import { _electron, expect, Page, test } from '@playwright/test';
 import { openAppAndWait } from './setup/open';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { clickOnTestIdWithText, waitForTestIdWithText } from './utils';
+import { clickOnTestIdWithText, waitForTestIdWithText } from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
 
 let window: Page | undefined;

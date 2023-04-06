@@ -1,6 +1,6 @@
 import { _electron, Page, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utils';
+import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utilities/utils';
 import { createGroup } from './setup/create_group';
 
 let windows: Array<Page> = [];

@@ -1,8 +1,12 @@
 import { _electron, Page, test } from '@playwright/test';
-import { sendNewMessage } from './send_message';
+import { sendNewMessage } from './utilities/send_message';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
-import { clickOnTestIdWithText, waitForMatchingText, waitForTestIdWithText } from './utils';
+import {
+  clickOnTestIdWithText,
+  waitForMatchingText,
+  waitForTestIdWithText,
+} from './utilities/utils';
 
 const testMessage = 'A -> B';
 

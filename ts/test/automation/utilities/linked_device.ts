@@ -1,5 +1,5 @@
 import { _electron } from 'playwright-core';
-import { openAppsAndNewUsers, openAppsNoNewUsers } from './new_user';
+import { openAppsAndNewUsers, openAppsNoNewUsers } from '../setup/new_user';
 import { logIn } from '../setup/log_in';
 
 export async function linkedDevice() {

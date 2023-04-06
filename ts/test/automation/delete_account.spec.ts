@@ -1,8 +1,8 @@
 import { _electron, Page, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
-import { sendNewMessage } from './send_message';
-import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utils';
+import { sendNewMessage } from './utilities/send_message';
+import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
 // tslint:disable: no-console
 

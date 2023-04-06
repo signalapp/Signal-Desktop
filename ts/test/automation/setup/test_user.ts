@@ -1,36 +1,36 @@
 import { _electron } from '@playwright/test';
 
-export const testUser = {
-  userName: 'testUser',
-  sessionid: '05560802be231abc2fbaa860f09da4c2f20dafa4e5f560f77d61c5f587ef2c741f',
+export const userA = {
+  userName: 'Alice',
+  sessionid: '059e36f9bb03ac4e1ff9ff7d4aedd791d1f412770c6cd2796b855af12a7c7ea000',
   recoveryPhrase:
-    'pinched total ongoing sushi etched rest gone long oilfield incur code grunt code',
+    'tuition remedy sieve ivory wiggle gemstone hawk optical issued damp selfish fewest damp',
 };
 
-export const testContactOne = {
-  userName: 'Whale',
-  sessionid: '059c587e1e027368d4a0ebbf5982fe25e4129fdd79c2328616ceb394cbaf852c52',
+export const userB = {
+  userName: 'Bob',
+  sessionid: '05ead902602c1f7b59aaa3932b9cdefe8ee4075c03b09811d31bc9b122cb292d0c',
   recoveryPhrase:
-    'jeers apart cuffs mailed sleepless mystery dads tobacco elite lopped fudge arena mystery',
+    'misery testing template jeopardy yahoo asylum kettle wise unveil wept bygones dice dice',
 };
 
-export const testContactTwo = {
-  userName: 'Dragon',
-  sessionid: '05c189b54cea50fa7a3e1fc3ddb6e9c5bcf34ffa7d17af5d8478a45d5a8f629e02',
+export const userC = {
+  userName: 'Chloe',
+  sessionid: '055f4bcc665b94a0f4c2aa9c2d543ae015db167014aac316bc21f5d7c6fdb11025',
   recoveryPhrase:
-    'gossip megabyte rogue pheasants rural romance opus grunt amidst runway erected unveil opus',
+    'bakery broken circle ginger pistons deity deity degrees today insult fidget ouch deity',
 };
 
-export const testContactThree = {
-  userName: 'Fish',
-  sessionid: '058781e8f5845c22649c6c6e9fdb5c98e63e04832aec78fe6cacd62c3e71600464',
+export const userD = {
+  userName: 'Doug',
+  sessionid: '0555274f98d9f681d37446797bdebfa0e53d872213450663141bedb58a8ca67675',
   recoveryPhrase:
-    'hookup reinvest deepest waxing lukewarm aztec invoke fugitive aces onward hire tomorrow hire',
+    'biscuit bomb hire update suede money balding rest fuming alchemy ridges deity update',
 };
 
-export const testContactFour = {
-  userName: 'Gopher',
-  sessionid: '0577ee81a6ac9c1a6f80daddcc22a85bd0dc9cfc3a513b5d2368e2da483886ca11',
+export const userE = {
+  userName: 'Egbert',
+  sessionid: '058b523d3f00773c745c965cf9482dd2fd6ea7a67ec4643c187309e4bbf96a936a',
   recoveryPhrase:
-    'odds annoyed maps apply diplomat custom boat iceberg extra kitchens adventure luggage maps',
+    'dusted coffee hoisting ringing titans dangerous technical bomb bubble pancakes wipeout goldfish technical',
 };

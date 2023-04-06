@@ -1,7 +1,7 @@
 import { _electron, Page, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { linkedDevice } from './setup/linked_device';
-import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utils';
+import { linkedDevice } from './utilities/linked_device';
+import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utilities/utils';
 
 const windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);

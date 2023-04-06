@@ -1,29 +1,41 @@
 import { _electron, Page } from '@playwright/test';
-import { messageSent } from '../message';
-import { openAppsAndNewUsers } from '../setup/new_user';
-import { sendNewMessage } from '../send_message';
+import { messageSent } from '../utilities/message';
+import { sendNewMessage } from '../utilities/send_message';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   typeIntoInput,
-  waitForReadableMessageWithText,
+  waitForControlMessageWithText,
   waitForTestIdWithText,
-} from '../utils';
+} from '../utilities/utils';
+import { Group, User } from '../types/testing';
 
-let windows: Array<Page> = [];
+// let windows: Array<Page> = [];
 
-export const createGroup = async (groupName: string) => {
-  const windowLoggedIn = await openAppsAndNewUsers(3);
-  windows = windowLoggedIn.windows;
-  const users = windowLoggedIn.users;
-  const [windowA, windowB, windowC] = windows;
-  const [userA, userB, userC] = users;
+export const createGroup = async (
+  userName: string,
+  userOne: User,
+  windowA: Page,
+  userTwo: User,
+  windowB: Page,
+  userThree: User,
+  windowC: Page
+): Promise<Group> => {
+  const group: Group = { userName, userOne, userTwo, userThree };
+
+  const messageAB = `${userOne.userName} to ${userTwo.userName}`;
+  const messageBA = `${userTwo.userName} to ${userOne.userName}`;
+  const messageCA = `${userThree.userName} to ${userOne.userName}`;
+  const messageAC = `${userOne.userName} to ${userThree.userName}`;
+  const msgAToGroup = `${userOne.userName} -> ${group.userName}`;
+  const msgBToGroup = `${userTwo.userName} -> ${group.userName}`;
+  const msgCToGroup = `${userThree.userName} -> ${group.userName}`;
   // Add contacts
-  await sendNewMessage(windowA, userC.sessionid, `A -> C: ${Date.now()}`);
+  await sendNewMessage(windowA, userThree.sessionid, `${messageAC} Time: ${Date.now()}`);
   await Promise.all([
-    sendNewMessage(windowA, userB.sessionid, `A -> B: ${Date.now()}`),
-    sendNewMessage(windowB, userA.sessionid, `B -> A: ${Date.now()}`),
-    sendNewMessage(windowC, userA.sessionid, `C -> A: ${Date.now()}`),
+    sendNewMessage(windowA, userTwo.sessionid, `${messageAB} Time: ${Date.now()}`),
+    sendNewMessage(windowB, userOne.sessionid, `${messageBA} Time: ${Date.now()}`),
+    sendNewMessage(windowC, userOne.sessionid, `${messageCA} Time: ${Date.now()}`),
   ]);
   // Focus screen on window C to allow user C to become contact
   await clickOnTestIdWithText(windowC, 'messages-container');
@@ -33,18 +45,17 @@ export const createGroup = async (groupName: string) => {
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await clickOnTestIdWithText(windowA, 'chooser-new-group');
   // Enter group name
-  await typeIntoInput(windowA, 'new-closed-group-name', groupName);
+  await typeIntoInput(windowA, 'new-closed-group-name', group.userName);
   // Select user B
-  await clickOnMatchingText(windowA, userB.userName);
+  await clickOnMatchingText(windowA, userTwo.userName);
   // Select user C
-  await clickOnMatchingText(windowA, userC.userName);
+  await clickOnMatchingText(windowA, userThree.userName);
   // Click Next
   await clickOnTestIdWithText(windowA, 'next-button');
   // Check group was successfully created
-  await clickOnMatchingText(windowB, groupName);
-  await waitForTestIdWithText(windowB, 'header-conversation-name', groupName);
+  await clickOnMatchingText(windowB, group.userName);
+  await waitForTestIdWithText(windowB, 'header-conversation-name', group.userName);
   // Send message in group chat from user A
-  const msgAToGroup = 'A -> Group';
   await messageSent(windowA, msgAToGroup);
   // Focus screen
   await clickOnMatchingText(windowA, msgAToGroup);
@@ -52,11 +63,10 @@ export const createGroup = async (groupName: string) => {
   // Navigate to group in window B
   await clickOnTestIdWithText(windowB, 'message-section');
   // Click on test group
-  await clickOnMatchingText(windowB, groupName);
+  await clickOnMatchingText(windowB, userName);
   // wait for selector 'test message' in chat window
-  await waitForReadableMessageWithText(windowB, msgAToGroup);
+  await waitForControlMessageWithText(windowB, msgAToGroup);
   // Send reply message
-  const msgBToGroup = 'B -> Group';
   await messageSent(windowB, msgBToGroup);
   // Focus screen
   // await clickOnTestIdWithText(windowB, 'scroll-to-bottom-button');
@@ -64,16 +74,15 @@ export const createGroup = async (groupName: string) => {
   // Navigate to group in window C
   await clickOnTestIdWithText(windowC, 'message-section');
   // Click on test group
-  await clickOnMatchingText(windowC, groupName);
+  await clickOnMatchingText(windowC, userName);
   // windowC must see the message from A and the message from B
-  await waitForReadableMessageWithText(windowC, msgAToGroup);
-  await waitForReadableMessageWithText(windowC, msgBToGroup);
+  await waitForControlMessageWithText(windowC, msgAToGroup);
+  await waitForControlMessageWithText(windowC, msgBToGroup);
   // Send message from C to the group
-  const msgCToGroup = 'C -> Group';
   await messageSent(windowC, msgCToGroup);
   // windowA should see the message from B and the message from C
-  await waitForReadableMessageWithText(windowA, msgBToGroup);
-  await waitForReadableMessageWithText(windowA, msgCToGroup);
+  await waitForControlMessageWithText(windowA, msgBToGroup);
+  await waitForControlMessageWithText(windowA, msgCToGroup);
 
-  return { userA, userB, windowA, windowB, userC, windowC };
+  return { userName, userOne, userTwo, userThree };
 };

@@ -1,5 +1,5 @@
 import { _electron, Page } from '@playwright/test';
-import { clickOnTestIdWithText, typeIntoInput } from '../utils';
+import { clickOnTestIdWithText, typeIntoInput } from '../utilities/utils';
 
 export async function logIn(window: Page, recoveryPhrase: string) {
   await clickOnTestIdWithText(window, 'link-device');
