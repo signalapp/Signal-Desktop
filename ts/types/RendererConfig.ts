@@ -64,10 +64,6 @@ export const rendererConfigSchema = z.object({
 
   // Only for tests
   argv: configOptionalStringSchema,
-
-  // Only for permission popup window
-  forCalling: z.boolean(),
-  forCamera: z.boolean(),
 });
 
 export type RendererConfigType = z.infer<typeof rendererConfigSchema>;

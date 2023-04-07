@@ -402,79 +402,7 @@ async function prepareUrl(
   url: URL,
   { forCalling, forCamera }: PrepareUrlOptions = {}
 ): Promise<string> {
-  const theme = await getResolvedThemeSetting();
-
-  const directoryConfig = directoryConfigSchema.safeParse({
-    directoryUrl: config.get<string | null>('directoryUrl') || undefined,
-    directoryMRENCLAVE:
-      config.get<string | null>('directoryMRENCLAVE') || undefined,
-  });
-  if (!directoryConfig.success) {
-    throw new Error(
-      `prepareUrl: Failed to parse renderer directory config ${JSON.stringify(
-        directoryConfig.error.flatten()
-      )}`
-    );
-  }
-
-  const urlParams: RendererConfigType = {
-    name: packageJson.productName,
-    resolvedTranslationsLocale: getResolvedMessagesLocale().name,
-    preferredSystemLocales: getPreferredSystemLocales(),
-    version: app.getVersion(),
-    buildCreation: config.get<number>('buildCreation'),
-    buildExpiration: config.get<number>('buildExpiration'),
-    challengeUrl: config.get<string>('challengeUrl'),
-    serverUrl: config.get<string>('serverUrl'),
-    storageUrl: config.get<string>('storageUrl'),
-    updatesUrl: config.get<string>('updatesUrl'),
-    resourcesUrl: config.get<string>('resourcesUrl'),
-    artCreatorUrl: config.get<string>('artCreatorUrl'),
-    cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
-    cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
-    certificateAuthority: config.get<string>('certificateAuthority'),
-    environment: enableCI ? Environment.Production : getEnvironment(),
-    enableCI,
-    nodeVersion: process.versions.node,
-    hostname: os.hostname(),
-    appInstance: process.env.NODE_APP_INSTANCE || undefined,
-    proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
-    contentProxyUrl: config.get<string>('contentProxyUrl'),
-    sfuUrl: config.get('sfuUrl'),
-    reducedMotionSetting: animationSettings.prefersReducedMotion,
-    registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
-    serverPublicParams: config.get<string>('serverPublicParams'),
-    serverTrustRoot: config.get<string>('serverTrustRoot'),
-    theme,
-    appStartInitialSpellcheckSetting,
-    userDataPath: app.getPath('userData'),
-    homePath: app.getPath('home'),
-    crashDumpsPath: app.getPath('crashDumps'),
-
-    directoryConfig: directoryConfig.data,
-
-    // Only used by the main window
-    isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),
-    isMainWindowMaximized: Boolean(mainWindow?.isMaximized()),
-
-    // Only for tests
-    argv: JSON.stringify(process.argv),
-
-    // Only for permission popup window
-    forCalling: Boolean(forCalling),
-    forCamera: Boolean(forCamera),
-  };
-
-  const parsed = rendererConfigSchema.safeParse(urlParams);
-  if (!parsed.success) {
-    throw new Error(
-      `prepareUrl: Failed to parse renderer config ${JSON.stringify(
-        parsed.error.flatten()
-      )}`
-    );
-  }
-
-  return setUrlSearchParams(url, { config: JSON.stringify(parsed.data) }).href;
+  return setUrlSearchParams(url, { forCalling, forCamera }).href;
 }
 
 async function handleUrl(rawTarget: string) {
@@ -2285,6 +2213,78 @@ ipc.on('get-built-in-images', async () => {
       );
     }
   }
+});
+
+ipc.on('get-config', async event => {
+  const theme = await getResolvedThemeSetting();
+
+  const directoryConfig = directoryConfigSchema.safeParse({
+    directoryUrl: config.get<string | null>('directoryUrl') || undefined,
+    directoryMRENCLAVE:
+      config.get<string | null>('directoryMRENCLAVE') || undefined,
+  });
+  if (!directoryConfig.success) {
+    throw new Error(
+      `prepareUrl: Failed to parse renderer directory config ${JSON.stringify(
+        directoryConfig.error.flatten()
+      )}`
+    );
+  }
+
+  const parsed = rendererConfigSchema.safeParse({
+    name: packageJson.productName,
+    resolvedTranslationsLocale: getResolvedMessagesLocale().name,
+    preferredSystemLocales: getPreferredSystemLocales(),
+    version: app.getVersion(),
+    buildCreation: config.get<number>('buildCreation'),
+    buildExpiration: config.get<number>('buildExpiration'),
+    challengeUrl: config.get<string>('challengeUrl'),
+    serverUrl: config.get<string>('serverUrl'),
+    storageUrl: config.get<string>('storageUrl'),
+    updatesUrl: config.get<string>('updatesUrl'),
+    resourcesUrl: config.get<string>('resourcesUrl'),
+    artCreatorUrl: config.get<string>('artCreatorUrl'),
+    cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
+    cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
+    certificateAuthority: config.get<string>('certificateAuthority'),
+    environment: enableCI ? Environment.Production : getEnvironment(),
+    enableCI,
+    nodeVersion: process.versions.node,
+    hostname: os.hostname(),
+    appInstance: process.env.NODE_APP_INSTANCE || undefined,
+    proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
+    contentProxyUrl: config.get<string>('contentProxyUrl'),
+    sfuUrl: config.get('sfuUrl'),
+    reducedMotionSetting: animationSettings.prefersReducedMotion,
+    registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
+    serverPublicParams: config.get<string>('serverPublicParams'),
+    serverTrustRoot: config.get<string>('serverTrustRoot'),
+    theme,
+    appStartInitialSpellcheckSetting,
+    userDataPath: app.getPath('userData'),
+    homePath: app.getPath('home'),
+    crashDumpsPath: app.getPath('crashDumps'),
+
+    directoryConfig: directoryConfig.data,
+
+    // Only used by the main window
+    isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),
+    isMainWindowMaximized: Boolean(mainWindow?.isMaximized()),
+
+    // Only for tests
+    argv: JSON.stringify(process.argv),
+  } satisfies RendererConfigType);
+
+  if (!parsed.success) {
+    throw new Error(
+      `prepareUrl: Failed to parse renderer config ${JSON.stringify(
+        parsed.error.flatten()
+      )}`
+    );
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = parsed.data;
 });
 
 // Ingested in preload.js via a sendSync call

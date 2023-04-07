@@ -44,8 +44,6 @@ describe('URL utilities', () => {
         number: 123,
         true_bool: true,
         false_bool: false,
-        null_value: null,
-        undefined_value: undefined,
         array: ['ok', 'wow'],
         stringified: { toString: () => 'bar' },
       };
@@ -67,8 +65,6 @@ describe('URL utilities', () => {
       assert.strictEqual(newUrl.searchParams.get('number'), '123');
       assert.strictEqual(newUrl.searchParams.get('true_bool'), 'true');
       assert.strictEqual(newUrl.searchParams.get('false_bool'), 'false');
-      assert.strictEqual(newUrl.searchParams.get('null_value'), '');
-      assert.strictEqual(newUrl.searchParams.get('undefined_value'), '');
       assert.strictEqual(newUrl.searchParams.get('array'), 'ok,wow');
       assert.strictEqual(newUrl.searchParams.get('stringified'), 'bar');
     });
