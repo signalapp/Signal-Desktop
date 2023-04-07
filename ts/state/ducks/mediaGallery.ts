@@ -79,8 +79,8 @@ function loadMediaItems(
 
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
-    const DEFAULT_MEDIA_FETCH_COUNT = 50;
-    const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
+    const DEFAULT_MEDIA_FETCH_COUNT = 5000;
+    const DEFAULT_DOCUMENTS_FETCH_COUNT = 15000;
 
     const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
 
