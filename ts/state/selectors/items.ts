@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
+import { SecurityNumberIdentifierType } from '../../util/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -142,6 +143,25 @@ export const getContactManagementEnabled = createSelector(
     }
 
     return false;
+  }
+);
+
+export const getSecurityNumberIdentifierType = createSelector(
+  getRemoteConfig,
+  (_state: StateType, { now }: { now: number }) => now,
+  (remoteConfig: ConfigMapType, now: number): SecurityNumberIdentifierType => {
+    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberUUID')) {
+      return SecurityNumberIdentifierType.UUIDIdentifier;
+    }
+
+    const timestamp = remoteConfig['desktop.safetyNumberUUID.timestamp']?.value;
+    if (typeof timestamp !== 'number') {
+      return SecurityNumberIdentifierType.E164Identifier;
+    }
+
+    return now >= timestamp
+      ? SecurityNumberIdentifierType.UUIDIdentifier
+      : SecurityNumberIdentifierType.E164Identifier;
   }
 );
 

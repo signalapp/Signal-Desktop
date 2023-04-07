@@ -9,7 +9,6 @@ import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
 import { deleteForEveryone } from './deleteForEveryone';
 import { downloadAttachment } from './downloadAttachment';
-import { generateSecurityNumber } from './safetyNumber';
 import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUuidsForE164s } from './getUuidsForE164s';
@@ -53,7 +52,6 @@ export {
   downloadAttachment,
   flushMessageCounter,
   fromWebSafeBase64,
-  generateSecurityNumber,
   getStringForProfileChange,
   getTextWithMentions,
   getUserAgent,

@@ -6,17 +6,18 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { UUID } from '../types/UUID';
 
 import { assertDev } from './assert';
+import { missingCaseError } from './missingCaseError';
 import * as log from '../logging/log';
 
-export async function generateSecurityNumber(
-  ourNumber: string,
+function generateSecurityNumber(
+  ourId: string,
   ourKey: Uint8Array,
-  theirNumber: string,
+  theirId: string,
   theirKey: Uint8Array
-): Promise<string> {
-  const ourNumberBuf = Buffer.from(ourNumber);
+): string {
+  const ourNumberBuf = Buffer.from(ourId);
   const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));
-  const theirNumberBuf = Buffer.from(theirNumber);
+  const theirNumberBuf = Buffer.from(theirId);
   const theirKeyObj = PublicKey.deserialize(Buffer.from(theirKey));
 
   const fingerprint = Fingerprint.new(
@@ -28,13 +29,21 @@ export async function generateSecurityNumber(
     theirKeyObj
   );
 
-  const fingerprintString = fingerprint.displayableFingerprint().toString();
-  return Promise.resolve(fingerprintString);
+  return fingerprint.displayableFingerprint().toString();
+}
+
+export enum SecurityNumberIdentifierType {
+  UUIDIdentifier = 'UUIDIdentifier',
+  E164Identifier = 'E164Identifier',
 }
 
 export async function generateSecurityNumberBlock(
-  contact: ConversationType
+  contact: ConversationType,
+  identifierType: SecurityNumberIdentifierType
 ): Promise<Array<string>> {
+  const logId = `generateSecurityNumberBlock(${contact.id}, ${identifierType})`;
+  log.info(`${logId}: starting`);
+
   const { storage } = window.textsecure;
   const ourNumber = storage.user.getNumber();
   const ourUuid = storage.user.getCheckedUuid();
@@ -56,20 +65,33 @@ export async function generateSecurityNumberBlock(
     throw new Error('Could not load their key');
   }
 
-  if (!contact.e164) {
-    log.error(
-      'generateSecurityNumberBlock: Attempted to generate security number for contact with no e164'
-    );
-    return [];
-  }
+  let securityNumber: string;
+  if (identifierType === SecurityNumberIdentifierType.E164Identifier) {
+    if (!contact.e164) {
+      log.error(
+        `${logId}: Attempted to generate security number for contact with no e164`
+      );
+      return [];
+    }
 
-  assertDev(ourNumber, 'Should have our number');
-  const securityNumber = await generateSecurityNumber(
-    ourNumber,
-    ourKey,
-    contact.e164,
-    theirKey
-  );
+    assertDev(ourNumber, 'Should have our number');
+    securityNumber = generateSecurityNumber(
+      ourNumber,
+      ourKey,
+      contact.e164,
+      theirKey
+    );
+  } else if (identifierType === SecurityNumberIdentifierType.UUIDIdentifier) {
+    assertDev(theirUuid, 'Should have their uuid');
+    securityNumber = generateSecurityNumber(
+      ourUuid.toString(),
+      ourKey,
+      theirUuid.toString(),
+      theirKey
+    );
+  } else {
+    throw missingCaseError(identifierType);
+  }
 
   const chunks = [];
   for (let i = 0; i < securityNumber.length; i += 5) {
