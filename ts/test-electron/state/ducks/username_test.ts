@@ -441,7 +441,6 @@ describe('electron/state/ducks/username', () => {
         type: 'toast/SHOW_TOAST',
         payload: {
           toastType: ToastType.FailedToDeleteUsername,
-          parameters: undefined,
         },
       });
     });

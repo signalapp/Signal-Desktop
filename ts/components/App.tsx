@@ -7,9 +7,9 @@ import classNames from 'classnames';
 
 import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
-import type { ToastType } from '../types/Toast';
+import type { AnyToast } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import type { LocalizerType, ReplacementValuesType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
@@ -51,10 +51,7 @@ type PropsType = {
   executeMenuAction: (action: MenuActionType) => void;
   hideToast: () => unknown;
   titleBarDoubleClick: () => void;
-  toast?: {
-    toastType: ToastType;
-    parameters?: ReplacementValuesType;
-  };
+  toast?: AnyToast;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;

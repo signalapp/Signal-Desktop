@@ -97,8 +97,6 @@ const defaultMessageProps: TimelineMessagesProps = {
   conversationId: 'conversationId',
   conversationTitle: 'Conversation Title',
   conversationType: 'direct', // override
-  deleteMessages: action('default--deleteMessages'),
-  deleteMessageForEveryone: action('default--deleteMessageForEveryone'),
   direction: 'incoming',
   showLightboxForViewOnceMedia: action('default--showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action(
@@ -145,6 +143,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  toggleDeleteMessagesModal: action('default--toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('default--toggleForwardMessagesModal'),
   showLightbox: action('default--showLightbox'),
   startConversation: action('default--startConversation'),

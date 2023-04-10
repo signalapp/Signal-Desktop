@@ -26,9 +26,9 @@ import type {
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
-import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
+import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
 
 export type PropsData = {
   canDownload: boolean;
@@ -41,13 +41,9 @@ export type PropsData = {
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
-  deleteMessages: (options: {
-    conversationId: string;
-    messageIds: ReadonlyArray<string>;
-  }) => void;
-  deleteMessageForEveryone: (id: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
-  toggleForwardMessagesModal: (id: Array<string>) => void;
+  toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
+  toggleForwardMessagesModal: (messageIds: Array<string>) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -83,7 +79,6 @@ export function TimelineMessage(props: Props): JSX.Element {
   const {
     attachments,
     author,
-    canDeleteForEveryone,
     canDownload,
     canReact,
     canReply,
@@ -93,8 +88,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
-    deleteMessages,
-    deleteMessageForEveryone,
     deletedForEveryone,
     direction,
     giftBadge,
@@ -116,6 +109,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     setQuoteByMessageId,
     text,
     timestamp,
+    toggleDeleteMessagesModal,
     toggleForwardMessagesModal,
     toggleSelectMessage,
   } = props;
@@ -259,9 +253,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     }
   }, [canReact, toggleReactionPicker]);
 
-  const [hasDOEConfirmation, setHasDOEConfirmation] = useState(false);
-  const [hasDeleteConfirmation, setHasDeleteConfirmation] = useState(false);
-
   const toggleReactionPickerKeyboard = useToggleReactionPicker(
     handleReact || noop
   );
@@ -343,48 +334,6 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   return (
     <>
-      {hasDOEConfirmation && canDeleteForEveryone && (
-        <ConfirmationDialog
-          actions={[
-            {
-              action: () => deleteMessageForEveryone(id),
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          dialogName="TimelineMessage/deleteMessageForEveryone"
-          i18n={i18n}
-          onClose={() => setHasDOEConfirmation(false)}
-        >
-          {i18n('icu:deleteForEveryoneWarning')}
-        </ConfirmationDialog>
-      )}
-      {hasDeleteConfirmation && (
-        <ConfirmationDialog
-          actions={[
-            {
-              action: () =>
-                deleteMessages({
-                  conversationId,
-                  messageIds: [id],
-                }),
-              style: 'negative',
-              text: i18n('icu:ConfirmDeleteForMeModal--confirm'),
-            },
-          ]}
-          dialogName="ConfirmDeleteForMeModal"
-          i18n={i18n}
-          onClose={() => setHasDeleteConfirmation(false)}
-          title={i18n('icu:ConfirmDeleteForMeModal--title', {
-            count: 1,
-          })}
-        >
-          {i18n('icu:ConfirmDeleteForMeModal--description', {
-            count: 1,
-          })}
-        </ConfirmationDialog>
-      )}
-
       <Message
         {...props}
         renderingContext="conversation/TimelineItem"
@@ -413,10 +362,12 @@ export function TimelineMessage(props: Props): JSX.Element {
         onForward={
           canForward ? () => toggleForwardMessagesModal([id]) : undefined
         }
-        onDeleteForMe={() => setHasDeleteConfirmation(true)}
-        onDeleteForEveryone={
-          canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
-        }
+        onDeleteMessage={() => {
+          toggleDeleteMessagesModal({
+            conversationId,
+            messageIds: [id],
+          });
+        }}
         onMoreInfo={() =>
           pushPanelForConversation({
             type: PanelType.MessageDetails,
@@ -594,8 +545,7 @@ type MessageContextProps = {
   onRetryMessageSend: (() => void) | undefined;
   onRetryDeleteForEveryone: (() => void) | undefined;
   onForward: (() => void) | undefined;
-  onDeleteForMe: () => void;
-  onDeleteForEveryone: (() => void) | undefined;
+  onDeleteMessage: () => void;
   onMoreInfo: () => void;
   onSelect: () => void;
 };
@@ -612,8 +562,7 @@ const MessageContextMenu = ({
   onRetryMessageSend,
   onRetryDeleteForEveryone,
   onForward,
-  onDeleteForMe,
-  onDeleteForEveryone,
+  onDeleteMessage,
 }: MessageContextProps): JSX.Element => {
   const menu = (
     <ContextMenu id={triggerId}>
@@ -746,27 +695,11 @@ const MessageContextMenu = ({
           event.stopPropagation();
           event.preventDefault();
 
-          onDeleteForMe();
+          onDeleteMessage();
         }}
       >
-        {i18n('icu:deleteMessage')}
+        {i18n('icu:MessageContextMenu__deleteMessage')}
       </MenuItem>
-      {onDeleteForEveryone && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__delete-message-for-everyone',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onDeleteForEveryone();
-          }}
-        >
-          {i18n('icu:deleteMessageForEveryone')}
-        </MenuItem>
-      )}
     </ContextMenu>
   );
 

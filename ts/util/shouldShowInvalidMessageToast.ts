@@ -5,6 +5,7 @@ import type { ConversationAttributesType } from '../model-types';
 import { hasExpired } from '../state/selectors/expiration';
 import { isOSUnsupported } from '../state/selectors/updates';
 
+import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
 import {
   isDirectConversation,
@@ -17,13 +18,13 @@ const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 export function shouldShowInvalidMessageToast(
   conversationAttributes: ConversationAttributesType,
   messageText?: string
-): ToastType | undefined {
+): AnyToast | undefined {
   const state = window.reduxStore.getState();
   if (hasExpired(state)) {
     if (isOSUnsupported(state)) {
-      return ToastType.UnsupportedOS;
+      return { toastType: ToastType.UnsupportedOS };
     }
-    return ToastType.Expired;
+    return { toastType: ToastType.Expired };
   }
 
   const isValid =
@@ -32,7 +33,7 @@ export function shouldShowInvalidMessageToast(
     isGroupV2(conversationAttributes);
 
   if (!isValid) {
-    return ToastType.InvalidConversation;
+    return { toastType: ToastType.InvalidConversation };
   }
 
   const { e164, uuid } = conversationAttributes;
@@ -41,7 +42,7 @@ export function shouldShowInvalidMessageToast(
     ((e164 && window.storage.blocked.isBlocked(e164)) ||
       (uuid && window.storage.blocked.isUuidBlocked(uuid)))
   ) {
-    return ToastType.Blocked;
+    return { toastType: ToastType.Blocked };
   }
 
   const { groupId } = conversationAttributes;
@@ -50,18 +51,18 @@ export function shouldShowInvalidMessageToast(
     groupId &&
     window.storage.blocked.isGroupBlocked(groupId)
   ) {
-    return ToastType.BlockedGroup;
+    return { toastType: ToastType.BlockedGroup };
   }
 
   if (
     !isDirectConversation(conversationAttributes) &&
     conversationAttributes.left
   ) {
-    return ToastType.LeftGroup;
+    return { toastType: ToastType.LeftGroup };
   }
 
   if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {
-    return ToastType.MessageBodyTooLong;
+    return { toastType: ToastType.MessageBodyTooLong };
   }
 
   return undefined;

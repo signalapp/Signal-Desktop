@@ -40,9 +40,68 @@ export enum ToastType {
   StoryVideoUnsupported = 'StoryVideoUnsupported',
   TapToViewExpiredIncoming = 'TapToViewExpiredIncoming',
   TapToViewExpiredOutgoing = 'TapToViewExpiredOutgoing',
+  TooManyMessagesToDeleteForEveryone = 'TooManyMessagesToDeleteForEveryone',
   TooManyMessagesToForward = 'TooManyMessagesToForward',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
 }
+
+export type AnyToast =
+  | { toastType: ToastType.AddingUserToGroup; parameters: { contact: string } }
+  | { toastType: ToastType.AlreadyGroupMember }
+  | { toastType: ToastType.AlreadyRequestedToJoin }
+  | { toastType: ToastType.Blocked }
+  | { toastType: ToastType.BlockedGroup }
+  | { toastType: ToastType.CannotForwardEmptyMessage }
+  | { toastType: ToastType.CannotMixMultiAndNonMultiAttachments }
+  | { toastType: ToastType.CannotOpenGiftBadgeIncoming }
+  | { toastType: ToastType.CannotOpenGiftBadgeOutgoing }
+  | { toastType: ToastType.CannotStartGroupCall }
+  | {
+      toastType: ToastType.ConversationArchived;
+      parameters: { conversationId: string };
+    }
+  | { toastType: ToastType.ConversationMarkedUnread }
+  | { toastType: ToastType.ConversationRemoved; parameters: { title: string } }
+  | { toastType: ToastType.ConversationUnarchived }
+  | { toastType: ToastType.CopiedUsername }
+  | { toastType: ToastType.CopiedUsernameLink }
+  | { toastType: ToastType.DangerousFileType }
+  | { toastType: ToastType.DeleteForEveryoneFailed }
+  | { toastType: ToastType.Error }
+  | { toastType: ToastType.Expired }
+  | { toastType: ToastType.FailedToDeleteUsername }
+  | { toastType: ToastType.FileSaved; parameters: { fullPath: string } }
+  | {
+      toastType: ToastType.FileSize;
+      parameters: { limit: number; units: string };
+    }
+  | { toastType: ToastType.InvalidConversation }
+  | { toastType: ToastType.LeftGroup }
+  | { toastType: ToastType.MaxAttachments }
+  | { toastType: ToastType.MessageBodyTooLong }
+  | { toastType: ToastType.OriginalMessageNotFound }
+  | { toastType: ToastType.PinnedConversationsFull }
+  | { toastType: ToastType.ReactionFailed }
+  | { toastType: ToastType.ReportedSpamAndBlocked }
+  | { toastType: ToastType.StoryMuted }
+  | { toastType: ToastType.StoryReact }
+  | { toastType: ToastType.StoryReply }
+  | { toastType: ToastType.StoryVideoError }
+  | { toastType: ToastType.StoryVideoUnsupported }
+  | { toastType: ToastType.TapToViewExpiredIncoming }
+  | { toastType: ToastType.TapToViewExpiredOutgoing }
+  | {
+      toastType: ToastType.TooManyMessagesToDeleteForEveryone;
+      parameters: { count: number };
+    }
+  | { toastType: ToastType.TooManyMessagesToForward }
+  | { toastType: ToastType.UnableToLoadAttachment }
+  | { toastType: ToastType.UnsupportedMultiAttachment }
+  | { toastType: ToastType.UnsupportedOS }
+  | {
+      toastType: ToastType.UserAddedToGroup;
+      parameters: { contact: string; group: string };
+    };

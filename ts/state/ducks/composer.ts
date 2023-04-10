@@ -18,7 +18,6 @@ import type {
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRangeMention } from '../../types/BodyRange';
-import type { ReplacementValuesType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
@@ -35,6 +34,7 @@ import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { completeRecording } from './audioRecorder';
 import { RecordingState } from '../../types/AudioRecorder';
 import { SHOW_TOAST } from './toast';
+import type { AnyToast } from '../../types/Toast';
 import { ToastType } from '../../types/Toast';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { UUID } from '../../types/UUID';
@@ -436,13 +436,11 @@ function sendMultiMediaMessage(
 
     conversation.clearTypingTimers();
 
-    const toastType = shouldShowInvalidMessageToast(conversation.attributes);
-    if (toastType) {
+    const toast = shouldShowInvalidMessageToast(conversation.attributes);
+    if (toast != null) {
       dispatch({
         type: SHOW_TOAST,
-        payload: {
-          toastType,
-        },
+        payload: toast,
       });
       dispatch(setComposerDisabledState(conversationId, false));
       return;
@@ -561,13 +559,11 @@ function sendStickerMessage(
         return;
       }
 
-      const toastType = shouldShowInvalidMessageToast(conversation.attributes);
-      if (toastType) {
+      const toast = shouldShowInvalidMessageToast(conversation.attributes);
+      if (toast != null) {
         dispatch({
           type: SHOW_TOAST,
-          payload: {
-            toastType,
-          },
+          payload: toast,
         });
         return;
       }
@@ -906,9 +902,7 @@ function processAttachments({
       return;
     }
 
-    let toastToShow:
-      | { toastType: ToastType; parameters?: ReplacementValuesType }
-      | undefined;
+    let toastToShow: AnyToast | undefined;
 
     const nextDraftAttachments = (
       conversation.get('draftAttachments') || []
@@ -986,7 +980,7 @@ function processAttachments({
 function preProcessAttachment(
   file: File,
   draftAttachments: Array<AttachmentDraftType>
-): { toastType: ToastType; parameters?: ReplacementValuesType } | undefined {
+): AnyToast | undefined {
   if (!file) {
     return;
   }

@@ -19,7 +19,6 @@ import { getEmojiSkinTone } from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
-  getLastSelectedMessage,
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
@@ -93,7 +92,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const recentEmojis = selectRecentEmojis(state);
 
   const selectedMessageIds = getSelectedMessageIds(state);
-  const lastSelectedMessage = getLastSelectedMessage(state);
 
   return {
     // Base
@@ -170,7 +168,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
     // Select Mode
     selectedMessageIds,
-    lastSelectedMessage,
   };
 };
 

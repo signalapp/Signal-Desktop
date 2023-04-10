@@ -132,7 +132,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
   // Select mode
   selectedMessageIds: undefined,
-  lastSelectedMessage: undefined,
   toggleSelectMode: action('toggleSelectMode'),
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 });

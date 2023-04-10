@@ -45,8 +45,10 @@ import type { ShowToastActionType } from './toast';
 export type EditHistoryMessagesType = ReadonlyDeep<
   Array<MessageAttributesType>
 >;
-export type ConfirmDeleteForMeModalProps = ReadonlyDeep<{
-  count: number;
+export type DeleteMessagesPropsType = ReadonlyDeep<{
+  conversationId: string;
+  messageIds: ReadonlyArray<string>;
+  onDelete?: () => void;
 }>;
 export type ForwardMessagePropsType = ReadonlyDeep<MessagePropsType>;
 export type ForwardMessagesPropsType = ReadonlyDeep<{
@@ -76,6 +78,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
     description?: string;
     title?: string;
   };
+  deleteMessagesProps?: DeleteMessagesPropsType;
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
@@ -103,6 +106,8 @@ const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
 const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
 const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
+const TOGGLE_DELETE_MESSAGES_MODAL =
+  'globalModals/TOGGLE_DELETE_MESSAGES_MODAL';
 const TOGGLE_FORWARD_MESSAGES_MODAL =
   'globalModals/TOGGLE_FORWARD_MESSAGES_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
@@ -173,6 +178,11 @@ type HideUserNotFoundModalActionType = ReadonlyDeep<{
 export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
   type: typeof SHOW_UUID_NOT_FOUND_MODAL;
   payload: UserNotFoundModalStateType;
+}>;
+
+type ToggleDeleteMessagesModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_DELETE_MESSAGES_MODAL;
+  payload: DeleteMessagesPropsType | undefined;
 }>;
 
 type ToggleForwardMessagesModalActionType = ReadonlyDeep<{
@@ -321,6 +331,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
   | ToggleAddUserToAnotherGroupModalActionType
+  | ToggleDeleteMessagesModalActionType
   | ToggleForwardMessagesModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -357,6 +368,7 @@ export const actions = {
   showWhatsNewModal,
   toggleAddUserToAnotherGroupModal,
   toggleConfirmationModal,
+  toggleDeleteMessagesModal,
   toggleForwardMessagesModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
@@ -470,6 +482,15 @@ function showGV2MigrationDialog(
 function closeGV2MigrationDialog(): CloseGV2MigrationDialogActionType {
   return {
     type: CLOSE_GV2_MIGRATION_DIALOG,
+  };
+}
+
+function toggleDeleteMessagesModal(
+  props: DeleteMessagesPropsType | undefined
+): ToggleDeleteMessagesModalActionType {
+  return {
+    type: TOGGLE_DELETE_MESSAGES_MODAL,
+    payload: props,
   };
 }
 
@@ -852,6 +873,13 @@ export function reducer(
     return {
       ...state,
       addUserToAnotherGroupModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_DELETE_MESSAGES_MODAL) {
+    return {
+      ...state,
+      deleteMessagesProps: action.payload,
     };
   }
 

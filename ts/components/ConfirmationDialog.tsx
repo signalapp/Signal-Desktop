@@ -16,6 +16,8 @@ export type ActionSpec = {
   action: () => unknown;
   style?: 'affirmative' | 'negative';
   autoClose?: boolean;
+  disabled?: boolean;
+  'aria-disabled'?: boolean;
 } & (
   | {
       text: string;
@@ -130,7 +132,8 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
               ? action.id ?? action.text
               : action.id
           }
-          disabled={isSpinning}
+          disabled={action.disabled || isSpinning}
+          aria-disabled={action['aria-disabled']}
           onClick={() => {
             action.action();
             if (action.autoClose !== false) {
@@ -165,6 +168,9 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
       onTopOfEverything={onTopOfEverything}
       overlayStyles={overlayStyles}
       theme={theme}
+      moduleClassName={
+        moduleClassName ? `${moduleClassName}__ModalHost` : undefined
+      }
     >
       <animated.div style={modalStyles}>
         <ModalPage

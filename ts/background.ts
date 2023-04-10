@@ -1730,22 +1730,13 @@ export async function startApp(): Promise<void> {
           event.preventDefault();
           event.stopPropagation();
 
-          showConfirmationDialog({
-            dialogName: 'ConfirmDeleteForMeModal',
-            confirmStyle: 'negative',
-            title: window.i18n('icu:ConfirmDeleteForMeModal--title', {
-              count: messageIds.length,
-            }),
-            description: window.i18n(
-              'icu:ConfirmDeleteForMeModal--description',
-              { count: messageIds.length }
-            ),
-            okText: window.i18n('icu:ConfirmDeleteForMeModal--confirm'),
-            resolve: () => {
-              window.reduxActions.conversations.deleteMessages({
-                conversationId: conversation.id,
-                messageIds,
-              });
+          window.reduxActions.globalModals.toggleDeleteMessagesModal({
+            conversationId: conversation.id,
+            messageIds,
+            onDelete() {
+              if (selectedMessageIds != null) {
+                window.reduxActions.conversations.toggleSelectMode(false);
+              }
             },
           });
 
@@ -1771,7 +1762,12 @@ export async function startApp(): Promise<void> {
           event.stopPropagation();
 
           window.reduxActions.globalModals.toggleForwardMessagesModal(
-            messageIds
+            messageIds,
+            () => {
+              if (selectedMessageIds != null) {
+                window.reduxActions.conversations.toggleSelectMode(false);
+              }
+            }
           );
 
           return;

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { MyStoryType, StoryViewType } from '../types/Stories';
-import type { ShowToastActionCreatorType } from '../state/ducks/toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 import { Avatar, AvatarSize } from './Avatar';
 import { HasStories, ResolvedSendStatus } from '../types/Stories';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
@@ -24,7 +24,7 @@ export type PropsType = {
   onClick: () => unknown;
   onMediaPlaybackStart: () => void;
   queueStoryDownload: (storyId: string) => unknown;
-  showToast: ShowToastActionCreatorType;
+  showToast: ShowToastAction;
 };
 
 function getNewestMyStory(story: MyStoryType): StoryViewType {

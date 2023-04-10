@@ -28,7 +28,7 @@ import { PanelRow } from './conversation/conversation-details/PanelRow';
 import type { ProfileDataType } from '../state/ducks/conversations';
 import { UsernameEditState } from '../state/ducks/usernameEnums';
 import { ToastType } from '../types/Toast';
-import type { ShowToastActionCreatorType } from '../state/ducks/toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
 import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
@@ -85,7 +85,7 @@ type PropsActionType = {
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   setUsernameEditState: (editState: UsernameEditState) => void;
   deleteUsername: () => void;
-  showToast: ShowToastActionCreatorType;
+  showToast: ShowToastAction;
   openUsernameReservationModal: () => void;
 };
 
@@ -525,7 +525,7 @@ export function ProfileEditor({
                 'Should not be visible without username'
               );
               void window.navigator.clipboard.writeText(username);
-              showToast(ToastType.CopiedUsername);
+              showToast({ toastType: ToastType.CopiedUsername });
             },
           },
           {
@@ -540,7 +540,7 @@ export function ProfileEditor({
               void window.navigator.clipboard.writeText(
                 generateUsernameLink(username)
               );
-              showToast(ToastType.CopiedUsernameLink);
+              showToast({ toastType: ToastType.CopiedUsernameLink });
             },
           },
           {

@@ -112,8 +112,6 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const {
     blockGroupLinkRequests,
     clearTargetedMessage: clearSelectedMessage,
-    deleteMessages,
-    deleteMessageForEveryone,
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
@@ -138,6 +136,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const {
     showContactModal,
     showEditHistoryModal,
+    toggleDeleteMessagesModal,
     toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
@@ -177,8 +176,6 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       blockGroupLinkRequests={blockGroupLinkRequests}
       checkForAccount={checkForAccount}
       clearTargetedMessage={clearSelectedMessage}
-      deleteMessages={deleteMessages}
-      deleteMessageForEveryone={deleteMessageForEveryone}
       doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}
@@ -202,6 +199,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       showSpoiler={showSpoiler}
       startCallingLobby={startCallingLobby}
       startConversation={startConversation}
+      toggleDeleteMessagesModal={toggleDeleteMessagesModal}
       toggleForwardMessagesModal={toggleForwardMessagesModal}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       viewStory={viewStory}

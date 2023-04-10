@@ -2383,7 +2383,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Delete message for me",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Delete message for everyone",
@@ -2391,7 +2391,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Delete message for everyone",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Delete message",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Delete",
@@ -8953,6 +8957,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "Delete {count, plural, one {# message} other {# messages}}?",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "Delete {count, plural, one {message} other {# messages}}?",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8961,6 +8969,10 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from this device.",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "Who would you like to delete {count, plural, one {this message} other {these messages}} for?",
     "description": "delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
@@ -8969,7 +8981,19 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Delete for me",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Delete for me",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Delete for everyone",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",

@@ -39,7 +39,6 @@ import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
   ConversationType,
-  MessageTimestamps,
   PushPanelForConversationActionType,
   ShowConversationType,
 } from '../state/ducks/conversations';
@@ -149,7 +148,6 @@ export type OwnProps = Readonly<{
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
-  lastSelectedMessage: MessageTimestamps | undefined;
   toggleSelectMode: (on: boolean) => void;
   toggleForwardMessagesModal: (
     messageIds: ReadonlyArray<string>,
@@ -287,7 +285,6 @@ export function CompositionArea({
   renderSmartCompositionRecordingDraft,
   // Selected messages
   selectedMessageIds,
-  lastSelectedMessage,
   toggleSelectMode,
   toggleForwardMessagesModal,
 }: Props): JSX.Element | null {
@@ -560,12 +557,13 @@ export function CompositionArea({
           toggleSelectMode(false);
         }}
         onDeleteMessages={() => {
-          window.reduxActions.conversations.deleteMessages({
+          window.reduxActions.globalModals.toggleDeleteMessagesModal({
             conversationId,
-            lastSelectedMessage,
             messageIds: selectedMessageIds,
+            onDelete() {
+              toggleSelectMode(false);
+            },
           });
-          toggleSelectMode(false);
         }}
         onForwardMessages={() => {
           if (selectedMessageIds.length > 0) {

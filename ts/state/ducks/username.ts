@@ -244,7 +244,7 @@ export function deleteUsername({
       try {
         await doDeleteUsername(username);
       } catch {
-        dispatch(showToast(ToastType.FailedToDeleteUsername));
+        dispatch(showToast({ toastType: ToastType.FailedToDeleteUsername }));
       }
     };
 

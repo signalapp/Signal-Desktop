@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType, ReplacementValuesType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { missingCaseError } from '../util/missingCaseError';
+import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
 
 export type PropsType = {
@@ -14,10 +15,7 @@ export type PropsType = {
   openFileInFolder: (target: string) => unknown;
   OS: string;
   onUndoArchive: (conversaetionId: string) => unknown;
-  toast?: {
-    toastType: ToastType;
-    parameters?: ReplacementValuesType;
-  };
+  toast?: AnyToast;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
@@ -40,7 +38,7 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--adding-user-to-group', {
-          contact: toast.parameters?.contact,
+          contact: toast.parameters.contact,
         })}
       </Toast>
     );
@@ -117,9 +115,7 @@ export function ToastManager({
         toastAction={{
           label: i18n('icu:conversationArchivedUndo'),
           onClick: () => {
-            if (toast.parameters && 'conversationId' in toast.parameters) {
-              onUndoArchive(String(toast.parameters.conversationId));
-            }
+            onUndoArchive(String(toast.parameters.conversationId));
           },
         }}
       >
@@ -138,7 +134,7 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:Toast--ConversationRemoved', {
-          title: toast?.parameters?.title ?? '',
+          title: toast.parameters.title,
         })}
       </Toast>
     );
@@ -212,9 +208,7 @@ export function ToastManager({
         toastAction={{
           label: i18n('icu:attachmentSavedShow'),
           onClick: () => {
-            if (toast.parameters && 'fullPath' in toast.parameters) {
-              openFileInFolder(String(toast.parameters.fullPath));
-            }
+            openFileInFolder(toast.parameters.fullPath);
           },
         }}
       >
@@ -227,8 +221,8 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:fileSizeWarning', {
-          limit: toast.parameters?.limit,
-          units: toast.parameters?.units,
+          limit: toast.parameters.limit,
+          units: toast.parameters.units,
         })}
       </Toast>
     );
@@ -330,6 +324,17 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.TooManyMessagesToDeleteForEveryone) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n(
+          'icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone',
+          { count: toast.parameters.count }
+        )}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.TooManyMessagesToForward) {
     return (
       <Toast onClose={hideToast}>
@@ -364,8 +369,8 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--user-added-to-group', {
-          contact: toast.parameters?.contact,
-          group: toast.parameters?.group,
+          contact: toast.parameters.contact,
+          group: toast.parameters.group,
         })}
       </Toast>
     );

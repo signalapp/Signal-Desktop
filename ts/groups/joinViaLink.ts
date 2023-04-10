@@ -72,7 +72,9 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
-    window.reduxActions.toast.showToast(ToastType.AlreadyGroupMember);
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.AlreadyGroupMember,
+    });
     return;
   }
 
@@ -166,7 +168,9 @@ export async function joinViaLink(hash: string): Promise<void> {
       conversationId: existingConversation.id,
     });
 
-    window.reduxActions.toast.showToast(ToastType.AlreadyRequestedToJoin);
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.AlreadyRequestedToJoin,
+    });
     return;
   }
 

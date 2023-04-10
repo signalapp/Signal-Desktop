@@ -265,8 +265,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationType: overrideProps.conversationType || 'direct',
   contact: overrideProps.contact,
   deletedForEveryone: overrideProps.deletedForEveryone,
-  deleteMessages: action('deleteMessages'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   // disableMenu: overrideProps.disableMenu,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
@@ -350,6 +348,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),

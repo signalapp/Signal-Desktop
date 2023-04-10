@@ -127,7 +127,7 @@ export function ForwardMessagesModal({
 
   const forwardMessages = React.useCallback(() => {
     if (!canForwardMessages) {
-      showToast(ToastType.CannotForwardEmptyMessage);
+      showToast({ toastType: ToastType.CannotForwardEmptyMessage });
       return;
     }
     const conversationIds = selectedContacts.map(contact => contact.id);

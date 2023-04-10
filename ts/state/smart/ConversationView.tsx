@@ -51,6 +51,7 @@ export function SmartConversationView(): JSX.Element {
   const hasOpenModal = useSelector((state: StateType) => {
     return (
       state.globalModals.forwardMessagesProps != null ||
+      state.globalModals.deleteMessagesProps != null ||
       state.globalModals.hasConfirmationModal
     );
   });

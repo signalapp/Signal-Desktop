@@ -21,7 +21,7 @@ import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
 import type { ReplyStateType, StoryViewType } from '../types/Stories';
-import type { ShowToastActionCreatorType } from '../state/ducks/toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import * as log from '../logging/log';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
@@ -113,7 +113,7 @@ export type PropsType = {
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
-  showToast: ShowToastActionCreatorType;
+  showToast: ShowToastAction;
   skinTone?: number;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
@@ -786,7 +786,7 @@ export function StoryViewer({
                   onClick={
                     hasAudio
                       ? () => setHasAllStoriesUnmuted(!hasAllStoriesUnmuted)
-                      : () => showToast(ToastType.StoryMuted)
+                      : () => showToast({ toastType: ToastType.StoryMuted })
                   }
                   type="button"
                 />
@@ -940,14 +940,14 @@ export function StoryViewer({
               onReactToStory(emoji, story);
               if (!isGroupStory) {
                 setCurrentViewTarget(null);
-                showToast(ToastType.StoryReact);
+                showToast({ toastType: ToastType.StoryReact });
               }
               setReactionEmoji(emoji);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {
                 setCurrentViewTarget(null);
-                showToast(ToastType.StoryReply);
+                showToast({ toastType: ToastType.StoryReply });
               }
               onReplyToStory(message, mentions, replyTimestamp, story);
             }}

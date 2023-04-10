@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { useState, useCallback } from 'react';
 
 import type { LocalizerType } from '../types/Util';
-import type { ShowToastActionCreatorType } from '../state/ducks/toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 import { ContextMenu } from './ContextMenu';
 import { Theme } from '../util/theme';
 import { ToastType } from '../types/Toast';
@@ -22,7 +22,7 @@ export type PropsType = {
   moduleClassName?: string;
   onAddStory: (file?: File) => unknown;
   onContextMenuShowingChanged?: (value: boolean) => void;
-  showToast: ShowToastActionCreatorType;
+  showToast: ShowToastAction;
 };
 
 export function StoriesAddStoryButton({
@@ -55,7 +55,7 @@ export function StoriesAddStoryButton({
         result.reason === ReasonVideoNotGood.UnsupportedCodec ||
         result.reason === ReasonVideoNotGood.UnsupportedContainer
       ) {
-        showToast(ToastType.StoryVideoUnsupported);
+        showToast({ toastType: ToastType.StoryVideoUnsupported });
         return;
       }
 
@@ -79,7 +79,7 @@ export function StoriesAddStoryButton({
       }
 
       if (result.reason !== ReasonVideoNotGood.AllGoodNevermind) {
-        showToast(ToastType.StoryVideoError);
+        showToast({ toastType: ToastType.StoryVideoError });
         return;
       }
 

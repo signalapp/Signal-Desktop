@@ -139,7 +139,9 @@ export function SmartStoryViewer(): JSX.Element | null {
         );
       }}
       onSetSkinTone={onSetSkinTone}
-      onTextTooLong={() => showToast(ToastType.MessageBodyTooLong)}
+      onTextTooLong={() => {
+        showToast({ toastType: ToastType.MessageBodyTooLong });
+      }}
       onUseEmoji={onUseEmoji}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       preferredReactionEmoji={preferredReactionEmoji}

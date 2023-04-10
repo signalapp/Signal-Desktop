@@ -21,6 +21,7 @@ import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
 
 function renderEditHistoryMessagesModal(): JSX.Element {
   return <SmartEditHistoryMessagesModal />;
@@ -32,6 +33,10 @@ function renderProfileEditor(): JSX.Element {
 
 function renderContactModal(): JSX.Element {
   return <SmartContactModal />;
+}
+
+function renderDeleteMessagesModal(): JSX.Element {
+  return <SmartDeleteMessagesModal />;
 }
 
 function renderForwardMessagesModal(): JSX.Element {
@@ -62,6 +67,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     contactModalState,
     editHistoryMessages,
     errorModalProps,
+    deleteMessagesProps,
     forwardMessagesProps,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
@@ -128,6 +134,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       contactModalState={contactModalState}
       editHistoryMessages={editHistoryMessages}
       errorModalProps={errorModalProps}
+      deleteMessagesProps={deleteMessagesProps}
       forwardMessagesProps={forwardMessagesProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
@@ -142,6 +149,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderContactModal={renderContactModal}
       renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
       renderErrorModal={renderErrorModal}
+      renderDeleteMessagesModal={renderDeleteMessagesModal}
       renderForwardMessagesModal={renderForwardMessagesModal}
       renderProfileEditor={renderProfileEditor}
       renderSafetyNumber={renderSafetyNumber}

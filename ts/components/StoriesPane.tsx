@@ -12,7 +12,7 @@ import type {
 import type { ConversationStoryType, MyStoryType } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { ShowToastActionCreatorType } from '../state/ducks/toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { ContextMenu } from './ContextMenu';
 import { MyStoryButton } from './MyStoryButton';
@@ -68,7 +68,7 @@ export type PropsType = {
   onMediaPlaybackStart: () => void;
   queueStoryDownload: (storyId: string) => unknown;
   showConversation: ShowConversationType;
-  showToast: ShowToastActionCreatorType;
+  showToast: ShowToastAction;
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;

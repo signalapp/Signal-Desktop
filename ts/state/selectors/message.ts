@@ -74,6 +74,7 @@ import {
   getSelectedMessageIds,
   getTargetedMessage,
   isMissingRequiredProfileSharing,
+  getMessages,
 } from './conversations';
 import {
   getIntl,
@@ -1798,6 +1799,16 @@ export function canDeleteForEveryone(
     someSendStatus(message.sendStateByConversationId, isSent)
   );
 }
+
+export const canDeleteMessagesForEveryone = createSelector(
+  [getMessages, (_state, messageIds: ReadonlyArray<string>) => messageIds],
+  (messagesLookup, messageIds) => {
+    return messageIds.every(messageId => {
+      const message = getOwn(messagesLookup, messageId);
+      return message != null && canDeleteForEveryone(message);
+    });
+  }
+);
 
 export function canRetryDeleteForEveryone(
   message: Pick<

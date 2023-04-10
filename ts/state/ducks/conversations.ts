@@ -1001,7 +1001,7 @@ export const actions = {
   deleteAvatarFromDisk,
   deleteConversation,
   deleteMessages,
-  deleteMessageForEveryone,
+  deleteMessagesForEveryone,
   destroyMessages,
   discardMessages,
   doubleCheckMissingQuoteReference,
@@ -2857,8 +2857,8 @@ function popPanelForConversation(): ThunkAction<
   };
 }
 
-function deleteMessageForEveryone(
-  messageId: string
+function deleteMessagesForEveryone(
+  messageIds: ReadonlyArray<string>
 ): ThunkAction<
   void,
   RootStateType,
@@ -2866,38 +2866,49 @@ function deleteMessageForEveryone(
   NoopActionType | ShowToastActionType
 > {
   return async dispatch => {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(
-        `deleteMessageForEveryone: Message ${messageId} missing!`
-      );
-    }
+    let hasError = false;
 
-    const conversation = message.getConversation();
-    if (!conversation) {
-      throw new Error('deleteMessageForEveryone: no conversation');
-    }
+    await Promise.all(
+      messageIds.map(async messageId => {
+        try {
+          const message = window.MessageController.getById(messageId);
+          if (!message) {
+            throw new Error(
+              `deleteMessageForEveryone: Message ${messageId} missing!`
+            );
+          }
 
-    try {
-      await sendDeleteForEveryoneMessage(conversation.attributes, {
-        id: message.id,
-        timestamp: message.get('sent_at'),
-      });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
-    } catch (error) {
-      log.error(
-        'Error sending delete-for-everyone',
-        Errors.toLogFormat(error),
-        messageId
-      );
+          const conversation = message.getConversation();
+          if (!conversation) {
+            throw new Error('deleteMessageForEveryone: no conversation');
+          }
+
+          await sendDeleteForEveryoneMessage(conversation.attributes, {
+            id: message.id,
+            timestamp: message.get('sent_at'),
+          });
+        } catch (error) {
+          hasError = true;
+          log.error(
+            'Error queuing delete-for-everyone job',
+            Errors.toLogFormat(error),
+            messageId
+          );
+        }
+      })
+    );
+
+    if (hasError) {
       dispatch({
         type: SHOW_TOAST,
         payload: {
           toastType: ToastType.DeleteForEveryoneFailed,
         },
+      });
+    } else {
+      dispatch({
+        type: 'NOOP',
+        payload: null,
       });
     }
   };

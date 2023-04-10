@@ -5,6 +5,7 @@ import React from 'react';
 import type {
   AuthorizeArtCreatorDataType,
   ContactModalStateType,
+  DeleteMessagesPropsType,
   EditHistoryMessagesType,
   ForwardMessagesPropsType,
   SafetyNumberChangedBlockingDataType,
@@ -38,6 +39,9 @@ export type PropsType = {
     description?: string;
     title?: string;
   }) => JSX.Element;
+  // DeleteMessageModal
+  deleteMessagesProps: DeleteMessagesPropsType | undefined;
+  renderDeleteMessagesModal: () => JSX.Element;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
@@ -92,6 +96,9 @@ export function GlobalModalContainer({
   // ErrorModal
   errorModalProps,
   renderErrorModal,
+  // DeleteMessageModal
+  deleteMessagesProps,
+  renderDeleteMessagesModal,
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
@@ -156,6 +163,10 @@ export function GlobalModalContainer({
 
   if (editHistoryMessages) {
     return renderEditHistoryMessagesModal();
+  }
+
+  if (deleteMessagesProps) {
+    return renderDeleteMessagesModal();
   }
 
   if (forwardMessagesProps) {
