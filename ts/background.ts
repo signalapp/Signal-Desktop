@@ -3380,11 +3380,12 @@ export async function startApp(): Promise<void> {
       };
     }
 
-    const { conversation } = window.ConversationController.maybeMergeContacts({
-      aci: destinationUuid,
+    const conversation = window.ConversationController.lookupOrCreate({
+      uuid: destinationUuid,
       e164: destination,
       reason: `getMessageDescriptor(${message.timestamp}): private`,
     });
+    strictAssert(conversation, 'Destination conversation cannot be created');
 
     return {
       type: Message.PRIVATE,
