@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { sleep } from '../../util';
+import { sleep } from '../../util/sleep';
 import { MINUTE } from '../../util/durations';
 import { drop } from '../../util/drop';
 

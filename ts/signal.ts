@@ -10,7 +10,9 @@ import Data from './sql/Client';
 import * as Groups from './groups';
 import * as OS from './OS';
 import * as RemoteConfig from './RemoteConfig';
-import * as Util from './util';
+import * as GoogleChrome from './util/GoogleChrome';
+import * as Registration from './util/registration';
+import * as zkgroup from './util/zkgroup';
 
 // Components
 import { ConfirmationDialog } from './components/ConfirmationDialog';
@@ -47,6 +49,25 @@ import type { EmbeddedContactType } from './types/EmbeddedContact';
 import type { ContactWithHydratedAvatar } from './textsecure/SendMessage';
 import type { LinkPreviewType } from './types/message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers';
+import { MessageController } from './util/MessageController';
+import {
+  flushMessageCounter,
+  incrementMessageCounter,
+  initializeMessageCounter,
+} from './util/incrementMessageCounter';
+import { sleep } from './util/sleep';
+import {
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+  setBatchingStrategy,
+} from './util/messageBatcher';
+import { sendContentMessageToGroup, sendToGroup } from './util/sendToGroup';
+import { makeLookup } from './util/makeLookup';
+import { getStringForProfileChange } from './util/getStringForProfileChange';
+import { deleteForEveryone } from './util/deleteForEveryone';
+import { RetryPlaceholders } from './util/retryPlaceholders';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+import { createBatcher } from './util/batcher';
 
 type MigrationsModuleType = {
   attachmentsPath: string;
@@ -401,6 +422,26 @@ export const setup = (options: {
     Services,
     State,
     Types,
-    Util,
+    Util: {
+      createBatcher,
+      deleteForEveryone,
+      flushMessageCounter,
+      getStringForProfileChange,
+      GoogleChrome,
+      incrementMessageCounter,
+      initializeMessageCounter,
+      makeLookup,
+      MessageController,
+      parseRemoteClientExpiration,
+      queueUpdateMessage,
+      Registration,
+      RetryPlaceholders,
+      saveNewMessageBatcher,
+      sendContentMessageToGroup,
+      sendToGroup,
+      setBatchingStrategy,
+      sleep,
+      zkgroup,
+    },
   };
 };

@@ -26,7 +26,7 @@ import * as log from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
 import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
-import { missingCaseError } from '../../util';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export type Contact = Pick<
   ConversationType,

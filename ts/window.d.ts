@@ -8,9 +8,10 @@ import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
-
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
-import type * as Util from './util';
+import type * as Registration from './util/registration';
+import type * as zkgroup from './util/zkgroup';
+
 import type {
   ConversationModelCollectionType,
   MessageModelCollectionType,
@@ -40,7 +41,7 @@ import type { createApp } from './state/roots/createApp';
 import type Data from './sql/Client';
 import type { MessageModel } from './models/messages';
 import type { ConversationModel } from './models/conversations';
-import type { BatcherType } from './util/batcher';
+import type { BatcherType, createBatcher } from './util/batcher';
 import type { ConfirmationDialog } from './components/ConfirmationDialog';
 import type { SignalProtocolStore } from './SignalProtocolStore';
 import type { SocketStatus } from './types/SocketStatus';
@@ -56,6 +57,27 @@ import type { IPCEventsType } from './util/createIPCEvents';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
+import type {
+  flushMessageCounter,
+  incrementMessageCounter,
+  initializeMessageCounter,
+} from './util/incrementMessageCounter';
+import type { RetryPlaceholders } from './util/retryPlaceholders';
+import type { sleep } from './util/sleep';
+import type {
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+  setBatchingStrategy,
+} from './util/messageBatcher';
+import type {
+  sendContentMessageToGroup,
+  sendToGroup,
+} from './util/sendToGroup';
+import type * as GoogleChrome from './util/GoogleChrome';
+import type { makeLookup } from './util/makeLookup';
+import type { getStringForProfileChange } from './util/getStringForProfileChange';
+import type { deleteForEveryone } from './util/deleteForEveryone';
+import type { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
 
 export { Long } from 'long';
 
@@ -122,7 +144,7 @@ export type SignalCoreType = {
     initializeGroupCredentialFetcher: () => Promise<void>;
     initializeNetworkObserver: (network: ReduxActions['network']) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-    retryPlaceholders?: Util.RetryPlaceholders;
+    retryPlaceholders?: RetryPlaceholders;
     lightSessionResetQueue?: PQueue;
     storage: typeof StorageService;
   };
@@ -133,7 +155,27 @@ export type SignalCoreType = {
     Address: typeof Address;
     QualifiedAddress: typeof QualifiedAddress;
   };
-  Util: typeof Util;
+  Util: {
+    createBatcher: typeof createBatcher;
+    deleteForEveryone: typeof deleteForEveryone;
+    flushMessageCounter: typeof flushMessageCounter;
+    getStringForProfileChange: typeof getStringForProfileChange;
+    GoogleChrome: typeof GoogleChrome;
+    incrementMessageCounter: typeof incrementMessageCounter;
+    initializeMessageCounter: typeof initializeMessageCounter;
+    makeLookup: typeof makeLookup;
+    MessageController: typeof MessageController;
+    parseRemoteClientExpiration: typeof parseRemoteClientExpiration;
+    queueUpdateMessage: typeof queueUpdateMessage;
+    Registration: typeof Registration;
+    RetryPlaceholders: typeof RetryPlaceholders;
+    saveNewMessageBatcher: typeof saveNewMessageBatcher;
+    sendContentMessageToGroup: typeof sendContentMessageToGroup;
+    sendToGroup: typeof sendToGroup;
+    setBatchingStrategy: typeof setBatchingStrategy;
+    sleep: typeof sleep;
+    zkgroup: typeof zkgroup;
+  };
   Components: {
     ConfirmationDialog: typeof ConfirmationDialog;
   };

@@ -32,7 +32,7 @@ import type { HydratedBodyRangeType } from '../../types/BodyRange';
 import { BodyRange } from '../../types/BodyRange';
 import * as log from '../../logging/log';
 import { getOwn } from '../../util/getOwn';
-import { missingCaseError } from '../../util';
+import { missingCaseError } from '../../util/missingCaseError';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
