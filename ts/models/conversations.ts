@@ -3290,6 +3290,10 @@ export class ConversationModel extends window.Backbone
         this.set('senderKeyInfo', updatedSenderKeyInfo);
         window.Signal.Data.updateConversation(this.attributes);
       }
+
+      if (isDirectConversation(this.attributes)) {
+        this.captureChange(`addKeyChange(${reason})`);
+      }
     });
   }
 
