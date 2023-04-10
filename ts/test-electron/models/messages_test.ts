@@ -588,9 +588,15 @@ describe('Message', () => {
   });
 
   describe('getNotificationText', () => {
-    it("returns a notification's text", () => {
+    it("returns a notification's text", async () => {
       assert.strictEqual(
         createMessage({
+          conversationId: (
+            await window.ConversationController.getOrCreateAndWait(
+              UUID.generate().toString(),
+              'private'
+            )
+          ).id,
           type: 'incoming',
           source,
           body: 'hello world',
@@ -599,7 +605,7 @@ describe('Message', () => {
       );
     });
 
-    it("shows a notification's emoji on non-Linux", function test() {
+    it("shows a notification's emoji on non-Linux", async function test() {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -609,6 +615,12 @@ describe('Message', () => {
 
       assert.strictEqual(
         createMessage({
+          conversationId: (
+            await window.ConversationController.getOrCreateAndWait(
+              UUID.generate().toString(),
+              'private'
+            )
+          ).id,
           type: 'incoming',
           source,
           attachments: [
@@ -621,7 +633,7 @@ describe('Message', () => {
       );
     });
 
-    it('hides emoji on Linux', function test() {
+    it('hides emoji on Linux', async function test() {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -631,6 +643,12 @@ describe('Message', () => {
 
       assert.strictEqual(
         createMessage({
+          conversationId: (
+            await window.ConversationController.getOrCreateAndWait(
+              UUID.generate().toString(),
+              'private'
+            )
+          ).id,
           type: 'incoming',
           source,
           attachments: [

@@ -47,8 +47,11 @@ describe('Conversations', () => {
       password: 'password',
     });
     await window.ConversationController.load();
-
-    await window.Signal.Data.saveConversation(conversation.attributes);
+    await window.ConversationController.getOrCreateAndWait(
+      conversation.attributes.e164 ?? null,
+      conversation.attributes.type,
+      conversation.attributes
+    );
 
     // Creating a fake message
     const now = Date.now();

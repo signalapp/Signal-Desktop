@@ -4475,6 +4475,10 @@
     "messageformat": "Draft:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
   },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Message Request",
+    "description": "Shown in notifications and in the left pane when a message request is received."
+  },
   "message--getNotificationText--gif": {
     "message": "GIF",
     "description": "(deleted 03/29/2023) Shown in notifications and in the left pane when a GIF is received."

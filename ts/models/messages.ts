@@ -185,6 +185,7 @@ import * as Edits from '../messageModifiers/Edits';
 import { handleEditMessage } from '../util/handleEditMessage';
 import { getQuoteBodyText } from '../util/getQuoteBodyText';
 import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
+import { isConversationAccepted } from '../util/isConversationAccepted';
 import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange, applyRangesForText } from '../types/BodyRange';
 
@@ -830,6 +831,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   getNotificationText(): string {
     const { text, emoji } = this.getNotificationData();
     const { attributes } = this;
+
+    const conversation = this.getConversation();
+
+    strictAssert(
+      conversation != null,
+      'Conversation not found in ConversationController'
+    );
+
+    if (!isConversationAccepted(conversation.attributes)) {
+      return window.i18n('icu:message--getNotificationText--messageRequest');
+    }
 
     if (attributes.storyReaction) {
       if (attributes.type === 'outgoing') {
