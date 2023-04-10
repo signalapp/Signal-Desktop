@@ -42,6 +42,7 @@ import {
   reduceStorySendStatus,
   resolveStorySendStatus,
 } from '../../util/resolveStorySendStatus';
+import { BodyRange } from '../../types/BodyRange';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -183,6 +184,7 @@ export function getStoryView(
 
   const {
     attachment,
+    bodyRanges,
     expirationStartTimestamp,
     expireTimer,
     readAt,
@@ -222,6 +224,7 @@ export function getStoryView(
 
   return {
     attachment,
+    bodyRanges: bodyRanges?.filter(BodyRange.isFormatting),
     canReply: canReply(story, ourConversationId, conversationSelector),
     isHidden: Boolean(sender.hideStory),
     isUnread: story.readStatus === ReadStatus.Unread,
@@ -305,13 +308,17 @@ export const getStoryReplies = createSelector(
         author: getAvatarData(conversation),
         ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
         bodyRanges: bodyRanges?.map(bodyRange => {
-          const mentionConvo = conversationSelector(bodyRange.mentionUuid);
+          if (BodyRange.isMention(bodyRange)) {
+            const mentionConvo = conversationSelector(bodyRange.mentionUuid);
 
-          return {
-            ...bodyRange,
-            conversationID: mentionConvo.id,
-            replacementText: mentionConvo.title,
-          };
+            return {
+              ...bodyRange,
+              conversationID: mentionConvo.id,
+              replacementText: mentionConvo.title,
+            };
+          }
+
+          return bodyRange;
         }),
         reactionEmoji: reply.storyReaction?.emoji,
         contactNameColor: contactNameColorSelector(

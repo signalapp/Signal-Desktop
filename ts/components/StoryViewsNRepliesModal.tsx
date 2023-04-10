@@ -11,7 +11,8 @@ import React, {
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { InputApi } from './CompositionInput';
@@ -94,7 +95,7 @@ export type PropsType = {
   onReact: (emoji: string) => unknown;
   onReply: (
     message: string,
-    mentions: DraftBodyRangesType,
+    mentions: ReadonlyArray<DraftBodyRangeMention>,
     timestamp: number
   ) => unknown;
   onSetSkinTone: (tone: number) => unknown;
@@ -146,6 +147,14 @@ export function StoryViewsNRepliesModal({
   const [deleteForEveryoneReplyId, setDeleteForEveryoneReplyId] = useState<
     string | undefined
   >(undefined);
+
+  // These states aren't in redux; they are meant to last only as long as this dialog.
+  const [revealedSpoilersById, setRevealedSpoilersById] = useState<
+    Record<string, boolean | undefined>
+  >({});
+  const [displayLimitById, setDisplayLimitById] = useState<
+    Record<string, number | undefined>
+  >({});
 
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const inputApiRef = useRef<InputApi | undefined>();
@@ -287,15 +296,31 @@ export function StoryViewsNRepliesModal({
               deleteGroupStoryReplyForEveryone={() =>
                 setDeleteForEveryoneReplyId(reply.id)
               }
+              displayLimit={displayLimitById[reply.id]}
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               platform={platform}
               id={reply.id}
               isInternalUser={isInternalUser}
+              isSpoilerExpanded={revealedSpoilersById[reply.id] || false}
+              messageExpanded={(messageId, displayLimit) => {
+                const update = {
+                  ...displayLimitById,
+                  [messageId]: displayLimit,
+                };
+                setDisplayLimitById(update);
+              }}
               reply={reply}
               shouldCollapseAbove={shouldCollapse(reply, replies[index - 1])}
               shouldCollapseBelow={shouldCollapse(reply, replies[index + 1])}
               showContactModal={showContactModal}
+              showSpoiler={messageId => {
+                const update = {
+                  ...revealedSpoilersById,
+                  [messageId]: true,
+                };
+                setRevealedSpoilersById(update);
+              }}
             />
           );
         })}
@@ -465,31 +490,39 @@ type ReplyOrReactionMessageProps = {
   containerElementRef: React.RefObject<HTMLElement>;
   deleteGroupStoryReply: (replyId: string) => void;
   deleteGroupStoryReplyForEveryone: (replyId: string) => void;
+  displayLimit: number | undefined;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   platform: string;
   id: string;
   isInternalUser?: boolean;
+  isSpoilerExpanded: boolean;
   onContextMenu?: (ev: React.MouseEvent) => void;
   reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   showContactModal: (contactId: string, conversationId?: string) => void;
+  messageExpanded: (messageId: string, displayLimit: number) => void;
+  showSpoiler: (messageId: string) => void;
 };
 
 function ReplyOrReactionMessage({
+  containerElementRef,
+  deleteGroupStoryReply,
+  deleteGroupStoryReplyForEveryone,
+  displayLimit,
+  getPreferredBadge,
   i18n,
   id,
   isInternalUser,
-  reply,
-  deleteGroupStoryReply,
-  deleteGroupStoryReplyForEveryone,
-  containerElementRef,
-  getPreferredBadge,
+  isSpoilerExpanded,
+  messageExpanded,
   platform,
+  reply,
   shouldCollapseAbove,
   shouldCollapseBelow,
   showContactModal,
+  showSpoiler,
 }: ReplyOrReactionMessageProps) {
   const renderContent = (onContextMenu?: (ev: React.MouseEvent) => void) => {
     if (reply.reactionEmoji && !reply.deletedForEveryone) {
@@ -549,21 +582,25 @@ function ReplyOrReactionMessage({
           conversationId={reply.conversationId}
           conversationTitle={reply.author.title}
           conversationType="group"
-          direction="incoming"
           deletedForEveryone={reply.deletedForEveryone}
-          renderMenu={undefined}
-          onContextMenu={onContextMenu}
+          direction="incoming"
+          displayLimit={displayLimit}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           platform={platform}
           id={reply.id}
           interactionMode="mouse"
+          isSpoilerExpanded={isSpoilerExpanded}
+          messageExpanded={messageExpanded}
+          onContextMenu={onContextMenu}
           readStatus={reply.readStatus}
           renderingContext="StoryViewsNRepliesModal"
+          renderMenu={undefined}
           shouldCollapseAbove={shouldCollapseAbove}
           shouldCollapseBelow={shouldCollapseBelow}
           shouldHideMetadata={false}
           showContactModal={showContactModal}
+          showSpoiler={showSpoiler}
           text={reply.body}
           textDirection={TextDirection.Default}
           timestamp={reply.timestamp}

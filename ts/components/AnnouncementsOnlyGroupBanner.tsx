@@ -38,7 +38,7 @@ export function AnnouncementsOnlyGroupBanner({
           {groupAdmins.map(admin => (
             <ConversationListItem
               {...admin}
-              draftPreview=""
+              draftPreview={undefined}
               i18n={i18n}
               lastMessage={undefined}
               lastUpdated={undefined}

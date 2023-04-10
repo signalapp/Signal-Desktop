@@ -115,8 +115,8 @@ import {
   isUniversalTimerNotification,
   isUnsupportedMessage,
   isVerifiedChange,
-  processBodyRanges,
   isConversationMerge,
+  extractHydratedMentions,
 } from '../state/selectors/message';
 import {
   isInCall,
@@ -185,6 +185,8 @@ import * as Edits from '../messageModifiers/Edits';
 import { handleEditMessage } from '../util/handleEditMessage';
 import { getQuoteBodyText } from '../util/getQuoteBodyText';
 import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
+import type { RawBodyRange } from '../types/BodyRange';
+import { BodyRange, applyRangesForText } from '../types/BodyRange';
 
 /* eslint-disable more/no-then */
 
@@ -192,7 +194,7 @@ window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
 const { upgradeMessageSchema } = window.Signal.Migrations;
-const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
+const { GoogleChrome } = window.Signal.Util;
 const { getMessageBySender } = window.Signal.Data;
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
@@ -415,7 +417,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return window.ConversationController.get(this.get('conversationId'));
   }
 
-  getNotificationData(): { emoji?: string; text: string } {
+  getNotificationData(): {
+    emoji?: string;
+    text: string;
+    bodyRanges?: ReadonlyArray<RawBodyRange>;
+  } {
     // eslint-disable-next-line prefer-destructuring
     const attributes: MessageAttributesType = this.attributes;
 
@@ -654,6 +660,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const body = (this.get('body') || '').trim();
+    const bodyRanges = this.get('bodyRanges') || [];
 
     if (attachments.length) {
       // This should never happen but we want to be extra-careful.
@@ -662,39 +669,46 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachments)) {
         return {
-          text: body || window.i18n('icu:message--getNotificationText--gif'),
+          bodyRanges,
           emoji: '🎡',
+          text: body || window.i18n('icu:message--getNotificationText--gif'),
         };
       }
       if (Attachment.isImage(attachments)) {
         return {
-          text: body || window.i18n('icu:message--getNotificationText--photo'),
+          bodyRanges,
           emoji: '📷',
+          text: body || window.i18n('icu:message--getNotificationText--photo'),
         };
       }
       if (Attachment.isVideo(attachments)) {
         return {
-          text: body || window.i18n('icu:message--getNotificationText--video'),
+          bodyRanges,
           emoji: '🎥',
+          text: body || window.i18n('icu:message--getNotificationText--video'),
         };
       }
       if (Attachment.isVoiceMessage(attachment)) {
         return {
+          bodyRanges,
+          emoji: '🎤',
           text:
             body ||
             window.i18n('icu:message--getNotificationText--voice-message'),
-          emoji: '🎤',
         };
       }
       if (Attachment.isAudio(attachments)) {
         return {
+          bodyRanges,
+          emoji: '🔈',
           text:
             body ||
             window.i18n('icu:message--getNotificationText--audio-message'),
-          emoji: '🔈',
         };
       }
+
       return {
+        bodyRanges,
         text: body || window.i18n('icu:message--getNotificationText--file'),
         emoji: '📎',
       };
@@ -793,24 +807,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (body) {
-      return { text: body };
+      return {
+        text: body,
+        bodyRanges,
+      };
     }
 
     return { text: '' };
-  }
-
-  getRawText(): string {
-    const body = (this.get('body') || '').trim();
-    const { attributes } = this;
-
-    const bodyRanges = processBodyRanges(attributes, {
-      conversationSelector: findAndFormatContact,
-    });
-    if (bodyRanges) {
-      return getTextWithMentions(bodyRanges, body);
-    }
-
-    return body;
   }
 
   getAuthorText(): string | undefined {
@@ -867,15 +870,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return window.i18n('icu:Quote__story-reaction--single');
     }
 
-    let modifiedText = text;
-
-    const bodyRanges = processBodyRanges(attributes, {
-      conversationSelector: findAndFormatContact,
-    });
-
-    if (bodyRanges && bodyRanges.length) {
-      modifiedText = getTextWithMentions(bodyRanges, modifiedText);
-    }
+    const mentions =
+      extractHydratedMentions(attributes, {
+        conversationSelector: findAndFormatContact,
+      }) || [];
+    const spoilers = (attributes.bodyRanges || []).filter(
+      range =>
+        BodyRange.isFormatting(range) && range.style === BodyRange.Style.SPOILER
+    ) as Array<BodyRange<BodyRange.Formatting>>;
+    const modifiedText = applyRangesForText({ text, mentions, spoilers });
 
     // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
     //   the `text`, which can contain emoji.)
@@ -886,7 +889,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         emoji,
       });
     }
-    return modifiedText;
+
+    return modifiedText || '';
   }
 
   // General

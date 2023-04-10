@@ -11,13 +11,14 @@ import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
-import type { BodyRangesType, BytesToStrings } from '../types/Util';
+import type { BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 import type { ReadStatus } from '../messages/MessageReadStatus';
+import type { RawBodyRange } from '../types/BodyRange';
 import type { GetMessagesBetweenOptions } from './Server';
 import type { MessageTimestamps } from '../state/ducks/conversations';
 
@@ -129,7 +130,7 @@ export type ServerSearchResultMessageType = {
 };
 export type ClientSearchResultMessageType = MessageType & {
   json: string;
-  bodyRanges: BodyRangesType;
+  bodyRanges: ReadonlyArray<RawBodyRange>;
   snippet: string;
 };
 

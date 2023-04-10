@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { noop } from 'lodash';
 
 import type { AttachmentType } from '../types/Attachment';
@@ -86,6 +86,14 @@ export function EditHistoryMessagesModal({
     [closeEditHistoryModal, showLightbox]
   );
 
+  // These states aren't in redux; they are meant to last only as long as this dialog.
+  const [revealedSpoilersById, setRevealedSpoilersById] = useState<
+    Record<string, boolean | undefined>
+  >({});
+  const [displayLimitById, setDisplayLimitById] = useState<
+    Record<string, number | undefined>
+  >({});
+
   return (
     <Modal
       hasXButton
@@ -95,20 +103,41 @@ export function EditHistoryMessagesModal({
       title={i18n('icu:EditHistoryMessagesModal__title')}
     >
       <div ref={containerElementRef}>
-        {editHistoryMessages.map(messageAttributes => (
-          <Message
-            {...MESSAGE_DEFAULT_PROPS}
-            {...messageAttributes}
-            containerElementRef={containerElementRef}
-            getPreferredBadge={getPreferredBadge}
-            i18n={i18n}
-            platform={platform}
-            key={messageAttributes.timestamp}
-            kickOffAttachmentDownload={kickOffAttachmentDownload}
-            showLightbox={closeAndShowLightbox}
-            theme={theme}
-          />
-        ))}
+        {editHistoryMessages.map(messageAttributes => {
+          const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
+
+          return (
+            <Message
+              {...MESSAGE_DEFAULT_PROPS}
+              {...messageAttributes}
+              id={syntheticId}
+              containerElementRef={containerElementRef}
+              displayLimit={displayLimitById[syntheticId]}
+              getPreferredBadge={getPreferredBadge}
+              i18n={i18n}
+              isSpoilerExpanded={revealedSpoilersById[syntheticId] || false}
+              key={messageAttributes.timestamp}
+              kickOffAttachmentDownload={kickOffAttachmentDownload}
+              messageExpanded={(messageId, displayLimit) => {
+                const update = {
+                  ...displayLimitById,
+                  [messageId]: displayLimit,
+                };
+                setDisplayLimitById(update);
+              }}
+              platform={platform}
+              showLightbox={closeAndShowLightbox}
+              showSpoiler={messageId => {
+                const update = {
+                  ...revealedSpoilersById,
+                  [messageId]: true,
+                };
+                setRevealedSpoilersById(update);
+              }}
+              theme={theme}
+            />
+          );
+        })}
       </div>
     </Modal>
   );

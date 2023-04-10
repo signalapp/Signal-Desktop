@@ -4,12 +4,14 @@
 import React, { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { text } from '@storybook/addon-knobs';
 
 import type { Props } from './MessageBodyReadMore';
 import { MessageBodyReadMore } from './MessageBodyReadMore';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import type { HydratedBodyRangesType } from '../../types/BodyRange';
+import { BodyRange } from '../../types/BodyRange';
+import { RenderLocation } from './MessageTextRenderer';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -23,20 +25,34 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   displayLimit: overrideProps.displayLimit,
   i18n,
   id: 'some-id',
+  isSpoilerExpanded: overrideProps.isSpoilerExpanded === true,
   messageExpanded: action('messageExpanded'),
-  text: text('text', overrideProps.text || ''),
+  onExpandSpoiler: overrideProps.onExpandSpoiler || action('onExpandSpoiler'),
+  renderLocation: RenderLocation.Timeline,
+  text: overrideProps.text || '',
 });
 
 function MessageBodyReadMoreTest({
+  bodyRanges,
+  isSpoilerExpanded,
+  onExpandSpoiler,
   text: messageBodyText,
 }: {
+  bodyRanges?: HydratedBodyRangesType;
+  isSpoilerExpanded?: boolean;
+  onExpandSpoiler?: () => void;
   text: string;
 }): JSX.Element {
   const [displayLimit, setDisplayLimit] = useState<number | undefined>();
 
   return (
     <MessageBodyReadMore
-      {...createProps({ text: messageBodyText })}
+      {...createProps({
+        bodyRanges,
+        isSpoilerExpanded,
+        onExpandSpoiler,
+        text: messageBodyText,
+      })}
       displayLimit={displayLimit}
       messageExpanded={(_, newDisplayLimit) => setDisplayLimit(newDisplayLimit)}
     />
@@ -67,6 +83,74 @@ LotsOfCakeWithSomeCherriesOnTop.story = {
 
 export function LeafyNotBuffered(): JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />;
+}
+
+export function LongTextWithMention(): JSX.Element {
+  const bodyRanges = [
+    // This is right at boundary for better testing
+    {
+      start: 800,
+      length: 1,
+      mentionUuid: 'abc',
+      conversationID: 'x',
+      replacementText: 'Alice',
+    },
+  ];
+
+  const text = `${'x '.repeat(400)}\uFFFC woo!${'y '.repeat(100)}`;
+
+  return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
+}
+
+export function LongTextWithFormatting(): JSX.Element {
+  const bodyRanges = [
+    {
+      start: 0,
+      length: 5,
+      style: BodyRange.Style.ITALIC,
+    },
+    {
+      start: 7,
+      length: 3,
+      style: BodyRange.Style.BOLD,
+    },
+    {
+      start: 1019,
+      length: 4,
+      style: BodyRange.Style.BOLD,
+    },
+    {
+      start: 1024,
+      length: 6,
+      style: BodyRange.Style.ITALIC,
+    },
+  ];
+
+  const text = `ready? set... g${'o'.repeat(1000)}al! bold italic`;
+
+  return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
+}
+
+export function LongTextMostlySpoiler(): JSX.Element {
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState(false);
+  const bodyRanges = [
+    {
+      start: 7,
+      length: 1010,
+      style: BodyRange.Style.SPOILER,
+    },
+  ];
+
+  const text = `ready? set... g${'o'.repeat(1000)}al! bold italic`;
+
+  return (
+    <MessageBodyReadMoreTest
+      bodyRanges={bodyRanges}
+      text={text}
+      isSpoilerExpanded={isSpoilerExpanded}
+      onExpandSpoiler={() => setIsSpoilerExpanded(true)}
+    />
+  );
 }
 
 LeafyNotBuffered.story = {

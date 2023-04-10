@@ -53,6 +53,10 @@
     &--outgoing {
       background-color: $color-black-alpha-40;
     }
+
+    &--invisible {
+      visibility: hidden;
+    }
   }
 
   &__author {

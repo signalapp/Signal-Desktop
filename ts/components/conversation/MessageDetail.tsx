@@ -81,6 +81,7 @@ export type PropsReduxActions = Pick<
   | 'doubleCheckMissingQuoteReference'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
+  | 'messageExpanded'
   | 'openGiftBadge'
   | 'pushPanelForConversation'
   | 'saveAttachment'
@@ -90,6 +91,7 @@ export type PropsReduxActions = Pick<
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
+  | 'showSpoiler'
   | 'startConversation'
   | 'viewStory'
 > & {
@@ -296,13 +298,13 @@ export class MessageDetail extends React.Component<Props> {
       checkForAccount,
       clearTargetedMessage,
       contactNameColor,
-      showLightboxForViewOnceMedia,
       doubleCheckMissingQuoteReference,
       getPreferredBadge,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      messageExpanded,
       openGiftBadge,
       platform,
       pushPanelForConversation,
@@ -313,6 +315,8 @@ export class MessageDetail extends React.Component<Props> {
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showLightbox,
+      showLightboxForViewOnceMedia,
+      showSpoiler,
       startConversation,
       theme,
       viewStory,
@@ -347,16 +351,17 @@ export class MessageDetail extends React.Component<Props> {
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-            messageExpanded={noop}
-            platform={platform}
-            showConversation={showConversation}
+            messageExpanded={messageExpanded}
             openGiftBadge={openGiftBadge}
+            platform={platform}
             pushPanelForConversation={pushPanelForConversation}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
             shouldCollapseAbove={false}
             shouldCollapseBelow={false}
             shouldHideMetadata={false}
+            showConversation={showConversation}
+            showSpoiler={showSpoiler}
             scrollToQuotedMessage={() => {
               log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}

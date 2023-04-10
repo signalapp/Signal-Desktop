@@ -51,6 +51,7 @@ import type {
 } from '../textsecure/Types.d';
 import type {
   ConversationType,
+  DraftPreviewType,
   LastMessageType,
 } from '../state/ducks/conversations';
 import type {
@@ -83,8 +84,8 @@ import {
   deriveAccessKey,
 } from '../Crypto';
 import * as Bytes from '../Bytes';
-import type { BodyRangesType, DraftBodyRangesType } from '../types/Util';
-import { getTextWithMentions } from '../util/getTextWithMentions';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
+import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
@@ -153,6 +154,8 @@ import { isMemberPending } from '../util/isMemberPending';
 import { imageToBlurHash } from '../util/imageToBlurHash';
 import { ReceiptType } from '../types/Receipt';
 import { getQuoteAttachment } from '../util/makeQuote';
+import { stripNewlinesForLeftPane } from '../util/stripNewlinesForLeftPane';
+import { findAndFormatContact } from '../util/findAndFormatContact';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -1085,37 +1088,59 @@ export class ConversationModel extends window.Backbone
       draftAttachments.length > 0) as boolean;
   }
 
-  getDraftPreview(): string {
+  getDraftPreview(): DraftPreviewType {
     const draft = this.get('draft');
 
-    if (draft) {
-      const bodyRanges = this.get('draftBodyRanges') || [];
+    const rawBodyRanges = this.get('draftBodyRanges') || [];
+    const bodyRanges = rawBodyRanges.map(range => {
+      // Hydrate user information on mention
+      if (BodyRange.isMention(range)) {
+        const conversation = findAndFormatContact(range.mentionUuid);
 
-      return getTextWithMentions(bodyRanges, draft);
+        return {
+          ...range,
+          conversationID: conversation.id,
+          replacementText: conversation.title,
+        };
+      }
+
+      if (BodyRange.isFormatting(range)) {
+        return range;
+      }
+
+      throw missingCaseError(range);
+    });
+
+    if (draft) {
+      return {
+        text: stripNewlinesForLeftPane(draft),
+        bodyRanges,
+      };
     }
 
     const draftAttachments = this.get('draftAttachments') || [];
     if (draftAttachments.length > 0) {
       if (isVoiceMessage(draftAttachments[0])) {
-        return window.i18n(
-          'icu:message--getNotificationText--text-with-emoji',
-          {
-            text: window.i18n(
-              'icu:message--getNotificationText--voice-message'
-            ),
-            emoji: '🎤',
-          }
-        );
+        return {
+          text: window.i18n('icu:message--getNotificationText--voice-message'),
+          prefix: '🎤',
+        };
       }
-      return window.i18n('icu:Conversation--getDraftPreview--attachment');
+      return {
+        text: window.i18n('icu:Conversation--getDraftPreview--attachment'),
+      };
     }
 
     const quotedMessageId = this.get('quotedMessageId');
     if (quotedMessageId) {
-      return window.i18n('icu:Conversation--getDraftPreview--quote');
+      return {
+        text: window.i18n('icu:Conversation--getDraftPreview--quote'),
+      };
     }
 
-    return window.i18n('icu:Conversation--getDraftPreview--draft');
+    return {
+      text: window.i18n('icu:Conversation--getDraftPreview--draft'),
+    };
   }
 
   bumpTyping(): void {
@@ -3857,7 +3882,7 @@ export class ConversationModel extends window.Backbone
   }
 
   private getDraftBodyRanges = memoizeByThis(
-    (): DraftBodyRangesType | undefined => {
+    (): ReadonlyArray<DraftBodyRangeMention> | undefined => {
       return this.get('draftBodyRanges');
     }
   );
@@ -3870,11 +3895,37 @@ export class ConversationModel extends window.Backbone
     if (!lastMessageText) {
       return undefined;
     }
+
+    const rawBodyRanges = this.get('lastMessageBodyRanges') || [];
+    const bodyRanges = rawBodyRanges.map(range => {
+      // Hydrate user information on mention
+      if (BodyRange.isMention(range)) {
+        const conversation = findAndFormatContact(range.mentionUuid);
+
+        return {
+          ...range,
+          conversationID: conversation.id,
+          replacementText: conversation.title,
+        };
+      }
+
+      if (BodyRange.isFormatting(range)) {
+        return range;
+      }
+
+      throw missingCaseError(range);
+    });
+
+    const text = stripNewlinesForLeftPane(lastMessageText);
+    const prefix = this.get('lastMessagePrefix');
+
     return {
-      status: dropNull(this.get('lastMessageStatus')),
-      text: lastMessageText,
       author: dropNull(this.get('lastMessageAuthor')),
+      bodyRanges,
       deletedForEveryone: false,
+      prefix,
+      status: dropNull(this.get('lastMessageStatus')),
+      text,
     };
   });
 
@@ -4119,7 +4170,7 @@ export class ConversationModel extends window.Backbone
       attachments: Array<AttachmentType>;
       body: string | undefined;
       contact?: Array<ContactWithHydratedAvatar>;
-      mentions?: BodyRangesType;
+      mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
       preview?: Array<LinkPreviewType>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
@@ -4475,9 +4526,12 @@ export class ConversationModel extends window.Backbone
     }
     timestamp = timestamp || currentTimestamp;
 
+    const notificationData = previewMessage?.getNotificationData();
+
     this.set({
-      lastMessage:
-        (previewMessage ? previewMessage.getNotificationText() : '') || '',
+      lastMessage: notificationData?.text || '',
+      lastMessageBodyRanges: notificationData?.bodyRanges,
+      lastMessagePrefix: notificationData?.emoji,
       lastMessageAuthor: previewMessage?.getAuthorText(),
       lastMessageStatus:
         (previewMessage
@@ -5514,7 +5568,7 @@ export class ConversationModel extends window.Backbone
 
       const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
       const mentionsMe = (message.get('bodyRanges') || []).some(
-        range => range.mentionUuid && range.mentionUuid === ourUuid
+        range => BodyRange.isMention(range) && range.mentionUuid === ourUuid
       );
       if (!mentionsMe) {
         return;

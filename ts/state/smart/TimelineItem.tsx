@@ -128,6 +128,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
     showConversation,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showSpoiler,
     startConversation,
   } = useConversationsActions();
 
@@ -198,6 +199,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}
       showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+      showSpoiler={showSpoiler}
       startCallingLobby={startCallingLobby}
       startConversation={startConversation}
       toggleForwardMessagesModal={toggleForwardMessagesModal}

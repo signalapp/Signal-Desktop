@@ -22,7 +22,8 @@ import type {
   ReactionType,
 } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type { BodyRangesType, StoryContextType } from '../../types/Util';
+import { BodyRange } from '../../types/BodyRange';
+import type { StoryContextType } from '../../types/Util';
 import type { LoggerType } from '../../types/Logging';
 import type { StickerWithHydratedData } from '../../types/Stickers';
 import type { QuotedMessageType } from '../../model-types.d';
@@ -471,7 +472,7 @@ async function getMessageSendData({
   contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
   expireTimer: undefined | DurationInSeconds;
-  mentions: undefined | BodyRangesType;
+  mentions: undefined | ReadonlyArray<BodyRange<BodyRange.Mention>>;
   messageTimestamp: number;
   preview: Array<LinkPreviewType>;
   quote: QuotedMessageType | null;
@@ -538,7 +539,7 @@ async function getMessageSendData({
     contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
     expireTimer: message.get('expireTimer'),
-    mentions: message.get('bodyRanges'),
+    mentions: message.get('bodyRanges')?.filter(BodyRange.isMention),
     messageTimestamp,
     preview,
     quote,

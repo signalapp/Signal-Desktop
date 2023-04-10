@@ -73,6 +73,10 @@ img.emoji.max {
   height: 56px;
 }
 
+img.emoji--invisible {
+  visibility: hidden;
+}
+
 // we need these, or we'll make conversation items too big in the left-nav
 .conversations img.emoji.small {
   width: 1em;

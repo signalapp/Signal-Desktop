@@ -7,7 +7,7 @@ import type { RenderTextCallbackType } from '../../types/Util';
 
 export type Props = {
   text: string;
-  /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
+  /** Allows you to customize how non-newlines are rendered. Simplest is just a <span>. */
   renderNonNewLine?: RenderTextCallbackType;
 };
 

@@ -16,7 +16,7 @@ import { isNotNil } from './isNotNil';
 import { resetLinkPreview } from '../services/LinkPreview';
 import { getRecipientsByConversation } from './getRecipientsByConversation';
 import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
-import type { BodyRangesType } from '../types/Util';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { drop } from './drop';
 import { toLogFormat } from '../types/errors';
@@ -168,7 +168,7 @@ export async function maybeForwardMessages(
         attachments: Array<AttachmentType>;
         body: string | undefined;
         contact?: Array<ContactWithHydratedAvatar>;
-        mentions?: BodyRangesType;
+        mentions?: Array<DraftBodyRangeMention>;
         preview?: Array<LinkPreviewType>;
         quote?: QuotedMessageType;
         sticker?: StickerWithHydratedData;

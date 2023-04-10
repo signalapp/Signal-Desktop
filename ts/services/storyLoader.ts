@@ -101,6 +101,7 @@ export function getStoryDataFromMessageAttributes(
     attachment,
     messageId: message.id,
     ...pick(message, [
+      'bodyRanges',
       'canReplyToStory',
       'conversationId',
       'deletedForEveryone',

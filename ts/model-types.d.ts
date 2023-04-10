@@ -6,7 +6,7 @@
 import * as Backbone from 'backbone';
 
 import type { GroupV2ChangeType } from './groups';
-import type { DraftBodyRangesType, BodyRangesType } from './types/Util';
+import type { DraftBodyRangeMention, RawBodyRange } from './types/BodyRange';
 import type { CallHistoryDetailsFromDiskType } from './types/Calling';
 import type { CustomColorType, ConversationColorType } from './types/Colors';
 import type { DeviceType } from './textsecure/Types.d';
@@ -82,7 +82,7 @@ export type QuotedMessageType = {
   //   new messages, but old messages might have this attribute.
   author?: string;
   authorUuid?: string;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
   id: number;
   isGiftBadge?: boolean;
   isViewOnce: boolean;
@@ -123,14 +123,14 @@ export type MessageReactionType = {
 export type EditHistoryType = {
   attachments?: Array<AttachmentType>;
   body?: string;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
   preview?: Array<LinkPreviewType>;
   timestamp: number;
 };
 
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
   canReplyToStory?: boolean;
   changedId?: string;
@@ -298,7 +298,7 @@ export type ConversationAttributesType = {
   firstUnregisteredAt?: number;
   draftChanged?: boolean;
   draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-  draftBodyRanges?: DraftBodyRangesType;
+  draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
   draftTimestamp?: number | null;
   hideStory?: boolean;
   inbox_position?: number;
@@ -310,8 +310,11 @@ export type ConversationAttributesType = {
   removalStage?: 'justNotification' | 'messageRequest';
   isPinned?: boolean;
   lastMessageDeletedForEveryone?: boolean;
-  lastMessageStatus?: LastMessageStatus | null;
+  lastMessage?: string | null;
+  lastMessageBodyRanges?: ReadonlyArray<RawBodyRange>;
+  lastMessagePrefix?: string;
   lastMessageAuthor?: string | null;
+  lastMessageStatus?: LastMessageStatus | null;
   markedUnread?: boolean;
   messageCount?: number;
   messageCountBeforeMessageRequests?: number | null;
@@ -340,7 +343,6 @@ export type ConversationAttributesType = {
   draft?: string | null;
   hasPostedStory?: boolean;
   isArchived?: boolean;
-  lastMessage?: string | null;
   name?: string;
   systemGivenName?: string;
   systemFamilyName?: string;

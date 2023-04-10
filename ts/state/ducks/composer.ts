@@ -17,10 +17,8 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type {
-  DraftBodyRangesType,
-  ReplacementValuesType,
-} from '../../types/Util';
+import type { DraftBodyRangeMention } from '../../types/BodyRange';
+import type { ReplacementValuesType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
@@ -382,7 +380,7 @@ function sendMultiMediaMessage(
   conversationId: string,
   options: {
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-    mentions?: DraftBodyRangesType;
+    draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
     message?: string;
     timestamp?: number;
     voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -406,8 +404,8 @@ function sendMultiMediaMessage(
 
     const {
       draftAttachments,
+      draftBodyRanges,
       message = '',
-      mentions,
       timestamp = Date.now(),
       voiceNoteAttachment,
     } = options;
@@ -497,7 +495,7 @@ function sendMultiMediaMessage(
           attachments,
           quote,
           preview: getLinkPreviewForSend(message),
-          mentions,
+          mentions: draftBodyRanges,
         },
         {
           sendHQImages,
@@ -816,7 +814,7 @@ function onEditorStateChange({
   messageText,
   sendCounter,
 }: {
-  bodyRanges: DraftBodyRangesType;
+  bodyRanges: ReadonlyArray<DraftBodyRangeMention>;
   caretLocation?: number;
   conversationId: string | undefined;
   messageText: string;
@@ -1171,7 +1169,7 @@ const debouncedSaveDraft = debounce(saveDraft);
 function saveDraft(
   conversationId: string,
   messageText: string,
-  bodyRanges: DraftBodyRangesType
+  mentions: ReadonlyArray<DraftBodyRangeMention>
 ) {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
@@ -1205,7 +1203,7 @@ function saveDraft(
     conversation.set({
       active_at: activeAt,
       draft: messageText,
-      draftBodyRanges: bodyRanges,
+      draftBodyRanges: mentions,
       draftChanged: true,
       timestamp,
     });

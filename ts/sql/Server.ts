@@ -1733,7 +1733,7 @@ async function searchMessages(
         `
         SELECT
           messages.json,
-          snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 10)
+          snippet(messages_fts, -1, '<<left>>', '<<right>>', '<<truncation>>', 10)
             AS snippet
         FROM tmp_filtered_results
         INNER JOIN messages_fts

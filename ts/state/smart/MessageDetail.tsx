@@ -42,6 +42,7 @@ export function SmartMessageDetail(): JSX.Element | null {
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
+    messageExpanded,
     openGiftBadge,
     popPanelForConversation,
     pushPanelForConversation,
@@ -49,6 +50,7 @@ export function SmartMessageDetail(): JSX.Element | null {
     showConversation,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showSpoiler,
     startConversation,
   } = useConversationsActions();
   const { showContactModal, toggleSafetyNumberModal } = useGlobalModalActions();
@@ -87,6 +89,7 @@ export function SmartMessageDetail(): JSX.Element | null {
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}
       message={message}
+      messageExpanded={messageExpanded}
       openGiftBadge={openGiftBadge}
       pushPanelForConversation={pushPanelForConversation}
       receivedAt={receivedAt}
@@ -99,6 +102,7 @@ export function SmartMessageDetail(): JSX.Element | null {
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}
       showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+      showSpoiler={showSpoiler}
       startConversation={startConversation}
       theme={theme}
       toggleSafetyNumberModal={toggleSafetyNumberModal}

@@ -7,7 +7,7 @@ import { isEqual, pick } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors';
 import type { AttachmentType } from '../../types/Attachment';
-import type { DraftBodyRangesType } from '../../types/Util';
+import type { DraftBodyRangeMention } from '../../types/BodyRange';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
   MessageChangedActionType,
@@ -77,6 +77,7 @@ export type StoryDataType = ReadonlyDeep<
     startedDownload?: boolean;
   } & Pick<
     MessageAttributesType,
+    | 'bodyRanges'
     | 'canReplyToStory'
     | 'conversationId'
     | 'deletedForEveryone'
@@ -558,7 +559,7 @@ function reactToStory(
 function replyToStory(
   conversationId: string,
   messageBody: string,
-  mentions: DraftBodyRangesType,
+  mentions: ReadonlyArray<DraftBodyRangeMention>,
   timestamp: number,
   story: StoryViewType
 ): ThunkAction<void, RootStateType, unknown, StoryChangedActionType> {
@@ -1442,6 +1443,7 @@ export function reducer(
   if (action.type === STORY_CHANGED) {
     const newStory = pick(action.payload, [
       'attachment',
+      'bodyRanges',
       'canReplyToStory',
       'conversationId',
       'deletedForEveryone',
@@ -1468,17 +1470,24 @@ export function reducer(
     if (prevStoryIndex >= 0) {
       const prevStory = state.stories[prevStoryIndex];
 
-      // Stories rarely need to change, here are the following exceptions:
+      // Stories rarely need to change, here are the following exceptions...
+
+      // These only change because of initialization order - these fields are updated
+      //   after the model is created:
+      const bodyRangesChanged =
+        newStory.bodyRanges?.length !== prevStory.bodyRanges?.length;
+      const hasExpirationChanged =
+        (newStory.expirationStartTimestamp &&
+          !prevStory.expirationStartTimestamp) ||
+        (newStory.expireTimer && !prevStory.expireTimer);
+
+      // These reflect changes in status over time:
       const isDownloadingAttachment = isDownloading(newStory.attachment);
       const hasAttachmentDownloaded =
         !isDownloaded(prevStory.attachment) &&
         isDownloaded(newStory.attachment);
       const hasAttachmentFailed =
         hasFailed(newStory.attachment) && !hasFailed(prevStory.attachment);
-      const hasExpirationChanged =
-        (newStory.expirationStartTimestamp &&
-          !prevStory.expirationStartTimestamp) ||
-        (newStory.expireTimer && !prevStory.expireTimer);
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
       const reactionsChanged =
         prevStory.reactions?.length !== newStory.reactions?.length;
@@ -1493,6 +1502,7 @@ export function reducer(
         prevStory.hasRepliesFromSelf !== newStory.hasRepliesFromSelf;
 
       const shouldReplace =
+        bodyRangesChanged ||
         isDownloadingAttachment ||
         hasAttachmentDownloaded ||
         hasAttachmentFailed ||

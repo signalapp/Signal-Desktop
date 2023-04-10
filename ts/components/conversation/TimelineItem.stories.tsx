@@ -92,7 +92,7 @@ const getDefaultProps = () => ({
     'showExpiredIncomingTapToViewToast'
   ),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
-  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  showSpoiler: action('showSpoiler'),
   startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
@@ -100,6 +100,7 @@ const getDefaultProps = () => ({
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
   shouldRenderDateHeader: false,
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
   now: Date.now(),
 

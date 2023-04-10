@@ -459,24 +459,33 @@ describe('Message', () => {
         attachment: {
           contentType: 'image/gif',
         },
-        expectedText: 'GIF',
-        expectedEmoji: '🎡',
+        expectedResult: {
+          text: 'GIF',
+          emoji: '🎡',
+          bodyRanges: [],
+        },
       },
       {
         title: 'photo',
         attachment: {
           contentType: 'image/png',
         },
-        expectedText: 'Photo',
-        expectedEmoji: '📷',
+        expectedResult: {
+          text: 'Photo',
+          emoji: '📷',
+          bodyRanges: [],
+        },
       },
       {
         title: 'video',
         attachment: {
           contentType: 'video/mp4',
         },
-        expectedText: 'Video',
-        expectedEmoji: '🎥',
+        expectedResult: {
+          text: 'Video',
+          emoji: '🎥',
+          bodyRanges: [],
+        },
       },
       {
         title: 'voice message',
@@ -484,8 +493,11 @@ describe('Message', () => {
           contentType: 'audio/ogg',
           flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
         },
-        expectedText: 'Voice Message',
-        expectedEmoji: '🎤',
+        expectedResult: {
+          text: 'Voice Message',
+          emoji: '🎤',
+          bodyRanges: [],
+        },
       },
       {
         title: 'audio message',
@@ -493,68 +505,75 @@ describe('Message', () => {
           contentType: 'audio/ogg',
           fileName: 'audio.ogg',
         },
-        expectedText: 'Audio Message',
-        expectedEmoji: '🔈',
+        expectedResult: {
+          text: 'Audio Message',
+          emoji: '🔈',
+          bodyRanges: [],
+        },
       },
       {
         title: 'plain text',
         attachment: {
           contentType: 'text/plain',
         },
-        expectedText: 'File',
-        expectedEmoji: '📎',
+        expectedResult: {
+          text: 'File',
+          emoji: '📎',
+          bodyRanges: [],
+        },
       },
       {
         title: 'unspecified-type',
         attachment: {
           contentType: null,
         },
-        expectedText: 'File',
-        expectedEmoji: '📎',
+        expectedResult: {
+          text: 'File',
+          emoji: '📎',
+          bodyRanges: [],
+        },
       },
     ];
-    attachmentTestCases.forEach(
-      ({ title, attachment, expectedText, expectedEmoji }) => {
-        it(`handles single ${title} attachments`, () => {
-          assert.deepEqual(
-            createMessage({
-              type: 'incoming',
-              source,
-              attachments: [attachment],
-            }).getNotificationData(),
-            { text: expectedText, emoji: expectedEmoji }
-          );
-        });
+    attachmentTestCases.forEach(({ title, attachment, expectedResult }) => {
+      it(`handles single ${title} attachments`, () => {
+        assert.deepEqual(
+          createMessage({
+            type: 'incoming',
+            source,
+            attachments: [attachment],
+          }).getNotificationData(),
+          expectedResult
+        );
+      });
 
-        it(`handles multiple attachments where the first is a ${title}`, () => {
-          assert.deepEqual(
-            createMessage({
-              type: 'incoming',
-              source,
-              attachments: [
-                attachment,
-                {
-                  contentType: 'text/html',
-                },
-              ],
-            }).getNotificationData(),
-            { text: expectedText, emoji: expectedEmoji }
-          );
-        });
+      it(`handles multiple attachments where the first is a ${title}`, () => {
+        assert.deepEqual(
+          createMessage({
+            type: 'incoming',
+            source,
+            attachments: [
+              attachment,
+              {
+                contentType: 'text/html',
+              },
+            ],
+          }).getNotificationData(),
+          expectedResult
+        );
+      });
 
-        it(`respects the caption for ${title} attachments`, () => {
-          assert.deepEqual(
-            createMessage({
-              type: 'incoming',
-              source,
-              attachments: [attachment],
-              body: 'hello world',
-            }).getNotificationData(),
-            { text: 'hello world', emoji: expectedEmoji }
-          );
-        });
-      }
-    );
+      it(`respects the caption for ${title} attachments`, () => {
+        assert.deepEqual(
+          createMessage({
+            type: 'incoming',
+            source,
+            attachments: [attachment],
+            body: 'hello world',
+          }).getNotificationData(),
+          { ...expectedResult, text: 'hello world' }
+        );
+      });
+    });
 
     it('handles a "plain" message', () => {
       assert.deepEqual(
@@ -563,7 +582,7 @@ describe('Message', () => {
           source,
           body: 'hello world',
         }).getNotificationData(),
-        { text: 'hello world' }
+        { text: 'hello world', bodyRanges: [] }
       );
     });
   });

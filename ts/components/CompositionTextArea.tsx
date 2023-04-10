@@ -9,7 +9,8 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import type { InputApi } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { EmojiButton } from './emoji/EmojiButton';
-import type { DraftBodyRangesType, ThemeType } from '../types/Util';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { ThemeType } from '../types/Util';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import * as grapheme from '../util/grapheme';
@@ -24,13 +25,13 @@ export type CompositionTextAreaProps = {
   onPickEmoji: (e: EmojiPickDataType) => void;
   onChange: (
     messageText: string,
-    bodyRanges: DraftBodyRangesType,
+    draftBodyRanges: ReadonlyArray<DraftBodyRangeMention>,
     caretLocation?: number | undefined
   ) => void;
   onSetSkinTone: (tone: number) => void;
   onSubmit: (
     message: string,
-    mentions: DraftBodyRangesType,
+    draftBodyRanges: ReadonlyArray<DraftBodyRangeMention>,
     timestamp: number
   ) => void;
   onTextTooLong: () => void;

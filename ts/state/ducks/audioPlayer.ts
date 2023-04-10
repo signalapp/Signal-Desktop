@@ -62,8 +62,8 @@ export namespace AudioPlayerContent {
     content: ActiveAudioPlayerStateType['content']
   ): content is AudioPlayerContentVoiceNote {
     return (
-      ('current' as const satisfies keyof AudioPlayerContentVoiceNote) in
-      content
+      // satisfies keyof AudioPlayerContentVoiceNote
+      ('current' as const) in content
     );
   }
   export function isDraft(

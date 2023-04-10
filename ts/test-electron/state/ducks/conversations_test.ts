@@ -1527,6 +1527,7 @@ describe('both/state/ducks/conversations', () => {
         ...getDefaultMessage(messageId),
         body: 'changed',
         displayLimit: undefined,
+        isSpoilerExpanded: undefined,
       };
 
       it('updates message data', () => {

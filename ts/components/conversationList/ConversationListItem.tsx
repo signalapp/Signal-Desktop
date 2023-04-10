@@ -19,6 +19,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { RenderLocation } from '../conversation/MessageTextRenderer';
 
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
@@ -142,10 +143,14 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
             {i18n('icu:ConversationListItem--draft-prefix')}
           </span>
           <MessageBody
-            text={truncateMessageText(draftPreview)}
+            bodyRanges={draftPreview.bodyRanges}
             disableJumbomoji
             disableLinks
             i18n={i18n}
+            isSpoilerExpanded={false}
+            prefix={draftPreview.prefix}
+            renderLocation={RenderLocation.ConversationList}
+            text={draftPreview.text}
           />
         </>
       );
@@ -158,11 +163,15 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     } else if (lastMessage) {
       messageText = (
         <MessageBody
-          text={truncateMessageText(lastMessage.text)}
           author={type === 'group' ? lastMessage.author : undefined}
+          bodyRanges={lastMessage.bodyRanges}
           disableJumbomoji
           disableLinks
           i18n={i18n}
+          isSpoilerExpanded={false}
+          prefix={lastMessage.prefix}
+          renderLocation={RenderLocation.ConversationList}
+          text={lastMessage.text}
         />
       );
       if (lastMessage.status) {
@@ -210,13 +219,3 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     );
   }
 );
-
-// This takes `unknown` because, sometimes, values from the database don't match our
-//   types. In the long term, we should fix that. In the short term, this smooths over the
-//   problem.
-function truncateMessageText(text: unknown): string {
-  if (typeof text !== 'string') {
-    return '';
-  }
-  return text.replace(/(?:\r?\n)+/g, ' ');
-}

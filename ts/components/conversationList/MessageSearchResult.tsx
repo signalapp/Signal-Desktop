@@ -3,17 +3,12 @@
 
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
-import { escapeRegExp } from 'lodash';
 
-import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 
-import { assertDev } from '../../util/assert';
-import type {
-  HydratedBodyRangesType,
-  LocalizerType,
-  ThemeType,
-} from '../../types/Util';
+import type { BodyRangesForDisplayType } from '../../types/BodyRange';
+import { processBodyRangesForSearchResult } from '../../types/BodyRange';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { BaseConversationListItem } from './BaseConversationListItem';
 import type {
   ConversationType,
@@ -21,6 +16,10 @@ import type {
 } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { Intl } from '../Intl';
+import {
+  MessageTextRenderer,
+  RenderLocation,
+} from '../conversation/MessageTextRenderer';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -32,7 +31,7 @@ export type PropsDataType = {
 
   snippet: string;
   body: string;
-  bodyRanges: HydratedBodyRangesType;
+  bodyRanges: BodyRangesForDisplayType;
 
   from: Pick<
     ConversationType,
@@ -72,68 +71,6 @@ const renderPerson = (
   }>
 ): ReactNode =>
   person.isMe ? i18n('icu:you') : <ContactName title={person.title} />;
-
-// This function exists because bodyRanges tells us the character position
-// where the at-mention starts at according to the full body text. The snippet
-// we get back is a portion of the text and we don't know where it starts. This
-// function will find the relevant bodyRanges that apply to the snippet and
-// then update the proper start position of each body range.
-function getFilteredBodyRanges(
-  snippet: string,
-  body: string,
-  bodyRanges: HydratedBodyRangesType
-): HydratedBodyRangesType {
-  if (!bodyRanges.length) {
-    return [];
-  }
-
-  // Find where the snippet starts in the full text
-  const stripped = snippet
-    .replace(/<<left>>/g, '')
-    .replace(/<<right>>/g, '')
-    .replace(/^.../, '')
-    .replace(/...$/, '');
-  const rx = new RegExp(escapeRegExp(stripped));
-  const match = rx.exec(body);
-
-  assertDev(Boolean(match), `No match found for "${snippet}" inside "${body}"`);
-
-  const delta = match ? match.index + snippet.length : 0;
-
-  // Filters out the @mentions that are present inside the snippet
-  const filteredBodyRanges = bodyRanges.filter(bodyRange => {
-    return bodyRange.start < delta;
-  });
-
-  const snippetBodyRanges = [];
-  const MENTIONS_REGEX = /\uFFFC/g;
-
-  let bodyRangeMatch = MENTIONS_REGEX.exec(snippet);
-  let i = 0;
-
-  // Find the start position within the snippet so these can later be
-  // encoded and rendered correctly.
-  while (bodyRangeMatch) {
-    const bodyRange = filteredBodyRanges[i];
-
-    if (bodyRange) {
-      snippetBodyRanges.push({
-        ...bodyRange,
-        start: bodyRangeMatch.index,
-      });
-    } else {
-      assertDev(
-        false,
-        `Body range does not exist? Count: ${i}, Length: ${filteredBodyRanges.length}`
-      );
-    }
-
-    bodyRangeMatch = MENTIONS_REGEX.exec(snippet);
-    i += 1;
-  }
-
-  return snippetBodyRanges;
-}
 
 export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
   function MessageSearchResult({
@@ -219,12 +156,20 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       }
     }
 
-    const snippetBodyRanges = getFilteredBodyRanges(snippet, body, bodyRanges);
+    const { cleanedSnippet, bodyRanges: displayBodyRanges } =
+      processBodyRangesForSearchResult({ snippet, body, bodyRanges });
     const messageText = (
-      <MessageBodyHighlight
-        text={snippet}
-        bodyRanges={snippetBodyRanges}
+      <MessageTextRenderer
+        messageText={cleanedSnippet}
+        bodyRanges={displayBodyRanges}
+        direction={undefined}
+        disableLinks
+        emojiSizeClass={undefined}
         i18n={i18n}
+        isSpoilerExpanded={false}
+        onMentionTrigger={() => null}
+        renderLocation={RenderLocation.SearchResult}
+        textLength={cleanedSnippet.length}
       />
     );
 

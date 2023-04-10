@@ -72,11 +72,8 @@ import { getIncrement } from '../../util/timer';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { missingCaseError } from '../../util/missingCaseError';
-import type {
-  HydratedBodyRangesType,
-  LocalizerType,
-  ThemeType,
-} from '../../types/Util';
+import type { HydratedBodyRangesType } from '../../types/BodyRange';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import type {
@@ -98,6 +95,7 @@ import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
+import { RenderLocation } from './MessageTextRenderer';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -212,6 +210,7 @@ export type PropsData = {
   isTargetedCounter?: number;
   isSelected: boolean;
   isSelectMode: boolean;
+  isSpoilerExpanded?: boolean;
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
@@ -316,6 +315,7 @@ export type PropsActions = {
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   showContactModal: (contactId: string, conversationId?: string) => void;
+  showSpoiler: (messageId: string) => void;
 
   kickOffAttachmentDownload: (options: {
     attachment: AttachmentType;
@@ -1735,9 +1735,11 @@ export class Message extends React.PureComponent<Props, State> {
       displayLimit,
       i18n,
       id,
+      isSpoilerExpanded,
       kickOffAttachmentDownload,
       messageExpanded,
       showConversation,
+      showSpoiler,
       status,
       text,
       textAttachment,
@@ -1783,6 +1785,7 @@ export class Message extends React.PureComponent<Props, State> {
           displayLimit={displayLimit}
           i18n={i18n}
           id={id}
+          isSpoilerExpanded={isSpoilerExpanded || false}
           kickOffBodyDownload={() => {
             if (!textAttachment) {
               return;
@@ -1794,6 +1797,8 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           messageExpanded={messageExpanded}
           showConversation={showConversation}
+          renderLocation={RenderLocation.Timeline}
+          onExpandSpoiler={() => showSpoiler(id)}
           text={contents || ''}
           textAttachment={textAttachment}
         />

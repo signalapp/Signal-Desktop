@@ -10,7 +10,8 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
 import type {
   ConversationType,
@@ -27,7 +28,6 @@ import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { Emojify } from './conversation/Emojify';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
@@ -53,6 +53,8 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { strictAssert } from '../util/assert';
+import { MessageBody } from './conversation/MessageBody';
+import { RenderLocation } from './conversation/MessageTextRenderer';
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -95,7 +97,7 @@ export type PropsType = {
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
     message: string,
-    mentions: DraftBodyRangesType,
+    mentions: ReadonlyArray<DraftBodyRangeMention>,
     timestamp: number,
     story: StoryViewType
   ) => unknown;
@@ -184,6 +186,7 @@ export function StoryViewer({
 
   const {
     attachment,
+    bodyRanges,
     canReply,
     isHidden,
     messageId,
@@ -234,6 +237,7 @@ export function StoryViewer({
 
   // Caption related hooks
   const [hasExpandedCaption, setHasExpandedCaption] = useState<boolean>(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState<boolean>(false);
 
   const caption = useMemo(() => {
     if (!attachment?.caption) {
@@ -250,6 +254,7 @@ export function StoryViewer({
   // Reset expansion if messageId changes
   useEffect(() => {
     setHasExpandedCaption(false);
+    setIsSpoilerExpanded(false);
   }, [messageId]);
 
   // messageId is set as a dependency so that we can reset the story duration
@@ -333,6 +338,7 @@ export function StoryViewer({
     setConfirmDeleteStory(undefined);
     setHasConfirmHideStory(false);
     setHasExpandedCaption(false);
+    setIsSpoilerExpanded(false);
     setIsShowingContextMenu(false);
     setPauseStory(false);
 
@@ -644,7 +650,7 @@ export function StoryViewer({
             {hasExpandedCaption && (
               <button
                 aria-label={i18n('icu:close-popup')}
-                className="StoryViewer__caption__overlay"
+                className="StoryViewer__CAPTION__overlay"
                 onClick={() => setHasExpandedCaption(false)}
                 type="button"
               />
@@ -677,7 +683,14 @@ export function StoryViewer({
           <div className="StoryViewer__meta">
             {caption && (
               <div className="StoryViewer__caption">
-                <Emojify text={caption.text} />
+                <MessageBody
+                  bodyRanges={bodyRanges}
+                  i18n={i18n}
+                  isSpoilerExpanded={isSpoilerExpanded}
+                  onExpandSpoiler={() => setIsSpoilerExpanded(true)}
+                  renderLocation={RenderLocation.StoryViewer}
+                  text={caption.text}
+                />
                 {caption.hasReadMore && !hasExpandedCaption && (
                   <button
                     className="MessageBody__read-more"

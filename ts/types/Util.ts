@@ -4,32 +4,6 @@
 import type { IntlShape } from 'react-intl';
 import type { UUIDStringType } from './UUID';
 
-// Cold storage of body ranges
-
-export type BodyRangeType = {
-  start: number;
-  length: number;
-  mentionUuid: string;
-};
-
-export type BodyRangesType = ReadonlyArray<BodyRangeType>;
-
-// Used exclusive in CompositionArea and related conversation_view.tsx calls.
-
-export type DraftBodyRangeType = BodyRangeType & {
-  replacementText: string;
-};
-
-export type DraftBodyRangesType = ReadonlyArray<DraftBodyRangeType>;
-
-// Fully hydrated body range to be used in UI components.
-
-export type HydratedBodyRangeType = DraftBodyRangeType & {
-  conversationID: string;
-};
-
-export type HydratedBodyRangesType = ReadonlyArray<HydratedBodyRangeType>;
-
 export type StoryContextType = {
   authorUuid?: UUIDStringType;
   timestamp: number;

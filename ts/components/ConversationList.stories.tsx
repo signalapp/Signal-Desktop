@@ -391,7 +391,11 @@ ConversationTypingStatus.story = {
 export const ConversationWithDraft = (): JSX.Element =>
   renderConversation({
     shouldShowDraft: true,
-    draftPreview: "I'm in the middle of typing this...",
+    draftPreview: {
+      text: "I'm in the middle of typing this...",
+      prefix: '🎤',
+      bodyRanges: [],
+    },
   });
 
 ConversationWithDraft.story = {

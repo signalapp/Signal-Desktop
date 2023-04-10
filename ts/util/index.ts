@@ -10,7 +10,6 @@ import { createWaitBatcher } from './waitBatcher';
 import { deleteForEveryone } from './deleteForEveryone';
 import { downloadAttachment } from './downloadAttachment';
 import { getStringForProfileChange } from './getStringForProfileChange';
-import { getTextWithMentions } from './getTextWithMentions';
 import { getUuidsForE164s } from './getUuidsForE164s';
 import { getUserAgent } from './getUserAgent';
 import {
@@ -53,7 +52,6 @@ export {
   flushMessageCounter,
   fromWebSafeBase64,
   getStringForProfileChange,
-  getTextWithMentions,
   getUserAgent,
   incrementMessageCounter,
   initializeMessageCounter,

@@ -4,11 +4,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
-import type {
-  DraftBodyRangesType,
-  LocalizerType,
-  ThemeType,
-} from '../types/Util';
+import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
 import { RecordingState } from '../types/AudioRecorder';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
@@ -123,7 +120,7 @@ export type OwnProps = Readonly<{
     conversationId: string,
     options: {
       draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-      mentions?: DraftBodyRangesType;
+      mentions?: ReadonlyArray<DraftBodyRangeMention>;
       message?: string;
       timestamp?: number;
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -233,8 +230,8 @@ export function CompositionArea({
   shouldSendHighQualityAttachments,
   // CompositionInput
   clearQuotedMessage,
-  draftText,
   draftBodyRanges,
+  draftText,
   getPreferredBadge,
   getQuotedMessage,
   onEditorStateChange,
@@ -311,7 +308,11 @@ export function CompositionArea({
   }, [inputApiRef, setLarge]);
 
   const handleSubmit = useCallback(
-    (message: string, mentions: DraftBodyRangesType, timestamp: number) => {
+    (
+      message: string,
+      mentions: ReadonlyArray<DraftBodyRangeMention>,
+      timestamp: number
+    ) => {
       emojiButtonRef.current?.close();
       sendMultiMediaMessage(conversationId, {
         draftAttachments,

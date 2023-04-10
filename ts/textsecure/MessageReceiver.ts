@@ -2120,6 +2120,8 @@ export default class MessageReceiver
 
     const message: ProcessedDataMessage = {
       attachments,
+      // We need to remove all of the extra stuff on these objects so serialize properly
+      bodyRanges: msg.bodyRanges?.map(item => ({ ...item })),
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: DurationInSeconds.DAY,

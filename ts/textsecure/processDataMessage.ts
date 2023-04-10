@@ -175,7 +175,8 @@ export function processQuote(
         thumbnail: processAttachment(attachment.thumbnail),
       };
     }),
-    bodyRanges: quote.bodyRanges ?? [],
+    // We need to remove all of the extra stuff on these objects so serialize properly
+    bodyRanges: quote.bodyRanges?.map(item => ({ ...item })) ?? [],
     type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
   };
 }
@@ -348,7 +349,8 @@ export function processDataMessage(
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
     delete: processDelete(message.delete),
-    bodyRanges: message.bodyRanges ?? [],
+    // We need to remove all of the extra stuff on these objects so serialize properly
+    bodyRanges: message.bodyRanges?.map(item => ({ ...item })) ?? [],
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: dropNull(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),

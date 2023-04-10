@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -13,6 +12,7 @@ import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import type { PropsType } from './MessageSearchResult';
 import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { BodyRange } from '../../types/BodyRange';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -43,21 +43,15 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   id: '',
   conversationId: '',
   sentAt: Date.now() - 24 * 60 * 1000,
-  snippet: text(
-    'snippet',
-    overrideProps.snippet || "What's <<left>>going<<right>> on?"
-  ),
-  body: text('body', overrideProps.body || "What's going on?"),
+  snippet: overrideProps.snippet || "What's <<left>>going<<right>> on?",
+  body: overrideProps.body || "What's going on?",
   bodyRanges: overrideProps.bodyRanges || [],
   from: overrideProps.from as PropsType['from'],
   to: overrideProps.to as PropsType['to'],
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
-  isSelected: boolean('isSelected', overrideProps.isSelected || false),
+  isSelected: overrideProps.isSelected || false,
   showConversation: action('showConversation'),
-  isSearchingInConversation: boolean(
-    'isSearchingInConversation',
-    overrideProps.isSearchingInConversation || false
-  ),
+  isSearchingInConversation: overrideProps.isSearchingInConversation || false,
   theme: React.useContext(StorybookThemeContext),
 });
 
@@ -220,7 +214,7 @@ export function Mention(): JSX.Element {
     from: someone,
     to: me,
     snippet:
-      '...forget hair dry diary years no <<left>>results<<right>> \uFFFC <<left>>elephant<<right>> sorry umbrella potato igloo kangaroo home Georgia...',
+      '<<truncation>>forget hair dry diary years no <<left>>results<<right>> \uFFFC <<left>>elephant<<right>> sorry umbrella potato igloo kangaroo home Georgia<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
@@ -245,7 +239,7 @@ export function MentionRegexp(): JSX.Element {
     from: someone,
     to: me,
     snippet:
-      '\uFFFC This is a (long) /text/ ^$ that is ... <<left>>specially<<right>> **crafted** to (test) our regexp escaping mechanism...',
+      '\uFFFC This is a (long) /text/ ^$ that is ... <<left>>specially<<right>> **crafted** to (test) our regexp escaping mechanism<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
@@ -301,7 +295,7 @@ export const _MentionNoMatches = (): JSX.Element => {
     from: someone,
     to: me,
     snippet:
-      '...forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia...',
+      '<<truncation>>forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
@@ -313,7 +307,7 @@ _MentionNoMatches.story = {
 
 export function DoubleMention(): JSX.Element {
   const props = useProps({
-    body: 'Hey \uFFFC \uFFFC test',
+    body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
     bodyRanges: [
       {
         length: 1,
@@ -332,7 +326,7 @@ export function DoubleMention(): JSX.Element {
     ],
     from: someone,
     to: me,
-    snippet: '<<left>>Hey<<right>> \uFFFC \uFFFC <<left>>test<<right>>',
+    snippet: '<<left>>Hey<<right>> \uFFFC \uFFFC --- test! <<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
@@ -341,3 +335,41 @@ export function DoubleMention(): JSX.Element {
 DoubleMention.story = {
   name: 'Double @mention',
 };
+
+export function WithFormatting(): JSX.Element {
+  const props = useProps({
+    body: "We're playing with formatting in fun ways like you do!",
+    bodyRanges: [
+      {
+        // Overlaps just start
+        start: 0,
+        length: 19,
+        style: BodyRange.Style.BOLD,
+      },
+      {
+        // Contains snippet entirely
+        start: 0,
+        length: 54,
+        style: BodyRange.Style.ITALIC,
+      },
+      {
+        // Contained by snippet
+        start: 19,
+        length: 10,
+        style: BodyRange.Style.MONOSPACE,
+      },
+      {
+        // Overlaps just end
+        start: 29,
+        length: 25,
+        style: BodyRange.Style.STRIKETHROUGH,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet:
+      '<<truncation>>playing with formatting in <<left>>fun<<right>> ways<<truncation>>',
+  });
+
+  return <MessageSearchResult {...props} />;
+}

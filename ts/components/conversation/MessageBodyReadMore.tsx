@@ -13,7 +13,10 @@ export type Props = Pick<
   | 'direction'
   | 'disableLinks'
   | 'i18n'
+  | 'isSpoilerExpanded'
+  | 'onExpandSpoiler'
   | 'kickOffBodyDownload'
+  | 'renderLocation'
   | 'showConversation'
   | 'text'
   | 'textAttachment'
@@ -38,8 +41,11 @@ export function MessageBodyReadMore({
   displayLimit,
   i18n,
   id,
+  isSpoilerExpanded,
   kickOffBodyDownload,
   messageExpanded,
+  onExpandSpoiler,
+  renderLocation,
   showConversation,
   text,
   textAttachment,
@@ -64,8 +70,11 @@ export function MessageBodyReadMore({
       direction={direction}
       disableLinks={disableLinks}
       i18n={i18n}
+      isSpoilerExpanded={isSpoilerExpanded}
       kickOffBodyDownload={kickOffBodyDownload}
+      onExpandSpoiler={onExpandSpoiler}
       onIncreaseTextLength={onIncreaseTextLength}
+      renderLocation={renderLocation}
       showConversation={showConversation}
       text={slicedText}
       textAttachment={textAttachment}

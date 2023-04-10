@@ -55,7 +55,10 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
 } from '../../model-types.d';
-import type { DraftBodyRangesType } from '../../types/Util';
+import type {
+  DraftBodyRangeMention,
+  HydratedBodyRangesType,
+} from '../../types/BodyRange';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
@@ -173,6 +176,7 @@ export type MessageType = MessageAttributesType & {
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessageWithUIFieldsType = MessageAttributesType & {
   displayLimit?: number;
+  isSpoilerExpanded?: boolean;
 };
 
 export const ConversationTypes = ['direct', 'group'] as const;
@@ -182,13 +186,20 @@ export type ConversationTypeType = ReadonlyDeep<
 
 export type LastMessageType = ReadonlyDeep<
   | {
+      deletedForEveryone: false;
+      author?: string;
+      bodyRanges?: HydratedBodyRangesType;
+      prefix?: string;
       status?: LastMessageStatus;
       text: string;
-      author?: string;
-      deletedForEveryone: false;
     }
   | { deletedForEveryone: true }
 >;
+export type DraftPreviewType = ReadonlyDeep<{
+  text: string;
+  prefix?: string;
+  bodyRanges?: HydratedBodyRangesType;
+}>;
 
 export type ConversationType = ReadonlyDeep<
   {
@@ -275,9 +286,11 @@ export type ConversationType = ReadonlyDeep<
     profileSharing?: boolean;
 
     shouldShowDraft?: boolean;
+    // Full information for re-hydrating composition area
     draftText?: string;
-    draftBodyRanges?: DraftBodyRangesType;
-    draftPreview?: string;
+    draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
+    // Summary for the left pane
+    draftPreview?: DraftPreviewType;
 
     sharedGroupNames: ReadonlyArray<string>;
     groupDescription?: string;
@@ -524,6 +537,7 @@ export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
 export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
+export const SHOW_SPOILER = 'conversations/SHOW_SPOILER';
 
 export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -707,6 +721,12 @@ export type MessageExpandedActionType = ReadonlyDeep<{
   payload: {
     id: string;
     displayLimit: number;
+  };
+}>;
+export type ShowSpoilerActionType = ReadonlyDeep<{
+  type: typeof SHOW_SPOILER;
+  payload: {
+    id: string;
   };
 }>;
 
@@ -939,6 +959,7 @@ export type ConversationActionType =
   | ShowChooseGroupMembersActionType
   | ShowInboxActionType
   | ShowSendAnywayDialogActionType
+  | ShowSpoilerActionType
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
   | ToggleComposeEditingAvatarActionType
@@ -1027,6 +1048,7 @@ export const actions = {
   saveAttachmentFromMessage,
   saveAvatarToDisk,
   scrollToMessage,
+  showSpoiler,
   targetMessage,
   setAccessControlAddFromInviteLinkSetting,
   setAccessControlAttributesSetting,
@@ -2619,6 +2641,15 @@ function messageExpanded(
     },
   };
 }
+function showSpoiler(id: string): ShowSpoilerActionType {
+  return {
+    type: SHOW_SPOILER,
+    payload: {
+      id,
+    },
+  };
+}
+
 function messageExpired(id: string): MessageExpiredActionType {
   return {
     type: MESSAGE_EXPIRED,
@@ -2770,11 +2801,14 @@ export type PushPanelForConversationActionType = ReadonlyDeep<
 function pushPanelForConversation(
   panel: PanelRequestType
 ): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     if (panel.type === PanelType.MessageDetails) {
       const { messageId } = panel.args;
+      const state = getState();
 
-      const message = await getMessageById(messageId);
+      const message =
+        state.conversations.messagesLookup[messageId] ||
+        (await getMessageById(messageId))?.attributes;
       if (!message) {
         throw new Error(
           'pushPanelForConversation: could not find message for MessageDetails'
@@ -2785,7 +2819,7 @@ function pushPanelForConversation(
         payload: {
           type: PanelType.MessageDetails,
           args: {
-            message: message.attributes,
+            message,
           },
         },
       });
@@ -4758,11 +4792,17 @@ export function reducer(
         ? 1
         : 0;
 
+    const updatedMessage = {
+      ...data,
+      displayLimit: existingMessage.displayLimit,
+      isSpoilerExpanded: existingMessage.isSpoilerExpanded,
+    };
+
     return {
       ...maybeUpdateSelectedMessageForDetails(
         {
           messageId: id,
-          targetedMessageForDetails: data,
+          targetedMessageForDetails: updatedMessage,
         },
         state
       ),
@@ -4776,10 +4816,7 @@ export function reducer(
       },
       messagesLookup: {
         ...state.messagesLookup,
-        [id]: {
-          ...data,
-          displayLimit: existingMessage.displayLimit,
-        },
+        [id]: updatedMessage,
       },
     };
   }
@@ -4799,17 +4836,55 @@ export function reducer(
       return state;
     }
 
+    const updatedMessage = {
+      ...existingMessage,
+      displayLimit,
+    };
+
     return {
       ...state,
+      ...maybeUpdateSelectedMessageForDetails(
+        {
+          messageId: id,
+          targetedMessageForDetails: updatedMessage,
+        },
+        state
+      ),
       messagesLookup: {
         ...state.messagesLookup,
-        [id]: {
-          ...existingMessage,
-          displayLimit,
-        },
+        [id]: updatedMessage,
       },
     };
   }
+  if (action.type === SHOW_SPOILER) {
+    const { id } = action.payload;
+
+    const existingMessage = state.messagesLookup[id];
+    if (!existingMessage) {
+      return state;
+    }
+
+    const updatedMessage = {
+      ...existingMessage,
+      isSpoilerExpanded: true,
+    };
+
+    return {
+      ...state,
+      ...maybeUpdateSelectedMessageForDetails(
+        {
+          messageId: id,
+          targetedMessageForDetails: updatedMessage,
+        },
+        state
+      ),
+      messagesLookup: {
+        ...state.messagesLookup,
+        [id]: updatedMessage,
+      },
+    };
+  }
+
   if (action.type === 'MESSAGES_RESET') {
     const {
       conversationId,

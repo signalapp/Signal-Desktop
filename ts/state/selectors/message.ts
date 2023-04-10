@@ -44,7 +44,12 @@ import type { UUIDStringType } from '../../types/UUID';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
-import type { AssertProps, HydratedBodyRangesType } from '../../types/Util';
+import type {
+  HydratedBodyRangeMention,
+  HydratedBodyRangesType,
+} from '../../types/BodyRange';
+import { BodyRange } from '../../types/BodyRange';
+import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { CallMode } from '../../types/Calling';
@@ -312,7 +317,33 @@ export const processBodyRanges = (
   }
 
   return bodyRanges
-    .filter(range => range.mentionUuid)
+    .map(range => {
+      const { conversationSelector } = options;
+
+      if (BodyRange.isMention(range)) {
+        const conversation = conversationSelector(range.mentionUuid);
+
+        return {
+          ...range,
+          conversationID: conversation.id,
+          replacementText: conversation.title,
+        };
+      }
+      return range;
+    })
+    .sort((a, b) => b.start - a.start);
+};
+
+export const extractHydratedMentions = (
+  { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
+  options: { conversationSelector: GetConversationByIdType }
+): ReadonlyArray<HydratedBodyRangeMention> | undefined => {
+  if (!bodyRanges) {
+    return undefined;
+  }
+
+  return bodyRanges
+    .filter(BodyRange.isMention)
     .map(range => {
       const { conversationSelector } = options;
       const conversation = conversationSelector(range.mentionUuid);
@@ -724,11 +755,12 @@ export const getPropsForMessage = (
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
-    isTargeted,
-    isTargetedCounter: isTargeted ? targetedMessageCounter : undefined,
     isSelected,
     isSelectMode,
+    isSpoilerExpanded: message.isSpoilerExpanded,
     isSticker: Boolean(sticker),
+    isTargeted,
+    isTargetedCounter: isTargeted ? targetedMessageCounter : undefined,
     isTapToView: isMessageTapToView,
     isTapToViewError:
       isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,

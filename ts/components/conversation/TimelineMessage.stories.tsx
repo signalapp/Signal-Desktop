@@ -300,6 +300,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isSelectMode: isBoolean(overrideProps.isSelectMode)
     ? overrideProps.isSelectMode
     : false,
+  isSpoilerExpanded: isBoolean(overrideProps.isSpoilerExpanded)
+    ? overrideProps.isSpoilerExpanded
+    : false,
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
   isTapToViewExpired: overrideProps.isTapToViewExpired,
@@ -338,6 +341,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   shouldHideMetadata: isBoolean(overrideProps.shouldHideMetadata)
     ? overrideProps.shouldHideMetadata
     : false,
+  showSpoiler: action('showSpoiler'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(

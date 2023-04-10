@@ -13,7 +13,7 @@ export default {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  bodyRanges: overrideProps.bodyRanges,
+  mentions: overrideProps.mentions,
   direction: overrideProps.direction || 'incoming',
   showConversation: action('showConversation'),
   text: overrideProps.text || '',
@@ -28,7 +28,7 @@ export function NoMentions(): JSX.Element {
 }
 
 export function MultipleMentions(): JSX.Element {
-  const bodyRanges = [
+  const mentions = [
     {
       start: 4,
       length: 1,
@@ -52,16 +52,16 @@ export function MultipleMentions(): JSX.Element {
     },
   ];
   const props = createProps({
-    bodyRanges,
+    mentions,
     direction: 'outgoing',
-    text: AtMentionify.preprocessMentions('\uFFFC \uFFFC \uFFFC', bodyRanges),
+    text: AtMentionify.preprocessMentions('\uFFFC \uFFFC \uFFFC', mentions),
   });
 
   return <AtMentionify {...props} />;
 }
 
 export function ComplexMentions(): JSX.Element {
-  const bodyRanges = [
+  const mentions = [
     {
       start: 80,
       length: 1,
@@ -86,10 +86,10 @@ export function ComplexMentions(): JSX.Element {
   ];
 
   const props = createProps({
-    bodyRanges,
+    mentions,
     text: AtMentionify.preprocessMentions(
       'Hey \uFFFC\nCheck out https://www.signal.org I think you will really like it 😍\n\ncc \uFFFC \uFFFC',
-      bodyRanges
+      mentions
     ),
   });
 
@@ -97,7 +97,7 @@ export function ComplexMentions(): JSX.Element {
 }
 
 export function WithOddCharacter(): JSX.Element {
-  const bodyRanges = [
+  const mentions = [
     {
       start: 4,
       length: 1,
@@ -108,10 +108,10 @@ export function WithOddCharacter(): JSX.Element {
   ];
 
   const props = createProps({
-    bodyRanges,
+    mentions,
     text: AtMentionify.preprocessMentions(
       'Hey \uFFFC - Check out │https://www.signal.org│',
-      bodyRanges
+      mentions
     ),
   });
 

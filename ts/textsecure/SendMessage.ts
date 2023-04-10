@@ -57,7 +57,8 @@ import {
   HTTPError,
   NoSenderKeyError,
 } from './Errors';
-import type { BodyRangesType, StoryContextType } from '../types/Util';
+import { BodyRange } from '../types/BodyRange';
+import type { StoryContextType } from '../types/Util';
 import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
@@ -76,6 +77,7 @@ import {
   numberToAddressType,
 } from '../types/EmbeddedContact';
 import type { StickerWithHydratedData } from '../types/Stickers';
+import { missingCaseError } from '../util/missingCaseError';
 
 export type SendMetadataType = {
   [identifier: string]: {
@@ -192,7 +194,7 @@ export type MessageOptionsType = {
   reaction?: ReactionType;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
-  mentions?: BodyRangesType;
+  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
   groupCallUpdate?: GroupCallUpdateType;
   storyContext?: StoryContextType;
 };
@@ -205,7 +207,7 @@ export type GroupSendOptionsType = {
   groupCallUpdate?: GroupCallUpdateType;
   groupV1?: GroupV1InfoType;
   groupV2?: GroupV2InfoType;
-  mentions?: BodyRangesType;
+  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
   messageText?: string;
   preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
@@ -256,7 +258,7 @@ class Message {
 
   deletedForEveryoneTimestamp?: number;
 
-  mentions?: BodyRangesType;
+  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
 
   groupCallUpdate?: GroupCallUpdateType;
 
@@ -480,7 +482,7 @@ class Message {
 
     if (this.quote) {
       const { QuotedAttachment } = Proto.DataMessage.Quote;
-      const { BodyRange, Quote } = Proto.DataMessage;
+      const { BodyRange: ProtoBodyRange, Quote } = Proto.DataMessage;
 
       proto.quote = new Quote();
       const { quote } = proto;
@@ -510,13 +512,17 @@ class Message {
           return quotedAttachment;
         }
       );
-      const bodyRanges: BodyRangesType = this.quote.bodyRanges || [];
+      const bodyRanges = this.quote.bodyRanges || [];
       quote.bodyRanges = bodyRanges.map(range => {
-        const bodyRange = new BodyRange();
+        const bodyRange = new ProtoBodyRange();
         bodyRange.start = range.start;
         bodyRange.length = range.length;
-        if (range.mentionUuid !== undefined) {
+        if (BodyRange.isMention(range)) {
           bodyRange.mentionUuid = range.mentionUuid;
+        } else if (BodyRange.isFormatting(range)) {
+          bodyRange.style = range.style;
+        } else {
+          throw missingCaseError(range);
         }
         return bodyRange;
       });

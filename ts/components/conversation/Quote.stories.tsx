@@ -114,6 +114,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSpoilerExpanded: false,
   toggleSelectMessage: action('toggleSelectMessage'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
@@ -135,6 +136,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
+  showSpoiler: action('showSpoiler'),
   pushPanelForConversation: action('default--pushPanelForConversation'),
   showContactModal: action('default--showContactModal'),
   showExpiredIncomingTapToViewToast: action(
