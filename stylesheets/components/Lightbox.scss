@@ -189,11 +189,10 @@
   &__nav-next,
   &__nav-prev {
     position: absolute;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    width: 25%;
-    height: 100%;
     justify-content: center;
 
     // We need this so that the buttons stack above the container
@@ -327,24 +326,23 @@
 
     &--previous,
     &--next {
-      width: 100%;
-      height: 100%;
-      max-width: 96px;
-      max-height: 224px;
+      width: 48px;
+      height: 48px;
       opacity: 0;
       transition: opacity 200ms ease-in-out;
+      flex-shrink: 0;
 
       display: flex;
       flex-direction: row;
       align-items: center;
 
+      &.show {
+        opacity: 1;
+      }
+
       &::before {
         width: 32px;
         height: 32px;
-      }
-
-      &:hover {
-        opacity: 1;
       }
 
       outline: none;

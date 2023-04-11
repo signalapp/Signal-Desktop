@@ -96,7 +96,9 @@ export function Lightbox({
   );
   const [videoTime, setVideoTime] = useState<number | undefined>();
   const [isZoomed, setIsZoomed] = useState(false);
+  const [navVisibility, setNavVisibility] = useState({showNext: false, showPrevious: false});
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const zoomableContainerRef = useRef<HTMLDivElement | null>(null);
   const [focusRef] = useRestoreFocus();
   const animateRef = useRef<HTMLDivElement | null>(null);
   const dragCacheRef = useRef<
@@ -370,6 +372,42 @@ export function Lightbox({
     [maxBoundsLimiter, springApi]
   );
 
+  const checkMouseForNavVisibility = (ev: React.MouseEvent) => {
+    if (!zoomableContainerRef.current) {
+      return;
+    }
+    
+    const zoomableContainerRect = zoomableContainerRef.current.getBoundingClientRect();
+    
+    const withinVerticalBounds = (ev.clientY > zoomableContainerRect.top && ev.clientY <= zoomableContainerRect.top + zoomableContainerRect.height);
+    
+    if (ev.clientX <= zoomableContainerRect.left + zoomableContainerRect.width / 4 && withinVerticalBounds) {
+      setNavVisibility({
+        showNext: false,
+        showPrevious: true
+      })
+      return;
+    }
+
+    if (ev.clientX > zoomableContainerRect.left + zoomableContainerRect.width * 0.75 && withinVerticalBounds) {
+      setNavVisibility({
+        showNext: true,
+        showPrevious: false
+      })
+      return;
+    }
+
+    // Mouse isn't anywhere near where the nav buttons will be.
+    hideNav();
+  }
+
+  const hideNav = () => {
+    setNavVisibility({
+      showNext: false,
+      showPrevious: false
+  })
+  }
+
   const handleTouchStart = useCallback(
     (ev: TouchEvent) => {
       const [touch] = ev.touches;
@@ -497,7 +535,9 @@ export function Lightbox({
     if (isImageTypeSupported) {
       if (objectURL) {
         content = (
-          <div className="Lightbox__zoomable-container">
+          <div className="Lightbox__zoomable-container"
+            ref={zoomableContainerRef}
+          >
             <button
               className="Lightbox__zoom-button"
               onClick={zoomButtonHandler}
@@ -597,6 +637,8 @@ export function Lightbox({
 
             closeLightbox();
           }}
+          onMouseMove={checkMouseForNavVisibility}
+          onMouseLeave={hideNav}
           onKeyUp={(event: React.KeyboardEvent<HTMLDivElement>) => {
             if (
               (containerRef && event.target !== containerRef.current) ||
@@ -669,7 +711,10 @@ export function Lightbox({
                   <div className="Lightbox__nav-prev">
                     <button
                       aria-label={i18n('icu:previous')}
-                      className="Lightbox__button Lightbox__button--previous"
+                      className={classNames(
+                        "Lightbox__button Lightbox__button--previous",
+                        navVisibility.showPrevious ? "show" : undefined,
+                      )}
                       onClick={onPrevious}
                       type="button"
                     />
@@ -679,7 +724,10 @@ export function Lightbox({
                   <div className="Lightbox__nav-next">
                     <button
                       aria-label={i18n('icu:next')}
-                      className="Lightbox__button Lightbox__button--next"
+                      className={classNames(
+                        "Lightbox__button Lightbox__button--next",
+                        navVisibility.showNext ? "show" : undefined,
+                      )}
                       onClick={onNext}
                       type="button"
                     />
