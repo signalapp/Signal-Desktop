@@ -119,7 +119,7 @@ export type OwnProps = Readonly<{
     conversationId: string,
     options: {
       draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-      mentions?: ReadonlyArray<DraftBodyRangeMention>;
+      draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
       message?: string;
       timestamp?: number;
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -313,7 +313,7 @@ export function CompositionArea({
       emojiButtonRef.current?.close();
       sendMultiMediaMessage(conversationId, {
         draftAttachments,
-        mentions,
+        draftBodyRanges: mentions,
         message,
         timestamp,
       });
