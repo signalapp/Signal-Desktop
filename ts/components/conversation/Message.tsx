@@ -377,6 +377,10 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<HTMLDivElement> =
     React.createRef();
 
+  private hasSelectedTextRef: React.MutableRefObject<boolean> = {
+    current: false,
+  };
+
   public reactionsContainerRefMerger = createRefMerger();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
@@ -503,6 +507,8 @@ export class Message extends React.PureComponent<Props, State> {
     if (contact && contact.firstNumber && !contact.uuid) {
       checkForAccount(contact.firstNumber);
     }
+
+    document.addEventListener('selectionchange', this.handleSelectionChange);
   }
 
   public override componentWillUnmount(): void {
@@ -512,6 +518,7 @@ export class Message extends React.PureComponent<Props, State> {
     clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
     clearTimeoutIfNecessary(this.giftBadgeInterval);
     this.toggleReactionViewer(true);
+    document.removeEventListener('selectionchange', this.handleSelectionChange);
   }
 
   public override componentDidUpdate(prevProps: Readonly<Props>): void {
@@ -745,6 +752,13 @@ export class Message extends React.PureComponent<Props, State> {
       //   sure we have enough room.
       metadataWidth: Math.max(metadataWidth, newMetadataWidth),
     }));
+  };
+
+  private handleSelectionChange = () => {
+    const selection = document.getSelection();
+    if (selection != null && !selection.isCollapsed) {
+      this.hasSelectedTextRef.current = true;
+    }
   };
 
   private renderMetadata(): ReactNode {
@@ -2626,18 +2640,27 @@ export class Message extends React.PureComponent<Props, State> {
       };
     } else {
       wrapperProps = {
+        onMouseDown: () => {
+          this.hasSelectedTextRef.current = false;
+        },
         // We use `onClickCapture` here and preven default/stop propagation to
         // prevent other click handlers from firing.
         onClickCapture: event => {
           if (isMacOS ? event.metaKey : event.ctrlKey) {
+            if (this.hasSelectedTextRef.current) {
+              return;
+            }
+
             const target = event.target as HTMLElement;
             const link = target.closest('a[href], [role=link]');
 
-            if (!event.currentTarget.contains(link)) {
-              event.preventDefault();
-              event.stopPropagation();
-              onToggleSelect(true, false);
+            if (event.currentTarget.contains(link)) {
+              return;
             }
+
+            event.preventDefault();
+            event.stopPropagation();
+            onToggleSelect(true, false);
           }
         },
         onDoubleClick: event => {
