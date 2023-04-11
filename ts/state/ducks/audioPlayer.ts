@@ -311,19 +311,19 @@ export function reducer(
     }
 
     const { playbackRate, startPosition, ...content } = payload;
+    log.info(
+      `audioPlayer/SET_MESSAGE_AUDIO: Starting playback for conversation ${content.conversationId}`
+    );
     return {
       ...state,
-      active:
-        payload === undefined
-          ? undefined
-          : {
-              currentTime: 0,
-              duration: undefined,
-              playing: true,
-              playbackRate,
-              content,
-              startPosition,
-            },
+      active: {
+        currentTime: 0,
+        duration: undefined,
+        playing: true,
+        playbackRate,
+        content,
+        startPosition,
+      },
     };
   }
 
@@ -446,8 +446,14 @@ export function reducer(
         // insert a new voice note
         if (voiceNote) {
           if (idx === -1) {
+            log.info(
+              `audioPlayer/MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to end of queue`
+            );
             updatedQueue.push(voiceNote);
           } else {
+            log.info(
+              `audioPlayer/MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to queue at index ${idx}`
+            );
             updatedQueue.splice(idx, 0, voiceNote);
           }
         }
@@ -480,6 +486,9 @@ export function reducer(
     }
 
     if (AudioPlayerContent.isDraft(content)) {
+      log.info(
+        'audioPlayer/MESSAGE_AUDIO_ENDED: Voice note was draft, stopping playback'
+      );
       return {
         ...state,
         active: undefined,
@@ -491,6 +500,9 @@ export function reducer(
     const [nextVoiceNote, ...newQueue] = queue;
 
     if (nextVoiceNote) {
+      log.info(
+        `audioPlayer/MESSAGE_AUDIO_ENDED: Starting next voice note ${nextVoiceNote.messageIdForLogging}`
+      );
       return {
         ...state,
         active: {
@@ -506,6 +518,7 @@ export function reducer(
       };
     }
 
+    log.info('audioPlayer/MESSAGE_AUDIO_ENDED: Stopping playback');
     return {
       ...state,
       active: undefined,
@@ -535,12 +548,18 @@ export function reducer(
       const [next, ...rest] = content.queue;
 
       if (!next) {
+        log.info(
+          'audioPlayer/MESSAGE_DELETED: Removed currently-playing message, stopping playback'
+        );
         return {
           ...state,
           active: undefined,
         };
       }
 
+      log.info(
+        'audioPlayer/MESSAGE_DELETED: Removed currently-playing message, moving to next in queue'
+      );
       return {
         ...state,
         active: {
@@ -558,6 +577,7 @@ export function reducer(
     // just update the queue
     const message = content.queue.find(el => el.id === id);
     if (message) {
+      log.info('audioPlayer/MESSAGE_DELETED: Removed message from the queue');
       return {
         ...state,
         active: {
@@ -611,6 +631,9 @@ export function reducer(
       content.current.url === undefined &&
       data.id
     ) {
+      log.info(
+        'audioPlayer/MESSAGE_CHANGED: Adding content url to current-playing message'
+      );
       return {
         ...state,
         active: {
@@ -629,6 +652,9 @@ export function reducer(
     // if it's in the queue
     const idx = content.queue.findIndex(v => v.id === id);
     if (idx !== -1) {
+      log.info(
+        'audioPlayer/MESSAGE_CHANGED: Adding content url to message in queue'
+      );
       const updatedQueue = [...content.queue];
       updatedQueue[idx] = {
         ...updatedQueue[idx],

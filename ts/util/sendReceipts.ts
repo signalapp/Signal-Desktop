@@ -55,6 +55,8 @@ export async function sendReceipts({
     return;
   }
 
+  log.info(`Starting receipt send of type ${type}`);
+
   const receiptsBySenderId: Map<string, Array<Receipt>> = receipts.reduce(
     (result, receipt) => {
       const { senderE164, senderUuid } = receipt;
@@ -115,6 +117,8 @@ export async function sendReceipts({
         );
         return;
       }
+
+      log.info(`Sending receipt of type ${type} to ${sender.idForLogging()}`);
 
       const sendOptions = await getSendOptions(sender.attributes);
 
