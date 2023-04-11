@@ -2115,6 +2115,13 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Lightbox.tsx",
+    "line": "  const zoomableContainerRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-11T19:20:47.381Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
     "line": "  const imageRef = useRef<HTMLImageElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-24T00:03:36.061Z"
