@@ -3,6 +3,7 @@
 
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import * as Registration from '../util/registration';
 import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
 
@@ -95,7 +96,7 @@ export class RotateSignedPreKeyListener {
     listener.setTimeoutForNextRun();
 
     events.on('timetravel', () => {
-      if (window.Signal.Util.Registration.isDone()) {
+      if (Registration.isDone()) {
         listener.setTimeoutForNextRun();
       }
     });

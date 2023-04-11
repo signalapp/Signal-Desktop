@@ -33,6 +33,7 @@ import { strictAssert, assertDev } from './assert';
 import * as durations from './durations';
 import type { DurationInSeconds } from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
+import * as Registration from './registration';
 import {
   parseE164FromSignalDotMeHash,
   parseUsernameFromSignalDotMeHash,
@@ -453,7 +454,7 @@ export function createIPCEvents(
     },
     authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
       // We can get these events even if the user has never linked this instance.
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.warn('authorizeArtCreator: Not registered, returning early');
         return;
       }
@@ -481,7 +482,7 @@ export function createIPCEvents(
 
     showStickerPack: (packId, key) => {
       // We can get these events even if the user has never linked this instance.
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.warn('showStickerPack: Not registered, returning early');
         return;
       }
@@ -489,7 +490,7 @@ export function createIPCEvents(
     },
     showGroupViaLink: async hash => {
       // We can get these events even if the user has never linked this instance.
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.warn('showGroupViaLink: Not registered, returning early');
         return;
       }
@@ -507,7 +508,7 @@ export function createIPCEvents(
       }
     },
     async showConversationViaSignalDotMe(hash: string) {
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.info(
           'showConversationViaSignalDotMe: Not registered, returning early'
         );

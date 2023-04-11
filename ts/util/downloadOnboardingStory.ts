@@ -13,6 +13,7 @@ import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingS
 import { runStorageServiceSyncJob } from '../services/storage';
 import { saveNewMessageBatcher } from './messageBatcher';
 import { strictAssert } from './assert';
+import { incrementMessageCounter } from './incrementMessageCounter';
 
 // * Check if we've viewed onboarding story. Short circuit.
 // * Run storage service sync (just in case) and check again.
@@ -106,7 +107,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         conversationId: signalConversation.id,
         id: UUID.generate().toString(),
         readStatus: ReadStatus.Unread,
-        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at: incrementMessageCounter(),
         received_at_ms: timestamp,
         seenStatus: SeenStatus.Unseen,
         sent_at: timestamp,

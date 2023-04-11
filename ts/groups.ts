@@ -85,6 +85,7 @@ import {
 } from './jobs/conversationJobQueue';
 import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
+import { incrementMessageCounter } from './util/incrementMessageCounter';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -1969,7 +1970,7 @@ export async function createGroupV2(
     sourceUuid: ourACI,
     conversationId: conversation.id,
     readStatus: ReadStatus.Read,
-    received_at: window.Signal.Util.incrementMessageCounter(),
+    received_at: incrementMessageCounter(),
     received_at_ms: timestamp,
     timestamp,
     seenStatus: SeenStatus.Seen,
@@ -3034,8 +3035,7 @@ async function updateGroup(
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
   //   initiating message, or after now().
-  const finalReceivedAt =
-    receivedAt || window.Signal.Util.incrementMessageCounter();
+  const finalReceivedAt = receivedAt || incrementMessageCounter();
   const initialSentAt = sentAt || Date.now();
 
   // GroupV1 -> GroupV2 migration changes the groupId, and we need to update our id-based

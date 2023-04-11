@@ -10,6 +10,8 @@ import { sync } from 'fast-glob';
 import { assert } from 'chai';
 
 import { getSignalProtocolStore } from '../../SignalProtocolStore';
+import { MessageController } from '../../util/MessageController';
+import { initializeMessageCounter } from '../../util/incrementMessageCounter';
 
 window.assert = assert;
 
@@ -26,6 +28,12 @@ window.testUtilities = {
       absolute: true,
       cwd: __dirname,
     }).forEach(require);
+  },
+  installMessageController() {
+    MessageController.install();
+  },
+  initializeMessageCounter() {
+    return initializeMessageCounter();
   },
 };
 

@@ -20,7 +20,7 @@ function deleteIndexedDB() {
 
 /* Delete the database before running any tests */
 before(async () => {
-  window.Signal.Util.MessageController.install();
+  window.testUtilities.installMessageController();
 
   await deleteIndexedDB();
   try {
@@ -34,7 +34,7 @@ before(async () => {
       err && err.stack ? err.stack : err
     );
   }
-  await window.Signal.Util.initializeMessageCounter();
+  await window.testUtilities.initializeMessageCounter();
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });

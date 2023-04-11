@@ -31,6 +31,7 @@ import {
   repeat,
   zipObject,
 } from '../util/iterables';
+import * as GoogleChrome from '../util/GoogleChrome';
 import type { DeleteModel } from '../messageModifiers/Deletes';
 import type { SentEventData } from '../textsecure/messageReceiverEvents';
 import { isNotNil } from '../util/isNotNil';
@@ -188,6 +189,12 @@ import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange, applyRangesForText } from '../types/BodyRange';
+import { deleteForEveryone } from '../util/deleteForEveryone';
+import { getStringForProfileChange } from '../util/getStringForProfileChange';
+import {
+  queueUpdateMessage,
+  saveNewMessageBatcher,
+} from '../util/messageBatcher';
 
 /* eslint-disable more/no-then */
 
@@ -195,7 +202,6 @@ window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
 const { upgradeMessageSchema } = window.Signal.Migrations;
-const { GoogleChrome } = window.Signal.Util;
 const { getMessageBySender } = window.Signal.Data;
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
@@ -486,11 +492,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       return {
-        text: window.Signal.Util.getStringForProfileChange(
-          change,
-          changedContact,
-          window.i18n
-        ),
+        text: getStringForProfileChange(change, changedContact, window.i18n),
       };
     }
 
@@ -959,12 +961,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const firstAttachment = attachments[0];
     if (
-      !window.Signal.Util.GoogleChrome.isImageTypeSupported(
-        firstAttachment.contentType
-      ) &&
-      !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
-        firstAttachment.contentType
-      )
+      !GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
+      !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType)
     ) {
       return false;
     }
@@ -1113,7 +1111,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           referencedMessageNotFound: false,
         },
       });
-      window.Signal.Util.queueUpdateMessage(this.attributes);
+      queueUpdateMessage(this.attributes);
     }
   }
 
@@ -3032,7 +3030,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     conversation: ConversationModel,
     confirm: () => void
   ): Promise<void> {
-    await window.Signal.Util.saveNewMessageBatcher.add(this.attributes);
+    await saveNewMessageBatcher.add(this.attributes);
 
     log.info('Message saved', this.get('sent_at'));
 
@@ -3279,7 +3277,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const deletes = Deletes.getSingleton().forMessage(message);
     await Promise.all(
       deletes.map(async del => {
-        await window.Signal.Util.deleteForEveryone(message, del, false);
+        await deleteForEveryone(message, del, false);
         changed = true;
       })
     );

@@ -124,6 +124,7 @@ import { isNotNil } from '../util/isNotNil';
 import { chunk } from '../util/iterables';
 import { isOlderThan } from '../util/timestamp';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -378,7 +379,7 @@ export default class MessageReceiver
           // Make non-private envelope IDs dashless so they don't get redacted
           //   from logs
           id: getGuid().replace(/-/g, ''),
-          receivedAtCounter: window.Signal.Util.incrementMessageCounter(),
+          receivedAtCounter: incrementMessageCounter(),
           receivedAtDate: Date.now(),
           // Calculate the message age (time on server).
           messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),

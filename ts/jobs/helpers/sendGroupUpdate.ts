@@ -20,6 +20,7 @@ import type {
   ConversationQueueJobBundle,
 } from '../conversationJobQueue';
 import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
+import { sendToGroup } from '../../util/sendToGroup';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers
@@ -118,7 +119,7 @@ export async function sendGroupUpdate(
           logId,
           messageIds: [],
           send: async () =>
-            window.Signal.Util.sendToGroup({
+            sendToGroup({
               abortSignal,
               groupSendOptions: {
                 groupV2,

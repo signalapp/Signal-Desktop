@@ -70,6 +70,7 @@ import { parseSqliteError, SqliteErrorKind } from './errors';
 import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import type { MessageAttributesType } from '../model-types';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
 
 const getRealPath = pify(fs.realpath);
 
@@ -253,7 +254,7 @@ export function _cleanMessageData(data: MessageType): MessageType {
   // Ensure that all messages have the received_at set properly
   if (!data.received_at) {
     assertDev(false, 'received_at was not set on the message');
-    result.received_at = window.Signal.Util.incrementMessageCounter();
+    result.received_at = incrementMessageCounter();
   }
   if (data.attachments) {
     const logId = getMessageIdForLogging(data);

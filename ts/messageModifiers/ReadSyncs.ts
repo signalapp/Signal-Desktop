@@ -12,6 +12,7 @@ import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { StartupQueue } from '../util/StartupQueue';
+import { queueUpdateMessage } from '../util/messageBatcher';
 
 export type ReadSyncAttributesType = {
   senderId: string;
@@ -146,7 +147,7 @@ export class ReadSyncs extends Collection {
         message.set({ expirationStartTimestamp });
       }
 
-      window.Signal.Util.queueUpdateMessage(message.attributes);
+      queueUpdateMessage(message.attributes);
 
       this.remove(sync);
     } catch (error) {

@@ -8,6 +8,7 @@ import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
 
+import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
 import type {
   SessionResetsType,
@@ -175,6 +176,15 @@ import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
 import { sleeper } from './util/sleeper';
 import { MINUTE } from './util/durations';
+import {
+  flushMessageCounter,
+  incrementMessageCounter,
+  initializeMessageCounter,
+} from './util/incrementMessageCounter';
+import { RetryPlaceholders } from './util/retryPlaceholders';
+import { setBatchingStrategy } from './util/messageBatcher';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+import { makeLookup } from './util/makeLookup';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   const HOUR = 1000 * 60 * 60;
@@ -218,15 +228,12 @@ export async function startApp(): Promise<void> {
     storage: window.storage,
   });
 
-  await window.Signal.Util.initializeMessageCounter();
+  await initializeMessageCounter();
 
   let initialBadgesState: BadgesStateType = { byId: {} };
   async function loadInitialBadgesState(): Promise<void> {
     initialBadgesState = {
-      byId: window.Signal.Util.makeLookup(
-        await window.Signal.Data.getAllBadges(),
-        'id'
-      ),
+      byId: makeLookup(await window.Signal.Data.getAllBadges(), 'id'),
     };
   }
 
@@ -487,25 +494,24 @@ export async function startApp(): Promise<void> {
     timeout: durations.MINUTE * 30,
   });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher =
-    window.Signal.Util.createBatcher<Receipt>({
-      name: 'Whisper.deliveryReceiptBatcher',
-      wait: 500,
-      maxSize: 100,
-      processBatch: async deliveryReceipts => {
-        const groups = groupBy(deliveryReceipts, 'conversationId');
-        await Promise.all(
-          Object.keys(groups).map(async conversationId => {
-            await conversationJobQueue.add({
-              type: conversationQueueJobEnum.enum.Receipts,
-              conversationId,
-              receiptsType: ReceiptType.Delivery,
-              receipts: groups[conversationId],
-            });
-          })
-        );
-      },
-    });
+  window.Whisper.deliveryReceiptBatcher = createBatcher<Receipt>({
+    name: 'Whisper.deliveryReceiptBatcher',
+    wait: 500,
+    maxSize: 100,
+    processBatch: async deliveryReceipts => {
+      const groups = groupBy(deliveryReceipts, 'conversationId');
+      await Promise.all(
+        Object.keys(groups).map(async conversationId => {
+          await conversationJobQueue.add({
+            type: conversationQueueJobEnum.enum.Receipts,
+            conversationId,
+            receiptsType: ReceiptType.Delivery,
+            receipts: groups[conversationId],
+          });
+        })
+      );
+    },
+  });
 
   if (window.platform === 'darwin') {
     window.addEventListener('dblclick', (event: Event) => {
@@ -603,7 +609,7 @@ export async function startApp(): Promise<void> {
     accountManager.addEventListener('registration', () => {
       window.Whisper.events.trigger('userChanged', false);
 
-      drop(window.Signal.Util.Registration.markDone());
+      drop(Registration.markDone());
       log.info('dispatching registration event');
       window.Whisper.events.trigger('registration_done');
     });
@@ -710,7 +716,7 @@ export async function startApp(): Promise<void> {
       shutdown: async () => {
         log.info('background/shutdown');
 
-        window.Signal.Util.flushMessageCounter();
+        flushMessageCounter();
 
         // Stop background processing
         void AttachmentDownloads.stop();
@@ -1007,7 +1013,7 @@ export async function startApp(): Promise<void> {
       );
     }
 
-    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders({
+    const retryPlaceholders = new RetryPlaceholders({
       retryReceiptLifespan,
     });
     window.Signal.Services.retryPlaceholders = retryPlaceholders;
@@ -1052,8 +1058,7 @@ export async function startApp(): Promise<void> {
             window.ConversationController.get(conversationId);
           if (conversation) {
             const receivedAt = Date.now();
-            const receivedAtCounter =
-              window.Signal.Util.incrementMessageCounter();
+            const receivedAtCounter = incrementMessageCounter();
             drop(
               conversation.queueJob('addDeliveryIssue', () =>
                 conversation.addDeliveryIssue({
@@ -1865,7 +1870,7 @@ export async function startApp(): Promise<void> {
   );
 
   window.Whisper.events.on('mightBeUnlinked', () => {
-    if (window.Signal.Util.Registration.everDone()) {
+    if (Registration.everDone()) {
       throttledEnqueueReconnectToWebSocket();
     }
   });
@@ -2003,7 +2008,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.getOurConversation()
     );
 
-    if (isCoreDataValid && window.Signal.Util.Registration.everDone()) {
+    if (isCoreDataValid && Registration.everDone()) {
       void connect();
       window.reduxActions.app.openInbox();
     } else {
@@ -2058,8 +2063,9 @@ export async function startApp(): Promise<void> {
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
       ({ value }) => {
-        const remoteBuildExpirationTimestamp =
-          window.Signal.Util.parseRemoteClientExpiration(value as string);
+        const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+          value as string
+        );
         if (remoteBuildExpirationTimestamp) {
           drop(
             window.storage.put(
@@ -2218,7 +2224,7 @@ export async function startApp(): Promise<void> {
         return;
       }
 
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         return;
       }
 
@@ -2240,10 +2246,9 @@ export async function startApp(): Promise<void> {
             'desktop.clientExpiration'
           );
           if (expiration) {
-            const remoteBuildExpirationTimestamp =
-              window.Signal.Util.parseRemoteClientExpiration(
-                expiration as string
-              );
+            const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+              expiration as string
+            );
             if (remoteBuildExpirationTimestamp) {
               await window.storage.put(
                 'remoteBuildExpiration',
@@ -2601,7 +2606,7 @@ export async function startApp(): Promise<void> {
       log.info('App loaded - messages:', processedCount);
     }
 
-    window.Signal.Util.setBatchingStrategy(false);
+    setBatchingStrategy(false);
     StartupQueue.flush();
     await flushAttachmentDownloadQueue();
 
@@ -3594,7 +3599,7 @@ export async function startApp(): Promise<void> {
 
     void onEmpty();
 
-    void window.Signal.Util.Registration.remove();
+    void Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
     const UUID_ID_KEY = 'uuid_id';
@@ -3660,7 +3665,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(eraseError)
       );
     } finally {
-      await window.Signal.Util.Registration.markEverDone();
+      await Registration.markEverDone();
     }
   }
 

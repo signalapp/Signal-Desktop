@@ -15,6 +15,7 @@ import { notificationService } from '../services/notifications';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import * as log from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
+import { queueUpdateMessage } from '../util/messageBatcher';
 
 export type ViewSyncAttributesType = {
   senderId: string;
@@ -122,7 +123,7 @@ export class ViewSyncs extends Collection {
       }
 
       if (didChangeMessage) {
-        window.Signal.Util.queueUpdateMessage(message.attributes);
+        queueUpdateMessage(message.attributes);
       }
 
       this.remove(sync);

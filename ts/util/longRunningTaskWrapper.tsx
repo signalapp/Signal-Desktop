@@ -8,6 +8,7 @@ import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
+import { sleep } from './sleep';
 
 export async function longRunningTaskWrapper<T>({
   name,
@@ -49,7 +50,7 @@ export async function longRunningTaskWrapper<T>({
         log.info(
           `longRunningTaskWrapper/${idLog}: Spinner shown for less than second, showing for another second`
         );
-        await window.Signal.Util.sleep(ONE_SECOND);
+        await sleep(ONE_SECOND);
       }
       unmountComponentAtNode(progressNode);
       progressNode = undefined;

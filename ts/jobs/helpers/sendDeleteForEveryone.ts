@@ -35,6 +35,7 @@ import { SendMessageProtoError } from '../../textsecure/Errors';
 import { strictAssert } from '../../util/assert';
 import type { LoggerType } from '../../types/Logging';
 import { isStory } from '../../messages/helpers';
+import { sendToGroup } from '../../util/sendToGroup';
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,
@@ -225,7 +226,7 @@ export async function sendDeleteForEveryone(
             logId,
             messageIds,
             send: async () =>
-              window.Signal.Util.sendToGroup({
+              sendToGroup({
                 abortSignal,
                 contentHint,
                 groupSendOptions: {

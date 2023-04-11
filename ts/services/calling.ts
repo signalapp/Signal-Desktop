@@ -105,6 +105,7 @@ import {
 } from './notifications';
 import * as log from '../logging/log';
 import { assertDev } from '../util/assert';
+import { sendContentMessageToGroup, sendToGroup } from '../util/sendToGroup';
 
 const {
   processGroupCallRingCancellation,
@@ -1056,7 +1057,7 @@ export class CallingClass {
       messageIds: [],
       send: () =>
         conversation.queueJob('sendGroupCallUpdateMessage', () =>
-          window.Signal.Util.sendToGroup({
+          sendToGroup({
             contentHint: ContentHint.DEFAULT,
             groupSendOptions: {
               groupCallUpdate: { eraId },
@@ -1696,7 +1697,7 @@ export class CallingClass {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     await conversation.queueJob('handleSendCallMessageToGroup', async () =>
       handleMessageSend(
-        window.Signal.Util.sendContentMessageToGroup({
+        sendContentMessageToGroup({
           contentHint: ContentHint.DEFAULT,
           contentMessage,
           isPartialSend: false,

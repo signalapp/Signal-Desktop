@@ -39,6 +39,7 @@ import type MessageSender from '../textsecure/SendMessage';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import { drop } from './drop';
 import { conversationJobQueue } from '../jobs/conversationJobQueue';
+import { incrementMessageCounter } from './incrementMessageCounter';
 
 const RETRY_LIMIT = 5;
 
@@ -668,7 +669,7 @@ export function startAutomaticSessionReset(
   }
 
   const receivedAt = Date.now();
-  const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+  const receivedAtCounter = incrementMessageCounter();
   drop(
     conversation.queueJob('addChatSessionRefreshed', async () => {
       await conversation.addChatSessionRefreshed({

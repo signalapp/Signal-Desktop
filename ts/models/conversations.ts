@@ -140,6 +140,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
+import { sendContentMessageToGroup } from '../util/sendToGroup';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { TimelineMessageLoadingState } from '../util/timelineUtil';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -156,6 +157,8 @@ import { ReceiptType } from '../types/Receipt';
 import { getQuoteAttachment } from '../util/makeQuote';
 import { stripNewlinesForLeftPane } from '../util/stripNewlinesForLeftPane';
 import { findAndFormatContact } from '../util/findAndFormatContact';
+import { deriveProfileKeyVersion } from '../util/zkgroup';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -163,7 +166,6 @@ const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
 
-const { Util } = window.Signal;
 const { Message } = window.Signal.Types;
 const {
   deleteAttachmentData,
@@ -1432,7 +1434,7 @@ export class ConversationModel extends window.Backbone
         );
       } else {
         await handleMessageSend(
-          window.Signal.Util.sendContentMessageToGroup({
+          sendContentMessageToGroup({
             contentHint: ContentHint.IMPLICIT,
             contentMessage,
             messageId: undefined,
@@ -3237,7 +3239,7 @@ export class ConversationModel extends window.Backbone
         type: 'keychange',
         sent_at: timestamp,
         timestamp,
-        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at: incrementMessageCounter(),
         received_at_ms: timestamp,
         key_changed: keyChangedIdString,
         readStatus: ReadStatus.Read,
@@ -3311,7 +3313,7 @@ export class ConversationModel extends window.Backbone
       type: 'conversation-merge',
       sent_at: timestamp,
       timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       received_at_ms: timestamp,
       conversationMerge: {
         renderInfo,
@@ -3363,7 +3365,7 @@ export class ConversationModel extends window.Backbone
       local: Boolean(options.local),
       readStatus: shouldBeUnseen ? ReadStatus.Unread : ReadStatus.Read,
       received_at_ms: timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       seenStatus: shouldBeUnseen ? SeenStatus.Unseen : SeenStatus.Unseen,
       sent_at: lastMessage,
       timestamp,
@@ -3455,8 +3457,7 @@ export class ConversationModel extends window.Backbone
           type: 'call-history',
           sent_at: timestamp,
           timestamp,
-          received_at:
-            receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
+          received_at: receivedAtCounter || incrementMessageCounter(),
           received_at_ms: timestamp,
           readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
           seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
@@ -3554,7 +3555,7 @@ export class ConversationModel extends window.Backbone
       conversationId: this.id,
       type: 'profile-change',
       sent_at: now,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       received_at_ms: now,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
@@ -3597,7 +3598,7 @@ export class ConversationModel extends window.Backbone
       conversationId: this.id,
       type,
       sent_at: now,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       received_at_ms: now,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
@@ -4265,7 +4266,7 @@ export class ConversationModel extends window.Backbone
       preview,
       attachments: attachmentsToSend,
       sent_at: now,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       received_at_ms: now,
       expirationStartTimestamp,
       expireTimer,
@@ -4879,7 +4880,7 @@ export class ConversationModel extends window.Backbone
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       readStatus: shouldBeRead ? ReadStatus.Read : ReadStatus.Unread,
       received_at_ms: receivedAtMS,
-      received_at: receivedAt ?? window.Signal.Util.incrementMessageCounter(),
+      received_at: receivedAt ?? incrementMessageCounter(),
       seenStatus: shouldBeRead ? SeenStatus.Seen : SeenStatus.Unseen,
       sent_at: sentAt,
       type: 'timer-notification',
@@ -4937,7 +4938,7 @@ export class ConversationModel extends window.Backbone
       group_update: { left: 'You' },
       readStatus: ReadStatus.Read,
       received_at_ms: now,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at: incrementMessageCounter(),
       seenStatus: SeenStatus.NotApplicable,
       sent_at: now,
       type: 'group',
@@ -5216,10 +5217,7 @@ export class ConversationModel extends window.Backbone
       return lastProfile.profileKeyVersion;
     }
 
-    const profileKeyVersion = Util.zkgroup.deriveProfileKeyVersion(
-      profileKey,
-      uuid
-    );
+    const profileKeyVersion = deriveProfileKeyVersion(profileKey, uuid);
     if (!profileKeyVersion) {
       log.warn(
         'deriveProfileKeyVersion: Failed to derive profile key version, ' +

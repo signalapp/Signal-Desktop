@@ -23,6 +23,7 @@ import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
 import { getSourceUuid } from '../messages/helpers';
+import { queueUpdateMessage } from '../util/messageBatcher';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -232,7 +233,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         [sourceConversationId]: newSendState,
       });
 
-      window.Signal.Util.queueUpdateMessage(message.attributes);
+      queueUpdateMessage(message.attributes);
 
       // notify frontend listeners
       const conversation = window.ConversationController.get(

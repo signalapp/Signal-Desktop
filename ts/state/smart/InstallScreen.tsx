@@ -16,6 +16,7 @@ import { LoadingState } from '../../util/loadable';
 import { assertDev } from '../../util/assert';
 import { explodePromise } from '../../util/explodePromise';
 import { missingCaseError } from '../../util/missingCaseError';
+import * as Registration from '../../util/registration';
 import {
   InstallScreen,
   InstallScreenStep,
@@ -186,7 +187,7 @@ export function SmartInstallScreen(): ReactElement {
       // Delete all data from the database unless we're in the middle of a re-link.
       //   Without this, the app restarts at certain times and can cause weird things to
       //   happen, like data from a previous light import showing up after a new install.
-      const shouldRetainData = window.Signal.Util.Registration.everDone();
+      const shouldRetainData = Registration.everDone();
       if (!shouldRetainData) {
         try {
           await window.textsecure.storage.protocol.removeAllData();
