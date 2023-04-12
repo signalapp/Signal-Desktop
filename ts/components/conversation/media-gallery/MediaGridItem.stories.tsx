@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
@@ -31,13 +30,8 @@ const createProps = (
 const createMediaItem = (
   overrideProps: Partial<MediaItemType> = {}
 ): MediaItemType => ({
-  thumbnailObjectUrl: text(
-    'thumbnailObjectUrl',
-    overrideProps.thumbnailObjectUrl || ''
-  ),
-  contentType: stringToMIMEType(
-    text('contentType', overrideProps.contentType || '')
-  ),
+  thumbnailObjectUrl: overrideProps.thumbnailObjectUrl || '',
+  contentType: overrideProps.contentType || stringToMIMEType(''),
   index: 0,
   attachment: {} as AttachmentType, // attachment not useful in the component
   message: {

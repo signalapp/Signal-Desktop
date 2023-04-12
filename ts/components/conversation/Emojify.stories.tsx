@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
-import { text } from '@storybook/addon-knobs';
-
 import type { Props } from './Emojify';
 import { Emojify } from './Emojify';
 
@@ -15,7 +12,7 @@ export default {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonEmoji: overrideProps.renderNonEmoji,
   sizeClass: overrideProps.sizeClass,
-  text: text('text', overrideProps.text || ''),
+  text: overrideProps.text || '',
 });
 
 export function EmojiOnly(): JSX.Element {

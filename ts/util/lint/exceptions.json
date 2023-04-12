@@ -2148,14 +2148,6 @@
     "updated": "2022-11-11T17:11:07.659Z"
   },
   {
-    "rule": "React-createRef",
-    "path": "ts/components/MainHeader.tsx",
-    "line": "  public containerRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-06-14T22:04:43.988Z",
-    "reasonDetail": "Handling outside click"
-  },
-  {
     "rule": "React-useRef",
     "path": "ts/components/MediaQualitySelector.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
@@ -2361,14 +2353,6 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
-    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
-    "reasonDetail": "Used to manage focus"
-  },
-  {
-    "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "    React.createRef();",
     "reasonCategory": "usageTrusted",
@@ -2544,5 +2528,29 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageDetail.tsx",
+    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageDetail.tsx",
+    "line": "  const messageContainerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
   }
 ]

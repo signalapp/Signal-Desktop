@@ -18,28 +18,20 @@ type Props = {
   shouldShowSeparator?: boolean;
 };
 
-export class DocumentListItem extends React.Component<Props> {
-  public override render(): JSX.Element {
-    const { shouldShowSeparator = true } = this.props;
-
-    return (
-      <div
-        className={classNames(
-          'module-document-list-item',
-          shouldShowSeparator
-            ? 'module-document-list-item--with-separator'
-            : null
-        )}
-      >
-        {this.renderContent()}
-      </div>
-    );
-  }
-
-  private renderContent() {
-    const { fileName, fileSize, onClick, timestamp } = this.props;
-
-    return (
+export function DocumentListItem({
+  shouldShowSeparator = true,
+  fileName,
+  fileSize,
+  onClick,
+  timestamp,
+}: Props): JSX.Element {
+  return (
+    <div
+      className={classNames(
+        'module-document-list-item',
+        shouldShowSeparator ? 'module-document-list-item--with-separator' : null
+      )}
+    >
       <button
         type="button"
         className="module-document-list-item__content"
@@ -60,6 +52,6 @@ export class DocumentListItem extends React.Component<Props> {
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </button>
-    );
-  }
+    </div>
+  );
 }

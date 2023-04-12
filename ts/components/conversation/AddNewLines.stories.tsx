@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
-import { text } from '@storybook/addon-knobs';
-
 import type { Props } from './AddNewLines';
 import { AddNewLines } from './AddNewLines';
 
@@ -14,7 +11,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonNewLine: overrideProps.renderNonNewLine,
-  text: text('text', overrideProps.text || ''),
+  text: overrideProps.text || '',
 });
 
 export function AllNewlines(): JSX.Element {

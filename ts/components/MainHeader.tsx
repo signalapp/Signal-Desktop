@@ -1,9 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { VirtualElement } from '@popperjs/core';
-import React from 'react';
-import { Manager, Popper, Reference } from 'react-popper';
+import React, { useEffect, useState } from 'react';
+import { usePopper } from 'react-popper';
 import { createPortal } from 'react-dom';
 
 import { showSettings } from '../shims/Whisper';
@@ -38,240 +37,183 @@ export type PropsType = {
   toggleStoriesView: () => unknown;
 };
 
-type StateType = {
-  showingAvatarPopup: boolean;
-  popperRoot: HTMLDivElement | null;
-  outsideClickDestructor?: () => void;
-  virtualElement: {
-    getBoundingClientRect: () => DOMRect;
-  };
-};
+export function MainHeader({
+  areStoriesEnabled,
+  avatarPath,
+  badge,
+  color,
+  hasFailedStorySends,
+  hasPendingUpdate,
+  i18n,
+  name,
+  phoneNumber,
+  profileName,
+  showArchivedConversations,
+  startComposing,
+  startUpdate,
+  theme,
+  title,
+  toggleProfileEditor,
+  toggleStoriesView,
+  unreadStoriesCount,
+}: PropsType): JSX.Element {
+  const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
-// https://popper.js.org/docs/v2/virtual-elements/
-// Generating a virtual element here so that we can make the menu pop up
-// right under the mouse cursor.
-function generateVirtualElement(x: number, y: number): VirtualElement {
-  return {
-    getBoundingClientRect: () => new DOMRect(x, y),
-  };
-}
+  const [showAvatarPopup, setShowAvatarPopup] = useState(false);
 
-export class MainHeader extends React.Component<PropsType, StateType> {
-  public containerRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const popper = usePopper(targetElement, popperElement, {
+    placement: 'bottom-start',
+    strategy: 'fixed',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [null, 4],
+        },
+      },
+    ],
+  });
 
-  constructor(props: PropsType) {
-    super(props);
-
-    this.state = {
-      showingAvatarPopup: false,
-      popperRoot: null,
-      virtualElement: generateVirtualElement(0, 0),
+  useEffect(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    setPortalElement(div);
+    return () => {
+      div.remove();
+      setPortalElement(null);
     };
-  }
+  }, []);
 
-  public showAvatarPopup = (ev: React.MouseEvent): void => {
-    const popperRoot = document.createElement('div');
-    document.body.appendChild(popperRoot);
-
-    const outsideClickDestructor = handleOutsideClick(
+  useEffect(() => {
+    return handleOutsideClick(
       () => {
-        const { showingAvatarPopup } = this.state;
-        if (!showingAvatarPopup) {
+        if (!showAvatarPopup) {
           return false;
         }
-
-        this.hideAvatarPopup();
-
+        setShowAvatarPopup(false);
         return true;
       },
       {
-        containerElements: [popperRoot, this.containerRef],
+        containerElements: [portalElement, targetElement],
         name: 'MainHeader.showAvatarPopup',
       }
     );
+  }, [portalElement, targetElement, showAvatarPopup]);
 
-    this.setState({
-      showingAvatarPopup: true,
-      popperRoot,
-      outsideClickDestructor,
-      virtualElement: generateVirtualElement(ev.clientX, ev.clientY),
-    });
-  };
-
-  public hideAvatarPopup = (): void => {
-    const { popperRoot, outsideClickDestructor } = this.state;
-
-    this.setState({
-      showingAvatarPopup: false,
-      popperRoot: null,
-      outsideClickDestructor: undefined,
-    });
-
-    outsideClickDestructor?.();
-
-    if (popperRoot && document.body.contains(popperRoot)) {
-      document.body.removeChild(popperRoot);
+  useEffect(() => {
+    function handleGlobalKeyDown(event: KeyboardEvent) {
+      if (showAvatarPopup && event.key === 'Escape') {
+        setShowAvatarPopup(false);
+      }
     }
-  };
+    document.addEventListener('keydown', handleGlobalKeyDown, true);
+    return () => {
+      document.removeEventListener('keydown', handleGlobalKeyDown, true);
+    };
+  }, [showAvatarPopup]);
 
-  public override componentDidMount(): void {
-    const useCapture = true;
-    document.addEventListener('keydown', this.handleGlobalKeyDown, useCapture);
-  }
-
-  public override componentWillUnmount(): void {
-    const { popperRoot, outsideClickDestructor } = this.state;
-
-    const useCapture = true;
-    outsideClickDestructor?.();
-    document.removeEventListener(
-      'keydown',
-      this.handleGlobalKeyDown,
-      useCapture
-    );
-
-    if (popperRoot && document.body.contains(popperRoot)) {
-      document.body.removeChild(popperRoot);
-    }
-  }
-
-  public handleGlobalKeyDown = (event: KeyboardEvent): void => {
-    const { showingAvatarPopup } = this.state;
-    const { key } = event;
-
-    if (showingAvatarPopup && key === 'Escape') {
-      this.hideAvatarPopup();
-    }
-  };
-
-  public override render(): JSX.Element {
-    const {
-      areStoriesEnabled,
-      avatarPath,
-      badge,
-      color,
-      hasFailedStorySends,
-      hasPendingUpdate,
-      i18n,
-      name,
-      phoneNumber,
-      profileName,
-      showArchivedConversations,
-      startComposing,
-      startUpdate,
-      theme,
-      title,
-      toggleProfileEditor,
-      toggleStoriesView,
-      unreadStoriesCount,
-    } = this.props;
-    const { showingAvatarPopup, popperRoot } = this.state;
-
-    return (
-      <div className="module-main-header">
-        <Manager>
-          <Reference>
-            {({ ref }) => (
-              <div
-                className="module-main-header__avatar--container"
-                ref={this.containerRef}
-              >
-                <Avatar
-                  acceptedMessageRequest
-                  avatarPath={avatarPath}
-                  badge={badge}
-                  className="module-main-header__avatar"
-                  color={color}
-                  conversationType="direct"
-                  i18n={i18n}
-                  isMe
-                  phoneNumber={phoneNumber}
-                  profileName={profileName}
-                  theme={theme}
-                  title={title}
-                  // `sharedGroupNames` makes no sense for yourself, but
-                  // `<Avatar>` needs it to determine blurring.
-                  sharedGroupNames={[]}
-                  size={AvatarSize.TWENTY_EIGHT}
-                  innerRef={ref}
-                  onClick={this.showAvatarPopup}
-                />
-                {hasPendingUpdate && (
-                  <div className="module-main-header__avatar--badged" />
-                )}
-              </div>
-            )}
-          </Reference>
-          {showingAvatarPopup && popperRoot
-            ? createPortal(
-                <Popper referenceElement={this.state.virtualElement}>
-                  {({ ref, style }) => (
-                    <AvatarPopup
-                      acceptedMessageRequest
-                      badge={badge}
-                      innerRef={ref}
-                      i18n={i18n}
-                      isMe
-                      style={{ ...style, zIndex: 10 }}
-                      color={color}
-                      conversationType="direct"
-                      name={name}
-                      phoneNumber={phoneNumber}
-                      profileName={profileName}
-                      theme={theme}
-                      title={title}
-                      avatarPath={avatarPath}
-                      hasPendingUpdate={hasPendingUpdate}
-                      startUpdate={startUpdate}
-                      // See the comment above about `sharedGroupNames`.
-                      sharedGroupNames={[]}
-                      onEditProfile={() => {
-                        toggleProfileEditor();
-                        this.hideAvatarPopup();
-                      }}
-                      onViewPreferences={() => {
-                        showSettings();
-                        this.hideAvatarPopup();
-                      }}
-                      onViewArchive={() => {
-                        showArchivedConversations();
-                        this.hideAvatarPopup();
-                      }}
-                    />
-                  )}
-                </Popper>,
-                popperRoot
-              )
-            : null}
-        </Manager>
-        <div className="module-main-header__icon-container">
-          {areStoriesEnabled && (
-            <button
-              aria-label={i18n('icu:stories')}
-              className="module-main-header__stories-icon"
-              onClick={toggleStoriesView}
-              title={i18n('icu:stories')}
-              type="button"
-            >
-              {hasFailedStorySends && (
-                <span className="module-main-header__stories-badge">!</span>
-              )}
-              {!hasFailedStorySends && unreadStoriesCount ? (
-                <span className="module-main-header__stories-badge">
-                  {unreadStoriesCount}
-                </span>
-              ) : undefined}
-            </button>
-          )}
-          <button
-            aria-label={i18n('icu:newConversation')}
-            className="module-main-header__compose-icon"
-            onClick={startComposing}
-            title={i18n('icu:newConversation')}
-            type="button"
-          />
-        </div>
+  return (
+    <div className="module-main-header">
+      <div
+        className="module-main-header__avatar--container"
+        ref={setTargetElement}
+      >
+        <Avatar
+          acceptedMessageRequest
+          avatarPath={avatarPath}
+          badge={badge}
+          className="module-main-header__avatar"
+          color={color}
+          conversationType="direct"
+          i18n={i18n}
+          isMe
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          theme={theme}
+          title={title}
+          // `sharedGroupNames` makes no sense for yourself, but
+          // `<Avatar>` needs it to determine blurring.
+          sharedGroupNames={[]}
+          size={AvatarSize.TWENTY_EIGHT}
+          onClick={() => {
+            setShowAvatarPopup(true);
+          }}
+        />
+        {hasPendingUpdate && (
+          <div className="module-main-header__avatar--badged" />
+        )}
       </div>
-    );
-  }
+      {showAvatarPopup &&
+        portalElement != null &&
+        createPortal(
+          <div
+            ref={setPopperElement}
+            style={{ ...popper.styles.popper, zIndex: 10 }}
+            {...popper.attributes.popper}
+          >
+            <AvatarPopup
+              acceptedMessageRequest
+              badge={badge}
+              i18n={i18n}
+              isMe
+              color={color}
+              conversationType="direct"
+              name={name}
+              phoneNumber={phoneNumber}
+              profileName={profileName}
+              theme={theme}
+              title={title}
+              avatarPath={avatarPath}
+              hasPendingUpdate={hasPendingUpdate}
+              startUpdate={startUpdate}
+              // See the comment above about `sharedGroupNames`.
+              sharedGroupNames={[]}
+              onEditProfile={() => {
+                toggleProfileEditor();
+                setShowAvatarPopup(false);
+              }}
+              onViewPreferences={() => {
+                showSettings();
+                setShowAvatarPopup(false);
+              }}
+              onViewArchive={() => {
+                showArchivedConversations();
+                setShowAvatarPopup(false);
+              }}
+              style={{}}
+            />
+          </div>,
+          portalElement
+        )}
+      <div className="module-main-header__icon-container">
+        {areStoriesEnabled && (
+          <button
+            aria-label={i18n('icu:stories')}
+            className="module-main-header__stories-icon"
+            onClick={toggleStoriesView}
+            title={i18n('icu:stories')}
+            type="button"
+          >
+            {hasFailedStorySends && (
+              <span className="module-main-header__stories-badge">!</span>
+            )}
+            {!hasFailedStorySends && unreadStoriesCount ? (
+              <span className="module-main-header__stories-badge">
+                {unreadStoriesCount}
+              </span>
+            ) : undefined}
+          </button>
+        )}
+        <button
+          aria-label={i18n('icu:newConversation')}
+          className="module-main-header__compose-icon"
+          onClick={startComposing}
+          title={i18n('icu:newConversation')}
+          type="button"
+        />
+      </div>
+    </div>
+  );
 }

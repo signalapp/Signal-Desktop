@@ -59,25 +59,25 @@ export type Props = {
 
 const defaultRenderNonEmoji: RenderTextCallbackType = ({ text }) => text;
 
-export class Emojify extends React.Component<Props> {
-  public override render(): null | Array<JSX.Element | string | null> {
-    const {
-      isInvisible,
-      renderNonEmoji = defaultRenderNonEmoji,
-      sizeClass,
-      text,
-    } = this.props;
+export function Emojify({
+  isInvisible,
+  renderNonEmoji = defaultRenderNonEmoji,
+  sizeClass,
+  text,
+}: Props): JSX.Element {
+  return (
+    <>
+      {splitByEmoji(text).map(({ type, value: match }, index) => {
+        if (type === 'emoji') {
+          return getImageTag({ isInvisible, match, sizeClass, key: index });
+        }
 
-    return splitByEmoji(text).map(({ type, value: match }, index) => {
-      if (type === 'emoji') {
-        return getImageTag({ isInvisible, match, sizeClass, key: index });
-      }
+        if (type === 'text') {
+          return renderNonEmoji({ text: match, key: index });
+        }
 
-      if (type === 'text') {
-        return renderNonEmoji({ text: match, key: index });
-      }
-
-      throw missingCaseError(type);
-    });
-  }
+        throw missingCaseError(type);
+      })}
+    </>
+  );
 }

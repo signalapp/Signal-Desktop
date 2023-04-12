@@ -51,10 +51,6 @@ export type Props = {
   doubleCheckMissingQuoteReference?: () => unknown;
 };
 
-type State = {
-  imageBroken: boolean;
-};
-
 export type QuotedAttachmentType = Pick<
   AttachmentType,
   'contentType' | 'fileName' | 'isVoiceMessage' | 'thumbnail' | 'textAttachment'
@@ -139,31 +135,41 @@ function getTypeLabel({
   return MIME.isAudio(contentType) ? i18n('icu:audio') : undefined;
 }
 
-export class Quote extends React.Component<Props, State> {
-  private getClassName: (modifier?: string) => string;
+export function Quote(props: Props): JSX.Element | null {
+  const {
+    conversationColor,
+    customColor,
+    isStoryReply,
+    onClose,
+    text,
+    bodyRanges,
+    authorTitle,
+    conversationTitle,
+    isFromMe,
+    i18n,
+    payment,
+    isViewOnce,
+    isGiftBadge,
+    rawAttachment,
+    isIncoming,
+    moduleClassName,
+    referencedMessageNotFound,
+    doubleCheckMissingQuoteReference,
+    onClick,
+    isCompose,
+    reactionEmoji,
+  } = props;
+  const [imageBroken, setImageBroken] = useState(false);
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      imageBroken: false,
-    };
-    this.getClassName = getClassNamesFor('module-quote', props.moduleClassName);
-  }
+  const getClassName = getClassNamesFor('module-quote', moduleClassName);
 
-  override componentDidMount(): void {
-    const { doubleCheckMissingQuoteReference, referencedMessageNotFound } =
-      this.props;
-
+  useEffect(() => {
     if (referencedMessageNotFound) {
       doubleCheckMissingQuoteReference?.();
     }
-  }
+  }, [referencedMessageNotFound, doubleCheckMissingQuoteReference]);
 
-  public handleKeyDown = (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ): void => {
-    const { onClick } = this.props;
-
+  function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
     // This is important to ensure that using this quote to navigate to the referenced
     //   message doesn't also trigger its parent message's keydown.
     if (onClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -171,42 +177,35 @@ export class Quote extends React.Component<Props, State> {
       event.stopPropagation();
       onClick();
     }
-  };
+  }
 
-  public handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const { onClick } = this.props;
-
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
       onClick();
     }
-  };
+  }
 
-  public handleImageError = (): void => {
+  function handleImageError() {
     window.console.info(
       'Message: Image failed to load; failing over to placeholder'
     );
-    this.setState({
-      imageBroken: true,
-    });
-  };
+    setImageBroken(true);
+  }
 
-  public renderImage(
+  function renderImage(
     url: string,
     icon: string | undefined,
-    isGiftBadge?: boolean
+    asGiftBadge?: boolean
   ): JSX.Element {
-    const { isIncoming } = this.props;
     const iconElement = icon ? (
-      <div className={this.getClassName('__icon-container__inner')}>
-        <div
-          className={this.getClassName('__icon-container__circle-background')}
-        >
+      <div className={getClassName('__icon-container__inner')}>
+        <div className={getClassName('__icon-container__circle-background')}>
           <div
             className={classNames(
-              this.getClassName('__icon-container__icon'),
-              this.getClassName(`__icon-container__icon--${icon}`)
+              getClassName('__icon-container__icon'),
+              getClassName(`__icon-container__icon--${icon}`)
             )}
           />
         </div>
@@ -216,30 +215,28 @@ export class Quote extends React.Component<Props, State> {
     return (
       <ThumbnailImage
         className={classNames(
-          this.getClassName('__icon-container'),
+          getClassName('__icon-container'),
           isIncoming === false &&
-            isGiftBadge &&
-            this.getClassName('__icon-container__outgoing-gift-badge')
+            asGiftBadge &&
+            getClassName('__icon-container__outgoing-gift-badge')
         )}
         src={url}
-        onError={this.handleImageError}
+        onError={handleImageError}
       >
         {iconElement}
       </ThumbnailImage>
     );
   }
 
-  public renderIcon(icon: string): JSX.Element {
+  function renderIcon(icon: string) {
     return (
-      <div className={this.getClassName('__icon-container')}>
-        <div className={this.getClassName('__icon-container__inner')}>
-          <div
-            className={this.getClassName('__icon-container__circle-background')}
-          >
+      <div className={getClassName('__icon-container')}>
+        <div className={getClassName('__icon-container__inner')}>
+          <div className={getClassName('__icon-container__circle-background')}>
             <div
               className={classNames(
-                this.getClassName('__icon-container__icon'),
-                this.getClassName(`__icon-container__icon--${icon}`)
+                getClassName('__icon-container__icon'),
+                getClassName(`__icon-container__icon--${icon}`)
               )}
             />
           </div>
@@ -248,8 +245,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderGenericFile(): JSX.Element | null {
-    const { rawAttachment, isIncoming } = this.props;
+  function renderGenericFile() {
     const attachment = getAttachment(rawAttachment);
 
     if (!attachment) {
@@ -268,14 +264,12 @@ export class Quote extends React.Component<Props, State> {
     }
 
     return (
-      <div className={this.getClassName('__generic-file')}>
-        <div className={this.getClassName('__generic-file__icon')} />
+      <div className={getClassName('__generic-file')}>
+        <div className={getClassName('__generic-file__icon')} />
         <div
           className={classNames(
-            this.getClassName('__generic-file__text'),
-            isIncoming
-              ? this.getClassName('__generic-file__text--incoming')
-              : null
+            getClassName('__generic-file__text'),
+            isIncoming ? getClassName('__generic-file__text--incoming') : null
           )}
         >
           {fileName}
@@ -284,10 +278,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderPayment(): JSX.Element | null {
-    const { payment, authorTitle, conversationTitle, isFromMe, i18n } =
-      this.props;
-
+  function renderPayment() {
     if (payment == null) {
       return null;
     }
@@ -306,13 +297,11 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderIconContainer(): JSX.Element | null {
-    const { isGiftBadge, isViewOnce, i18n, rawAttachment } = this.props;
-    const { imageBroken } = this.state;
+  function renderIconContainer() {
     const attachment = getAttachment(rawAttachment);
 
     if (isGiftBadge) {
-      return this.renderImage('images/gift-thumbnail.svg', undefined, true);
+      return renderImage('images/gift-thumbnail.svg', undefined, true);
     }
 
     if (!attachment) {
@@ -323,12 +312,12 @@ export class Quote extends React.Component<Props, State> {
     const url = getUrl(thumbnail);
 
     if (isViewOnce) {
-      return this.renderIcon('view-once');
+      return renderIcon('view-once');
     }
 
     if (textAttachment) {
       return (
-        <div className={this.getClassName('__icon-container')}>
+        <div className={getClassName('__icon-container')}>
           <TextAttachment
             i18n={i18n}
             isThumbnail
@@ -340,39 +329,29 @@ export class Quote extends React.Component<Props, State> {
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return url && !imageBroken
-        ? this.renderImage(url, 'play')
-        : this.renderIcon('movie');
+        ? renderImage(url, 'play')
+        : renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
       return url && !imageBroken
-        ? this.renderImage(url, undefined)
-        : this.renderIcon('image');
+        ? renderImage(url, undefined)
+        : renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {
-      return this.renderIcon('microphone');
+      return renderIcon('microphone');
     }
 
     return null;
   }
 
-  public renderText(): JSX.Element | null {
-    const {
-      bodyRanges,
-      isGiftBadge,
-      i18n,
-      text,
-      rawAttachment,
-      isIncoming,
-      isViewOnce,
-    } = this.props;
-
+  function renderText() {
     if (text && !isGiftBadge) {
       return (
         <div
           dir="auto"
           className={classNames(
-            this.getClassName('__primary__text'),
-            isIncoming ? this.getClassName('__primary__text--incoming') : null
+            getClassName('__primary__text'),
+            isIncoming ? getClassName('__primary__text--incoming') : null
           )}
         >
           <MessageBody
@@ -410,10 +389,8 @@ export class Quote extends React.Component<Props, State> {
       return (
         <div
           className={classNames(
-            this.getClassName('__primary__type-label'),
-            isIncoming
-              ? this.getClassName('__primary__type-label--incoming')
-              : null
+            getClassName('__primary__type-label'),
+            isIncoming ? getClassName('__primary__type-label--incoming') : null
           )}
         >
           {typeLabel}
@@ -424,9 +401,7 @@ export class Quote extends React.Component<Props, State> {
     return null;
   }
 
-  public renderClose(): JSX.Element | null {
-    const { i18n, onClose } = this.props;
-
+  function renderClose() {
     if (!onClose) {
       return null;
     }
@@ -448,12 +423,12 @@ export class Quote extends React.Component<Props, State> {
 
     // We need the container to give us the flexibility to implement the iOS design.
     return (
-      <div className={this.getClassName('__close-container')}>
+      <div className={getClassName('__close-container')}>
         <div
           tabIndex={0}
           // We can't be a button because the overall quote is a button; can't nest them
           role="button"
-          className={this.getClassName('__close-button')}
+          className={getClassName('__close-button')}
           aria-label={i18n('icu:close')}
           onKeyDown={keyDownHandler}
           onClick={clickHandler}
@@ -462,10 +437,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderAuthor(): JSX.Element {
-    const { authorTitle, i18n, isFromMe, isIncoming, isStoryReply } =
-      this.props;
-
+  function renderAuthor() {
     const title = isFromMe ? (
       i18n('icu:you')
     ) : (
@@ -482,8 +454,8 @@ export class Quote extends React.Component<Props, State> {
     return (
       <div
         className={classNames(
-          this.getClassName('__primary__author'),
-          isIncoming ? this.getClassName('__primary__author--incoming') : null
+          getClassName('__primary__author'),
+          isIncoming ? getClassName('__primary__author--incoming') : null
         )}
       >
         {author}
@@ -491,16 +463,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderReferenceWarning(): JSX.Element | null {
-    const {
-      conversationColor,
-      customColor,
-      i18n,
-      isIncoming,
-      isStoryReply,
-      referencedMessageNotFound,
-    } = this.props;
-
+  function renderReferenceWarning() {
     if (!referencedMessageNotFound || isStoryReply) {
       return null;
     }
@@ -508,26 +471,28 @@ export class Quote extends React.Component<Props, State> {
     return (
       <div
         className={classNames(
-          this.getClassName('__reference-warning'),
+          getClassName('__reference-warning'),
           isIncoming
-            ? this.getClassName(`--incoming-${conversationColor}`)
-            : this.getClassName(`--outgoing-${conversationColor}`)
+            ? getClassName(`--incoming-${conversationColor}`)
+            : getClassName(`--outgoing-${conversationColor}`)
         )}
-        style={{ ...getCustomColorStyle(customColor, true) }}
+        style={{
+          ...getCustomColorStyle(customColor, true),
+        }}
       >
         <div
           className={classNames(
-            this.getClassName('__reference-warning__icon'),
+            getClassName('__reference-warning__icon'),
             isIncoming
-              ? this.getClassName('__reference-warning__icon--incoming')
+              ? getClassName('__reference-warning__icon--incoming')
               : null
           )}
         />
         <div
           className={classNames(
-            this.getClassName('__reference-warning__text'),
+            getClassName('__reference-warning__text'),
             isIncoming
-              ? this.getClassName('__reference-warning__text--incoming')
+              ? getClassName('__reference-warning__text--incoming')
               : null
           )}
         >
@@ -537,75 +502,61 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public override render(): JSX.Element | null {
-    const {
-      conversationColor,
-      customColor,
-      isCompose,
-      isIncoming,
-      onClick,
-      rawAttachment,
-      reactionEmoji,
-      referencedMessageNotFound,
-    } = this.props;
-
-    if (!validateQuote(this.props)) {
-      return null;
-    }
-
-    let colorClassName: string;
-    let directionClassName: string;
-    if (isCompose) {
-      directionClassName = this.getClassName('--compose');
-      colorClassName = this.getClassName(`--compose-${conversationColor}`);
-    } else if (isIncoming) {
-      directionClassName = this.getClassName('--incoming');
-      colorClassName = this.getClassName(`--incoming-${conversationColor}`);
-    } else {
-      directionClassName = this.getClassName('--outgoing');
-      colorClassName = this.getClassName(`--outgoing-${conversationColor}`);
-    }
-
-    return (
-      <div className={this.getClassName('__container')}>
-        <button
-          type="button"
-          onClick={this.handleClick}
-          onKeyDown={this.handleKeyDown}
-          className={classNames(
-            this.getClassName(''),
-            directionClassName,
-            colorClassName,
-            !onClick && this.getClassName('--no-click'),
-            referencedMessageNotFound &&
-              this.getClassName('--with-reference-warning')
-          )}
-          style={{ ...getCustomColorStyle(customColor, true) }}
-        >
-          <div className={this.getClassName('__primary')}>
-            {this.renderAuthor()}
-            {this.renderGenericFile()}
-            {this.renderPayment()}
-            {this.renderText()}
-          </div>
-          {reactionEmoji && (
-            <div
-              className={
-                rawAttachment
-                  ? this.getClassName('__reaction-emoji')
-                  : this.getClassName('__reaction-emoji--story-unavailable')
-              }
-            >
-              <Emojify text={reactionEmoji} />
-            </div>
-          )}
-          {this.renderIconContainer()}
-          {this.renderClose()}
-        </button>
-        {this.renderReferenceWarning()}
-      </div>
-    );
+  if (!validateQuote(props)) {
+    return null;
   }
+
+  let colorClassName: string;
+  let directionClassName: string;
+  if (isCompose) {
+    directionClassName = getClassName('--compose');
+    colorClassName = getClassName(`--compose-${conversationColor}`);
+  } else if (isIncoming) {
+    directionClassName = getClassName('--incoming');
+    colorClassName = getClassName(`--incoming-${conversationColor}`);
+  } else {
+    directionClassName = getClassName('--outgoing');
+    colorClassName = getClassName(`--outgoing-${conversationColor}`);
+  }
+
+  return (
+    <div className={getClassName('__container')}>
+      <button
+        type="button"
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        className={classNames(
+          getClassName(''),
+          directionClassName,
+          colorClassName,
+          !onClick && getClassName('--no-click'),
+          referencedMessageNotFound && getClassName('--with-reference-warning')
+        )}
+        style={{ ...getCustomColorStyle(customColor, true) }}
+      >
+        <div className={getClassName('__primary')}>
+          {renderAuthor()}
+          {renderGenericFile()}
+          {renderPayment()}
+          {renderText()}
+        </div>
+        {reactionEmoji && (
+          <div
+            className={
+              rawAttachment
+                ? getClassName('__reaction-emoji')
+                : getClassName('__reaction-emoji--story-unavailable')
+            }
+          >
+            <Emojify text={reactionEmoji} />
+          </div>
+        )}
+        {renderIconContainer()}
+        {renderClose()}
+      </button>
+      {renderReferenceWarning()}
+    </div>
+  );
 }
 
 function ThumbnailImage({

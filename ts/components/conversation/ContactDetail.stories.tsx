@@ -4,7 +4,6 @@
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
 
 import type { Props } from './ContactDetail';
 import { ContactDetail } from './ContactDetail';
@@ -23,10 +22,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contact: overrideProps.contact || {},
-  hasSignalAccount: boolean(
-    'hasSignalAccount',
-    overrideProps.hasSignalAccount || false
-  ),
+  hasSignalAccount: overrideProps.hasSignalAccount || false,
   i18n,
   onSendMessage: action('onSendMessage'),
 });

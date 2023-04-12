@@ -3,8 +3,6 @@
 
 import * as React from 'react';
 
-import { text } from '@storybook/addon-knobs';
-
 import type { Props } from './Linkify';
 import { Linkify } from './Linkify';
 
@@ -14,7 +12,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonLink: overrideProps.renderNonLink,
-  text: text('text', overrideProps.text || ''),
+  text: overrideProps.text || '',
 });
 
 export function OnlyLink(): JSX.Element {
