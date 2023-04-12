@@ -9,6 +9,7 @@ import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
 import type { DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
+import type { RawBodyRange } from '../types/BodyRange';
 
 export {
   IdentityKeyType,
@@ -150,7 +151,7 @@ export type ProcessedQuote = {
   authorUuid?: string;
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
-  bodyRanges: ReadonlyArray<ProcessedBodyRange>;
+  bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
   type: Proto.DataMessage.Quote.Type;
 };
 
@@ -190,7 +191,7 @@ export type ProcessedDelete = {
   targetSentTimestamp?: number;
 };
 
-export type ProcessedBodyRange = Proto.DataMessage.IBodyRange;
+export type ProcessedBodyRange = RawBodyRange;
 
 export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
 

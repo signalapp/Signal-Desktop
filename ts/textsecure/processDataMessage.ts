@@ -31,6 +31,7 @@ import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
 import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
+import { filterAndClean } from '../types/BodyRange';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -175,8 +176,7 @@ export function processQuote(
         thumbnail: processAttachment(attachment.thumbnail),
       };
     }),
-    // We need to remove all of the extra stuff on these objects so serialize properly
-    bodyRanges: quote.bodyRanges?.map(item => ({ ...item })) ?? [],
+    bodyRanges: filterAndClean(quote.bodyRanges),
     type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
   };
 }
@@ -349,8 +349,7 @@ export function processDataMessage(
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
     delete: processDelete(message.delete),
-    // We need to remove all of the extra stuff on these objects so serialize properly
-    bodyRanges: message.bodyRanges?.map(item => ({ ...item })) ?? [],
+    bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: dropNull(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),

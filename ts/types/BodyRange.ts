@@ -9,6 +9,7 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
+import type { ConversationType } from '../state/ducks/conversations';
 
 // Cold storage of body ranges
 
@@ -42,6 +43,10 @@ export namespace BodyRange {
   export type DisplayOnly = {
     displayStyle: DisplayStyle;
   };
+
+  export function isRawRange(range: BodyRange<object>): range is RawBodyRange {
+    return isMention(range) || isFormatting(range);
+  }
 
   // these overloads help inference along
   export function isMention(
@@ -121,6 +126,61 @@ export type RangeNode = BodyRange<
     ranges: ReadonlyArray<RangeNode>;
   }
 >;
+
+// We drop unknown bodyRanges and remove extra stuff so they serialize properly
+export function filterAndClean(
+  ranges: ReadonlyArray<Proto.DataMessage.IBodyRange> | undefined | null
+): ReadonlyArray<RawBodyRange> | undefined {
+  if (!ranges) {
+    return undefined;
+  }
+
+  return ranges
+    .filter((range: Proto.DataMessage.IBodyRange): range is RawBodyRange => {
+      if (!isNumber(range.start)) {
+        log.warn('filterAndClean: Dropping bodyRange with non-number start');
+        return false;
+      }
+      if (!isNumber(range.length)) {
+        log.warn('filterAndClean: Dropping bodyRange with non-number length');
+        return false;
+      }
+
+      if (range.mentionUuid) {
+        return true;
+      }
+      if (range.style) {
+        return true;
+      }
+
+      log.warn('filterAndClean: Dropping unknown bodyRange');
+      return false;
+    })
+    .map(range => ({ ...range }));
+}
+
+export function hydrateRanges(
+  ranges: ReadonlyArray<BodyRange<object>> | undefined,
+  conversationSelector: (id: string) => ConversationType
+): Array<HydratedBodyRangeType> | undefined {
+  if (!ranges) {
+    return undefined;
+  }
+
+  return ranges.filter(BodyRange.isRawRange).map(range => {
+    if (BodyRange.isMention(range)) {
+      const conversation = conversationSelector(range.mentionUuid);
+
+      return {
+        ...range,
+        conversationID: conversation.id,
+        replacementText: conversation.title,
+      };
+    }
+
+    return range;
+  });
+}
 
 /**
  * Insert a range into an existing range tree, splitting up the range if it intersects

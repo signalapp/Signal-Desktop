@@ -85,7 +85,7 @@ import {
 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import type { DraftBodyRangeMention } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
+import { BodyRange, hydrateRanges } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
@@ -1094,24 +1094,7 @@ export class ConversationModel extends window.Backbone
     const draft = this.get('draft');
 
     const rawBodyRanges = this.get('draftBodyRanges') || [];
-    const bodyRanges = rawBodyRanges.map(range => {
-      // Hydrate user information on mention
-      if (BodyRange.isMention(range)) {
-        const conversation = findAndFormatContact(range.mentionUuid);
-
-        return {
-          ...range,
-          conversationID: conversation.id,
-          replacementText: conversation.title,
-        };
-      }
-
-      if (BodyRange.isFormatting(range)) {
-        return range;
-      }
-
-      throw missingCaseError(range);
-    });
+    const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
 
     if (draft) {
       return {
@@ -3902,24 +3885,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const rawBodyRanges = this.get('lastMessageBodyRanges') || [];
-    const bodyRanges = rawBodyRanges.map(range => {
-      // Hydrate user information on mention
-      if (BodyRange.isMention(range)) {
-        const conversation = findAndFormatContact(range.mentionUuid);
-
-        return {
-          ...range,
-          conversationID: conversation.id,
-          replacementText: conversation.title,
-        };
-      }
-
-      if (BodyRange.isFormatting(range)) {
-        return range;
-      }
-
-      throw missingCaseError(range);
-    });
+    const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
 
     const text = stripNewlinesForLeftPane(lastMessageText);
     const prefix = this.get('lastMessagePrefix');

@@ -42,7 +42,7 @@ import {
   reduceStorySendStatus,
   resolveStorySendStatus,
 } from '../../util/resolveStorySendStatus';
-import { BodyRange } from '../../types/BodyRange';
+import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -302,24 +302,10 @@ export const getStoryReplies = createSelector(
           ? me
           : conversationSelector(reply.sourceUuid || reply.source);
 
-      const { bodyRanges } = reply;
-
       return {
         author: getAvatarData(conversation),
         ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
-        bodyRanges: bodyRanges?.map(bodyRange => {
-          if (BodyRange.isMention(bodyRange)) {
-            const mentionConvo = conversationSelector(bodyRange.mentionUuid);
-
-            return {
-              ...bodyRange,
-              conversationID: mentionConvo.id,
-              replacementText: mentionConvo.title,
-            };
-          }
-
-          return bodyRange;
-        }),
+        bodyRanges: hydrateRanges(reply.bodyRanges, conversationSelector),
         reactionEmoji: reply.storyReaction?.emoji,
         contactNameColor: contactNameColorSelector(
           reply.conversationId,

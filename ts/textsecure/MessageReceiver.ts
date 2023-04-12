@@ -125,6 +125,7 @@ import { chunk } from '../util/iterables';
 import { isOlderThan } from '../util/timestamp';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { filterAndClean } from '../types/BodyRange';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -2121,8 +2122,8 @@ export default class MessageReceiver
 
     const message: ProcessedDataMessage = {
       attachments,
-      // We need to remove all of the extra stuff on these objects so serialize properly
-      bodyRanges: msg.bodyRanges?.map(item => ({ ...item })),
+
+      bodyRanges: filterAndClean(msg.bodyRanges),
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: DurationInSeconds.DAY,

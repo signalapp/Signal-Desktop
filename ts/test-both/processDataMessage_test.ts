@@ -202,7 +202,7 @@ describe('processDataMessage', () => {
           thumbnail: PROCESSED_ATTACHMENT,
         },
       ],
-      bodyRanges: [],
+      bodyRanges: undefined,
       type: 0,
     });
   });

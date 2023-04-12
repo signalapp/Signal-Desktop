@@ -48,7 +48,7 @@ import type {
   HydratedBodyRangeMention,
   HydratedBodyRangesType,
 } from '../../types/BodyRange';
-import { BodyRange } from '../../types/BodyRange';
+import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
@@ -317,22 +317,9 @@ export const processBodyRanges = (
     return undefined;
   }
 
-  return bodyRanges
-    .map(range => {
-      const { conversationSelector } = options;
-
-      if (BodyRange.isMention(range)) {
-        const conversation = conversationSelector(range.mentionUuid);
-
-        return {
-          ...range,
-          conversationID: conversation.id,
-          replacementText: conversation.title,
-        };
-      }
-      return range;
-    })
-    .sort((a, b) => b.start - a.start);
+  return hydrateRanges(bodyRanges, options.conversationSelector)?.sort(
+    (a, b) => b.start - a.start
+  );
 };
 
 export const extractHydratedMentions = (
