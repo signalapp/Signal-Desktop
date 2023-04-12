@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "കോൺ‌ടാക്റ്റുകൾ‌ മാനേജ് ചെയ്യുക",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "സന്ദേശം",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ഓഡിയോ കോൾ",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "വീഡിയോ കോൾ",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "നീക്കം ചെയ്യുക",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "ബ്ലോക്ക് ചെയ്യുക",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title} എന്നയാളെ നീക്കം ചെയ്യണോ?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "തിരയുമ്പോൾ നിങ്ങൾക്ക് ഈ വ്യക്തിയെ കാണാൻ കഴിയില്ല. ഭാവിയിൽ അവർ നിങ്ങൾക്ക് സന്ദേശം അയച്ചാൽ നിങ്ങൾക്ക് ഒരു സന്ദേശ അഭ്യർത്ഥന ലഭിക്കും.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "നീക്കം ചെയ്യുക",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} എന്നയാളെ നീക്കം ചെയ്യാനായില്ല",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "ഈ വ്യക്തിയെ നിങ്ങളുടെ ഉപകരണത്തിലെ കോൺടാക്റ്റുകളിലേക്ക് സംരക്ഷിച്ചു. നിങ്ങളുടെ മൊബൈലിലെ കോൺടാക്റ്റുകളിൽ നിന്ന് നീക്കം ചെയ്തശേഷം ശ്രമിച്ചു നോക്കുക.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -4052,7 +4052,7 @@
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} എന്നയാളെ നീക്കം ചെയ്‌തു.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -5309,7 +5309,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ കൈമാറുക",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5865,7 +5865,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name} എന്നയാളെ നിങ്ങൾക്ക് സന്ദേശം അയയ്ക്കാനും നിങ്ങളുടെ പേരും ഫോട്ടോയും അവരുമായി പങ്കിടാനും അനുവദിക്കണോ? നിങ്ങൾ മുമ്പ് ഈ വ്യക്തിയെ നീക്കം ചെയ്തിട്ടുള്ളതാണ്.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -9797,7 +9797,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയെ നീക്കം ചെയ്തു, അവർക്ക് വീണ്ടും സന്ദേശം അയയ്ക്കുന്നതിലൂടെ വീണ്ടും അവരെ ലിസ്റ്റിലേക്ക് ചേർക്കും.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10145,7 +10145,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റഡാണ്. നിങ്ങൾ പുതിയ ചാറ്റുകൾ തുടങ്ങുമ്പോഴും സ്വീകരിക്കുമ്പോഴും ഉൾപ്പെടെ നിങ്ങളുടെ പ്രൊഫൈലും അതിലെ മാറ്റങ്ങളും നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് കാണാനാകും. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {

@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "ਸੰਪਰਕ ਨੂੰ ਪ੍ਰਬੰਧਿਤ ਕਰੋ",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "ਸੁਨੇਹਾ ਭੇਜੋ",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ਆਡੀਓ ਕਾਲ",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "ਹਟਾਓ",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "ਪਾਬੰਦੀ ਲਗਾਓ",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "ਕੀ {title} ਨੂੰ ਹਟਾਉਣਾ ਹੈ?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "ਖੋਜ ਕਰਨ ਵੇਲੇ ਤੁਹਾਨੂੰ ਇਹ ਵਿਅਕਤੀ ਦਿਖਾਈ ਨਹੀਂ ਦੇਵੇਗਾ। ਜੇਕਰ ਉਹ ਭਵਿੱਖ ਵਿੱਚ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਦੇ ਹਨ ਤਾਂ ਤੁਹਾਨੂੰ ਸੁਨੇਹੇ ਦੀ ਬੇਨਤੀ ਪ੍ਰਾਪਤ ਹੋਵੇਗੀ।",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "ਹਟਾਓ",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} ਨੂੰ ਹਟਾਉਣ ਵਿੱਚ ਅਸਮਰੱਥ ਰਹੇ",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਤੁਹਾਡੇ ਡਿਵਾਈਸ ਦੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਸੇਵ ਕੀਤਾ ਗਿਆ ਹੈ। ਉਹਨਾਂ ਨੂੰ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਆਪਣੇ ਸੰਪਰਕਾਂ ਤੋਂ ਮਿਟਾਓ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -4052,7 +4052,7 @@
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} ਨੂੰ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -5309,7 +5309,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "ਚੁਣੇ ਗਏ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅੱਗੇ ਭੇਜੋ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5865,7 +5865,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "ਕੀ ਤੁਸੀਂ {name} ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣਾ ਚਾਹੁੰਦੇ ਹੋ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਆਪਣਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨੀ ਚਾਹੁੰਦੇ ਹੋ? ਤੁਸੀਂ ਅਤੀਤ ਵਿੱਚ ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਹਟਾਇਆ ਸੀ।",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -9797,7 +9797,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "ਤੁਸੀਂ ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਹਟਾ ਦਿੱਤਾ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਦੁਬਾਰਾ ਸੁਨੇਹਾ ਭੇਜਣ 'ਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡੀ ਸੂਚੀ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10145,7 +10145,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "ਤੁਹਾਡੀ ਪ੍ਰੋਫ਼ਾਈਲ ਇਨਕ੍ਰਿਪਟਡ ਹੈ। ਤੁਹਾਡੇ ਸੰਪਰਕ ਤੁਹਾਡੀ ਪ੍ਰੋਫ਼ਾਈਲ ਅਤੇ ਇਸ ਵਿੱਚ ਕੀਤੀਆਂ ਗਈਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਅਤੇ ਜਦੋਂ ਤੁਸੀਂ ਨਵੀਆਂ ਚੈਟਾਂ ਨੂੰ ਸ਼ੁਰੂ ਜਾਂ ਸਵੀਕਾਰ ਕਰਦੇ ਹੋ, ਇਹ ਦੇਖ ਸਕਦੇ ਹਨ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
