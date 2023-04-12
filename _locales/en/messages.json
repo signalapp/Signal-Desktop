@@ -12379,24 +12379,8 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
-    "description": "Release notes for v6.11"
-  },
-  "icu:WhatsNew__v6.12--0": {
-    "messageformat": "Now you can select multiple messages and forward or delete them all at once.",
-    "description": "Release notes for v6.12"
-  },
-  "icu:WhatsNew__v6.12--1": {
-    "messageformat": "We updated the Sticker Creator with a few design tweaks and added some helpful tips for aspiring sticker artists. The Sticker Creator now opens in your web browser, which makes Signal Desktop a little smaller and leaves a bit more room on your hard drive for all of your favorite sticker packs.",
-    "description": "Release notes for v6.12"
-  },
-  "icu:WhatsNew__v6.13--0": {
-    "messageformat": "Progress report: The new progress bar is ready. Quickly see more information about the loading process whenever you launch Signal Desktop.",
-    "description": "Release notes for v6.13"
-  },
-  "icu:WhatsNew__v6.13--1": {
-    "messageformat": "Theme preferences now also apply to the checkboxes in Signal Settings. Thanks to {rakleed} on GitHub for helping us check \"More fully embrace darkness in the dark theme\" off of our TODO list.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.15--0": {
+    "messageformat": "The “Delete for everyone” option is now also available when multiple messages have been selected. Sometimes the road to a successful message is paved with “This message was deleted.”",
+    "description": "Release notes for v6.15"
   }
 }

@@ -35,11 +35,7 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl
-        i18n={i18n}
-        id="icu:WhatsNew__bugfixes--3"
-        renderText={renderText}
-      />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.15--0" renderText={renderText} />,
     ],
   };
 
