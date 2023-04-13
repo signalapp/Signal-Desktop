@@ -8979,6 +8979,10 @@
     "messageformat": "Who would you like to delete {count, plural, one {this message} other {these messages}} for?",
     "description": "delete selected messages > confirmation modal > description"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "What devices would you like to delete {count, plural, one {this message} other {these messages}} from?",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
+  },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Delete for me",
     "description": "(deleted 03/24/2023) conversation > in select mode > composition area actions > delete selected messages > confirmation modal > button"
@@ -8991,9 +8995,17 @@
     "messageformat": "Delete for me",
     "description": "delete selected messages > confirmation modal > delete for me"
   },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Delete from this device",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Delete for everyone",
     "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Delete from all devices",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",

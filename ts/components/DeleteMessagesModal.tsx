@@ -9,6 +9,7 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import { ToastType } from '../types/Toast';
 
 type DeleteMessagesModalProps = Readonly<{
+  isMe: boolean;
   canDeleteForEveryone: boolean;
   i18n: LocalizerType;
   messageCount: number;
@@ -21,6 +22,7 @@ type DeleteMessagesModalProps = Readonly<{
 const MAX_DELETE_FOR_EVERYONE = 30;
 
 export default function DeleteMessagesModal({
+  isMe,
   canDeleteForEveryone,
   i18n,
   messageCount,
@@ -34,7 +36,9 @@ export default function DeleteMessagesModal({
   actions.push({
     action: onDeleteForMe,
     style: 'negative',
-    text: i18n('icu:DeleteMessagesModal--deleteForMe'),
+    text: isMe
+      ? i18n('icu:DeleteMessagesModal--deleteFromThisDevice')
+      : i18n('icu:DeleteMessagesModal--deleteForMe'),
   });
 
   if (canDeleteForEveryone) {
@@ -53,7 +57,9 @@ export default function DeleteMessagesModal({
         }
       },
       style: 'negative',
-      text: i18n('icu:DeleteMessagesModal--deleteForEveryone'),
+      text: isMe
+        ? i18n('icu:DeleteMessagesModal--deleteFromAllDevices')
+        : i18n('icu:DeleteMessagesModal--deleteForEveryone'),
     });
   }
 
@@ -68,9 +74,13 @@ export default function DeleteMessagesModal({
       })}
       moduleClassName="DeleteMessagesModal"
     >
-      {i18n('icu:DeleteMessagesModal--description', {
-        count: messageCount,
-      })}
+      {isMe
+        ? i18n('icu:DeleteMessagesModal--description--noteToSelf', {
+            count: messageCount,
+          })
+        : i18n('icu:DeleteMessagesModal--description', {
+            count: messageCount,
+          })}
     </ConfirmationDialog>
   );
 }

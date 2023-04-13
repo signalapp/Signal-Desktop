@@ -12,6 +12,7 @@ import { strictAssert } from '../../util/assert';
 import { canDeleteMessagesForEveryone } from '../selectors/message';
 import { useConversationsActions } from '../ducks/conversations';
 import { useToastActions } from '../ducks/toast';
+import { getConversationSelector } from '../selectors/conversations';
 
 export function SmartDeleteMessagesModal(): JSX.Element | null {
   const deleteMessagesProps = useSelector<
@@ -23,6 +24,10 @@ export function SmartDeleteMessagesModal(): JSX.Element | null {
     'Cannot render delete messages modal without messages'
   );
   const { conversationId, messageIds, onDelete } = deleteMessagesProps;
+  const isMe = useSelector((state: StateType) => {
+    return getConversationSelector(state)(conversationId).isMe;
+  });
+
   const canDeleteForEveryone = useSelector((state: StateType) => {
     return canDeleteMessagesForEveryone(state, messageIds);
   });
@@ -37,6 +42,7 @@ export function SmartDeleteMessagesModal(): JSX.Element | null {
 
   return (
     <DeleteMessagesModal
+      isMe={isMe}
       canDeleteForEveryone={canDeleteForEveryone}
       i18n={i18n}
       messageCount={deleteMessagesProps.messageIds.length}
