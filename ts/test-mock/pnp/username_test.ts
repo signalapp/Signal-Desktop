@@ -255,7 +255,7 @@ describe('pnp/username', function needsName() {
     const window = await app.getWindow();
 
     debug('entering username into search field');
-    await window.locator('button[aria-label="New conversation"]').click();
+    await window.locator('button[aria-label="New chat"]').click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
     await searchInput.type(`@${CARL_USERNAME}`);
