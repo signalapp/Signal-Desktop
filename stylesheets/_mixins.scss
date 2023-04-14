@@ -573,13 +573,13 @@
 @mixin color-bubble($bubble-size) {
   background-clip: content-box;
   border-color: transparent;
-  border-radius: $bubble-size + 12px;
+  border-radius: $bubble-size;
   border-style: solid;
   border-width: 4px;
   cursor: pointer;
-  height: $bubble-size + 12px;
+  height: $bubble-size;
   padding: 2px;
-  width: $bubble-size + 12px;
+  width: $bubble-size;
 
   @each $color, $value in $conversation-colors {
     &--#{$color} {
