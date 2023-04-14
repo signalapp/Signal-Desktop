@@ -59,6 +59,8 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     <CompositionTextArea
       {...props}
       i18n={i18n}
+      isFormattingSpoilersEnabled
+      isFormattingEnabled
       onPickEmoji={action('onPickEmoji')}
       skinTone={0}
       onSetSkinTone={action('onSetSkinTone')}

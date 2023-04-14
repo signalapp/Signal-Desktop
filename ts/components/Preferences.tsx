@@ -80,6 +80,7 @@ export type PropsDataType = {
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean;
   hasStoriesDisabled: boolean;
+  hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -97,6 +98,9 @@ export type PropsDataType = {
   hasCustomTitleBar: boolean;
   initialSpellCheckSetting: boolean;
   shouldShowStoriesSettings: boolean;
+
+  // Feature flags
+  isFormattingFlagEnabled: boolean;
 
   // Limited support features
   isAudioNotificationsSupported: boolean;
@@ -162,6 +166,7 @@ type PropsFunctionType = {
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
+  onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
@@ -245,12 +250,14 @@ export function Preferences({
   hasRelayCalls,
   hasSpellCheck,
   hasStoriesDisabled,
+  hasTextFormatting,
   hasTypingIndicators,
   i18n,
   initialSpellCheckSetting,
   isAudioNotificationsSupported,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
+  isFormattingFlagEnabled,
   isHideMenuBarSupported,
   isPhoneNumberSharingSupported,
   isNotificationAttentionSupported,
@@ -284,6 +291,7 @@ export function Preferences({
   onSelectedSpeakerChange,
   onSentMediaQualityChange,
   onSpellCheckChange,
+  onTextFormattingChange,
   onThemeChange,
   onUniversalExpireTimerChange,
   onWhoCanSeeMeChange,
@@ -550,6 +558,15 @@ export function Preferences({
             name="spellcheck"
             onChange={onSpellCheckChange}
           />
+          {isFormattingFlagEnabled && (
+            <Checkbox
+              checked={hasTextFormatting}
+              label={i18n('icu:textFormattingDescripton')}
+              moduleClassName="Preferences__checkbox"
+              name="textFormatting"
+              onChange={onTextFormattingChange}
+            />
+          )}
           <Checkbox
             checked={hasLinkPreviews}
             description={i18n('icu:Preferences__link-previews--description')}

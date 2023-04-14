@@ -59,6 +59,9 @@ export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: UUIDStringType;
   source?: SafetyNumberChangeSource;
 }>;
+export type FormattingWarningDataType = ReadonlyDeep<{
+  explodedPromise: ExplodePromiseResultType<boolean>;
+}>;
 export type AuthorizeArtCreatorDataType =
   ReadonlyDeep<AuthorizeArtCreatorOptionsType>;
 
@@ -72,27 +75,28 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
+  authArtCreatorData?: AuthorizeArtCreatorDataType;
   contactModalState?: ContactModalStateType;
+  deleteMessagesProps?: DeleteMessagesPropsType;
   editHistoryMessages?: EditHistoryMessagesType;
   errorModalProps?: {
     description?: string;
     title?: string;
   };
-  deleteMessagesProps?: DeleteMessagesPropsType;
+  formattingWarningData?: FormattingWarningDataType;
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
+  isAuthorizingArtCreator?: boolean;
   isProfileEditorVisible: boolean;
-  isSignalConnectionsVisible: boolean;
   isShortcutGuideModalVisible: boolean;
+  isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
   profileEditorHasError: boolean;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
-  isAuthorizingArtCreator?: boolean;
-  authArtCreatorData?: AuthorizeArtCreatorDataType;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -126,6 +130,8 @@ const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const SHOW_FORMATTING_WARNING_MODAL =
+  'globalModals/SHOW_FORMATTING_WARNING_MODAL';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
@@ -219,6 +225,13 @@ type ToggleConfirmationModalActionType = ReadonlyDeep<{
 
 type ShowStoriesSettingsActionType = ReadonlyDeep<{
   type: typeof SHOW_STORIES_SETTINGS;
+}>;
+
+type ShowFormattingWarningModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_FORMATTING_WARNING_MODAL;
+  payload: {
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined;
+  };
 }>;
 
 type HideStoriesSettingsActionType = ReadonlyDeep<{
@@ -323,6 +336,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ShowFormattingWarningModalActionType
   | ShowSendAnywayDialogActionType
   | ShowShortcutGuideModalActionType
   | ShowStickerPackPreviewActionType
@@ -331,13 +345,13 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
   | ToggleAddUserToAnotherGroupModalActionType
+  | ToggleConfirmationModalActionType
   | ToggleDeleteMessagesModalActionType
   | ToggleForwardMessagesModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
-  | ToggleConfirmationModalActionType
 >;
 
 // Action Creators
@@ -360,6 +374,7 @@ export const actions = {
   showContactModal,
   showEditHistoryModal,
   showErrorModal,
+  showFormattingWarningModal,
   showGV2MigrationDialog,
   showShortcutGuideModal,
   showStickerPackPreview,
@@ -432,6 +447,12 @@ function hideStoriesSettings(): HideStoriesSettingsActionType {
 
 function showStoriesSettings(): ShowStoriesSettingsActionType {
   return { type: SHOW_STORIES_SETTINGS };
+}
+
+function showFormattingWarningModal(
+  explodedPromise: ExplodePromiseResultType<boolean> | undefined
+): ShowFormattingWarningModalActionType {
+  return { type: SHOW_FORMATTING_WARNING_MODAL, payload: { explodedPromise } };
 }
 
 function showGV2MigrationDialog(
@@ -941,6 +962,21 @@ export function reducer(
     return {
       ...state,
       stickerPackPreviewId: undefined,
+    };
+  }
+
+  if (action.type === SHOW_FORMATTING_WARNING_MODAL) {
+    const { explodedPromise } = action.payload;
+    if (!explodedPromise) {
+      return {
+        ...state,
+        formattingWarningData: undefined,
+      };
+    }
+
+    return {
+      ...state,
+      formattingWarningData: { explodedPromise },
     };
   }
 

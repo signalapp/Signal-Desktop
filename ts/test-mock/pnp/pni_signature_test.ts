@@ -104,9 +104,6 @@ describe('pnp/PNI Signature', function needsName() {
 
     const leftPane = window.locator('.left-pane-wrapper');
     const conversationStack = window.locator('.conversation-stack');
-    const composeArea = window.locator(
-      '.composition-area-wrapper, .conversation .ConversationView'
-    );
 
     debug('creating a stranger');
     const stranger = await server.createPrimaryDevice({
@@ -163,15 +160,13 @@ describe('pnp/PNI Signature', function needsName() {
       assert.strictEqual(source, desktop, 'initial message has valid source');
       checkPniSignature(content.pniSignatureMessage, 'initial message');
     }
-
     debug('Enter first message text');
-    const compositionInput = composeArea.locator(
-      '[data-testid=CompositionInput]'
-    );
+    {
+      const compositionInput = await app.waitForEnabledComposer();
 
-    await compositionInput.type('first');
-    await compositionInput.press('Enter');
-
+      await compositionInput.type('first');
+      await compositionInput.press('Enter');
+    }
     debug('Waiting for the first message with pni signature');
     {
       const { source, content, body, dataMessage } =
@@ -193,12 +188,13 @@ describe('pnp/PNI Signature', function needsName() {
         timestamp: receiptTimestamp,
       });
     }
-
     debug('Enter second message text');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
 
-    await compositionInput.type('second');
-    await compositionInput.press('Enter');
-
+      await compositionInput.type('second');
+      await compositionInput.press('Enter');
+    }
     debug('Waiting for the second message with pni signature');
     {
       const { source, content, body, dataMessage } =
@@ -221,12 +217,13 @@ describe('pnp/PNI Signature', function needsName() {
         timestamp: receiptTimestamp,
       });
     }
-
     debug('Enter third message text');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
 
-    await compositionInput.type('third');
-    await compositionInput.press('Enter');
-
+      await compositionInput.type('third');
+      await compositionInput.press('Enter');
+    }
     debug('Waiting for the third message without pni signature');
     {
       const { source, content, body } = await stranger.waitForMessage();
@@ -261,9 +258,6 @@ describe('pnp/PNI Signature', function needsName() {
     const window = await app.getWindow();
 
     const leftPane = window.locator('.left-pane-wrapper');
-    const composeArea = window.locator(
-      '.composition-area-wrapper, .conversation .ConversationView'
-    );
 
     debug('opening conversation with the pni contact');
     await leftPane
@@ -272,12 +266,12 @@ describe('pnp/PNI Signature', function needsName() {
       .click();
 
     debug('Enter a PNI message text');
-    const compositionInput = composeArea.locator(
-      '[data-testid=CompositionInput]'
-    );
+    {
+      const compositionInput = await app.waitForEnabledComposer();
 
-    await compositionInput.type('Hello PNI');
-    await compositionInput.press('Enter');
+      await compositionInput.type('Hello PNI');
+      await compositionInput.press('Enter');
+    }
 
     debug('Waiting for a PNI message');
     {
@@ -296,7 +290,11 @@ describe('pnp/PNI Signature', function needsName() {
     const state = await phone.expectStorageState('state before merge');
 
     debug('Enter a draft text without hitting enter');
-    await compositionInput.type('Draft text');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
+
+      await compositionInput.type('Draft text');
+    }
 
     debug('Send back the response with profile key and pni signature');
 
@@ -313,12 +311,14 @@ describe('pnp/PNI Signature', function needsName() {
       .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
       .waitFor();
 
-    debug('Wait for composition input to clear');
-    await composeArea.locator('[data-testid=CompositionInput]').waitFor();
+    {
+      debug('Wait for composition input to clear');
+      const compositionInput = await app.waitForEnabledComposer();
 
-    debug('Enter an ACI message text');
-    await compositionInput.type('Hello ACI');
-    await compositionInput.press('Enter');
+      debug('Enter an ACI message text');
+      await compositionInput.type('Hello ACI');
+      await compositionInput.press('Enter');
+    }
 
     debug('Waiting for a ACI message');
     {

@@ -4,6 +4,7 @@
 import type UpdatedDelta from 'quill-delta';
 import type { MentionCompletion } from './mentions/completion';
 import type { EmojiCompletion } from './emoji/completion';
+import type { FormattingMenu } from './formatting/menu';
 
 declare module 'react-quill' {
   // `react-quill` uses a different but compatible version of Delta
@@ -21,12 +22,17 @@ declare module 'quill' {
   interface UpdatedKey {
     key: string | number;
     shiftKey?: boolean;
+    shortKey?: boolean;
   }
 
   export type UpdatedTextChangeHandler = (
     delta: UpdatedDelta,
     oldContents: UpdatedDelta,
     source: Sources
+  ) => void;
+
+  export type UpdatedEditorChangeHandler = (
+    eventName: 'text-change' | 'selection-change'
   ) => void;
 
   interface LeafBlot {
@@ -61,11 +67,16 @@ declare module 'quill' {
       eventName: 'text-change',
       handler: UpdatedTextChangeHandler
     ): EventEmitter;
+    on(
+      eventName: 'editor-change',
+      handler: UpdatedEditorChangeHandler
+    ): EventEmitter;
 
-    getModule(module: 'history'): HistoryStatic;
     getModule(module: 'clipboard'): ClipboardStatic;
-    getModule(module: 'mentionCompletion'): MentionCompletion;
     getModule(module: 'emojiCompletion'): EmojiCompletion;
+    getModule(module: 'formattingMenu'): FormattingMenu;
+    getModule(module: 'history'): HistoryStatic;
+    getModule(module: 'mentionCompletion'): MentionCompletion;
     getModule(module: string): unknown;
 
     selection: SelectionStatic;

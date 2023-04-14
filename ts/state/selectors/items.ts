@@ -48,7 +48,7 @@ export const getUniversalExpireTimer = createSelector(
     DurationInSeconds.fromSeconds(state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0)
 );
 
-const isRemoteConfigFlagEnabled = (
+export const isRemoteConfigFlagEnabled = (
   config: Readonly<ConfigMapType>,
   key: ConfigKeyType
 ): boolean => Boolean(config[key]?.enabled);
@@ -249,4 +249,9 @@ export const getAutoDownloadUpdate = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
     Boolean(state['auto-download-update'] ?? true)
+);
+
+export const getTextFormattingEnabled = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
 );

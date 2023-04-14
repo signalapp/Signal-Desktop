@@ -62,6 +62,7 @@ export class SettingsChannel extends EventEmitter {
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
     this.installCallback('isPhoneNumberSharingEnabled');
+    this.installCallback('isFormattingFlagEnabled');
     this.installCallback('shouldShowStoriesSettings');
 
     // Getters only. These are set by the primary device
@@ -87,6 +88,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('spellCheck', {
       isEphemeral: true,
     });
+    this.installSetting('textFormatting');
 
     this.installSetting('autoDownloadUpdate');
     this.installSetting('autoLaunch');

@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
 import type {
@@ -84,6 +84,8 @@ export type PropsType = {
   hasAllStoriesUnmuted: boolean;
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
+  isFormattingEnabled: boolean;
+  isFormattingSpoilersEnabled: boolean;
   isInternalUser?: boolean;
   isSignalConversation?: boolean;
   isWindowActive: boolean;
@@ -97,7 +99,7 @@ export type PropsType = {
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
     message: string,
-    mentions: ReadonlyArray<DraftBodyRangeMention>,
+    bodyRanges: DraftBodyRanges,
     timestamp: number,
     story: StoryViewType
   ) => unknown;
@@ -144,6 +146,8 @@ export function StoryViewer({
   hasAllStoriesUnmuted,
   hasViewReceiptSetting,
   i18n,
+  isFormattingEnabled,
+  isFormattingSpoilersEnabled,
   isInternalUser,
   isSignalConversation,
   isWindowActive,
@@ -933,6 +937,8 @@ export function StoryViewer({
             hasViewsCapability={isSent}
             i18n={i18n}
             platform={platform}
+            isFormattingEnabled={isFormattingEnabled}
+            isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
             isInternalUser={isInternalUser}
             group={group}
             onClose={() => setCurrentViewTarget(null)}
@@ -944,12 +950,12 @@ export function StoryViewer({
               }
               setReactionEmoji(emoji);
             }}
-            onReply={(message, mentions, replyTimestamp) => {
+            onReply={(message, replyBodyRanges, replyTimestamp) => {
               if (!isGroupStory) {
                 setCurrentViewTarget(null);
                 showToast({ toastType: ToastType.StoryReply });
               }
-              onReplyToStory(message, mentions, replyTimestamp, story);
+              onReplyToStory(message, replyBodyRanges, replyTimestamp, story);
             }}
             onSetSkinTone={onSetSkinTone}
             onTextTooLong={onTextTooLong}

@@ -64,6 +64,8 @@ export function WithCaption(): JSX.Element {
         <CompositionTextArea
           {...props}
           i18n={i18n}
+          isFormattingSpoilersEnabled
+          isFormattingEnabled
           onPickEmoji={action('onPickEmoji')}
           onSetSkinTone={action('onSetSkinTone')}
           onTextTooLong={action('onTextTooLong')}

@@ -22,7 +22,7 @@ import type {
   ReactionType,
 } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import { BodyRange } from '../../types/BodyRange';
+import type { RawBodyRange } from '../../types/BodyRange';
 import type { StoryContextType } from '../../types/Util';
 import type { LoggerType } from '../../types/Logging';
 import type { StickerWithHydratedData } from '../../types/Stickers';
@@ -150,7 +150,7 @@ export async function sendNormalMessage(
       contact,
       deletedForEveryoneTimestamp,
       expireTimer,
-      mentions,
+      bodyRanges,
       messageTimestamp,
       preview,
       quote,
@@ -208,6 +208,7 @@ export async function sendNormalMessage(
       const dataMessage = await messaging.getDataMessage({
         attachments,
         body,
+        bodyRanges,
         contact,
         deletedForEveryoneTimestamp,
         expireTimer,
@@ -252,6 +253,7 @@ export async function sendNormalMessage(
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
                 attachments,
+                bodyRanges,
                 contact,
                 deletedForEveryoneTimestamp,
                 expireTimer,
@@ -267,7 +269,6 @@ export async function sendNormalMessage(
                 storyContext,
                 reaction,
                 timestamp: messageTimestamp,
-                mentions,
               },
               messageId,
               sendOptions,
@@ -307,6 +308,7 @@ export async function sendNormalMessage(
         log.info('sending direct message');
         innerPromise = messaging.sendMessageToIdentifier({
           attachments,
+          bodyRanges,
           contact,
           contentHint: ContentHint.RESENDABLE,
           deletedForEveryoneTimestamp,
@@ -472,7 +474,7 @@ async function getMessageSendData({
   contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
   expireTimer: undefined | DurationInSeconds;
-  mentions: undefined | ReadonlyArray<BodyRange<BodyRange.Mention>>;
+  bodyRanges: undefined | ReadonlyArray<RawBodyRange>;
   messageTimestamp: number;
   preview: Array<LinkPreviewType>;
   quote: QuotedMessageType | null;
@@ -539,7 +541,8 @@ async function getMessageSendData({
     contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
     expireTimer: message.get('expireTimer'),
-    mentions: message.get('bodyRanges')?.filter(BodyRange.isMention),
+    // TODO: we want filtration here if feature flag doesn't allow format/spoiler sends
+    bodyRanges: message.get('bodyRanges'),
     messageTimestamp,
     preview,
     quote,

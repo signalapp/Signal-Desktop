@@ -32,11 +32,16 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { isSignalConversation } from '../../util/isSignalConversation';
-import { getComposerStateForConversationIdSelector } from '../selectors/composer';
+import {
+  getComposerStateForConversationIdSelector,
+  getIsFormattingEnabled,
+  getIsFormattingSpoilersEnabled,
+} from '../selectors/composer';
 import type { SmartCompositionRecordingProps } from './CompositionRecording';
 import { SmartCompositionRecording } from './CompositionRecording';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft';
 import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft';
+import { BodyRange } from '../../types/BodyRange';
 
 type ExternalProps = {
   id: string;
@@ -93,6 +98,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const selectedMessageIds = getSelectedMessageIds(state);
 
+  const isFormattingEnabled = getIsFormattingEnabled(state);
+  const isFormattingSpoilersEnabled = getIsFormattingSpoilersEnabled(state);
+
   return {
     // Base
     conversationId: id,
@@ -100,6 +108,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isDisabled,
+    isFormattingSpoilersEnabled,
+    isFormattingEnabled,
     messageCompositionId,
     sendCounter,
     theme: getTheme(state),
@@ -154,7 +164,19 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     groupAdmins: getGroupAdminsSelector(state)(conversation.id),
 
     draftText: dropNull(draftText),
-    draftBodyRanges,
+    draftBodyRanges: draftBodyRanges?.map(bodyRange => {
+      if (BodyRange.isMention(bodyRange)) {
+        const mentionConvo = conversationSelector(bodyRange.mentionUuid);
+
+        return {
+          ...bodyRange,
+          conversationID: mentionConvo.id,
+          replacementText: mentionConvo.title,
+        };
+      }
+
+      return bodyRange;
+    }),
     renderSmartCompositionRecording: (
       recProps: SmartCompositionRecordingProps
     ) => {

@@ -3,32 +3,17 @@
 
 .MessageTextRenderer {
   &__formatting {
-    &--bold {
-      font-weight: 600;
-    }
-    &--italic {
-      font-style: italic;
-    }
+    // bold is handled by <strong> element
+    // italic is handled by <em> element
+    // strikethrough is handled by <s> element
+
     &--monospace {
       font-family: monospace;
-    }
-    &--strikethrough {
-      text-decoration: line-through;
-      bdi {
-        text-decoration: line-through;
-      }
-    }
-    &--none {
-      text-decoration: none;
-      font-weight: 400;
-      bdi {
-        text-decoration: none;
-      }
     }
 
     // Note: only used in the left pane for search results, not in message bubbles
     &--keywordHighlight {
-      font-weight: 600;
+      // Boldness of this is handled by <strong> element
 
       // To differentiate it from bold formatting, we increase the color contrast
       @include light-theme {
@@ -43,6 +28,10 @@
     &--spoiler {
       user-select: none;
       cursor: pointer;
+
+      // Lighten things up a bit
+      opacity: 50%;
+      border-radius: 4px;
 
       // make child text invisible
       color: transparent;

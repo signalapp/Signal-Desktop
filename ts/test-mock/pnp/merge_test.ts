@@ -123,12 +123,7 @@ describe('pnp/merge', function needsName() {
 
         debug('Send message to ACI');
         {
-          const composeArea = window.locator(
-            '.composition-area-wrapper, .conversation .ConversationView'
-          );
-          const compositionInput = composeArea.locator(
-            '[data-testid=CompositionInput]'
-          );
+          const compositionInput = await app.waitForEnabledComposer();
 
           await compositionInput.type('Hello ACI');
           await compositionInput.press('Enter');
@@ -159,12 +154,7 @@ describe('pnp/merge', function needsName() {
 
         if (withNotification) {
           debug('Send message to PNI');
-          const composeArea = window.locator(
-            '.composition-area-wrapper, .conversation .ConversationView'
-          );
-          const compositionInput = composeArea.locator(
-            '[data-testid=CompositionInput]'
-          );
+          const compositionInput = await app.waitForEnabledComposer();
 
           await compositionInput.type('Hello PNI');
           await compositionInput.press('Enter');
@@ -273,12 +263,7 @@ describe('pnp/merge', function needsName() {
 
     debug('Send message to merged contact');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('Hello merged');
       await compositionInput.press('Enter');
@@ -381,12 +366,7 @@ describe('pnp/merge', function needsName() {
 
     debug('Send message to merged contact');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('Hello merged');
       await compositionInput.press('Enter');

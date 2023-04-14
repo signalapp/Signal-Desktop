@@ -11,7 +11,7 @@ import React, {
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -89,13 +89,15 @@ export type PropsType = {
   hasViewsCapability: boolean;
   i18n: LocalizerType;
   platform: string;
+  isFormattingEnabled: boolean;
+  isFormattingSpoilersEnabled: boolean;
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
   onReact: (emoji: string) => unknown;
   onReply: (
     message: string,
-    mentions: ReadonlyArray<DraftBodyRangeMention>,
+    bodyRanges: DraftBodyRanges,
     timestamp: number
   ) => unknown;
   onSetSkinTone: (tone: number) => unknown;
@@ -123,6 +125,8 @@ export function StoryViewsNRepliesModal({
   hasViewsCapability,
   i18n,
   platform,
+  isFormattingEnabled,
+  isFormattingSpoilersEnabled,
   isInternalUser,
   onChangeViewTarget,
   onClose,
@@ -233,6 +237,8 @@ export function StoryViewsNRepliesModal({
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               inputApi={inputApiRef}
+              isFormattingEnabled={isFormattingEnabled}
+              isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onEditorStateChange={({ messageText }) => {
                 setMessageBodyText(messageText);

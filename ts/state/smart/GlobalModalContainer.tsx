@@ -68,6 +68,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     editHistoryMessages,
     errorModalProps,
     deleteMessagesProps,
+    formattingWarningData,
     forwardMessagesProps,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
@@ -85,12 +86,13 @@ export function SmartGlobalModalContainer(): JSX.Element {
   );
 
   const {
-    closeErrorModal,
-    hideWhatsNewModal,
-    hideUserNotFoundModal,
-    toggleSignalConnectionsModal,
     cancelAuthorizeArtCreator,
+    closeErrorModal,
     confirmAuthorizeArtCreator,
+    hideUserNotFoundModal,
+    hideWhatsNewModal,
+    showFormattingWarningModal,
+    toggleSignalConnectionsModal,
   } = useGlobalModalActions();
 
   const renderAddUserToAnotherGroup = useCallback(() => {
@@ -135,6 +137,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       editHistoryMessages={editHistoryMessages}
       errorModalProps={errorModalProps}
       deleteMessagesProps={deleteMessagesProps}
+      formattingWarningData={formattingWarningData}
       forwardMessagesProps={forwardMessagesProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
@@ -159,6 +162,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderStoriesSettings={renderStoriesSettings}
       safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
       safetyNumberModalContactId={safetyNumberModalContactId}
+      showFormattingWarningModal={showFormattingWarningModal}
       stickerPackPreviewId={stickerPackPreviewId}
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}

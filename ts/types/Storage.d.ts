@@ -54,13 +54,13 @@ export type StorageAccessType = {
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
-  'system-tray-setting': SystemTraySetting;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'sent-media-quality': SentMediaQualitySettingType;
   'spell-check': boolean;
+  'system-tray-setting': SystemTraySetting;
   'theme-setting': ThemeSettingType;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
@@ -69,6 +69,7 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
+  formattingWarningShown: boolean;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
@@ -110,6 +111,7 @@ export type StorageAccessType = {
   // Unlike `number_id` (which also includes device id) this field is only
   // updated whenever we receive a new storage manifest
   accountE164: string;
+  textFormatting: boolean;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;

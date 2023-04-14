@@ -26,6 +26,8 @@ export default {
         <CompositionTextArea
           {...props}
           i18n={i18n}
+          isFormattingEnabled={false}
+          isFormattingSpoilersEnabled={false}
           onPickEmoji={action('onPickEmoji')}
           onChange={action('onChange')}
           onTextTooLong={action('onTextTooLong')}

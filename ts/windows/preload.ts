@@ -32,6 +32,7 @@ installSetting('typingIndicatorSetting', {
 });
 
 installCallback('deleteAllMyStories');
+installCallback('isFormattingFlagEnabled');
 installCallback('isPhoneNumberSharingEnabled');
 installCallback('isPrimary');
 installCallback('shouldShowStoriesSettings');
@@ -54,6 +55,7 @@ installSetting('notificationSetting');
 installSetting('spellCheck');
 installSetting('systemTraySetting');
 installSetting('sentMediaQualitySetting');
+installSetting('textFormatting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');

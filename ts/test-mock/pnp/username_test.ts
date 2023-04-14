@@ -265,12 +265,7 @@ describe('pnp/username', function needsName() {
 
     debug('sending a message');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('Hello Carl');
       await compositionInput.press('Enter');

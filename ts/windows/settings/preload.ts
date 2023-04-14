@@ -42,8 +42,9 @@ const settingNotificationDrawAttention = createSetting(
 );
 const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
-const settingSpellCheck = createSetting('spellCheck');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
+const settingSpellCheck = createSetting('spellCheck');
+const settingTextFormatting = createSetting('textFormatting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
 
@@ -78,6 +79,7 @@ const settingUniversalExpireTimer = createSetting('universalExpireTimer');
 // Callbacks
 const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
+const ipcIsFormattingFlagEnabled = createCallback('isFormattingFlagEnabled');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
 const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
@@ -148,7 +150,9 @@ const renderPreferences = async () => {
     hasRelayCalls,
     hasSpellCheck,
     hasStoriesDisabled,
+    hasTextFormatting,
     hasTypingIndicators,
+    isFormattingFlagEnabled,
     isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
@@ -187,6 +191,7 @@ const renderPreferences = async () => {
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
     hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
+    hasTextFormatting: settingTextFormatting.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -206,6 +211,7 @@ const renderPreferences = async () => {
     availableIODevices: ipcGetAvailableIODevices(),
     customColors: ipcGetCustomColors(),
     defaultConversationColor: ipcGetDefaultConversationColor(),
+    isFormattingFlagEnabled: ipcIsFormattingFlagEnabled(),
     isSyncNotSupported: ipcIsSyncNotSupported(),
     shouldShowStoriesSettings: ipcShouldShowStoriesSettings(),
   });
@@ -248,6 +254,7 @@ const renderPreferences = async () => {
     hasRelayCalls,
     hasSpellCheck,
     hasStoriesDisabled,
+    hasTextFormatting,
     hasTypingIndicators,
     lastSyncTime,
     notificationContent,
@@ -293,6 +300,9 @@ const renderPreferences = async () => {
       Settings.isMinimizeToAndStartInSystemTraySupported(
         SignalContext.getVersion()
       ),
+
+    // Feature flags
+    isFormattingFlagEnabled,
 
     // Change handlers
     onAudioNotificationsChange: reRender(settingAudioNotification.setValue),
@@ -353,6 +363,7 @@ const renderPreferences = async () => {
     onSelectedSpeakerChange: reRender(settingAudioOutput.setValue),
     onSentMediaQualityChange: reRender(settingSentMediaQuality.setValue),
     onSpellCheckChange: reRender(settingSpellCheck.setValue),
+    onTextFormattingChange: reRender(settingTextFormatting.setValue),
     onThemeChange: reRender(settingTheme.setValue),
     onUniversalExpireTimerChange: (newValue: number): Promise<void> => {
       return onUniversalExpireTimerChange(

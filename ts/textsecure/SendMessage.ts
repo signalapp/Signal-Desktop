@@ -57,6 +57,7 @@ import {
   HTTPError,
   NoSenderKeyError,
 } from './Errors';
+import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import type { StoryContextType } from '../types/Util';
 import type {
@@ -177,6 +178,7 @@ export type ContactWithHydratedAvatar = EmbeddedContactType & {
 export type MessageOptionsType = {
   attachments?: ReadonlyArray<AttachmentType> | null;
   body?: string;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: Array<ContactWithHydratedAvatar>;
   expireTimer?: DurationInSeconds;
   flags?: number;
@@ -194,12 +196,12 @@ export type MessageOptionsType = {
   reaction?: ReactionType;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
-  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
   groupCallUpdate?: GroupCallUpdateType;
   storyContext?: StoryContextType;
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp?: number;
   expireTimer?: DurationInSeconds;
@@ -207,7 +209,6 @@ export type GroupSendOptionsType = {
   groupCallUpdate?: GroupCallUpdateType;
   groupV1?: GroupV1InfoType;
   groupV2?: GroupV2InfoType;
-  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
   messageText?: string;
   preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
@@ -222,6 +223,8 @@ class Message {
   attachments: ReadonlyArray<AttachmentType>;
 
   body?: string;
+
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
 
   contact?: Array<ContactWithHydratedAvatar>;
 
@@ -258,8 +261,6 @@ class Message {
 
   deletedForEveryoneTimestamp?: number;
 
-  mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
-
   groupCallUpdate?: GroupCallUpdateType;
 
   storyContext?: StoryContextType;
@@ -267,6 +268,7 @@ class Message {
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
+    this.bodyRanges = options.bodyRanges;
     this.contact = options.contact;
     this.expireTimer = options.expireTimer;
     this.flags = options.flags;
@@ -281,7 +283,6 @@ class Message {
     this.reaction = options.reaction;
     this.timestamp = options.timestamp;
     this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
-    this.mentions = options.mentions;
     this.groupCallUpdate = options.groupCallUpdate;
     this.storyContext = options.storyContext;
 
@@ -355,13 +356,21 @@ class Message {
     if (this.body) {
       proto.body = this.body;
 
-      const mentionCount = this.mentions ? this.mentions.length : 0;
+      const mentionCount = this.bodyRanges
+        ? this.bodyRanges.filter(BodyRange.isMention).length
+        : 0;
+      const otherRangeCount = this.bodyRanges
+        ? this.bodyRanges.length - mentionCount
+        : 0;
       const placeholders = this.body.match(/\uFFFC/g);
       const placeholderCount = placeholders ? placeholders.length : 0;
+      const storyInfo = this.storyContext
+        ? `, story: ${this.storyContext.timestamp}`
+        : '';
       log.info(
-        `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders${
-          this.storyContext ? `, story: ${this.storyContext.timestamp}` : ''
-        }`
+        `Sending a message with ${mentionCount} mentions, ` +
+          `${placeholderCount} placeholders, ` +
+          `and ${otherRangeCount} other ranges${storyInfo}`
       );
     }
     if (this.flags) {
@@ -547,16 +556,28 @@ class Message {
         targetSentTimestamp: Long.fromNumber(this.deletedForEveryoneTimestamp),
       };
     }
-    if (this.mentions) {
+    if (this.bodyRanges) {
       proto.requiredProtocolVersion =
         Proto.DataMessage.ProtocolVersion.MENTIONS;
-      proto.bodyRanges = this.mentions.map(
-        ({ start, length, mentionUuid }) => ({
-          start,
-          length,
-          mentionUuid,
-        })
-      );
+      proto.bodyRanges = this.bodyRanges.map(bodyRange => {
+        const { start, length } = bodyRange;
+
+        if (BodyRange.isMention(bodyRange)) {
+          return {
+            start,
+            length,
+            mentionUuid: bodyRange.mentionUuid,
+          };
+        }
+        if (BodyRange.isFormatting(bodyRange)) {
+          return {
+            start,
+            length,
+            style: bodyRange.style,
+          };
+        }
+        throw missingCaseError(bodyRange);
+      });
     }
 
     if (this.groupCallUpdate) {
@@ -1079,6 +1100,7 @@ export default class MessageSender {
   ): MessageOptionsType {
     const {
       attachments,
+      bodyRanges,
       contact,
       deletedForEveryoneTimestamp,
       expireTimer,
@@ -1086,7 +1108,6 @@ export default class MessageSender {
       groupCallUpdate,
       groupV1,
       groupV2,
-      mentions,
       messageText,
       preview,
       profileKey,
@@ -1129,6 +1150,7 @@ export default class MessageSender {
 
     return {
       attachments,
+      bodyRanges,
       body: messageText,
       contact,
       deletedForEveryoneTimestamp,
@@ -1142,7 +1164,6 @@ export default class MessageSender {
             type: Proto.GroupContext.Type.DELIVER,
           }
         : undefined,
-      mentions,
       preview,
       profileKey,
       quote,
@@ -1344,6 +1365,7 @@ export default class MessageSender {
   //   message to just one person.
   async sendMessageToIdentifier({
     attachments,
+    bodyRanges,
     contact,
     contentHint,
     deletedForEveryoneTimestamp,
@@ -1364,6 +1386,7 @@ export default class MessageSender {
     includePniSignatureMessage,
   }: Readonly<{
     attachments: ReadonlyArray<AttachmentType> | undefined;
+    bodyRanges?: ReadonlyArray<RawBodyRange>;
     contact?: Array<ContactWithHydratedAvatar>;
     contentHint: number;
     deletedForEveryoneTimestamp: number | undefined;
@@ -1386,6 +1409,7 @@ export default class MessageSender {
     return this.sendMessage({
       messageOptions: {
         attachments,
+        bodyRanges,
         body: messageText,
         contact,
         deletedForEveryoneTimestamp,

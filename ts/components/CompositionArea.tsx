@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
 import { RecordingState } from '../types/AudioRecorder';
@@ -93,6 +93,8 @@ export type OwnProps = Readonly<{
   imageToBlurHash: typeof imageToBlurHash;
   isDisabled: boolean;
   isFetchingUUID?: boolean;
+  isFormattingEnabled: boolean;
+  isFormattingSpoilersEnabled: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSignalConversation?: boolean;
@@ -119,7 +121,7 @@ export type OwnProps = Readonly<{
     conversationId: string,
     options: {
       draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-      draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
+      bodyRanges?: DraftBodyRanges;
       message?: string;
       timestamp?: number;
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -232,6 +234,8 @@ export function CompositionArea({
   draftText,
   getPreferredBadge,
   getQuotedMessage,
+  isFormattingSpoilersEnabled,
+  isFormattingEnabled,
   onEditorStateChange,
   onTextTooLong,
   sendCounter,
@@ -305,15 +309,11 @@ export function CompositionArea({
   }, [inputApiRef, setLarge]);
 
   const handleSubmit = useCallback(
-    (
-      message: string,
-      mentions: ReadonlyArray<DraftBodyRangeMention>,
-      timestamp: number
-    ) => {
+    (message: string, bodyRanges: DraftBodyRanges, timestamp: number) => {
       emojiButtonRef.current?.close();
       sendMultiMediaMessage(conversationId, {
         draftAttachments,
-        draftBodyRanges: mentions,
+        bodyRanges,
         message,
         timestamp,
       });
@@ -511,14 +511,14 @@ export function CompositionArea({
     const handler = (e: KeyboardEvent) => {
       const { shiftKey, ctrlKey, metaKey } = e;
       const key = KeyboardLayout.lookup(e);
-      // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
-      const xKey = key === 'x' || key === 'X';
+      // When using the ctrl key, `key` is `'K'`. When using the cmd key, `key` is `'k'`
+      const targetKey = key === 'k' || key === 'K';
       const commandKey = get(window, 'platform') === 'darwin' && metaKey;
       const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
 
-      // cmd/ctrl-shift-x
-      if (xKey && shiftKey && commandOrCtrl) {
+      // cmd/ctrl-shift-k
+      if (targetKey && shiftKey && commandOrCtrl) {
         e.preventDefault();
         setLarge(x => !x);
       }
@@ -797,6 +797,8 @@ export function CompositionArea({
             getQuotedMessage={getQuotedMessage}
             i18n={i18n}
             inputApi={inputApiRef}
+            isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
+            isFormattingEnabled={isFormattingEnabled}
             large={large}
             linkPreviewLoading={linkPreviewLoading}
             linkPreviewResult={linkPreviewResult}

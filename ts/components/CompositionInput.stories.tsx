@@ -23,16 +23,24 @@ export default {
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   disabled: boolean('disabled', overrideProps.disabled || false),
-  onSubmit: action('onSubmit'),
-  onEditorStateChange: action('onEditorStateChange'),
-  onTextTooLong: action('onTextTooLong'),
   draftText: overrideProps.draftText || undefined,
   draftBodyRanges: overrideProps.draftBodyRanges || [],
   clearQuotedMessage: action('clearQuotedMessage'),
   getPreferredBadge: () => undefined,
   getQuotedMessage: action('getQuotedMessage'),
-  onPickEmoji: action('onPickEmoji'),
+  isFormattingSpoilersEnabled:
+    overrideProps.isFormattingSpoilersEnabled === false
+      ? overrideProps.isFormattingSpoilersEnabled
+      : true,
+  isFormattingEnabled:
+    overrideProps.isFormattingEnabled === false
+      ? overrideProps.isFormattingEnabled
+      : true,
   large: boolean('large', overrideProps.large || false),
+  onEditorStateChange: action('onEditorStateChange'),
+  onPickEmoji: action('onPickEmoji'),
+  onSubmit: action('onSubmit'),
+  onTextTooLong: action('onTextTooLong'),
   sendCounter: 0,
   sortedGroupMembers: overrideProps.sortedGroupMembers || [],
   skinTone: select(
@@ -124,10 +132,21 @@ export function Mentions(): JSX.Element {
         start: 5,
         length: 1,
         mentionUuid: '0',
+        conversationID: 'k',
         replacementText: 'Kate Beaton',
       },
     ],
   });
 
   return <CompositionInput {...props} />;
+}
+
+export function NoFormatting(): JSX.Element {
+  return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
+}
+
+export function NoSpoilerFormatting(): JSX.Element {
+  return (
+    <CompositionInput {...useProps({ isFormattingSpoilersEnabled: false })} />
+  );
 }

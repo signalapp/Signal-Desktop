@@ -39,6 +39,10 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
+import {
+  getIsFormattingEnabled,
+  getIsFormattingSpoilersEnabled,
+} from '../selectors/composer';
 
 export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
@@ -89,6 +93,11 @@ export function SmartStoryViewer(): JSX.Element | null {
     getHasStoryViewReceiptSetting
   );
 
+  const isFormattingEnabled = useSelector(getIsFormattingEnabled);
+  const isFormattingSpoilersEnabled = useSelector(
+    getIsFormattingSpoilersEnabled
+  );
+
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   const storyInfo = getStoryById(
@@ -114,7 +123,8 @@ export function SmartStoryViewer(): JSX.Element | null {
       i18n={i18n}
       platform={platform}
       isInternalUser={internalUser}
-      saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}
+      isFormattingEnabled={isFormattingEnabled}
+      isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
       isSignalConversation={isSignalConversation({
         id: conversationStory.conversationId,
       })}
@@ -149,6 +159,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
       retryMessageSend={retryMessageSend}
+      saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}
       showContactModal={showContactModal}
       showToast={showToast}
       skinTone={skinTone}

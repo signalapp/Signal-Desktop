@@ -9,14 +9,20 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import type { InputApi } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { EmojiButton } from './emoji/EmojiButton';
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../types/BodyRange';
 import type { ThemeType } from '../types/Util';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import * as grapheme from '../util/grapheme';
 
 export type CompositionTextAreaProps = {
+  bodyRanges?: HydratedBodyRangesType;
   i18n: LocalizerType;
+  isFormattingEnabled: boolean;
+  isFormattingSpoilersEnabled: boolean;
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
@@ -25,13 +31,13 @@ export type CompositionTextAreaProps = {
   onPickEmoji: (e: EmojiPickDataType) => void;
   onChange: (
     messageText: string,
-    draftBodyRanges: ReadonlyArray<DraftBodyRangeMention>,
+    draftBodyRanges: HydratedBodyRangesType,
     caretLocation?: number | undefined
   ) => void;
   onSetSkinTone: (tone: number) => void;
   onSubmit: (
     message: string,
-    draftBodyRanges: ReadonlyArray<DraftBodyRangeMention>,
+    draftBodyRanges: DraftBodyRanges,
     timestamp: number
   ) => void;
   onTextTooLong: () => void;
@@ -48,22 +54,25 @@ export type CompositionTextAreaProps = {
  * basically a rectangle input with an emoji selector floating at the top-right
  */
 export function CompositionTextArea({
+  bodyRanges,
+  draftText,
+  getPreferredBadge,
   i18n,
-  placeholder,
+  isFormattingEnabled,
+  isFormattingSpoilersEnabled,
   maxLength,
-  whenToShowRemainingCount = Infinity,
-  scrollerRef,
-  onScroll,
-  onPickEmoji,
   onChange,
+  onPickEmoji,
+  onScroll,
   onSetSkinTone,
   onSubmit,
   onTextTooLong,
-  getPreferredBadge,
-  draftText,
-  theme,
+  placeholder,
   recentEmojis,
+  scrollerRef,
   skinTone,
+  theme,
+  whenToShowRemainingCount = Infinity,
 }: CompositionTextAreaProps): JSX.Element {
   const inputApiRef = React.useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = React.useState(
@@ -87,7 +96,11 @@ export function CompositionTextArea({
   }, [inputApiRef]);
 
   const handleChange = React.useCallback(
-    ({ bodyRanges, caretLocation, messageText: newValue }) => {
+    ({
+      bodyRanges: updatedBodyRanges,
+      caretLocation,
+      messageText: newValue,
+    }) => {
       const inputEl = inputApiRef.current;
       if (!inputEl) {
         return;
@@ -108,11 +121,11 @@ export function CompositionTextArea({
           // was modifying text in the middle of the editor
           // a better solution would be to prevent the change to begin with, but
           // quill makes this VERY difficult
-          inputEl.setContents(newValueSized, bodyRanges, true);
+          inputEl.setContents(newValueSized, updatedBodyRanges, true);
         }
       }
       setCharacterCount(newCharacterCount);
-      onChange(newValue, bodyRanges, caretLocation);
+      onChange(newValue, updatedBodyRanges, caretLocation);
     },
     [maxLength, onChange]
   );
@@ -121,10 +134,13 @@ export function CompositionTextArea({
     <div className="CompositionTextArea">
       <CompositionInput
         clearQuotedMessage={shouldNeverBeCalled}
+        draftBodyRanges={bodyRanges}
         draftText={draftText}
         getPreferredBadge={getPreferredBadge}
         getQuotedMessage={noop}
         i18n={i18n}
+        isFormattingEnabled={isFormattingEnabled}
+        isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
         inputApi={inputApiRef}
         large
         moduleClassName="CompositionTextArea__input"

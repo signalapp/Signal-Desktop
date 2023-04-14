@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { debounce } from 'lodash';
+import { debounce, isEqual } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -17,7 +17,7 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type { DraftBodyRangeMention } from '../../types/BodyRange';
+import type { DraftBodyRanges } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
@@ -87,6 +87,7 @@ import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { makeQuote } from '../../util/makeQuote';
+import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
 
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -380,7 +381,7 @@ function sendMultiMediaMessage(
   conversationId: string,
   options: {
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-    draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
+    bodyRanges?: DraftBodyRanges;
     message?: string;
     timestamp?: number;
     voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -404,7 +405,7 @@ function sendMultiMediaMessage(
 
     const {
       draftAttachments,
-      draftBodyRanges,
+      bodyRanges,
       message = '',
       timestamp = Date.now(),
       voiceNoteAttachment,
@@ -430,7 +431,28 @@ function sendMultiMediaMessage(
       }
     } catch (error) {
       dispatch(setComposerDisabledState(conversationId, false));
-      log.error('sendMessage error:', Errors.toLogFormat(error));
+      log.error(
+        'sendMessage block until verified error:',
+        Errors.toLogFormat(error)
+      );
+      return;
+    }
+
+    try {
+      if (bodyRanges?.length && !window.storage.get('formattingWarningShown')) {
+        const sendAnyway = await maybeBlockSendForFormattingModal(bodyRanges);
+        if (!sendAnyway) {
+          dispatch(setComposerDisabledState(conversationId, false));
+          return;
+        }
+        drop(window.storage.put('formattingWarningShown', true));
+      }
+    } catch (error) {
+      dispatch(setComposerDisabledState(conversationId, false));
+      log.error(
+        'sendMessage block for formatting modal:',
+        Errors.toLogFormat(error)
+      );
       return;
     }
 
@@ -493,7 +515,7 @@ function sendMultiMediaMessage(
           attachments,
           quote,
           preview: getLinkPreviewForSend(message),
-          mentions: draftBodyRanges,
+          bodyRanges,
         },
         {
           sendHQImages,
@@ -810,7 +832,7 @@ function onEditorStateChange({
   messageText,
   sendCounter,
 }: {
-  bodyRanges: ReadonlyArray<DraftBodyRangeMention>;
+  bodyRanges: DraftBodyRanges;
   caretLocation?: number;
   conversationId: string | undefined;
   messageText: string;
@@ -1163,7 +1185,7 @@ const debouncedSaveDraft = debounce(saveDraft);
 function saveDraft(
   conversationId: string,
   messageText: string,
-  mentions: ReadonlyArray<DraftBodyRangeMention>
+  bodyRanges: DraftBodyRanges
 ) {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
@@ -1183,7 +1205,10 @@ function saveDraft(
     return;
   }
 
-  if (messageText !== conversation.get('draft')) {
+  if (
+    messageText !== conversation.get('draft') ||
+    !isEqual(bodyRanges, conversation.get('draftBodyRanges'))
+  ) {
     log.info(`saveDraft(${conversation.idForLogging()})`);
     const now = Date.now();
     let activeAt = conversation.get('active_at');
@@ -1197,7 +1222,7 @@ function saveDraft(
     conversation.set({
       active_at: activeAt,
       draft: messageText,
-      draftBodyRanges: mentions,
+      draftBodyRanges: bodyRanges,
       draftChanged: true,
       timestamp,
     });

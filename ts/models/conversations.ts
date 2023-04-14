@@ -84,7 +84,7 @@ import {
   deriveAccessKey,
 } from '../Crypto';
 import * as Bytes from '../Bytes';
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import { BodyRange, hydrateRanges } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
@@ -3870,7 +3870,7 @@ export class ConversationModel extends window.Backbone
   }
 
   private getDraftBodyRanges = memoizeByThis(
-    (): ReadonlyArray<DraftBodyRangeMention> | undefined => {
+    (): DraftBodyRanges | undefined => {
       return this.get('draftBodyRanges');
     }
   );
@@ -4133,7 +4133,7 @@ export class ConversationModel extends window.Backbone
       attachments,
       body,
       contact,
-      mentions,
+      bodyRanges,
       preview,
       quote,
       sticker,
@@ -4141,7 +4141,7 @@ export class ConversationModel extends window.Backbone
       attachments: Array<AttachmentType>;
       body: string | undefined;
       contact?: Array<ContactWithHydratedAvatar>;
-      mentions?: ReadonlyArray<BodyRange<BodyRange.Mention>>;
+      bodyRanges?: DraftBodyRanges;
       preview?: Array<LinkPreviewType>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
@@ -4239,7 +4239,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
       sticker,
-      bodyRanges: mentions,
+      bodyRanges,
       sendHQImages,
       sendStateByConversationId: zipObject(
         recipientConversationIds,

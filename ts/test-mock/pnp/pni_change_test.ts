@@ -101,12 +101,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -206,12 +201,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -313,12 +303,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -375,12 +360,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactB');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactB');
       await compositionInput.press('Enter');
@@ -455,12 +435,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -548,12 +523,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('second message to contactA');
       await compositionInput.press('Enter');

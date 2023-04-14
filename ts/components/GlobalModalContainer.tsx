@@ -7,15 +7,18 @@ import type {
   ContactModalStateType,
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
+  FormattingWarningDataType,
   ForwardMessagesPropsType,
   SafetyNumberChangedBlockingDataType,
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
+import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { FormattingWarningModal } from './FormattingWarningModal';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
@@ -42,6 +45,11 @@ export type PropsType = {
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
   renderDeleteMessagesModal: () => JSX.Element;
+  // FormattingWarningModal
+  showFormattingWarningModal: (
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined
+  ) => void;
+  formattingWarningData: FormattingWarningDataType | undefined;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
@@ -99,6 +107,9 @@ export function GlobalModalContainer({
   // DeleteMessageModal
   deleteMessagesProps,
   renderDeleteMessagesModal,
+  // FormattingWarningModal
+  showFormattingWarningModal,
+  formattingWarningData,
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
@@ -167,6 +178,23 @@ export function GlobalModalContainer({
 
   if (deleteMessagesProps) {
     return renderDeleteMessagesModal();
+  }
+
+  if (formattingWarningData) {
+    const { resolve } = formattingWarningData.explodedPromise;
+    return (
+      <FormattingWarningModal
+        i18n={i18n}
+        onSendAnyway={() => {
+          showFormattingWarningModal(undefined);
+          resolve(true);
+        }}
+        onCancel={() => {
+          showFormattingWarningModal(undefined);
+          resolve(false);
+        }}
+      />
+    );
   }
 
   if (forwardMessagesProps) {

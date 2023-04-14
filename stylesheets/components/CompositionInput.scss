@@ -120,6 +120,144 @@
     }
   }
 
+  &__format-menu {
+    padding: 6px 12px;
+    border-radius: 8px;
+    z-index: $z-index-above-popup;
+
+    display: flex;
+    flex-direction: row;
+
+    @include popper-shadow();
+
+    @include light-theme() {
+      background: $color-white;
+    }
+    @include dark-theme() {
+      background: $color-gray-80;
+    }
+
+    &__item {
+      $parent: &;
+      @include button-reset;
+
+      height: 24px;
+      width: 24px;
+      border-radius: 4px;
+
+      margin-right: 8px;
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @include mouse-mode {
+        &:hover {
+          background-color: $color-gray-05;
+        }
+      }
+      @include dark-mouse-mode {
+        &:hover {
+          background-color: $color-gray-60;
+        }
+      }
+
+      &__icon {
+        height: 20px;
+        width: 20px;
+        margin: 2px;
+
+        &--bold {
+          @include dark-theme {
+            @include color-svg('../images/icons/v3/bold.svg', $color-gray-25);
+          }
+          @include light-theme {
+            @include color-svg('../images/icons/v3/bold.svg', $color-gray-60);
+          }
+        }
+
+        &--italic {
+          @include dark-theme {
+            @include color-svg('../images/icons/v3/italic.svg', $color-gray-25);
+          }
+          @include light-theme {
+            @include color-svg('../images/icons/v3/italic.svg', $color-gray-60);
+          }
+        }
+
+        &--strikethrough {
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v3/strikethrough.svg',
+              $color-gray-25
+            );
+          }
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v3/strikethrough.svg',
+              $color-gray-60
+            );
+          }
+        }
+
+        &--monospace {
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v3/monospace.svg',
+              $color-gray-25
+            );
+          }
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v3/monospace.svg',
+              $color-gray-60
+            );
+          }
+        }
+
+        &--spoiler {
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v3/spoiler.svg',
+              $color-gray-25
+            );
+          }
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v3/spoiler.svg',
+              $color-gray-60
+            );
+          }
+        }
+
+        // Here we look at hover for the parent so the 2px border in between is active
+        // We can't use the mixins because .mouse-mode would wend up after the >
+        .mouse-mode #{$parent}:hover & {
+          background-color: $color-gray-90;
+        }
+        .dark-theme.mouse-mode #{$parent}:hover & {
+          background-color: $color-gray-15;
+        }
+
+        &--active {
+          @include dark-theme {
+            background-color: $color-ultramarine;
+          }
+          @include light-theme {
+            background-color: $color-ultramarine;
+          }
+
+          // Override above hover behaviors
+          .mouse-mode #{$parent}:hover & {
+            background-color: $color-ultramarine;
+          }
+          .dark-theme.mouse-mode #{$parent}:hover & {
+            background-color: $color-ultramarine;
+          }
+        }
+      }
+    }
+  }
+
   &__suggestions {
     padding: 0;
     margin-bottom: 6px;
@@ -251,6 +389,22 @@ button.CompositionInput__link-preview__close-button {
 
     @include dark-theme {
       background-color: $color-gray-05;
+    }
+  }
+}
+
+.quill {
+  &--monospace {
+    font-family: monospace;
+  }
+  &--spoiler {
+    @include light-theme {
+      // vs color/$color-gray-90, background/$color-gray-05
+      background-color: $color-gray-25;
+    }
+    @include dark-theme {
+      // vs color/$color-gray-05, background/$color-gray-95
+      background-color: $color-gray-45;
     }
   }
 }

@@ -56,7 +56,7 @@ import type {
   MessageAttributesType,
 } from '../../model-types.d';
 import type {
-  DraftBodyRangeMention,
+  DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange';
 import { CallMode } from '../../types/Calling';
@@ -288,7 +288,7 @@ export type ConversationType = ReadonlyDeep<
     shouldShowDraft?: boolean;
     // Full information for re-hydrating composition area
     draftText?: string;
-    draftBodyRanges?: ReadonlyArray<DraftBodyRangeMention>;
+    draftBodyRanges?: DraftBodyRanges;
     // Summary for the left pane
     draftPreview?: DraftPreviewType;
 

@@ -12,9 +12,14 @@ import { useActions as useEmojiActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
+import {
+  getIsFormattingEnabled,
+  getIsFormattingSpoilersEnabled,
+} from '../selectors/composer';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
+  | 'bodyRanges'
   | 'draftText'
   | 'placeholder'
   | 'onChange'
@@ -36,11 +41,17 @@ export function SmartCompositionTextArea(
   const { onTextTooLong } = useComposerActions();
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const isFormattingEnabled = useSelector(getIsFormattingEnabled);
+  const isFormattingSpoilersEnabled = useSelector(
+    getIsFormattingSpoilersEnabled
+  );
 
   return (
     <CompositionTextArea
       {...props}
       i18n={i18n}
+      isFormattingEnabled={isFormattingEnabled}
+      isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
       onPickEmoji={onPickEmoji}
       onSetSkinTone={onSetSkinTone}
       getPreferredBadge={getPreferredBadge}

@@ -89,11 +89,13 @@ const getDefaultArgs = (): PropsDataType => ({
   hasRelayCalls: false,
   hasSpellCheck: true,
   hasStoriesDisabled: false,
+  hasTextFormatting: true,
   hasTypingIndicators: true,
   initialSpellCheckSetting: true,
   isAudioNotificationsSupported: true,
   isAutoDownloadUpdatesSupported: true,
   isAutoLaunchSupported: true,
+  isFormattingFlagEnabled: true,
   isHideMenuBarSupported: true,
   isNotificationAttentionSupported: true,
   isPhoneNumberSharingSupported: true,
@@ -161,6 +163,7 @@ export default {
     onSelectedSpeakerChange: { action: true },
     onSentMediaQualityChange: { action: true },
     onSpellCheckChange: { action: true },
+    onTextFormattingChange: { action: true },
     onThemeChange: { action: true },
     onUniversalExpireTimerChange: { action: true },
     onWhoCanSeeMeChange: { action: true },
@@ -216,4 +219,9 @@ PNPDiscoverabilityDisabled.args = {
 };
 PNPDiscoverabilityDisabled.story = {
   name: 'PNP Discoverability Disabled',
+};
+
+export const FormattingDisabled = Template.bind({});
+FormattingDisabled.args = {
+  isFormattingFlagEnabled: false,
 };

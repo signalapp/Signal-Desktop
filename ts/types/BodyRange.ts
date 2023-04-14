@@ -89,6 +89,10 @@ export type DraftBodyRangeMention = BodyRange<
     replacementText: string;
   }
 >;
+export type DraftBodyRange =
+  | DraftBodyRangeMention
+  | BodyRange<BodyRange.Formatting>;
+export type DraftBodyRanges = ReadonlyArray<DraftBodyRange>;
 
 // Fully hydrated body range to be used in UI components.
 

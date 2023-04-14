@@ -43,6 +43,8 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
+import type { HydratedBodyRangesType } from '../types/BodyRange';
+import { BodyRange } from '../types/BodyRange';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -135,7 +137,14 @@ export function ForwardMessagesModal({
       const previews = lonelyLinkPreview ? [lonelyLinkPreview] : [];
       doForwardMessages(conversationIds, [{ ...lonelyDraft, previews }]);
     } else {
-      doForwardMessages(conversationIds, drafts);
+      doForwardMessages(
+        conversationIds,
+        drafts.map(draft => ({
+          ...draft,
+          // We don't keep @mention bodyRanges in multi-forward scenarios
+          bodyRanges: draft.bodyRanges?.filter(BodyRange.isFormatting),
+        }))
+      );
     }
   }, [
     drafts,
@@ -304,8 +313,8 @@ export function ForwardMessagesModal({
             <ForwardMessageEditor
               draft={lonelyDraft}
               linkPreview={lonelyLinkPreview}
-              onChange={messageBody => {
-                onChange([{ ...lonelyDraft, messageBody }]);
+              onChange={(messageBody, bodyRanges) => {
+                onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
               }}
               removeLinkPreview={removeLinkPreview}
               theme={theme}
@@ -420,7 +429,11 @@ type ForwardMessageEditorProps = Readonly<{
   RenderCompositionTextArea: (
     props: SmartCompositionTextAreaProps
   ) => JSX.Element;
-  onChange: (messageText: string, caretLocation?: number) => unknown;
+  onChange: (
+    messageText: string,
+    bodyRanges: HydratedBodyRangesType,
+    caretLocation?: number
+  ) => unknown;
   onSubmit: () => unknown;
   theme: ThemeType;
   i18n: LocalizerType;
@@ -470,10 +483,9 @@ function ForwardMessageEditor({
       ) : null}
 
       <RenderCompositionTextArea
+        bodyRanges={draft.bodyRanges}
         draftText={draft.messageBody ?? ''}
-        onChange={(messageText, _bodyRanges, caretLocation) => {
-          onChange(messageText, caretLocation);
-        }}
+        onChange={onChange}
         onSubmit={onSubmit}
         theme={theme}
       />

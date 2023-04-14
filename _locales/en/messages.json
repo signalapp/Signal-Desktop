@@ -3324,6 +3324,10 @@
     "messageformat": "Spell check text entered in message composition box",
     "description": "Description of the spell check setting"
   },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
+  },
   "spellCheckWillBeEnabled": {
     "message": "Spell check will be enabled the next time Signal starts.",
     "description": "(deleted 03/29/2023) Shown when the user enables spellcheck to indicate that they must restart Signal."
@@ -5467,6 +5471,26 @@
     "messageformat": "Composer",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "Scroll to top of list",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5618,6 +5642,14 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marked unread",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Would you like to open Signal Sticker Pack Creator?",

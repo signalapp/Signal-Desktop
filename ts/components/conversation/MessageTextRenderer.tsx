@@ -196,7 +196,7 @@ function renderNode({
     );
   }
 
-  const content = renderMentions({
+  let content = renderMentions({
     direction,
     disableLinks,
     emojiSizeClass,
@@ -206,13 +206,19 @@ function renderNode({
     text: node.text,
   });
 
+  // We use separate elements for these because we want screenreaders to understand them
+  if (node.isBold || node.isKeywordHighlight) {
+    content = <strong>{content}</strong>;
+  }
+  if (node.isItalic) {
+    content = <em>{content}</em>;
+  }
+  if (node.isStrikethrough) {
+    content = <s>{content}</s>;
+  }
+
   const formattingClasses = classNames(
-    node.isBold ? 'MessageTextRenderer__formatting--bold' : null,
-    node.isItalic ? 'MessageTextRenderer__formatting--italic' : null,
     node.isMonospace ? 'MessageTextRenderer__formatting--monospace' : null,
-    node.isStrikethrough
-      ? 'MessageTextRenderer__formatting--strikethrough'
-      : null,
     node.isKeywordHighlight
       ? 'MessageTextRenderer__formatting--keywordHighlight'
       : null,

@@ -41,6 +41,7 @@ import {
 import { lookupConversationWithoutUuid } from './lookupConversationWithoutUuid';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
+import { isEnabled } from '../RemoteConfig';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -66,6 +67,7 @@ export type IPCEventsValuesType = {
   sentMediaQualitySetting: SentMediaQualityType;
   spellCheck: boolean;
   systemTraySetting: SystemTraySetting;
+  textFormatting: boolean;
   themeSetting: ThemeType;
   universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
@@ -104,6 +106,7 @@ export type IPCEventsCallbacksType = {
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
+  isFormattingFlagEnabled: () => boolean;
   isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
@@ -397,6 +400,8 @@ export function createIPCEvents(
 
     getSpellCheck: () => window.storage.get('spell-check', true),
     setSpellCheck: value => window.storage.put('spell-check', value),
+    getTextFormatting: () => window.storage.get('textFormatting', true),
+    setTextFormatting: value => window.storage.put('textFormatting', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>
@@ -407,6 +412,7 @@ export function createIPCEvents(
       return window.IPC.setAutoLaunch(value);
     },
 
+    isFormattingFlagEnabled: () => isEnabled('desktop.textFormatting'),
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     shouldShowStoriesSettings: () => getStoriesAvailable(),

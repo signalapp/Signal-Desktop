@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ElectronApplication, Page } from 'playwright';
+import type { ElectronApplication, Locator, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter } from 'events';
 
@@ -10,6 +10,7 @@ import type {
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
 import type { ReceiptType } from '../types/Receipt';
+import { sleep } from '../util/sleep';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -59,6 +60,22 @@ export class App extends EventEmitter {
     });
 
     this.privApp.on('close', () => this.emit('close'));
+  }
+
+  public async waitForEnabledComposer(sleepTimeout = 1000): Promise<Locator> {
+    const window = await this.getWindow();
+    const composeArea = window.locator(
+      '.composition-area-wrapper, .conversation .ConversationView'
+    );
+    const composeContainer = composeArea.locator(
+      '[data-testid=CompositionInput][data-enabled=true]'
+    );
+    await composeContainer.waitFor();
+
+    // Let quill start up
+    await sleep(sleepTimeout);
+
+    return composeContainer.locator('.ql-editor');
   }
 
   public async waitForProvisionURL(): Promise<string> {

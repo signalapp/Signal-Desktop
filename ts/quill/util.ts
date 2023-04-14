@@ -6,17 +6,29 @@ import Delta from 'quill-delta';
 import type { LeafBlot, DeltaOperation } from 'quill';
 import type Op from 'quill-delta/dist/Op';
 
-import type { DraftBodyRangeMention } from '../types/BodyRange';
+import type {
+  DisplayNode,
+  DraftBodyRange,
+  DraftBodyRanges,
+} from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
+import { QuillFormattingStyle } from './formatting/menu';
 
 export type MentionBlotValue = {
   uuid: string;
   title: string;
 };
 
+export type FormattingBlotValue = {
+  style: BodyRange.Style;
+};
+
 export const isMentionBlot = (blot: LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;
+
+export const isFormatting = (blot: LeafBlot): blot is MentionBlot =>
+  blot.value() && blot.value().style;
 
 export type RetainOp = Op & { retain: number };
 export type InsertOp<K extends string, T> = Op & { insert: { [V in K]: T } };
@@ -60,13 +72,102 @@ export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
     }, '')
     .trim();
 
-export const getTextAndMentionsFromOps = (
+const { BOLD, ITALIC, MONOSPACE, SPOILER, STRIKETHROUGH, NONE } =
+  BodyRange.Style;
+
+function extractFormatRange({
+  bodyRanges,
+  index,
+  previousData,
+  hasStyle,
+  style,
+}: {
+  bodyRanges: Array<DraftBodyRange>;
+  index: number;
+  previousData: { start: number } | undefined;
+  hasStyle: boolean;
+  style: BodyRange.Style;
+}) {
+  if (hasStyle && !previousData) {
+    return { start: index };
+  }
+  if (!hasStyle && previousData) {
+    const { start } = previousData;
+    bodyRanges.push({
+      length: index - start,
+      start,
+      style,
+    });
+    return undefined;
+  }
+
+  return previousData;
+}
+
+function extractAllFormats(
+  bodyRanges: Array<DraftBodyRange>,
+  formats: Record<BodyRange.Style, { start: number } | undefined>,
+  index: number,
+  op?: Op
+): Record<BodyRange.Style, { start: number } | undefined> {
+  const result = { ...formats };
+  const params = {
+    bodyRanges,
+    index,
+  };
+
+  result[BOLD] = extractFormatRange({
+    ...params,
+    style: BOLD,
+    previousData: result[BOLD],
+    hasStyle: op?.attributes?.[QuillFormattingStyle.bold],
+  });
+  result[ITALIC] = extractFormatRange({
+    ...params,
+    style: ITALIC,
+    previousData: result[ITALIC],
+    hasStyle: op?.attributes?.[QuillFormattingStyle.italic],
+  });
+  result[MONOSPACE] = extractFormatRange({
+    ...params,
+    style: MONOSPACE,
+    previousData: result[MONOSPACE],
+    hasStyle: op?.attributes?.[QuillFormattingStyle.monospace],
+  });
+  result[SPOILER] = extractFormatRange({
+    ...params,
+    style: SPOILER,
+    previousData: result[SPOILER],
+    hasStyle: op?.attributes?.[QuillFormattingStyle.spoiler],
+  });
+  result[STRIKETHROUGH] = extractFormatRange({
+    ...params,
+    style: STRIKETHROUGH,
+    previousData: result[STRIKETHROUGH],
+    hasStyle: op?.attributes?.[QuillFormattingStyle.strike],
+  });
+
+  return result;
+}
+
+export const getTextAndRangesFromOps = (
   ops: Array<Op>
-): [string, ReadonlyArray<DraftBodyRangeMention>] => {
-  const mentions: Array<DraftBodyRangeMention> = [];
+): { text: string; bodyRanges: DraftBodyRanges } => {
+  const bodyRanges: Array<DraftBodyRange> = [];
+  let formats: Record<BodyRange.Style, { start: number } | undefined> = {
+    [BOLD]: undefined,
+    [ITALIC]: undefined,
+    [MONOSPACE]: undefined,
+    [SPOILER]: undefined,
+    [STRIKETHROUGH]: undefined,
+    [NONE]: undefined,
+  };
 
   const text = ops
     .reduce((acc, op, index) => {
+      // Start or finish format sections as needed
+      formats = extractAllFormats(bodyRanges, formats, acc.length, op);
+
       if (typeof op.insert === 'string') {
         const toAdd = index === 0 ? op.insert.trimStart() : op.insert;
         return acc + toAdd;
@@ -77,7 +178,7 @@ export const getTextAndMentionsFromOps = (
       }
 
       if (isInsertMentionOp(op)) {
-        mentions.push({
+        bodyRanges.push({
           length: 1, // The length of `\uFFFC`
           mentionUuid: op.insert.mention.uuid,
           replacementText: op.insert.mention.title,
@@ -91,7 +192,10 @@ export const getTextAndMentionsFromOps = (
     }, '')
     .trimEnd(); // Trimming the start of this string will mess up mention indices
 
-  return [text, mentions];
+  // Close off any pending formats
+  extractAllFormats(bodyRanges, formats, text.length);
+
+  return { text, bodyRanges };
 };
 
 export const getBlotTextPartitions = (
@@ -167,13 +271,35 @@ export const getDeltaToRemoveStaleMentions = (
   return new Delta(newOps);
 };
 
+export const insertFormattingAndMentionsOps = (
+  nodes: ReadonlyArray<DisplayNode>
+): ReadonlyArray<Op> => {
+  let ops: Array<Op> = [];
+
+  nodes.forEach(node => {
+    const startingOp: Op = {
+      insert: node.text,
+      attributes: {
+        [QuillFormattingStyle.bold]: node.isBold,
+        [QuillFormattingStyle.italic]: node.isItalic,
+        [QuillFormattingStyle.monospace]: node.isMonospace,
+        [QuillFormattingStyle.spoiler]: node.isSpoiler,
+        [QuillFormattingStyle.strike]: node.isStrikethrough,
+      },
+    };
+    ops = ops.concat(insertMentionOps([startingOp], node.mentions));
+  });
+
+  return ops;
+};
+
 export const insertMentionOps = (
   incomingOps: Array<Op>,
-  bodyRanges: ReadonlyArray<DraftBodyRangeMention>
+  bodyRanges: DraftBodyRanges
 ): Array<Op> => {
   const ops = [...incomingOps];
 
-  const sortableBodyRanges: Array<DraftBodyRangeMention> = bodyRanges.slice();
+  const sortableBodyRanges: Array<DraftBodyRange> = bodyRanges.slice();
 
   // Working backwards through bodyRanges (to avoid offsetting later mentions),
   // Shift off the op with the text to the left of the last mention,
@@ -191,7 +317,7 @@ export const insertMentionOps = (
       const op = ops.shift();
 
       if (op) {
-        const { insert } = op;
+        const { insert, attributes } = op;
 
         if (typeof insert === 'string') {
           const left = insert.slice(0, start);
@@ -202,9 +328,9 @@ export const insertMentionOps = (
             title: replacementText,
           };
 
-          ops.unshift({ insert: right });
-          ops.unshift({ insert: { mention } });
-          ops.unshift({ insert: left });
+          ops.unshift({ insert: right, attributes });
+          ops.unshift({ insert: { mention }, attributes });
+          ops.unshift({ insert: left, attributes });
         } else {
           ops.unshift(op);
         }
@@ -214,10 +340,11 @@ export const insertMentionOps = (
   return ops;
 };
 
-export const insertEmojiOps = (incomingOps: Array<Op>): Array<Op> => {
+export const insertEmojiOps = (incomingOps: ReadonlyArray<Op>): Array<Op> => {
   return incomingOps.reduce((ops, op) => {
     if (typeof op.insert === 'string') {
       const text = op.insert;
+      const { attributes } = op;
       const re = emojiRegex();
       let index = 0;
       let match: RegExpExecArray | null;
@@ -225,12 +352,12 @@ export const insertEmojiOps = (incomingOps: Array<Op>): Array<Op> => {
       // eslint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emoji] = match;
-        ops.push({ insert: text.slice(index, match.index) });
-        ops.push({ insert: { emoji } });
+        ops.push({ insert: text.slice(index, match.index), attributes });
+        ops.push({ insert: { emoji }, attributes });
         index = match.index + emoji.length;
       }
 
-      ops.push({ insert: text.slice(index, text.length) });
+      ops.push({ insert: text.slice(index, text.length), attributes });
     } else {
       ops.push(op);
     }
