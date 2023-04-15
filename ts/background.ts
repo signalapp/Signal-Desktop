@@ -2702,7 +2702,7 @@ export async function startApp(): Promise<void> {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
     const { typing, sender, senderUuid, senderDevice } = ev;
-    const { groupId, groupV2Id, started } = typing || {};
+    const { groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
     if (!window.storage.get('typingIndicators')) {
@@ -2721,11 +2721,7 @@ export async function startApp(): Promise<void> {
     // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
     if (groupV2Id) {
       conversation = window.ConversationController.get(groupV2Id);
-    }
-    if (!conversation && groupId) {
-      conversation = window.ConversationController.get(groupId);
-    }
-    if (!groupV2Id && !groupId) {
+    } else {
       conversation = senderConversation;
     }
 
@@ -2737,7 +2733,7 @@ export async function startApp(): Promise<void> {
     }
     if (!conversation) {
       log.warn(
-        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), group(${groupId}), ${sender}, ${senderUuid})`
+        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderUuid})`
       );
       return;
     }
@@ -2988,8 +2984,6 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       message: data.message,
-      source: data.source,
-      sourceUuid: data.sourceUuid,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
       destinationUuid: data.sourceUuid,
@@ -3290,18 +3284,13 @@ export async function startApp(): Promise<void> {
     return new window.Whisper.Message(partialMessage);
   }
 
-  // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
-  //   at callsites to make sure both source and destination are populated.
+  // Works with 'sent' and 'message' data sent from MessageReceiver
   const getMessageDescriptor = ({
     message,
-    source,
-    sourceUuid,
     destination,
     destinationUuid,
   }: {
     message: ProcessedDataMessage;
-    source?: string;
-    sourceUuid?: string;
     destination?: string;
     destinationUuid?: string;
   }): MessageDescriptor => {
@@ -3342,44 +3331,6 @@ export async function startApp(): Promise<void> {
         id: conversationId,
       };
     }
-    if (message.group) {
-      const { id, derivedGroupV2Id } = message.group;
-      if (!id) {
-        throw new Error('getMessageDescriptor: GroupV1 data was missing id');
-      }
-      if (!derivedGroupV2Id) {
-        log.warn(
-          'getMessageDescriptor: GroupV1 data was missing derivedGroupV2Id'
-        );
-      } else {
-        // First we check for an already-migrated GroupV2 group
-        const migratedGroup =
-          window.ConversationController.get(derivedGroupV2Id);
-        if (migratedGroup) {
-          return {
-            type: Message.GROUP,
-            id: migratedGroup.id,
-          };
-        }
-      }
-
-      // If we can't find one, we treat this as a normal GroupV1 group
-      const { conversation: fromContact } =
-        window.ConversationController.maybeMergeContacts({
-          aci: sourceUuid,
-          e164: source,
-          reason: `getMessageDescriptor(${message.timestamp}): group v1`,
-        });
-
-      const conversationId = window.ConversationController.ensureGroup(id, {
-        addedBy: fromContact.id,
-      });
-
-      return {
-        type: Message.GROUP,
-        id: conversationId,
-      };
-    }
 
     const conversation = window.ConversationController.lookupOrCreate({
       uuid: destinationUuid,
@@ -3406,10 +3357,6 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
-
-      // 'sent' event: the sender is always us!
-      source,
-      sourceUuid,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -3765,18 +3712,12 @@ export async function startApp(): Promise<void> {
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
     ev.confirm();
 
-    const {
-      threadE164,
-      threadUuid,
-      groupId,
-      groupV2Id,
-      messageRequestResponseType,
-    } = ev;
+    const { threadE164, threadUuid, groupV2Id, messageRequestResponseType } =
+      ev;
 
     log.info('onMessageRequestResponse', {
       threadE164,
       threadUuid,
-      groupId: `group(${groupId})`,
       groupV2Id: `groupv2(${groupV2Id})`,
       messageRequestResponseType,
     });
@@ -3789,7 +3730,6 @@ export async function startApp(): Promise<void> {
     const attributes: MessageRequestAttributesType = {
       threadE164,
       threadUuid,
-      groupId,
       groupV2Id,
       type: messageRequestResponseType,
     };

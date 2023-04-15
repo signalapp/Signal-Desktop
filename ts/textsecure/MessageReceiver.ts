@@ -47,7 +47,7 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
 import { DurationInSeconds } from '../util/durations';
-import { deriveMasterKeyFromGroupV1, bytesToUuid } from '../Crypto';
+import { bytesToUuid } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -127,7 +127,6 @@ import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { filterAndClean } from '../types/BodyRange';
 
-const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
@@ -2007,19 +2006,8 @@ export default class MessageReceiver
     const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
-    const { source, sourceUuid } = envelope;
-    const ourE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid().toString();
-    const isMe =
-      (source && ourE164 && source === ourE164) ||
-      (sourceUuid && ourUuid && sourceUuid === ourUuid);
-    const isLeavingGroup = Boolean(
-      !message.groupV2 &&
-        message.group &&
-        message.group.type === Proto.GroupContext.Type.QUIT
-    );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    if (groupId && isBlocked) {
       log.warn(
         `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
@@ -2282,19 +2270,8 @@ export default class MessageReceiver
     const message = this.processDecrypted(envelope, msg.dataMessage);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
-    const { source, sourceUuid } = envelope;
-    const ourE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid().toString();
-    const isMe =
-      (source && ourE164 && source === ourE164) ||
-      (sourceUuid && ourUuid && sourceUuid === ourUuid);
-    const isLeavingGroup = Boolean(
-      !message.groupV2 &&
-        message.group &&
-        message.group.type === Proto.GroupContext.Type.QUIT
-    );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    if (groupId && isBlocked) {
       log.warn(
         `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
@@ -2354,8 +2331,6 @@ export default class MessageReceiver
       return undefined;
     }
 
-    this.checkGroupV1Data(msg);
-
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       p = this.handleEndSession(envelope, new UUID(destination));
     }
@@ -2393,8 +2368,6 @@ export default class MessageReceiver
       msg.flags & Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       type = 'expirationTimerUpdate';
-    } else if (msg.group) {
-      type = 'legacyGroupChange';
     }
     // Note: other data messages without any of these attributes will fall into the
     //   'message' bucket - like stickers, gift badges, etc.
@@ -2404,19 +2377,8 @@ export default class MessageReceiver
     const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
-    const { source, sourceUuid } = envelope;
-    const ourE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid().toString();
-    const isMe =
-      (source && ourE164 && source === ourE164) ||
-      (sourceUuid && ourUuid && sourceUuid === ourUuid);
-    const isLeavingGroup = Boolean(
-      !message.groupV2 &&
-        message.group &&
-        message.group.type === Proto.GroupContext.Type.QUIT
-    );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    if (groupId && isBlocked) {
       log.warn(
         `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
@@ -2780,17 +2742,11 @@ export default class MessageReceiver
 
     const { groupId, timestamp, action } = typingMessage;
 
-    let groupIdString: string | undefined;
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength > 0) {
-      if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-        groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = this.deriveGroupV2FromV1(groupId);
-      } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
-        groupV2IdString = Bytes.toBase64(groupId);
-      } else {
-        log.error('handleTypingMessage: Received invalid groupId value');
-      }
+    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
+      groupV2IdString = Bytes.toBase64(groupId);
+    } else {
+      log.error('handleTypingMessage: Received invalid groupId value');
     }
 
     this.dispatchEvent(
@@ -2799,13 +2755,11 @@ export default class MessageReceiver
         senderUuid: envelope.sourceUuid,
         senderDevice: envelope.sourceDevice,
         typing: {
+          groupV2Id: groupV2IdString,
           typingMessage,
           timestamp: timestamp?.toNumber() ?? Date.now(),
           started: action === Proto.TypingMessage.Action.STARTED,
           stopped: action === Proto.TypingMessage.Action.STOPPED,
-
-          groupId: groupIdString,
-          groupV2Id: groupV2IdString,
         },
       })
     );
@@ -2823,22 +2777,7 @@ export default class MessageReceiver
     message: Proto.IDataMessage,
     envelope: ProcessedEnvelope
   ): boolean {
-    const { group, groupV2 } = message;
-
-    if (group) {
-      const { id } = group;
-      strictAssert(id, 'Group data has no id');
-      const isInvalid = id.byteLength !== GROUPV1_ID_LENGTH;
-
-      if (isInvalid) {
-        log.info(
-          'isInvalidGroupData: invalid GroupV1 message from',
-          getEnvelopeId(envelope)
-        );
-      }
-
-      return isInvalid;
-    }
+    const { groupV2 } = message;
 
     if (groupV2) {
       const { masterKey } = groupV2;
@@ -2857,45 +2796,11 @@ export default class MessageReceiver
     return false;
   }
 
-  private deriveGroupV2FromV1(groupId: Uint8Array): string {
-    if (groupId.byteLength !== GROUPV1_ID_LENGTH) {
-      throw new Error(
-        `deriveGroupV2FromV1: had id with wrong byteLength: ${groupId.byteLength}`
-      );
-    }
-    const masterKey = deriveMasterKeyFromGroupV1(groupId);
-    const data = deriveGroupFields(masterKey);
-
-    return Bytes.toBase64(data.id);
-  }
-
-  private checkGroupV1Data(message: Readonly<Proto.IDataMessage>): void {
-    const { group } = message;
-
-    if (!group) {
-      return;
-    }
-
-    if (!group.id) {
-      throw new Error('deriveGroupV1Data: had falsey id');
-    }
-
-    const { id } = group;
-    if (id.byteLength !== GROUPV1_ID_LENGTH) {
-      throw new Error(
-        `deriveGroupV1Data: had id with wrong byteLength: ${id.byteLength}`
-      );
-    }
-  }
-
   private getProcessedGroupId(
     message: ProcessedDataMessage
   ): string | undefined {
     if (message.groupV2) {
       return message.groupV2.id;
-    }
-    if (message.group && message.group.id) {
-      return message.group.id;
     }
     return undefined;
   }
@@ -2906,9 +2811,6 @@ export default class MessageReceiver
       const { id } = deriveGroupFields(message.groupV2.masterKey);
       return Bytes.toBase64(id);
     }
-    if (message.group && message.group.id) {
-      return Bytes.toBinary(message.group.id);
-    }
 
     return undefined;
   }
@@ -2916,10 +2818,6 @@ export default class MessageReceiver
   private getDestination(sentMessage: Proto.SyncMessage.ISent) {
     if (sentMessage.message && sentMessage.message.groupV2) {
       return `groupv2(${this.getGroupId(sentMessage.message)})`;
-    }
-    if (sentMessage.message && sentMessage.message.group) {
-      strictAssert(sentMessage.message.group.id, 'group without id');
-      return `group(${this.getGroupId(sentMessage.message)})`;
     }
     return sentMessage.destination || sentMessage.destinationUuid;
   }
@@ -2997,8 +2895,6 @@ export default class MessageReceiver
         this.removeFromCache(envelope);
         return;
       }
-
-      this.checkGroupV1Data(sentMessage.message);
 
       strictAssert(sentMessage.timestamp, 'sent message without timestamp');
 
@@ -3192,19 +3088,13 @@ export default class MessageReceiver
 
     const { groupId } = sync;
 
-    let groupIdString: string | undefined;
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength > 0) {
-      if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-        groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = this.deriveGroupV2FromV1(groupId);
-      } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
-        groupV2IdString = Bytes.toBase64(groupId);
-      } else {
-        this.removeFromCache(envelope);
-        log.error('Received message request with invalid groupId');
-        return undefined;
-      }
+    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
+      groupV2IdString = Bytes.toBase64(groupId);
+    } else {
+      this.removeFromCache(envelope);
+      log.error('Received message request with invalid groupId');
+      return undefined;
     }
 
     const ev = new MessageRequestResponseEvent(
@@ -3217,7 +3107,6 @@ export default class MessageReceiver
             )
           : undefined,
         messageRequestResponseType: sync.type,
-        groupId: groupIdString,
         groupV2Id: groupV2IdString,
       },
       this.removeFromCache.bind(this, envelope)
@@ -3583,14 +3472,10 @@ export default class MessageReceiver
 
     if (blocked.groupIds) {
       const previous = this.storage.get('blocked-groups', []);
-      const groupV1Ids: Array<string> = [];
       const groupIds: Array<string> = [];
 
       blocked.groupIds.forEach(groupId => {
-        if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-          groupV1Ids.push(Bytes.toBinary(groupId));
-          groupIds.push(this.deriveGroupV2FromV1(groupId));
-        } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
+        if (groupId.byteLength === GROUPV2_ID_LENGTH) {
           groupIds.push(Bytes.toBase64(groupId));
         } else {
           log.error('handleBlocked: Received invalid groupId value');
@@ -3598,18 +3483,15 @@ export default class MessageReceiver
       });
       log.info(
         'handleBlocked: Blocking these groups - v2:',
-        groupIds.map(groupId => `groupv2(${groupId})`),
-        'v1:',
-        groupV1Ids.map(groupId => `group(${groupId})`)
+        groupIds.map(groupId => `groupv2(${groupId})`)
       );
 
-      const ids = [...groupIds, ...groupV1Ids];
-      await this.storage.put('blocked-groups', ids);
+      await this.storage.put('blocked-groups', groupIds);
 
-      if (!areArraysMatchingSets(previous, ids)) {
+      if (!areArraysMatchingSets(previous, groupIds)) {
         changed = true;
         allIdentifiers.push(...previous);
-        allIdentifiers.push(...ids);
+        allIdentifiers.push(...groupIds);
       }
     }
 

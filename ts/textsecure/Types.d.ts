@@ -118,17 +118,6 @@ export type ProcessedAttachment = {
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
 };
 
-export type ProcessedGroupContext = {
-  id: string;
-  type: Proto.GroupContext.Type;
-  name?: string;
-  membersE164: ReadonlyArray<string>;
-  avatar?: ProcessedAttachment;
-
-  // Computed fields
-  derivedGroupV2Id: string;
-};
-
 export type ProcessedGroupV2Context = {
   masterKey: string;
   revision?: number;
@@ -208,7 +197,6 @@ export type ProcessedGiftBadge = {
 export type ProcessedDataMessage = {
   body?: string;
   attachments: ReadonlyArray<ProcessedAttachment>;
-  group?: ProcessedGroupContext;
   groupV2?: ProcessedGroupV2Context;
   flags: number;
   expireTimer: DurationInSeconds;

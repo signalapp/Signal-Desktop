@@ -152,7 +152,6 @@ export async function sendProfileKey(
       contentHint,
       groupSendOptions: {
         flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
-        groupV1: conversation.getGroupV1Info(),
         groupV2: groupV2Info,
         profileKey,
         timestamp,

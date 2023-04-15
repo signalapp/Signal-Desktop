@@ -859,9 +859,6 @@ function getRecipients(options: GroupSendOptionsType): ReadonlyArray<string> {
   if (options.groupV2) {
     return options.groupV2.members;
   }
-  if (options.groupV1) {
-    return options.groupV1.members;
-  }
 
   throw new Error('getRecipients: Unable to extract recipients!');
 }

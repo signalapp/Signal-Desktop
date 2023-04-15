@@ -103,10 +103,6 @@ export type GroupV2InfoType = {
   revision: number;
   members: ReadonlyArray<string>;
 };
-export type GroupV1InfoType = {
-  id: string;
-  members: ReadonlyArray<string>;
-};
 
 type GroupCallUpdateType = {
   eraId: string;
@@ -207,7 +203,6 @@ export type GroupSendOptionsType = {
   expireTimer?: DurationInSeconds;
   flags?: number;
   groupCallUpdate?: GroupCallUpdateType;
-  groupV1?: GroupV1InfoType;
   groupV2?: GroupV2InfoType;
   messageText?: string;
   preview?: ReadonlyArray<LinkPreviewType>;
@@ -381,10 +376,6 @@ class Message {
       proto.groupV2.masterKey = this.groupV2.masterKey;
       proto.groupV2.revision = this.groupV2.revision;
       proto.groupV2.groupChange = this.groupV2.groupChange || null;
-    } else if (this.group) {
-      proto.group = new Proto.GroupContext();
-      proto.group.id = Bytes.fromString(this.group.id);
-      proto.group.type = this.group.type;
     }
     if (this.sticker) {
       proto.sticker = new Proto.DataMessage.Sticker();
@@ -1106,7 +1097,6 @@ export default class MessageSender {
       expireTimer,
       flags,
       groupCallUpdate,
-      groupV1,
       groupV2,
       messageText,
       preview,
@@ -1118,16 +1108,16 @@ export default class MessageSender {
       timestamp,
     } = options;
 
-    if (!groupV1 && !groupV2) {
+    if (!groupV2) {
       throw new Error(
-        'getAttrsFromGroupOptions: Neither group1 nor groupv2 information provided!'
+        'getAttrsFromGroupOptions: No groupv2 information provided!'
       );
     }
 
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid()?.toString();
 
-    const groupMembers = groupV2?.members || groupV1?.members || [];
+    const groupMembers = groupV2?.members || [];
 
     // We should always have a UUID but have this check just in case we don't.
     let isNotMe: (recipient: string) => boolean;
@@ -1158,12 +1148,6 @@ export default class MessageSender {
       flags,
       groupCallUpdate,
       groupV2,
-      group: groupV1
-        ? {
-            id: groupV1.id,
-            type: Proto.GroupContext.Type.DELIVER,
-          }
-        : undefined,
       preview,
       profileKey,
       quote,
@@ -2421,50 +2405,6 @@ export default class MessageSender {
       story,
       timestamp,
       urgent,
-    });
-  }
-
-  // GroupV1-only functions; not to be used in the future
-
-  async leaveGroup(
-    groupId: string,
-    groupIdentifiers: Array<string>,
-    options?: SendOptionsType
-  ): Promise<CallbackResultType> {
-    const timestamp = Date.now();
-    const proto = new Proto.Content({
-      dataMessage: {
-        group: {
-          id: Bytes.fromString(groupId),
-          type: Proto.GroupContext.Type.QUIT,
-        },
-      },
-    });
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    const contentHint = ContentHint.RESENDABLE;
-    const sendLogCallback =
-      groupIdentifiers.length > 1
-        ? this.makeSendLogCallback({
-            contentHint,
-            proto: Buffer.from(Proto.Content.encode(proto).finish()),
-            sendType: 'legacyGroupChange',
-            timestamp,
-            urgent: false,
-            hasPniSignatureMessage: false,
-          })
-        : undefined;
-
-    return this.sendGroupProto({
-      contentHint,
-      groupId: undefined, // only for GV2 ids
-      options,
-      proto,
-      recipients: groupIdentifiers,
-      sendLogCallback,
-      timestamp,
-      urgent: false,
     });
   }
 

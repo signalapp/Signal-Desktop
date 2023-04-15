@@ -255,9 +255,6 @@ export async function sendReaction(
               abortSignal,
               contentHint: ContentHint.RESENDABLE,
               groupSendOptions: {
-                groupV1: conversation.getGroupV1Info(
-                  recipientIdentifiersWithoutMe
-                ),
                 groupV2: groupV2Info,
                 reaction: reactionForSend,
                 timestamp: pendingReaction.timestamp,

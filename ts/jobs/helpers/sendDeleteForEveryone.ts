@@ -230,7 +230,6 @@ export async function sendDeleteForEveryone(
                 abortSignal,
                 contentHint,
                 groupSendOptions: {
-                  groupV1: conversation.getGroupV1Info(recipients),
                   groupV2: groupV2Info,
                   deletedForEveryoneTimestamp: targetTimestamp,
                   timestamp,

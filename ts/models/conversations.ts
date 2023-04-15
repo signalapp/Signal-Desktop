@@ -40,7 +40,6 @@ import * as Stickers from '../types/Stickers';
 import { StorySendMode } from '../types/Stories';
 import type {
   ContactWithHydratedAvatar,
-  GroupV1InfoType,
   GroupV2InfoType,
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
@@ -1307,24 +1306,6 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  getGroupV1Info(members?: Array<string>): GroupV1InfoType | undefined {
-    const groupId = this.get('groupId');
-    const groupVersion = this.get('groupVersion');
-
-    if (
-      isDirectConversation(this.attributes) ||
-      !groupId ||
-      (groupVersion && groupVersion > 0)
-    ) {
-      return undefined;
-    }
-
-    return {
-      id: groupId,
-      members: members || this.getRecipients(),
-    };
-  }
-
   getGroupIdBuffer(): Uint8Array | undefined {
     const groupIdString = this.get('groupId');
 
@@ -2457,9 +2438,7 @@ export class ConversationModel extends window.Backbone
         this.disableProfileSharing({ viaStorageServiceSync });
 
         if (isLocalAction) {
-          if (isGroupV1(this.attributes)) {
-            await this.leaveGroup();
-          } else if (isGroupV2(this.attributes)) {
+          if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -2477,9 +2456,7 @@ export class ConversationModel extends window.Backbone
             'deleted from message request'
           );
 
-          if (isGroupV1(this.attributes)) {
-            await this.leaveGroup();
-          } else if (isGroupV2(this.attributes)) {
+          if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -2499,9 +2476,7 @@ export class ConversationModel extends window.Backbone
             'blocked and deleted from message request'
           );
 
-          if (isGroupV1(this.attributes)) {
-            await this.leaveGroup();
-          } else if (isGroupV2(this.attributes)) {
+          if (isGroupV2(this.attributes)) {
             await this.leaveGroupV2();
           }
         }
@@ -4873,59 +4848,6 @@ export class ConversationModel extends window.Backbone
 
   isSearchable(): boolean {
     return !this.get('left');
-  }
-
-  // Deprecated: only applies to GroupV1
-  async leaveGroup(): Promise<void> {
-    const { messaging } = window.textsecure;
-    if (!messaging) {
-      throw new Error('leaveGroup: Cannot leave v1 group when offline!');
-    }
-
-    if (!isGroupV1(this.attributes)) {
-      throw new Error(
-        `leaveGroup: Group ${this.idForLogging()} is not GroupV1!`
-      );
-    }
-
-    const now = Date.now();
-    const groupId = this.get('groupId');
-
-    if (!groupId) {
-      throw new Error(`leaveGroup/${this.idForLogging()}: No groupId!`);
-    }
-
-    const groupIdentifiers = this.getRecipients();
-    this.set({ left: true });
-    window.Signal.Data.updateConversation(this.attributes);
-
-    const model = new window.Whisper.Message({
-      conversationId: this.id,
-      group_update: { left: 'You' },
-      readStatus: ReadStatus.Read,
-      received_at_ms: now,
-      received_at: incrementMessageCounter(),
-      seenStatus: SeenStatus.NotApplicable,
-      sent_at: now,
-      type: 'group',
-      // TODO: DESKTOP-722
-    } as unknown as MessageAttributesType);
-
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
-    model.set({ id });
-
-    const message = window.MessageController.register(model.id, model);
-    void this.addSingleMessage(message);
-
-    const options = await getSendOptions(this.attributes);
-    void message.send(
-      handleMessageSend(
-        messaging.leaveGroup(groupId, groupIdentifiers, options),
-        { messageIds: [], sendType: 'legacyGroupChange' }
-      )
-    );
   }
 
   async markRead(

@@ -11,7 +11,6 @@ import * as Errors from '../types/errors';
 export type MessageRequestAttributesType = {
   threadE164?: string;
   threadUuid?: string;
-  groupId?: string;
   groupV2Id?: string;
   type: number;
 };
@@ -56,20 +55,6 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       }
     }
 
-    // V1 Group
-    if (conversation.get('groupId')) {
-      const syncByGroupId = this.findWhere({
-        groupId: conversation.get('groupId'),
-      });
-      if (syncByGroupId) {
-        log.info(
-          `Found early message request response for group v1 ID ${conversation.idForLogging()}`
-        );
-        this.remove(syncByGroupId);
-        return syncByGroupId;
-      }
-    }
-
     // V2 group
     if (conversation.get('groupId')) {
       const syncByGroupId = this.findWhere({
@@ -91,7 +76,6 @@ export class MessageRequests extends Collection<MessageRequestModel> {
     try {
       const threadE164 = sync.get('threadE164');
       const threadUuid = sync.get('threadUuid');
-      const groupId = sync.get('groupId');
       const groupV2Id = sync.get('groupV2Id');
 
       let conversation;
@@ -99,9 +83,6 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
       if (groupV2Id) {
         conversation = window.ConversationController.get(groupV2Id);
-      }
-      if (!conversation && groupId) {
-        conversation = window.ConversationController.get(groupId);
       }
       if (!conversation && (threadE164 || threadUuid)) {
         conversation = window.ConversationController.lookupOrCreate({
@@ -113,7 +94,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
 
       if (!conversation) {
         log.warn(
-          `Received message request response for unknown conversation: groupv2(${groupV2Id}) group(${groupId}) ${threadUuid} ${threadE164}`
+          `Received message request response for unknown conversation: groupv2(${groupV2Id}) ${threadUuid} ${threadE164}`
         );
         return;
       }

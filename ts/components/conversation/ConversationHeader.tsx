@@ -404,6 +404,44 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     const hasGV2AdminEnabled = isGroup && groupVersion === 2;
 
+    if (isGroup && groupVersion !== 2) {
+      return (
+        <ContextMenu id={triggerId}>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation({ type: PanelType.GroupV1Members })
+            }
+          >
+            {i18n('icu:showMembers')}
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation({ type: PanelType.AllMedia })
+            }
+          >
+            {i18n('icu:viewRecentMedia')}
+          </MenuItem>
+          <MenuItem divider />
+          {isArchived ? (
+            <MenuItem onClick={() => onMoveToInbox(id)}>
+              {i18n('icu:moveConversationToInbox')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={() => onArchive(id)}>
+              {i18n('icu:archiveConversation')}
+            </MenuItem>
+          )}
+          <MenuItem
+            onClick={() =>
+              this.setState({ hasDeleteMessagesConfirmation: true })
+            }
+          >
+            {i18n('icu:deleteMessages')}
+          </MenuItem>
+        </ContextMenu>
+      );
+    }
+
     const isActiveExpireTimer = (value: number): boolean => {
       if (!expireTimer) {
         return value === 0;
@@ -485,15 +523,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             {isGroup
               ? i18n('icu:showConversationDetails')
               : i18n('icu:showConversationDetails--direct')}
-          </MenuItem>
-        ) : null}
-        {isGroup && !hasGV2AdminEnabled ? (
-          <MenuItem
-            onClick={() =>
-              pushPanelForConversation({ type: PanelType.GroupV1Members })
-            }
-          >
-            {i18n('icu:showMembers')}
           </MenuItem>
         ) : null}
         <MenuItem

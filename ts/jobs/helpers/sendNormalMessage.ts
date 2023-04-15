@@ -257,9 +257,6 @@ export async function sendNormalMessage(
                 contact,
                 deletedForEveryoneTimestamp,
                 expireTimer,
-                groupV1: conversation.getGroupV1Info(
-                  recipientIdentifiersWithoutMe
-                ),
                 groupV2: groupV2Info,
                 messageText: body,
                 preview,

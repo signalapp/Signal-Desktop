@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
-  difference,
   isEmpty,
   isEqual,
   isNumber,
@@ -14,11 +13,9 @@ import {
   partition,
   pick,
   union,
-  without,
 } from 'lodash';
 import type {
   CustomError,
-  GroupV1Update,
   MessageAttributesType,
   MessageReactionType,
   QuotedMessageType,
@@ -85,7 +82,6 @@ import {
   isDirectConversation,
   isGroup,
   isGroupV1,
-  isGroupV2,
   isMe,
 } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
@@ -145,11 +141,9 @@ import { notificationService } from '../services/notifications';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
-import { computeHash } from '../Crypto';
 import { cleanupMessage, deleteMessageData } from '../util/cleanup';
 import {
   getContact,
-  getContactId,
   getSource,
   getSourceUuid,
   isCustomError,
@@ -173,7 +167,6 @@ import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
-import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { getStringForConversationMerge } from '../util/getStringForConversationMerge';
 import {
@@ -2139,7 +2132,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sourceUuid = message.get('sourceUuid');
     const type = message.get('type');
     const conversationId = message.get('conversationId');
-    const GROUP_TYPES = Proto.GroupContext.Type;
 
     const fromContact = getContact(this.attributes);
     if (fromContact) {
@@ -2352,9 +2344,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         reason: 'handleDataMessage',
       })!;
       const hasGroupV2Prop = Boolean(initialMessage.groupV2);
-      const isV1GroupUpdate =
-        initialMessage.group &&
-        initialMessage.group.type !== Proto.GroupContext.Type.DELIVER;
 
       // Drop if from blocked user. Only GroupV2 messages should need to be dropped here.
       const isBlocked =
@@ -2397,22 +2386,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         type === 'incoming' &&
         !isDirectConversation(conversation.attributes) &&
         !hasGroupV2Prop &&
-        !isV1GroupUpdate &&
         conversation.get('members') &&
         !areWeMember
       ) {
         log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
-        );
-        confirm();
-        return;
-      }
-
-      // Because GroupV1 messages can now be multiplexed into GroupV2 conversations, we
-      //   drop GroupV1 updates in GroupV2 groups.
-      if (isV1GroupUpdate && isGroupV2(conversation.attributes)) {
-        log.warn(
-          `Received GroupV1 update in GroupV2 conversation ${conversation.idForLogging()}. Dropping.`
         );
         confirm();
         return;
@@ -2615,159 +2593,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         if (isSupported) {
-          let attributes = {
+          const attributes = {
             ...conversation.attributes,
           };
-
-          // GroupV1
-          if (!hasGroupV2Prop && initialMessage.group) {
-            const pendingGroupUpdate: GroupV1Update = {};
-
-            const memberConversations: Array<ConversationModel> =
-              await Promise.all(
-                initialMessage.group.membersE164.map((e164: string) =>
-                  window.ConversationController.getOrCreateAndWait(
-                    e164,
-                    'private'
-                  )
-                )
-              );
-            const members = memberConversations.map(c => c.get('id'));
-            attributes = {
-              ...attributes,
-              type: 'group',
-              groupId: initialMessage.group.id,
-            };
-            if (initialMessage.group.type === GROUP_TYPES.UPDATE) {
-              attributes = {
-                ...attributes,
-                name: initialMessage.group.name,
-                members: union(members, conversation.get('members')),
-              };
-
-              if (initialMessage.group.name !== conversation.get('name')) {
-                pendingGroupUpdate.name = initialMessage.group.name;
-              }
-
-              const avatarAttachment = initialMessage.group.avatar;
-
-              let downloadedAvatar;
-              let hash;
-              if (avatarAttachment) {
-                try {
-                  downloadedAvatar = await downloadAttachment(avatarAttachment);
-
-                  if (downloadedAvatar) {
-                    const loadedAttachment =
-                      await window.Signal.Migrations.loadAttachmentData(
-                        downloadedAvatar
-                      );
-
-                    hash = computeHash(loadedAttachment.data);
-                  }
-                } catch (err) {
-                  log.info(`${idLog}: group avatar download failed`);
-                }
-              }
-
-              const existingAvatar = conversation.get('avatar');
-
-              if (
-                // Avatar added
-                (!existingAvatar && avatarAttachment) ||
-                // Avatar changed
-                (existingAvatar && existingAvatar.hash !== hash) ||
-                // Avatar removed
-                (existingAvatar && !avatarAttachment)
-              ) {
-                // Removes existing avatar from disk
-                if (existingAvatar && existingAvatar.path) {
-                  await window.Signal.Migrations.deleteAttachmentData(
-                    existingAvatar.path
-                  );
-                }
-
-                let avatar = null;
-                if (downloadedAvatar && avatarAttachment != null) {
-                  const onDiskAttachment =
-                    await Attachment.migrateDataToFileSystem(downloadedAvatar, {
-                      writeNewAttachmentData:
-                        window.Signal.Migrations.writeNewAttachmentData,
-                      logger: log,
-                    });
-                  avatar = {
-                    ...onDiskAttachment,
-                    hash,
-                  };
-                }
-
-                if (!avatar) {
-                  attributes.avatar = avatar;
-                } else {
-                  const { url, path } = avatar;
-                  strictAssert(url, 'Avatar needs url');
-                  strictAssert(path, 'Avatar needs path');
-                  attributes.avatar = {
-                    url,
-                    path,
-                    ...avatar,
-                  };
-                }
-
-                pendingGroupUpdate.avatarUpdated = true;
-              } else {
-                log.info(
-                  `${idLog}: Group avatar hash matched; not replacing group avatar`
-                );
-              }
-
-              const differentMembers = difference(
-                members,
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                conversation.get('members')!
-              );
-              if (differentMembers.length > 0) {
-                // Because GroupV1 groups are based on e164 only
-                const maybeE164s = map(differentMembers, id =>
-                  window.ConversationController.get(id)?.get('e164')
-                );
-                const e164s = filter(maybeE164s, isNotNil);
-                pendingGroupUpdate.joined = [...e164s];
-              }
-              if (conversation.get('left')) {
-                log.warn('re-added to a left group');
-                attributes.left = false;
-                conversation.set({ addedBy: getContactId(message.attributes) });
-              }
-            } else if (initialMessage.group.type === GROUP_TYPES.QUIT) {
-              const inGroup = Boolean(
-                sender &&
-                  (conversation.get('members') || []).includes(sender.id)
-              );
-              if (!inGroup) {
-                const senderString = sender ? sender.idForLogging() : null;
-                log.info(
-                  `${idLog}: Got 'left' message from someone not in group: ${senderString}. Dropping.`
-                );
-                return;
-              }
-
-              if (isMe(sender.attributes)) {
-                attributes.left = true;
-                pendingGroupUpdate.left = 'You';
-              } else {
-                pendingGroupUpdate.left = sender.get('id');
-              }
-              attributes.members = without(
-                conversation.get('members'),
-                sender.get('id')
-              );
-            }
-
-            if (!isEmpty(pendingGroupUpdate)) {
-              message.set('group_update', pendingGroupUpdate);
-            }
-          }
 
           // Drop empty messages after. This needs to happen after the initial
           // message.set call and after GroupV1 processing to make sure all possible

@@ -354,7 +354,7 @@ message DataMessage {
 
   optional string             body                    = 1;
   repeated AttachmentPointer  attachments             = 2;
-  optional GroupContext       group                   = 3;
+  reserved /*groupV1*/ 3;
   optional GroupContextV2     groupV2                 = 15;
   optional uint32             flags                   = 4;
   optional uint32             expireTimer             = 5;
@@ -662,23 +662,6 @@ message AttachmentPointer {
   optional uint64  uploadTimestamp = 13;
   optional uint32  cdnNumber       = 14;
   // Next ID: 16
-}
-
-message GroupContext {
-  enum Type {
-    UNKNOWN      = 0;
-    UPDATE       = 1;
-    DELIVER      = 2;
-    QUIT         = 3;
-    REQUEST_INFO = 4;
-  }
-
-  optional bytes             id          = 1;
-  optional Type              type        = 2;
-  optional string            name        = 3;
-  repeated string            membersE164 = 4;
-  // field 6 was removed; do not use
-  optional AttachmentPointer avatar      = 5;
 }
 
 message GroupContextV2 {
