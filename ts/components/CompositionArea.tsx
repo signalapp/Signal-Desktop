@@ -372,14 +372,23 @@ export function CompositionArea({
     messageCompositionId,
     messageCompositionId
   );
+  const previousSendCounter = usePrevious(sendCounter, sendCounter);
   useEffect(() => {
     if (!inputApiRef.current) {
       return;
     }
-    if (previousMessageCompositionId !== messageCompositionId) {
+    if (
+      previousMessageCompositionId !== messageCompositionId ||
+      previousSendCounter !== sendCounter
+    ) {
       inputApiRef.current.reset();
     }
-  }, [messageCompositionId, previousMessageCompositionId]);
+  }, [
+    messageCompositionId,
+    sendCounter,
+    previousMessageCompositionId,
+    previousSendCounter,
+  ]);
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
@@ -393,12 +402,12 @@ export function CompositionArea({
 
   const previousConversationId = usePrevious(conversationId, conversationId);
   useEffect(() => {
-    if (!draftText) {
-      inputApiRef.current?.setContents('');
+    if (conversationId === previousConversationId) {
       return;
     }
 
-    if (conversationId === previousConversationId) {
+    if (!draftText) {
+      inputApiRef.current?.setContents('');
       return;
     }
 

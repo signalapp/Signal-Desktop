@@ -78,7 +78,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const deltaList = new Array<number>();
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
     debug('finding composition input and clicking it');
-    const input = await app.waitForEnabledComposer(250);
+    const input = await app.waitForEnabledComposer();
 
     debug('entering message text');
     await input.type(`my message ${runId}`);

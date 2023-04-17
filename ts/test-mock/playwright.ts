@@ -10,7 +10,6 @@ import type {
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
 import type { ReceiptType } from '../types/Receipt';
-import { sleep } from '../util/sleep';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -62,7 +61,7 @@ export class App extends EventEmitter {
     this.privApp.on('close', () => this.emit('close'));
   }
 
-  public async waitForEnabledComposer(sleepTimeout = 1000): Promise<Locator> {
+  public async waitForEnabledComposer(): Promise<Locator> {
     const window = await this.getWindow();
     const composeArea = window.locator(
       '.composition-area-wrapper, .conversation .ConversationView'
@@ -71,9 +70,6 @@ export class App extends EventEmitter {
       '[data-testid=CompositionInput][data-enabled=true]'
     );
     await composeContainer.waitFor();
-
-    // Let quill start up
-    await sleep(sleepTimeout);
 
     return composeContainer.locator('.ql-editor');
   }
