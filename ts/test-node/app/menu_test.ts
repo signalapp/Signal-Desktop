@@ -202,9 +202,6 @@ describe('createTemplate', () => {
       info(_arg: unknown) {
         // noop
       },
-      error(arg: unknown) {
-        throw new Error(String(arg));
-      },
       warn(arg: unknown) {
         throw new Error(String(arg));
       },

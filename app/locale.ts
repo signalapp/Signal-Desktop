@@ -4,20 +4,12 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { merge } from 'lodash';
+import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { setupI18n } from '../ts/util/setupI18n';
 
 import type { LoggerType } from '../ts/types/Logging';
 import type { LocaleMessagesType } from '../ts/types/I18N';
 import type { LocalizerType } from '../ts/types/Util';
-
-function removeRegion(locale: string): string {
-  const match = /^([^-]+)(-.+)$/.exec(locale);
-  if (match) {
-    return match[1];
-  }
-
-  return locale;
-}
 
 function getLocaleMessages(locale: string): LocaleMessagesType {
   const targetFile = join(__dirname, '..', '_locales', locale, 'messages.json');
@@ -53,47 +45,43 @@ export function load({
   logger,
 }: {
   preferredSystemLocales: Array<string>;
-  logger: Pick<LoggerType, 'error' | 'warn' | 'info'>;
+  logger: Pick<LoggerType, 'warn' | 'info'>;
 }): LocaleType {
   if (preferredSystemLocales == null) {
-    throw new TypeError('`preferredSystemLocales` is required');
+    throw new TypeError('locale: `preferredSystemLocales` is required');
   }
-
-  if (!logger || !logger.error) {
-    throw new TypeError('`logger.error` is required');
+  if (!logger.info) {
+    throw new TypeError('locale: `logger.info` is required');
   }
   if (!logger.warn) {
-    throw new TypeError('`logger.warn` is required');
+    throw new TypeError('locale: `logger.warn` is required');
   }
 
   if (preferredSystemLocales.length === 0) {
-    logger.warn('`preferredSystemLocales` was empty');
+    logger.warn('locale: `preferredSystemLocales` was empty');
   }
 
-  const english = getLocaleMessages('en');
+  const availableLocales = JSON.parse(
+    readFileSync(
+      join(__dirname, '..', 'build', 'available-locales.json'),
+      'utf-8'
+    )
+  ) as Array<string>;
 
-  for (const locale of preferredSystemLocales) {
-    try {
-      logger.info(`Loading preferred system locale: '${locale}'`);
-      return finalize(getLocaleMessages(locale), english, locale);
-    } catch (e) {
-      logger.warn(
-        `Problem loading messages for locale '${locale}', ${e.toString()}`
-      );
-    }
+  logger.info('locale: Supported locales:', availableLocales.join(', '));
+  logger.info('locale: Preferred locales: ', preferredSystemLocales.join(', '));
 
-    const languageOnly = removeRegion(locale);
-    try {
-      logger.warn(`Falling back to parent language: '${languageOnly}'`);
-      // Note: messages are from parent language, but we still keep the region
-      return finalize(getLocaleMessages(languageOnly), english, locale);
-    } catch (e) {
-      logger.error(
-        `Problem loading messages for parent locale '${languageOnly}'`
-      );
-    }
-  }
+  const matchedLocale = LocaleMatcher.match(
+    preferredSystemLocales,
+    availableLocales,
+    'en',
+    { algorithm: 'best fit' }
+  );
 
-  logger.warn("Falling back to 'en' locale");
-  return finalize(english, english, 'en');
+  logger.info(`locale: Matched locale: ${matchedLocale}`);
+
+  const matchedLocaleMessages = getLocaleMessages(matchedLocale);
+  const englishMessages = getLocaleMessages('en');
+
+  return finalize(matchedLocaleMessages, englishMessages, matchedLocale);
 }

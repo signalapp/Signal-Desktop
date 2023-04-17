@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { execSync } from 'child_process';
+import fsExtra from 'fs-extra';
+import path from 'path';
 
 const { SMARTLING_USER, SMARTLING_SECRET } = process.env;
 
@@ -28,6 +30,19 @@ execSync(
     stdio: [null, process.stdout, process.stderr],
   }
 );
+
+function rename(from: string, to: string) {
+  console.log(`Renaming "${from}" to "${to}"`);
+  fsExtra.moveSync(path.join('_locales', from), path.join('_locales', to), {
+    overwrite: true,
+  });
+}
+
+// Smartling uses "zh-YU" for Cantonese (or Yue Chinese).
+// This is wrong.
+// The language tag for Yue Chinese is "yue"
+// "zh-YU" actually implies "Chinese as spoken in Yugoslavia (canonicalized to Serbia)"
+rename('zh-YU', 'yue');
 
 console.log('Formatting newly-downloaded strings!');
 console.log();
