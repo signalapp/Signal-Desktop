@@ -120,6 +120,13 @@ export const setup = (
           };
           label = i18n('icu:contextMenuCopyLink');
         } else if (isImage) {
+          const urlIsViewOnce =
+            params.srcURL?.includes('/temp/') ||
+            params.srcURL?.includes('\\temp\\');
+          if (urlIsViewOnce) {
+            return;
+          }
+
           click = () => {
             const parsedSrcUrl = maybeParseUrl(params.srcURL);
             if (!parsedSrcUrl || parsedSrcUrl.protocol !== 'file:') {
