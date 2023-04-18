@@ -3,6 +3,7 @@
 
 import { orderBy } from 'lodash';
 import type { AttachmentType } from '../types/Attachment';
+import { isVoiceMessage } from '../types/Attachment';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { MessageAttributesType, QuotedMessageType } from '../model-types';
 import * as log from '../logging/log';
@@ -44,6 +45,10 @@ export function isDraftEditable(draft: MessageForwardDraft): boolean {
     return false;
   }
   if (draft.hasContact) {
+    return false;
+  }
+  const hasVoiceMessage = draft.attachments?.some(isVoiceMessage) ?? false;
+  if (hasVoiceMessage) {
     return false;
   }
   return true;
