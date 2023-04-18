@@ -1209,7 +1209,6 @@ function saveDraft(
     messageText !== conversation.get('draft') ||
     !isEqual(bodyRanges, conversation.get('draftBodyRanges'))
   ) {
-    log.info(`saveDraft(${conversation.idForLogging()})`);
     const now = Date.now();
     let activeAt = conversation.get('active_at');
     let timestamp = conversation.get('timestamp');

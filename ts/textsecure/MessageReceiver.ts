@@ -13,6 +13,7 @@ import type {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
 import {
+  ContentHint,
   CiphertextMessageType,
   DecryptionErrorMessage,
   groupDecrypt,
@@ -1890,6 +1891,9 @@ export default class MessageReceiver
       const uuid = envelope.sourceUuid;
       const deviceId = envelope.sourceDevice;
 
+      const ourUuid = this.storage.user.getCheckedUuid().toString();
+      const isFromMe = ourUuid === uuid;
+
       // Job timed out, not a decryption error
       if (
         error?.name === 'TimeoutError' ||
@@ -1931,7 +1935,9 @@ export default class MessageReceiver
           {
             cipherTextBytes,
             cipherTextType,
-            contentHint: envelope.contentHint,
+            contentHint:
+              envelope.contentHint ??
+              (isFromMe ? ContentHint.Resendable : undefined),
             groupId: envelope.groupId,
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
