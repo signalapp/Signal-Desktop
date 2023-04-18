@@ -34,7 +34,6 @@ function jobToLogId<T extends TypeOfPersistedData>(jobRunner: JobRunnerType, job
  *
  * SyncConfigurationJob is a job which can only be planned once until it is a success. So in the queue  on jobs, there can only be one SyncConfigurationJob at all times.
  *
- *
  */
 export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private isInit = false;
@@ -131,6 +130,10 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       this.nextJobStartTimer = null;
     }
     this.currentJob = null;
+  }
+
+  public getCurrentJobIdentifier(): string | null {
+    return this.currentJob?.persistedData?.identifier || null;
   }
 
   /**

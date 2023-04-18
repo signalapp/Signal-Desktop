@@ -78,29 +78,6 @@ describe('formatRowOfConversation', () => {
     });
   });
 
-  describe('mentionedUs', () => {
-    it('initialize mentionedUs if they are not given', () => {
-      expect(formatRowOfConversation({}, 'test', 0, false)).to.have.deep.property(
-        'mentionedUs',
-        false
-      );
-    });
-
-    it('do not override mentionedUs if they are set in the row as integer: true', () => {
-      expect(formatRowOfConversation({ mentionedUs: 1 }, 'test', 0, false)).to.have.deep.property(
-        'mentionedUs',
-        true
-      );
-    });
-
-    it('do not override mentionedUs if they are set in the row as integer: false', () => {
-      expect(formatRowOfConversation({ mentionedUs: 0 }, 'test', 0, false)).to.have.deep.property(
-        'mentionedUs',
-        false
-      );
-    });
-  });
-
   describe('isKickedFromGroup', () => {
     it('initialize isKickedFromGroup if they are not given', () => {
       expect(formatRowOfConversation({}, 'test', 0, false)).to.have.deep.property(

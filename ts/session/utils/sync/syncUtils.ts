@@ -30,6 +30,7 @@ import { PubKey } from '../../types';
 import { ConfigurationDumpSync } from '../job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { fromBase64ToArray, fromHexToArray } from '../String';
+import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -141,8 +142,9 @@ const getActiveOpenGroupV2CompleteUrls = async (
   const urls = await Promise.all(
     openGroupsV2ConvoIds.map(async opengroupConvoId => {
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(opengroupConvoId);
+
       if (roomInfos) {
-        return opengroupConvoId;
+        return getCompleteUrlFromRoom(roomInfos);
       }
       return null;
     })

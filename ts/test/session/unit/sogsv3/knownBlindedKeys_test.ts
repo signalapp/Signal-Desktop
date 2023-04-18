@@ -23,6 +23,7 @@ import { getConversationController } from '../../../../session/conversations';
 import { LibSodiumWrappers } from '../../../../session/crypto';
 import { UserUtils } from '../../../../session/utils';
 import { expectAsyncToThrow, stubData, stubWindowLog } from '../../../test-utils/utils';
+import { TestUtils } from '../../../test-utils';
 
 // tslint:disable: chai-vague-errors
 
@@ -72,7 +73,7 @@ describe('knownBlindedKeys', () => {
     });
 
     it('loadFromDb with invalid json', async () => {
-      getItemById.resolves({ id: '', value: 'plop invalid json' });
+      getItemById.resolves({ id: '', value: 'invalid json content' });
       await loadKnownBlindedKeys();
       expect(TEST_getCachedBlindedKeys()).to.deep.eq([]);
     });
@@ -481,14 +482,17 @@ describe('knownBlindedKeys', () => {
     describe('when not in cache', () => {
       beforeEach(async () => {
         getConversationController().reset();
+        getItemById.resolves();
 
         stubData('getAllConversations').resolves([]);
         stubData('saveConversation').resolves();
+        Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(
+          TestUtils.generateFakePubKeyStr()
+        );
         await getConversationController().load();
       });
 
       it('does iterate over all the conversations and find the first one matching (fails)', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         const shouldBeWrittenToDb = {
           blindedId: knownBlindingMatch.blindedId,
@@ -510,7 +514,6 @@ describe('knownBlindedKeys', () => {
       });
 
       it('does iterate over all the conversations and find the first one matching (passes)', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         await getConversationController().getOrCreateAndWait(
@@ -543,7 +546,6 @@ describe('knownBlindedKeys', () => {
       });
 
       it('does iterate over all the conversations but is not approved so must fail', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         const convo = await getConversationController().getOrCreateAndWait(
@@ -562,7 +564,6 @@ describe('knownBlindedKeys', () => {
       });
 
       it('does iterate over all the conversations but is not private so must fail: group', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         const convo = await getConversationController().getOrCreateAndWait(

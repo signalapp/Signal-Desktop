@@ -10,6 +10,7 @@ import {
 } from '../../../../../session/utils/job_runners/PersistedJob';
 import { sleepFor } from '../../../../../session/utils/Promise';
 import { stubData } from '../../../../test-utils/utils';
+import { TestUtils } from '../../../../test-utils';
 
 function getFakeSleepForJob(timestamp: number): FakeSleepForJob {
   const job = new FakeSleepForJob({
@@ -185,28 +186,48 @@ describe('JobRunner', () => {
 
     it('two jobs are running sequentially', async () => {
       await runnerMulti.loadJobsFromDb();
-      const job = getFakeSleepForMultiJob({ timestamp: 100 });
+      TestUtils.stubWindowLog();
+      const job = getFakeSleepForMultiJob({ timestamp: 5 });
       const job2 = getFakeSleepForMultiJob({ timestamp: 200 });
       runnerMulti.startProcessing();
-      clock.tick(110);
+      clock.tick(100);
+
       // job should be started right away
       let result = await runnerMulti.addJob(job);
       expect(result).to.eq('job_started');
       result = await runnerMulti.addJob(job2);
       expect(result).to.eq('job_deferred');
       expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
-      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob(), job2.serializeJob()]);
+      expect(runnerMulti.getCurrentJobIdentifier()).to.be.equal(job.persistedData.identifier);
+
+      console.warn(
+        'runnerMulti.getJobList() initial',
+        runnerMulti.getJobList().map(m => m.identifier),
+        Date.now()
+      );
+      console.warn('=========== awaiting first job ==========');
 
       // each job takes 5s to finish, so let's tick once the first one should be done
-      clock.tick(5010);
-      await runnerMulti.waitCurrentJob();
-      clock.tick(5010);
-      await runnerMulti.waitCurrentJob();
+      clock.tick(5000);
+      expect(runnerMulti.getCurrentJobIdentifier()).to.be.equal(job.persistedData.identifier);
+      let awaited = await runnerMulti.waitCurrentJob();
+      expect(awaited).to.eq('await');
+      await sleepFor(10);
 
-      expect(runnerMulti.getJobList()).to.deep.eq([job2.serializeJob()]);
+      console.warn('=========== awaited first job ==========');
+      expect(runnerMulti.getCurrentJobIdentifier()).to.be.equal(job2.persistedData.identifier);
+
+      console.warn('=========== awaiting second job ==========');
 
       clock.tick(5000);
-      await runnerMulti.waitCurrentJob();
+
+      awaited = await runnerMulti.waitCurrentJob();
+      expect(awaited).to.eq('await');
+      await sleepFor(10); // those sleep for is just to let the runner the time to finish writing the tests to the DB and exit the handling of the previous test
+
+      console.warn('=========== awaited second job ==========');
+
+      expect(runnerMulti.getCurrentJobIdentifier()).to.eq(null);
 
       expect(runnerMulti.getJobList()).to.deep.eq([]);
     });
@@ -219,24 +240,32 @@ describe('JobRunner', () => {
       clock.tick(110);
       // job should be started right away
       let result = await runnerMulti.addJob(job);
-      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
-
       expect(result).to.eq('job_started');
-      clock.tick(5010);
-      await runnerMulti.waitCurrentJob();
-      clock.tick(5010);
+      expect(runnerMulti.getJobList()).to.deep.eq([job.serializeJob()]);
+      expect(runnerMulti.getCurrentJobIdentifier()).to.be.equal(job.persistedData.identifier);
 
+      clock.tick(5000);
+      console.warn('=========== awaiting first job ==========');
+
+      await runnerMulti.waitCurrentJob();
       // just give some time for the runnerMulti to pick up a new job
-      await sleepFor(100);
+      await sleepFor(10);
+      expect(runnerMulti.getJobList()).to.deep.eq([]);
+      expect(runnerMulti.getCurrentJobIdentifier()).to.be.equal(null);
+      console.warn('=========== awaited first job ==========');
 
       // the first job should already be finished now
       result = await runnerMulti.addJob(job2);
       expect(result).to.eq('job_started');
       expect(runnerMulti.getJobList()).to.deep.eq([job2.serializeJob()]);
 
+      console.warn('=========== awaiting second job ==========');
+
       // each job takes 5s to finish, so let's tick once the first one should be done
       clock.tick(5010);
       await runnerMulti.waitCurrentJob();
+      await sleepFor(10);
+      console.warn('=========== awaited second job ==========');
 
       expect(runnerMulti.getJobList()).to.deep.eq([]);
     });

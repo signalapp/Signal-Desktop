@@ -1,217 +1,24 @@
 import { expect } from 'chai';
-
-import { stringToUint8Array } from '../../../../session/utils/String';
-import { from_hex, from_string, to_hex } from 'libsodium-wrappers-sumo';
-import { concatUInt8Array } from '../../../../session/crypto';
-
-// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
-
-const fakeKey32 = from_string('secret78901234567890123456789012');
+import { SessionUtilUserProfile } from '../../../../session/utils/libsession/libsession_utils_user_profile';
+import Sinon from 'sinon';
+import { UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
 
 describe('libsession_wrapper', () => {
-  it('libsession_user', () => {
-    // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
-    // To do this, you can cd to the node_module/libsession_wrapper folder and do
-    // yarn configure && yarn build
-    // once that is done, you can rename this file and remove the _skip suffix so that test is run.
+  afterEach(() => {
+    Sinon.restore();
+  });
 
-    // We have to disable it by filename as nodejs tries to load the module during the import step above, and fails as it is not compiled for nodejs but for electron.
+  it('isUserProfileToStoreInWrapper returns true if thats our convo', () => {
+    const us = TestUtils.generateFakePubKeyStr();
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(us);
+    expect(SessionUtilUserProfile.isUserProfileToStoreInWrapper(us)).to.be.true;
+  });
 
-    const edSecretKey = from_hex(
-      '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
-    );
-    const SessionUtilWrapper = require('session_util_wrapper');
-
-    // Initialize a brand new, empty config because we have no dump data to deal with.
-    const conf = new SessionUtilWrapper.UserConfigWrapperInsideWorker(edSecretKey, null);
-
-    // We don't need to push anything, since this is an empty config
-    expect(conf.needsPush()).to.be.eql(false);
-    expect(conf.needsDump()).to.be.eql(false);
-
-    // Since it's empty there shouldn't be a name.
-    expect(conf.getName()).to.be.null;
-
-    let pushResult = conf.push();
-
-    expect(pushResult.seqno).to.be.eq(0);
-    expect(pushResult.data.length).to.be.eq(256);
-
-    expect(conf.storageNamespace()).to.be.eq(2);
-    expect(to_hex(pushResult.data)).to.be.deep.eq(
-      '9ffb5347e061ac40d937ae4f1a890031475bdc11653f94c8ae1d516ffda71d9ee9cdaf9fbaeb15d835cdc7b3b6ecc120361f004ff172dd5e757c80ede10e88945536e6841255a7bca73664ab8a0607fcfe2579c05bb3d9d4b34ac1de2921e703783ce39e317a512cb9d4e3b59176cbde47b5ba24a03065bf8fefe3e8ca2609e0ad10c7c9c3f81dc6d3a399bda0c190e8a228d0acb22863ab84c2d0c411be74dac4de1f8bc18539635db01ea1ef7f28e505703d67786cb419690edd4bd8c92926fc1d6449eaccc31d7d9639e1b36222e5672b87d1e34b7860308c3f40b3997f39fecf6ceb889323826fa69e001816307799fc9fed302a90faa1e43f7cd7367c3c'
-    );
-
-    // This should also be unset:
-    const picResult = conf.getProfilePicture();
-    expect(picResult.url).to.be.null;
-    expect(picResult.key).to.be.null;
-
-    // Now let's go set a profile name and picture:
-    conf.setProfilePicture('http://example.org/omg-pic-123.bmp', new Uint8Array(fakeKey32));
-    expect(conf.getProfilePicture().key).to.be.deep.eq(new Uint8Array(fakeKey32));
-
-    conf.setName('Kallie');
-
-    // Retrieve them just to make sure they set properly:
-    const name = conf.getName();
-
-    expect(name).to.be.not.null;
-    expect(name).to.be.eq('Kallie');
-
-    const picture = conf.getProfilePicture();
-
-    expect(picture.url).to.be.eq('http://example.org/omg-pic-123.bmp');
-    expect(picture.key).to.be.deep.eq(new Uint8Array(fakeKey32));
-
-    // Since we've made changes, we should need to push new config to the swarm, *and* should need
-    // to dump the updated state:
-
-    expect(conf.needsDump()).to.be.true;
-    expect(conf.needsPush()).to.be.true;
-
-    // incremented since we made changes (this only increments once between
-    // dumps; even though we changed two fields here).
-    pushResult = conf.push();
-    expect(pushResult.seqno).to.be.eq(1);
-
-    const expHash0 = from_hex('ea173b57beca8af18c3519a7bbf69c3e7a05d1c049fa9558341d8ebb48b0c965');
-
-    const expPush1Start =
-      'd1:#i1e1:&d1:n6:Kallie1:p34:http://example.org/omg-pic-123.bmp1:q32:secret78901234567890123456789012e1:<lli0e32:';
-    const expPush1End = 'deee1:=d1:n0:1:p0:1:q0:ee';
-
-    // The data to be actually pushed, expanded like this to make it somewhat human-readable:
-    const expPush1Decrypted = concatUInt8Array(
-      stringToUint8Array(expPush1Start),
-      expHash0,
-      stringToUint8Array(expPush1End)
-    );
-    const expPush1Encrypted = from_hex(
-      '877c8e0f5d33f5fffa5a4e162785a9a89918e95de1c4b925201f1f5c29d9ee4f8c36e2b278fce1e6b9d999689dd86ff8e79e0a04004fa54d24da89bc2604cb1df8c1356da8f14710543ecec44f2d57fc56ea8b7e73d119c69d755f4d513d5d069f02396b8ec0cbed894169836f57ca4b782ce705895c593b4230d50c175d44a08045388d3f4160bacb617b9ae8de3ebc8d9024245cd09ce102627cab2acf1b9126159211359606611ca5814de320d1a7099a65c99b0eebbefb92a115f5efa6b9132809300ac010c6857cfbd62af71b0fa97eccec75cb95e67edf40b35fdb9cad125a6976693ab085c6bba96a2e51826e81e16b9ec1232af5680f2ced55310486'
-    );
-
-    expect(to_hex(pushResult.data)).to.be.deep.eq(to_hex(expPush1Encrypted));
-
-    // We haven't dumped, so still need to dump:
-    expect(conf.needsDump()).to.be.true;
-    // We did call push, but we haven't confirmed it as stored yet, so this will still return true:
-    expect(conf.needsPush()).to.be.true;
-
-    const dumped = conf.dump();
-    // (in a real client we'd now store this to disk)
-    expect(conf.needsDump()).to.be.false;
-
-    const expectedDump = concatUInt8Array(
-      stringToUint8Array('d' + '1:!' + 'i2e' + '1:$' + `${expPush1Decrypted.length}` + ':'),
-      expPush1Decrypted,
-      stringToUint8Array('e')
-    );
-    expect(to_hex(dumped)).to.be.deep.eq(to_hex(expectedDump));
-
-    // So now imagine we got back confirmation from the swarm that the push has been stored:
-    conf.confirmPushed(pushResult.seqno);
-    expect(conf.needsPush()).to.be.false;
-    expect(conf.needsDump()).to.be.true;
-
-    conf.dump();
-    expect(conf.needsDump()).to.be.false;
-
-    // Now we're going to set up a second, competing config object (in the real world this would be
-    // another Session client somewhere).
-
-    // Start with an empty config, as abo.setve:
-    const conf2 = new SessionUtilWrapper.UserConfigWrapperInsideWorker(edSecretKey, null);
-
-    expect(conf2.needsDump()).to.be.false;
-
-    // Now imagine we just pulled down the encrypted string from the swarm; we merge it into conf2:
-    const accepted = conf2.merge([expPush1Encrypted]);
-    expect(accepted).to.be.eq(1);
-
-    // Our state has changed, so we need to dump:
-    expect(conf2.needsDump()).to.be.true;
-    conf2.dump();
-    // (store in db)
-    expect(conf2.needsDump()).to.be.false;
-
-    // We *don't* need to push: even though we updated, all we did is update to the merged data (and
-    // didn't have any sort of merge conflict needed):
-    expect(conf2.needsPush()).to.be.false;
-
-    // Now let's create a conflicting update:
-    // Change the name on both clients:
-    conf.setName('Nibbler');
-    conf2.setName('Raz');
-
-    // And, on conf2, we're also going to change the profile pic:
-    conf2.setProfilePicture(
-      'http://new.example.com/pic',
-      stringToUint8Array('qwert\0yuio1234567890123456789012')
-    );
-
-    // Both have changes, so push need a push
-    expect(conf.needsPush()).to.be.true;
-    expect(conf2.needsPush()).to.be.true;
-    pushResult = conf.push();
-    expect(pushResult.seqno).to.be.eq(2); // incremented, since we made a field change
-
-    let pushResult2 = conf2.push();
-    expect(pushResult2.seqno).to.be.eq(2); // incremented, since we made a field change
-
-    // (store in db)
-    conf.dump();
-    conf2.dump();
-
-    // Since we set different things, we're going to get back different serialized data to be
-    // pushed:
-    expect(to_hex(pushResult.data)).to.not.be.deep.eq(to_hex(pushResult2.data));
-
-    // Now imagine that each client pushed its `seqno=2` config to the swarm, but then each client
-    // also fetches new messages and pulls down the other client's `seqno=2` value.
-
-    // Feed the new config into each other.  (This array could hold multiple configs if we pulled
-    // down more than one).
-    conf2.merge([pushResult.data]);
-    conf.merge([pushResult2.data]);
-
-    // Now after the merge we *will* want to push from both client, since both will have generated a
-    // merge conflict update (with seqno = 3).
-    expect(conf.needsPush()).to.be.true;
-    expect(conf2.needsPush()).to.be.true;
-
-    pushResult = conf.push();
-    pushResult2 = conf2.push();
-    expect(pushResult.seqno).to.be.eq(3);
-    expect(pushResult2.seqno).to.be.eq(3);
-
-    // They should have resolved the conflict to the same thing:
-    expect(conf.getName()).to.be.eq('Nibbler');
-    expect(conf2.getName()).to.be.eq('Nibbler');
-
-    // (Note that they could have also both resolved to "Raz" here, but the hash of the serialized
-    // message just happens to have a higher hash -- and thus gets priority -- for this particular
-    // test).
-
-    // Since only one of them set a profile pic there should be no conflict there:
-    const pic = conf.getProfilePicture();
-    const pic2 = conf2.getProfilePicture();
-    expect(pic.url).to.be.eq('http://new.example.com/pic');
-    expect(pic2.url).to.be.eq('http://new.example.com/pic');
-
-    expect(pic.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio1234567890123456789012'));
-    expect(pic2.key).to.be.deep.eq(stringToUint8Array('qwert\0yuio1234567890123456789012'));
-
-    conf.confirmPushed(pushResult.seqno);
-    conf2.confirmPushed(pushResult2.seqno);
-
-    conf.dump();
-    conf2.dump();
-    // (store in db)
-
-    expect(conf.needsPush()).to.be.false;
-    expect(conf.needsDump()).to.be.false;
-    expect(conf2.needsPush()).to.be.false;
-    expect(conf2.needsDump()).to.be.false;
+  it('isUserProfileToStoreInWrapper returns false if thats NOT our convo', () => {
+    const us = TestUtils.generateFakePubKeyStr();
+    const notUs = TestUtils.generateFakePubKeyStr();
+    Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(us);
+    expect(SessionUtilUserProfile.isUserProfileToStoreInWrapper(notUs)).to.be.false;
   });
 });

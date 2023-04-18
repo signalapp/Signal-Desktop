@@ -19,15 +19,22 @@ import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 import { stubCreateObjectUrl, stubData, stubUtilWorker } from '../../../test-utils/utils';
 import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
+import { fromBase64ToArrayBuffer } from '../../../../session/utils/String';
 
 describe('MessageSender', () => {
   afterEach(() => {
     sinon.restore();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestUtils.stubWindowLog();
     TestUtils.stubWindowFeatureFlags();
+    getConversationController().reset();
+    TestUtils.stubData('getItemById').resolves();
+
+    stubData('getAllConversations').resolves([]);
+    stubData('saveConversation').resolves();
+    await getConversationController().load();
   });
 
   // tslint:disable-next-line: max-func-body-length
@@ -114,9 +121,13 @@ describe('MessageSender', () => {
         await MessageSender.send(rawMessage, 3, 10);
 
         const args = sessionMessageAPISendStub.getCall(0).args;
-        expect(args[0]).to.equal(device.key);
+        expect(args[1]).to.equal(device.key);
+        const firstArg = args[0];
+        expect(firstArg.length).to.equal(1);
         // expect(args[3]).to.equal(visibleMessage.timestamp); the timestamp is overwritten on sending by the network clock offset
-        expect(args[2]).to.equal(visibleMessage.ttl());
+        expect(firstArg[0].ttl).to.equal(visibleMessage.ttl());
+        expect(firstArg[0].pubkey).to.equal(device.key);
+        expect(firstArg[0].namespace).to.equal(SnodeNamespaces.UserMessages);
       });
 
       it('should correctly build the envelope and override the timestamp', async () => {
@@ -135,8 +146,10 @@ describe('MessageSender', () => {
         Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(offset);
         await MessageSender.send(rawMessage, 3, 10);
 
-        const data = sessionMessageAPISendStub.getCall(0).args[1];
-        const webSocketMessage = SignalService.WebSocketMessage.decode(data);
+        const firstArg = sessionMessageAPISendStub.getCall(0).args[0];
+        const { data64 } = firstArg[0];
+        const data = fromBase64ToArrayBuffer(data64);
+        const webSocketMessage = SignalService.WebSocketMessage.decode(new Uint8Array(data));
         expect(webSocketMessage.request?.body).to.not.equal(
           undefined,
           'Request body should not be undefined'
@@ -187,8 +200,10 @@ describe('MessageSender', () => {
           );
           await MessageSender.send(rawMessage, 3, 10);
 
-          const data = sessionMessageAPISendStub.getCall(0).args[1];
-          const webSocketMessage = SignalService.WebSocketMessage.decode(data);
+          const firstArg = sessionMessageAPISendStub.getCall(0).args[0];
+          const { data64 } = firstArg[0];
+          const data = fromBase64ToArrayBuffer(data64);
+          const webSocketMessage = SignalService.WebSocketMessage.decode(new Uint8Array(data));
           expect(webSocketMessage.request?.body).to.not.equal(
             undefined,
             'Request body should not be undefined'

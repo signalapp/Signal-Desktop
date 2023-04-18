@@ -251,6 +251,9 @@ describe('Message Utils', () => {
       stubData('getAllConversations').resolves([]);
       stubData('saveConversation').resolves();
       stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
+      TestUtils.stubData('getItemById').callsFake(async () => {
+        return { value: '[]' };
+      });
       getConversationController().reset();
 
       await getConversationController().load();
@@ -271,8 +274,9 @@ describe('Message Utils', () => {
         ConversationTypeEnum.PRIVATE
       );
 
-      const convoId3 = getOpenGroupV2ConversationId('chat-dev2.lokinet.org', 'fish');
-      const convoId4 = getOpenGroupV2ConversationId('chat-dev3.lokinet.org', 'fish2');
+      const convoId3 = getOpenGroupV2ConversationId('http://chat-dev2.lokinet.org', 'fish');
+      const convoId4 = getOpenGroupV2ConversationId('http://chat-dev3.lokinet.org', 'fish2');
+      const convoId5 = getOpenGroupV2ConversationId('http://chat-dev3.lokinet.org', 'fish3');
 
       const convo3 = await getConversationController().getOrCreateAndWait(
         convoId3,
@@ -284,7 +288,7 @@ describe('Message Utils', () => {
         .returns(null)
         .withArgs(convoId3)
         .returns({
-          serverUrl: 'chat-dev2.lokinet.org',
+          serverUrl: 'http://chat-dev2.lokinet.org',
           roomId: 'fish',
           serverPublicKey: 'serverPublicKey',
         } as OpenGroupV2Room);
@@ -297,7 +301,7 @@ describe('Message Utils', () => {
 
       await OpenGroupData.opengroupRoomsLoad();
       const convo5 = await getConversationController().getOrCreateAndWait(
-        convoId4,
+        convoId5,
         ConversationTypeEnum.GROUP
       );
       convo5.set({ active_at: 0 });
@@ -308,11 +312,12 @@ describe('Message Utils', () => {
       );
       const convos = getConversationController().getConversations();
 
+      //convoID3 is active but 4 and 5 are not
       const configMessage = await getCurrentConfigurationMessage(convos);
       expect(configMessage.activeOpenGroups.length).to.equal(1);
       expect(configMessage.activeOpenGroups[0]).to.equal(
         // tslint:disable-next-line: no-http-string
-        'chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
+        'http://chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
       );
     });
   });

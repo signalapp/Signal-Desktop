@@ -11,6 +11,8 @@ import {
 import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../../../../session/conversations';
 import { stubData, stubOpenGroupData, stubWindowLog } from '../../../test-utils/utils';
+import { UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
 
 describe('APIUtils', () => {
   beforeEach(() => {
@@ -115,8 +117,8 @@ describe('APIUtils', () => {
         it('returns false if there no rooms matching that serverURL with http prefix', () => {
           expect(hasExistingOpenGroup('http://1.1.1.1', 'roomId')).to.be.false;
           expect(hasExistingOpenGroup('http://1.1.1.1:4433', 'roomId')).to.be.false;
-          expect(hasExistingOpenGroup('http://plop.com:4433', 'roomId')).to.be.false;
-          expect(hasExistingOpenGroup('https://plop.com', 'roomId')).to.be.false;
+          expect(hasExistingOpenGroup('http://whatever.com:4433', 'roomId')).to.be.false;
+          expect(hasExistingOpenGroup('https://whatever.com', 'roomId')).to.be.false;
         });
       });
     });
@@ -134,6 +136,10 @@ describe('APIUtils', () => {
         stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
         getV2OpenGroupRoomsByServerUrl = stubOpenGroupData('getV2OpenGroupRoomsByServerUrl');
         getConversationController().reset();
+
+        Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(
+          TestUtils.generateFakePubKeyStr()
+        );
 
         await getConversationController().load();
 

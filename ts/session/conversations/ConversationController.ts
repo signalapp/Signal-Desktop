@@ -238,12 +238,17 @@ export class ConversationController {
         // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
         try {
           await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
+        } catch (e) {
+          window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
+        }
+
+        try {
           await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
             conversation.id,
             conversation.id
           );
         } catch (e) {
-          window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
+          window?.log?.info('SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:', e);
         }
 
         const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);

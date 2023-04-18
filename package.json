@@ -44,7 +44,8 @@
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "integration-test": "npx playwright test",
     "integration-test-snapshots": "npx playwright test -g 'profile picture' --update-snapshots",
-    "test": "mocha  -r jsdom-global/register --recursive --exit --timeout 10000  \"./ts/test/**/*_test.js\"",
+    "rebuild-libsession-for-unit-tests": "cd node_modules/session_util_wrapper/ && yarn configure && yarn build && cd ../../ ",
+    "test": "yarn rebuild-libsession-for-unit-tests && mocha  -r jsdom-global/register --recursive --exit --timeout 10000  \"./ts/test/**/*_test.js\"",
     "coverage": "nyc --reporter=html mocha  -r jsdom-global/register --recursive --exit --timeout 10000  \"./ts/test/**/*_test.js\"",
     "build-release": "run-script-os",
     "build-release-non-linux": "yarn build-everything && cross-env SIGNAL_ENV=production electron-builder --config.extraMetadata.environment=production --publish=never --config.directories.output=release",
@@ -274,11 +275,7 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": [
-        "deb",
-        "rpm",
-        "freebsd"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [

@@ -33,7 +33,7 @@ describe('FetchCapabilities', () => {
     });
 
     it('return null if given object without cap field  ', () => {
-      expect(parseCapabilities({ plop: [] })).to.be.deep.eq(null);
+      expect(parseCapabilities({ invalid: [] })).to.be.deep.eq(null);
     });
 
     it('return valid if given one cap ', () => {

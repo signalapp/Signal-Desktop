@@ -269,7 +269,7 @@ export class SwarmPolling {
     const messages = uniqBy(allNamespacesWithoutUserConfigIfNeeded, x => x.hash);
 
     // if all snodes returned an error (null), no need to update the lastPolledTimestamp
-    if (isGroup && allNamespacesWithoutUserConfigIfNeeded?.length) {
+    if (isGroup) {
       window?.log?.info(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
