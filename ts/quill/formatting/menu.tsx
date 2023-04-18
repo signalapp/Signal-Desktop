@@ -48,7 +48,28 @@ export class FormattingMenu {
 
     this.quill.on('editor-change', this.onEditorChange.bind(this));
 
-    // Note: Bold and Italic are built-in
+    // We override these keybindings, which means that we need to move their priority
+    //   above the built-in shortcuts, which don't exactly do what we want.
+
+    const boldChar = 'B';
+    const boldCharCode = boldChar.charCodeAt(0);
+    this.quill.keyboard.addBinding({ key: boldChar, shortKey: true }, () =>
+      this.toggleForStyle(QuillFormattingStyle.bold)
+    );
+    quill.keyboard.bindings[boldCharCode].unshift(
+      quill.keyboard.bindings[boldCharCode].pop()
+    );
+
+    const italicChar = 'I';
+    const italicCharCode = italicChar.charCodeAt(0);
+    this.quill.keyboard.addBinding({ key: italicChar, shortKey: true }, () =>
+      this.toggleForStyle(QuillFormattingStyle.italic)
+    );
+    quill.keyboard.bindings[italicCharCode].unshift(
+      quill.keyboard.bindings[italicCharCode].pop()
+    );
+
+    // No need for changing priority for these new keybindings
 
     this.quill.keyboard.addBinding({ key: 'E', shortKey: true }, () =>
       this.toggleForStyle(QuillFormattingStyle.monospace)
@@ -134,8 +155,8 @@ export class FormattingMenu {
             //   where the editor ends, we fix the popover so it stays connected to the
             //   visible editor. Important for the 'Cmd-A' scenario when scrolled down.
             const updatedY = Math.max(
-              editorElement?.getClientRects()[0]?.y || 0,
-              rect.y
+              (editorElement?.getClientRects()[0]?.y || 0) - 10,
+              (rect?.y || 0) - 10
             );
 
             return DOMRect.fromRect({

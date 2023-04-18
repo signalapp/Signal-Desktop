@@ -8,7 +8,7 @@
     // strikethrough is handled by <s> element
 
     &--monospace {
-      font-family: monospace;
+      font-family: $monospace;
     }
 
     // Note: only used in the left pane for search results, not in message bubbles
@@ -47,7 +47,7 @@
     }
 
     &--spoiler--noninteractive {
-      cursor: default;
+      cursor: inherit;
       box-shadow: none;
     }
 

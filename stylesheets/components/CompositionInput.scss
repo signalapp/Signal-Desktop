@@ -395,7 +395,7 @@ button.CompositionInput__link-preview__close-button {
 
 .quill {
   &--monospace {
-    font-family: monospace;
+    font-family: $monospace;
   }
   &--spoiler {
     @include light-theme {

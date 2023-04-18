@@ -16,6 +16,7 @@ import {
   getEmojiSkinTone,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
+  getTextFormattingEnabled,
   isInternalUser,
 } from '../selectors/items';
 import { getIntl, getPlatform } from '../selectors/user';
@@ -40,8 +41,8 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 import {
-  getIsFormattingEnabled,
-  getIsFormattingSpoilersEnabled,
+  getIsFormattingFlagEnabled,
+  getIsFormattingSpoilersFlagEnabled,
 } from '../selectors/composer';
 
 export function SmartStoryViewer(): JSX.Element | null {
@@ -93,10 +94,12 @@ export function SmartStoryViewer(): JSX.Element | null {
     getHasStoryViewReceiptSetting
   );
 
-  const isFormattingEnabled = useSelector(getIsFormattingEnabled);
-  const isFormattingSpoilersEnabled = useSelector(
-    getIsFormattingSpoilersEnabled
-  );
+  const isFormattingOptionEnabled = useSelector(getTextFormattingEnabled);
+  const isFormattingEnabled =
+    useSelector(getIsFormattingFlagEnabled) && isFormattingOptionEnabled;
+  const isFormattingSpoilersEnabled =
+    useSelector(getIsFormattingSpoilersFlagEnabled) &&
+    isFormattingOptionEnabled;
 
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 

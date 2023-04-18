@@ -15,7 +15,7 @@ import { imageToBlurHash } from '../../util/imageToBlurHash';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl, getTheme, getUserConversationId } from '../selectors/user';
-import { getEmojiSkinTone } from '../selectors/items';
+import { getEmojiSkinTone, getTextFormattingEnabled } from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
@@ -34,8 +34,8 @@ import {
 import { isSignalConversation } from '../../util/isSignalConversation';
 import {
   getComposerStateForConversationIdSelector,
-  getIsFormattingEnabled,
-  getIsFormattingSpoilersEnabled,
+  getIsFormattingFlagEnabled,
+  getIsFormattingSpoilersFlagEnabled,
 } from '../selectors/composer';
 import type { SmartCompositionRecordingProps } from './CompositionRecording';
 import { SmartCompositionRecording } from './CompositionRecording';
@@ -98,8 +98,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const selectedMessageIds = getSelectedMessageIds(state);
 
-  const isFormattingEnabled = getIsFormattingEnabled(state);
-  const isFormattingSpoilersEnabled = getIsFormattingSpoilersEnabled(state);
+  const isFormattingEnabled =
+    getIsFormattingFlagEnabled(state) && getTextFormattingEnabled(state);
+  const isFormattingSpoilersEnabled =
+    getIsFormattingSpoilersFlagEnabled(state) &&
+    getTextFormattingEnabled(state);
 
   return {
     // Base

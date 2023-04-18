@@ -30,7 +30,7 @@
     }
 
     &__text {
-      font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
+      font-family: $monospace;
       font-size: 12px;
       margin: 0;
       user-select: none;

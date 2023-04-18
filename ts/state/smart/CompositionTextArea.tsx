@@ -13,9 +13,10 @@ import { useActions as useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
 import {
-  getIsFormattingEnabled,
-  getIsFormattingSpoilersEnabled,
+  getIsFormattingFlagEnabled,
+  getIsFormattingSpoilersFlagEnabled,
 } from '../selectors/composer';
+import { getTextFormattingEnabled } from '../selectors/items';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
@@ -41,10 +42,12 @@ export function SmartCompositionTextArea(
   const { onTextTooLong } = useComposerActions();
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const isFormattingEnabled = useSelector(getIsFormattingEnabled);
-  const isFormattingSpoilersEnabled = useSelector(
-    getIsFormattingSpoilersEnabled
-  );
+  const isFormattingOptionEnabled = useSelector(getTextFormattingEnabled);
+  const isFormattingEnabled =
+    useSelector(getIsFormattingFlagEnabled) && isFormattingOptionEnabled;
+  const isFormattingSpoilersEnabled =
+    useSelector(getIsFormattingSpoilersFlagEnabled) &&
+    isFormattingOptionEnabled;
 
   return (
     <CompositionTextArea
