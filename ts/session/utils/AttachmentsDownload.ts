@@ -237,7 +237,7 @@ async function _runJob(job: any) {
     // so there is no need to continue trying to download it.
     if (currentAttempt >= 3 || was404Error(error)) {
       logger.error(
-        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
+        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permanent error:`,
         error && error.stack ? error.stack : error
       );
 

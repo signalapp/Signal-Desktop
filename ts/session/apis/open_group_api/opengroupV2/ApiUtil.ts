@@ -38,9 +38,9 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
 
 // tslint:disable: no-http-string
 
-const ourSogsLegacyIp = '116.203.70.33';
-const ourSogsDomainName = 'open.getsession.org';
-const ourSogsUrl = `https://${ourSogsDomainName}`;
+export const ourSogsLegacyIp = '116.203.70.33';
+export const ourSogsDomainName = 'open.getsession.org';
+export const ourSogsUrl = `https://${ourSogsDomainName}`;
 
 /**
  * This function returns true if the server url given matches any of the sogs run by Session.

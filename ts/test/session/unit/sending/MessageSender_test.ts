@@ -171,7 +171,7 @@ describe('MessageSender', () => {
         expect(decodedTimestampFromSending).to.be.above(expectedTimestamp - 10);
         expect(decodedTimestampFromSending).to.be.below(expectedTimestamp + 10);
 
-        // then make sure the plaintextBuffer was overriden too
+        // then make sure the plaintextBuffer was overridden too
         const visibleMessageExpected = TestUtils.generateVisibleMessage({
           timestamp: decodedTimestampFromSending,
         });

@@ -8,12 +8,11 @@ Session integrates directly with [Oxen Service Nodes](https://docs.oxen.io/about
 
 ## Want to Contribute? Found a Bug or Have a feature request?
 
-Please search for any [existing issues](https://github.com/oxen-io/session-desktop/issues) that describe your bugs in order to avoid duplicate submissions. <br><br>Submissions can be made by making a pull request to our development branch. If you don't know where to start contributing, try reading the Github issues page for ideas.
+Please search for any [existing issues](https://github.com/oxen-io/session-desktop/issues) that describe your bug in order to avoid duplicate submissions. <br><br>Submissions can be made by making a pull request to our development branch.If you don't know where to start contributing please read [Contributing.md](CONTRIBUTING.md) and refer to issues tagged with the [Good-first-issue](https://github.com/oxen-io/session-desktop/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) tag.
 
 ## Build instruction
 
-Build instructions can be found in [BUILDING.md](BUILDING.md).
-
+Build instructions can be found in [Contributing.md](CONTRIBUTING.md).
 
 ## Verifying signatures
 
@@ -55,5 +54,5 @@ Please visit https://deb.oxen.io/<br/>
 
 Copyright 2011 Whisper Systems<br/>
 Copyright 2013-2017 Open Whisper Systems<br/>
-Copyright 2019-2021 The Oxen Project<br/>
+Copyright 2019-2023 The Oxen Project<br/>
 Licensed under the GPLv3: https://www.gnu.org/licenses/gpl-3.0.html<br/>

@@ -356,7 +356,7 @@ export async function deleteMessagesByIdForEveryone(
       onClickOk: async () => {
         await doDeleteSelectedMessages({ selectedMessages, conversation, deleteForEveryone: true });
 
-        // explicity close modal for this case.
+        // explicitly close modal for this case.
         window.inboxStore?.dispatch(updateConfirmModal(null));
         return;
       },

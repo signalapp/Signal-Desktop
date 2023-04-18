@@ -33,7 +33,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { initialSogsRoomInfoState } from '../state/ducks/sogsRoomInfo';
 
-// Default to the locale from env. It will be overriden if moment
+// Default to the locale from env. It will be overridden if moment
 // does not recognize it with what moment knows which is the closest.
 // i.e. es-419 will return 'es'.
 // We just need to use what we got from moment in getLocale on the updateLocale below

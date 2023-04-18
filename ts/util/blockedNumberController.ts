@@ -11,7 +11,7 @@ export class BlockedNumberController {
 
   /**
    * Check if a device is blocked synchronously.
-   * This will only check against the memory cache on if a device is blocked, it is reccomended to pass in the primary device pub key.
+   * This will only check against the memory cache on if a device is blocked, it is recommended to pass in the primary device pub key.
    *
    * Make sure `load()` has been called before this function so that the correct blocked state is returned.
    *

@@ -14,12 +14,15 @@ import { StyledPopupContainer } from '../reactions/ReactionPopup';
 export const popupXDefault = -81;
 export const popupYDefault = -90;
 
-const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number }>`
+const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number; noAvatar: boolean }>`
   ${StyledPopupContainer} {
     position: absolute;
     top: ${props => `${props.y}px;`};
     left: ${props => `${props.x}px;`};
   }
+
+  // MessageAvatar width + margin-inline-end
+  ${props => !props.noAvatar && 'margin-inline-start: calc(36px + 20px);'}
 `;
 
 export const StyledMessageReactions = styled(Flex)<{ fullWidth: boolean }>`
@@ -114,13 +117,13 @@ const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
 const ExpandedReactions = (props: ExpandReactionsProps): ReactElement => {
   const { handleExpand } = props;
   return (
-    <>
+    <Flex container={true} flexDirection={'column'} alignItems={'center'} margin="4px 0 0">
       <Reactions {...props} />
       <StyledReadLess onClick={handleExpand}>
         <SessionIcon iconType="chevron" iconSize="medium" iconRotation={180} />
         {window.i18n('expandedReactionsText')}
       </StyledReadLess>
-    </>
+    </Flex>
   );
 };
 
@@ -138,6 +141,7 @@ type Props = {
   onPopupClick?: () => void;
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
+  noAvatar: boolean;
 };
 
 export const MessageReactions = (props: Props): ReactElement => {
@@ -150,6 +154,7 @@ export const MessageReactions = (props: Props): ReactElement => {
     onPopupClick,
     inModal = false,
     onSelected,
+    noAvatar,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 
@@ -207,6 +212,7 @@ export const MessageReactions = (props: Props): ReactElement => {
       alignItems={inModal ? 'flex-start' : 'center'}
       x={popupX}
       y={popupY}
+      noAvatar={noAvatar}
     >
       {sortedReacts &&
         sortedReacts?.length !== 0 &&

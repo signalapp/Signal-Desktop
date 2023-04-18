@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
 import { QRCode } from 'react-qr-svg';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -9,19 +9,48 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSession
 import { ConversationModel } from '../../models/conversation';
 
 import autoBind from 'auto-bind';
+import styled from 'styled-components';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
-import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { sanitizeSessionUsername } from '../../session/utils/String';
+import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
-import { SessionWrapperModal } from '../SessionWrapperModal';
+
+const handleSaveQRCode = (event: MouseEvent) => {
+  event.preventDefault();
+  saveQRCode('session-id', '220px', '220px', 'var(--white-color)', 'var(--black-color)');
+};
+
+const StyledQRView = styled.div`
+  cursor: pointer;
+`;
+
+const QRView = ({ sessionID }: { sessionID: string }) => {
+  return (
+    <StyledQRView
+      aria-label={window.i18n('clickToTrustContact')}
+      title={window.i18n('clickToTrustContact')}
+      className="qr-image"
+      onClick={handleSaveQRCode}
+    >
+      <QRCode
+        value={sessionID}
+        bgColor="var(--white-color)"
+        fgColor="var(--black-color)"
+        level="L"
+      />
+    </StyledQRView>
+  );
+};
 
 interface State {
   profileName: string;
@@ -31,19 +60,6 @@ interface State {
   mode: 'default' | 'edit' | 'qr';
   loading: boolean;
 }
-
-const QRView = ({ sessionID }: { sessionID: string }) => {
-  return (
-    <div className="qr-image">
-      <QRCode
-        value={sessionID}
-        bgColor="var(--white-color)"
-        fgColor="var(--black-color)"
-        level="L"
-      />
-    </div>
-  );
-};
 
 export class EditProfileDialog extends React.Component<{}, State> {
   private readonly convo: ConversationModel;

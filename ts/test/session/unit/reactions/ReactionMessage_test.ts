@@ -56,7 +56,6 @@ describe('ReactionMessage', () => {
       reaction: reaction as SignalService.DataMessage.IReaction,
       sender: ourNumber,
       you: true,
-      isOpenGroup: false,
     });
 
     expect(updatedMessage?.get('reacts'), 'original message should have reacts').to.not.be
@@ -89,7 +88,6 @@ describe('ReactionMessage', () => {
       reaction: reaction as SignalService.DataMessage.IReaction,
       sender: ourNumber,
       you: true,
-      isOpenGroup: false,
     });
 
     expect(updatedMessage?.get('reacts'), 'original message reacts should be undefined').to.be

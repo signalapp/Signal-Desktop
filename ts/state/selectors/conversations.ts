@@ -997,7 +997,7 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
     }
 
     const msgProps: MessageContentWithStatusSelectorProps = {
-      ...pick(props.propsForMessage, ['direction', 'isDeleted']),
+      ...pick(props.propsForMessage, ['conversationType', 'direction', 'isDeleted']),
     };
 
     return msgProps;

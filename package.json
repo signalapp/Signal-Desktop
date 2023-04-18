@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.10.4",
+  "version": "1.10.8",
   "license": "GPL-3.0",
   "author": {
     "name": "Oxen Labs",
@@ -30,7 +30,9 @@
     "jpeg-js": "^0.4.4",
     "json5": "^2.2.2",
     "loader-utils": "^2.0.4",
-    "http-cache-semantics": "^4.1.1"
+    "http-cache-semantics": "^4.1.1",
+    "terser": "^5.14.2",
+    "minimatch": "^3.0.5"
   },
   "scripts": {
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",

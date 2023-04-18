@@ -22,7 +22,7 @@ export type OpenGroupRequestHeaders = {
  * @param endpoint endpoint of request we're making
  * @param method method of request we're making
  * @param blinded is the server being requested to blinded or not
- * @param body the body of the request we're mkaing
+ * @param body the body of the request we're making
  * @returns object of headers, including X-SOGS and other headers.
  */
 const getOurOpenGroupHeaders = async (

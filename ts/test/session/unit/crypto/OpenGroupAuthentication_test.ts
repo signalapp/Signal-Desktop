@@ -438,7 +438,7 @@ const decryptBlindedMessage = async (
 
   if (plaintextIncoming.length <= 32) {
     // throw Error;
-    window?.log?.error('decryptBlindedMessage: plaintext unsufficient length');
+    window?.log?.error('decryptBlindedMessage: plaintext insufficient length');
     return;
   }
 

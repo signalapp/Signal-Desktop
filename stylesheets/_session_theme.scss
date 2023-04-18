@@ -25,7 +25,7 @@
   position: relative;
   display: inline-flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   max-width: 95%;
 
   @media (min-width: 1200px) {

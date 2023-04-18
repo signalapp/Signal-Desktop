@@ -3,7 +3,12 @@ import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { OpenGroupRequestCommonType } from './ApiUtil';
+import {
+  OpenGroupRequestCommonType,
+  ourSogsDomainName,
+  ourSogsLegacyIp,
+  ourSogsUrl,
+} from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import autoBind from 'auto-bind';
@@ -51,11 +56,16 @@ export class OpenGroupManagerV2 {
     roomId: string,
     publicKey: string
   ): Promise<ConversationModel | undefined> {
-    // TODOLATER we should rewrite serverUrl when it matches our sogs (by ip, domain name with http or https or nothing)
-    // we should also make sure that whoever calls this function, uses the overriden  serverUrl
-    const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${serverUrl}${roomId}`;
+    // make sure to use the https version of our official sogs
+    const overridenUrl =
+      (serverUrl.includes(`://${ourSogsDomainName}`) && !serverUrl.startsWith('https')) ||
+      serverUrl.includes(`://${ourSogsLegacyIp}`)
+        ? ourSogsUrl
+        : serverUrl;
+
+    const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${overridenUrl}${roomId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-      return this.attemptConnectionV2(serverUrl, roomId, publicKey);
+      return this.attemptConnectionV2(overridenUrl, roomId, publicKey);
     });
   }
 
@@ -89,10 +99,11 @@ export class OpenGroupManagerV2 {
       const poller = this.pollers.get(groupedRoomsServerUrl);
       if (!poller) {
         const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+
         this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
       } else {
         // this won't do a thing if the room is already polled for
-        roomInfos.forEach(poller.addRoomToPoll);
+        groupedRooms.forEach(poller.addRoomToPoll);
       }
     }
   }

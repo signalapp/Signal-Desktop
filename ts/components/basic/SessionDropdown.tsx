@@ -3,7 +3,7 @@ import { SessionIcon, SessionIconType } from '../icon';
 
 import { SessionDropdownItem, SessionDropDownItemType } from './SessionDropdownItem';
 
-// THIS IS DROPDOWN ACCORDIAN STYLE OPTIONS SELECTOR ELEMENT, NOT A CONTEXTMENU
+// THIS IS DROPDOWN ACCORDION STYLE OPTIONS SELECTOR ELEMENT, NOT A CONTEXTMENU
 
 type Props = {
   label: string;

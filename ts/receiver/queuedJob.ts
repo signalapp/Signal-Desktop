@@ -376,7 +376,7 @@ export async function handleMessageJob(
     void queueAttachmentDownloads(messageModel, conversation);
     // Check if we need to update any profile names
     // the only profile we don't update with what is coming here is ours,
-    // as our profile is shared accross our devices with a ConfigurationMessage
+    // as our profile is shared across our devices with a ConfigurationMessage
     if (messageModel.isIncoming() && regularDataMessage.profile) {
       await ProfileManager.updateProfileOfContact(
         sendingDeviceConversation.id,

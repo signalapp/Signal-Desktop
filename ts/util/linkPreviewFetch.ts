@@ -72,7 +72,7 @@ async function fetchWithRedirects(
     }
     urlsSeen.add(nextHrefToLoad);
 
-    // This `await` is deliberatly inside of a loop.
+    // This `await` is deliberately inside of a loop.
     // eslint-disable-next-line no-await-in-loop
     const response = await fetchFn(nextHrefToLoad, {
       ...options,

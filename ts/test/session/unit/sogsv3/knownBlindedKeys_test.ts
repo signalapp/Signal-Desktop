@@ -95,13 +95,13 @@ describe('knownBlindedKeys', () => {
 
   describe('writeKnownBlindedKeys', () => {
     it('writeKnownBlindedKeys with null', async () => {
-      // the cached blinded keys is resetted on each test, so that first one we try to write null
+      // the cached blinded keys is reset on each test, so that first one we try to write null
       await writeKnownBlindedKeys();
       expect(createOrUpdateItem.notCalled).to.be.true;
     });
 
     it('writeKnownBlindedKeys with null but loaded', async () => {
-      // the cached blinded keys is resetted on each test, so that first one we try to write null
+      // the cached blinded keys is reset on each test, so that first one we try to write null
 
       getItemById.resolves(null);
       await loadKnownBlindedKeys();

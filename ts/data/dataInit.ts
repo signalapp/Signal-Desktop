@@ -116,6 +116,8 @@ export async function shutdown() {
 
   // No outstanding jobs, return immediately
   if (jobKeys.length === 0) {
+    window?.log?.info('data.shutdown: No outstanding jobs');
+
     return null;
   }
 
@@ -249,6 +251,8 @@ function removeJob(id: number) {
 
   if (_shutdownCallback) {
     const keys = Object.keys(jobs);
+    window?.log?.info(`removeJob: _shutdownCallback and we still have ${keys.length} jobs to run`);
+
     if (keys.length === 0) {
       _shutdownCallback();
     }

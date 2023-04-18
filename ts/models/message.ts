@@ -33,7 +33,6 @@ import {
   map,
   partition,
   pick,
-  reduce,
   reject,
   size as lodashSize,
   sortBy,
@@ -438,6 +437,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
+    if (this.getConversation()?.get('left')) {
+      return 'sent';
+    }
+
     const readBy = this.get('read_by') || [];
     if (Storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
@@ -470,7 +473,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       convoId: this.get('conversationId'),
     };
     if (body) {
-      props.text = this.createNonBreakingLastSeparator(body);
+      props.text = body;
     }
     if (this.get('isDeleted')) {
       props.isDeleted = this.get('isDeleted');
@@ -528,16 +531,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return props;
-  }
-
-  public createNonBreakingLastSeparator(text: string) {
-    const nbsp = '\xa0';
-    const regex = /(\S)( +)(\S+\s*)$/;
-    return text.replace(regex, (_match, start, spaces, end) => {
-      const newSpaces: any =
-        end.length < 12 ? reduce(spaces, accumulator => accumulator + nbsp, '') : spaces;
-      return `${start}${newSpaces}${end}`;
-    });
   }
 
   public processQuoteAttachment(attachment: any) {
@@ -639,7 +632,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (quote.text) {
         // do not show text of not found messages.
         // if the message was deleted better not show it's text content in the message
-        quoteProps.text = this.createNonBreakingLastSeparator(sliceQuoteText(quote.text));
+        quoteProps.text = sliceQuoteText(quote.text);
       }
 
       const quoteAttachment = firstAttachment
@@ -690,7 +683,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       height: height || 0,
       path,
       fileName,
-      fileSize: size ? filesize(size) : null,
+      fileSize: size ? filesize(size, { base: 10 }) : null,
       isVoiceMessage: isVoiceMessageBool,
       pending: Boolean(pending),
       url: path ? getAbsoluteAttachmentPath(path) : '',

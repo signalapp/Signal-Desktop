@@ -12,18 +12,14 @@ import { Reactions } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
 import { ToastUtils, UserUtils } from '../../../utils';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
-import {
-  addToMutationCache,
-  ChangeType,
-  SogsV3Mutation,
-  updateMutationCache,
-} from './sogsV3MutationCache';
 
 export const hasReactionSupport = async (
+  conversationId: string,
   serverId: number
 ): Promise<{ supported: boolean; conversation: ConversationModel | null }> => {
-  const found = await Data.getMessageByServerId(serverId);
+  const found = await Data.getMessageByServerId(conversationId, serverId);
   if (!found) {
     window.log.warn(`Open Group Message ${serverId} not found in db`);
     return { supported: false, conversation: null };
@@ -56,7 +52,10 @@ export const sendSogsReactionOnionV4 = async (
     throw new Error(`Could not find sogs pubkey of url:${serverUrl}`);
   }
 
-  const { supported, conversation } = await hasReactionSupport(reaction.id);
+  const { supported, conversation } = await hasReactionSupport(
+    getOpenGroupV2ConversationId(serverUrl, room),
+    reaction.id
+  );
   if (!supported) {
     return false;
   }
@@ -81,27 +80,13 @@ export const sendSogsReactionOnionV4 = async (
   const method = reaction.action === Action.REACT ? 'PUT' : 'DELETE';
   const serverPubkey = allValidRoomInfos[0].serverPublicKey;
 
-  const cacheEntry: SogsV3Mutation = {
-    server: serverUrl,
-    room: room,
-    changeType: ChangeType.REACTIONS,
-    seqno: null,
-    metadata: {
-      messageId: reaction.id,
-      emoji,
-      action: reaction.action === Action.REACT ? 'ADD' : 'REMOVE',
-    },
-  };
-
-  addToMutationCache(cacheEntry);
-
   // Since responses can take a long time we immediately update the sender's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
   const me = UserUtils.getOurPubKeyStrFromCache();
   await Reactions.handleMessageReaction({
     reaction,
     sender: blinded ? conversation.getUsInThatConversation() || me : me,
     you: true,
-    isOpenGroup: true,
+    openGroupConversationId: getOpenGroupV2ConversationId(serverUrl, room),
   });
 
   // reaction endpoint requires an empty dict {}
@@ -135,10 +120,6 @@ export const sendSogsReactionOnionV4 = async (
   }
 
   const success = Boolean(reaction.action === Action.REACT ? rawMessage.added : rawMessage.removed);
-
-  if (success) {
-    updateMutationCache(cacheEntry, rawMessage.seqno);
-  }
 
   return success;
 };

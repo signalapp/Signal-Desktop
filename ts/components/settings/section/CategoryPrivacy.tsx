@@ -12,19 +12,25 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { displayPasswordModal } from '../SessionSettings';
 
-async function toggleLinkPreviews() {
-  const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
-  await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
-  if (!newValue) {
-    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
-  } else {
+async function toggleLinkPreviews(forceUpdate: () => void) {
+  const isToggleOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
+  if (!isToggleOn) {
     window.inboxStore?.dispatch(
       updateConfirmModal({
         title: window.i18n('linkPreviewsTitle'),
         message: window.i18n('linkPreviewsConfirmMessage'),
         okTheme: SessionButtonColor.Danger,
+        onClickOk: async () => {
+          const newValue = !isToggleOn;
+          await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
+          forceUpdate();
+        },
       })
     );
+  } else {
+    await window.setSettingValue(SettingsKey.settingsLinkPreview, false);
+    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+    forceUpdate();
   }
 }
 
@@ -70,8 +76,7 @@ export const SettingsCategoryPrivacy = (props: {
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {
-            await toggleLinkPreviews();
-            forceUpdate();
+            await toggleLinkPreviews(forceUpdate);
           }}
           title={window.i18n('linkPreviewsTitle')}
           description={window.i18n('linkPreviewDescription')}

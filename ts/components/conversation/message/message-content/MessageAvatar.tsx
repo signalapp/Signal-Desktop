@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { OpenGroupData } from '../../../../data/opengroups';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { findCachedBlindedMatchOrLookItUp } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
@@ -12,10 +13,16 @@ import { getMessageAvatarProps } from '../../../../state/selectors/conversations
 import {
   getSelectedCanWrite,
   useSelectedConversationKey,
-  useSelectedIsGroup,
 } from '../../../../state/selectors/selectedConversation';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
+
+const StyledAvatar = styled.div`
+  position: relative;
+  margin-inline-end: 20px;
+  padding-bottom: 6px;
+  padding-inline-end: 4px;
+`;
 
 export type MessageAvatarSelectorProps = Pick<
   MessageRenderingProps,
@@ -24,42 +31,39 @@ export type MessageAvatarSelectorProps = Pick<
   | 'sender'
   | 'authorProfileName'
   | 'isSenderAdmin'
-  | 'conversationType'
-  | 'direction'
   | 'isPublic'
   | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string };
+type Props = { messageId: string; noAvatar: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId } = props;
+  const { messageId, noAvatar } = props;
 
   const dispatch = useDispatch();
   const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
   const selectedConvoKey = useSelectedConversationKey();
-  const isSelectedGroup = useSelectedIsGroup();
 
   const isTypingEnabled = useSelector(getSelectedCanWrite);
 
   if (!avatarProps) {
     return null;
   }
+
   const {
     authorAvatarPath,
     authorName,
     sender,
     authorProfileName,
-    direction,
     isSenderAdmin,
     lastMessageOfSeries,
     isPublic,
   } = avatarProps;
 
-  // no avatar when this if this is a private conversation
-  if (!isSelectedGroup || direction === 'outgoing') {
+  if (noAvatar) {
     return null;
   }
+
   const userName = authorName || authorProfileName || sender;
 
   const onMessageAvatarClick = useCallback(async () => {
@@ -124,9 +128,9 @@ export const MessageAvatar = (props: Props) => {
   }
 
   return (
-    <div className="module-message__author-avatar" key={`msg-avatar-${sender}`}>
+    <StyledAvatar key={`msg-avatar-${sender}`}>
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
       {isSenderAdmin && <CrownIcon />}
-    </div>
+    </StyledAvatar>
   );
 };

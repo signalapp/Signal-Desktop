@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019, macos-latest, ubuntu-18.04]
+        os: [windows-2019, macos-latest, ubuntu-20.04]
     env:
       SIGNAL_ENV: production
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,6 +31,7 @@ jobs:
       - name: Cache Desktop node_modules
         id: cache-desktop-modules
         uses: actions/cache@v2
+        if: runner.os != 'Windows'
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}

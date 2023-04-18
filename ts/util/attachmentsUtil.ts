@@ -62,7 +62,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
     attachment.contentType !== IMAGE_JPEG
   ) {
     // nothing to do
-    throw new Error('Cannot autoScaleForAvatar another file than PNG,GIF or JPEG.');
+    throw new Error('Cannot autoScaleForAvatar another file than PNG, GIF or JPEG.');
   }
 
   if (DEBUG_ATTACHMENTS_SCALE) {
