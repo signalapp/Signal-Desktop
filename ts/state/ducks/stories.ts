@@ -396,8 +396,13 @@ function markStoryRead(
     const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
 
     if (isSignalOnboardingStory) {
-      drop(markOnboardingStoryAsRead());
-      return;
+      const updatedMessages = await markOnboardingStoryAsRead();
+      if (updatedMessages) {
+        return;
+      }
+      log.warn(
+        'markStoryRead: Failed to mark onboarding story read normally; failing over'
+      );
     }
 
     const storyReadDate = Date.now();
@@ -421,11 +426,17 @@ function markStoryRead(
     };
     const viewSyncs: Array<SyncType> = [viewedReceipt];
 
-    if (!window.ConversationController.areWePrimaryDevice()) {
+    if (
+      !isSignalOnboardingStory &&
+      !window.ConversationController.areWePrimaryDevice()
+    ) {
       drop(viewSyncJobQueue.add({ viewSyncs }));
     }
 
-    if (window.Events.getStoryViewReceiptsEnabled()) {
+    if (
+      !isSignalOnboardingStory &&
+      window.Events.getStoryViewReceiptsEnabled()
+    ) {
       drop(
         conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.Receipts,
