@@ -4475,7 +4475,8 @@ export class ConversationModel extends window.Backbone
     const notificationData = previewMessage?.getNotificationData();
 
     this.set({
-      lastMessage: notificationData?.text || '',
+      lastMessage:
+        notificationData?.text || previewMessage?.getNotificationText() || '',
       lastMessageBodyRanges: notificationData?.bodyRanges,
       lastMessagePrefix: notificationData?.emoji,
       lastMessageAuthor: previewMessage?.getAuthorText(),
