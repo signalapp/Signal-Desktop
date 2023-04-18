@@ -8,14 +8,14 @@ import { DurationInSeconds } from './durations';
 import { markViewed } from '../services/MessageUpdater';
 import { storageServiceUploadJob } from '../services/storage';
 
-export async function markOnboardingStoryAsRead(): Promise<void> {
+export async function markOnboardingStoryAsRead(): Promise<boolean> {
   const existingOnboardingStoryMessageIds = window.storage.get(
     'existingOnboardingStoryMessageIds'
   );
 
   if (!existingOnboardingStoryMessageIds) {
     log.warn('markOnboardingStoryAsRead: no existing messages');
-    return;
+    return false;
   }
 
   const messages = await Promise.all(
@@ -40,7 +40,9 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
     })
     .filter(isNotNil);
 
-  log.info('markOnboardingStoryAsRead: marked viewed');
+  log.info(
+    `markOnboardingStoryAsRead: marked ${messageAttributes.length} viewed`
+  );
 
   await window.Signal.Data.saveMessages(messageAttributes, {
     ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
@@ -49,4 +51,6 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
   await window.storage.put('hasViewedOnboardingStory', true);
 
   storageServiceUploadJob();
+
+  return true;
 }
