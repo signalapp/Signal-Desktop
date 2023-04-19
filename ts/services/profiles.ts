@@ -584,6 +584,7 @@ export async function updateIdentityKey(
     false
   );
   if (changed) {
+    log.info(`updateIdentityKey(${uuid.toString()}): changed`);
     // save identity will close all sessions except for .1, so we
     // must close that one manually.
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();

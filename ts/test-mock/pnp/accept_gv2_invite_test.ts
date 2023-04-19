@@ -192,7 +192,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     debug('Checking final notification');
     await window
       .locator(
-        'text=You accepted an invitation to the group from ' +
+        '.SystemMessage >> text=You accepted an invitation to the group from ' +
           `${second.profileName}.`
       )
       .waitFor();

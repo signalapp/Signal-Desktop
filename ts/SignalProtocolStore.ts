@@ -241,6 +241,8 @@ export class SignalProtocolStore extends EventEmitter {
 
   sessionQueues = new Map<SessionIdType, PQueue>();
 
+  private readonly identityQueues = new Map<UUIDStringType, PQueue>();
+
   private currentZone?: Zone;
 
   private currentZoneDepth = 0;
@@ -727,6 +729,27 @@ export class SignalProtocolStore extends EventEmitter {
 
     const freshQueue = this._createSessionQueue();
     this.sessionQueues.set(id.toString(), freshQueue);
+    return freshQueue;
+  }
+
+  // Identity Queue
+
+  private _createIdentityQueue(): PQueue {
+    return new PQueue({
+      concurrency: 1,
+      timeout: MINUTE * 30,
+      throwOnTimeout: true,
+    });
+  }
+
+  private _getIdentityQueue(uuid: UUID): PQueue {
+    const cachedQueue = this.identityQueues.get(uuid.toString());
+    if (cachedQueue) {
+      return cachedQueue;
+    }
+
+    const freshQueue = this._createIdentityQueue();
+    this.identityQueues.set(uuid.toString(), freshQueue);
     return freshQueue;
   }
 
@@ -1686,94 +1709,97 @@ export class SignalProtocolStore extends EventEmitter {
       nonblockingApproval = false;
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(
-      encodedAddress.uuid
-    );
-
-    const id = encodedAddress.uuid.toString();
-
-    if (!identityRecord || !identityRecord.publicKey) {
-      // Lookup failed, or the current key was removed, so save this one.
-      log.info('saveIdentity: Saving new identity...');
-      await this._saveIdentityKey({
-        id,
-        publicKey,
-        firstUse: true,
-        timestamp: Date.now(),
-        verified: VerifiedStatus.DEFAULT,
-        nonblockingApproval,
-      });
-
-      this.checkPreviousKey(encodedAddress.uuid, publicKey, 'saveIdentity');
-
-      return false;
-    }
-
-    const identityKeyChanged = !constantTimeEqual(
-      identityRecord.publicKey,
-      publicKey
-    );
-
-    if (identityKeyChanged) {
-      const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
+    return this._getIdentityQueue(encodedAddress.uuid).add(async () => {
+      const identityRecord = await this.getOrMigrateIdentityRecord(
         encodedAddress.uuid
       );
 
-      if (isOurIdentifier && identityKeyChanged) {
-        log.warn('saveIdentity: ignoring identity for ourselves');
+      const id = encodedAddress.uuid.toString();
+      const logId = `saveIdentity(${id})`;
+
+      if (!identityRecord || !identityRecord.publicKey) {
+        // Lookup failed, or the current key was removed, so save this one.
+        log.info(`${logId}: Saving new identity...`);
+        await this._saveIdentityKey({
+          id,
+          publicKey,
+          firstUse: true,
+          timestamp: Date.now(),
+          verified: VerifiedStatus.DEFAULT,
+          nonblockingApproval,
+        });
+
+        this.checkPreviousKey(encodedAddress.uuid, publicKey, 'saveIdentity');
+
         return false;
       }
 
-      log.info('saveIdentity: Replacing existing identity...');
-      const previousStatus = identityRecord.verified;
-      let verifiedStatus;
-      if (
-        previousStatus === VerifiedStatus.VERIFIED ||
-        previousStatus === VerifiedStatus.UNVERIFIED
-      ) {
-        verifiedStatus = VerifiedStatus.UNVERIFIED;
-      } else {
-        verifiedStatus = VerifiedStatus.DEFAULT;
-      }
+      const identityKeyChanged = !constantTimeEqual(
+        identityRecord.publicKey,
+        publicKey
+      );
 
-      await this._saveIdentityKey({
-        id,
-        publicKey,
-        firstUse: false,
-        timestamp: Date.now(),
-        verified: verifiedStatus,
-        nonblockingApproval,
-      });
-
-      // See `addKeyChange` in `ts/models/conversations.ts` for sender key info
-      // update caused by this.
-      try {
-        this.emit('keychange', encodedAddress.uuid, 'saveIdentity - change');
-      } catch (error) {
-        log.error(
-          'saveIdentity: error triggering keychange:',
-          Errors.toLogFormat(error)
+      if (identityKeyChanged) {
+        const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
+          encodedAddress.uuid
         );
+
+        if (isOurIdentifier && identityKeyChanged) {
+          log.warn(`${logId}: ignoring identity for ourselves`);
+          return false;
+        }
+
+        log.info(`${logId}: Replacing existing identity...`);
+        const previousStatus = identityRecord.verified;
+        let verifiedStatus;
+        if (
+          previousStatus === VerifiedStatus.VERIFIED ||
+          previousStatus === VerifiedStatus.UNVERIFIED
+        ) {
+          verifiedStatus = VerifiedStatus.UNVERIFIED;
+        } else {
+          verifiedStatus = VerifiedStatus.DEFAULT;
+        }
+
+        await this._saveIdentityKey({
+          id,
+          publicKey,
+          firstUse: false,
+          timestamp: Date.now(),
+          verified: verifiedStatus,
+          nonblockingApproval,
+        });
+
+        // See `addKeyChange` in `ts/models/conversations.ts` for sender key info
+        // update caused by this.
+        try {
+          this.emit('keychange', encodedAddress.uuid, 'saveIdentity - change');
+        } catch (error) {
+          log.error(
+            `${logId}: error triggering keychange:`,
+            Errors.toLogFormat(error)
+          );
+        }
+
+        // Pass the zone to facilitate transactional session use in
+        // MessageReceiver.ts
+        await this.archiveSiblingSessions(encodedAddress, {
+          zone,
+        });
+
+        return true;
       }
+      if (this.isNonBlockingApprovalRequired(identityRecord)) {
+        log.info(`${logId}: Setting approval status...`);
 
-      // Pass the zone to facilitate transactional session use in
-      // MessageReceiver.ts
-      await this.archiveSiblingSessions(encodedAddress, {
-        zone,
-      });
+        identityRecord.nonblockingApproval = nonblockingApproval;
+        await this._saveIdentityKey(identityRecord);
 
-      return true;
-    }
-    if (this.isNonBlockingApprovalRequired(identityRecord)) {
-      log.info('saveIdentity: Setting approval status...');
-
-      identityRecord.nonblockingApproval = nonblockingApproval;
-      await this._saveIdentityKey(identityRecord);
+        return false;
+      }
 
       return false;
-    }
-
-    return false;
+    });
   }
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L257
@@ -1788,6 +1814,15 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async saveIdentityWithAttributes(
+    uuid: UUID,
+    attributes: Partial<IdentityKeyType>
+  ): Promise<void> {
+    return this._getIdentityQueue(uuid).add(async () => {
+      return this.saveIdentityWithAttributesOnQueue(uuid, attributes);
+    });
+  }
+
+  private async saveIdentityWithAttributesOnQueue(
     uuid: UUID,
     attributes: Partial<IdentityKeyType>
   ): Promise<void> {
@@ -1823,14 +1858,16 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('setApproval: Invalid approval status');
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    return this._getIdentityQueue(uuid).add(async () => {
+      const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
 
-    if (!identityRecord) {
-      throw new Error(`setApproval: No identity record for ${uuid}`);
-    }
+      if (!identityRecord) {
+        throw new Error(`setApproval: No identity record for ${uuid}`);
+      }
 
-    identityRecord.nonblockingApproval = nonblockingApproval;
-    await this._saveIdentityKey(identityRecord);
+      identityRecord.nonblockingApproval = nonblockingApproval;
+      await this._saveIdentityKey(identityRecord);
+    });
   }
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L215
@@ -1847,19 +1884,23 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('setVerified: Invalid verified status');
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    return this._getIdentityQueue(uuid).add(async () => {
+      const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
 
-    if (!identityRecord) {
-      throw new Error(`setVerified: No identity record for ${uuid.toString()}`);
-    }
+      if (!identityRecord) {
+        throw new Error(
+          `setVerified: No identity record for ${uuid.toString()}`
+        );
+      }
 
-    if (validateIdentityKey(identityRecord)) {
-      await this._saveIdentityKey({
-        ...identityRecord,
-        ...extra,
-        verified: verifiedStatus,
-      });
-    }
+      if (validateIdentityKey(identityRecord)) {
+        await this._saveIdentityKey({
+          ...identityRecord,
+          ...extra,
+          verified: verifiedStatus,
+        });
+      }
+    });
   }
 
   async getVerified(uuid: UUID): Promise<number> {
@@ -1922,54 +1963,56 @@ export class SignalProtocolStore extends EventEmitter {
       `Invalid verified status: ${verifiedStatus}`
     );
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
-    const hadEntry = identityRecord !== undefined;
-    const keyMatches = Boolean(
-      identityRecord?.publicKey &&
-        constantTimeEqual(publicKey, identityRecord.publicKey)
-    );
-    const statusMatches =
-      keyMatches && verifiedStatus === identityRecord?.verified;
+    return this._getIdentityQueue(uuid).add(async () => {
+      const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+      const hadEntry = identityRecord !== undefined;
+      const keyMatches = Boolean(
+        identityRecord?.publicKey &&
+          constantTimeEqual(publicKey, identityRecord.publicKey)
+      );
+      const statusMatches =
+        keyMatches && verifiedStatus === identityRecord?.verified;
 
-    if (!keyMatches || !statusMatches) {
-      await this.saveIdentityWithAttributes(uuid, {
-        publicKey,
-        verified: verifiedStatus,
-        firstUse: !hadEntry,
-        timestamp: Date.now(),
-        nonblockingApproval: true,
-      });
-    }
-    if (!hadEntry) {
-      this.checkPreviousKey(uuid, publicKey, 'updateIdentityAfterSync');
-    } else if (hadEntry && !keyMatches) {
-      try {
-        this.emit('keychange', uuid, 'updateIdentityAfterSync - change');
-      } catch (error) {
-        log.error(
-          'updateIdentityAfterSync: error triggering keychange:',
-          Errors.toLogFormat(error)
-        );
+      if (!keyMatches || !statusMatches) {
+        await this.saveIdentityWithAttributesOnQueue(uuid, {
+          publicKey,
+          verified: verifiedStatus,
+          firstUse: !hadEntry,
+          timestamp: Date.now(),
+          nonblockingApproval: true,
+        });
       }
-    }
+      if (!hadEntry) {
+        this.checkPreviousKey(uuid, publicKey, 'updateIdentityAfterSync');
+      } else if (hadEntry && !keyMatches) {
+        try {
+          this.emit('keychange', uuid, 'updateIdentityAfterSync - change');
+        } catch (error) {
+          log.error(
+            'updateIdentityAfterSync: error triggering keychange:',
+            Errors.toLogFormat(error)
+          );
+        }
+      }
 
-    // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
-    if (
-      verifiedStatus === VerifiedStatus.VERIFIED &&
-      (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
-    ) {
-      // Needs a notification.
-      return true;
-    }
-    if (
-      verifiedStatus !== VerifiedStatus.VERIFIED &&
-      hadEntry &&
-      identityRecord?.verified === VerifiedStatus.VERIFIED
-    ) {
-      // Needs a notification.
-      return true;
-    }
-    return false;
+      // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
+      if (
+        verifiedStatus === VerifiedStatus.VERIFIED &&
+        (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
+      ) {
+        // Needs a notification.
+        return true;
+      }
+      if (
+        verifiedStatus !== VerifiedStatus.VERIFIED &&
+        hadEntry &&
+        identityRecord?.verified === VerifiedStatus.VERIFIED
+      ) {
+        // Needs a notification.
+        return true;
+      }
+      return false;
+    });
   }
 
   isUntrusted(uuid: UUID, timestampThreshold = TIMESTAMP_THRESHOLD): boolean {

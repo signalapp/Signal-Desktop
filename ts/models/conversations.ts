@@ -1032,7 +1032,9 @@ export class ConversationModel extends window.Backbone
     }
 
     if (this.get('removalStage') === undefined) {
-      log.warn(`${logId}: not removed`);
+      if (!viaStorageServiceSync) {
+        log.warn(`${logId}: not removed`);
+      }
       return;
     }
 
