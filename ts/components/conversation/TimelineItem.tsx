@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, RefObject } from 'react';
-import React from 'react';
+import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 
@@ -184,7 +184,7 @@ export type PropsType = PropsLocalType &
     | 'shouldHideMetadata'
   >;
 
-export function TimelineItem({
+export const TimelineItem = memo(function TimelineItem({
   containerElementRef,
   conversationId,
   getPreferredBadge,
@@ -375,4 +375,4 @@ export function TimelineItem({
   }
 
   return itemContents;
-}
+});
