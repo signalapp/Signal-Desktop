@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "Tērzēšanas krāsa",
+    "message": "Sarunas krāsa",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "Tērzēšanas krāsa",
+    "messageformat": "Sarunas krāsa",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Nav arhivētu sarunu",
+    "messageformat": "Nav arhivētu sarunu.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Pārvaldīt kontaktpersonu",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Ziņa",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Audio zvans",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Videozvans",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Noņemt",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Bloķēt",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Noņemt {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Šī persona nebūs redzama meklēšanas rezultātos. Ja šī persona jums turpmāk nosūtīs ziņu, jūs saņemsiet ziņas pieprasījumu.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Noņemt",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "Nevar noņemt {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Šī persona ir saglabāta jūsu ierīces kontaktos. Izdzēsiet šo personu no mobilās ierīces kontaktpersonu saraksta un mēģiniet vēlreiz.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -681,11 +681,11 @@
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "Var piespraust 4 tērzēšanas",
+    "message": "Var piespraust 4 sarunas",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Var piespraust 4 tērzēšanas",
+    "messageformat": "Var piespraust 4 sarunas",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Ritināt līdz sarunas beigām",
+    "messageformat": "Ritināt uz sarunas beigām",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Šajā sarunā nav neviena multivides vienuma",
+    "messageformat": "Šajā sarunā nav multivides satura",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Animācijas teksta rakstīšana šai sarunai",
+    "messageformat": "Rakstīšanas animācija šai sarunai",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Šī ziņa tiks izdzēsta visiem sarunas dalībniekiem, ja viņi izmanto nesenu Signal versiju. Viņi varēs redzēt, ka esat izdzēsis ziņojumu.",
+    "messageformat": "Šī ziņa tiks izdzēsta visiem sarunas dalībniekiem, ja viņi izmanto jaunāko Signal versiju. Dalībnieki varēs redzēt, ka ziņa ir dzēsta.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Atlasīt",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Spoileris",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Mēģināt nosūtīt vēlreiz",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Dzēst ziņu man",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Dzēst ziņu visiem",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Dzēst ziņu visiem",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Izdzēst ziņu",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Dzēst",
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "Sarunas (čata) sesija atsvaidzināta",
+    "message": "Sarunas sesija atsvaidzināta",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "Sarunas (čata) sesija atsvaidzināta",
+    "messageformat": "Sarunas sesija atsvaidzināta",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Lietotne Signal izmanto pilnīgu šifrēšanu, un, iespējams, reizēm būs jāatsvaidzina jūsu tērzēšanas sesija. Tas neietekmē jūsu tērzēšanas drošību, taču, iespējams, varat palaist garām kādu kontaktpersonas sūtītu ziņu un būs jālūdz nosūtīt to vēlreiz.",
+    "message": "Lietotne Signal izmanto pilnīgu šifrēšanu, un, iespējams, reizēm būs jāatsvaidzina jūsu sarunas sesija. Tas neietekmē jūsu sarunas drošību, taču, iespējams, varat palaist garām kādu kontakta sūtītu ziņu un būs jālūdz nosūtīt to vēlreiz.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Lietotne Signal izmanto pilnīgu šifrēšanu, un, iespējams, reizēm būs jāatsvaidzina jūsu tērzēšanas sesija. Tas neietekmē jūsu tērzēšanas drošību, taču, iespējams, varat palaist garām kādu kontaktpersonas sūtītu ziņu un būs jālūdz nosūtīt to vēlreiz.",
+    "messageformat": "Lietotne Signal izmanto pilnīgu šifrēšanu, un, iespējams, reizēm būs jāatsvaidzina jūsu sarunas sesija. Tas neietekmē jūsu sarunas drošību, taču, iespējams, varat palaist garām kādu kontakta sūtītu ziņu un būs jālūdz nosūtīt to vēlreiz.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Šajā tērzēšanā jums nevarēja nosūtīt ziņu, uzlīmi, emociju izpausmi, lasīšanas apliecinājumu vai multivides saturu no $sender$.",
+    "message": "Šajā sarunā jums nevarēja nosūtīt ziņu, uzlīmi, emociju izpausmi, lasīšanas apliecinājumu vai multivides saturu no sūtītāja $sender$.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Šajā tērzēšanā jums nevarēja nosūtīt ziņu, uzlīmi, emociju izpausmi, lasīšanas apliecinājumu vai multivides saturu no {sender}.",
+    "messageformat": "Šajā sarunā jums nevarēja nosūtīt ziņu, uzlīmi, emociju izpausmi, lasīšanas apliecinājumu vai multivides saturu no sūtītāja {sender}.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Šajā sarunā varat pievienot personiskās piezīmes. Ja jūsu kontam ir saistītās ierīces, jaunās piezīmes tiks sinhronizētas.",
+    "messageformat": "Šajā sarunā varat pievienot personiskās piezīmes. Ja jūsu kontam ir saistītas ierīces, jaunās piezīmes tiks sinhronizētas.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Sākt jaunu sarunu…",
+    "messageformat": "Sākt jaunu sarunu",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4052,7 +4060,7 @@
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} ir noņemts.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, zero {Saruna ar lietotāju {title}, {unreadCount,number} jaunas ziņas, pēdējā ziņa: {lastMessage}.} one {Saruna ar lietotāju {title}, {unreadCount,number} jauna ziņa, pēdējā ziņa: {lastMessage}.} other {Saruna ar lietotāju {title}, {unreadCount,number} jaunas ziņas, pēdējā ziņa: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "Atvērt sarunu ar lietotāju {title}",
+    "messageformat": "Doties uz sarunu ar lietotāju {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Melnraksts:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Ziņas pieprasījums",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Izņemt sarunu no arhīva",
+    "messageformat": "Atarhivēt sarunu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Pārsūtīt atlasītās ziņas",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Vai atļaut {name} jums nosūtīt ziņojumu un kopīgot ar viņu savu vārdu un fotoattēlu? Jūs iepriekš esat noņēmis šo personu.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Dzēst sarunu?",
+    "messageformat": "Vai dzēst sarunu?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Vai vēlaties turpināt sarunu ar šo grupu un rādīt savu vārdu un fotoattēlu šīs grupas dalībniekiem? {learnMore}",
+    "messageformat": "Vai turpināt sarunu ar šo grupu un rādīt savu vārdu un fotoattēlu šīs grupas dalībniekiem? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Vai turpināt sarunu ar šo grupu un rādīt savu vārdu un fotoattēlu šīs grupas dalībniekiem? Uzziniet vairāk.",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Vai vēlaties turpināt šo sarunu ar {firstName} un rādīt savu vārdu un fotoattēlu šīs grupas dalībniekiem? {learnMore}",
+    "messageformat": "Vai turpināt sarunu ar lietotāju {firstName} un rādīt savu vārdu un fotoattēlu? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Vai turpināt sarunu ar lietotāju {firstName} un rādīt savu vārdu un fotoattēlu? <learnMoreLink>Lasīt vairāk</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Atjauniniet šo grupu, lai aktivizētu jaunas funkcijas, piemēram, @pieminēšanu un administratorus. Dalībnieki, kuri nav kopīgojuši savu vārdu vai fotoattēlu šajā grupā, tiks aicināti pievienoties. Uzziniet vairāk.",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8365,11 +8377,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "Tērziņa krāsa",
+    "message": "Sarunas krāsa",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Tērziņa krāsa",
+    "messageformat": "Sarunas krāsa",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,11 +8393,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Sarunas Iestatījumi",
+    "message": "Sarunas iestatījumi",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Sarunas Iestatījumi",
+    "messageformat": "Sarunas iestatījumi",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, zero {Atsaukt {number,number} uzaicinājumus, ko nosūtīja \"{name}\"?} one {Atsaukt {number,number} uzaicinājumu, ko nosūtīja \"{name}\"?} other {Atsaukt {number,number} uzaicinājumus, ko nosūtīja \"{name}\"?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, zero {Izdzēst {count,number} ziņas?} one {Izdzēst {count,number} ziņu?} other {Izdzēst {count,number} ziņas?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, zero {Vai izdzēst {count,number} ziņas?} one {Vai izdzēst ziņu?} other {Vai izdzēst {count,number} ziņas?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, zero {Šīs ziņas tiks izdzēstas no šīs ierīces.} one {Šī ziņa tiks izdzēsta no šīs ierīces.} other {Šīs ziņas tiks izdzēstas no šīs ierīces.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, zero {Kuram šīs ziņas izdzēst?} one {Kuram šo ziņu izdzēst?} other {Kuram šīs ziņas izdzēst?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, zero {No kurām ierīcēm vēlaties dzēst šīs ziņas?} one {No kurām ierīcēm vēlaties dzēst šo ziņu?} other {No kurām ierīcēm vēlaties dzēst šīs ziņas?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Dzēst man",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Dzēst man",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Dzēst man",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Dzēst no šīs ierīces",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Dzēst visiem",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Dzēst no visām ierīcēm",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Iespējams pārsūtīt ne vairāk kā 30 ziņas",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Rūpīgi pārskatiet pieprasījumus. Signal atrada citu kontaktu ar tādu pašu vārdu. Pārskatīt pieprasījumu",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, zero {{count,number} grupas dalībniekiem ir vienāds vārds. {link}} one {{count,number} grupas dalībniekam ir vienāds vārds. {link}} other {{count,number} grupas dalībniekiem ir vienāds vārds. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, zero {{count,number} grupas dalībniekiem ir vienāds vārds. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>} one {{count,number} grupas dalībniekam ir vienāds vārds. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>} other {{count,number} grupas dalībniekiem ir vienāds vārds. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, zero {{count,number} grupas dalībniekiem ir līdzīgi vārdi. Pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.} one {{count,number} grupas dalībniekam ir līdzīgi vārdi. Pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.} other {{count,number} grupas dalībniekiem ir līdzīgi vārdi. Pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9517,43 +9561,43 @@
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "Vispārējā tērzēšanas krāsa",
+    "message": "Vispārējā sarunas krāsa",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Vispārējā tērzēšanas krāsa",
+    "messageformat": "Vispārējā sarunas krāsa",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "Tērzēšanas krāsa",
+    "message": "Sarunas krāsa",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Tērzēšanas krāsa",
+    "messageformat": "Sarunas krāsa",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Atiestatīt tērzēšanas krāsu",
+    "message": "Atiestatīt sarunas krāsu",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Atiestatīt tērzēšanas krāsu",
+    "messageformat": "Atiestatīt sarunas krāsu",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Atiestatīt tērzēšanas krāsas",
+    "message": "Atiestatīt sarunu krāsas",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Atiestatīt tērzēšanas krāsas",
+    "messageformat": "Atiestatīt sarunu krāsas",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Atiestatīt visas tērzēšanas krāsas",
+    "message": "Atiestatīt visu sarunu krāsas",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Atiestatīt visas tērzēšanas krāsas",
+    "messageformat": "Atiestatīt visu sarunu krāsas",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Vai vēlaties ignorēt visas tērzēšanas loga krāsas?",
+    "message": "Vai vēlaties ignorēt visu sarunu krāsas?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Vai vēlaties ignorēt visas tērzēšanas loga krāsas?",
+    "messageformat": "Vai vēlaties ignorēt visu sarunu krāsas?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9633,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "Lūk, tērzēšanas krāsas priekšskatījums.",
+    "message": "Lūk, sarunas krāsas priekšskatījums.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Lūk, tērzēšanas krāsas priekšskatījums.",
+    "messageformat": "Lūk, sarunas krāsas priekšskatījums.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Iestatiet noklusējuma ziņu dzēšanas taimeri visām jaunajām jūsu sāktajām tērzēšanām.",
+    "message": "Iestatiet noklusējuma ziņu dzēšanas taimeri visām jaunajām jūsu sāktajām sarunām.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Iestatiet noklusējuma ziņu dzēšanas taimeri visām jaunajām jūsu sāktajām tērzēšanām.",
+    "messageformat": "Iestatiet noklusējuma ziņu dzēšanas taimeri visām jaunajām jūsu sāktajām sarunām.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Noklusējuma taimeris jaunām tērzēšanām",
+    "message": "Noklusējuma taimeris jaunām sarunām",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Noklusējuma taimeris jaunām tērzēšanām",
+    "messageformat": "Noklusējuma taimeris jaunām sarunām",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Jūs esat noņēmis šo personu. Vēlreiz nosūtot ziņojumu, tā tiks pievienota atpakaļ jūsu sarakstam.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Jūsu profils ir šifrēts. Jūsu profils un tā izmaiņas būs redzamas jūsu kontaktpersonām, vai kad sāksiet vai piekritīsiet piedalīties jaunās tērzēšanās. {learnMore}",
+    "messageformat": "Jūsu profils ir šifrēts. Jūsu profils un tā izmaiņas būs redzamas jūsu kontaktiem, vai kad sāksiet vai piekritīsiet piedalīties jaunās sarunās. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Jūsu profils ir šifrēts. Jūsu profils un tajā veiktās izmaiņas būs redzamas jūsu kontaktpersonām, kad sāksiet vai pieņemsiet jaunu tērzēšanu. <learnMoreLink>Uzzināt vairāk</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "Atvērts tērzēšanai/gatavs patērzēt",
+    "message": "Atvērts sarunai",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Atvērts tērzēšanai/gatavs patērzēt",
+    "messageformat": "Atvērts sarunai",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10373,11 +10417,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet Signal lietotni un pārejiet uz sadaļu Iestatījumi > Sarunas",
+    "message": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet lietotni Signal un pārejiet uz sadaļu Iestatījumi > Sarunas",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet Signal lietotni un pārejiet uz sadaļu Iestatījumi > Sarunas",
+    "messageformat": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet lietotni Signal un pārejiet uz sadaļu Iestatījumi > Sarunas",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, zero {{num,number} kontakti} one {{num,number} kontakts} other {{num,number} kontakti}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "{viewCount,number} skatījums",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "{viewCount,number} skatījumi",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11009,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, zero {{views,number} skatījumi} one {{views,number} skatījums} other {{views,number} skatījumi}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, zero {{replyCount,number} atbildes} one {{replyCount,number} atbilde} other {{replyCount,number} atbildes}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Sarunas sākšanas",
+    "messageformat": "Sākam sarunu",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Izvēlieties, kas var redzēt jūsu stāstu Izmaiņas neietekmēs stāstus, ko jau esat nosūtījis. Uzziniet vairāk.",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11529,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Šo stāstu redzēt un uz to atbildēt var grupas “{groupTitle}” dalībnieki. Šīs sarunas dalībnieku sarakstu varat rediģēt grupā.",
+    "messageformat": "Šo stāstu redzēt un uz to atbildēt var grupas sarunas “{groupTitle}” dalībnieki. Šīs sarunas dalībnieku sarakstu varat rediģēt grupā.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Izvēlieties, kuri Signal kontakti var skatīt jūsu stāstu. To vienmēr varat mainīt privātuma iestatījumos. Uzziniet vairāk.",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {

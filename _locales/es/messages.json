@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Los chats archivados vuelven al buzón de entrada si recibes mensajes nuevos.",
+    "messageformat": "Los chats archivados regresan a la lista principal si recibes mensajes nuevos.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "No hay chats archivados",
+    "messageformat": "No hay chats archivados.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Administrar Contactos",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Mensaje",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Llamada",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Videollamada",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Eliminar",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Bloquear",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "¿Eliminar a {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "No verás a esta persona en tus búsquedas. Recibirás una solicitud de mensaje si te envían un mensaje en el futuro.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Eliminar",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "No se ha podido eliminar a {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Esta persona está entre los contactos guardados de tu dispositivo. Elimina a esta persona de los Contactos de tu dispositivo móvil y vuelve a intentarlo.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Desliza hasta el final del chat",
+    "messageformat": "Desplazarse al final del chat",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "No hay ningún archivo adjunto en este chat",
+    "messageformat": "No hay ningún archivo multimedia en este chat",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "No hay documentos en este chat",
+    "messageformat": "No hay ningún documento en este chat",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Este mensaje se eliminará para todxs en el chat, si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado.",
+    "messageformat": "Este mensaje se eliminará para todxs en el chat si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Seleccionar",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Spoiler",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Volver a enviar",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Eliminar mensaje sólo para mi",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Eliminar mensaje del chat",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Eliminar mensaje del chat",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Eliminar mensaje",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Eliminar",
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Tu historial de mensajes para ambas conversaciones se ha combinado aquí.",
+    "messageformat": "Tu historial de mensajes para ambos chats se ha combinado aquí.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Aviso: Tus chats previos no se sincronizarán con este dispositivo",
+    "message": "Aviso: tus chats previos no se sincronizarán con este dispositivo",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Aviso: Tus chats previos no se sincronizarán con este dispositivo",
+    "messageformat": "Aviso: tus chats previos no se sincronizarán con este dispositivo",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "En este chat puedes añadir notas personales solo para ti. Si tu cuenta tiene dispositivos enlazados, se sincronizarán las notas nuevas.",
+    "messageformat": "En este chat puedes añadir notas, mensajes personales, fotos… que solo tú puedes ver. Si tu cuenta tiene dispositivos enlazados, el contenido nuevo se sincronizará.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Comienza un chat con…",
+    "messageformat": "Iniciar nuevo chat",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4052,7 +4060,7 @@
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "Se ha eliminado a {title}.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Chat con {title}: {unreadCount,number} mensaje nuevo, último mensaje: {lastMessage}.} other {Chat con {title}: {unreadCount,number} mensajes nuevos, último mensaje: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Borrador:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Solicitud de chat",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Chat anterior",
+    "messageformat": "Chat previo",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Chat siguiente",
+    "messageformat": "Siguiente chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Chat siguiente con mensajes sin leer",
+    "messageformat": "Siguiente chat con mensajes sin leer",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Abrir opciones de chat",
+    "messageformat": "Abrir el menú de chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Iniciar un nuevo chat",
+    "messageformat": "Iniciar nuevo chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Buscar en chat",
+    "messageformat": "Buscar en el chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Reenviar mensajes seleccionados",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "¿Quieres compartir tu nombre y foto con {name} y permitir que te mande un mensaje? En el pasado, eliminaste a esta persona.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "¿Eliminar el chat?",
+    "messageformat": "¿Eliminar chat?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "¿Deseas continuar chateando con este grupo y compartir tu nombre y foto con sus participantes? {learnMore}",
+    "messageformat": "¿Deseas seguir chateando con este grupo y compartir tu nombre y foto con sus participantes? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "¿Deseas seguir chateando con este grupo y compartir tu nombre y foto con sus participantes? <learnMoreLink>Saber más.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "¿Deseas continuar chateando con {firstName} y compartir tu nombre y foto con esta persona? {learnMore}",
+    "messageformat": "¿Deseas seguir chateando con {firstName} y compartir tu nombre y foto con esta persona? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "¿Deseas seguir chateando con {firstName} y compartir tu nombre y foto con esta persona? <learnMoreLink>Saber más</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Actualiza este grupo para activar funciones como @menciones y admins. Aquellxs participantes que aún no compartan su nombre y foto de perfil con este grupo recibirán una invitación. <learnMoreLink>Saber más.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Considerar chats silenciados en el globo de notificaciones",
+    "messageformat": "Incluir chats silenciados en el globo de notificaciones",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {¿Retirar {number,number} invitación enviada por {name}?} other {¿Retirar {number,number} invitaciones enviadas por {name}?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {¿Eliminar {count,number} mensaje?} other {¿Eliminar {count,number} mensajes?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {¿Eliminar mensaje?} other {¿Eliminar {count,number} mensajes?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Este mensaje se eliminará de este dispositivo.} other {Estos mensajes se eliminarán de este dispositivo.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {¿Para quién deseas eliminar este mensaje?} other {¿Para quién deseas eliminar estos mensajes?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {¿De qué dispositivos quieres eliminar este mensaje?} other {¿De qué dispositivos quieres eliminar estos mensajes?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Eliminar solo para mí",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Eliminar solo para mí",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Eliminar solo para mí",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Eliminar de este dispositivo",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Eliminar del chat",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Eliminar de todos los dispositivos",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Solo puedes seleccionar hasta {count,number} mensaje para eliminar para todxs} other {Solo puedes seleccionar hasta {count,number} mensajes para eliminar para todxs}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Solo puedes reenviar un máximo de 30 mensajes",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Revisa cuidadosamente las solicitudes. Signal ha encontrado otra persona con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} participante usa el mismo nombre. {link}} other {{count,number} participantes usan el mismo nombre. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} participante usa el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>} other {{count,number} participantes usan el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} participante usa un nombre similar. Revisa la lista de participantes debajo y selecciona la opción adecuada.} other {{count,number} participantes usan nombres similares. Revisa la lista de participantes debajo y selecciona la opción adecuada.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9541,19 +9585,19 @@
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Restaurar colores de chats",
+    "message": "Restaurar colores de chat",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Restaurar colores de chats",
+    "messageformat": "Restaurar colores de chat",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Restaurar colores de chats",
+    "message": "Restaurar colores de chat",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Restaurar colores de chats",
+    "messageformat": "Restaurar colores de chat",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Has eliminado a esta persona, envíale un mensaje de nuevo y se la volverá a agregar a tu lista.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Tu perfil está cifrado. Tu perfil y sus actualizaciones solo son visibles para tus contactos y las personas con las que inicias o aceptas un chat. Nadie más, ni siquiera la gente de Signal puede ver tu perfil. {learnMore}",
+    "messageformat": "Tu perfil está cifrado. Tu perfil y sus actualizaciones solo son visibles para tus contactos y las personas con las que inicias o aceptas un chat. Nadie más, ni siquiera la gente de Signal, puede ver tu perfil. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Tu perfil está cifrado. Tu perfil y sus actualizaciones solo son visibles para tus contactos y las personas con las que inicias o aceptas un chat. <learnMoreLink>Saber más</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} contacto} other {{num,number} contactos}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> vista",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> vistas",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Has iniciado un chat con ellas",
+    "messageformat": "Iniciar un chat",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas enviado. <learnMoreLink>Saber más.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Elige qué conexiones de Signal pueden ver tu historia.'{'0'}' Siempre podrás cambiarlo en los Ajustes de privacidad. <learnMoreLink>Saber más.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12281,7 +12325,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Editar historial",
+    "messageformat": "Historial de cambios",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "Архівовані розмови",
+    "messageformat": "Архівні чати",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Ці розмови — архівовані. Вони з’являтимуться у вхідних лише тоді, коли приходитимуть нові повідомлення.",
+    "messageformat": "Ці чати було заархівовано. Ви побачите їх у вхідних, лише коли в них з'являться нові повідомлення.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Немає архівованих розмов.",
+    "messageformat": "Архівних чатів немає.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Керування контактом",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Повідомлення",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Голосовий виклик",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Відеовиклик",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Вилучити",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Заблокувати",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Вилучити контакт {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Ви не бачитимете цю людину під час пошуку. Якщо в майбутньому вона вам напише, ви отримаєте запит на повідомлення.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Вилучити",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "Не вдалося вилучити: {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Ця людина збережена в контактах вашого пристрою. Видаліть її з контактів і спробуйте знову.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Закріпити розмову",
+    "messageformat": "Закріпити чат",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Відкріпити розмову",
+    "messageformat": "Відкріпити чат",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "Ви можете закріпити до 4-х чатів.",
+    "message": "Ви можете закріпити до 4-х чатів",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Ви можете закріпити до 4-х чатів.",
+    "messageformat": "Ви можете закріпити до 4-х чатів",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Перейти в кінець бесіди",
+    "messageformat": "Перейти в кінець чату",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Для вашої безпеки історію листування не буде перенесено до нових прив'язаних пристроїв.",
+    "messageformat": "Для вашої безпеки історія чатів не переноситься на нові зв'язані пристрої.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Медіафайлів у цій розмові немає",
+    "messageformat": "У цьому чаті немає медіафайлів",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "Документів у цій розмові немає",
+    "messageformat": "У цьому чаті немає документів",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "Розмови",
+    "messageformat": "Чати",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Анімація набору тексту для цієї розмови",
+    "messageformat": "Анімація введення тексту для цього чату",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Це повідомлення буде видалено для усіх у розмові, якщо вони використовують найновішу версію Signal. Вони зможуть побачити, що ви видалили повідомлення.",
+    "messageformat": "Це повідомлення буде видалено для всіх у цьому чаті, якщо вони використовують найновішу версію Signal. Ці користувачі зможуть побачити, що ви видалили повідомлення.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Вибрати",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Спойлер",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Відправити ще раз",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Видалити повідомлення для мене",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Видалити повідомлення для усіх",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Видалити повідомлення для усіх",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Видалити повідомлення",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Видалити",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Видалити цю розмову без можливості відновлення?",
+    "messageformat": "Видалити цей чат назавжди?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal використовує наскрізне шифровання, що подекуди призводить до оновлення сесій чатів. Це не впливає на безпеку чату, хоча надіслане контактом повідомлення може не дійти і вам потрібно буде попросити надіслати його знов.",
+    "message": "Signal використовує наскрізне шифрування, що подекуди призводить до оновлення сесій чатів. Це не впливає на безпеку чату, хоча надіслане контактом повідомлення може не дійти і вам потрібно буде попросити надіслати його знов.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal використовує наскрізне шифровання, що подекуди призводить до оновлення сесій чатів. Це не впливає на безпеку чату, хоча надіслане контактом повідомлення може не дійти і вам потрібно буде попросити надіслати його знов.",
+    "messageformat": "Signal використовує наскрізне шифрування, що подекуди призводить до оновлення сесій чатів. Це не впливає на безпеку чату, хоча надіслане контактом повідомлення може не дійти і вам потрібно буде попросити надіслати його знов.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від користувача $sender$ до вас у цьому чаті.",
+    "message": "Не вдалося доставити в чаті повідомлення, стікер, реакцію, повідомлення про прочитання або медіафайл від користувача $sender$.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Не вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від користувача {sender} до вас у цьому чаті.",
+    "messageformat": "Не вдалося доставити в чаті повідомлення, стікер, реакцію, повідомлення про прочитання або медіафайл від користувача {sender}.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Вашу історію повідомлень для обох розмов було об'єднано тут.",
+    "messageformat": "Вашу історію повідомлень для обох чатів було об'єднано тут.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Зображення, відправлене в розмову",
+    "messageformat": "Зображення, надіслане в чат",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Примітка: Історія чату не синхронізується з цим пристроєм",
+    "message": "Примітка: історія чату не синхронізується із цим пристроєм",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Примітка: Історія чату не синхронізується з цим пристроєм",
+    "messageformat": "Примітка: історія чату не синхронізується із цим пристроєм",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Ви можете додавати замітки для себе в цій розмові. Якщо у вашого облікового запису є прив'язані пристрою, тоді нові замітки будуть синхронізовані.",
+    "messageformat": "У цьому чаті ви можете додавати нотатки для себе. Якщо ваш акаунт має зв'язані пристрої, нові нотатки буде синхронізовано.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Почати нову розмову…",
+    "messageformat": "Почати новий чат",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4016,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "Нова розмова",
+    "messageformat": "Новий чат",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Розмов не знайдено",
+    "messageformat": "Чатів не знайдено",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "Вилучено: {title}.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Чат із користувачем {title}, {unreadCount,number} нове повідомлення, останнє повідомлення: {lastMessage}.} few {Чат із користувачем {title}, {unreadCount,number} нові повідомлення, останнє повідомлення: {lastMessage}.} many {Чат із користувачем {title}, {unreadCount,number} нових повідомлень, останнє повідомлення: {lastMessage}.} other {Чат із користувачем {title}, {unreadCount,number} нового повідомлення, останнє повідомлення: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "Перейти до бесіди з {title}",
+    "messageformat": "До чату з {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Чернетка:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Запит на повідомлення",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5089,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Одноразові повідомлення не зберігаються в історії вашої розмови.",
+    "messageformat": "Одноразові повідомлення не зберігаються у вашій історії чатів.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Попередня розмова",
+    "messageformat": "Попередній чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Наступна розмова",
+    "messageformat": "Наступний чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5161,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Попередня непрочитана розмова",
+    "messageformat": "Попередній непрочитаний чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Наступна непрочитана розмова",
+    "messageformat": "Наступний непрочитаний чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Відкрити меню розмови",
+    "messageformat": "Відкрити меню чату",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Почати нову розмову",
+    "messageformat": "Почати новий чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Архівувати розмову",
+    "messageformat": "Заархівувати чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Розархівувати розмову",
+    "messageformat": "Розархівувати чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Пошук у розмові",
+    "messageformat": "Пошук у чаті",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Переслати вибрані повідомлення",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Перейти до певної розмови в списку",
+    "messageformat": "Перейти до чату",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5477,7 +5489,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Закрити поточну розмову",
+    "messageformat": "Закрити поточний чат",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5593,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Розмова заархівована",
+    "messageformat": "Чат заархівовано",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Розмова була повернута у вхідні",
+    "messageformat": "Чат повернуто до папки «Вхідні»",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Розмова була відмічена як непрочитана",
+    "messageformat": "Чат позначено як непрочитаний",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Дозволити користувачу {name} надсилати вам повідомлення та ділитись ім'ям і фото з цим користувачем? Раніше ви вилучили цей контакт.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Видалити розмову?",
+    "messageformat": "Видалити чат?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6013,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "Ця розмова буде видалена з усіх ваших пристроїв.",
+    "messageformat": "Цей чат буде видалено з усіх ваших пристроїв.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Продовжувати спілкуватися з цією групою та ділитися своїм ім’ям та фото з її учасниками? {learnMore}",
+    "messageformat": "Продовжувати спілкуватися в чаті з цією групою та ділитися своїм ім’ям і фото з її учасниками? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Продовжувати спілкуватися в чаті з цією групою та ділитися своїм ім’ям і фото з її учасниками? <learnMoreLink>Докладніше.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Продовжувати спілкуватися з цією {firstName} та ділитися своїм ім’ям та фото з її учасниками? {learnMore}",
+    "messageformat": "Продовжити спілкування в чаті з користувачем {firstName} та ділитися своїм ім’ям і фото? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Продовжити спілкування в чаті з користувачем {firstName} та ділитися своїм ім’ям і фото? <learnMoreLink>Докладніше</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Оновіть цю групу, щоб отримати доступ до нових можливостей, як-то @згадування та адміністратори. Учасників, які не поділилися своїми іменами чи фотографіями у цій групі, буде запрошено приєднатись. <learnMoreLink>Докладніше.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Враховувати розмови без сповіщень у числі на емблемі",
+    "messageformat": "Враховувати чати без сповіщень у числі на емблемі",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8381,11 +8393,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Налаштування розмови",
+    "message": "Налаштування чату",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Налаштування розмови",
+    "messageformat": "Налаштування чату",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8433,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "Якщо ввімкнути, повідомлення, надіслані та отримані в цьому чаті 1:1, зникнуть після того, як їх переглянуть.",
+    "message": "Якщо ввімкнути, повідомлення в цьому чаті зникатимуть після того, як їх переглянуть.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Якщо ввімкнути, повідомлення, надіслані та отримані в цьому чаті 1:1, зникнуть після того, як їх переглянуть.",
+    "messageformat": "Якщо ввімкнути, повідомлення в цьому чаті зникатимуть після того, як їх переглянуть.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {Відкликати {number,number} запрошення, надіслане користувачем {name}?} few {Відкликати {number,number} запрошення, надісланих користувачем {name}?} many {Відкликати {number,number} запрошень, надісланих користувачем {name}?} other {Відкликати {number,number} запрошення, надісланих користувачем {name}?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Видалити {count,number} повідомлення?} few {Видалити {count,number} повідомлення?} many {Видалити {count,number} повідомлень?} other {Видалити {count,number} повідомлення?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Видалити {count,number} повідомлення?} few {Видалити {count,number} повідомлення?} many {Видалити {count,number} повідомлень?} other {Видалити {count,number} повідомлення?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Повідомлення буде видалено з цього пристрою.} few {Повідомлення буде видалено з цього пристрою.} many {Повідомлення буде видалено з цього пристрою.} other {Повідомлення буде видалено з цього пристрою.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Для кого видалити це повідомлення?} few {Для кого видалити ці повідомлення?} many {Для кого видалити ці повідомлення?} other {Для кого видалити ці повідомлення?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {З яких пристроїв видалити це повідомлення?} few {З яких пристроїв видалити ці повідомлення?} many {З яких пристроїв видалити ці повідомлення?} other {З яких пристроїв видалити ці повідомлення?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Видалити для мене",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Видалити для мене",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Видалити для мене",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Видалити з цього пристрою",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Видалити для всіх",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Видалити з усіх пристроїв",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Видалення для всіх можливо максимум для {count,number} повідомлення} few {Видалення для всіх можливо максимум для {count,number} повідомлень} many {Видалення для всіх можливо максимум для {count,number} повідомлень} other {Видалення для всіх можливо максимум для {count,number} повідомлення}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Ви можете переслати не більше 30 повідомлень",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Уважно переглядайте запити. Signal знайшов іншого користувача з цим ім'ям. <reviewRequestLink>Переглянути запит</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} учасник групи має таке саме ім'я. {link}} few {{count,number} учасники групи мають таке саме ім'я. {link}} many {{count,number} учасників групи мають таке саме ім'я. {link}} other {{count,number} учасника групи мають таке саме ім'я. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} учасник групи має таке саме ім'я. <reviewRequestLink>Переглянути запит</reviewRequestLink>} few {{count,number} учасники групи мають таке саме ім'я. <reviewRequestLink>Переглянути запит</reviewRequestLink>} many {{count,number} учасників групи мають таке саме ім'я. <reviewRequestLink>Переглянути запит</reviewRequestLink>} other {{count,number} учасника групи мають таке саме ім'я. <reviewRequestLink>Переглянути запит</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} учасник групи має схоже ім'я. Перегляньте учасників нижче або вживіть відповідних заходів.} few {{count,number} учасники групи мають схожі імена. Перегляньте учасників нижче або вживіть відповідних заходів.} many {{count,number} учасників групи мають схожі імена. Перегляньте учасників нижче або вживіть відповідних заходів.} other {{count,number} учасника групи мають схожі імена. Перегляньте учасників нижче або вживіть відповідних заходів.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,19 +9553,19 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Цей власний колір використовується в чатах: $num$. Бажаєте його видалити для усіх чатів?",
+    "message": "Цей спеціальний колір використовується в $num$ чатах. Бажаєте видалити його для всіх чатів?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Цей власний колір використовується в чаті: {num,number} Бажаєте його видалити для усіх чатів?} few {Цей власний колір використовується в чаті: {num,number} Бажаєте його видалити для усіх чатів?} many {Цей власний колір використовується в чатах: {num,number}. Бажаєте його видалити для усіх чатів?} other {Цей власний колір використовується в чатах: {num,number}. Бажаєте його видалити для усіх чатів?}}",
+    "messageformat": "{num, plural, one {Цей спеціальний колір використовується в {num,number} чаті. Бажаєте видалити його для всіх чатів?} few {Цей спеціальний колір використовується в {num,number} чатах. Бажаєте видалити його для всіх чатів?} many {Цей спеціальний колір використовується в {num,number} чатах. Бажаєте видалити його для всіх чатів?} other {Цей спеціальний колір використовується в {num,number} чату. Бажаєте видалити його для всіх чатів?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "Глобальний Колір Чату",
+    "message": "Глобальний колір чату",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Глобальний Колір Чату",
+    "messageformat": "Глобальний колір чату",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
@@ -9541,19 +9585,19 @@
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Скинути колір чатів",
+    "message": "Скинути кольори чатів",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Скинути колір чатів",
+    "messageformat": "Скинути кольори чатів",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Скинути усі кольори чату",
+    "message": "Скинути кольори всіх чатів",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Скинути усі кольори чату",
+    "messageformat": "Скинути кольори всіх чатів",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Бажаєте замінити колір усіх чатів?",
+    "message": "Бажаєте замінити кольори всіх чатів?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Бажаєте замінити колір усіх чатів?",
+    "messageformat": "Бажаєте замінити кольори всіх чатів?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Встановіть таймер зникнення повідомлень за замовчуванням для усіх нових чатів, які ви створите.",
+    "message": "Встановіть таймер зникнення повідомлень за замовчуванням для всіх нових чатів, які ви створите.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Встановіть таймер зникнення повідомлень за замовчуванням для усіх нових чатів, які ви створите.",
+    "messageformat": "Встановіть таймер зникнення повідомлень за замовчуванням для всіх нових чатів, які ви створите.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Таймер за умовчанням для нових чатів",
+    "message": "Таймер за замовчуванням для нових чатів",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Таймер за умовчанням для нових чатів",
+    "messageformat": "Таймер за замовчуванням для нових чатів",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Ви вилучили цей контакт. Якщо надіслати повідомлення, контакт буде знову додано до списку.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Ваш профіль захищено наскрізним шифрованням. Ваш профіль та зміни у ньому будуть доступні для ваших контактів, коли ви починаєте нові чати чи приєднуєтесь до створених. {learnMore}",
+    "messageformat": "Ваш профіль захищено наскрізним шифруванням. Ваші контакти і люди, з якими ви розпочинаєте нові чати, зможуть бачити ваш профіль і зміни в ньому. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Ваш профіль захищено наскрізним шифруванням. Ваші контакти і люди, з якими ви розпочинаєте нові чати, зможуть бачити ваш профіль і зміни в ньому. <learnMoreLink>Докладніше</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "Вільний для листування",
+    "message": "Можу поговорити в чаті",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Вільний для листування",
+    "messageformat": "Можу поговорити в чаті",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10373,11 +10417,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Для зміни цього налаштування відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть до Налаштування > Чати",
+    "message": "Щоб змінити налаштування, відкрийте застосунок Signal на мобільному пристрої та перейдіть у Налаштування > Чати",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Для зміни цього налаштування відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть до Налаштування > Чати",
+    "messageformat": "Щоб змінити налаштування, відкрийте застосунок Signal на мобільному пристрої та перейдіть у Налаштування > Чати",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакти} many {{num,number} контактів} other {{num,number} контакту}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> перегляд",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "Перегляди: <strong>{viewCount,number}</strong>",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Почали з ними розмову",
+    "messageformat": "Почали з ними чат",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Виберіть, хто може бачити вашу сторі. Зміни не впливатимуть на вже надіслані сторіз. <learnMoreLink>Докладніше.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Виберіть, які контакти Signal можуть бачити вашу сторі. Змінити дозвіл можна в налаштуваннях конфіденційності. <learnMoreLink>Докладніше.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12233,11 +12277,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватися. Якщо змінити ім'я користувача, цифри також зміняться.",
+    "message": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватись у чаті. Якщо змінити ім'я користувача, цифри також зміняться.",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватися. Якщо змінити ім'я користувача, цифри також зміняться.",
+    "messageformat": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватись у чаті. Якщо змінити ім'я користувача, цифри також зміняться.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {

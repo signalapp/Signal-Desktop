@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "Arhivirani razgovori",
+    "messageformat": "Arhivirani chatovi",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "Razgovori",
+    "message": "Chatovi",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "Razgovori",
+    "messageformat": "Chatovi",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Ovo razgovori su arhivirani i pojavljivat će se samo u Pristigloj pošti ako primite nove poruke.",
+    "messageformat": "Ovi chatovi su arhivirani i pojavljivat će se samo u Pristigloj pošti ako primite nove poruke.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Nema arhiviranih razgovora.",
+    "messageformat": "Nema arhiviranih chatova.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Upravljanje kontaktom",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Poruka",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Audio poziv",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Videopoziv",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Ukloni",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Blokiraj",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Ukloniti {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Nećete vidjeti ovu osobu kada budete pretraživali. Dobit ćete zahtjev za poruku ako vam u budućnosti pošalju poruku.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Ukloni",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "Nije moguće ukloniti korisnika {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Ova osoba je sačuvana u Kontakte vašeg uređaja. Izbrišite tu osobu iz Kontakata na mobilnom uređaju i pokušajte ponovo.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Prikvači razgovor",
+    "messageformat": "Prikvači chat",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,7 +677,7 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Otkvači razgovor",
+    "messageformat": "Otkvači chat",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Idi na dno razgovora",
+    "messageformat": "Klizni na dno chata",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Radi vaše sigurnosti, historija razgovora se nije prenijela na nove povezane uređaje.",
+    "messageformat": "Za vašu sigurnost, historija chata se ne prenosi na nove povezane uređaje.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Nemate medijske datoteke u ovom razgovoru",
+    "messageformat": "Nemate medijski sadržaj u ovom chatu",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "Nemate dokumente u ovom razgovoru",
+    "messageformat": "Nemate dokumente u ovom chatu",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "Konverzacije",
+    "messageformat": "Chatovi",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Animacija pisanja za ovaj razgovor",
+    "messageformat": "Animacija unosa za ovaj chat",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Ova će poruka biti izbrisana za sve učesnike u konverzaciji ako koriste noviju verziju Signala. Oni će moći vidjeti da ste Vi izbrisali poruku.",
+    "messageformat": "Ova će se poruka izbrisati za sve učesnike u chatu ako koriste noviju verziju Signala. Moći će vidjeti da ste vi izbrisali poruku.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Odaberi",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Spojler",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Ponovo pokušaj poslati",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Izbriši poruku za mene",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Izbriši poruku za sve",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Izbriši poruku za sve",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Izbriši poruku",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Izbriši",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Permanently delete this conversation?",
+    "messageformat": "Trajno izbrisati ovaj chat?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "Konverzacija je osvježena",
+    "message": "Sesija chata je osvježena",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "Konverzacija je osvježena",
+    "messageformat": "Sesija chata je osvježena",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2435,7 +2443,7 @@
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal koristi sveobuhvatno šifriranje i možda će ponekad morati osvježiti vašu sesiju chata. To neće uticati na sigurnost chata, ali možda možete propustiti poruku od ovog kontakta i možete zatražiti da je ponovo pošalju.",
+    "messageformat": "Signal koristi sveobuhvatno šifriranje i možda će ponekad morati osvježiti vašu sesiju chata. To neće utjecati na sigurnost chata, ali možda možete propustiti poruku od ovog kontakta i možete zatražiti da je ponovo pošalju.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Vaša historija poruka za oba razgovora je spojena ovdje.",
+    "messageformat": "Vaša historija poruka za oba chata je spojena ovdje.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Slika poslana u razgovoru",
+    "messageformat": "Slika je poslana u chatu",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "U ovoj konverzaciji možete dodati bilješke za sebe. Ako Signal koristite na više uređaja, ove će bilješke biti sinhronizovane među njima.",
+    "messageformat": "U ovom chatu možete dodati bilješke za sebe. Ako Signal koristite na više uređaja, ove će bilješke biti sinhronizovane na njima.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Pokretanje novog razgovora…",
+    "messageformat": "Započni novi chat",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4016,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "Nova konverzacija",
+    "messageformat": "Novi chat",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Nije pronađen nijedan razgovor",
+    "messageformat": "Nije pronađen nijedan chat",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} je uklonjen/a.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Chat sa {title}, {unreadCount,number} novom porukom, posljednja poruka: {lastMessage}.} few {Chat sa {title}, {unreadCount,number} nove poruke, posljednja poruka: {lastMessage}.} many {Chat sa {title}, {unreadCount,number} novih poruka, posljednja poruka: {lastMessage}.} other {Chat sa {title}, {unreadCount,number} nove poruke, posljednja poruka: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "Idi u razgovor sa: {title}",
+    "messageformat": "Započni chat sa {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Skica:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Zahtjev za poruku",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5089,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Poruke za jednokratni prikaz se ne pohranjuju u historiji razgovora.",
+    "messageformat": "Poruke za jednokratni prikaz se ne pohranjuju u historiji chata.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Prethodni razgovor",
+    "messageformat": "Prethodni chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Sljedeći razgovor",
+    "messageformat": "Sljedeći chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5161,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Prethodni nepročitani razgovor",
+    "messageformat": "Prethodni nepročitani chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Sljedeći nepročitani razgovor",
+    "messageformat": "Sljedeći nepročitani chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Otvori meni razgovora",
+    "messageformat": "Otvori meni chata",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Započnite novi razgovor",
+    "messageformat": "Započni novi chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Arhivirajte razgovor",
+    "messageformat": "Arhiviraj chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Vratite razgovor iz arhive",
+    "messageformat": "Izbriši chat iz arhive",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Pretražite u razgovoru",
+    "messageformat": "Pretraži u chatu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Proslijedi odabrane poruke",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Pređite na razgovor",
+    "messageformat": "Pređi na chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5477,7 +5489,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Zatvorite trenutni razgovor",
+    "messageformat": "Zatvori trenutni chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5593,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Razgovor je arhiviran",
+    "messageformat": "Chat je arhiviran",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Razgovor je vraćen u dolazne poruke",
+    "messageformat": "Chat je vraćen u dolazne poruke",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Razgovor je označen kao nepročitan",
+    "messageformat": "Chat je označen kao nepročitan",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Želite dozvoliti da vam {name} pošalje poruku i podijeliti ime i fotografiju s njim/njom? Ranije ste uklonili ovu osobu.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Izbrisati konverzaciju?",
+    "messageformat": "Izbrisati chat?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6013,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "Ova konverzacija bit će izbrisana sa svih Vaših uređaja.",
+    "messageformat": "Ovaj chat će biti izbrisan sa svih vaših uređaja.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Nastavi razgovor s ovom grupom i podijeli ime i fotografiju s njenim članovima? {learnMore}",
+    "messageformat": "Nastaviti razgovor s ovom grupom i podijeliti ime i fotografiju s njenim članovima? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Nastaviti razgovor s ovom grupom i podijeliti ime i fotografiju s njenim članovima? <learnMoreLink>Saznajte više</learnMoreLink>.",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Nastavi ovaj razgovor s korisnikom {firstName} i podijeli ime i fotografiju s njim/njom? {learnMore}",
+    "messageformat": "Nastaviti razgovor sa {firstName} i podijeliti svoje ime i fotografiju s tom osobom? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Nastaviti razgovor sa {firstName} i podijeliti ime i fotografiju s njima? <learnMoreLink>Saznajte više</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Ažurirajte ovu grupu da aktivirate nove funkcije kao što su @spominjanja i administratori. Članovi koji nisu podijelili ime i fotografiju u ovoj grupi će primiti pozivnicu da se pridruže. <learnMoreLink>Saznajte više.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Uključi razgovore s isključenim zvukom u broj znački",
+    "messageformat": "Uključite chatove s isključenim zvukom u značku s brojem",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8377,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "Boja poruka",
+    "message": "Boja chata",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Boja poruka",
+    "messageformat": "Boja chata",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,11 +8393,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Podešavanja poruka",
+    "message": "Podešavanja chata",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Podešavanja poruka",
+    "messageformat": "Podešavanja chata",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {Povući {number,number} pozivnicu koju je poslao/la \"{name}\"?} few {Povući {number,number} pozivnice koju je poslao/la \"{name}\"?} many {Povući {number,number} pozivnica koju je poslao/la \"{name}\"?} other {Povući {number,number} pozivnica koje je poslao/la \"{name}\"?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Izbrisati {count,number} poruku?} few {Izbrisati {count,number} poruke?} many {Izbrisati {count,number} poruka?} other {Izbrisati {count,number} poruka?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Izbrisati {count,number} poruku?} few {Izbrisati {count,number} poruke?} many {Izbrisati {count,number} poruka?} other {Izbrisati {count,number} poruka?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Ova poruka će se izbrisati s ovog uređaja.} few {Ove poruke će se izbrisati s ovog uređaja.} many {Ove poruke će se izbrisati s ovog uređaja.} other {Ove poruke će se izbrisati s ovog uređaja.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Za koga želite izbrisati ovu poruku?} few {Za koga želite izbrisati ove poruke?} many {Za koga želite izbrisati ove poruke?} other {Za koga želite izbrisati ove poruke?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {S kojih uređaja želite da izbrišete ovu poruku?} few {S kojih uređaja želite da izbrišete ove poruke?} many {S kojih uređaja želite da izbrišete ove poruke?} other {S kojih uređaja želite da izbrišete ove poruke?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Izbriši za mene",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Izbriši za mene",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Izbriši za mene",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Izbriši s ovog uređaja",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Izbriši za svakoga",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Izbriši sa svih uređaja",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Možete odabrati da izbrišete najviše {count,number} poruku za sve korisnike} few {Možete odabrati da izbrišete najviše {count,number} poruke za sve korisnike} many {Možete odabrati da izbrišete najviše {count,number} poruka za sve korisnike} other {Možete odabrati da izbrišete najviše {count,number} poruka za sve korisnike}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Možete proslijediti najviše 30 poruka",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Pažljivo pregledajte zahtjeve. Signal je među kontaktima pronašao još jednu osobu s istim imenom. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} član grupe ima isto ime. {link}} few {{count,number} člana grupe imaju isto ime. {link}} many {{count,number} članova grupe imaju isto ime. {link}} other {{count,number} članova grupe ima isto ime. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} član grupe ima isto ime. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>} few {{count,number} člana grupe imaju isto ime. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>} many {{count,number} članova grupe imaju isto ime. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>} other {{count,number} članova grupe ima isto ime. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} član grupe ima slično ime. Pregledajte članove u nastavku ili odaberite radnju.} few {{count,number} člana grupe imaju slično ime. Pregledajte članove u nastavku ili odaberite radnju.} many {{count,number} članova grupe imaju slično ime. Pregledajte članove u nastavku ili odaberite radnju.} other {{count,number} članova grupe imaju slično ime. Pregledajte članove u nastavku ili odaberite radnju.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9533,11 +9577,11 @@
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Poništi boju konverzacije",
+    "message": "Poništi boju chata",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Poništi boju konverzacije",
+    "messageformat": "Poništi boju chata",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
@@ -9573,7 +9617,7 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Želite li poništiti sve boje konverzacija?",
+    "message": "Želite li poništiti sve boje chata?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
@@ -9589,7 +9633,7 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "Ovako izgleda boja konverzacije.",
+    "message": "Ovako izgleda boja chata.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Podesite vrijeme za nestajanje poruka koje će se automatski primijeniti na sve nove konverzacije kada ih Vi započnete.",
+    "message": "Podesite vrijeme za nestajanje poruka koje će se automatski primijeniti na sve nove chatove kada ih vi započnete.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Podesite vrijeme za nestajanje poruka koje će se automatski primijeniti na sve nove konverzacije kada ih Vi započnete.",
+    "messageformat": "Podesite vrijeme za nestajanje poruka koje će se automatski primijeniti na sve nove chatove kada ih vi započnete.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Predefinisani rok za nove konverzacije",
+    "message": "Zadani mjerač vremena za nove chatove",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Predefinisani rok za nove konverzacije",
+    "messageformat": "Zadani mjerač vremena za nove chatove",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Uklonili ste ovu osobu, ako joj ponovo pošaljete poruku, vratit ćete je na svoju listu.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10145,7 +10189,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Vaš profil je šifriran. Vaš profil i njegove promjene bit će vidljivi vašim kontaktima i kada započnete ili prihvatite nove razgovore. Saznaj više",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "Dostupni za razgovor",
+    "message": "Dostupni za chat",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Dostupni za razgovor",
+    "messageformat": "Dostupni za chat",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10353,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "Poruke",
+    "message": "Chatovi",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "Razgovori",
+    "messageformat": "Chatovi",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakta} many {{num,number} kontakata} other {{num,number} kontakata}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10469,7 +10513,7 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Svako ko ima vaš broj telefona u kontaktima vidjet će vas kao kontakt na Signalu. Drugi će vas moći kontaktirati pomoću vašeg broja telefona kada započnu novi razgovor ili kreiraju grupu.",
+    "messageformat": "Svako ko ima vaš broj telefona u kontaktima vidjet će vas kao kontakt na Signalu. Drugi će vas moći kontaktirati pomoću vašeg broja telefona kada započnu novi chat ili kreiraju grupu.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> pregled",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "{viewCount,number} pregleda",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11009,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, one {<strong>{views,number}</strong> pregled} few {<strong>{views,number}</strong>pregleda} many {<strong>{views,number}</strong>pregleda} other {<strong>{views,number}</strong>pregleda}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, one {<strong>1</strong> odgovor} few {<strong>{replyCount,number}</strong> odgovora} many {<strong>{replyCount,number}</strong> odgovora} other {<strong>{replyCount,number}</strong> odgovora}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Započinjem konverzaciju",
+    "messageformat": "Pokretanjem chata",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Odaberite ko može vidjeti vašu priču. Promjene neće uticati na priče koje ste već poslali. <learnMoreLink>Saznajte više.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11529,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "Članovi grupnog chata “{groupTitle}” mogu pogledati i odgovoriti na ovu priču. Možete ažurirati članstvo za ovaj chat u grupi.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Odaberite koje Signal konekcije mogu vidjeti vašu priču. To uvijek možete promijeniti u postavkama privatnosti. <learnMoreLink>Saznajte više.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -11905,11 +11949,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "Pređi na konverzaciju",
+    "message": "Idi u chat",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "Pređi na konverzaciju",
+    "messageformat": "Pređi na chat",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
@@ -12281,7 +12325,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Uredi historiju",
+    "messageformat": "Historija uređivanja",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "Color de la conversa",
+    "message": "Color del xat",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "Color de la conversa",
+    "messageformat": "Color del xat",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "Converses arxivades",
+    "messageformat": "Xats arxivats",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "Converses",
+    "message": "Xats",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "Converses",
+    "messageformat": "Xats",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Aquestes converses estan arxivades i només apareixeran a la bústia d'entrada si es reben missatges nous.",
+    "messageformat": "Aquests xats estan arxivats i només apareixeran a la bústia d'entrada si s'hi reben missatges nous.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "No hi ha converses arxivades.",
+    "messageformat": "No hi ha xats arxivats.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Gestionar el contacte",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Missatge",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Trucada",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Trucada de vídeo",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Eliminar",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Bloquejar",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Eliminar a {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "No veuràs aquesta persona durant les teves cerques. Rebràs una sol·licitud de missatge si t'envia un missatge en el futur.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Eliminar",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "No s'ha pogut eliminar a {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Aquesta persona és als Contactes del teu telèfon. Elimina-la dels teus contactes i torna-ho a provar.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Fixa la conversa",
+    "messageformat": "Fixar xat",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Desenganxa la conversa",
+    "messageformat": "No fixar xat",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "Només podeu fixar fins a 4 converses.",
+    "message": "Només pots fixar fins a 4 xats.",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Només podeu fixar fins a 4 converses.",
+    "messageformat": "Només pots fixar fins a 4 xats.",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Ves al final de la conversa",
+    "messageformat": "Anar a la part inferior del xat",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Per seguretat, l'historial de la conversa no es transfereix als dispositius enllaçats nous.",
+    "messageformat": "Per seguretat, l'historial del xat no es transfereix als dispositius enllaçats nous.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "No teniu cap element multimèdia en aquesta conversa",
+    "messageformat": "No tens arxius multimèdia en aquest xat",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "No teniu cap document en aquesta conversa",
+    "messageformat": "No tens documents en aquest xat",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "Cerca a la conversa",
+    "message": "Cerca al xat",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "Cerca a la conversa",
+    "messageformat": "Cerca al xat",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "Converses",
+    "messageformat": "Xats",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Animació d'escriptura per a aquesta conversa",
+    "messageformat": "Animació d'escriptura per a aquest xat",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Aquest missatge se suprimirà per a tothom que sigui a la conversa si tenen una versió recent del Signal. Podran veure que heu suprimit un missatge.",
+    "messageformat": "Aquest missatge s'eliminarà per a tots els membres del xat si utilitzen una versió recent de Signal. Podran veure que has eliminat un missatge.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Seleccionar",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Spoiler",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Reintenta l'enviament",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Suprimeix el missatge per a mi",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Suprimeix el missatge per a tothom",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Suprimeix el missatge per a tothom",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Eliminar el missatge",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Suprimeix",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Vols suprimir aquesta conversa de forma permanent?",
+    "messageformat": "Vols eliminar aquest xat de forma permanent?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "S'ha refrescat la sessió.",
+    "message": "S'ha actualitzat la sessió de xat",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "S'ha refrescat la sessió.",
+    "messageformat": "S'ha actualitzat la sessió de xat",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "El Signal usa encriptació d'extrem a extrem i és possible que de vegades hagi d’actualitzar la sessió de conversa. Això no n'afecta la seguretat, però és possible que perdeu algun missatge d’aquest contacte. Podeu demanar que el torni a enviar.",
+    "message": "Signal utilitza xifrat d'extrem a extrem i a vegades necessita actualitzar la sessió del xat. Això no afecta a la seguretat, però és possible que perdis algun missatge d’aquest contacte. Si aquest fos el cas, sempre pots demanar-li que el torni a enviar.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "El Signal usa encriptació d'extrem a extrem i és possible que de vegades hagi d’actualitzar la sessió de conversa. Això no n'afecta la seguretat, però és possible que perdeu algun missatge d’aquest contacte. Podeu demanar que el torni a enviar.",
+    "messageformat": "Signal utilitza xifrat d'extrem a extrem i a vegades necessita actualitzar la sessió del xat. Això no afecta a la seguretat, però és possible que perdis algun missatge d’aquest contacte. Si aquest fos el cas, sempre pots demanar-li que el torni a enviar.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "El teu historial de missatges per a les dues conversacions s'ha combinat aquí.",
+    "messageformat": "El teu historial de missatges per ambdós xats s'ha combinat aquí.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "S'ha enviat una imatge a la conversa",
+    "messageformat": "S'ha enviat una imatge al xat",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Nota: l'historial de converses no se sincronitzarà amb aquest dispositiu.",
+    "message": "Nota: l'historial de xats no se sincronitzarà amb aquest dispositiu",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Nota: l'historial de converses no se sincronitzarà amb aquest dispositiu.",
+    "messageformat": "Nota: l'historial de xats no se sincronitzarà amb aquest dispositiu",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Podeu afegir notes per a vosaltres mateixos en aquesta conversa. Si hi ha algun dispositiu enllaçat, s'hi sincronitzaran les notes noves.",
+    "messageformat": "Pots afegir notes per a tu mateix en aquest xat. Si hi ha algun dispositiu enllaçat, s'hi sincronitzaran les notes noves.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Comença una nova conversa…",
+    "messageformat": "Començar nou xat",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4016,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "Conversa nova",
+    "messageformat": "Nou xat",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "No s'ha trobat cap conversa.",
+    "messageformat": "No s'ha trobat cap xat",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "S'ha eliminat a {title}.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Xat amb {title}, {unreadCount,number} missatge nou, últim missatge: {lastMessage}.} other {Xat amb {title}, {unreadCount,number} missatges nous, últim missatge: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "Vés a la conversa amb {title}",
+    "messageformat": "Ves al xat amb {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Esborrany:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Petició de missatge",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5089,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Els missatges d'una sola visualització no es desen a l'historial de converses.",
+    "messageformat": "Els missatges d'una sola visualització no es desen a l'historial del xat",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Conversa anterior",
+    "messageformat": "Xat anterior",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Conversa següent",
+    "messageformat": "Següent xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5161,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Conversa anterior sense llegir",
+    "messageformat": "Xat anterior sense llegir",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Conversa següent sense llegir",
+    "messageformat": "Següent xat sense llegir",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Obre el menú de conversa",
+    "messageformat": "Obrir el menú de xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Comenceu una conversa nova",
+    "messageformat": "Començar nou xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Arxiva la conversa",
+    "messageformat": "Arxivar xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "No arxivis la conversa",
+    "messageformat": "Restaurar xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Cerca a la conversa",
+    "messageformat": "Cerca al xat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Reenvia els missatges seleccionats",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Salta a la conversa",
+    "messageformat": "Salta al xat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5477,7 +5489,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Tanca la conversa actual",
+    "messageformat": "Tancar xat actual",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5593,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Conversa arxivada",
+    "messageformat": "Xat arxivat",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "La conversa ha tornat a la bústia d'entrada",
+    "messageformat": "El xat ha tornat a la bústia d'entrada",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Conversa marcada com a no llegida",
+    "messageformat": "Xat marcat com a no llegit",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Compartir el teu nom i foto amb {name} i permetre que t'enviï un missatge? Anteriorment, has eliminat a aquesta persona.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Voleu suprimir la conversa?",
+    "messageformat": "Vols eliminar el xat?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6013,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "Aquesta conversa se suprimirà de tots els dispositius.",
+    "messageformat": "Aquest xat s'eliminarà de tots els dispositius.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Voleu continuar la conversa amb aquest grup i compartir-hi el nom i la fotografia? {learnMore}",
+    "messageformat": "Vols continuar el xat amb aquest grup i compartir-hi el nom i la fotografia? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Vols continuar el xat amb aquest grup i compartir-hi el nom i la fotografia? <learnMoreLink>Més informació.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Voleu continuar la conversa amb {firstName} i compartir-hi el nom i la fotografia? {learnMore}",
+    "messageformat": "Vols continuar el xat amb {firstName} i compartir-hi el nom i la fotografia? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Vols continuar el xat amb {firstName} i compartir-hi el nom i la fotografia? <learnMoreLink>Més informació</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Actualitzeu aquest grup per activar les noves funcions com ara les @mencions i els admins. Aquelles persones que encara no comparteixin el nom o la fotografia es convidaran a afegir-s'hi. <learnMoreLink>Més informació.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Inclou les converses silenciades al recompte d'insígnies",
+    "messageformat": "Inclou els xats silenciats al recompte de notificacions",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8377,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "Color de la conversa",
+    "message": "Color del xat",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Color de la conversa",
+    "messageformat": "Color del xat",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,19 +8393,19 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Configuració del xat",
+    "message": "Ajustos del xat",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Configuració del xat",
+    "messageformat": "Ajustos del xat",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Vols silenciar aquesta conversa?",
+    "message": "Vols silenciar aquest xat?",
     "description": "(deleted 03/29/2023) Title for the modal to unmute a chat"
   },
   "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Vols silenciar aquesta conversa?",
+    "messageformat": "Vols silenciar aquest xat?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -8421,11 +8433,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "Quan s'activa, els missatges enviats i rebuts en aquesta conversa 1:1 desapareixeran un cop s'hagin vist.",
+    "message": "Quan s'activa, els missatges enviats i rebuts en aquest xat 1:1 desapareixeran un cop s'hagin vist.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Quan s'activa, els missatges enviats i rebuts en aquesta conversa 1:1 desapareixeran un cop s'hagin vist.",
+    "messageformat": "Quan s'activa, els missatges enviats i rebuts en aquest xat 1:1 desapareixeran un cop s'hagin vist.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8677,11 +8689,11 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Rep notificacions quan se't mencioni en converses silenciades",
+    "message": "Rep notificacions quan se't mencioni en xats silenciats",
     "description": "(deleted 03/29/2023) In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Rep notificacions quan se't mencioni en converses silenciades",
+    "messageformat": "Rep notificacions quan se't mencioni en xats silenciats",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {Vols rebutjar {number,number} invitació enviada per {name}?} other {Vols rebutjar {number,number} invitacions enviades per {name}?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Vols eliminar {count,number} missatge?} other {Vols eliminar {count,number} missatges?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Vols eliminar {count,number} missatge?} other {Vols eliminar {count,number} missatges?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Aquest missatge s'eliminarà d'aquest dispositiu.} other {Aquests missatges s'eliminaran d'aquest dispositiu.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Per a qui vols eliminar aquest missatge?} other {Per a qui vols eliminar aquests missatges?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {De quins dispositius t'agradaria eliminar aquest missatge?} other {De quins dispositius t'agradaria eliminar aquests missatges?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Eliminar per a mi",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Eliminar per a mi",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Eliminar per a mi",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Eliminar d'aquest dispositiu",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Eliminar per a tothom",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Eliminar de tots els dispositius",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Només pots reenviar fins a 30 missatges",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Revisa les sol·licituds amb atenció. Signal ha trobat un altre contacte amb el mateix nom. <reviewRequestLink>Revisar sol·licitud</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} membre del grup té el mateix nom. {link}} other {{count,number} membres del grup tenen el mateix nom. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} membre del grup té el mateix nom. <reviewRequestLink>Revisar sol·licitud</reviewRequestLink>} other {{count,number} membres del grup tenen el mateix nom. <reviewRequestLink>Revisar sol·licitud</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} membre del grup té un nom semblant. Revisa els membres següents i tria una acció.} other {{count,number} membres del grup tenen noms semblants. Revisa els membres següents i tria una acció.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,51 +9553,51 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Aquest color personalitzat s'usa en $num$ converses. Voleu suprimir-lo per a totes?",
+    "message": "Aquest color personalitzat s'utilitza en $num$ xats. Vols eliminar-lo per a tots?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Aquest color personalitzat s'usa en {num,number} conversa. Vols suprimir-lo per a totes?} other {Aquest color personalitzat s'està utilitzant en {num,number} converses. Vols suprimir-lo de totes?}}",
+    "messageformat": "{num, plural, one {Aquest color personalitzat s'està utilitzant en {num,number} xat. Vols eliminar-lo per a tots?} other {Aquest color personalitzat s'està utilitzant en {num,number} xats. Vols eliminar-lo per a tots?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "Color global de la conversa",
+    "message": "Color global del xat",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Color global de la conversa",
+    "messageformat": "Color global del xat",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "Color de la conversa",
+    "message": "Color del xat",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Color de la conversa",
+    "messageformat": "Color del xat",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Restableix el color de la conversa",
+    "message": "Restableix el color del xat",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Restableix el color de la conversa",
+    "messageformat": "Restableix el color del xat",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Restableix els colors de la conversa",
+    "message": "Restableix els colors del xat",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Restableix els colors de la conversa",
+    "messageformat": "Restableix els colors del xat",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Restableix tots els colors de la conversa",
+    "message": "Restableix els colors del xats",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Restableix tots els colors de la conversa",
+    "messageformat": "Restableix els colors del xats",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Voleu substituir tots els colors de la conversa?",
+    "message": "Vols substituir tots els colors del xat?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Voleu substituir tots els colors de la conversa?",
+    "messageformat": "Vols substituir tots els colors del xat?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9633,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "Aquí teniu una previsualització del color de la conversa.",
+    "message": "Aquí tens una previsualització del color del xat.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Aquí teniu una previsualització del color de la conversa.",
+    "messageformat": "Aquí tens una previsualització del color del xat.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Establiu un temporitzador per defecte de desaparició de missatges per a totes les converses noves que hàgiu iniciat.",
+    "message": "Estableix un temporitzador per defecte de desaparició de missatges per a tots els xats nous que hagis iniciat.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Establiu un temporitzador per defecte de desaparició de missatges per a totes les converses noves que hàgiu iniciat.",
+    "messageformat": "Estableix un temporitzador per defecte de desaparició de missatges per a tots els xats nous que hagis iniciat.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Temporitzador per defecte per a les converses noves",
+    "message": "Temporitzador per defecte per als nous xats",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Temporitzador per defecte per a les converses noves",
+    "messageformat": "Temporitzador per defecte per als nous xats",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Has eliminat a aquesta persona, si tornes a enviar-li un missatge se l'afegirà de nou a la teva llista.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "El perfil està encriptat. El perfil i els canvis seran visibles per als vostres contactes quan inicieu o accepteu converses noves. {learnMore}",
+    "messageformat": "El perfil està xifrat. El perfil i els canvis seran visibles per als teus contactes quan iniciïs o acceptis nous xats. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "El teu perfil està encriptat. El teu perfil i els canvis que hi realitzis seran visibles per als teus contactes i per aquelles persones amb les quals iniciïs o acceptis un xat nou. <learnMoreLink>Més informació</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "Lliure per a conversar-hi",
+    "message": "Disponible per xatejar",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Lliure per a conversar-hi",
+    "messageformat": "Disponible per xatejar",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10353,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "Converses",
+    "message": "Xats",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "Converses",
+    "messageformat": "Xats",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10373,11 +10417,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Per a canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Converses.",
+    "message": "Per a canviar aquests ajustos, obre l'app de Signal al teu dispositiu mòbil i ves a Ajustos > Xats.",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Per a canviar aquesta configuració, obriu l'aplicació del Signal al dispositiu mòbil i aneu a Configuració > Converses.",
+    "messageformat": "Per a canviar aquests ajustos, obre l'app de Signal al teu dispositiu mòbil i ves a Ajustos > Xats.",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} contacte} other {{num,number} contactes}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10469,7 +10513,7 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Qualsevol persona que tingui el teu número de telèfon guardat als seus contactes podrà veure't com a contacte a Signal. Els altres podran posar-se en contacte amb tu a través del teu número de telèfon quan comencin un nou xat o grup.",
+    "messageformat": "Les persones que tinguin el teu número de telèfon guardat als seus contactes et veuran com a contacte a Signal. Els altres podran posar-se en contacte amb tu a través del teu número de telèfon quan comencin un nou xat o grup.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> visualització",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> visualitzacions",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "començar una conversa",
+    "messageformat": "Començar xat",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Tria qui pot veure la teva història. Aquests canvis no afectaran les històries que ja hagis enviat. <learnMoreLink>Més informació.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Tria quines connexions de Signal poden veure la teva història. Sempre podràs fer-hi canvis als Ajustos de privacitat. <learnMoreLink>Més informació.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -11905,11 +11949,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "Ves a la conversa",
+    "message": "Ves al xat",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "Ves a la conversa",
+    "messageformat": "Ves al xat",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
@@ -12233,11 +12277,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Aquests dígits ajudaran a mantenir el teu nom d'usuari en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu nom d'usuari només amb aquelles persones i grups amb les que desitges parlar. Si canvies el teu nom d'usuari, rebràs una nova sèrie de dígits.",
+    "message": "Aquests dígits ajudaran a mantenir el teu àlies en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu àlies només amb aquelles persones i grups amb els que vulguis parlar. Si canvies el teu àlies, rebràs una nova sèrie de dígits.",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "Aquests dígits ajudaran a mantenir el teu nom d'usuari en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu nom d'usuari només amb aquelles persones i grups amb les que desitges parlar. Si canvies el teu nom d'usuari, rebràs una nova sèrie de dígits.",
+    "messageformat": "Aquests dígits ajudaran a mantenir el teu àlies en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu àlies només amb aquelles persones i grups amb els que vulguis parlar. Si canvies el teu àlies, rebràs una nova sèrie de dígits.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -12281,7 +12325,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Edita l'historial",
+    "messageformat": "Historial de canvis",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

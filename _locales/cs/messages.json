@@ -517,7 +517,7 @@
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "Barva konverzace",
+    "messageformat": "Barva chatu",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "Archivované konverzace",
+    "messageformat": "Archivované chaty",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "Konverzace",
+    "message": "Chaty",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "Konverzace",
+    "messageformat": "Chaty",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Tyto konverzace jsou archivované a mezi doručenými zprávami se zobrazí pouze v případě, že obdržíte nové zprávy.",
+    "messageformat": "Tyto chaty jsou archivované a zobrazí se ve složce přijatých zpráv pouze v případě přijetí nových zpráv.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Žádné archivované konverzace.",
+    "messageformat": "Žádné archivované chaty.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Spravovat kontakt",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Zpráva",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Zvukový hovor",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Videohovor",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Odebrat",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Blokovat",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Odebrat {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Tato osoba se vám při vyhledávání nezobrazí. Pokud vám v budoucnu pošle zprávu, zobrazí se vám žádost o její zaslání.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Odebrat",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} se nepodařilo odebrat",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Tuto osobu máte uloženou v kontaktech ve svém zařízení. Odstraňte ji z kontaktů v mobilním zařízení a zkuste to znovu.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Připnout konverzaci",
+    "messageformat": "Připnout chat",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Odepnout konverzaci",
+    "messageformat": "Odepnout chat",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "Připnout lze nejvýše 4 konverzace",
+    "message": "Připnout lze nejvýše 4 chaty",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Připnout lze nejvýše 4 konverzace",
+    "messageformat": "Připnout lze nejvýše 4 chaty",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Přejít na konec konverzace",
+    "messageformat": "Přejít na konec chatu",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Z důvodu vaší bezpečnosti se historie konverzací nepřenáší do nově připojených zařízení.",
+    "messageformat": "Z důvodu vaší bezpečnosti se historie chatů nepřenáší do nově připojených zařízení.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "V této konverzaci nejsou žádná média",
+    "messageformat": "V tomto chatu nemáte žádná média",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "V této konverzaci nejsou žádné dokumenty",
+    "messageformat": "V tomto chatu nemáte žádné dokumenty",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "Vyhledat v chatu",
+    "message": "Vyhledat v chatu",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "Vyhledat v chatu",
+    "messageformat": "Vyhledat v chatu",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "Konverzace",
+    "messageformat": "Chaty",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Animace psaní pro tuto konverzaci.",
+    "messageformat": "Animace psaní pro tento chat",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Tato zpráva bude odstraněna pro všechny účastníky konverzace, pokud používají poslední verzi aplikace Signal. Budou moci vidět, že jste zprávu odstranili.",
+    "messageformat": "Tato zpráva bude smazána pro všechny v chatu, pokud používají poslední verzi aplikace Signal. Budou moci vidět, že jste zprávu odstranili.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Vybrat",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Zastření",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Odeslat znovu",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Smazat zprávu pro mě",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Smazat zprávu pro všechny",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Smazat zprávu pro všechny",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Smazat zprávu",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Smazat",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Trvale smazat tuto konverzaci?",
+    "messageformat": "Trvale smazat tento chat?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "Relace konverzace obnovena",
+    "message": "Relace chatu byla obnovena",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "Relace konverzace obnovena",
+    "messageformat": "Relace chatu byla obnovena",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal používá koncové šifrování a někdy může být nutné obnovit relaci chatu. Nemá to vliv na zabezpečení chatu, ale je možné, že jste zprávu od tohoto kontaktu zmeškali, a proto ho můžete požádat, aby vám zprávu poslal znovu.",
+    "message": "Signal používá koncové šifrování a někdy může být nutné obnovit relaci chatu. Na zabezpečení chatu to nemá vliv, ale je možné, že jste zprávu od tohoto kontaktu zmeškali, a proto ho můžete požádat, aby vám zprávu poslal znovu.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal používá koncové šifrování a někdy může být nutné obnovit relaci chatu. Nemá to vliv na zabezpečení chatu, ale je možné, že jste zprávu od tohoto kontaktu zmeškali, a proto ho můžete požádat, aby vám zprávu poslal znovu.",
+    "messageformat": "Signal používá koncové šifrování a někdy může být nutné obnovit relaci chatu. Na zabezpečení chatu to nemá vliv, ale je možné, že jste zprávu od tohoto kontaktu zmeškali, a proto ho můžete požádat, aby vám zprávu poslal znovu.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "V této konverzaci vám nemohla být od uživatele $sender$ doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium.",
+    "message": "V tomto chatu vám nemohla být doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium od uživatele $sender$.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "V této konverzaci vám nemohla být od uživatele {sender} doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium.",
+    "messageformat": "V tomto chatu vám nemohla být doručena zpráva, nálepka, reakce, potvrzení o přečtení nebo médium od uživatele {sender}.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} a {conversationTitle} patří ke stejnému účtu. Historie vašich zpráv z obou konverzací je zde.",
+    "messageformat": "{obsoleteConversationTitle} a {conversationTitle} patří ke stejnému účtu. Historie vašich zpráv z obou chatů je zde.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2511,7 +2519,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "Historie vašich zpráv s uživatelem {conversationTitle} a další konverzace s ním byly sloučeny.",
+    "messageformat": "Historie vašich zpráv s uživatelem {conversationTitle} a další chaty s ním byly sloučeny.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Historie vašich zpráv z obou konverzací byla sloučena zde.",
+    "messageformat": "Historie vašich zpráv z obou chatů byla sloučena zde.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Obrázek odeslaný v konverzaci",
+    "messageformat": "Obrázek odeslaný v chatu",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Poznámka: Historie chatu nebude s tímto zařízením synchronizována.",
+    "message": "Poznámka: Historie chatu nebude s tímto zařízením synchronizována",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Poznámka: Historie chatu nebude s tímto zařízením synchronizována.",
+    "messageformat": "Poznámka: Historie chatu nebude s tímto zařízením synchronizována",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "V této konverzaci si můžete dělat poznámky. Pokud má váš účet nějaká propojená zařízení, budou se nové poznámky synchronizovat.",
+    "messageformat": "V tomto chatu si můžete přidávat poznámky. Pokud má váš účet nějaká propojená zařízení, budou se nové poznámky synchronizovat.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Zahájit novou konverzaci…",
+    "messageformat": "Zahájit nový chat",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4016,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "Nová konverzace",
+    "messageformat": "Nový chat",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Nebyly nalezeny žádné konverzace",
+    "messageformat": "Nebyly nalezeny žádné chaty",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} byl/a odebrán/a.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Chat s uživatelem {title}, {unreadCount,number} nová zpráva, poslední zpráva: {lastMessage}.} few {Chat s uživatelem {title}, {unreadCount,number} nové zprávy, poslední zpráva: {lastMessage}.} many {Chat s uživatelem {title}, {unreadCount,number} nových zpráv, poslední zpráva: {lastMessage}.} other {Chat s uživatelem {title}, {unreadCount,number} nových zpráv, poslední zpráva: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "Přejít na konverzaci s {title}",
+    "messageformat": "Přejít na chat s uživatelem {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Koncept:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Žádost o zprávu",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5089,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Zprávy pro jednorázové zobrazení nejsou ukládány v historii vašich konverzací.",
+    "messageformat": "Zprávy pro jednorázové zobrazení se neukládají do historie vašich chatů.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Předchozí konverzace",
+    "messageformat": "Předchozí chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Další konverzace",
+    "messageformat": "Další chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5161,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Předchozí nepřečtená konverzace",
+    "messageformat": "Předchozí nepřečtený chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Další nepřečtená konverzace.",
+    "messageformat": "Další nepřečtený chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Otevřít nabídku konverzace",
+    "messageformat": "Otevřít nabídku chatu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Začít novou konverzaci",
+    "messageformat": "Zahájit nový chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Archivovat konverzaci",
+    "messageformat": "Archivovat chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Zrušit archivaci konverzace",
+    "messageformat": "Zrušit archivaci chatu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Prohledat konverzaci",
+    "messageformat": "Vyhledat v chatu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Přeposlat vybrané zprávy",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Přejít na konverzaci",
+    "messageformat": "Přeskočit na chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5477,7 +5489,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Zavřít aktuální konverzaci",
+    "messageformat": "Zavřít současný chat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5593,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Konverzace archivována",
+    "messageformat": "Chat archivován",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Konverzace vrácena do přijatých zpráv",
+    "messageformat": "Chat vrácen do složky přijatých zpráv",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Konverzace označena jako nepřečtená",
+    "messageformat": "Chat označen jako nepřečtený",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Chcete, aby vám {name} mohl/a napsat a zobrazit si vaše jméno a fotografii? Tuto osobu jste v minulosti odebrali.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Odstranit konverzaci?",
+    "messageformat": "Odstranit chat?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6013,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "Tato konverzace bude odstraněna ze všech vašich zařízení.",
+    "messageformat": "Tento chat bude odstraněn ze všech vašich zařízení.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Chcete pokračovat v konverzaci s touto skupinou a sdílet své jméno a fotografii s ostatními členy? {learnMore}",
+    "messageformat": "Pokračovat v chatu s touto skupinou a sdílet vaše jméno a fotografii s jejími členy? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Pokračovat v chatu s touto skupinou a sdílet vaše jméno a fotografii s jejími členy? <learnMoreLink>Zjistit více.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Chcete pokračovat v konverzaci s {firstName} a sdílet s nimi své jméno a fotografii? {learnMore}",
+    "messageformat": "Pokračovat v chatu s uživatelem {firstName} a sdílet s ním vaše jméno a fotografii? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Pokračovat v chatu s uživatelem {firstName} a sdílet s ním vaše jméno a fotografii? <learnMoreLink>Zjistit více</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Upgradujte tuto skupinu a aktivujte nové funkce jako @zmínky a správce. Členové, kteří v této skupině dosud nesdíleli své jméno ani fotografii, budou vyzváni, aby se připojili. <learnMoreLink>Víc informací.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Zahrnout ztlumené konverzace do počtu značek",
+    "messageformat": "Zahrnout ztlumené chaty do celkového počtu",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8377,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "Barva konverzace",
+    "message": "Barva chatu",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Barva konverzace",
+    "messageformat": "Barva chatu",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,19 +8393,19 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Nastavení konverzace",
+    "message": "Nastavení chatu",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Nastavení konverzace",
+    "messageformat": "Nastavení chatu",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
-    "message": "Zrušit ztlumení této konverzace?",
+    "message": "Zrušit ztlumení tohoto chatu?",
     "description": "(deleted 03/29/2023) Title for the modal to unmute a chat"
   },
   "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Zrušit ztlumení této konverzace?",
+    "messageformat": "Zrušit ztlumení tohoto chatu?",
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
@@ -8421,11 +8433,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "Pokud je tato funkce povolena, zprávy odeslané a přijaté v této 1:1 konverzaci zmizí, jakmile byly zobrazeny.",
+    "message": "Pokud je tato funkce povolena, zprávy odeslané a přijaté v tomto 1:1 chatu zmizí poté, co byly zobrazeny.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Pokud je tato funkce povolena, zprávy odeslané a přijaté v této 1:1 konverzaci zmizí, jakmile byly zobrazeny.",
+    "messageformat": "Pokud je tato funkce povolena, zprávy odeslané a přijaté v tomto 1:1 chatu zmizí poté, co byly zobrazeny.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8677,11 +8689,11 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "Přijímat oznámení, když jste zmíněni ve ztlumených konverzacích",
+    "message": "Přijímat oznámení, když jste zmíněni ve ztlumených chatech",
     "description": "(deleted 03/29/2023) In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Přijímat oznámení, když jste zmíněni ve ztlumených konverzacích",
+    "messageformat": "Přijímat oznámení, když jste zmíněni ve ztlumených chatech",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {Zrušit {number,number} pozvání od „{name}“?} few {Zrušit {number,number} pozvání od „{name}“?} many {Zrušit {number,number} pozvání od „{name}“?} other {Zrušit {number,number} pozvání od „{name}“?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Smazat {count,number} zprávu?} few {Smazat {count,number} zprávy?} many {Smazat {count,number} zpráv?} other {Smazat {count,number} zpráv?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Odstranit zprávu?} few {Odstranit {count,number} zprávy?} many {Odstranit {count,number} zpráv?} other {Odstranit {count,number} zpráv?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Tato zpráva bude z tohoto zařízení odstraněna.} few {Tyto zprávy budou z tohoto zařízení odstraněny.} many {Tyto zprávy budou z tohoto zařízení odstraněny.} other {Tyto zprávy budou z tohoto zařízení odstraněny.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Pro koho chcete tuto zprávu odstranit?} few {Pro koho chcete tyto zprávy odstranit?} many {Pro koho chcete tyto zprávy odstranit?} other {Pro koho chcete tyto zprávy odstranit?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {Z jakých zařízení chcete tuto zprávu odstranit?} few {Z jakých zařízení chcete tyto zprávy odstranit?} many {Z jakých zařízení chcete tyto zprávy odstranit?} other {Z jakých zařízení chcete tyto zprávy odstranit?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Smazat u mě",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Smazat u mě",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Odstranit pro mě",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Odstranit z tohoto zařízení",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Odstranit pro všechny",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Odstranit ze všech zařízení",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Můžete vybrat pouze {count,number} zprávu, kterou chcete odstranit pro všechny.} few {Můžete vybrat pouze {count,number} zprávy, které chcete odstranit pro všechny.} many {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.} other {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Přeposlat můžete maximálně 30 zpráv",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Žádosti pečlivě zkontrolujte. Signal našel další kontakt se stejným jménem. <reviewRequestLink>Zkontrolovat žádost</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} člen skupiny má stejné jméno. {link}} few {{count,number} členové skupiny mají stejné jméno. {link}} many {{count,number} členů skupiny má stejné jméno. {link}} other {{count,number} členů skupiny má stejné jméno. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} člen skupiny má stejné jméno. <reviewRequestLink>Zkontrolovat požadavek</reviewRequestLink>} few {{count,number} členové skupiny mají stejné jméno. <reviewRequestLink>Zkontrolovat požadavek</reviewRequestLink>} many {{count,number} členů skupiny má stejné jméno. <reviewRequestLink>Zkontrolovat požadavek</reviewRequestLink>} other {{count,number} členů skupiny má stejné jméno. <reviewRequestLink>Zkontrolovat požadavek</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} člen skupiny má podobné jméno. Zkontrolujte níže uvedené členy nebo vyberte akci.} few {{count,number} členové skupiny mají podobné jméno. Zkontrolujte níže uvedené členy nebo vyberte akci.} many {{count,number} členů skupiny má podobné jméno. Zkontrolujte níže uvedené členy nebo vyberte akci.} other {{count,number} členů skupiny má podobné jméno. Zkontrolujte níže uvedené členy nebo vyberte akci.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,51 +9553,51 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Tato vlastní barva se používá v $num$ konverzacích. Chcete ji odstranit ze všech konverzací?",
+    "message": "Tato vlastní barva se používá v $num$ chatu. Chcete ji odstranit?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Tato vlastní barva se používá v {num,number} konverzaci. Chcete ji odstranit?} few {Tato vlastní barva se používá v {num,number} konverzacích. Chcete ji odstranit ze všech konverzací?} many {Tato vlastní barva se používá v {num,number} konverzací. Chcete ji odstranit ze všech konverzací?} other {Tato vlastní barva se používá v {num,number} konverzacích. Chcete ji odstranit ze všech konverzací?}}",
+    "messageformat": "{num, plural, one {Tato vlastní barva se používá v {num,number} chatu. Chcete ji odstranit?} few {Tato vlastní barva se používá v {num,number} chatech. Chcete ji odstranit ze všech chatů?} many {Tato vlastní barva se používá v {num,number} chatů. Chcete ji odstranit ze všech chatů?} other {Tato vlastní barva se používá v {num,number} chatech. Chcete ji odstranit ze všech chatů?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "Globální barva konverzace",
+    "message": "Globální barva chatu",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Globální barva konverzace",
+    "messageformat": "Globální barva chatu",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "Barva konverzace",
+    "message": "Barva chatu",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Barva konverzace",
+    "messageformat": "Barva chatu",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Obnovit barvu konverzace",
+    "message": "Obnovit barvu chatu",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Obnovit barvu konverzace",
+    "messageformat": "Obnovit barvu chatu",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Obnovit barvy konverzace",
+    "message": "Obnovit barvy chatu",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Obnovit barvy konverzace",
+    "messageformat": "Obnovit barvy chatu",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Obnovit všechny barvy konverzace",
+    "message": "Obnovit všechny barvy chatu",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Obnovit všechny barvy konverzace",
+    "messageformat": "Obnovit všechny barvy chatu",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Chcete změnit všechny barvy konverzace?",
+    "message": "Chcete změnit všechny barvy chatu?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Chcete změnit všechny barvy konverzace?",
+    "messageformat": "Chcete změnit všechny barvy chatu?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9633,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "Zde je náhled barvy konverzace.",
+    "message": "Zde je náhled barvy chatu.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Zde je náhled barvy konverzace.",
+    "messageformat": "Zde je náhled barvy chatu.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Nastavení výchozího časovače zmizení zprávy pro všechny vámi zahájené nové konverzace.",
+    "message": "Nastavení výchozího časovače zmizení zprávy pro všechny vámi zahájené nové chaty.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Nastavení výchozího časovače zmizení zprávy pro všechny vámi zahájené nové konverzace.",
+    "messageformat": "Nastavení výchozího časovače zmizení zprávy pro všechny vámi zahájené nové chaty.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Výchozí časovač pro nové konverzace",
+    "message": "Výchozí časovač pro nové chaty",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Výchozí časovač pro nové konverzace",
+    "messageformat": "Výchozí časovač pro nové chaty",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Tuto osobu jste odebrali. Když jí znovu napíšete, bude přidána zpět do vašeho seznamu.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. {learnMore}",
+    "messageformat": "Váš profil je šifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových chatů. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. <learnMoreLink>Zjistit více</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "K dispozici pro konverzace",
+    "message": "Rád/a pokecám",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "K dispozici pro konverzace",
+    "messageformat": "Rád/a pokecám",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10353,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "Konverzace",
+    "message": "Chaty",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "Konverzace",
+    "messageformat": "Chaty",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10373,11 +10417,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Chcete-li změnit toto nastavení, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Konverzace",
+    "message": "Chcete-li změnit toto nastavení, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Chaty",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Chcete-li změnit toto nastavení, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Konverzace",
+    "messageformat": "Chcete-li změnit toto nastavení, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Chaty",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktů} other {{num,number} kontaktů}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10469,7 +10513,7 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Každý, kdo má vaše telefonní číslo ve svých kontaktech, vás v aplikaci Signal uvidí jako svůj kontakt. Ostatní vás budou moci kontaktovat pomocí vašeho telefonního čísla, když zahájí novou konverzaci nebo založí skupinu.",
+    "messageformat": "Každý, kdo má vaše telefonní číslo ve svých kontaktech, vás v aplikaci Signal uvidí jako svůj kontakt. Ostatní vás budou moci kontaktovat pomocí vašeho telefonního čísla, když zahájí nový chat nebo založí skupinu.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> zobrazení",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> zobrazení",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Zahájením konverzace",
+    "messageformat": "Zahájením chatu",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Vyberte, kdo váš příběh uvidí. Změny se nedotknou příběhů, které jste již odeslali. <learnMoreLink>Víc informací.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11529,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Tento příběh mohou zobrazit a odpovídat na něj členové skupiny „{groupTitle}“. Členství v této konverzaci můžete aktualizovat ve skupině.",
+    "messageformat": "Tento příběh mohou zobrazit a odpovídat na něj členové skupiny „{groupTitle}“. Členství v tomto chatu můžete aktualizovat ve skupině.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Vyberte, kdo z vašich spojení Signal uvidí váš příběh. Můžete to kdykoli změnit v nastavení soukromí. <learnMoreLink>Víc informací.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -11905,11 +11949,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "Přejít na konverzaci",
+    "message": "Přejít na chat",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "Přejít na konverzaci",
+    "messageformat": "Přejít na chat",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
@@ -12233,11 +12277,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
+    "message": "Tyto číslice pomáhají zachovat vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete chatovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
+    "messageformat": "Tyto číslice pomáhají zachovat vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete chatovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {

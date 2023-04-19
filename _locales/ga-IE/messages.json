@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "Dath an chomhrá",
+    "message": "Dath an Chomhrá",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "Dath an chomhrá",
+    "messageformat": "Dath an Chomhrá",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Tá na comhráite seo sa chartlann agus ní fheicfidh tú sa Bhosca Isteach iad go dtí go dtiocfaidh teachtaireachtaí nua isteach.",
+    "messageformat": "Tá na comhráite seo sa chartlann agus ní thaispeánfar sa Bhosca Isteach iad ach amháin má fhaightear teachtaireachtaí nua.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Bainistigh an Teagmhálaí",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Seol teachtaireacht",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Guthghlao",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Físghlao",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Bain",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Cuir bac",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Bain {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Ní fheicfidh tú an duine seo agus cuardach á dhéanamh agat. Gheobhaidh tú iarratas chun teachtaireachtaí a sheoladh má sheolfaidh an duine sin teachtaireacht chugat amach anseo.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Bain",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "Ní féidir {title} a bhaint",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Tá an duine seo sábháilte i dTeagmhálaithe ar do ghléas. Scrios an duine sin de do Theagmhálaithe ar do ghléas móibíleach agus triail arís.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Scrollaigh go bun an chomhrá",
+    "messageformat": "Scrollaigh chuig bun an chomhrá",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Níl aon mheán agat sa chomhrá seo",
+    "messageformat": "Níl aon mheáin sa chomhrá seo agat",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "Níl aon doiciméad agat sa chomhrá seo",
+    "messageformat": "Níl aon doiciméid sa chomhrá seo agat",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Beochan á clóscríobh don chomhrá seo",
+    "messageformat": "Beochan clóscríofa don chomhrá seo",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Scriosfar an teachtaireacht seo do gach duine sa chomhrá má tá leagan le déanaí de Signal acu. Feicfidh siad gur scrios tú teachtaireacht.",
+    "messageformat": "Scriosfar an teachtaireacht seo do chách sa chomhrá má tá leagan le déanaí de Signal acu. Feicfidh siad gur scrios tú teachtaireacht.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Roghnaigh",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Bacóir",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Atriail Seoladh",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Scrios an teachtaireacht domsa",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Scrios an teachtaireacht do chách",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Scrios an teachtaireacht do chách",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Scrios an teachtaireacht",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Scrios",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Scrios an teachtaireacht seo go buan?",
+    "messageformat": "Scrios an comhrá seo go buan?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "Chat session refreshed",
+    "message": "Seisiún comhrá athnuaite",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "Chat session refreshed",
+    "messageformat": "Seisiún comhrá athnuaite",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+    "message": "Tá criptiú ó cheann ceann á úsáid ag Signal agus seans go mbeidh air do sheisiún comhrá a athnuachan ó am go ham. Ní chuireann sé sin isteach ar shlándáil do chomhrá; tá seans ann gur chaill tú teachtaireacht ón teagmhálaí seo, áfach, agus is féidir leat athsheoladh a iarraidh.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal uses end-to-end encryption and it may need to refresh your chat session sometimes. This doesn’t affect your chat’s security but you may have missed a message from this contact and you can ask them to resend it.",
+    "messageformat": "Tá criptiú ó cheann ceann á úsáid ag Signal agus seans go mbeidh air do sheisiún comhrá a athnuachan ó am go ham. Ní chuireann sé sin isteach ar shlándáil do chomhrá; tá seans ann gur chaill tú teachtaireacht ón teagmhálaí seo, áfach, agus is féidir leat athsheoladh a iarraidh.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Nóta: Ní shioncronófar do stair comhráite chuig an ngléas seo",
+    "message": "Nóta: Ní shioncronófar do stair comhráite leis an ngléas seo",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Nóta: Ní shioncronófar do stair comhráite chuig an ngléas seo",
+    "messageformat": "Nóta: Ní shioncronófar do stair comhráite leis an ngléas seo",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Is féidir leat nótaí a bhreacadh síos ar do shon féin sa chomhrá seo. Má tá gléasanna eile nasctha le do chuntas, déanfar sioncronú ar nótaí nua.",
+    "messageformat": "Is féidir leat nótaí a chur leis duit féin sa chomhrá seo. Má tá aon ghléas nasctha le do chuntas, déanfar nótaí nua a shioncronú.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Tosaigh ar chomhrá nua…",
+    "messageformat": "Tosaigh ar chomhrá nua",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Níor aimsíodh aon chomhrá",
+    "messageformat": "Níor aimsíodh aon chomhráite",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "Baineadh {title}.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Comhrá le {title}, 1 teachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} two {Comhrá le {title}, {unreadCount,number} theachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} few {Comhrá le {title}, {unreadCount,number} theachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} many {Comhrá le {title}, {unreadCount,number} dteachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} other {Comhrá le {title}, {unreadCount,number} teachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Déan comhrá le {title}, {unreadCount,number} teachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} two {Déan comhrá le {title}, {unreadCount,number} theachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} few {Déan comhrá le {title}, {unreadCount,number} theachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} many {Déan comhrá le {title}, {unreadCount,number} dteachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.} other {Déan comhrá le {title}, {unreadCount,number} teachtaireacht nua, an teachtaireacht dheiridh: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Dréacht:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Iarratas ar Theachtaireachtaí",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "An comhrá roimhe",
+    "messageformat": "Comhrá roimhe",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Cuir an Comhrá sa Chartlann",
+    "messageformat": "Cuir comhrá sa chartlann",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Tóg an Comhrá as an gCartlann",
+    "messageformat": "Bain comhrá ón gcartlann",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Cuir na teachtaireachtaí roghnaithe ar aghaidh",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Léim chuig an gcomhrá",
+    "messageformat": "Léim chuig comhrá",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Comhrá curtha ar ais sa bhosca isteach",
+    "messageformat": "Comhrá fillte ar an mbosca isteach",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Lig do {name} teachtaireachtaí a sheoladh chugat agus comhroinn d'ainm agus grianghraf leis/léi? Bhain tú an duine sin roimhe.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Scrios an comhrá?",
+    "messageformat": "Scrios comhrá?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Lean leis an gcomhrá le {firstName} agus comhroinn d'ainm agus grianghraf freisin? {learnMore}",
+    "messageformat": "Continue this chat with {firstName} and share your name and photo with them? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Lean leis an gcomhrá le {firstName} agus comhroinn d'ainm agus grianghraf freisin? <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
+    "messageformat": "Lean leis an gcomhrá le {firstName} agus comhroinn d'ainm agus grianghraf leis an duine sin? <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8381,7 +8393,7 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Socruithe an comhrá",
+    "message": "Socruithe an chomhrá",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Scrios {count,number} teachtaireacht?} two {Scrios {count,number} theachtaireacht?} few {Scrios {count,number} theachtaireacht?} many {Scrios {count,number} dteachtaireacht?} other {Scrios {count,number} teachtaireacht?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Scrios an teachtaireacht?} two {Scrios {count,number} theachtaireacht?} few {Scrios {count,number} theachtaireacht?} many {Scrios {count,number} dteachtaireacht?} other {Scrios {count,number} teachtaireacht?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Scriosfar an teachtaireacht seo ón ngléas seo.} two {Scriosfar na teachtaireachtaí seo ón ngléas seo.} few {Scriosfar na teachtaireachtaí seo ón ngléas seo.} many {Scriosfar na teachtaireachtaí seo ón ngléas seo.} other {Scriosfar na teachtaireachtaí seo ón ngléas seo.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Cé dó ar mhaith leat an teachtaireacht seo a scriosadh?} two {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} few {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} many {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} other {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {Cé acu gléasanna ar mhaith leat an teachtaireacht seo a scriosadh uathu?} two {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} few {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} many {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} other {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Scrios domsa",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Scrios domsa",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Scrios domsa",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Scrios ón ngléas seo",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Scrios do chách",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Scrios ó na gléasanna uile",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Ní féidir leat ach 30 teachtaireacht nó níos lú a sheoladh ar aghaidh",
@@ -9525,35 +9569,35 @@
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "Dath an chomhrá",
+    "message": "Dath an Chomhrá",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Dath an chomhrá",
+    "messageformat": "Dath an Chomhrá",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Reset Chat Color",
+    "message": "Athshocraigh dath an chomhrá",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Reset Chat Color",
+    "messageformat": "Athshocraigh dath an chomhrá",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Reset Chat Colors",
+    "message": "Athshocraigh Dathanna Comhráite",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Reset Chat Colors",
+    "messageformat": "Athshocraigh Dathanna Comhráite",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Athshocraigh gach dath ar chomhráite",
+    "message": "Athshocraigh dath gach comhrá",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Athshocraigh gach dath ar chomhráite",
+    "messageformat": "Athshocraigh dath gach comhrá",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Would you like to override all chat colors?",
+    "message": "Ar mhaith leat dath gach comhrá a shárú?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Would you like to override all chat colors?",
+    "messageformat": "Ar mhaith leat dath gach comhrá a shárú?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9773,11 +9817,11 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Set a default disappearing message timer for all new chats started by you.",
+    "message": "Socraigh amadóir teachtaireachtaí sealadacha réamhshocraithe ar gach comhrá nua a thosóidh tú.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Set a default disappearing message timer for all new chats started by you.",
+    "messageformat": "Socraigh amadóir teachtaireachtaí sealadacha réamhshocraithe ar gach comhrá nua a thosóidh tú.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Bhain tú an duine sin, má sheolann tú teachtaireachtaí chuige/chuici arís cuirfear ar do liosta arís é/í.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10145,7 +10189,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Tá do phróifíl criptithe. Beidh do phróifíl agus aon athrú uirthi infheicthe ag do theagmhálaithe agus nuair a thosaíonn tú comhráite nua nó nuair a ghlacann tú leo. <learnMoreLink>Tuilleadh Faisnéise</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "Tá le fáil chun comhrá a bheith agam",
+    "message": "Ar fáil chun comhrá a dhéanamh",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Tá le fáil chun comhrá a bheith agam",
+    "messageformat": "Ar fáil chun comhrá a dhéanamh",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10469,7 +10513,7 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Daoine a bhfuil d'uimhir ghutháin ina gcuid teagmhálaithe acu, feicfidh siad mar theagmhálaí thú ar Signal. Beidh daoine eile in ann thú a aimsiú le d'uimhir ghutháin nuair a thosaíonn siad comhrá nó grúpa nua.",
+    "messageformat": "Daoine a bhfuil d'uimhir ghutháin ina gcuid teagmhálaithe acu, feicfidh siad mar theagmhálaí ar Signal thú. Beidh daoine eile in ann thú a aimsiú le d'uimhir ghutháin nuair a thosaíonn siad comhrá nó grúpa nua.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Trí chomhrá a thosú leo",
+    "messageformat": "Tús a chur le comhrá",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11485,7 +11529,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Tá baill den ghrúpchomhrá \"{groupTitle}\" in ann féachaint ar an scéal seo agus freagair dó. Is féidir leat ballraíocht don chomhrá seo a nuashonrú sa ghrúpa.",
+    "messageformat": "Tá baill den ghrúpchomhrá \"{groupTitle}\" in ann féachaint ar an scéal seo agus freagairt dó. Is féidir leat ballraíocht don chomhrá seo a nuashonrú sa ghrúpa.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11905,11 +11949,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "Go to Chat",
+    "message": "Téigh chuig comhrá",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "Go to Chat",
+    "messageformat": "Téigh chuig comhrá",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {

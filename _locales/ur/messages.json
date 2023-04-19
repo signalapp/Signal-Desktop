@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "گفتگو محفوظ ہو کئی",
+    "messageformat": "آرکائیو کردہ چیٹس",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "باتیں",
+    "message": "چیٹس",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "باتیں",
+    "messageformat": "چیٹس",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "یہ بات چیت پوشیدہ ہوگئی ہیں اور اگر نئے پیغامات موصول ہوں گے تو تب ہی وہ اِن باکس میں ظاہر ہونگی۔",
+    "messageformat": "یہ چیٹس آرکائیو کردہ ہیں اور صرف نئے میسجز موصول ہونے کی صورت میں ان باکس میں ظاہر ہوں گی۔",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "کوئی آرکائیو کردہ گفتگو نہیں۔",
+    "messageformat": "کوئی آرکائیو کردہ چیٹس نہیں ہیں۔",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "رابطے کا نظم کریں",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "میسج",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "آڈیو کال",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "ویڈیو کال",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "ہٹا دیں",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "بلاک کریں",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title} کو ہٹانا ہے؟",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "آپ سرچ کرتے ہوئے اس فرد کو نہیں دیکھیں گے۔ اگر وہ مستقبل میں آپ کو میسج کرتے ہیں تو آپ میسج کی درخواست حاصل کریں گے۔",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "ہٹا دیں",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} کو ہٹانے سے قاصر ہیں",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "یہ فرد آپ کی ڈیوائس کے روابط میں محفوظ ہے۔ اپنی موبائل ڈیوائس پر انہیں اپنے روابط سے حذف کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "پن گفتگو",
+    "messageformat": "چیٹ پِن کریں",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,7 +677,7 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "ان پِن گفتگو",
+    "messageformat": "چیٹ اَن پِن کریں",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "گفتگو کے آخر تک سکرول کریں",
+    "messageformat": "چیٹ نیچے تک سکرول کریں",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "آپ کی سلامتی کے لئے ، گفتگو کی تاریخ کو نئے منسلک آلات میں منتقل نہیں کیا گیا ہے۔",
+    "messageformat": "آپ کی سیکیورٹی کے لیے، چیٹ ہسٹری نئی لنک کردہ ڈیوائسز پر ٹرانسفر نہیں کی جاتی۔",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "اس گفتگو میں آپ کے پاس کوئی میڈیا نہیں ہے",
+    "messageformat": "اس چیٹ میں آپ کا کوئی میڈیا موجود نہیں ہے",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "اس گفتگو میں آپ کے پاس کوئی دستاویزات نہیں ہے",
+    "messageformat": "اس چیٹ آپ کے کوئی ڈاکومنٹس نہیں ہیں",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "چیٹ تلاش کریں",
+    "message": "چیٹ میں تلاش کریں",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "چیٹ تلاش کریں",
+    "messageformat": "چیٹ میں تلاش کریں",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "گفتگو",
+    "messageformat": "چیٹس",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "اس گفتگو کے لئے اینیمیشن ٹائپ کریں",
+    "messageformat": "اس چیٹ کے لیے ٹائپنگ اینیمیشن",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "اگر یہ Signal کے حالیہ ورژن پر ہے تو یہ پیغام گفتگو میں ہر ایک کے لئے حذف ہوجائے گا۔ وہ یہ دیکھنے کے قابل ہوں گے کہ آپ نے کوئی پیغام حذف کردیا ہے۔",
+    "messageformat": "اگر ان کے پاس Signal کا تازہ ترین ورژن ہے تو یہ میسج چیٹ میں سب کے لیے حذف ہو جائے گا۔ وہ یہ دیکھ سکیں گے کہ آپ نے کوئی میسج حذف کردیا ہے۔",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "منتخب کریں",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "سپائلر",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "دوبارہ بھیجنے کی کوشش کریں",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "میرے لئے پیغام حذف کریں",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "سب کے لئے پیغام حذف کریں",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "سب کے لئے پیغام حذف کریں",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "میسج حذف کریں",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "حذف کریں",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "اس گفتگو کو مستقل طور پر حذف کریں؟",
+    "messageformat": "اس چیٹ کو مستقل طور پر حذف کرنا ہے؟",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "چیٹ سیشن تازہ",
+    "message": "چیٹ سیشن ری فریش ہو گیا",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "چیٹ سیشن تازہ",
+    "messageformat": "چیٹ سیشن ری فریش ہو گیا",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal میں آخر سے آخر تک خفیہ کاری کا استعمال ہوتا ہے اور اسے کبھی کبھی آپ کے چیٹ سیشن کو تازہ کرنے کی ضرورت پڑسکتی ہے۔ اس سے آپ کے چیٹ کی سیکیورٹی متاثر نہیں ہوتی ہے لیکن ہوسکتا ہے کہ آپ نے اس رابطے سے کوئی پیغام چھوٹ لیا ہو اور آپ ان سے اسے دوبارہ بھیجنے کے لئے کہہ سکتے ہیں۔",
+    "message": "Signal اینڈ ٹو اینڈ انکرپشن کا استعمال کرتا ہے اور اسے کبھی کبھار آپ کے چیٹ سیشن کو ری فریش کرنے کی ضرورت پڑ سکتی ہے۔ اس سے آپ کی چیٹ کی سیکیورٹی متاثر نہیں ہوتی لیکن ہو سکتا ہے کہ آپ اس رابطے کی طرف سے کسی میسج سے محروم ہو گئے ہیں اور آپ ان سے اسے دوبارہ بھیجنے کے لیے کہہ سکتے ہیں۔",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal میں آخر سے آخر تک خفیہ کاری کا استعمال ہوتا ہے اور اسے کبھی کبھی آپ کے چیٹ سیشن کو تازہ کرنے کی ضرورت پڑسکتی ہے۔ اس سے آپ کے چیٹ کی سیکیورٹی متاثر نہیں ہوتی ہے لیکن ہوسکتا ہے کہ آپ نے اس رابطے سے کوئی پیغام چھوٹ لیا ہو اور آپ ان سے اسے دوبارہ بھیجنے کے لئے کہہ سکتے ہیں۔",
+    "messageformat": "Signal اینڈ ٹو اینڈ انکرپشن کا استعمال کرتا ہے اور اسے کبھی کبھار آپ کے چیٹ سیشن کو ری فریش کرنے کی ضرورت پڑ سکتی ہے۔ اس سے آپ کی چیٹ کی سیکیورٹی متاثر نہیں ہوتی لیکن ہو سکتا ہے کہ آپ اس رابطے کی طرف سے کسی میسج سے محروم ہو گئے ہیں اور آپ ان سے اسے دوبارہ بھیجنے کے لیے کہہ سکتے ہیں۔",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} اور {conversationTitle} یکساں اکاؤنٹ ہیں۔ دونوں چیٹس کے لیے آپ کے پیغام کی ہسٹری یہاں ہیں۔",
+    "messageformat": "{obsoleteConversationTitle} اور {conversationTitle} یکساں اکاؤنٹ ہیں۔ دونوں چیٹس کے لیے آپ کے میسج کی ہسٹری یہاں ہے۔",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2511,7 +2519,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "{conversationTitle} اور ایک اور چیٹ کے ساتھ آپ کی میسج ہسٹری کو ضم کر دیا گیا ہے جو ان سے متعلقہ تھی۔",
+    "messageformat": "{conversationTitle} اور ایک دوسری چیٹ کے ساتھ آپ کی میسج ہسٹری کو ضم کر دیا گیا ہے جو ان سے متعلقہ تھی۔",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "دونوں گفتگوؤں کے لیے آپ کے پیغام کی ہسٹری یہاں ضم کر دی گئی ہے۔",
+    "messageformat": "دونوں چیٹس کے لیے آپ کی میسج ہسٹری یہاں ضم کر دی گئی ہے۔",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "گفتگو کے ساتھ تصویر بھیج دی",
+    "messageformat": "چیٹ میں تصویر بھیج دی گئی",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "نوٹ کریں: آپ کی چیٹ ہسٹری اس ڈیوائس پر ہم وقت ساز نہیں کی جائے گی",
+    "message": "نوٹ: آپ کی چیٹ ہسٹری اس ڈیوائس پر ہم آہنگ نہیں کی جائے گی",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "نوٹ کریں: آپ کی چیٹ ہسٹری اس ڈیوائس پر ہم وقت ساز نہیں کی جائے گی",
+    "messageformat": "نوٹ: آپ کی چیٹ ہسٹری اس ڈیوائس پر ہم آہنگ نہیں کی جائے گی",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3976,7 +3984,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "آپ اس گفتگو میں اپنے لئے نوٹ شامل کرسکتے ہیں۔ اگر آپ کے اکاؤنٹ میں کوئی لنکڈ devices ہیں تو ، نئے نوٹوں کی ہم آہنگی ہوگی۔",
+    "messageformat": "آپ اس چیٹ میں خود کے لیے نوٹس شامل کر سکتے ہیں۔ اگر آپ کے اکاؤنٹ میں کوئی لنک کردہ ڈیوائسز ہیں، تو نئے نوٹس ہم وقت ساز ہو جائیں گے۔",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4008,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "نئی گفتگو شروع کریں۔۔۔",
+    "messageformat": "نئی چیٹ شروع کریں",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4016,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "نئی گفتگو",
+    "messageformat": "نئی چیٹ",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4056,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "کوئی گفتگو نہیں ملی",
+    "messageformat": "کوئی چیٹس نہیں ملیں",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} کو ہٹا دیا گیا ہے۔",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4441,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {{title} کے ساتھ چیٹ، {unreadCount,number} نیا میسج، آخری میسج: {lastMessage}۔} other {{title} کے ساتھ چیٹ، {unreadCount,number} نئے میسجز، آخری میسج: {lastMessage}۔}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4457,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} کے ساتھ گفتگو پر جائیں",
+    "messageformat": "{title} کے ساتھ ہونے والی چیٹ پر جائیں",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4475,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "مسودہ تیار کیا:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "میسج کی درخواست",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "گِف",
@@ -5077,7 +5089,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ایک بار ملاحظہ کرنے والے پیغامات آپ کی گفتگو کی تاریخ میں محفوظ نہیں ہوتے ہیں۔",
+    "messageformat": "ایک وقتی دیکھے جانے والے میسجز آپ کی چیٹ ہسٹری میں اسٹور نہیں ہوتے۔",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5145,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "پچھلی گفتگو",
+    "messageformat": "سابقہ چیٹ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5153,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "اگلی گفتگو",
+    "messageformat": "اگلی چیٹ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5161,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "پچھلی غیر پڑھی ہوئی گفتگو",
+    "messageformat": "سابقہ غیر پڑھی ہوئی چیٹ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5169,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "اگلی غیر پڑھی ہوئی گفتگو",
+    "messageformat": "اگلی بغیر پڑھی ہوئی چیٹ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5185,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "گفتگو کا مینو کھولیں",
+    "messageformat": "چیٹ مینو کھولیں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5193,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "نئی گفتگو شروع کریں",
+    "messageformat": "نئی چیٹ شروع کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5201,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "آرکائیو گفتگو",
+    "messageformat": "چیٹ آرکائیو کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5209,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Unarchive گفتگو",
+    "messageformat": "چیٹ ان آرکائیو کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5225,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "گفتگو میں تلاش کریں",
+    "messageformat": "چیٹ میں تلاش کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5321,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "منتخب کردہ میسجز فارورڈ کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5377,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "گفتگو پر جائیں",
+    "messageformat": "چیٹ پر جائیں",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5477,7 +5489,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "موجودہ گفتگو بند کریں",
+    "messageformat": "حالیہ چیٹ بند کریں",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5593,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "گفتگو کا archive کیا گیا",
+    "messageformat": "چیٹ آرکائیو ہو گئی",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5609,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "گفتگو ان باکس میں واپس آگئی",
+    "messageformat": "چیٹ ان باکس میں واپس آ گئی",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "گفتگو کو پڑھے بغیر نشان زد کیا گیا",
+    "messageformat": "چیٹ کو بغیر پڑھی ہوئی نشان زد کیا گیا",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -5865,7 +5877,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name} کو خود کو میسج کرنے اور اپنا نام اور تصویر ان کے ساتھ شیئر کرنے کی اجازت دیں؟ آپ ماضی میں اس فرد کو ہٹا چکے ہیں۔",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6005,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "گفتگو حذف کر دیں؟",
+    "messageformat": "چیٹ کو حذف کریں؟",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6013,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "یہ گفتگو آپ کے سبھی devices سے حذف کردی جائے گی۔",
+    "messageformat": "یہ چیٹ آپ کی تمام ڈیوائسز سے حذف کر دی جائے گی۔",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6069,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "اس گروپ کے ساتھ اپنی گفتگو جاری رکھیں اور اس کے ممبروں کے ساتھ اپنا نام اور تصویر شیئر کریں؟{learnMore}",
+    "messageformat": "اس گروپ کے ساتھ آپ کی چیٹ جاری رکھیں اور اس کے ممبرز کے ساتھ آپ کا نام اور تصویر شیئر کریں؟ {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "اس گروپ کے ساتھ اپنی چیٹ جاری رکھنا اور اس کے ممبرز کے ساتھ اپنا نام اور تصویر شیئر کرنا چاہتے ہیں؟ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6081,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "کیا یہ گفتگو {firstName} کے ساتھ جاری رکھیں اور ان کے ساتھ اپنا نام اور تصویر بانٹی؟{learnMore}",
+    "messageformat": "{firstName} کے ساتھ یہ چیٹ جاری رکھیں اور ان کے ساتھ آپ کا نام اور تصویر شیئر کریں؟ {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "{firstName} کے ساتھ یہ چیٹ جاری رکھنا اور ان کے ساتھ اپنا نام اور تصویر شیئر کرنا چاہتے ہیں؟ <learnMoreLink>مزید جانیں</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8045,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "@مینشنز اور ایڈمنز جیسے نئے فیچرز فعال کرنے کے لیے یہ گروپ اپ گریڈ کریں۔ وہ ممبرز جنہوں نے اس گروپ میں اپنا نام یا تصویر شیئر نہیں کی انہیں شمولیت کے لیے مدعو کیا جائے گا۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8325,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "بیج کاؤنٹ میں خاموش کردہ گفتگو شامل کریں",
+    "messageformat": "بیج کاؤنٹ میں خاموش کردہ چیٹس شامل کریں",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8381,11 +8393,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "باتوں کی ترتیبات",
+    "message": "چیٹ سیٹنگز",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "باتوں کی ترتیبات",
+    "messageformat": "چیٹ سیٹنگز",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8433,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "فعال ہونے پر، اس بالمشافہ (1:1) چیٹ میں بھیجے جانے اور موصول ہونے والے پیغامات دیکھ لیے جانے کے بعد غائب ہو جائیں گے۔",
+    "message": "فعال ہونے پر، اس 1:1 چیٹ میں بھیجے جانے اور موصول ہونے والے میسجز دیکھ لیے جانے کے بعد غائب ہو جائیں گے۔",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "فعال ہونے پر، اس بالمشافہ (1:1) چیٹ میں بھیجے جانے اور موصول ہونے والے پیغامات دیکھ لیے جانے کے بعد غائب ہو جائیں گے۔",
+    "messageformat": "فعال ہونے پر، اس 1:1 چیٹ میں بھیجے جانے اور موصول ہونے والے میسجز دیکھ لیے جانے کے بعد غائب ہو جائیں گے۔",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8865,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {\"{name}\" کی جانب سے بھیجا گیا {number,number} دعوت نامہ منسوخ کریں؟} other {\"{name}\" کی جانب سے بھیجے گئے {number,number} دعوت نامے منسوخ کریں؟}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8962,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {{count,number} میسج حذف کریں؟} other {{count,number} میسجز حذف کریں؟}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {میسج حذف کریں؟} other {{count,number} میسجز حذف کریں؟}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +8974,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {اس میسج کو اس ڈیوائس سے حذف کر دیا جائے گا۔} other {ان میسجز کو اس ڈیوائس سے حذف کر دیا جائے گا۔}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {آپ یہ میسج کس کے لیے حذف کرنا چاہتے ہیں؟} other {آپ یہ میسجز کس کے لیے حذف کرنا چاہتے ہیں؟}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {آپ کون سی ڈیوائسز سے یہ میسج حذف کرنا چاہتے ہیں؟} other {آپ کون سی ڈیوائسز سے یہ میسجز حذف کرنا چاہتے ہیں؟}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "میرے لیے حذف کریں",
@@ -8966,7 +8990,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "میرے لیے حذف کریں",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "میرے لیے حذف کریں",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "اس ڈیوائس سے حذف کریں",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "سب کے لیے حذف کریں",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "تمام ڈیوائسز سے حذف کریں",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسج منتخب کر سکتے ہیں} other {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسجز منتخب کر سکتے ہیں}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "آپ صرف 30 میسجز تک فارورڈ کر سکتے ہیں",
@@ -9309,7 +9353,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "درخواستوں کا بغور جائزہ لیں۔ Signal کو اسی نام سے دوسرا رابطہ ملا۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9361,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {گروپ کے {count,number} ممبر کا نام یکساں ہے۔ {link}} other {گروپ کے {count,number} ممبران کا نام یکساں ہے۔ {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} گروپ کے ممبر کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>} other {{count,number} گروپ کے ممبران کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9429,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {گروپ کے {count,number} ممبر کا نام یکساں ہے۔ ذیل کے ممبران کا جائزہ لیں یا کارروائی کرنے کا انتخاب کریں۔} other {گروپ کے {count,number} ممبران کے نام یکساں ہیں۔ ذیل کے ممبران کا جائزہ لیں یا کارروائی کرنے کا انتخاب کریں۔}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,19 +9553,19 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "یہ کسٹم رنگ $num$ چیٹس میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کیلئے حذف کرنا چاہتے ہیں؟",
+    "message": "یہ حسبِ ضرورت رنگ $num$ چیٹ میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے حذف کرنا چاہتے ہیں؟",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {یہ کسٹم رنگ {num,number} چیٹ میں استعمال ہوتا ہے۔ کیا آپ اسے ڈیلیٹ کرنا چاہتے ہیں؟} other {یہ کسٹم رنگ {num,number} چیٹس میں استعمال کیا جاتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے ڈیلیٹ کرنا چاہتے ہیں؟}}",
+    "messageformat": "{num, plural, one {یہ حسبِ ضرورت رنگ {num,number} چیٹ میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے حذف کرنا چاہتے ہیں؟} other {یہ حسبِ ضرورت رنگ {num,number} چیٹس میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے حذف کرنا چاہتے ہیں؟}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "گلوبل چیٹ کا رنگ",
+    "message": "چیٹ کا گلوبل رنگ",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "گلوبل چیٹ کا رنگ",
+    "messageformat": "چیٹ کا گلوبل رنگ",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
@@ -9533,27 +9577,27 @@
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "چیٹ کا رنگ دوبارہ ترتیب دیں",
+    "message": "چیٹ کا رنگ دوبارہ سیٹ کریں",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "چیٹ کا رنگ دوبارہ ترتیب دیں",
+    "messageformat": "چیٹ کا رنگ دوبارہ سیٹ کریں",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "چیٹ کے رنگوں کو دوبارہ ترتیب دیں",
+    "message": "چیٹ کے رنگ دوبارہ سیٹ کریں",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "چیٹ کے رنگوں کو دوبارہ ترتیب دیں",
+    "messageformat": "چیٹ کے رنگ دوبارہ سیٹ کریں",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "چیٹ کے تمام رنگوں کو دوبارہ ترتیب دیں",
+    "message": "تمام چیٹ کے رنگ دوبارہ سیٹ کریں",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "چیٹ کے تمام رنگوں کو دوبارہ ترتیب دیں",
+    "messageformat": "تمام چیٹ کے رنگ دوبارہ سیٹ کریں",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9617,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "کیا آپ چیٹ کے تمام رنگوں کو ختم کرنا چاہتے ہیں؟",
+    "message": "کیا آپ تمام چیٹ کے رنگ منسوخ کرنا چاہتے ہیں؟",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "کیا آپ چیٹ کے تمام رنگوں کو ختم کرنا چاہتے ہیں؟",
+    "messageformat": "کیا آپ تمام چیٹ کے رنگ منسوخ کرنا چاہتے ہیں؟",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9633,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "یہاں چیٹ کے رنگ کا پیش نظارہ ہے۔",
+    "message": "یہاں چیٹ کے رنگ کا پری ویو موجود ہے۔",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "یہاں چیٹ کے رنگ کا پیش نظارہ ہے۔",
+    "messageformat": "یہاں چیٹ کے رنگ کا پری ویو موجود ہے۔",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9817,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "آپ کے ذریعہ شروع کردہ تمام نئی چیٹس کے لئے ڈیفالٹ غائب میسیج ٹائمر مرتب کریں۔",
+    "message": "آپ کی جانب سے شروع کردہ تمام نئی چیٹس کے لیے ڈیفالٹ مدتی میسیج ٹائمر سیٹ کریں۔",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "آپ کے ذریعہ شروع کردہ تمام نئی چیٹس کے لئے ڈیفالٹ غائب میسیج ٹائمر مرتب کریں۔",
+    "messageformat": "آپ کی جانب سے شروع کردہ تمام نئی چیٹس کے لیے ڈیفالٹ مدتی میسیج ٹائمر سیٹ کریں۔",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "نئی چیٹس کیلئے ڈیفالٹ ٹائمر",
+    "message": "نئی چیٹس کے لیے ڈیفالٹ ٹائمر",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "نئی چیٹس کیلئے ڈیفالٹ ٹائمر",
+    "messageformat": "نئی چیٹس کے لیے ڈیفالٹ ٹائمر",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9841,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "آپ نے اس فرد کو ہٹا دیا ہے، انہیں دوبارہ میسج کرنے سے وہ دوبارہ آپ کی فہرست میں شامل ہو جائیں گے۔",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10185,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "آپ کا پروفائل خفیہ شدہ ہے۔ آپ کا پروفائل اور اس میں ہونے والی تبدیلیاں آپ کے رابطوں پر مرئی ہوں گی اور جب آپ نیا چیٹ شروع کریں گے یا قبول کریں گے۔{learnMore}",
+    "messageformat": "آپ کی پروفائل انکرپٹ کردہ ہے۔ آپ کی پروفائل اور اس میں ہونے والی تبدیلیاں آپ کے رابطوں کو نظر آئیں گی اور جب آپ نئی چیٹس شروع یا قبول کرتے ہیں۔{learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "آپ کی فائل انکرپٹ کردہ ہے۔ آپ کی پروفائل اور اس میں تبدیلیاں اور آپ کی جانب سے نئی چیٹس شروع یا قبول کرنا آپ کے روابط کو نظر آئے گا۔ <learnMoreLink>مزید جانیں</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10217,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "چیٹ کرنے کے لئے دستیاب",
+    "message": "چیٹ کے لیے فری",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "چیٹ کرنے کے لئے دستیاب",
+    "messageformat": "چیٹ کے لیے فری",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10353,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "باتیں",
+    "message": "چیٹس",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "باتیں",
+    "messageformat": "چیٹس",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10373,11 +10417,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "اس ترتیب کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور ترتیبات > چیٹس پر نیویگیٹ کریں",
+    "message": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز > چیٹس پر نیویگیٹ کریں",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "اس ترتیب کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور ترتیبات > چیٹس پر نیویگیٹ کریں",
+    "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز > چیٹس پر نیویگیٹ کریں",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10465,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} رابطہ} other {{num,number} روابط}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10469,7 +10513,7 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "کوئی بھی شخص جس کے رابطوں میں آپ کا فون نمبر محفوظ ہے وہ Signal پر آپ کو رابطے کے طور پر دیکھ سکے گا۔ ایک نئی چیٹ یا گروپ شروع کرتے وقت دیگر افراد آپ کے فون نمبر کے ذریعے آپ تک پہنچنے کے قابل ہوں گے۔",
+    "messageformat": "کوئی بھی شخص جس کے رابطوں میں آپ کا فون نمبر محفوظ ہے وہ Signal پر آپ کو رابطے کے طور پر دیکھ سکے گا۔ ایک نئی چیٹ یا گروپ شروع کرتے وقت دیگر افراد آپ کے فون نمبر کے ذریعے آپ سے رابطے کے قابل ہوں گے۔",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
@@ -10949,7 +10993,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> ویو",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11001,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> ویوز",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11105,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "گفتگو کا آغاز کرنے سے",
+    "messageformat": "چیٹ شروع کر رہا ہے",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11489,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "انتخاب کریں کہ کون آپ کی سٹوری دیکھ سکتا ہے۔ تبدیلیاں آپ کی جانب سے پہلے سے بھیجی گئی سٹوریز کو متاثر نہیں کریں گی۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11529,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "گروپ چیٹ \"{groupTitle}\" کے ممبرز اس سٹوری کو دیکھ اور اس کا جواب دے سکتے ہیں۔ آپ گروپ میں اس چیٹ کے لیے ممبر شپ کو اپ ڈیٹ کر سکتے ہیں۔",
+    "messageformat": "گروپ چیٹ \"{groupTitle}\" کے ممبرز اس سٹوری کو دیکھ سکتے ہیں اور اس کا جواب دے سکتے ہیں۔ آپ گروپ میں اس چیٹ کے لیے ممبر شپ کو اپ ڈیٹ کر سکتے ہیں۔",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11665,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "منتخب کریں کہ کون سے Signal کنکشنز آپ کی سٹوری دیکھ سکتے ہیں۔ آپ پرائیویسی سیٹنگز میں ہمیشہ اسے تبدیل کر سکتے ہیں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12233,11 +12277,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "یہ ہندسے آپ کا صارفی نام نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ پیغامات سے بچ سکیں۔ اپنے صارفی نام کا اشتراک صرف ان افراد اور گروپس کے ساتھ کریں جن سے آپ چیٹ کرنا چاہتے ہیں۔ صارفی نام تبدیل کرنے کی صورت میں آپ کو ہندسوں کا ایک نیا سیٹ ملے گا۔",
+    "message": "یہ اعداد آپ کا یوزر نیم نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ میسجز سے بچ سکیں۔ اپنے یوزر نیم کو محض ان لوگوں اور گروپس کے ساتھ شیئر کریں جن سے آپ چیٹ کرنا چاہتے ہیں۔ یوزر نیمز تبدیل کرنے کی صورت میں آپ کو اعداد کا ایک نیا سیٹ ملے گا۔",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "یہ ہندسے آپ کا صارفی نام نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ پیغامات سے بچ سکیں۔ اپنے صارفی نام کا اشتراک صرف ان افراد اور گروپس کے ساتھ کریں جن سے آپ چیٹ کرنا چاہتے ہیں۔ صارفی نام تبدیل کرنے کی صورت میں آپ کو ہندسوں کا ایک نیا سیٹ ملے گا۔",
+    "messageformat": "یہ اعداد آپ کا یوزر نیم نجی رکھنے میں مدد کرتے ہیں تاکہ آپ غیر مطلوبہ میسجز سے بچ سکیں۔ اپنے یوزر نیم کو محض ان لوگوں اور گروپس کے ساتھ شیئر کریں جن کے ساتھ آپ چیٹ کرنا چاہتے ہیں۔ یوزر نیمز تبدیل کرنے کی صورت میں آپ کو اعداد کا ایک نیا سیٹ ملے گا۔",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
