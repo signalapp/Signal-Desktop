@@ -27,16 +27,13 @@ export const getQuotedMessageSelector = createSelector(
 export const getIsFormattingFlagEnabled = createSelector(
   getRemoteConfig,
   remoteConfig => {
-    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.textFormatting');
+    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser');
   }
 );
 
 export const getIsFormattingSpoilersFlagEnabled = createSelector(
   getRemoteConfig,
   remoteConfig => {
-    return isRemoteConfigFlagEnabled(
-      remoteConfig,
-      'desktop.textFormatting.spoilerSend'
-    );
+    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser');
   }
 );
