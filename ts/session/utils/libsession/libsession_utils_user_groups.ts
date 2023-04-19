@@ -1,5 +1,5 @@
 import { uniq } from 'lodash';
-import { CommunityInfo, LegacyGroupInfo, UserGroupsType } from 'session_util_wrapper';
+import { CommunityInfo, LegacyGroupInfo, UserGroupsType } from 'libsession_util_nodejs';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';

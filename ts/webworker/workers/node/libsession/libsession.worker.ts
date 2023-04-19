@@ -6,7 +6,7 @@ import {
   ConvoInfoVolatileWrapperInsideWorker,
   UserConfigWrapperInsideWorker,
   UserGroupsWrapperInsideWorker,
-} from 'session_util_wrapper';
+} from 'libsession_util_nodejs';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
 /**

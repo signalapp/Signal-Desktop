@@ -17,7 +17,7 @@ import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user
 import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
 import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
-import { ConvoVolatileType } from 'session_util_wrapper';
+import { ConvoVolatileType } from 'libsession_util_nodejs';
 
 let instance: ConversationController | null;
 

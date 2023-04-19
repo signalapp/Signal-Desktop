@@ -10,7 +10,7 @@ import { UserUtils } from '../../../../session/utils';
 import { SessionUtilUserGroups } from '../../../../session/utils/libsession/libsession_utils_user_groups';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
-// import * as SessionUtilWrapper from 'session_util_wrapper';
+// import * as SessionUtilWrapper from 'libsession_util_nodejs';
 
 // tslint:disable-next-line: max-func-body-length
 describe('libsession_groups', () => {

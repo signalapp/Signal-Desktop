@@ -1,5 +1,5 @@
 import { isEmpty, uniq } from 'lodash';
-import { BaseConvoInfoVolatile, ConvoVolatileType } from 'session_util_wrapper';
+import { BaseConvoInfoVolatile, ConvoVolatileType } from 'libsession_util_nodejs';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';

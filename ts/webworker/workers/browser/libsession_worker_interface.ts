@@ -11,7 +11,7 @@ import {
   LegacyGroupInfo,
   UserConfigWrapperActionsCalls,
   UserGroupsWrapperActionsCalls,
-} from 'session_util_wrapper';
+} from 'libsession_util_nodejs';
 
 let libsessionWorkerInterface: WorkerInterface | undefined;
 

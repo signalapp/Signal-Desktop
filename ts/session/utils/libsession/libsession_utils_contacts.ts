@@ -1,4 +1,4 @@
-import { ContactInfo } from 'session_util_wrapper';
+import { ContactInfo } from 'libsession_util_nodejs';
 import { ConversationModel } from '../../../models/conversation';
 import { getContactInfoFromDBValues } from '../../../types/sqlSharedTypes';
 import { ContactsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';

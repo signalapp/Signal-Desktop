@@ -1,6 +1,6 @@
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
-import { ContactInfoSet, LegacyGroupInfo, LegacyGroupMemberInfo } from 'session_util_wrapper';
+import { ContactInfoSet, LegacyGroupInfo, LegacyGroupMemberInfo } from 'libsession_util_nodejs';
 import { OpenGroupV2Room } from '../data/opengroups';
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';

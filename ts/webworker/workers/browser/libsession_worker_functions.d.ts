@@ -4,7 +4,7 @@ import {
   UserConfigActionsType,
   UserGroupsConfigActionsType,
   ConvoInfoVolatileConfigActionsType,
-} from 'session_util_wrapper';
+} from 'libsession_util_nodejs';
 
 // we can only have one of those wrapper for our current user (but we can have a few configs for it to be merged into one)
 type UserConfig = 'UserConfig';

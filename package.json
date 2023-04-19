@@ -99,6 +99,7 @@
     "glob": "7.1.2",
     "image-type": "^4.1.0",
     "ip2country": "1.0.1",
+    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.0/libsession_util_nodejs-v0.1.0.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "3.0.2",
     "lodash": "^4.17.20",
@@ -135,7 +136,6 @@
     "rimraf": "2.6.2",
     "sanitize.css": "^12.0.1",
     "semver": "5.4.1",
-    "session_util_wrapper": "https://github.com/oxen-io/libsession-util-nodejs/",
     "styled-components": "5.1.1",
     "uuid": "8.3.2"
   },
