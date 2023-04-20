@@ -1,0 +1,75 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../../mixins.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.scroll {
+  composes: grow;
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+}
+
+.no-scroll {
+  composes: grow;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 64px;
+
+  @include small-screen() {
+    padding: 0 32px;
+  }
+}
+
+.no-message {
+  composes: main;
+}
+
+.empty {
+  composes: main;
+}
+
+.footer {
+  margin: 16px 64px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @include small-screen() {
+    margin: 16px 32px;
+  }
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button {
+  margin-left: 12px;
+}
+
+.toaster {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translate(-50%, 0px);
+}

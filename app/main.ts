@@ -21,7 +21,6 @@ import {
   Menu,
   nativeTheme,
   powerSaveBlocker,
-  protocol as electronProtocol,
   screen,
   session,
   shell,
@@ -49,6 +48,7 @@ import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
 import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales';
+import { explodePromise } from '../ts/util/explodePromise';
 
 import './startup_config';
 
@@ -118,6 +118,8 @@ import type { LocaleType } from './locale';
 import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
+
+const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -955,9 +957,21 @@ ipc.handle('database-ready', async () => {
   getLogger().info('sending `database-ready`');
 });
 
-ipc.handle('open-art-creator', (_event, { username, password }) => {
-  const baseUrl = config.get<string>('artCreatorUrl');
-  drop(shell.openExternal(`${baseUrl}/#auth=${username}:${password}`));
+ipc.handle('get-art-creator-auth', () => {
+  const { promise, resolve } = explodePromise<unknown>();
+  strictAssert(mainWindow, 'Main window did not exist');
+
+  mainWindow.webContents.send('open-art-creator');
+
+  ipc.handleOnce('open-art-creator', (_event, { username, password }) => {
+    resolve({
+      baseUrl: config.get<string>('artCreatorUrl'),
+      username,
+      password,
+    });
+  });
+
+  return promise;
 });
 
 ipc.on('show-window', () => {
@@ -1300,9 +1314,7 @@ async function openArtCreator() {
     return;
   }
 
-  if (mainWindow) {
-    mainWindow.webContents.send('open-art-creator');
-  }
+  await showStickerCreatorWindow();
 }
 
 let debugLogWindow: BrowserWindow | undefined;
@@ -1604,12 +1616,36 @@ if (DISABLE_GPU) {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
-  updateDefaultSession(session.defaultSession);
-
-  const [userDataPath, crashDumpsPath] = await Promise.all([
+  const [userDataPath, crashDumpsPath, installPath] = await Promise.all([
     realpath(app.getPath('userData')),
     realpath(app.getPath('crashDumps')),
+    realpath(app.getAppPath()),
   ]);
+
+  const webSession = session.fromPartition(STICKER_CREATOR_PARTITION);
+
+  for (const s of [session.defaultSession, webSession]) {
+    updateDefaultSession(s);
+
+    if (getEnvironment() !== Environment.Test) {
+      installFileHandler({
+        session: s,
+        userDataPath,
+        installPath,
+        isWindows: OS.isWindows(),
+      });
+    }
+  }
+
+  installWebHandler({
+    enableHttp: Boolean(process.env.SIGNAL_ENABLE_HTTP),
+    session: session.defaultSession,
+  });
+
+  installWebHandler({
+    enableHttp: true,
+    session: webSession,
+  });
 
   logger = await logging.initialize(getMainWindow);
 
@@ -1696,24 +1732,17 @@ app.on('ready', async () => {
     });
   });
 
-  const installPath = await realpath(app.getAppPath());
-
   addSensitivePath(userDataPath);
   addSensitivePath(crashDumpsPath);
 
   if (getEnvironment() !== Environment.Test) {
     installFileHandler({
-      protocol: electronProtocol,
+      session: session.defaultSession,
       userDataPath,
       installPath,
       isWindows: OS.isWindows(),
     });
   }
-
-  installWebHandler({
-    enableHttp: Boolean(process.env.SIGNAL_ENABLE_HTTP),
-    protocol: electronProtocol,
-  });
 
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
@@ -2364,7 +2393,7 @@ function handleSgnlHref(incomingHref: string) {
   }
 }
 
-ipc.on('install-sticker-pack', (_event, packId, packKeyHex) => {
+ipc.handle('install-sticker-pack', (_event, packId, packKeyHex) => {
   const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
   if (mainWindow) {
     mainWindow.webContents.send('install-sticker-pack', { packId, packKey });
@@ -2580,6 +2609,57 @@ ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
     throw missingCaseError(action);
   }
 });
+
+let stickerCreatorWindow: BrowserWindow | undefined;
+async function showStickerCreatorWindow() {
+  if (stickerCreatorWindow) {
+    stickerCreatorWindow.show();
+    return;
+  }
+
+  const { x = 0, y = 0 } = windowConfig || {};
+
+  const options = {
+    x: x + 100,
+    y: y + 100,
+    width: 800,
+    minWidth: 800,
+    height: 815,
+    minHeight: 750,
+    frame: true,
+    title: getResolvedMessagesLocale().i18n('icu:signalDesktopStickerCreator'),
+    autoHideMenuBar: true,
+    backgroundColor: await getBackgroundColor(),
+    show: false,
+    webPreferences: {
+      ...defaultWebPrefs,
+      partition: STICKER_CREATOR_PARTITION,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      contextIsolation: true,
+      preload: join(__dirname, '../ts/windows/sticker-creator/preload.js'),
+      nativeWindowOpen: true,
+    },
+  };
+
+  stickerCreatorWindow = new BrowserWindow(options);
+
+  handleCommonWindowEvents(stickerCreatorWindow);
+
+  stickerCreatorWindow.once('ready-to-show', () => {
+    stickerCreatorWindow?.show();
+  });
+
+  stickerCreatorWindow.on('closed', () => {
+    stickerCreatorWindow = undefined;
+  });
+
+  await safeLoadURL(
+    stickerCreatorWindow,
+    await prepareFileUrl([__dirname, '../sticker-creator/dist/index.html'])
+  );
+}
 
 if (isTestEnvironment(getEnvironment())) {
   ipc.handle('ci:test-electron:done', async (_event, info) => {

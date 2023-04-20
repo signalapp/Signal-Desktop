@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "ஸ்டிக்கர் ஆர்ட் கிரியேட்டர்"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "புதிய ஸ்டிக்கர் பேக்கை உருவாக்கவும்"
+  },
+  "SignIn--title" : {
+    "message" : "ஸ்டிக்கர் தொகுப்பை உருவாக்கவும்",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Signal இல் உள்ள எல்லாவற்றையும் போலவே, <linkToBlog>ஸ்டிக்கர்களும் குறியாக்கம் செய்யப்பட்டுள்ளன</linkToBlog>. உங்களுக்கான தனிப்பயன் ஸ்டிக்கர் தொகுப்புகளை உருவாக்க இந்தக் கருவியைப் பயன்படுத்தவும்.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "உள்நுழைவு குறியீடு",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "தொடங்குவதற்கு Signal டெஸ்க்டாப்பைத் திறக்கவும்",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "மன்னிக்கவும், உங்கள் பிரவுசர் ஆதரிக்கப்படவில்லை. இந்த இணைப்பை Firefox அல்லது Chrome இல் திறக்கவும்",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "ரத்துசெய்"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$நி",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "ஈமோஜிகள் எதுவும் கிடைக்கவில்லை",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "ஈமோஜியைத் தேடுங்கள்",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "ஸ்கின் டோன் $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "ஸ்மைலிகள் மற்றும் மக்கள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "விலங்குகள் & இயற்கை",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "உணவு & பானம்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "பயணம் & இடங்கள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "செயல்பாடுகள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "பொருட்கள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "சின்னங்கள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "கொடிகள்",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signal ஆர்ட் கிரியேட்டர்",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signal ஸ்டிக்கர் பேக் கிரியேட்டர்",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signal லோகோ",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "ஸ்டிக்கர் பேக் கிரியேட்டர் வழிகாட்டுதல்கள்",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "படங்களை சேர்க்க அல்லது வைக்க இங்கே கிளிக் செய்யவும்",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "படங்களை இங்கே விடுங்கள்",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "ஸ்டிக்கர் பேக்",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "ஸ்டிக்கர் பேக்",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "ரத்துசெய்",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "நகலெடு",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "அடுத்தது",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "முந்தையது",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "உங்கள் ஸ்டிக்கர்களைச் சேர்க்கவும்",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "படத்தை அகற்று",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "ஸ்டிக்கரைச் சேர்க்க கோப்பைக் கிளிக் செய்யவும் அல்லது இழுத்து/விடவும்",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "ஸ்டிக்கர்கள் வெளிப்படையான பின்னணி மற்றும் 512x512 பிக்சல்கள் கொண்ட PNG, APNG அல்லது WebP வடிவத்தில் இருக்க வேண்டும். பரிந்துரைக்கப்பட்ட விளிம்பு 16px ஆகும்.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "விளிம்புகளைக் காண்க",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "ஒவ்வொரு ஸ்டிக்கருக்கும் ஒரு ஈமோஜியைச் சேர்க்கவும்",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "நீங்கள் மெசேஜ் அனுப்பும்போது உங்களுக்கு ஸ்டிக்கர்களைப் பரிந்துரைக்க இது அனுமதிக்கிறது.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "இன்னும் சில விவரங்கள்...",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "தலைப்பு",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "உங்கள் ஸ்டிக்கர் பேக்கிற்குப் பெயரிடவும்",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "உருவாக்கியவர்",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "உங்கள் ஸ்டிக்கர்களைச் சமர்ப்பிக்க ஒரு பெயரை உள்ளிடவும்",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "வெளிப்புற அட்டை படம்",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "உங்கள் ஸ்டிக்கர் பேக்கைப் பகிரும்போது காண்பிக்கப்படும் படம் இது",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "உங்கள் ஸ்டிக்கர் பேக்கைப் பதிவேற்ற விரும்புகிறீர்களா?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "பதிவேற்று",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "ஸ்டிக்கர் பேக்கை உருவாக்கிய பிறகு நீங்கள் திருத்தங்களைச் செய்யவோ அழிக்கவோ முடியாது.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "உங்கள் ஸ்டிக்கர் பேக்கை உருவாக்குகிறது",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$count$ / $total$ பதிவேற்றப்பட்டது",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "வாழ்த்துகள்! நீங்கள் ஒரு ஸ்டிக்கர் பேக்கை உருவாக்கியுள்ளீர்கள்.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "உங்கள் புதிய ஸ்டிக்கர்களை, ஸ்டிக்கர் ஐகான் மூலம் அணுகலாம் அல்லது கீழேயுள்ள இணைப்பைப் பயன்படுத்தி உங்கள் நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "நீங்கள் பொதுவில் அணுகக்கூடிய தனிப்பயன் ஸ்டிக்கர் பேக்குகளுக்கான URLகளை பிறர் கண்டறிய உதவ, $hashtag$ என்ற ஹேஷ்டேக்கைப் பயன்படுத்தவும்.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "ஸ்டிக்கர் பேக் URL",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "நிறுவு",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "மற்றொரு ஸ்டிக்கர் பேக்கை உருவாக்கவும்",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Signalக்காக நான் உருவாக்கிய இந்த புதிய ஸ்டிக்கர் பேக்கைப் பாருங்கள். #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {1 படம் சேர்க்கப்பட்டது} other {{count,number} படங்கள் சேர்க்கப்பட்டன}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "அனிமேஷன் செய்யப்பட்ட ஆர்ட் தற்போது ஆதரிக்கப்படவில்லை",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "வைக்கப்பட்ட படம் மிகவும் பெரிதாக உள்ளது",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "படத்தை செயலாக்குவதில் பிழை",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "அனிமேஷன் செய்யப்பட்ட PNG படங்கள் சதுரமாக இருக்க வேண்டும்",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "அனிமேஷன் செய்யப்பட்ட படங்கள் எப்போதும் லூப் செய்யப்பட வேண்டும்",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "அனிமேஷன் செய்யப்பட்ட PNG படங்களின் பரிமாணங்கள் மிகவும் பெரிதாக உள்ளன",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "அனிமேஷன் செய்யப்பட்ட PNG படங்களின் பரிமாணங்கள் மிகவும் சிறிதாக உள்ளன",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "படங்களைப் பதிவேற்றுவதில் பிழை: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "சர்வருடன் இணைக்க முடியவில்லை: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "காலாவதியான நம்பகச்சான்றுகள் காரணமாக படங்களை பதிவேற்ற முடியவில்லை. சிக்னல் டெஸ்க்டாப்பில் இருந்து இணையதளத்தை மீண்டும் திறக்கவும்.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "இணைப்பு நகலெடுக்கப்பட்டது",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "லைட் தீம் காட்சியில் எனது ஸ்டிக்கர்",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "டார்க் தீம் காட்சியில் எனது ஸ்டிக்கர்",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "ஸ்டிக்கர் பேக் கிரியேட்டரைப் பயன்படுத்த உங்கள் ஃபோன் மற்றும் டெஸ்க்டாப்பில் Signalஐ அமைக்கவும்",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "ஈமோஜி",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "எதிர்வினைகளைத் தனிப்பயனாக்குங்கள்",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "ஈமோஜி மாற்றுப்பெயர்",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

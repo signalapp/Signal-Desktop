@@ -1,0 +1,18 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+syntax = "proto3";
+
+option go_package = "internal/pkg/messages";
+
+message StickerPack {
+  message Sticker {
+    optional uint32 id    = 1;
+    optional string emoji = 2;
+  }
+
+  optional string  title    = 1;
+  optional string  author   = 2;
+  optional Sticker cover    = 3;
+  repeated Sticker stickers = 4;
+}

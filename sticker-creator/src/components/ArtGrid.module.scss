@@ -1,0 +1,15 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  border-radius: 12px;
+}

@@ -1562,6 +1562,10 @@
     "message": "Sticker pack creator",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Sticker pack creator",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "About Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"

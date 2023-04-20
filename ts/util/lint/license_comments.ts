@@ -48,6 +48,8 @@ const FILES_TO_IGNORE = new Set(
     'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
     'js/Mp3LameEncoder.min.js',
     'js/WebAudioRecorderMp3.js',
+    'sticker-creator/src/util/protos.d.ts',
+    'sticker-creator/src/util/protos.js',
   ].map(
     // This makes sure the files are correct on Windows.
     path.normalize

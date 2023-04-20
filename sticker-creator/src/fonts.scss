@@ -1,0 +1,98 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+$inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
+  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
+  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+
+@mixin font-family {
+  font-family: $inter;
+  &:lang(ja) {
+    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
+      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
+      sans-serif;
+  }
+}
+
+@mixin font-title-1 {
+  @include font-family;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 32px;
+  letter-spacing: -0.56px;
+}
+
+@mixin font-title-2 {
+  @include font-family;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.34px;
+}
+
+@mixin font-body-1 {
+  @include font-family;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.08px;
+}
+@mixin font-body-1-bold {
+  @include font-body-1;
+  font-weight: 600;
+}
+@mixin font-body-1-italic {
+  @include font-body-1;
+  font-style: italic;
+}
+@mixin font-body-1-bold-italic {
+  @include font-body-1;
+  font-weight: 600;
+  font-style: italic;
+}
+
+@mixin font-body-2 {
+  @include font-family;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.03px;
+}
+@mixin font-body-2-bold {
+  @include font-body-2;
+  font-weight: 600;
+}
+@mixin font-body-2-medium {
+  @include font-body-2;
+  font-weight: 500;
+}
+@mixin font-body-2-italic {
+  @include font-body-2;
+  font-style: italic;
+}
+@mixin font-body-2-bold-italic {
+  @include font-body-2;
+  font-weight: 600;
+  font-style: italic;
+}
+
+@mixin font-subtitle {
+  @include font-family;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@mixin font-caption {
+  @include font-family;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.06px;
+}
+@mixin font-caption-bold {
+  @include font-caption;
+  font-weight: 600;
+}
+@mixin font-caption-bold-italic {
+  @include font-caption;
+  font-weight: 600;
+  font-style: italic;
+}

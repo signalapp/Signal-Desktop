@@ -28,3 +28,6 @@ webpack.config.ts
 preload.bundle.*
 about.browser.bundle.*
 about.preload.bundle.*
+
+# Sticker Creator has its own eslint config
+sticker-creator/**

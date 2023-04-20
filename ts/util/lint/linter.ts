@@ -336,6 +336,9 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/webpack-hot-middleware/.+',
     '^node_modules/webpack-merge/.+',
     '^node_modules/webpack/.+',
+
+    // Sticker Creator
+    '^sticker-creator/.+',
   ].join('|')
 );
 

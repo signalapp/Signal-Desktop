@@ -43,3 +43,6 @@ stylesheets/_intlTelInput.scss
 preload.bundle.*
 about.browser.bundle.*
 about.preload.bundle.*
+
+# Sticker Creator has its own prettier config
+sticker-creator/**

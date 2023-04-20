@@ -1,0 +1,20 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+syntax = "proto3";
+
+option go_package = "internal/pkg/messages";
+
+message ProvisioningToken {
+  optional string token = 1;
+}
+
+message ProvisioningEnvelope {
+  optional bytes publicKey = 1;
+  optional bytes ciphertext = 2;
+}
+
+message ProvisioningMessage {
+  optional string username = 1;
+  optional string password = 2;
+}

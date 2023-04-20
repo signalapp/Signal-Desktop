@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "స్టిక్కర్ ఆర్ట్ క్రియేటర్"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "కొత్త స్టిక్కర్ ప్యాక్‌ను సృష్టించండి"
+  },
+  "SignIn--title" : {
+    "message" : "స్టిక్కర్ ప్యాక్ సృష్టించండి",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Signal లో మిగతావాటి వలే, <linkToBlog>స్టిక్కర్‌లు కూడా ఎన్‌క్రిప్ట్ చేయబడ్డాయి</linkToBlog>. మీ స్వంత అనుకూల స్టిక్కర్ ప్యాక్‌లను సృష్టించడానికి ఈ సాధనాన్ని ఉపయోగించండి.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "సైన్ ఇన్ కోడ్",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "ప్రారంభించడానికి Signal Desktop తెరవండి",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "క్షమించండి, మీ బ్రౌజర్‌కు మద్దతు ఇవ్వబడలేదు. దయచేసి ఈ లింక్‌ను Firefox లేదా Chrome లో తెరవండి",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "రద్దు చేయండి"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$ ని",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "ఏ ఎమోజీ కనుగొనబడలేదు",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "ఎమోజీని వెతకండి",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "స్కిన్ టోన్ $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "స్మైలీస్ & ప్రజలు",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "జంతువులు & ప్రకృతి",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "ఆహారం & పానీయం",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "ప్రయాణం & ప్రదేశాలు",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "కార్యకలాపాలు",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "వస్తువులు",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "చిహ్నాలు",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "జెండాలు",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signal ఆర్ట్ క్రియేటర్",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signal స్టిక్కర్ ప్యాక్ క్రియేటర్",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signal లోగో",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "స్టిక్కర్ ప్యాక్ క్రియేటర్ మార్గదర్శకాలు",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "చిత్రాలను ఇక్కడ జోడించడానికి లేదా డ్రాప్ చేయడానికి క్లిక్ చేయండి",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "చిత్రాలను ఇక్కడ డ్రాప్ చేయండి",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "స్టిక్కర్ ప్యాక్",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "స్టిక్కర్ ప్యాక్",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "రద్దు చేయండి",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "నకలు",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "తరువాత",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "వెనక్కు",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "మీ స్టిక్కర్‌లను జోడించండి",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "చిత్రాన్ని తొలగించండి",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "స్టిక్కర్ జోడించడానికి ఒక ఫైల్‌ను క్లిక్ చేయండి లేదా డ్రాగ్/డ్రాప్ చేయండి",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "స్టిక్కర్‌లు పారదర్శక బ్యాక్‌గ్రౌండ్ మరియు 512x512 పిక్సెల్‌లతో PNG, APNG లేదా WebP ఫార్మాట్‌లో తప్పనిసరిగా ఉండాలి. సిఫార్సు చేసిన మార్జిన్ 16px.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "మార్జిన్‌లను వీక్షించండి",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "ప్రతి స్టిక్కర్‌కు ఎమోజీని జోడించండి",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "మీరు సందేశం పంపేటప్పుడు మీకు స్టిక్కర్‌లను సూచించడానికి ఇది మమ్మల్ని అనుమతిస్తుంది.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "కేవలం మరికొన్ని వివరాలు...",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "శీర్షిక",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "మీ స్టిక్కర్ ప్యాక్‌కు పేరు పెట్టండి",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "రచయిత",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "కింద మీ స్టిక్కర్‌లను సమర్పించడానికి పేరును నమోదు చేయండి",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "కవర్ చిత్రం",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "మీరు మీ స్టిక్కర్ ప్యాక్‌ను పంచుకున్నప్పుడు చూపించబడే చిత్రం ఇది",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "మీరు ఖచ్చితంగా మీ స్టిక్కర్ ప్యాక్‌ను అప్‌లోడ్ చేయాలనుకుంటున్నారా?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "అప్‌లోడ్ చేయండి",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "స్టిక్కర్ ప్యాక్‌ను సృష్టించిన తర్వాత మీరు ఇకపై సవరణలు చేయలేరు లేదా తొలగించలేరు.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "మీ స్టిక్కర్ ప్యాక్‌ను సృష్టిస్తోంది",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$total$ లో $count$ అప్‌లోడ్ చేయబడింది",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "అభినందనలు! మీరు స్టిక్కర్ ప్యాక్‌ను సృష్టించారు.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "స్టిక్కర్ ఐకాన్ ద్వారా మీ కొత్త స్టిక్కర్‌లను యాక్సెస్ చేసుకోండి లేదా క్రింది లింక్‌ను ఉపయోగించి మీ స్నేహితులతో పంచుకోండి.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "మీరు బహిరంగంగా యాక్సెస్ చేసుకునేలా చేయాలని కోరుకునే ఏదైనా అనుకూల స్టిక్కర్ ప్యాక్‌ల కొరకు URLలను కనుగొనడంలో ఇతరులకు సహాయపడటానికి $hashtag$ అనే హ్యాష్‌ట్యాగ్‌ను ఉపయోగించండి.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "స్టిక్కర్ ప్యాక్ URL",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "ఇన్‌స్టాల్ చేయండి",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "మరొక స్టిక్కర్ ప్యాక్‌ను సృష్టించండి",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Signal కోసం నేను సృష్టించిన ఈ కొత్త స్టిక్కర్ ప్యాక్‌ను చూడండి. #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {1 చిత్రం జోడించబడింది} other {{count,number} చిత్రాలు జోడించబడ్డాయి}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "యానిమేటెడ్ ఆర్ట్‌కు ప్రస్తుతం మద్దతు ఇవ్వబడలేదు",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "డ్రాప్ చేయబడిన చిత్రం చాలా పెద్దదిగా ఉంది",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "చిత్రాన్ని ప్రాసెస్ చేయడంలో లోపం",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "యానిమేటెడ్ PNG చిత్రాలు తప్పనిసరిగా చతురస్రాకారంలో ఉండాలి",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "యానిమేటెడ్ చిత్రాలు ఎప్పటికీ తప్పనిసరిగా లూప్ చేయాలి",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "యానిమేటెడ్ PNG చిత్రం కొలతలు చాలా పెద్దవిగా ఉన్నాయి",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "యానిమేటెడ్ PNG చిత్రం కొలతలు చాలా చిన్నవిగా ఉన్నాయి",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "చిత్రాలను అప్‌లోడ్ చేయడంలో లోపం: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "సర్వర్‌కు కనెక్ట్ చేయలేము: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "క్రెడెన్షియల్స్ గడువు తీరడం వల్ల చిత్రాలను అప్‌లోడ్ చేయడం విఫలమైంది. దయచేసి Signal Desktop నుండి వెబ్‌సైట్‌ను మళ్లీ తెరవండి.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "లింక్ కాపీ చేయబడింది",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "తేలికపాటి థీమ్‌లో నా స్టిక్కర్",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "డార్క్ థీమ్‌లో నా స్టిక్కర్",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "స్టిక్కర్ ప్యాక్ క్రియేటర్‌ను ఉపయోగించడానికి దయచేసి మీ ఫోన్ మరియు డెస్క్‌టాప్‌లో Signal ను సెటప్ చేయండి",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "ఎమోజీ",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "ప్రతిస్పందనలను అనుకూలపరచండి",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "ఎమోజీ అలియాస్",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

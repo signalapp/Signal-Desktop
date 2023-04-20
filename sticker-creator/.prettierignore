@@ -1,0 +1,4 @@
+dist/
+public/*
+src/assets/*
+src/util/protos.*
