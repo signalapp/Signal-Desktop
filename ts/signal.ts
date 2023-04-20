@@ -8,7 +8,7 @@ import * as Curve from './Curve';
 import { start as conversationControllerStart } from './ConversationController';
 import Data from './sql/Client';
 import * as Groups from './groups';
-import * as OS from './OS';
+import OS from './util/os/osMain';
 import * as RemoteConfig from './RemoteConfig';
 
 // Components

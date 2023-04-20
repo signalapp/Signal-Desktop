@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { throttle } from 'lodash';
+import { throttle } from '../util/throttle';
 
 // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
 const ACTIVE_TIMEOUT = 15 * 1000;

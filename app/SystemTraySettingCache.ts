@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../ts/logging/log';
+import OS from '../ts/util/os/osMain';
 import {
   parseSystemTraySetting,
   SystemTraySetting,
@@ -54,7 +55,7 @@ export class SystemTraySettingCache {
       log.info(
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
-    } else if (isSystemTraySupported(this.appVersion)) {
+    } else if (isSystemTraySupported(OS, this.appVersion)) {
       const fastValue = this.ephemeralConfig.get('system-tray-setting');
       if (fastValue !== undefined) {
         log.info('getSystemTraySetting got fast value', fastValue);

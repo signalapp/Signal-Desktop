@@ -5,6 +5,8 @@ import type { IntlShape } from 'react-intl';
 import type { UUIDStringType } from './UUID';
 import type { LocaleDirection } from '../../app/locale';
 
+import type { LocaleMessagesType } from './I18N';
+
 export type StoryContextType = {
   authorUuid?: UUIDStringType;
   timestamp: number;
@@ -24,6 +26,7 @@ export type LocalizerType = {
   getIntl(): IntlShape;
   isLegacyFormat(key: string): boolean;
   getLocale(): string;
+  getLocaleMessages(): LocaleMessagesType;
   getLocaleDirection(): LocaleDirection;
 };
 

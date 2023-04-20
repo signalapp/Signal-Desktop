@@ -3,8 +3,10 @@
 
 import { z } from 'zod';
 
+import { Environment } from '../environment';
 import { themeSettingSchema } from './StorageUIKeys';
-import { environmentSchema } from '../environment';
+
+const environmentSchema = z.nativeEnum(Environment);
 
 const configRequiredStringSchema = z.string().nonempty();
 export type ConfigRequiredStringType = z.infer<
@@ -39,6 +41,8 @@ export const rendererConfigSchema = z.object({
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,
+  osRelease: configRequiredStringSchema,
+  osVersion: configRequiredStringSchema,
   resolvedTranslationsLocale: configRequiredStringSchema,
   resolvedTranslationsLocaleDirection: z.enum(['ltr', 'rtl']),
   preferredSystemLocales: z.array(configRequiredStringSchema),

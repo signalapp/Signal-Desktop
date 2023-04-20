@@ -6,6 +6,7 @@ const path = require('path');
 const glob = require('glob');
 
 const ROOT_DIR = path.join(__dirname, '..');
+const BUNDLES_DIR = 'bundles';
 
 const watch = process.argv.some(argv => argv === '-w' || argv === '--watch');
 const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
@@ -26,6 +27,7 @@ const bundleDefaults = {
     'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
   },
   bundle: true,
+  minify: isProd,
   external: [
     // Native libraries
     '@signalapp/libsignal-client',
@@ -61,55 +63,94 @@ const bundleDefaults = {
   ],
 };
 
-async function main() {
-  // App, tests, and scripts
-  const app = await esbuild.context({
-    ...nodeDefaults,
-    format: 'cjs',
-    mainFields: ['browser', 'main'],
-    entryPoints: glob
-      .sync('{app,ts}/**/*.{ts,tsx}', {
-        nodir: true,
-        root: ROOT_DIR,
-      })
-      .filter(file => !file.endsWith('.d.ts')),
-    outdir: path.join(ROOT_DIR),
-  });
+const sandboxedPreloadDefaults = {
+  ...nodeDefaults,
+  define: {
+    'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
+  },
+  external: ['electron'],
+  bundle: true,
+  minify: isProd,
+};
 
-  // Preload bundle
-  const bundle = await esbuild.context({
-    ...bundleDefaults,
-    mainFields: ['browser', 'main'],
-    entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
-    outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
-  });
+const sandboxedBrowserDefaults = {
+  ...sandboxedPreloadDefaults,
+  chunkNames: 'chunks/[name]-[hash]',
+  format: 'esm',
+  outdir: path.join(ROOT_DIR, BUNDLES_DIR),
+  platform: 'browser',
+  splitting: true,
+};
+
+async function build({ appConfig, preloadConfig }) {
+  const app = await esbuild.context(appConfig);
+  const preload = await esbuild.context(preloadConfig);
 
   if (watch) {
-    await Promise.all([app.watch(), bundle.watch()]);
+    await Promise.all([app.watch(), preload.watch()]);
   } else {
-    await Promise.all([app.rebuild(), bundle.rebuild()]);
+    await Promise.all([app.rebuild(), preload.rebuild()]);
 
     await app.dispose();
-    await bundle.dispose();
+    await preload.dispose();
   }
 }
 
-main().catch(error => {
+async function main() {
+  await build({
+    appConfig: {
+      ...nodeDefaults,
+      format: 'cjs',
+      mainFields: ['browser', 'main'],
+      entryPoints: glob
+        .sync('{app,ts}/**/*.{ts,tsx}', {
+          nodir: true,
+          root: ROOT_DIR,
+        })
+        .filter(file => !file.endsWith('.d.ts')),
+      outdir: path.join(ROOT_DIR),
+    },
+    preloadConfig: {
+      ...bundleDefaults,
+      mainFields: ['browser', 'main'],
+      entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.ts')],
+      outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
+    },
+  });
+}
+
+async function sandboxedEnv() {
+  await build({
+    appConfig: {
+      ...sandboxedBrowserDefaults,
+      mainFields: ['browser', 'main'],
+      entryPoints: [
+        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'app.tsx'),
+      ],
+    },
+    preloadConfig: {
+      ...sandboxedPreloadDefaults,
+      mainFields: ['main'],
+      entryPoints: [
+        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
+      ],
+      format: 'cjs',
+      outdir: 'bundles',
+    },
+  });
+}
+
+Promise.all([main(), sandboxedEnv()]).catch(error => {
   console.error(error.stack);
   process.exit(1);
-});
-
-// About bundle
-esbuild.build({
-  ...bundleDefaults,
-  mainFields: ['browser', 'main'],
-  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.tsx')],
-  outfile: path.join(ROOT_DIR, 'about.browser.bundle.js'),
-});
-
-esbuild.build({
-  ...bundleDefaults,
-  mainFields: ['browser', 'main'],
-  entryPoints: [path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts')],
-  outfile: path.join(ROOT_DIR, 'about.preload.bundle.js'),
 });

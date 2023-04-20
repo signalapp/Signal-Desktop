@@ -5,20 +5,32 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { About } from '../../components/About';
+import { i18n } from '../sandboxedInit';
 import { strictAssert } from '../../util/assert';
 
-const { AboutWindow } = window.Signal;
+const { AboutWindowProps } = window.Signal;
 
-strictAssert(AboutWindow, 'window values not provided');
+strictAssert(AboutWindowProps, 'window values not provided');
+
+let platform = '';
+if (AboutWindowProps.platform === 'darwin') {
+  if (AboutWindowProps.arch === 'arm64') {
+    platform = ` (${window.i18n('icu:appleSilicon')})`;
+  } else {
+    platform = ' (Intel)';
+  }
+}
+
+const environmentText = `${AboutWindowProps.environmentText}${platform}`;
 
 ReactDOM.render(
   <About
-    closeAbout={() => AboutWindow.executeMenuRole('close')}
-    environment={AboutWindow.environmentText}
-    executeMenuRole={AboutWindow.executeMenuRole}
-    hasCustomTitleBar={AboutWindow.hasCustomTitleBar}
-    i18n={AboutWindow.i18n}
-    version={AboutWindow.version}
+    closeAbout={() => window.SignalContext.executeMenuRole('close')}
+    environment={environmentText}
+    executeMenuRole={window.SignalContext.executeMenuRole}
+    hasCustomTitleBar={window.SignalContext.OS.hasCustomTitleBar()}
+    i18n={i18n}
+    version={window.SignalContext.getVersion()}
   />,
   document.getElementById('app')
 );

@@ -1,6 +1,7 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import os from 'os';
 import { debounce } from 'lodash';
 import EventEmitter from 'events';
 import { Sound } from '../util/Sound';
@@ -9,7 +10,7 @@ import {
   getAudioNotificationSupport,
   shouldHideExpiringMessageBody,
 } from '../types/Settings';
-import * as OS from '../OS';
+import OS from '../util/os/osMain';
 import * as log from '../logging/log';
 import { makeEnumParser } from '../util/enum';
 import { missingCaseError } from '../util/missingCaseError';
@@ -144,7 +145,7 @@ class NotificationService extends EventEmitter {
 
     this.lastNotification?.close();
 
-    const audioNotificationSupport = getAudioNotificationSupport();
+    const audioNotificationSupport = getAudioNotificationSupport(OS);
 
     const notification = new window.Notification(title, {
       body: OS.isLinux() ? filterNotificationText(message) : message,
@@ -299,7 +300,10 @@ class NotificationService extends EventEmitter {
         notificationTitle = senderTitle;
         ({ notificationIconUrl } = notificationData);
 
-        if (isExpiringMessage && shouldHideExpiringMessageBody()) {
+        if (
+          isExpiringMessage &&
+          shouldHideExpiringMessageBody(OS, os.release())
+        ) {
           notificationMessage = i18n('icu:newMessage');
         } else if (userSetting === NotificationSetting.NameOnly) {
           if (reaction) {

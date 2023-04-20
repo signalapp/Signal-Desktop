@@ -715,7 +715,7 @@ export default class MessageSender {
         storyMessage.fileAttachment = fileAttachment;
       } catch (error) {
         if (error instanceof HTTPError) {
-          throw new MessageError(message, error);
+          throw new MessageError(storyMessage, error);
         } else {
           throw error;
         }

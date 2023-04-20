@@ -26,8 +26,7 @@ ts/**/*.js
 .eslintrc.js
 webpack.config.ts
 preload.bundle.*
-about.browser.bundle.*
-about.preload.bundle.*
+bundles/**
 
 # Sticker Creator has its own eslint config
 sticker-creator/**

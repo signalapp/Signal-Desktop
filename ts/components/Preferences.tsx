@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
-import type { AudioDevice } from '@signalapp/ringrtc';
 import uuid from 'uuid';
 
 import type { MediaDeviceSettings } from '../types/Calling';
@@ -15,6 +15,19 @@ import type {
   ZoomFactorType,
 } from '../types/Storage.d';
 import type { ThemeSettingType } from '../types/StorageUIKeys';
+import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationColorType,
+  CustomColorType,
+  DefaultConversationColorType,
+} from '../types/Colors';
+import type {
+  LocalizerType,
+  SentMediaQualityType,
+  ThemeType,
+} from '../types/Util';
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
+
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
@@ -23,24 +36,12 @@ import {
   Variant as CircleCheckboxVariant,
 } from './CircleCheckbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import type { ConversationType } from '../state/ducks/conversations';
-import type {
-  ConversationColorType,
-  CustomColorType,
-  DefaultConversationColorType,
-} from '../types/Colors';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import type {
-  LocalizerType,
-  SentMediaQualityType,
-  ThemeType,
-} from '../types/Util';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';
 import { Spinner } from './Spinner';
 import { TitleBarContainer } from './TitleBarContainer';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
@@ -178,6 +179,8 @@ type PropsFunctionType = {
 };
 
 export type PropsType = PropsDataType & PropsFunctionType;
+
+export type PropsPreloadType = Omit<PropsType, 'i18n'>;
 
 enum Page {
   // Accessible through left nav

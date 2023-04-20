@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as fs from 'fs';
-import { isWindows } from '../OS';
+import OS from './os/osMain';
 
 const ZONE_IDENTIFIER_CONTENTS = Buffer.from('[ZoneTransfer]\r\nZoneId=3');
 
@@ -27,7 +27,7 @@ const ZONE_IDENTIFIER_CONTENTS = Buffer.from('[ZoneTransfer]\r\nZoneId=3');
 export async function writeWindowsZoneIdentifier(
   filePath: string
 ): Promise<void> {
-  if (!isWindows()) {
+  if (!OS.isWindows()) {
     throw new Error('writeWindowsZoneIdentifier should only run on Windows');
   }
 

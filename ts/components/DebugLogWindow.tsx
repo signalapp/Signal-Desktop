@@ -4,18 +4,18 @@
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import copyText from 'copy-text-to-clipboard';
+import type { ExecuteMenuRoleType } from './TitleBarContainer';
+import type { LocalizerType } from '../types/Util';
+import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { Button, ButtonVariant } from './Button';
-import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
+import { TitleBarContainer } from './TitleBarContainer';
 import { ToastDebugLogError } from './ToastDebugLogError';
 import { ToastLinkCopied } from './ToastLinkCopied';
-import { TitleBarContainer } from './TitleBarContainer';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { createSupportUrl } from '../util/createSupportUrl';
-import * as Errors from '../types/errors';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useTheme } from '../hooks/useTheme';
 
@@ -137,7 +137,7 @@ export function DebugLogWindow({
     };
 
     const supportURL = createSupportUrl({
-      locale: i18n.getLocale(),
+      locale: window.SignalContext.getI18nLocale(),
       query: {
         debugLog: publicLogURL,
       },

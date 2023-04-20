@@ -8,7 +8,7 @@ import { UnsupportedOSDialog } from '../../components/UnsupportedOSDialog';
 import { getIntl } from '../selectors/user';
 import { getExpirationTimestamp } from '../selectors/expiration';
 import type { WidthBreakpoint } from '../../components/_util';
-import { getName as getOSName } from '../../OS';
+import OS from '../../util/os/osMain';
 
 export type PropsType = Readonly<{
   type: 'warning' | 'error';
@@ -18,14 +18,14 @@ export type PropsType = Readonly<{
 export function SmartUnsupportedOSDialog(ownProps: PropsType): JSX.Element {
   const i18n = useSelector(getIntl);
   const expirationTimestamp = useSelector(getExpirationTimestamp);
-  const OS = getOSName();
+  const osName = OS.getName();
 
   return (
     <UnsupportedOSDialog
       {...ownProps}
       i18n={i18n}
       expirationTimestamp={expirationTimestamp}
-      OS={OS}
+      OS={osName}
     />
   );
 }

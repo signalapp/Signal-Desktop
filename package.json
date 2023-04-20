@@ -11,6 +11,9 @@
     "email": "support@signal.org"
   },
   "browserslist": "last 1 chrome versions",
+  "browser": {
+    "uuid": "uuid-browser"
+  },
   "main": "app/main.js",
   "scripts": {
     "postinstall": "yarn build:acknowledgments && patch-package && yarn electron:install-app-deps",
@@ -56,7 +59,7 @@
     "svgo": "svgo --multipass images/**/*.svg",
     "transpile": "run-p check:types build:esbuild",
     "check:types": "tsc --noEmit",
-    "clean-transpile-once": "rimraf sticker-creator/dist app/**/*.js app/*.js ts/**/*.js ts/*.js tsconfig.tsbuildinfo",
+    "clean-transpile-once": "rimraf sticker-creator/dist app/**/*.js app/*.js ts/**/*.js ts/*.js bundles tsconfig.tsbuildinfo",
     "clean-transpile": "yarn run clean-transpile-once && yarn run clean-transpile-once",
     "open-coverage": "open coverage/lcov-report/index.html",
     "ready": "npm-run-all --print-label clean-transpile generate --parallel lint lint-deps lint-intl test-node test-electron",
@@ -94,6 +97,7 @@
     "blob-util": "2.0.2",
     "blueimp-load-image": "5.14.0",
     "blurhash": "1.1.3",
+    "buffer": "6.0.3",
     "cirbuf": "1.0.1",
     "classnames": "2.2.5",
     "config": "1.28.1",
@@ -169,6 +173,7 @@
     "split2": "4.0.0",
     "type-fest": "3.5.0",
     "uuid": "3.3.2",
+    "uuid-browser": "3.1.0",
     "websocket": "1.0.34",
     "zod": "3.5.1"
   },
@@ -424,6 +429,7 @@
       "config/default.json",
       "config/${env.SIGNAL_ENV}.json",
       "config/local-${env.SIGNAL_ENV}.json",
+      "bundles/**",
       "background.html",
       "about.html",
       "screenShare.html",
@@ -456,8 +462,6 @@
       "app/*",
       "preload.bundle.js",
       "preload_utils.js",
-      "about.preload.bundle.js",
-      "about.browser.bundle.js",
       "main.js",
       "images/**",
       "fonts/**",

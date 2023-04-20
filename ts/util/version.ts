@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as semver from 'semver';
-import moment from 'moment';
 
 export const isProduction = (version: string): boolean => {
   const parsed = semver.parse(version);
@@ -34,7 +33,22 @@ export const generateAlphaVersion = (options: {
     throw new Error(`generateAlphaVersion: Invalid version ${currentVersion}`);
   }
 
-  const formattedDate = moment().utc().format('YYYYMMDD.HH');
+  const dateTimeParts = new Intl.DateTimeFormat('en', {
+    day: '2-digit',
+    hour: '2-digit',
+    hourCycle: 'h23',
+    month: '2-digit',
+    timeZone: 'GMT',
+    year: 'numeric',
+  }).formatToParts(new Date());
+  const dateTimeMap = new Map();
+  dateTimeParts.forEach(({ type, value }) => {
+    dateTimeMap.set(type, value);
+  });
+  const formattedDate = `${dateTimeMap.get('year')}${dateTimeMap.get(
+    'month'
+  )}${dateTimeMap.get('day')}.${dateTimeMap.get('hour')}`;
+
   const formattedVersion = `${parsed.major}.${parsed.minor}.${parsed.patch}`;
 
   return `${formattedVersion}-alpha.${formattedDate}-${shortSha}`;

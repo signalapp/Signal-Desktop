@@ -27,7 +27,7 @@ import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
-import { getName as getOSName } from '../../OS';
+import OS from '../../util/os/osMain';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -258,7 +258,7 @@ export function SmartInstallScreen(): ReactElement {
           updates,
           currentVersion: window.getVersion(),
           startUpdate,
-          OS: getOSName(),
+          OS: OS.getName(),
         },
       };
       break;

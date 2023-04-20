@@ -9,7 +9,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { MenuOptionsType } from '../../types/menu';
 import type { NoopActionType } from './noop';
 import type { UUIDStringType } from '../../types/UUID';
-import * as OS from '../../OS';
+import OS from '../../util/os/osMain';
 import { ThemeType } from '../../types/Util';
 
 // State
@@ -116,6 +116,7 @@ export function getEmptyState(): UserStateType {
       getLocale: intlNotSetup,
       getIntl: intlNotSetup,
       isLegacyFormat: intlNotSetup,
+      getLocaleMessages: intlNotSetup,
       getLocaleDirection: intlNotSetup,
     }),
     interactionMode: 'mouse',

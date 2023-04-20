@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memoize, sortBy } from 'lodash';
-import os from 'os';
-import { ipcRenderer as ipc } from 'electron';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 import type { FetchLogIpcData, LogEntryType } from './shared';
 import {
@@ -42,16 +40,18 @@ const getHeader = (
     user,
   }: Omit<FetchLogIpcData, 'logEntries'>,
   nodeVersion: string,
-  appVersion: string
+  appVersion: string,
+  osVersion: string,
+  userAgent: string
 ): string =>
   [
     headerSection('System info', {
       Time: Date.now(),
-      'User agent': window.navigator.userAgent,
+      'User agent': userAgent,
       'Node version': nodeVersion,
       Environment: getEnvironment(),
       'App version': appVersion,
-      'OS version': os.version(),
+      'OS version': osVersion,
     }),
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
@@ -79,17 +79,18 @@ function formatLine(mightBeEntry: unknown): string {
   return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
-export async function fetch(
+export function getLog(
+  data: unknown,
   nodeVersion: string,
-  appVersion: string
-): Promise<string> {
-  const data: unknown = await ipc.invoke('fetch-log');
-
+  appVersion: string,
+  osVersion: string,
+  userAgent: string
+): string {
   let header: string;
   let body: string;
   if (isFetchLogIpcData(data)) {
     const { logEntries } = data;
-    header = getHeader(data, nodeVersion, appVersion);
+    header = getHeader(data, nodeVersion, appVersion, osVersion, userAgent);
     body = logEntries.map(formatLine).join('\n');
   } else {
     header = headerSectionTitle('Partial logs');

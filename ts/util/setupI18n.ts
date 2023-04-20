@@ -172,6 +172,7 @@ export function setupI18n(
     return legacyMessages[key] != null;
   };
   getMessage.getLocale = () => locale;
+  getMessage.getLocaleMessages = () => messages;
   getMessage.getLocaleDirection = () => {
     return window.getResolvedMessagesLocaleDirection();
   };

@@ -32,7 +32,7 @@ import type { MainWindowStatsType } from '../windows/context';
 import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import * as OS from '../OS';
+import OS from '../util/os/osMain';
 import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import { getInitialState as stickers } from '../types/Stickers';
@@ -132,7 +132,7 @@ export function getInitialState({
       interactionMode: getInteractionMode(),
       isMainWindowFullScreen: mainWindowStats.isFullScreen,
       isMainWindowMaximized: mainWindowStats.isMaximized,
-      localeMessages: window.SignalContext.localeMessages,
+      localeMessages: window.i18n.getLocaleMessages(),
       menuOptions,
       osName,
       ourACI,

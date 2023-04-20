@@ -48,6 +48,8 @@ import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
 import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales';
+import * as debugLog from '../ts/logging/debuglogs';
+import * as uploadDebugLog from '../ts/logging/uploadDebugLog';
 import { explodePromise } from '../ts/util/explodePromise';
 
 import './startup_config';
@@ -94,7 +96,7 @@ import type { CreateTemplateOptionsType } from './menu';
 import type { MenuActionType } from '../ts/types/menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
-import * as OS from '../ts/OS';
+import OS from '../ts/util/os/osMain';
 import { isProduction } from '../ts/util/version';
 import {
   isSgnlHref,
@@ -390,7 +392,11 @@ function getResolvedMessagesLocale(): LocaleType {
   return resolvedTranslationsLocale;
 }
 
-type PrepareUrlOptions = { forCalling?: boolean; forCamera?: boolean };
+type PrepareUrlOptions = {
+  forCalling?: boolean;
+  forCamera?: boolean;
+  sourceName?: string;
+};
 
 async function prepareFileUrl(
   pathSegments: ReadonlyArray<string>,
@@ -403,9 +409,9 @@ async function prepareFileUrl(
 
 async function prepareUrl(
   url: URL,
-  { forCalling, forCamera }: PrepareUrlOptions = {}
+  { forCalling, forCamera, sourceName }: PrepareUrlOptions = {}
 ): Promise<string> {
-  return setUrlSearchParams(url, { forCalling, forCamera }).href;
+  return setUrlSearchParams(url, { forCalling, forCamera, sourceName }).href;
 }
 
 async function handleUrl(rawTarget: string) {
@@ -1155,9 +1161,9 @@ async function showScreenShareWindow(sourceName: string) {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      sandbox: false,
+      sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../ts/windows/screenShare/preload.js'),
+      preload: join(__dirname, '../bundles/screenShare/preload.js'),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -1173,17 +1179,13 @@ async function showScreenShareWindow(sourceName: string) {
 
   screenShareWindow.once('ready-to-show', () => {
     if (screenShareWindow) {
-      screenShareWindow.showInactive();
-      screenShareWindow.webContents.send(
-        'render-screen-sharing-controller',
-        sourceName
-      );
+      screenShareWindow.show();
     }
   });
 
   await safeLoadURL(
     screenShareWindow,
-    await prepareFileUrl([__dirname, '../screenShare.html'])
+    await prepareFileUrl([__dirname, '../screenShare.html'], { sourceName })
   );
 }
 
@@ -1210,9 +1212,9 @@ async function showAbout() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      sandbox: false,
+      sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../about.preload.bundle.js'),
+      preload: join(__dirname, '../bundles/about/preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -1261,9 +1263,9 @@ async function showSettingsWindow() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      sandbox: false,
+      sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../ts/windows/settings/preload.js'),
+      preload: join(__dirname, '../bundles/settings/preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -1341,9 +1343,9 @@ async function showDebugLogWindow() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      sandbox: false,
+      sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../ts/windows/debuglog/preload.js'),
+      preload: join(__dirname, '../bundles/debuglog/preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -1406,9 +1408,9 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
         ...defaultWebPrefs,
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        sandbox: false,
+        sandbox: true,
         contextIsolation: true,
-        preload: join(__dirname, '../ts/windows/permissions/preload.js'),
+        preload: join(__dirname, '../bundles/permissions/preload.js'),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -1676,7 +1678,7 @@ app.on('ready', async () => {
   // would still show the window.
   // (User can change these settings later)
   if (
-    isSystemTraySupported(app.getVersion()) &&
+    isSystemTraySupported(OS, app.getVersion()) &&
     (await systemTraySettingCache.get()) === SystemTraySetting.Uninitialized
   ) {
     const newValue = SystemTraySetting.MinimizeToSystemTray;
@@ -1799,9 +1801,9 @@ app.on('ready', async () => {
         webPreferences: {
           ...defaultWebPrefs,
           nodeIntegration: false,
-          sandbox: false,
+          sandbox: true,
           contextIsolation: true,
-          preload: join(__dirname, '../ts/windows/loading/preload.js'),
+          preload: join(__dirname, '../bundles/loading/preload.js'),
         },
         icon: windowIcon,
       });
@@ -2278,6 +2280,8 @@ ipc.on('get-config', async event => {
     enableCI,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
+    osRelease: os.release(),
+    osVersion: os.version(),
     appInstance: process.env.NODE_APP_INSTANCE || undefined,
     proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
     contentProxyUrl: config.get<string>('contentProxyUrl'),
@@ -2320,9 +2324,37 @@ ipc.on('locale-data', event => {
   event.returnValue = getResolvedMessagesLocale().messages;
 });
 
-ipc.on('getHasCustomTitleBar', event => {
+// TODO DESKTOP-5241
+ipc.on('OS.getHasCustomTitleBar', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = OS.hasCustomTitleBar();
+});
+
+// TODO DESKTOP-5241
+ipc.on('OS.getClassName', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = OS.getClassName();
+});
+
+ipc.handle(
+  'DebugLogs.getLogs',
+  async (_event, data: unknown, userAgent: string) => {
+    return debugLog.getLog(
+      data,
+      process.versions.node,
+      app.getVersion(),
+      os.version(),
+      userAgent
+    );
+  }
+);
+
+ipc.handle('DebugLogs.upload', async (_event, content: string) => {
+  return uploadDebugLog.upload({
+    content,
+    appVersion: app.getVersion(),
+    logger: getLogger(),
+  });
 });
 
 ipc.on('user-config-key', event => {

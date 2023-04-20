@@ -10,7 +10,7 @@ import * as Errors from '../ts/types/errors';
 import { isProduction } from '../ts/util/version';
 import { upload as uploadDebugLog } from '../ts/logging/uploadDebugLog';
 import { SignalService as Proto } from '../ts/protobuf';
-import * as OS from '../ts/OS';
+import OS from '../ts/util/os/osMain';
 
 async function getPendingDumps(): Promise<ReadonlyArray<string>> {
   const crashDumpsPath = await realpath(app.getPath('crashDumps'));

@@ -12,7 +12,7 @@ import * as Bytes from '../Bytes';
 
 import { isPathInside } from '../util/isPathInside';
 import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
-import { isWindows } from '../OS';
+import OS from '../util/os/osMain';
 
 export * from '../../app/attachments';
 
@@ -229,7 +229,7 @@ async function writeWithAttributes(
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
     await xattr.set(target, 'com.apple.quarantine', attrValue);
-  } else if (isWindows()) {
+  } else if (OS.isWindows()) {
     // This operation may fail (see the function's comments), which is not a show-stopper.
     try {
       await writeWindowsZoneIdentifier(target);
