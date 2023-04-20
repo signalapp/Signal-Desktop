@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "ពណ៌នៃការសន្ទនា",
+    "message": "ពណ៌ការជជែក",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "ពណ៌នៃការសន្ទនា",
+    "messageformat": "ពណ៌ការជជែក",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "បណ្ណសារសន្ទនា",
+    "messageformat": "ការជជែកដែលបានទុកក្នុងបណ្ណសារ",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "ការសន្ទនាទាំងនេះ នឹងត្រូវធ្វើបណ្ណសារ និងបង្ហាញក្នុងប្រអប់សំបុត្រតែប៉ុណ្ណោះ ប្រសិនបើទទួលបានសារថ្មី។",
+    "messageformat": "ការជជែកទាំងនេះត្រូវបានទុកក្នុងបណ្ណសារ ហើយនឹងបង្ហាញក្នុងប្រអប់សារ តែពេលណាដែលអ្នកទទួលបានសារថ្មីប៉ុណ្ណោះ។",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "គ្មានការសន្ទនាដែលបានទុកក្នុងបណ្ណសារទេ។",
+    "messageformat": "គ្មានការជជែកដែលបានទុកក្នុងបណ្ណសារទេ។",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "គ្រប់គ្រងឈ្មោះទំនាក់ទំនង",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "សារ",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ការហៅជាសំឡេង",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "ការហៅជាវីដេអូ",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "ដកចេញ",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "ទប់ស្កាត់",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "ដក {title} ចេញឬ?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "អ្នកនឹងមិនឃើញបុគ្គលនេះទេ នៅពេលស្វែងរក។ អ្នកនឹងទទួលបានសំណើសារមួយប្រសិនបើគេផ្ញើសារមកអ្នកនៅពេលអនាគត។",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "ដកចេញ",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "មិនអាចដក {title} ចេញបានទេ",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "បុគ្គលនេះត្រូវបានរក្សាទុកទៅក្នុងឈ្មោះទំនាក់ទំនងរបស់ឧបករណ៍អ្នក។ លុបគេចេញពីឈ្មោះទំនាក់ទំនងរបស់អ្នកនៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយព្យាយាមម្តងទៀត។",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "ខ្ទាស់ការសន្ទនា",
+    "messageformat": "ខ្ទាស់ការជជែក",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "មិនខ្ទាស់ការសន្ទនាវិញ",
+    "messageformat": "ដោះខ្ទាស់ការជជែក",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "អ្នកអាចខ្ទាស់ការជជែកបានរហូតដល់ 4",
+    "message": "អ្នកអាចខ្ទាស់ការជជែកបានរហូតដល់ 4 ប៉ុណ្ណោះ",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "អ្នកអាចខ្ទាស់ការជជែកបានរហូតដល់ 4",
+    "messageformat": "អ្នកអាចខ្ទាស់ការជជែកបានរហូតដល់ 4 ប៉ុណ្ណោះ",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "រំកិលចុះក្រោមនៃការសន្ទនា",
+    "messageformat": "រំកិលទៅផ្នែកខាងក្រោមនៃការជជែក",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "សម្រាប់សុវត្ថិភាព ប្រវត្តិការសន្ទនាមិនត្រូវបានបញ្ជូនទៅឧបករណ៍តភ្ជាប់ថ្មីនោះទេ។",
+    "messageformat": "ដើម្បីសុវត្ថិភាពរបស់អ្នក ប្រវត្តិជជែកមិនត្រូវបានផ្ទេរទៅឧបករណ៍ដែលបានភ្ជាប់ថ្មីៗទេ។",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "អ្នកមិនមានឯកសារមេឌា ក្នុងការសន្ទនានេះទេ",
+    "messageformat": "អ្នកមិនមានមេឌៀណាមួយនៅក្នុងការជជែកនេះទេ",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "អ្នកមិនមានឯកសារ ក្នុងការសន្ទនានេះទេ",
+    "messageformat": "អ្នកមិនមានឯកសារណាមួយនៅក្នុងការជជែកនេះទេ",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "ការសន្ទនា",
+    "messageformat": "ការជជែក",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "ការវាយចលនាសម្រាប់ការសន្ទនានេះ",
+    "messageformat": "កំពុងវាយបញ្ចូលរូបចលនាសម្រាប់ការជជែកនេះ",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "សារនេះនឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នានៅក្នុងការសន្ទនា ប្រសិនបើពួកគេកំពុងប្រើប្រាស់កំណែថ្មីៗនេះរបស់ Signal។ ពួកគេនឹងអាចមើលឃើញថា អ្នកបានលុបសារ។",
+    "messageformat": "សារនេះនឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នានៅក្នុងការជជែកនេះ បើពួកគេប្រើកំណែថ្មីៗនេះរបស់ Signal។ ពួកគេនឹងអាចមើលឃើញថា អ្នកបានលុបសារមួយ។",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "ជ្រើសរើស",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "ព្រាល/បង្ហាញ",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "ផ្ញើម្តងទៀត",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "លុបសារសម្រាប់ខ្ញុំ",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "លុបសារសម្រាប់អ្នករាល់គ្នា",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "លុបសារសម្រាប់អ្នករាល់គ្នា",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "លុបសារ",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "លុប",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "លុបការសន្ទនានេះចោលរហូត?",
+    "messageformat": "លុបការជជែកនេះជារៀងរហូតឬ?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal ប្រើប្រាស់កូដនីយកម្មទាំងសងខាង ហើយជួនកាល​វាអាចត្រូវការផ្ទុកឡើងវិញ​នូវវគ្គជជែករបស់អ្នក។ នេះមិនប៉ះពាល់សន្តិសុខនៃការជជែករបស់អ្នកទេ តែអ្នកអាចខកខានសារមួយពីលេខទំនាក់ទំនងនេះ និងអ្នកអាចសុំគេឲ្យផ្ញើម្តងទៀត។",
+    "message": "Signal ប្រើប្រាស់កូដនីយកម្មទាំងសងខាង ហើយពេលខ្លះវាអាចនឹងត្រូវផ្ទុកវគ្គជជែករបស់អ្នកឡើងវិញ។ នេះមិនប៉ះពាល់សុវត្ថិភាពនៃការជជែករបស់អ្នកទេ តែអ្នកអាចនឹងខកខានសារមួយពីឈ្មោះទំនាក់ទំនងនេះ ហើយអ្នកអាចស្នើឲ្យគេផ្ញើវាឡើងវិញ។",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal ប្រើប្រាស់កូដនីយកម្មទាំងសងខាង ហើយជួនកាល​វាអាចត្រូវការផ្ទុកឡើងវិញ​នូវវគ្គជជែករបស់អ្នក។ នេះមិនប៉ះពាល់សន្តិសុខនៃការជជែករបស់អ្នកទេ តែអ្នកអាចខកខានសារមួយពីលេខទំនាក់ទំនងនេះ និងអ្នកអាចសុំគេឲ្យផ្ញើម្តងទៀត។",
+    "messageformat": "Signal ប្រើប្រាស់កូដនីយកម្មទាំងសងខាង ហើយពេលខ្លះវាអាចនឹងត្រូវផ្ទុកវគ្គជជែករបស់អ្នកឡើងវិញ។ នេះមិនប៉ះពាល់សុវត្ថិភាពនៃការជជែករបស់អ្នកទេ តែអ្នកអាចនឹងខកខានសារមួយពីឈ្មោះទំនាក់ទំនងនេះ ហើយអ្នកអាចស្នើឲ្យគេផ្ញើវាឡើងវិញ។",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "ប្រវត្តិសាររបស់អ្នកសម្រាប់ការសន្ទនាទាំងពីរត្រូវបានបញ្ចូលគ្នានៅទីនេះ។",
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកសម្រាប់ការជជែកទាំងពីរត្រូវបានបញ្ចូលគ្នានៅទីនេះ។",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "រូបភាពបានផ្ញើ ក្នុងការសន្ទនា",
+    "messageformat": "បានផ្ញើរូបភាពនៅក្នុងការជជែក",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -3317,6 +3325,10 @@
     "messageformat": "ពិនិត្យអក្ខរាវិរុទ្ធអត្ថបទដែលបានបញ្ចូលក្នុងប្រអប់សរសេរសារ",
     "description": "Description of the spell check setting"
   },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
+  },
   "spellCheckWillBeEnabled": {
     "message": "ការត្រួតពិនិត្យអក្ខាវិរុទ្ធ នឹងត្រូវបើកនៅពេល Signal ដំណើរការលើកក្រោយ។",
     "description": "(deleted 03/29/2023) Shown when the user enables spellcheck to indicate that they must restart Signal."
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "អ្នកនៅតែអាចបន្ថែមកំណត់ត្រាសម្រាប់ខ្លួនអ្នកក្នុងការសន្ទនានេះ។ បើគណនីរបស់អ្នក មានឧបករណ៍ច្រើនបានតភ្ជាប់ កំណត់ត្រាថ្មីនឹងត្រូវធ្វើសមកាលកម្មផងដែរ។",
+    "messageformat": "អ្នកអាចកត់ត្រាសម្រាប់ខ្លួនឯងនៅក្នុងការជជែកនេះ។ បើគណនីរបស់អ្នកបានភ្ជាប់ទៅឧបករណ៍ណាមួយ កំណត់សម្គាល់ថ្មីៗនឹងត្រូវបានធ្វើសមកាលកម្ម។",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "ចាប់ផ្តើមការសន្ទនាថ្មី…",
+    "messageformat": "ចាប់ផ្តើមការជជែកថ្មី",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "ការសន្ទនាថ្មី",
+    "messageformat": "ការជជែកថ្មី",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "រកមិនឃើញការសន្ទនា",
+    "messageformat": "រកមិនឃើញការជជែកទេ",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} ត្រូវបានដកចេញ។",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, other {ជជែកជាមួយ {title}, សារថ្មី {unreadCount,number}, សារចុងក្រោយ៖ {lastMessage}។}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "ទៅកាន់ការសន្ទនាជាមួយ {title}",
+    "messageformat": "ចូលទៅការជជែកជាមួយ {title}",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "ព្រាង៖",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "សំណើសារ",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "សារមើលម្តង មិនរក្សាទុកក្នុងប្រវត្តិកិច្ចសន្ទនាទេ។",
+    "messageformat": "សារដែលមើលបានតែម្តងមិនត្រូវបានរក្សាទុកក្នុងប្រវត្តិជជែករបស់អ្នកទេ។",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "ការសន្ទនាពីមុន",
+    "messageformat": "ការជជែកពីមុន",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "ការសន្ទនាបន្ទាប់",
+    "messageformat": "ការជជែកបន្ទាប់",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "ការសន្ទនាមិនទាន់អានពីមុន",
+    "messageformat": "ការជជែកមិនទាន់អានពីមុន",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "ការសន្ទនាមិនបានអានបន្ទាប់",
+    "messageformat": "ការជជែកមិនទាន់អានបន្ទាប់",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "បើកបញ្ជីការសន្ទនា",
+    "messageformat": "បើកម៉ឺនុយជជែក",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "ចាប់ផ្តើមការសន្ទនាថ្មី",
+    "messageformat": "ចាប់ផ្តើមការជជែកថ្មី",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "សន្ទនាក្នុងបណ្ណសារ",
+    "messageformat": "ទុកការជជែកក្នុងបណ្ណសារ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "មិនប័ណ្ណសារ ការសន្ទនា",
+    "messageformat": "លុបការជជែកពីបណ្ណសារ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "ស្វែងរកក្នុងការសន្ទនា",
+    "messageformat": "ស្វែងរកនៅក្នុងការជជែក",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "បញ្ជូនបន្តសារដែលបានជ្រើសរើស",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "លោតទៅការសន្ទនា",
+    "messageformat": "ទៅកាន់ការជជែក",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "កម្មវិធីសរសេរ",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "រំកិលទៅខាងលើនៃបញ្ជី",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "បិទការសន្ទនាបច្ចុប្បន្ន",
+    "messageformat": "បិទការជជែកបច្ចុប្បន្ន",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "ការសន្ទនារក្សាទុកក្នុងបណ្ណាសារ",
+    "messageformat": "បានទុកការជជែកក្នុងបណ្ណសារ",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "ការសន្ទនាដែលបានត្រឡប់ទៅកាន់ប្រអប់សារ",
+    "messageformat": "បានដាក់ការជជែកទៅក្នុងប្រអប់សារវិញ",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "ការសន្ទនាត្រូវបានសម្គាល់ថាមិនទាន់អាន",
+    "messageformat": "ការជជែកត្រូវបានសម្គាល់ថាមិនទាន់បានអាន",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "តើអ្នកចង់បើកឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ Signal ឬទេ?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "អាចឲ្យ {name} ផ្ញើសារមកអ្នកបាន និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេ? អ្នកបានដកបុគ្គលនេះចេញកាលពីមុន។",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "លុបការសន្ទនា?",
+    "messageformat": "លុបការជជែកឬ?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "ការសន្ទនានេះនឹងត្រូវលុបចេញពីឧបករណ៍របស់អ្នកទាំងអស់។",
+    "messageformat": "ការជជែកនេះនឹងត្រូវលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "បន្តការសន្ទនារបស់អ្នកជាមួយក្រុមនេះ ហើយចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយសមាជិកក្នុងក្រុមនេះឬ? {learnMore}",
+    "messageformat": "បន្តការជជែករបស់អ្នកជាមួយក្រុមនេះ ហើយចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយសមាជិកក្រុម? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "បន្តការជជែករបស់អ្នកជាមួយក្រុមនេះ ហើយចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយសមាជិកក្រុម? <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "បន្តការសន្ទនានេះជាមួយ {firstName} និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេឬ? {learnMore}",
+    "messageformat": "បន្តការជជែកនេះជាមួយ {firstName} ហើយចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេ? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "បន្តការជជែកនេះជាមួយ {firstName} ហើយចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេ? <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "ដំឡើងកម្រិតរបស់ក្រុមនេះ ដើម្បីបើកដំណើរការមុខងារថ្មីៗដូចជា @លើកឈ្មោះ និងអ្នកគ្រប់គ្រង។ សមាជិកដែលមិនបានចែករំលែកឈ្មោះ ឬរូបថតរបស់ពួកគេនៅក្នុងក្រុមនេះទេនឹងត្រូវបានបបួលឲ្យចូលរួម។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "រួមបញ្ចូលការសន្ទនាដែលបានបិទសំឡេងនៅក្នុងចំនួនស្លាក",
+    "messageformat": "រាប់បញ្ចូលទាំងការជជែកដែលបានបិទសំឡេងនៅក្នុងស្លាកចំនួន",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8381,11 +8425,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "ការកំណត់សារសន្ទនា",
+    "message": "ការកំណត់ការជជែក",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "ការកំណត់សារសន្ទនា",
+    "messageformat": "ការកំណត់ការជជែក",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងការជជែកមួយទល់មួយនេះ​នឹងបាត់ទៅវិញបន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
+    "message": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងការជជែកមួយទល់មួយនេះនឹងបាត់ទៅវិញបន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងការជជែកមួយទល់មួយនេះ​នឹងបាត់ទៅវិញបន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
+    "messageformat": "នៅពេលបើក សារដែលបានផ្ញើ និងទទួលនៅក្នុងការជជែកមួយទល់មួយនេះនឹងបាត់ទៅវិញបន្ទាប់ពីពួកវាត្រូវបានគេមើលរួច។",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, other {លុបចោលការបបួលចំនួន {number,number} ដែលបានផ្ញើដោយ \"{name}\" ឬ?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, other {លុប {count,number} សារឬ?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, other {លុប {count,number} សារឬ?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, other {សារទាំងនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, other {តើអ្នកចង់លុបសារទាំងនេះសម្រាប់នរណាគេ?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, other {តើអ្នកចង់លុបសារទាំងនេះចេញពីឧបករណ៍ណាខ្លះ?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "លុបសម្រាប់ខ្ញុំ",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "លុបសម្រាប់ខ្ញុំ",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "លុបសម្រាប់ខ្ញុំ",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "លុបចេញពីឧបករណ៍នេះ",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "លុបចេញពីឧបករណ៍ទាំងអស់",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, other {អ្នកអាចជ្រើសរើសបានរហូតដល់ {count,number} សារប៉ុណ្ណោះដើម្បីលុបសម្រាប់អ្នករាល់គ្នា}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "អ្នកអាចបញ្ជូនបន្តបានត្រឹមតែ 30 សារប៉ុណ្ណោះ",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "ពិនិត្យសំណើដោយយកចិត្តទុកដាក់។ Signal បានរកឃើញឈ្មោះទំនាក់ទំនងមួយផ្សេងទៀតដែលមានឈ្មោះដូចគ្នា។ <reviewRequestLink>ពិនិត្យសំណើ</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, other {សមាជិកក្រុម {count,number} នាក់មានឈ្មោះដូចគ្នា។ {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {សមាជិកក្រុម {count,number} នាក់មានឈ្មោះដូចគ្នា។ <reviewRequestLink>ពិនិត្យសំណើ</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, other {សមាជិកក្រុម {count,number} នាក់មានឈ្មោះស្រដៀងគ្នា។ ពិនិត្យមើលសមាជិកខាងក្រោម ឬសម្រេចចាត់វិធានការ។}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,11 +9585,11 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "ពណ៌ដែលបានកំណត់ផ្ទាល់ខ្លួននេះត្រូវបានប្រើនៅក្នុងការជជែកចំនួន $num$។ តើអ្នកពិតជាចង់លុបវាចោលសម្រាប់ការជជែកទាំងអស់មែនឬ?",
+    "message": "ពណ៌កំណត់ផ្ទាល់ខ្លួននេះត្រូវបានប្រើនៅក្នុងការជជែកចំនួន $num$។ តើអ្នកចង់លុបវាចេញពីការជជែកទាំងអស់ឬ?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, other {ពណ៌កំណត់ផ្ទាល់ខ្លួននេះត្រូវបានប្រើនៅក្នុងការជជែកចំនួន {num,number}។ តើអ្នកចង់លុបវាចេញពីការជជែកទាំងអស់មែនទេ?}}",
+    "messageformat": "{num, plural, other {ពណ៌កំណត់ផ្ទាល់ខ្លួននេះត្រូវបានប្រើនៅក្នុងការជជែកចំនួន {num,number}។ តើអ្នកចង់លុបវាចេញពីការជជែកទាំងអស់ឬ?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -9525,35 +9601,35 @@
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "ពណ៌នៃការសន្ទនា",
+    "message": "ពណ៌ការជជែក",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "ពណ៌នៃការសន្ទនា",
+    "messageformat": "ពណ៌ការជជែក",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
+    "message": "កំណត់ពណ៌ការជជែកឡើងវិញ",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
+    "messageformat": "កំណត់ពណ៌ការជជែកឡើងវិញ",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
+    "message": "កំណត់ពណ៌ការជជែកឡើងវិញ",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
+    "messageformat": "កំណត់ពណ៌ការជជែកឡើងវិញ",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "កំណត់ពណ៌ការជជែកទាំងអស់ឡើងវិញ",
+    "message": "កំណត់ឡើងវិញនូវពណ៌ការជជែកទាំងអស់",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "កំណត់ពណ៌ការជជែកទាំងអស់ឡើងវិញ",
+    "messageformat": "កំណត់ឡើងវិញនូវពណ៌ការជជែកទាំងអស់",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "តើអ្នកចង់លុបពណ៌តំណាងការសន្ទនាទាំងអស់មែនទេ?",
+    "message": "តើអ្នកចង់លុបពីលើពណ៌ការជជែកទាំងអស់ឬ?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "តើអ្នកចង់លុបពណ៌តំណាងការសន្ទនាទាំងអស់មែនទេ?",
+    "messageformat": "តើអ្នកចង់លុបពីលើពណ៌ការជជែកទាំងអស់ឬ?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9665,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "នេះជាការពិនិត្យម្ដងទៀតនូវពណ៌នៃការសន្ទនា",
+    "message": "នេះជាការមើលជាមុននូវពណ៌ការជជែក។",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "នេះជាការពិនិត្យម្ដងទៀតនូវពណ៌នៃការសន្ទនា",
+    "messageformat": "នេះជាការមើលជាមុននូវពណ៌ការជជែក។",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9849,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "កំណត់ថេរវេលានៃការលុបសារសម្រាប់រាល់ការសន្ទនាថ្មីៗដែលចាប់ផ្ដើមដោយអ្នក",
+    "message": "កំណត់ថិរវេលាតាមលំនាំដើមសម្រាប់ឲ្យសារបាត់ទៅវិញដោយស្វ័យប្រវត្តិ ចំពោះការជជែកថ្មីៗទាំងអស់ដែលអ្នកចាប់ផ្ដើម។",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "កំណត់ថេរវេលានៃការលុបសារសម្រាប់រាល់ការសន្ទនាថ្មីៗដែលចាប់ផ្ដើមដោយអ្នក",
+    "messageformat": "កំណត់ថិរវេលាតាមលំនាំដើមសម្រាប់ឲ្យសារបាត់ទៅវិញដោយស្វ័យប្រវត្តិ ចំពោះការជជែកថ្មីៗទាំងអស់ដែលអ្នកចាប់ផ្ដើម។",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "ពេលវេលាតាមលំនាំដើមសម្រាប់ការសន្ទនាថ្មីៗ",
+    "message": "ថិរវេលាកំណត់តាមលំនាំដើមសម្រាប់ការជជែកថ្មីៗ",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "ពេលវេលាតាមលំនាំដើមសម្រាប់ការសន្ទនាថ្មីៗ",
+    "messageformat": "ថិរវេលាកំណត់តាមលំនាំដើមសម្រាប់ការជជែកថ្មីៗ",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "អ្នកបានដកបុគ្គលនេះចេញហើយ។ ការផ្ញើសារទៅគេម្តងទៀតនឹងបញ្ចូលគេទៅក្នុងបញ្ជីរបស់អ្នកវិញ។",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ {learnMore}",
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ីនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការកែប្រែវានឹងអាចមើលឃើញបានដោយឈ្មោះទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ីនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរវានឹងអាចមើលឃើញបានដោយឈ្មោះទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10249,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "ឥតគិតថ្លៃជជែក",
+    "message": "ទំនេរអាចជជែកបាន",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "ឥតគិតថ្លៃជជែក",
+    "messageformat": "ទំនេរអាចជជែកបាន",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "ចំនួនមើល <strong>{viewCount,number}</strong> ដង",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "ចំនួនមើល <strong>{viewCount,number}</strong> ដង",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11041,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, other {ចំនួនមើល <strong>{views,number}</strong> ដង}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11065,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, other {ចំនួនឆ្លើយតប <strong>{replyCount,number}</strong>}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "ចាប់ផ្តើមការសន្ទនា",
+    "messageformat": "ចាប់ផ្តើមការជជែក",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "ជ្រើសរើសអ្នកណាដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន។ ការផ្លាស់ប្តូរនឹងមិនប៉ះពាល់ដល់រឿងរ៉ាវដែលអ្នកបានផ្ញើរួចហើយនោះទេ។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "សមាជិកនៃក្រុមជជែក “{groupTitle}” អាចមើល និងឆ្លើយតបទៅនឹងរឿងនេះបាន។ អ្នកអាចធ្វើបច្ចុប្បន្នភាពសមាជិកភាពសម្រាប់ការជជែកនេះនៅក្នុងក្រុមបាន។",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "ជ្រើសរើសថាតើអ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ណាខ្លះដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន។ អ្នកអាចផ្លាស់ប្តូរវានៅក្នុងការកំណត់ឯកជនភាពបានជានិច្ច។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -11905,11 +11981,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "ទៅកាន់ការជជែក",
+    "message": "ចូលទៅការជជែក",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "ទៅកាន់ការជជែក",
+    "messageformat": "ចូលទៅការជជែក",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {

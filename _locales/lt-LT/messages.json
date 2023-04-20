@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Šie pokalbiai yra archyvuoti ir atsiras skyrelyje Gauta tik tuomet, jei bus gautos naujos žinutės.",
+    "messageformat": "Šie pokalbiai yra archyvuoti ir atsiras tarp gautųjų tik jei bus gauta naujų žinučių.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Nėra jokių archyvuotų pokalbių.",
+    "messageformat": "Nėra archyvuotų pokalbių.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Tvarkyti kontaktą",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Siųsk žinutę",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Garso skambutis",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Vaizdo skambutis",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Šalinti",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Užblokuoti",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "Šalinti {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Šio asmens nematysi paieškoje. Jei jis tau kada nors parašys, gausi žinutės užklausą.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Šalinti",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "Nepavyko pašalinti {title}",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Šis asmuo išsaugotas tavo įrenginio adresatų sąraše. Ištrink jį iš adresatų sąrašo savo mobiliajame įrenginyje ir bandyk dar kartą.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Atsegti pokalbį",
+    "messageformat": "Nusegti pokalbį",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "Galite prisegti daugiausiai 4 pokalbius",
+    "message": "Gali prisegti daugiausiai 4 pokalbius",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Galite prisegti daugiausiai 4 pokalbius",
+    "messageformat": "Gali prisegti daugiausiai 4 pokalbius",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Slinkti į pokalbio apačią",
+    "messageformat": "Nuslinkti į pokalbio apačią",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Jūsų saugumui, pokalbių istorija nėra perduodama į naujai susietus įrenginius.",
+    "messageformat": "Tavo saugumui pokalbio istorija neperkeliama į naujus susietus įrenginius.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Šiame pokalbyje nėra jokios medijos",
+    "messageformat": "Šiame pokalbyje nėra jokių įrašų",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Rašymo animacija šiam pokalbiui",
+    "messageformat": "Teksto rinkimo animacija šiam pokalbiui",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Ši žinutė šiame pokalbyje bus ištrinta visiems žmonėms tuo atveju, jeigu jie naudoja naujausią „Signal“ versiją. Jie galės matyti, kad ištrynei žinutę.",
+    "messageformat": "Ši žinutė bus ištrinta visiems žmonėms šiame pokalbyje, jeigu jie naudoja naujausią „Signal“ versiją. Jie matys, kad ištrynei žinutę.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Pasirinkti",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "„Spoiler“",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Bandyti siųsti dar kartą",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Ištrinti žinutę man",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Ištrinti žinutę visiems",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Ištrinti žinutę visiems",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Ištrinti žinutę",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Ištrinti",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Ar ištrinti šį pokalbį visiems laikams?",
+    "messageformat": "Ištrinti šį pokalbį visam laikui?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal programėlė naudoja ištisinį šifravimą ir jai kartais gali tekti atnaujinti jūsų pokalbio seansą. Tai neįtakoja jūsų pokalbio saugumo, bet gali būti, kad praleidote ir negavote žinutės nuo šio adresato, todėl galite jo paprašyti, kad išsiųstų žinutę dar kartą.",
+    "message": "Programėlė „Signal“ naudoja ištisinį šifravimą ir jai kartais gali tekti atnaujinti tavo pokalbio seansą. Tai neturi įtakos tavo pokalbio saugumui, bet gali būti, kad praleidai žinutę nuo šio adresato, todėl gali paprašyti išsiųsti ją dar kartą.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal programėlė naudoja ištisinį šifravimą ir jai kartais gali tekti atnaujinti jūsų pokalbio seansą. Tai neįtakoja jūsų pokalbio saugumo, bet gali būti, kad praleidote ir negavote žinutės nuo šio adresato, todėl galite jo paprašyti, kad išsiųstų žinutę dar kartą.",
+    "messageformat": "Programėlė „Signal“ naudoja ištisinį šifravimą ir jai kartais gali tekti atnaujinti tavo pokalbio seansą. Tai neturi įtakos tavo pokalbio saugumui, bet gali būti, kad praleidai žinutę nuo šio adresato, todėl gali paprašyti išsiųsti ją dar kartą.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Pokalbyje išsiųstas paveikslas",
+    "messageformat": "Pokalbyje nusiųstas vaizdas",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Pastaba: Jūsų pokalbių istorija nebus sinchronizuota į šį įrenginį",
+    "message": "Pastaba: tavo pokalbio istorija nebus sinchronizuota į šį įrenginį",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Pastaba: Jūsų pokalbių istorija nebus sinchronizuota į šį įrenginį",
+    "messageformat": "Pastaba: tavo pokalbio istorija nebus sinchronizuota į šį įrenginį",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3316,6 +3324,10 @@
   "icu:spellCheckDescription": {
     "messageformat": "Tikrinti teksto, kuris įvedamas į žinutės rašymo langelį, rašybą",
     "description": "Description of the spell check setting"
+  },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
     "message": "Rašybos tikrinimas bus įjungtas, kitą kartą paleidus Signal.",
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Šiame pokalbyje galite rašyti sau pastabas. Jeigu yra su paskyra susietų įrenginių, naujos pastabos bus sinchronizuotos.",
+    "messageformat": "Šiame pokalbyje gali pridėti sau priminimų. Jei yra su paskyra susietų įrenginių, nauji priminimai bus sinchronizuoti.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Pradėti naują pokalbį…",
+    "messageformat": "Pradėti naują pokalbį",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Nerasta jokių pokalbių",
+    "messageformat": "Pokalbių nerasta",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} pašalintas (-a).",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {Pokalbis su {title}, {unreadCount,number} nauja žinutė, paskutinė žinutė: {lastMessage}.} few {Pokalbis su {title}, {unreadCount,number} naujos žinutės, paskutinė žinutė: {lastMessage}.} many {Pokalbis su {title}, {unreadCount,number} naujos žinutės, paskutinė žinutė: {lastMessage}.} other {Pokalbis su {title}, {unreadCount,number} naujų žinučių, paskutinė žinutė: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Juodraštis:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Žinutės užklausa",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Vienkartinės peržiūros žinutės nėra saugomos jūsų pokalbio istorijoje.",
+    "messageformat": "Vienkartinės peržiūros žinutės nesaugomos tavo pokalbio istorijoje.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Atverti pokalbių meniu",
+    "messageformat": "Atidaryti pokalbio meniu",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Persiųsti pasirinktas žinutes",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5456,6 +5472,26 @@
     "messageformat": "Rašyklė",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "Slinkti į sąrašo viršų",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Užverti esamą pokalbį",
+    "messageformat": "Uždaryti dabartinį pokalbį",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Pokalbis archyvuotas",
+    "messageformat": "Pokalbis suarchyvuotas",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Pokalbis grąžintas į skyrelį Gauta",
+    "messageformat": "Pokalbis grąžintas į gautuosius",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5607,6 +5643,14 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Pokalbis pažymėtas kaip neskaitytas",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ar nori atverti „Signal“ lipdukų paketo kūrimą?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "Leisti, kad {name} siųstų tau žinutes, ir bendrinti su šiuo žmogumi savo vardą bei nuotrauką? Anksčiau tu pašalinai šį asmenį.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Tęsti jūsų pokalbį su šia grupe ir bendrinti jūsų vardą ir nuotrauką su jos nariais? {learnMore}",
+    "messageformat": "Tęsti pokalbį su šia grupe ir bendrinti tavo vardą bei nuotrauką su jos nariais? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Tęsti pokalbį su šia grupe ir bendrinti tavo vardą bei nuotrauką su jos nariais? <learnMoreLink>Sužinoti daugiau.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Tęsti šį pokalbį su {firstName} ir bendrinti jūsų vardą ir nuotrauką su šiuo žmogumi? {learnMore}",
+    "messageformat": "Tęsti šį pokalbį su {firstName} ir bendrinti tavo vardą bei nuotrauką su šiuo žmogumi? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Tęsti šį pokalbį su {firstName} ir bendrinti tavo vardą bei nuotrauką su šiuo žmogumi? <learnMoreLink>Sužinoti daugiau</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Naujink šią grupę ir aktyvink tokias naujas funkcijas kaip @paminėjimai ir administratoriai. Nariai, kurie nebendrino savo vardo ar nuotraukos šioje grupėje, bus pakviesti prisijungti. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "Kai įjungta, šiame asmeniniame pokalbyje išsiųstos ir gautos žinutės išnyks po to, kai bus perskaitytos.",
+    "message": "Kai įjungta, šiame asmeniniame pokalbyje išsiųstos ir gautos žinutės dings po to, kai bus pamatytos.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Kai įjungta, šiame asmeniniame pokalbyje išsiųstos ir gautos žinutės išnyks po to, kai bus perskaitytos.",
+    "messageformat": "Kai įjungta, šiame asmeniniame pokalbyje išsiųstos ir gautos žinutės dings po to, kai bus pamatytos.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {Panaikinti {number,number} pakvietimą, kurį atsiuntė {name}?} few {Panaikinti {number,number} pakvietimus, kuriuos atsiuntė {name}?} many {Panaikinti {number,number} pakvietimo, kuriuos atsiuntė {name}?} other {Panaikinti {number,number} pakvietimų, kuriuos atsiuntė {name}?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {Ištrinti {count,number} žinutę?} few {Ištrinti {count,number} žinutes?} many {Ištrinti {count,number} žinutės?} other {Ištrinti {count,number} žinučių?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {Ištrinti žinutę?} few {Ištrinti {count,number} žinutes?} many {Ištrinti {count,number} žinutės?} other {Ištrinti {count,number} žinučių?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Ši žinutė bus ištrinta iš šio įrenginio.} few {Šios žinutės bus ištrintos iš šio įrenginio.} many {Šios žinutės bus ištrintos iš šio įrenginio.} other {Šios žinutės bus ištrintos iš šio įrenginio.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Kokiam žmogui norėtum ištrinti šią žinutę?} few {Kokiam žmogui norėtum ištrinti šias žinutes?} many {Kokiam žmogui norėtum ištrinti šias žinutes?} other {Kokiam žmogui norėtum ištrinti šias žinutes?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {Iš kokių įrenginių norėtum ištrinti šią žinutę?} few {Iš kokių įrenginių norėtum ištrinti šias žinutes?} many {Iš kokių įrenginių norėtum ištrinti šias žinutes?} other {Iš kokių įrenginių norėtum ištrinti šias žinutes?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Ištrinti man",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Ištrinti man",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Ištrinti man",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Ištrinti iš šio įrenginio",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Ištrinti visiems",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Ištrinti iš visų įrenginių",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutę} few {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutes} many {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutės} other {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinučių}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Galima persiųsti ne daugiau kaip 30 žinučių",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "Atidžiai peržiūrėk užklausas. „Signal“ rado kitą adresatą tokiu pačiu vardu. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} grupės narys turi tokį patį vardą. {link}} few {{count,number} grupės nariai turi tokį patį vardą. {link}} many {{count,number} grupės nario turi tokį patį vardą. {link}} other {{count,number} grupės narių turi tokį patį vardą. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} grupės narys turi tokį patį vardą. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>} few {{count,number} grupės nariai turi tokį patį vardą. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>} many {{count,number} grupės nario turi tokį patį vardą. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>} other {{count,number} grupės narių turi tokį patį vardą. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} grupės narys turi panašius vardus. Peržiūrėk šiuos narius ar pasirink imtis veiksmų.} few {{count,number} grupės nariai turi panašius vardus. Peržiūrėk šiuos narius ar pasirink imtis veiksmų.} many {{count,number} grupės nario turi panašius vardus. Peržiūrėk šiuos narius ar pasirink imtis veiksmų.} other {{count,number} grupės narių turi panašius vardus. Peržiūrėk šiuos narius ar pasirink imtis veiksmų.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Ar norėtumėte nustelbti visų pokalbių spalvas?",
+    "message": "Ar norėtum pakeisti visų pokalbių spalvas?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Ar norėtumėte nustelbti visų pokalbių spalvas?",
+    "messageformat": "Ar norėtum pakeisti visų pokalbių spalvas?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9773,19 +9849,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Nustatyti numatytąjį išnykstančių žinučių laikmatį visiems jūsų pradėtiems naujiems pokalbiams.",
+    "message": "Nustatyti numatytąjį dingstančių žinučių laikmatį visiems naujiems tavo pradėtiems pokalbiams.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Nustatyti numatytąjį išnykstančių žinučių laikmatį visiems jūsų pradėtiems naujiems pokalbiams.",
+    "messageformat": "Nustatyti numatytąjį dingstančių žinučių laikmatį visiems naujiems tavo pradėtiems pokalbiams.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Numatytasis laikmatis naujuose pokalbiuose",
+    "message": "Numatytasis naujų pokalbių laikmatis",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Numatytasis laikmatis naujuose pokalbiuose",
+    "messageformat": "Numatytasis naujų pokalbių laikmatis",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Tu pašalinai šį asmenį. Jei vėl išsiųsi šiam žmogui žinutę, jis bus vėl įtrauktas į tavo sąrašą.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Jūsų profilis yra šifruotas. Jūsų profilis ir jam atliekami pakeitimai bus matomi jūsų adresatams bei, kai inicijuosite ar priimsite naujus pokalbius. {learnMore}",
+    "messageformat": "Tavo profilis yra užšifruotas. Profilis ir jo pakeitimai bus matomi tavo adresatams, taip pat kai pradėsi ar priimsi naujus pokalbius. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Tavo profilis yra užšifruotas. Tavo profilis ir jam atlikti pakeitimai bus matomi tavo kontaktams, taip pat kai pradėsi ar priimsi naujus pokalbius. <learnMoreLink>Sužinoti daugiau</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10373,11 +10449,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Norėdami keisti šį nustatymą, atverkite Signal programėlę savo mobiliajame įrenginyje ir pereikite į Nustatymai > Pokalbiai",
+    "message": "Jei nori pakeisti šį nustatymą, atverk „Signal“ savo mobiliajame įrenginyje ir eik čia: Nustatymai > Pokalbiai",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Norėdami keisti šį nustatymą, atverkite Signal programėlę savo mobiliajame įrenginyje ir pereikite į Nustatymai > Pokalbiai",
+    "messageformat": "Jei nori pakeisti šį nustatymą, atverk „Signal“ savo mobiliajame įrenginyje ir eik čia: Nustatymai > Pokalbiai",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} adresatas} few {{num,number} adresatai} many {{num,number} adresato} other {{num,number} adresatų}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> peržiūra",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> peržiūra",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11041,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, one {<strong>{views,number}</strong> peržiūra} few {<strong>{views,number}</strong> peržiūros} many {<strong>{views,number}</strong> peržiūros} other {<strong>{views,number}</strong> peržiūrų}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11065,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, one {<strong>1</strong> atsakymas} few {<strong>{replyCount,number}</strong> atsakymai} many {<strong>{replyCount,number}</strong> atsakymo} other {<strong>{replyCount,number}</strong> atsakymų}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Pradėdami su jais pokalbį",
+    "messageformat": "Pradėjai pokalbį",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Pasirink, kas gali žiūrėti tavo istoriją. Pakeitimai nepaveiks jau nusiųstų istorijų. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "Grupės pokalbio „{groupTitle}“ nariai gali peržiūrėti ir atsakyti į šią istoriją. Tu gali atnaujinti šio pokalbio narių sąrašą grupėje.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Pasirink, kurie „Signal“ kontaktai gali žiūrėti tavo istoriją. Bet kada galėsi pakeisti šį pasirinkimą privatumo nustatymuose. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {

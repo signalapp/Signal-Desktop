@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "આર્કાઇવ કરેલી વાતચીત",
+    "messageformat": "આર્કાઇવ કરેલી ચેટ",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "આ વાતચીત આર્કાઇવ કરવામાં આવી છે અને નવા મેસેજ પ્રાપ્ત થાય તો જ ઇનબોક્સમાં દેખાશે.",
+    "messageformat": "આ ચેટ આર્કાઇવ કરવામાં આવી છે અને જો નવા મેસેજ પ્રાપ્ત થાય તો જ ઇનબોક્સમાં દેખાશે.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "કોઈ આર્કાઇવ કરેલ વાતચીત નથી.",
+    "messageformat": "કોઈ આર્કાઇવ કરેલી ચેટ નથી.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "સંપર્ક મેનેજ કરો",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "મેસેજ",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ઓડિયો કૉલ",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "વીડિયો કૉલ",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "દૂર કરો",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "બ્લૉક કરો",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title}ને દૂર કરવા છે?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "શોધ કરતી વખતે તમને આ વ્યક્તિ દેખાશે નહીં. જો તેઓ ભવિષ્યમાં તમને મેસેજ મોકલશે તો તમને એક મેસેજ વિનંતી મળશે.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "દૂર કરો",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title}ને દૂર ન કરી શક્યા",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "આ વ્યક્તિ તમારા ડિવાઇસના સંપર્કોમાં સેવ કરેલ છે. તેમને તમારા મોબાઇલ ડિવાઇસ પર તમારા સંપર્કોમાંથી ડિલીટ કરો અને ફરી પ્રયાસ કરો.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "વાતચીત પિન કરો",
+    "messageformat": "ચેટને પિન કરો",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,7 +677,7 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "વાતચીત અનપિન કરો",
+    "messageformat": "ચેટને અનપિન કરો",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "વાતચીતના તળિયે સ્ક્રોલ કરો",
+    "messageformat": "ચેટમાં નીચે સુધી સ્ક્રોલ કરો",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "તમારી સુરક્ષા માટે, વાતચીતની હિસ્ટ્રી નવા લિંક થયેલ ડિવાઇસમાં સ્થાનાંતરિત કરવામાં આવતી નથી.",
+    "messageformat": "તમારી સુરક્ષા માટે, ચેટની હિસ્ટ્રી નવા લિંક કરેલા ડિવાઇસમાં ટ્રાન્સફર કરવામાં આવતી નથી.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "આ વાતચીત માં તમારી પાસે કોઈ મીડિયા નથી.",
+    "messageformat": "તમારી પાસે આ ચેટમાં કોઈ મીડિયા નથી",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "આ વાતચીતમાં તમારી પાસે કોઈ દસ્તાવેજો નથી",
+    "messageformat": "તમારી પાસે આ ચેટમાં કોઈ દસ્તાવેજો નથી",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "સંવાદ",
+    "messageformat": "ચેટ",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "આ વાતચીત માટે ટાપિંગ ઍનિમેશન",
+    "messageformat": "આ ચેટ માટે ટાઇપિંગ એનિમેશન",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "જો આ મેસેજ Signalનાં તાજેતરનાં વર્ઝન પર હોય તો વાતચીતમાં દરેક માટે આ મેસેજ ડિલીટ કરવામાં આવશે. તેઓ જોઈ શકશે કે તમે કોઈ મેસેજ ડિલીટ કર્યો છે.",
+    "messageformat": "જો દરેક વ્યક્તિ પાસે Signalનું તાજેતરનું વર્ઝન હશે તો આ મેસેજ ચેટમાં રહેલ દરેક માટે ડિલીટ કરવામાં આવશે. તેઓ જોઈ શકશે કે તમે મેસેજ ડિલીટ કર્યો છે.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "પસંદ કરો",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "મેસેજ ઝાંખો કરનાર",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "ફરીથી મોકલવાનો પ્રયાસ કરો",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "મારા માટે મેસેજ ડિલીટ કરો",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "દરેક માટે મેસેજ ડિલીટ કરો",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "દરેક માટે મેસેજ ડિલીટ કરો",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "મેસેજ ડિલીટ કરો",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "ડિલીટ કરો",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "આ વાતચીત કાયમીરૂપે ડિલીટ કરીએ?",
+    "messageformat": "આ ચેટને કાયમીરૂપે ડિલીટ કરવી છે?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "ચેટ સેશન રિફ્રેશ તાજું થયું",
+    "message": "ચેટ સેશન રિફ્રેશ થયું",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "ચેટ સેશન રિફ્રેશ તાજું થયું",
+    "messageformat": "ચેટ સેશન રિફ્રેશ થયું",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનનો ઉપયોગ કરે છે અને તેને ક્યારેક તમારા ચેટ સત્રને રિફ્રેશ કરવાની જરૂર પડી શકે છે. આ તમારી ચેટ ની સલામતીને અસર કરતું નથી પરંતુ તમે આ સંપર્કમાંથી કોઈ મેસેજ ચૂકી ગયા છો અને તમે તેને ફરીથી મોકલવા માટે કહી શકો છો.",
+    "message": "Signal એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનનો ઉપયોગ કરે છે અને તેને ક્યારેક તમારા ચેટ સત્રને રિફ્રેશ કરવાની જરૂર પડી શકે છે. આ તમારી ચેટની સલામતીને અસર કરતું નથી પરંતુ તમે આ સંપર્કમાંથી કોઈ મેસેજ ચૂકી ગયા છો અને તમે તેને ફરીથી મોકલવા માટે કહી શકો છો.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનનો ઉપયોગ કરે છે અને તેને ક્યારેક તમારા ચેટ સત્રને રિફ્રેશ કરવાની જરૂર પડી શકે છે. આ તમારી ચેટ ની સલામતીને અસર કરતું નથી પરંતુ તમે આ સંપર્કમાંથી કોઈ મેસેજ ચૂકી ગયા છો અને તમે તેને ફરીથી મોકલવા માટે કહી શકો છો.",
+    "messageformat": "Signal એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનનો ઉપયોગ કરે છે અને તેને ક્યારેક તમારા ચેટ સત્રને રિફ્રેશ કરવાની જરૂર પડી શકે છે. આ તમારી ચેટની સલામતીને અસર કરતું નથી પરંતુ તમે આ સંપર્કમાંથી કોઈ મેસેજ ચૂકી ગયા છો અને તમે તેને ફરીથી મોકલવા માટે કહી શકો છો.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "આ ચેટમાં $sender$ તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચ્યાની રસીદ અથવા મીડિયા ડિલિવર થઈ શકશે નહીં.",
+    "message": "આ ચેટમાં $sender$ તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચી લીધાનું નિશાન અથવા મીડિયા ડિલિવર થઈ શક્યું નહીં.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "આ ચેટમાં {sender} તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચ્યાની રસીદ અથવા મીડિયા ડિલિવર થઈ શકશે નહીં.",
+    "messageformat": "આ ચેટમાં {sender} તરફથી તમને મેસેજ, સ્ટિકર, પ્રતિક્રિયા, વાંચી લીધાનું નિશાન અથવા મીડિયા ડિલિવર થઈ શક્યું નહીં.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} અને {conversationTitle} એક જ અકાઉન્ટ છે. બંને ચેટ માટે તમારી મેસેજ હિસ્ટ્રી અહીં છે.",
+    "messageformat": "{obsoleteConversationTitle} અને {conversationTitle} એક જ એકાઉન્ટ છે. બંને ચેટ માટેની તમારી મેસેજ હિસ્ટ્રી અહીં છે.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "બંને વાતચીત માટેની તમારી મેસેજ હિસ્ટ્રી અહીં ભેગી કરવામાં આવી છે.",
+    "messageformat": "બંને ચેટ માટેની તમારી મેસેજ હિસ્ટ્રી અહીં મર્જ કરવામાં આવી છે.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "વાતચીતમાં ઈમેજ મોકલવામાં આવી",
+    "messageformat": "ચેટમાં મોકલેલી ઇમેજ",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -3317,6 +3325,10 @@
     "messageformat": "મેસેજ લખવાના બોક્સમાં દાખલ કરેલ મેસેજની જોડણી તપાસો",
     "description": "Description of the spell check setting"
   },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
+  },
   "spellCheckWillBeEnabled": {
     "message": "આગલી વખતે Signal શરૂ થાય ત્યારે જોડણી તપાસ સક્ષમ કરવામાં આવશે.",
     "description": "(deleted 03/29/2023) Shown when the user enables spellcheck to indicate that they must restart Signal."
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "તમે આ વાતચીતમાં તમારા માટે નોંધો ઉમેરી શકો છો. જો તમારા એકાઉન્ટમાં કોઈ લિંક થયેલ ડિવાઇસ છે, તો નવી નોટ્સ સમન્વયિત કરવામાં આવશે.",
+    "messageformat": "આ ચેટમાં તમે તમારા માટે નોંધ ઉમેરી શકો છો. જો તમારા એકાઉન્ટ સાથે કોઈ લિંક થયેલા ડિવાઇસ હશે તો નવી નોંધને સિંક કરવામાં આવશે.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "નવી વાતચીત શરૂ કરો ...",
+    "messageformat": "નવી ચેટ શરૂ કરો",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "નવી વાતચીત",
+    "messageformat": "નવી ચેટ",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "કોઈ વાતચીત મળી નથી",
+    "messageformat": "કોઈ ચેટ મળી નથી",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title}ને દૂર કરવામાં આવ્યા છે.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {{title} સાથેની ચેટ, {unreadCount,number} નવો મેસેજ, છેલ્લો મેસેજ: {lastMessage}.} other {{title} સાથેની ચેટ, {unreadCount,number} નવા મેસેજ, છેલ્લો મેસેજ: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} સાથેની વાતચીત પર જાઓ",
+    "messageformat": "{title} સાથેની ચેટ પર જાઓ",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "ડ્રાફ્ટ:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "મેસેજની વિનંતી",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "એકવાર જુઓ મેસેજ તમારા વાતચીત હિસ્ટ્રીમાં સંગ્રહિત નથી.",
+    "messageformat": "'એકવાર જુઓ' મેસેજ તમારી ચેટ હિસ્ટ્રીમાં સ્ટોર થતાં નથી.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "અગાઉની વાતચીત",
+    "messageformat": "પાછલી ચેટ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "આગલી વાતચીત",
+    "messageformat": "આગલી ચેટ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "અગાઉની ન વંચાયેલ વાતચીત",
+    "messageformat": "પાછલી ન વાંચેલી ચેટ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "આગલી ન વંચાયેલ વાતચીત",
+    "messageformat": "આગલી ન વાંચેલી ચેટ",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "વાતચીત મેનુ ખોલો",
+    "messageformat": "ચેટ મેનૂ ખોલો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "નવી વાતચીત શરૂ કરો",
+    "messageformat": "નવી ચેટ શરૂ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "આર્કાઇવ કરો વાતચીત",
+    "messageformat": "ચેટને આર્કાઇવ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "વાતચીત અનાર્કાઇવ કરો",
+    "messageformat": "ચેટને અનઆર્કાઇવ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "વાતચીત માં શોધો",
+    "messageformat": "ચેટમાં શોધો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "પસંદ કરેલા મેસેજ ફોરવર્ડ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "વાતચીત પર જાઓ",
+    "messageformat": "ચેટ પર જાઓ",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "કમ્પોઝર",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "લિસ્ટની ટોચ પર સ્ક્રોલ કરો",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "વર્તમાન વાતચીત બંધ કરો",
+    "messageformat": "વર્તમાન ચેટ બંધ કરો",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "વાતચીત આર્કાઇવ કરો",
+    "messageformat": "ચેટ આર્કાઇવ કરી",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "વાતચીત ઈનબૉક્સમાં પાછી આવી",
+    "messageformat": "ચેટને પાછી ઇનબોક્સમાં મૂકી",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "વાતચીત ન વંચાયેલ તરીકે ચિહ્નિત કરી",
+    "messageformat": "ચેટને ન વાંચેલ તરીકે માર્ક કરી",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "શું તમે Signal સ્ટિકર પેક ક્રિએટર ખોલવા માગો છો?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name}ને તમને મેસેજ કરવા અને તેમની સાથે તમારું નામ અને ફોટો શેર કરવા દેવા છે? તમે આ વ્યક્તિને ભૂતકાળમાં દૂર કર્યા છે.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "વાતચીત ડિલીટ કરવી છે?",
+    "messageformat": "ચેટ ડિલીટ કરવી છે?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "આ વાતચીત તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.",
+    "messageformat": "આ ચેટને તમારા તમામ ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "આ ગ્રુપ સાથે તમારી વાતચીત ચાલુ રાખો અને તેના મેમ્બર્સ સાથે તમારું નામ અને ફોટો શેર કરીએ? {learnMore}",
+    "messageformat": "આ ગ્રૂપ સાથે તમારી ચેટ ચાલુ રાખી અને તેના સભ્યો સાથે તમારું નામ અને ફોટો શેર કરવા છે? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "આ ગ્રૂપ સાથે તમારી ચેટ ચાલુ રાખી અને તેના સભ્યો સાથે તમારું નામ અને ફોટો શેર કરવા છે? <learnMoreLink>વધુ શીખો.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "{firstName} સાથે આ વાતચીત ચાલુ રાખો અને તેમની સાથે તમારું નામ અને ફોટો શેર કરો? {learnMore}",
+    "messageformat": "{firstName} સાથે આ ચેટ ચાલુ રાખી અને તેમની સાથે તમારું નામ અને ફોટો શેર કરવો છે? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "{firstName} સાથે આ ચેટ ચાલુ રાખી અને તેમની સાથે તમારું નામ અને ફોટો શેર કરવો છે? <learnMoreLink>વધુ જાણો</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "@ઉલ્લેખો અને એડમિન જેવા નવા ફીચર સક્રિય કરવા માટે આ ગ્રૂપને અપગ્રેડ કરો. જે સભ્યોએ આ ગ્રૂપમાં પોતાનું નામ અથવા ફોટો શેર કર્યો નથી તેમને જોડાવા માટે આમંત્રણ આપવામાં આવશે. <learnMoreLink>વધુ જાણો.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "બૅજ કાઉન્ટમાં મ્યૂટ કરેલી વાતચીતો શામેલ કરો",
+    "messageformat": "બૅજ કાઉન્ટમાં મ્યૂટ કરેલી ચેટ સામેલ કરો",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "જ્યારે સક્ષમ હોય ત્યારે આ સામ-સામી ચેટમાં મોકલેલ અને મેળવેલ મેસેજ જોઈ લીધા પછી ગાયબ થઈ જશે.",
+    "message": "આ જ્યારે ચાલુ હોય ત્યારે આ સામ-સામી ચેટમાં મોકલેલ અને મેળવેલ મેસેજ જોઈ લીધા પછી ગાયબ થઈ જશે.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "જ્યારે સક્ષમ હોય ત્યારે આ સામ-સામી ચેટમાં મોકલેલ અને મેળવેલ મેસેજ જોઈ લીધા પછી ગાયબ થઈ જશે.",
+    "messageformat": "આ જ્યારે ચાલુ હોય ત્યારે આ સામ-સામી ચેટમાં મોકલેલ અને મેળવેલ મેસેજ જોઈ લીધા પછી ગાયબ થઈ જશે.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8677,11 +8721,11 @@
     "description": "In the conversation notifications settings, this is the label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__info": {
-    "message": "મ્યૂટ કરેલ ચેટમાં તમારો ઉલ્લેખ કરવામાં આવે ત્યારે નોટિફિકેશન મેળવો",
+    "message": "મ્યૂટ કરેલી ચેટમાં તમારો ઉલ્લેખ કરવામાં આવે ત્યારે નોટિફિકેશન મેળવો",
     "description": "(deleted 03/29/2023) In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "મ્યૂટ કરેલ ચેટમાં તમારો ઉલ્લેખ કરવામાં આવે ત્યારે નોટિફિકેશન મેળવો",
+    "messageformat": "મ્યૂટ કરેલી ચેટમાં તમારો ઉલ્લેખ કરવામાં આવે ત્યારે નોટિફિકેશન મેળવો",
     "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {\"{name}\" દ્વારા મોકલાયેલું {number,number} આમંત્રણ પાછું ખેંચવું છે?} other {\"{name}\" દ્વારા મોકલાયેલા {number,number} આમંત્રણો પાછા ખેંચવા છે?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {{count,number} મેસેજ ડિલીટ કરવો છે?} other {{count,number} મેસેજ ડિલીટ કરવા છે?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {{count,number} મેસેજ ડિલીટ કરવો છે?} other {{count,number} મેસેજ ડિલીટ કરવા છે?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {આ મેસેજ આ ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.} other {આ મેસેજ આ ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {તમે આ મેસેજ કોના માટે ડિલીટ કરવા માગો છો?} other {તમે આ મેસેજ કોના માટે ડિલીટ કરવા માગો છો?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {તમે આ મેસેજ કયા ડિવાઇસમાંથી ડિલીટ કરવા માગો છો?} other {તમે આ મેસેજ કયા ડિવાઇસમાંથી ડિલીટ કરવા માગો છો?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "મારા માટે ડિલીટ કરો",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "મારા માટે ડિલીટ કરો",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "મારા માટે ડિલીટ કરો",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "આ ડિવાઇસમાંથી ડિલીટ કરો",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "બધા માટે ડિલીટ કરો",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "બધા ડિવાઇસમાંથી ડિલીટ કરો",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} મેસેજ સુધી જ પસંદ કરી શકો છો} other {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} જેટલા મેસેજ પસંદ કરી શકો છો}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "તમે માત્ર 30 જેટલા મેસેજ ફોરવર્ડ કરી શકો છો",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "વિનંતીઓને કાળજીપૂર્વક રિવ્યૂ કરો. Signalને સરખાં નામનો બીજો સંપર્ક મળ્યો. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્યનું નામ સમાન છે. {link}} other {{count,number} ગ્રૂપના સભ્યોનું નામ સમાન છે. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્યનું નામ સમાન છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>} other {{count,number} ગ્રૂપના સભ્યોનું નામ સમાન છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્ય સમાન નામો ધરાવે છે. નીચેના સભ્યોને રિવ્યૂ કરો અથવા પગલાં લેવાનું પસંદ કરો.} other {{count,number} ગ્રૂપના સભ્યો સમાન નામો ધરાવે છે. નીચેના સભ્યોને રિવ્યૂ કરો અથવા પગલાં લેવાનું પસંદ કરો.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,11 +9585,11 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "આ કસ્ટમ રંગનો ઉપયોગ $num$ ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?",
+    "message": "આ કસ્ટમ કલરનો ઉપયોગ $num$ ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {આ કસ્ટમ કલરનો ઉપયોગ {num,number} ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?} other {આ કસ્ટમ કલરનો {num,number} ચેટમાં ઉપયોગ થયો છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માંગો છો?}}",
+    "messageformat": "{num, plural, one {આ કસ્ટમ કલરનો ઉપયોગ {num,number} ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?} other {આ કસ્ટમ કલરનો {num,number} ચેટમાં ઉપયોગ થયો છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -9541,19 +9617,19 @@
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "ચેટ કલર્સ રીસેટ કરો",
+    "message": "ચેટ કલર રીસેટ કરો",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "ચેટ કલર્સ રીસેટ કરો",
+    "messageformat": "ચેટ કલર રીસેટ કરો",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "બધા ચેટ કલર્સ રીસેટ કરો",
+    "message": "બધા ચેટ કલર રીસેટ કરો",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "બધા ચેટ કલર્સ રીસેટ કરો",
+    "messageformat": "બધા ચેટ કલર રીસેટ કરો",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "શું તમે બધા ચેટ કલર્સને ઓવરરાઇડ કરવા માંગો છો?",
+    "message": "શું તમે બધી ચેટ માટે આ નવા ચેટ કલર લાગુ માગો છો?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "શું તમે બધા ચેટ કલર્સને ઓવરરાઇડ કરવા માંગો છો?",
+    "messageformat": "શું તમે બધી ચેટ માટે આ નવા ચેટ કલર લાગુ માગો છો?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9665,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "અહીં ચેટ રંગનું પ્રિવ્યુ છે.",
+    "message": "આ ચેટ કલરનો પ્રિવ્યૂ છે.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "અહીં ચેટ રંગનું પ્રિવ્યુ છે.",
+    "messageformat": "આ ચેટ કલરનો પ્રિવ્યૂ છે.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9849,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "તમે શરૂ કરેલી બધી નવી ચેટ માટે ડિફોલ્ટ અદ્રશ્ય મેસેજ ટાઈમર સેટ કરો.",
+    "message": "તમે શરૂ કરેલી બધી નવી ચેટ માટે ડિફોલ્ટ ગાયબ થતાં મેસેજનું ટાઇમર સેટ કરો.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "તમે શરૂ કરેલી બધી નવી ચેટ માટે ડિફોલ્ટ અદ્રશ્ય મેસેજ ટાઈમર સેટ કરો.",
+    "messageformat": "તમે શરૂ કરેલી બધી નવી ચેટ માટે ડિફોલ્ટ ગાયબ થતાં મેસેજનું ટાઇમર સેટ કરો.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "નવી ચેટ માટે ડિફોલ્ટ ટાઈમર",
+    "message": "નવી ચેટ માટે ડિફોલ્ટ ટાઇમર",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "નવી ચેટ માટે ડિફોલ્ટ ટાઈમર",
+    "messageformat": "નવી ચેટ માટે ડિફોલ્ટ ટાઇમર",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "તમે આ વ્યક્તિને દૂર કરી છે, તેમને ફરીથી મેસેજ કરવાથી તેઓ તમારી સૂચિમાં પાછા ઉમેરાઈ જશે.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "તમારી પ્રોફાઇલ એન્ક્રિપ્ટ થયેલ છે. તમારી પ્રોફાઇલ અને તેમાં કરેલા ફેરફારો તમારા સંપર્કો અને જ્યારે તમે નવી ચેટ શરૂ કરો અથવા સ્વીકારો ત્યારે દૃશ્યક્ષમ થશે. {learnMore}",
+    "messageformat": "તમારી પ્રોફાઇલ એન્ક્રિપ્ટ થયેલ છે. તમારી પ્રોફાઇલ અને તેમાં કરેલા ફેરફારો તમારા સંપર્કો અને જ્યારે તમે નવી ચેટ શરૂ કરો અથવા સ્વીકારો ત્યારે દેખાશે. {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "તમારી પ્રોફાઇલ એન્ક્રિપ્ટેડ છે. તમારી પ્રોફાઇલ અને તેમાં થતાં ફેરફારો તથા જ્યારે તમે નવી ચેટ શરૂ કરશો અથવા સ્વીકારશો ત્યારે તે તમારા સંપર્કોને દેખાશે. <learnMoreLink>વધુ જાણો</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10249,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "ચેટ કરવા માટે મુક્ત",
+    "message": "ચેટ કરવા માટે તૈયાર",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "ચેટ કરવા માટે મુક્ત",
+    "messageformat": "ચેટ કરવા માટે તૈયાર",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10373,11 +10449,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "આ સેટિંગ બદલવા માટે, તમારા મોબાઇલ ડિવાઇસ પર Signal એપ્લિકેશન ઓપન કરો અને સેટિંગ્સ > ચેટ પર જાઓ",
+    "message": "આ સેટિંગ બદલવા માટે, તમારા મોબાઇલ ડિવાઇસ પર Signal ઍપ ખોલો અને સેટિંગ્સ > ચેટ પર જાઓ",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "આ સેટિંગ બદલવા માટે, તમારા મોબાઇલ ડિવાઇસ પર Signal એપ્લિકેશન ઓપન કરો અને સેટિંગ્સ > ચેટ પર જાઓ",
+    "messageformat": "આ સેટિંગ બદલવા માટે, તમારા મોબાઇલ ડિવાઇસ પર Signal ઍપ ખોલો અને સેટિંગ્સ > ચેટ પર જાઓ",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} સંપર્ક} other {{num,number} સંપર્કો}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "{viewCount,number} વ્યૂ",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "{viewCount,number} વ્યૂ",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "વાતચીત શરૂ કરવી",
+    "messageformat": "ચેટ શરૂ કરવી",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "તમારી સ્ટોરી કોણ જોઈ શકે તે પસંદ કરો. ફેરફારોની અસર તમે પહેલાંથી જ મોકલેલી સ્ટોરી પર નહીં થાય. <learnMoreLink>વધુ જાણો.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "“{groupTitle}” ગ્રુપ ચેટના સભ્યો આ સ્ટોરી જોઈ શકે અને તેમાં જવાબ આપી શકે છે. તમે આ ગ્રુપમાં આ ચેટ માટેના સભ્યપદને અપડેટ કરી શકો છો.",
+    "messageformat": "“{groupTitle}” ગ્રૂપ ચેટના સભ્યો આ સ્ટોરી જોઈ શકે અને તેમાં જવાબ આપી શકે છે. તમે આ ગ્રૂપમાં આ ચેટ માટેની મેમ્બરશિપને અપડેટ કરી શકો છો.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "તમારી સ્ટોરી કયા Signal કનેક્શન જોઈ શકે તે પસંદ કરો. તમે હંમેશા આને ગોપનીયતા સેટિંગ્સમાં બદલી શકો છો. <learnMoreLink>વધુ જાણો.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12233,11 +12309,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "આ અંકો તમારા યુઝરનેમને ખાનગી રાખવામાં મદદ કરે છે જેથી તમે અનિચ્છનીય મેસેજને ટાળી શકો. તમારું યુઝરનેમ ફક્ત એ લોકો અને ગ્રુપ સાથે જ શેર કરો જેમની સાથે તમને ચેટ કરવું ગમે છે. જો તમે યુઝરનેમ બદલો છો તો તમને નવા અંકો મળશે.",
+    "message": "આ અંકો તમારા યુઝરનેમને ખાનગી રાખવામાં મદદ કરે છે જેથી તમે અનિચ્છનીય મેસેજને ટાળી શકો. તમારું યુઝરનેમ ફક્ત એ લોકો અને ગ્રૂપ સાથે જ શેર કરો જેમની સાથે તમને ચેટ કરવું ગમે છે. જો તમે યુઝરનેમ બદલો છો તો તમને નવા અંકો મળશે.",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "આ અંકો તમારા યુઝરનેમને ખાનગી રાખવામાં મદદ કરે છે જેથી તમે અનિચ્છનીય મેસેજને ટાળી શકો. તમારું યુઝરનેમ ફક્ત એ લોકો અને ગ્રુપ સાથે જ શેર કરો જેમની સાથે તમને ચેટ કરવું ગમે છે. જો તમે યુઝરનેમ બદલો છો તો તમને નવા અંકો મળશે.",
+    "messageformat": "આ અંકો તમારા યુઝરનેમને ખાનગી રાખવામાં મદદ કરે છે જેથી તમે અનિચ્છનીય મેસેજને ટાળી શકો. તમારું યુઝરનેમ ફક્ત એ લોકો અને ગ્રૂપ સાથે જ શેર કરો જેમની સાથે તમને ચેટ કરવું ગમે છે. જો તમે યુઝરનેમ બદલો છો તો તમને નવા અંકો મળશે.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {

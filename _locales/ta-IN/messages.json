@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "உரையாடல் நிறம்",
+    "message": "சாட் கலர்",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "உரையாடல் நிறம்",
+    "messageformat": "சாட் கலர்",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "காப்பகப்படுத்தப்பட்ட உரையாடல்கள்",
+    "messageformat": "காப்பகப்படுத்தப்பட்ட சாட்ஸ்",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "உரையாடல்கள்",
+    "message": "சாட்ஸ்",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "உரையாடல்கள்",
+    "messageformat": "சாட்ஸ்",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "இந்த உரையாடல்கள் காப்பகப்படுத்தப்பட்டுள்ளன, மேலும் புதிய செய்திகள் வந்தால் மட்டுமே இன்பாக்ஸில் தோன்றும்.",
+    "messageformat": "இந்த சாட்ஸ் காப்பகப்படுத்தப்பட்டு, புதிய செய்திகள் வந்தால் மட்டுமே இன்பாக்ஸில் தோன்றும்.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "காப்பகப்படுத்தப்பட்ட உரையாடல்கள் இல்லை.",
+    "messageformat": "காப்பகப்படுத்தப்பட்ட சாட்ஸ் இல்லை.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "தொடர்பை நிர்வகிக்கவும்",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "மெசேஜ்",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ஆடியோ அழைப்பு",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "வீடியோ அழைப்பு",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "அகற்று",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "தடைசெய்",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title} ஐ அகற்ற வேண்டுமா?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "தேடும் போது இவரைப் பார்க்க முடியாது. எதிர்காலத்தில் அவர்கள் உங்களுக்கு மெசேஜ் அனுப்பினால், நீங்கள் ஒரு மெசேஜ் கோரிக்கையைப் பெறுவீர்கள்.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "அகற்று",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title}ஐ அகற்ற முடியவில்லை",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "இந்த நபர் உங்கள் டிவைஸின் தொடர்புகளில் சேமிக்கப்பட்டுள்ளார். உங்கள் தொடர்புகளில் இருந்து அவர்களை நீக்கிவிட்டு மீண்டும் முயற்சிக்கவும்.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "முக்கியமானதாகக் குறிக்கவும்",
+    "messageformat": "சாட்டை பின் செய்க",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "சாதாரணமானதாகக் குறிக்கவும்",
+    "messageformat": "அரட்டையில் பின்னை அகற்று",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "4 உரையாடல்கள் மட்டுமே பாதுகாக்கமுடியும்.",
+    "message": "4 சாட்ஸ் வரை மட்டுமே பின் செய்ய முடியும்",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "4 உரையாடல்கள் மட்டுமே பாதுகாக்கமுடியும்.",
+    "messageformat": "4 சாட்ஸ் வரை மட்டுமே பின் செய்ய முடியும்",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "உரையாடலின் கீழே உருட்டவும்",
+    "messageformat": "சாட்டின் கீழே ஸ்குரோல் செய்யவும்",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "உரையாடல் விவரக் குறிப்பு புதிய இணைக்கப்பட்ட சாதனங்களுக்கு,  உங்கள் பாதுகாப்பு கருதி மாற்றப்படவில்லை.",
+    "messageformat": "உங்கள் பாதுகாப்பிற்காக, சாட் வரலாறு புதிய இணைக்கப்பட்ட டிவைஸ்களுக்கு மாற்றப்படாது.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "இந்த உரையாடலில் உங்களிடம் எந்த ஊடகமும் இல்லை",
+    "messageformat": "இந்த சாட்டில் உங்களிடம் எந்த ஊடகமும் இல்லை",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "இந்த உரையாடலில் உங்களிடம் எந்த ஆவணங்களும் இல்லை",
+    "messageformat": "இந்த சாட்டில் உங்களிடம் ஆவணங்கள் எதுவும் இல்லை",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "சாட்டைத் தேடு",
+    "message": "சாட்டைத் தேடுக",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "சாட்டைத் தேடு",
+    "messageformat": "சாட்டைத் தேடுக",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "உரையாடல்கள்",
+    "messageformat": "சாட்ஸ்",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "இந்த உரையாடலுக்கு அனிமேஷனைத் தட்டச்சு செய்க",
+    "messageformat": "இந்த சாட்டிற்கான டைப்பிங் அனிமேஷன்",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Signal ன் சமீபத்திய பதிப்பில் இருந்தால், உரையாடலில் உள்ள அனைவருக்கும் இந்த செய்தி நீக்கப்படும். நீங்கள் ஒரு செய்தியை நீக்கியுள்ளதை அவர்களால் பார்க்க முடியும்.",
+    "messageformat": "சாட்டில் உள்ள அனைவரும் Signal இன் சமீபத்திய பதிப்பில் இருந்தால், இந்தச் செய்தி நீக்கப்படும். நீங்கள் ஒரு செய்தியை நீக்கியுள்ளீர்கள் என்பதை அவர்களால் பார்க்க முடியும்.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "தேர்ந்தெடு",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "ஸ்பாய்லர்",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "அனுப்ப முயற்சிக்கவும்",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "செய்தியை எனக்கு மட்டும் நீக்கு",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "அனைவருக்கும் செய்தியை நீக்கு",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "அனைவருக்கும் செய்தியை நீக்கு",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "செய்தியை நீக்கு",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "நீக்கு",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "இந்த உரையாடலை நிரந்தரமாக நீக்கவா?",
+    "messageformat": "இந்தச் சாட்டை நிரந்தரமாக நீக்க வேண்டுமா?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "உரையாடல் அமர்வு புதுப்பிக்கப்பட்டது",
+    "message": "சாட் அமர்வு புதுப்பிக்கப்பட்டது",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "உரையாடல் அமர்வு புதுப்பிக்கப்பட்டது",
+    "messageformat": "சாட் அமர்வு புதுப்பிக்கப்பட்டது",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal இருமுனை குறியாக்கத்தைப் (E2EE) பயன்படுத்துகிறது, மேலும் இது சில நேரங்களில் உங்கள் அரட்டை அமர்வை புதுப்பிக்க வேண்டியிருக்கும். இது உங்கள் அரட்டையின் பாதுகாப்பைப் பாதிக்காது, ஆனால் இந்த தொடர்பிலிருந்து நீங்கள் ஒரு செய்தியைத் தவறவிட்டிருக்கலாம், மேலும் அதை மீண்டும் அனுப்புமாறு அவர்களிடம் கேட்கலாம்.",
+    "message": "Signal இருமுனை குறியாக்கத்தைப் பயன்படுத்துகிறது, மேலும் இது சில நேரங்களில் உங்கள் சாட் அமர்வை புதுப்பிக்க வேண்டியிருக்கும். இது உங்கள் சாட்டின் பாதுகாப்பைப் பாதிக்காது, ஆனால் இந்த தொடர்பிலிருந்து நீங்கள் ஒரு செய்தியைத் தவறவிட்டிருக்கலாம், மேலும் அதை மீண்டும் அனுப்புமாறு அவர்களிடம் கேட்கலாம்.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal இருமுனை குறியாக்கத்தைப் (E2EE) பயன்படுத்துகிறது, மேலும் இது சில நேரங்களில் உங்கள் அரட்டை அமர்வை புதுப்பிக்க வேண்டியிருக்கும். இது உங்கள் அரட்டையின் பாதுகாப்பைப் பாதிக்காது, ஆனால் இந்த தொடர்பிலிருந்து நீங்கள் ஒரு செய்தியைத் தவறவிட்டிருக்கலாம், மேலும் அதை மீண்டும் அனுப்புமாறு அவர்களிடம் கேட்கலாம்.",
+    "messageformat": "Signal இருமுனை குறியாக்கத்தைப் பயன்படுத்துகிறது, மேலும் இது சில நேரங்களில் உங்கள் சாட் அமர்வை புதுப்பிக்க வேண்டியிருக்கும். இது உங்கள் சாட்டின் பாதுகாப்பைப் பாதிக்காது, ஆனால் இந்த தொடர்பிலிருந்து நீங்கள் ஒரு செய்தியைத் தவறவிட்டிருக்கலாம், மேலும் அதை மீண்டும் அனுப்புமாறு அவர்களிடம் கேட்கலாம்.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "இந்த சாட்டில் $sender$ அனுப்பிய ஒரு மெசேஜ், ஸ்டிக்கர், எதிர்வினை, படித்த ரசீது அல்லது ஊடகத்தை உங்களிடம் டெலிவரி செய்ய முடியவில்லை.",
+    "message": "இந்த சாட்டில் $sender$ அனுப்பிய ஒரு செய்தி, ஸ்டிக்கர், எதிர்வினை, வாசித்ததற்கான அறிவிப்பு அல்லது ஊடகத்தை உங்களிடம் டெலிவரி செய்ய முடியவில்லை.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "இந்த சாட்டில் {sender} அனுப்பிய ஒரு மெசேஜ், ஸ்டிக்கர், எதிர்வினை, படித்த ரசீது அல்லது ஊடகத்தை உங்களிடம் டெலிவரி செய்ய முடியவில்லை.",
+    "messageformat": "இந்த சாட்டில் {sender} அனுப்பிய ஒரு செய்தி, ஸ்டிக்கர், எதிர்வினை, வாசித்ததற்கான அறிவிப்பு அல்லது ஊடகத்தை உங்களிடம் டெலிவரி செய்ய முடியவில்லை.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} மற்றும் {conversationTitle} ஆகியவை ஒரே கணக்கைச் சேர்ந்தவை. இரண்டு சாட்களுக்கான உங்கள் மெசேஜ் வரலாறு இங்கே உள்ளது.",
+    "messageformat": "{obsoleteConversationTitle} மற்றும் {conversationTitle} ஆகியவை ஒரே கணக்கைச் சேர்ந்தவை. இரண்டு சாட்களுக்கான உங்கள் செய்தி வரலாறு இங்கே உள்ளது.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2511,7 +2519,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "{conversationTitle} உடனான உங்கள் மெசேஜ் வரலாறும் அவர்களுக்குச் சொந்தமான மற்றொரு சாட்டும் இணைக்கப்பட்டன.",
+    "messageformat": "{conversationTitle} உடனான உங்கள் செய்தி வரலாறும் அவர்களுக்குச் சொந்தமான மற்றொரு சாட்டும் இணைக்கப்பட்டன.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "இரண்டு உரையாடல்களுக்கான உங்கள் மெசேஜ் வரலாறு இங்கே இணைக்கப்பட்டுள்ளது.",
+    "messageformat": "இரண்டு சாட்களுக்கான உங்கள் மெசேஜ் வரலாறு இங்கே இணைக்கப்பட்டுள்ளது.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "படம் உரையாடலில் அனுப்பப்பட்டது",
+    "messageformat": "படம் சாட்டில் அனுப்பப்பட்டது",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -3317,6 +3325,10 @@
     "messageformat": "செய்தி தொகுப்பு பெட்டியில் உள்ளிடப்பட்டுள்ள எழுத்துப்பிழை சரிபார்ப்பு உரை",
     "description": "Description of the spell check setting"
   },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
+  },
   "spellCheckWillBeEnabled": {
     "message": "அடுத்த முறை Signal சிக்னல் தொடங்கும் போது எழுத்துப்பிழை சோதனை செயல்படுத்தப்படும்.",
     "description": "(deleted 03/29/2023) Shown when the user enables spellcheck to indicate that they must restart Signal."
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "நீங்கள் இந்த உரையாடலில் உங்களுக்காக குறிப்புகளைச் சேர்க்கலாம். என்றால் உங்கள் கணக்கு ஏதேனும் உள்ளது இணைக்கப்பட்டுள்ளது சாதனங்கள், புதிய குறிப்புகள் ஒத்திசைக்கப்படும்.",
+    "messageformat": "இந்த சாட்டில் உங்களுக்கான குறிப்புகளைச் சேர்க்கலாம். உங்கள் கணக்கில் இணைக்கப்பட்ட டிவைஸ்கள் ஏதேனும் இருந்தால், புதிய குறிப்புகள் ஒத்திசைக்கப்படும்.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "புதிய உரையாடலைத் தொடங்குங்கள்…",
+    "messageformat": "புதிய சாட்டைத் தொடங்கவும்",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "புதிய உரையாடல்",
+    "messageformat": "புதிய சாட்",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "உரையாடல்கள் எதுவும் கிடைக்கவில்லை",
+    "messageformat": "சாட்ஸ் எதுவும் இல்லை",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} என்ற தொடர்பு அகற்றப்பட்டது.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {{title} உடன் சாட், {unreadCount,number} புதிய செய்தி, கடைசி செய்தி: {lastMessage}.} other {{title} உடன் சாட், {unreadCount,number} புதிய செய்திகள், கடைசி செய்தி: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} உடன் உரையாடலுக்குச் செல்லவும்",
+    "messageformat": "{title} உடன் சாட்டிற்குச் செல்",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "வரைவு:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "மெசேஜ் கோரிக்கை",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "\"பார்வைக்கு ஒரு முறை மட்டுமே\" செய்தி உங்கள் உரையாடல் வரலாற்றில் சேமிக்கப்படவில்லை.",
+    "messageformat": "\"பார்வைக்கு ஒரு முறை மட்டுமே\" மெசேஜ்கள் உங்கள் சாட் வரலாற்றில் சேமிக்கப்படவில்லை.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "முந்தைய உரையாடல்",
+    "messageformat": "முந்தைய சாட்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "அடுத்த உரையாடல்",
+    "messageformat": "அடுத்த சாட்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "முந்தைய படிக்காத உரையாடல்",
+    "messageformat": "முந்தைய படிக்காத சாட்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "அடுத்து படிக்காத உரையாடல்",
+    "messageformat": "அடுத்த படிக்காத சாட்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "உரையாடல் மெனுவைத் திறக்கவும்",
+    "messageformat": "சாட் மெனுவைத் திறக்கவும்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "புதிய உரையாடலைத் தொடங்கு",
+    "messageformat": "புதிய சாட்டைத் தொடங்கவும்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "காப்பக உரையாடல்",
+    "messageformat": "சாட்டைக் காப்பகப்படுத்தவும்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Unarchive conversation",
+    "messageformat": "காப்பகப்படுத்தப்படாத சாட்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "உரையாடலில் தேடுங்கள்",
+    "messageformat": "சாட்டில் தேடவும்",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "தேர்ந்தெடுக்கப்பட்ட மெசேஜ்களை முன்னனுப்பு",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "உரையாடலுக்கு செல்லவும்",
+    "messageformat": "சாட்டிற்குச் செல்லவும்",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "புதிய செய்தி உருவாக்கு",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "Scroll to top of list",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "தற்போதைய உரையாடலை மூடு",
+    "messageformat": "தற்போதைய சாட்டை மூடுக",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "உரையாடல் காப்பகப்படுத்தப்பட்டது",
+    "messageformat": "சாட் காப்பகப்படுத்தப்பட்டது",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "உரையாடல் உட்பெட்டிக்கு திரும்பியது",
+    "messageformat": "சாட் இன்பாக்ஸுக்கு திரும்பியது",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "உரையாடல் படிக்கப்படாததாகக் குறிக்கப்பட்டுள்ளது",
+    "messageformat": "சாட் படிக்காததாகக் குறிக்கப்பட்டது",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal ஸ்டிக்கர் பேக் கிரியேட்டரைத் திறக்க விரும்புகிறீர்களா?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name} உங்களுக்கு மெசேஜ் செய்ய மற்றும் உங்கள் பெயரையும் புகைப்படத்தையும் அவர்களுடன் பகிர்ந்து கொள்ள அனுமதிக்கவா? கடந்த காலத்தில் இவரை அகற்றிவிட்டீர்கள்.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "உரையாடலை நீக்கவா?",
+    "messageformat": "சாட்டை நீக்க வேண்டுமா?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "இந்த உரையாடல் எல்லாவற்றிலிருந்தும் நீக்கப்படும் உங்கள் சாதனங்கள்.",
+    "messageformat": "இந்தச் சாட் உங்கள் எல்லா டிவைஸ்களிலிருந்தும் நீக்கப்படும்.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "இதனுடன் உங்கள் உரையாடலைத் தொடரவும் குழு உங்கள் பெயரைப் பகிரவும் புகைப்படம் அதன் உறுப்பினர்களுடன்? {learnMore}",
+    "messageformat": "இந்தக் குழுவுடன் உங்கள் சாட்டைத் தொடரவும், அதன் உறுப்பினர்களுடன் உங்கள் பெயரையும் புகைப்படத்தையும் பகிர வேண்டுமா? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "இந்த குழுவுடன் உங்கள் சாட்டைத் தொடரவும், உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ள வேண்டுமா? <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? {learnMore}",
+    "messageformat": "{firstName} உடன் இந்த சாட்டைத் தொடரவும் மற்றும் அவர்களுடன் உங்கள் பெயரையும் புகைப்படத்தையும் பகிர வேண்டுமா? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "{firstName} உடன் இந்த சாட்டைத் தொடரவும் மற்றும் அவர்களுடன் உங்கள் பெயரையும் புகைப்படத்தையும் பகிர வேண்டுமா? <learnMoreLink>மேலும் அறிக</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "@குறிப்புகள் மற்றும் நிர்வாகிகள் போன்ற புதிய அம்சங்களைச் செயல்படுத்த இந்தக் குழுவை மேம்படுத்தவும். இந்தக் குழுவில் பெயர் அல்லது புகைப்படத்தைப் பகிராத உறுப்பினர்கள் சேர அழைக்கப்படுவார்கள். <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "பேட்ஜ் எண்ணிக்கையில் ஒலியடக்கப்பட்ட உரையாடல்களைச் சேர்க்கவும்",
+    "messageformat": "பேட்ஜ் எண்ணிக்கையில் ஒலியடக்கிய சாட்களைச் சேர்க்கவும்",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8409,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "உரையாடல் நிறம்",
+    "message": "சாட் கலர்",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "உரையாடல் நிறம்",
+    "messageformat": "சாட் கலர்",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,11 +8425,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "அரட்டை அமைப்புகள்",
+    "message": "சாட் அமைப்புகள்",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "அரட்டை அமைப்புகள்",
+    "messageformat": "சாட் அமைப்புகள்",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "இயக்கப்படும் போது, இந்த 1:1 அரட்டையில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட செய்திகள் பார்த்த பிறகு மறைந்துவிடும்.",
+    "message": "இயக்கப்படும் போது, இந்த 1:1 சாட்டில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட மெசேஜ்கள் பார்த்த பிறகு மறைந்துவிடும்.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "இயக்கப்படும் போது, இந்த 1:1 அரட்டையில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட செய்திகள் பார்த்த பிறகு மறைந்துவிடும்.",
+    "messageformat": "இயக்கப்படும் போது, இந்த 1:1 சாட்டில் அனுப்பப்பட்ட மற்றும் பெறப்பட்ட மெசேஜ்கள் பார்த்த பிறகு மறைந்துவிடும்.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {\"{name}\" அனுப்பிய {number,number} அழைப்பைத் திரும்பப் பெற வேண்டுமா?} other {\"{name}\" அனுப்பிய {number,number} அழைப்புகளைத் திரும்பப் பெற வேண்டுமா?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {{count,number} மெசேஜை நீக்க வேண்டுமா?} other {{count,number} மெசேஜ்களை நீக்க வேண்டுமா?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {{count,number} மெசேஜை நீக்க வேண்டுமா?} other {{count,number} மெசேஜ்களை நீக்க வேண்டுமா?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {இந்த மெசேஜ் இந்த டிவைஸில் இருந்து நீக்கப்படும்.} other {இந்த மெசேஜ்கள் இந்த டிவைஸில் இருந்து நீக்கப்படும்.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {இந்த மெசேஜை யாருக்காக நீக்க விரும்புகிறீர்கள்?} other {இந்த மெசேஜ்களை யாருக்காக நீக்க விரும்புகிறீர்கள்?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {எந்த டிவைஸ்களிலிருந்து இந்த மெசேஜை நீக்க விரும்புகிறீர்கள்?} other {எந்த டிவைஸ்களிலிருந்து இந்த மெசேஜ்களை நீக்க விரும்புகிறீர்கள்?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "எனக்கு மட்டும் நீக்கு",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "எனக்கு மட்டும் நீக்கு",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "எனக்கு மட்டும் நீக்குக",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "இந்த டிவைஸிலிருந்து நீக்குக",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "அனைவருக்கும் நீக்குக",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "அனைத்து டிவைஸ்களிலிருந்தும் நீக்குக",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {அனைவருக்கும் நீக்க {count,number} மெசேஜை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்} other {அனைவருக்கும் நீக்க {count,number} மெசேஜ்களை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "நீங்கள் 30 மெசேஜ்கள் வரை மட்டுமே முன்னனுப்ப முடியும்",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்க. அதே பெயருடன் மற்றொரு தொடர்பை Signal கண்டறிந்தது. <reviewRequestLink>மதிப்பாய்வு கோரிக்கை</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {{count,number} குழு உறுப்பினர் அதே பெயரைக் கொண்டுள்ளார். {link}} other {{count,number} குழு உறுப்பினர்கள் அதே பெயரைக் கொண்டுள்ளனர். {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} குழு உறுப்பினர் அதே பெயரைக் கொண்டுள்ளார். <reviewRequestLink>மதிப்பாய்வு கோரிக்கை</reviewRequestLink>} other {{count,number} குழு உறுப்பினர்கள் அதே பெயரைக் கொண்டுள்ளனர். <reviewRequestLink>மதிப்பாய்வு கோரிக்கை</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} குழு உறுப்பினருக்கு ஒத்த பெயர் உள்ளது. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்கத் தேர்வு செய்யவும்.} other {{count,number} குழு உறுப்பினர்களுக்கு ஒத்த பெயர்கள் உள்ளன. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்க தேர்வு செய்யவும்.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,51 +9585,51 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "இந்த தனிப்பயன் வண்ணம் பயன்படுத்தப்படுகிறது $num$ அரட்டைகள். எல்லா அரட்டைகளுக்கும் இதை நீக்க விரும்புகிறீர்களா?",
+    "message": "$num$ சாட்டில் இந்த தனிப்பயன் நிறம் பயன்படுத்தப்படுகிறது. அனைத்து சாட்களிலும் இதை நீக்க வேண்டுமா?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {{num,number} அரட்டையில் இந்த கஸ்டம் நிறம் பயன்படுத்தப்படுகிறது. அனைத்து அரட்டைகளிலும் இதை நீக்க வேண்டுமா?} other {இந்த தனிப்பயன் நிறம் {num,number} அரட்டைகளில் பயன்படுத்தப்படுகிறது. எல்லா அரட்டைகளுக்கும் இதை நீக்க விரும்புகிறீர்களா?}}",
+    "messageformat": "{num, plural, one {{num,number} சாட்டில் இந்த தனிப்பயன் நிறம் பயன்படுத்தப்படுகிறது. அனைத்து சாட்களிலும் இதை நீக்க வேண்டுமா?} other {இந்த தனிப்பயன் நிறம் {num,number} சாட்களில் பயன்படுத்தப்படுகிறது. எல்லா சாட்களுக்கும் இதை நீக்க விரும்புகிறீர்களா?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "உலகளாவிய அரட்டை நிறம்",
+    "message": "உலகளாவிய சாட் கலர்",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "உலகளாவிய அரட்டை நிறம்",
+    "messageformat": "உலகளாவிய சாட் கலர்",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "உரையாடல் நிறம்",
+    "message": "சாட் கலர்",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "உரையாடல் நிறம்",
+    "messageformat": "சாட் கலர்",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "மீட்டமை அரட்டை நிறம்",
+    "message": "சாட் கலரை மீட்டமைக்கவும்",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "மீட்டமை அரட்டை நிறம்",
+    "messageformat": "சாட் கலரை மீட்டமைக்கவும்",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "மீட்டமை அரட்டை வண்ணங்கள்",
+    "message": "சாட் கலர்களை மீட்டமைக்கவும்",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "மீட்டமை அரட்டை வண்ணங்கள்",
+    "messageformat": "சாட் கலர்களை மீட்டமைக்கவும்",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "எல்லா அரட்டை வண்ணங்களையும் மீட்டமைக்கவும்",
+    "message": "அனைத்து சாட் கலர்களையும் மீட்டமைக்கவும்",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "எல்லா அரட்டை வண்ணங்களையும் மீட்டமைக்கவும்",
+    "messageformat": "அனைத்து சாட் கலர்களையும் மீட்டமைக்கவும்",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "அனைத்தையும் மேலெழுத விரும்புகிறீர்களா? அரட்டை வண்ணங்கள்?",
+    "message": "அனைத்து சாட் கலர்களையும் மேலெழுத விரும்புகிறீர்களா?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "அனைத்தையும் மேலெழுத விரும்புகிறீர்களா? அரட்டை வண்ணங்கள்?",
+    "messageformat": "அனைத்து சாட் கலர்களையும் மேலெழுத விரும்புகிறீர்களா?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9665,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "இங்கே ஒரு முன்னோட்டம் அரட்டை நிறம்.",
+    "message": "சாட் கலரின் மாதிரிக்காட்சி இதோ.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "இங்கே ஒரு முன்னோட்டம் அரட்டை நிறம்.",
+    "messageformat": "சாட் கலரின் மாதிரிக்காட்சி இதோ.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9849,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "அமை இயல்புநிலை மறைந்து வரும் செய்தி நேரக்குறிப்பான் நீங்கள் தொடங்கிய அனைத்து புதிய அரட்டைகளுக்கும்.",
+    "message": "நீங்கள் தொடங்கும் அனைத்து புதிய சாட்களுக்கும் இயல்பு மறைந்து போகும் செய்தி டைமரை அமைக்கவும்.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "அமை இயல்புநிலை மறைந்து வரும் செய்தி நேரக்குறிப்பான் நீங்கள் தொடங்கிய அனைத்து புதிய அரட்டைகளுக்கும்.",
+    "messageformat": "நீங்கள் தொடங்கும் அனைத்து புதிய சாட்களுக்கும் இயல்பு மறைந்து போகும் செய்தி டைமரை அமைக்கவும்.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "இயல்புநிலை நேரக்குறிப்பான் புதிய அரட்டைகளுக்கு",
+    "message": "புதிய சாட்களுக்கு இயல்புநிலை டைமர்",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "இயல்புநிலை நேரக்குறிப்பான் புதிய அரட்டைகளுக்கு",
+    "messageformat": "புதிய சாட்களுக்கு இயல்புநிலை டைமர்",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "நீங்கள் இவரை அகற்றிவிட்டீர்கள், அவருக்கு மீண்டும் செய்தி அனுப்பினால், அவர் உங்கள் பட்டியலில் மீண்டும் சேர்க்கப்படுவார்.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "உங்கள் சுயவிவரம் மறையாக்கப்பட்ட. உங்கள் சுயவிவரம் மற்றும் அதற்கான மாற்றங்கள் உங்கள் தொடர்புகளுக்கும், நீங்கள் தொடங்கும் போது அல்லது தெரியும்ஏற்றுக்கொள் புதிய பூனைகள்.  {learnMore}",
+    "messageformat": "உங்கள் சுயவிவரம் குறியாக்கம் செய்யப்பட்டுள்ளது. உங்கள் சுயவிவரமும் அதில் ஏற்படும் மாற்றங்களும் உங்கள் தொடர்புகளுக்குத் தெரியும் மற்றும் நீங்கள் புதிய சாட்களைத் தொடங்கும்போது அல்லது ஏற்கும்போது தெரியும். {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "உங்கள் சுயவிவரம் குறியாக்கம் செய்யப்பட்டுள்ளது. உங்கள் சுயவிவரமும் அதில் ஏற்படும் மாற்றங்களும் உங்கள் தொடர்புகளுக்குத் தெரியும் மற்றும் நீங்கள் புதிய சாட்களைத் தொடங்கும்போது அல்லது ஏற்கும்போது. <learnMoreLink>மேலும் அறிக</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10249,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "உரையாட நேரம் இருக்கிறது",
+    "message": "சாட் செய்யத் தயார்",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "உரையாட நேரம் இருக்கிறது",
+    "messageformat": "சாட் செய்யத் தயார்",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10385,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "உரையாடல்கள்\n ",
+    "message": "சாட்ஸ்",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "உரையாடல்கள்",
+    "messageformat": "சாட்ஸ்",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10373,11 +10449,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் சாதனத்தில் சிக்னல் பயன்பாட்டைத் திறந்து, அமைப்புகள் > அரட்டைகள் என்பதற்குச் செல்லவும்",
+    "message": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் டிவைஸில் Signal ஆப்பைத் திறந்து, அமைப்புகள் > சாட்ஸ் என்பதற்குச் செல்லவும்",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் சாதனத்தில் சிக்னல் பயன்பாட்டைத் திறந்து, அமைப்புகள் > அரட்டைகள் என்பதற்குச் செல்லவும்",
+    "messageformat": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் டிவைஸில் Signal ஆப்பைத் திறந்து, அமைப்புகள் > சாட்ஸ் என்பதற்குச் செல்லவும்",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} தொடர்பு} other {{num,number} தொடர்புகள்}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> பார்வை",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> பார்வைகள்",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "ஒரு உரையாடலைத் தொடங்குவது",
+    "messageformat": "புதிய சாட்டைத் தொடங்குதல்",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "உங்கள் ஸ்டோரியை யார் பார்க்கலாம் என்பதைத் தேர்வு செய்யவும். நீங்கள் ஏற்கனவே அனுப்பிய ஸ்டோரீஸ்களை மாற்றங்கள் பாதிக்காது. <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "“{groupTitle}” குழு சாட்டின் உறுப்பினர்கள் இந்த ஸ்டோரியைப் பார்க்கலாம் மற்றும் பதிலளிக்கலாம். குழுவில் இந்த சாட்டுக்கான மெம்பர்ஷிப்பை நீங்கள் புதுப்பிக்கலாம்.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "உங்கள் ஸ்டோரியை எந்த Signal  இணைப்புகள் பார்க்கலாம் என்பதைத் தேர்வுசெய்யவும். தனியுரிமை அமைப்புகளில் இதை எப்போது வேண்டுமானாலும் மாற்றலாம். <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12233,7 +12309,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
+    "message": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற மெசேஜ்களைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "(deleted 03/29/2023) Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
@@ -12281,7 +12357,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "வரலாற்றைத் திருத்தவும்",
+    "messageformat": "திருத்தங்களின் வரலாறு",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "Söhbət rəngi",
+    "message": "Çatın rəngi",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "Söhbət rəngi",
+    "messageformat": "Çatın rəngi",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "Arxivlənmiş Söhbətlər",
+    "messageformat": "Arxivləşdirilmiş çatlar",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "Söhbətlər",
+    "message": "Çatlar",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "Söhbətlər",
+    "messageformat": "Çatlar",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Bu danışıqlar arxivlənir və yeni mesaj gələndə yalnız Gələn qutusunda görünür.",
+    "messageformat": "Bu çatlar arxivləşdirildi və yalnız yeni mesaj alındıqda \"Gələnlər\" qutusunda görünəcək.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "Arxivlənmiş danışıq yoxdur.",
+    "messageformat": "Arxivləşdirilmiş çat yoxdur.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "Əlaqəni idarə et",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "Mesaj",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Səsli zəng",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "Görüntülü zəng",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "Çıxart",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "Blokla",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title} çıxarılsın?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "Axtarış zamanı bu şəxsi görməyəcəksiniz. Gələcəkdə o, sizə mesaj göndərsə mesaj sorğusu alacaqsınız.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "Çıxart",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} çıxarılmadı",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "Bu əlaqə nömrəsi cihazınızın Kontaktlarında saxlanılır. Əlaqə nömrəsini cihazın Kontaktlarından silib, yenidən cəhd edin.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Danışığı sancaqla",
+    "messageformat": "Çatı sancaqla",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,7 +677,7 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Danışıq sancağını götür",
+    "messageformat": "Çatdan sancağı götür",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Danışığın ən altına sürüşdür",
+    "messageformat": "Çatın aşağısına sürüşdür",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Təhlükəsizliyiniz üçün, danışıq tarixçəsi yenicə bağlantı qurulmuş cihazlara köçürülmür.",
+    "messageformat": "Təhlükəsizliyiniz üçün çat tarixçəsi yeni əlaqələndirilmiş cihazlara köçürülmür.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Bu danışıqda heç bir medianız yoxdur",
+    "messageformat": "Bu çatda heç bir media faylınız yoxdur",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "Bu danışıqda heç bir sənədiniz yoxdur",
+    "messageformat": "Bu çatda heç bir sənədiniz yoxdur",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "Söhbət axtarın",
+    "message": "Çat axtarın",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "Söhbət axtarın",
+    "messageformat": "Çat axtarın",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "Danışıqlar",
+    "messageformat": "Çatlar",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "Bu danışıq üçün yazma animasiyası",
+    "messageformat": "Bu çat üçün \"yazır\" göstəricisi",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Bu mesaj bu söhbətdə Signal-ın ən son versiyasına malik olan hər kəs üçün silinəcək. Bir mesajı sildiyinizi görə bilərlər.",
+    "messageformat": "Bu mesaj bu çatda Signal-ın ən son versiyasına malik olan hər kəsdən silinəcək. Onlar mesajı sildiyinizi görə bilərlər.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "Seç",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "Spoyler",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "Təkrar göndər",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "Mesajı mənim üçün sil",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "Mesajı hər kəs üçün sil",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "Mesajı hər kəs üçün sil",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "Mesajı sil",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "Sil",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "Bu danışıq birdəfəlik silinsin?",
+    "messageformat": "Bu çat həmişəlik silinsin?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "Söhbət seansı təzələndi",
+    "message": "Çat seansı təzələndi",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "Söhbət seansı təzələndi",
+    "messageformat": "Çat seansı təzələndi",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal, bir ucdan digər uca kimi şifrələmə istifadə edir və bəzən söhbət seansınızı təzələmək lazım olur. Bu, söhbətinizin güvənliyinə təsir etmir, ancaq bu şəxsdən gələn bir mesajı buraxmış ola bilərsiniz və ondan mesajı yenidən göndərməsini xahiş edə bilərsiniz.",
+    "message": "Signal ucdan-uca şifrələmə istifadə edir və bəzən çat seansınızı təzələməli olur. Bu, çatın təhlükəsizliyinə təsir etmir, ancaq həmin kontaktdan gələn bir mesajı buraxmış ola və ondan mesajı yenidən göndərməsini xahiş edə bilərsiniz.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal, bir ucdan digər uca kimi şifrələmə istifadə edir və bəzən söhbət seansınızı təzələmək lazım olur. Bu, söhbətinizin güvənliyinə təsir etmir, ancaq bu şəxsdən gələn bir mesajı buraxmış ola bilərsiniz və ondan mesajı yenidən göndərməsini xahiş edə bilərsiniz.",
+    "messageformat": "Signal ucdan-uca şifrələmə istifadə edir və bəzən çat seansınızı təzələməli olur. Bu, çatın təhlükəsizliyinə təsir etmir, ancaq həmin kontaktdan gələn bir mesajı buraxmış ola və ondan mesajı yenidən göndərməsini xahiş edə bilərsiniz.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2511,7 +2519,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "{conversationTitle} ilə olan mesaj tarixçəniz və ona aid digər bir söhbət birləşdirildi.",
+    "messageformat": "{conversationTitle} ilə olan mesaj tarixçəniz və ona aid digər bir çat birləşdirildi.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Hər iki söhbətdə olan mesaj tarixçəniz burada birləşdirilib.",
+    "messageformat": "Hər iki çatdan olan mesaj tarixçəniz burada birləşdirilib.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Bu danışıqda təsvir göndərildi",
+    "messageformat": "Çata şəkil göndərildi",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "Qeyd: Söhbət tarixçəniz bu cihazla eyniləşdirilməyəcək",
+    "message": "Qeyd: Çat tarixçəniz bu cihazla sinxronlaşdırılmayacaq",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Qeyd: Söhbət tarixçəniz bu cihazla eyniləşdirilməyəcək",
+    "messageformat": "Qeyd: Çat tarixçəniz bu cihazla sinxronlaşdırılmayacaq",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3316,6 +3324,10 @@
   "icu:spellCheckDescription": {
     "messageformat": "Mesaj yaratma qutusuna daxil edilən yazı yoxlanış mətni",
     "description": "Description of the spell check setting"
+  },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
     "message": "Yazı yoxlanışı, Signal növbəti dəfə başladılanda fəallaşdırılacaq.",
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Bu danışıqda özünüzə qeydlər yaza bilərsiniz. Hesabınızla əlaqə qurulmuş cihazlar varsa, yeni qeydlər eyniləşdiriləcək.",
+    "messageformat": "Bu çatda özünüzə qeydlər yaza bilərsiniz. Hesabınızla əlaqələndirilmiş cihazlar varsa, yeni qeydlər sinxronlaşdırılacaq.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "Yeni söhbəti başlat...",
+    "messageformat": "Yeni çata başla",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "Yeni danışıq",
+    "messageformat": "Yeni çat",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "Heç bir danışıq tapılmadı",
+    "messageformat": "Heç bir çat tapılmadı",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} çıxarıldı.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {{title} ilə söhbət, 1 yeni mesaj, son mesaj: {lastMessage}.} other {{title} ilə söhbət, {unreadCount,number} yeni mesaj, son mesaj: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {{title} ilə çat, {unreadCount,number} yeni mesaj, son mesaj: {lastMessage}.} other {{title} ilə çat, {unreadCount,number} yeni mesaj, son mesaj: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} ilə olan danışığa gedin",
+    "messageformat": "{title} ilə olan çata keç",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Qaralama:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "Mesaj tələbi",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Bir dəfə baxıla bilən mesajlar, danışıq tarixçənizdə saxlanılmır.",
+    "messageformat": "Birdəfəlik mesajlar çat tarixçənizdə saxlanmır.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "Əvvəlki danışıq",
+    "messageformat": "Əvvəlki çat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "Növbəti danışıq",
+    "messageformat": "Növbəti çat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Əvvəlki oxunmamış danışıq",
+    "messageformat": "Əvvəlki oxunmamış çat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Növbəti oxunmamış danışıq",
+    "messageformat": "Növbəti oxunmamış çat",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "Danışıq menyusunu aç",
+    "messageformat": "Çat menyusunu aç",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "Yeni danışıq başlat",
+    "messageformat": "Yeni çata başla",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "Danışığı arxivlə",
+    "messageformat": "Çatı arxivləşdir",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "Danışığı arxivdən çıxart",
+    "messageformat": "Çatı arxivdən çıxart",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "Danışıqda axtar",
+    "messageformat": "Çatda axtar",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "Seçilən mesajları yönləndir",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Danışığa keç",
+    "messageformat": "Çata keç",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "Mətn sahəsi",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "Siyahının ən üstünə sürüşdür",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "Hazırkı danışığı bağla",
+    "messageformat": "Hazırkı çatı bağla",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "Danışıq arxivləndi",
+    "messageformat": "Çat arxivləşdirildi",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "Danışıq, gələn qutusuna qaytarıldı",
+    "messageformat": "Çat \"Gələnlər\" qutusuna qaytarıldı",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Danışıq, oxunmadı olaraq işarələndi",
+    "messageformat": "Çat oxunmamış kimi işarələndi",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Stiker Paket Yaradıcısını açmaq istərdinizmi?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name} adlı istifadəçinin sizə mesaj göndərməsinə, adınızın və şəklinizin onunla paylaşılmasına icazə verilsin? Əvvəllər bu istifadəçini silmisiniz.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "Söhbət silinsin?",
+    "messageformat": "Çat silinsin?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "Bu söhbət bütün cihazlarınızdan silinəcək.",
+    "messageformat": "Bu çat bütün cihazlarınızdan silinəcək.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "Bu qrup ilə danışığınıza davam edib adınızı və fotonuzu üzvlərlə paylaşmaq istəyirsiniz? {learnMore}",
+    "messageformat": "Bu qrupla çata davam edib adınızı və fotonuzu üzvlərlə paylaşmaq istəyirsiniz? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Bu qrup ilə söhbətə davam edib adınızı və fotonuzu üzvlər ilə paylaşmaq istəyirsiniz? <learnMoreLink>Daha ətraflı.</learnMoreLink>",
+    "messageformat": "Bu qrupla çata davam edib adınızı və fotonuzu üzvlərlə paylaşmaq istəyirsiniz? <learnMoreLink>Daha ətraflı.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "{firstName} ilə danışığınıza davam edib adınızı və fotonuzu onunla paylaşmaq istəyirsiniz? {learnMore}",
+    "messageformat": "{firstName} ilə çata davam edib adınızı və fotonuzu onunla paylaşmaq istəyirsiniz? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "{firstName} ilə bu söhbətə davam edib adınızı və fotonuzu onunla paylaşmaq istəyirsiniz? <learnMoreLink>Daha ətraflı</learnMoreLink>",
+    "messageformat": "{firstName} ilə çata davam edib adınızı və fotonuzu onunla paylaşmaq istəyirsiniz? <learnMoreLink>Daha ətraflı</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Nişan sayğacında səsi bağlı danışıqları daxil et",
+    "messageformat": "Səsi bağlı çatları nişan sayına daxil et",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8409,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "Söhbət rəngi",
+    "message": "Çatın rəngi",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Söhbət rəngi",
+    "messageformat": "Çatın rəngi",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,11 +8425,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "Söhbət tənzimləmələri",
+    "message": "Çat parametrləri",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Söhbət tənzimləmələri",
+    "messageformat": "Çat parametrləri",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "Fəal olanda, bu 1-ə 1 söhbətdə göndərilən və alınan mesajlar baxıldıqdan sonra yox olacaq.",
+    "message": "Aktivləşdirildikdə bu 1-ə 1 çatda göndərilən və alınan mesajlar baxıldıqdan sonra yox olacaq.",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Fəal olanda, bu 1-ə 1 söhbətdə göndərilən və alınan mesajlar baxıldıqdan sonra yox olacaq.",
+    "messageformat": "Aktivləşdirildikdə bu 1-ə 1 çatda göndərilən və alınan mesajlar baxıldıqdan sonra yox olacaq.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {{count,number} mesaj silinsin?} other {{count,number} mesaj silinsin?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {{count,number} mesaj silinsin?} other {{count,number} mesaj silinsin?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {Bu mesaj bu cihazdan silinəcək.} other {Bu mesajlar bu cihazdan silinəcək.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {Bu mesajı kimdən silmək istəyirsiniz?} other {Bu mesajları kimdən silmək istəyirsiniz?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {Bu mesajı hansı cihazlardan silmək istəyirsiniz?} other {Bu mesajları hansı cihazlardan silmək istəyirsiniz?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "Mənim üçün sil",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "Mənim üçün sil",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "Məndən sil",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "Bu cihazdan sil",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "Hər kəsdən sil",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "Bütün cihazlardan sil",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz} other {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Yalnız 30-a qədər mesaj yönləndirə bilərsiniz",
@@ -9509,51 +9585,51 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "Bu fərdi rəng $num$ söhbətdə istifadə olunur. Onu bütün söhbətlərdən silmək istəyirsiniz?",
+    "message": "Bu xüsusi rəng $num$ çatda istifadə olunur. Onu bütün çatlardan silmək istəyirsiniz?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Bu özəl rəng {num,number} söhbətdə istifadə olunur. Onu bütün söhbətlərdən silmək istəyirsiniz?} other {Bu özəl rəng {num,number} söhbətdə istifadə olunur. Onu bütün söhbətlərdən silmək istəyirsiniz?}}",
+    "messageformat": "{num, plural, one {Bu xüsusi rəng {num,number} çatda istifadə olunur. Onu bütün çatlardan silmək istəyirsiniz?} other {Bu xüsusi rəng {num,number} çatda istifadə olunur. Onu bütün çatlardan silmək istəyirsiniz?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
-    "message": "Qlobal Söhbət Rəngi",
+    "message": "Qlobal çat rəngi",
     "description": "(deleted 03/29/2023) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Qlobal Söhbət Rəngi",
+    "messageformat": "Qlobal çat rəngi",
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "Söhbət rəngi",
+    "message": "Çatın rəngi",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Söhbət rəngi",
+    "messageformat": "Çatın rəngi",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
-    "message": "Söhbət rəngini sıfırla",
+    "message": "Çat rəngini sıfırla",
     "description": "(deleted 03/29/2023) Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Söhbət rəngini sıfırla",
+    "messageformat": "Çat rəngini sıfırla",
     "description": "Button label for resetting chat colors"
   },
   "ChatColorPicker__resetDefault": {
-    "message": "Söhbət Rənglərini Sıfırla",
+    "message": "Çat Rənglərini Sıfırla",
     "description": "(deleted 03/29/2023) Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Söhbət Rənglərini Sıfırla",
+    "messageformat": "Çat Rənglərini Sıfırla",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "ChatColorPicker__resetAll": {
-    "message": "Bütün söhbət rənglərini sıfırla",
+    "message": "Bütün çat rənglərini sıfırla",
     "description": "(deleted 03/29/2023) Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Bütün söhbət rənglərini sıfırla",
+    "messageformat": "Bütün çat rənglərini sıfırla",
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "Bütün söhbət rənglərini etibarsız etmək istəyirsiniz?",
+    "message": "Bütün çat rənglərini ləğv etmək istəyirsiniz?",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Bütün söhbət rənglərini etibarsız etmək istəyirsiniz?",
+    "messageformat": "Bütün çat rənglərini ləğv etmək istəyirsiniz?",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9665,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "Budur, söhbət rəngi üçün bir önbaxış.",
+    "message": "Çat rəngi üçün önbaxışa nəzər salın.",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Budur, söhbət rəngi üçün bir önbaxış.",
+    "messageformat": "Çat rəngi üçün önbaxışa nəzər salın.",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9773,19 +9849,19 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "Başlatdığınız bütün yeni söhbətlər üçün ilkin bir yox olan mesaj vaxtölçəni tənzimləyin.",
+    "message": "Başlatdığınız bütün yeni çatlar üçün standart yox olan bir mesaj taymeri təyin edin.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Başlatdığınız bütün yeni söhbətlər üçün ilkin bir yox olan mesaj vaxtölçəni tənzimləyin.",
+    "messageformat": "Başlatdığınız bütün yeni çatlar üçün standart yox olan bir mesaj taymeri təyin edin.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
-    "message": "Yeni söhbətlər üçün ilkin vaxtölçən",
+    "message": "Yeni çatlar üçün standart taymer",
     "description": "(deleted 03/29/2023) Label for the Disappearing Messages default timer setting"
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Yeni söhbətlər üçün ilkin vaxtölçən",
+    "messageformat": "Yeni çatlar üçün standart taymer",
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "UniversalTimerNotification__text": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "Bu şəxsi sildiniz, ona yenidən mesaj göndərməklə, onu siyahınıza əlavə edə bilərsiniz.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Profiliniz şifrələnib. Profiliniz və dəyişiklikləriniz, yeni söhbət başladanda və ya qəbul edəndə əlaqələrinizə görünəcək. {learnMore}",
+    "messageformat": "Profiliniz şifrələnib. Yeni çatlar başlatdığınız və ya qəbul etdiyiniz zaman kontaktlarınız profilinizi və dəyişiklikləri görə biləcək.{learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "Profiliniz şifrələnib. Yeni çatlar başlatdıqda və qəbul etdikdə kontaktlarınız profilinizi və ona edilmiş dəyişiklikləri görə biləcək. <learnMoreLink>Daha ətraflı</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10309,11 +10385,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "Söhbətlər",
+    "message": "Çatlar",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "Söhbətlər",
+    "messageformat": "Çatlar",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10373,11 +10449,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "Bu tənzimləməni dəyişdirmək üçün, mobil cihazınızda Signal-ı açıb Tənzimləmələr > \"Söhbətlər\"ə gedin",
+    "message": "Bu parametri dəyişdirmək üçün, mobil cihazınızda Signal tətbiqini açıb Parametrlər > Çatlar bölməsinə keçin",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Bu tənzimləməni dəyişdirmək üçün, mobil cihazınızda Signal-ı açıb Tənzimləmələr > \"Söhbətlər\"ə gedin",
+    "messageformat": "Bu parametri dəyişdirmək üçün, mobil cihazınızda Signal tətbiqini açıb Parametrlər > Çatlar bölməsinə keçin",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Danışığın başladılması",
+    "messageformat": "Bir çatın başladılması",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "“{groupTitle}” qrup çatının üzvləri bu hekayəyə baxa və cavab verə bilər. Bu çatın üzvlüyünü qrupda yeniləyə bilərsiniz.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11905,11 +11981,11 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "Söhbətə get",
+    "message": "Çata keç",
     "description": "(deleted 03/29/2023) Label for menu item to go to conversation"
   },
   "icu:StoryListItem__go-to-chat": {
-    "messageformat": "Söhbətə get",
+    "messageformat": "Çata keç",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {

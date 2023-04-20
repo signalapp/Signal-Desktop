@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "დაარქივებული მიმოწერები",
+    "messageformat": "დაარქივებული ჩატები",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "ეს მიმოწერები დაარქივებულია და შემომავალ შეტყობინებებში მხოლოდ ახალი შეტყობინებების მიღების შემთხვევაში გამოჩნდება.",
+    "messageformat": "ეს ჩატები დაარქივებულია და შემომავალ შეტყობინებებში მხოლოდ ახალი შეტყობინებების მიღების შემთხვევაში გამოჩნდება.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "დაარქივებული მიმოწერები ვერ მოიძებნა.",
+    "messageformat": "დაარქივებული ჩატები ვერ მოიძებნა.",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "კონტაქტის მართვა",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "მიწერა",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "აუდიო ზარი",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "ვიდეო ზარი",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "წაშლა",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "დაბლოკვა",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "წავშალოთ {title}?",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "ძებნისას ამ ადამიანს ვერ ნახავ. თუ მომავალში მოგწერს, შეტყობინების მოთხოვნას მიიღებ.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "წაშლა",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title}-ის წაშლა ვერ მოხერხდა",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "ეს ადამიანი შენი მოწყობილობის კონტაქტებშია შენახული. წაშალე ის შენი კონტაქტებიდან შენს მობილურ მოწყობილობაზე და თავიდან სცადე.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "მიმოწერის აპინვა",
+    "messageformat": "ჩატის აპინვა",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,7 +677,7 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "მიმოწერის პინის მოხსნა",
+    "messageformat": "ჩატზე პინის მოხსნა",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Scroll to bottom of conversation",
+    "messageformat": "ჩატის ბოლოში გადასვლა",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "შენი უსაფრთხოებისთვის, მიმოწერის ისტორია არ გადადის ახალ დაკავშირებულ მოწყობილობებზე.",
+    "messageformat": "შენი უსაფრთხოებისთვის, ჩატის ისტორია ახალ მიბმულ მოწყობილობებზე არ გადაგვაქვს.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "ამ მიმოწერაში მედია-ფაილები არ გაქვს",
+    "messageformat": "ამ ჩატში მედია ფაილები არ გაქვს",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "ამ მიმოწერაში დოკუმენტები არ გაქვს",
+    "messageformat": "ამ ჩატში დოკუმენტები არ გაქვს",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1636,11 +1636,11 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "ჩატის მოძებნა",
+    "message": "ჩატის ძებნა",
     "description": "(deleted 03/29/2023) Shown in the search box before text is entered when searching in a specific conversation"
   },
   "icu:searchIn": {
-    "messageformat": "ჩატის მოძებნა",
+    "messageformat": "ჩატის ძებნა",
     "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "მიმოწერები",
+    "messageformat": "ჩატები",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "ბეჭდვის ანიმაცია ამ მიმოწერისთვის",
+    "messageformat": "ამ ჩატის ბეჭვდის ანიმაცია",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "ეს შეტყობინება ყველასთვის წაიშლება ამ მიმოწერაში ვინც Signal-ის უახლეს ვერსიაზეა. ისინი დაინახავენ, რომ შენ წაშალე შეტყობინება.",
+    "messageformat": "ეს წერილი ჩატში ყველასთვის წაიშლება, თუ ისინი Signal-ის უახლეს ვერსიას იყენებენ. ისინი დაინახავენ, რომ შეტყობინება წაშალე.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "არჩევა",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "სპოილერი",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "გაგზავნის ხელახლა ცდა",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "შეტყობინების ჩემთან წაშლა",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "შეტყობინების ყველასთან წაშლა",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "შეტყობინების ყველასთან წაშლა",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "წერილის წაშლა",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "წაშლა",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "გსურს ამ მიმოწერის სამუდამოდ წაშლა?",
+    "messageformat": "სამუდამოდ წავშალოთ ეს ჩატი?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2487,11 +2495,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "შეტყობინება, სტიკერი, გამოხმაურება, წაკითხვის დასტური ან მედია-ფაილი $sender$-მა ვერ გამოაგზავნა შენთან ამ ჩატში.",
+    "message": "შეტყობინება, სტიკერი, რეაქცია, წაკითხვის დასტური ან მედია-ფაილი $sender$-ისგან ვერ გამოიგზავნა შენთან ამ ჩატში.",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "შეტყობინება, სტიკერი, გამოხმაურება, წაკითხვის დასტური ან მედია-ფაილი {sender}-მა ვერ გამოაგზავნა შენთან ამ ჩატში.",
+    "messageformat": "შეტყობინება, სტიკერი, რეაქცია, წაკითხვის დასტური ან მედია-ფაილი {sender}-ისგან ვერ გამოიგზავნა შენთან ამ ჩატში.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} და {conversationTitle} ერთი და იგივე ანგარიშია. ორივე ჩატში შენი მიმოწერის ისტორია აქაა.",
+    "messageformat": "{obsoleteConversationTitle} და {conversationTitle} ერთი და იგივე პროფილია. ორივე ჩატში შენი მიმოწერის ისტორია აქაა.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "ორივე ჩატში შენი მიმოწერის ისტორია აქ გაერთიანდა.",
+    "messageformat": "შენი ორივე ჩატის მიმოწერის ისტორია აქ გაერთიანდა.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "სურათი მიმოწერაში გაიგზავნა",
+    "messageformat": "სურათი გაგზავნილია ჩატში",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -3317,6 +3325,10 @@
     "messageformat": "მართლწერის შემოწმების ტექსტი შეყვანილია შეტყობინების შესადგენ ველში",
     "description": "Description of the spell check setting"
   },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
+  },
   "spellCheckWillBeEnabled": {
     "message": "მართლწერის შემოწმება ჩაირთვება Signal-ის შემდეგი გაშვებისას.",
     "description": "(deleted 03/29/2023) Shown when the user enables spellcheck to indicate that they must restart Signal."
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "შეგიძლია ამ მიმოწერაში ჩანიშვნები დაამატო. თუ შენს პროფილთან დაკავშირებულია რაიმე მოწყობილობები, ახალი ჩანიშვნები დასინქრონიზდება.",
+    "messageformat": "შეგიძლია ამ ჩატში შენი თავისთვის ჩანიშვნები დაამატო. თუ შენს პროფილს რაიმე მოწყობილობა აქვს მიბმული, ახალი შენიშვნები სინქრონიზდება.",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "ახალი მიმოწერის დაწყება…",
+    "messageformat": "ახალი ჩატის დაწყება",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "ახალი მიმოწერა",
+    "messageformat": "ახალი ჩატი",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "მიმოწერების მოძებნა ვერ მოხერხდა",
+    "messageformat": "ჩატების მოძებნა ვერ მოხერხდა",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} წაიშალა.",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, one {ჩატი {title}-თან, {unreadCount,number} ახალი შეტყობინება, ბოლო შეტყობინება: {lastMessage}.} other {ჩატი {title}-თან, {unreadCount,number} ახალი შეტყობინება, ბოლო შეტყობინება: {lastMessage}.}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} -სთან მიმოწერაზე გადასვლა",
+    "messageformat": "{title}-თან ჩატში გადასვლა",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "მონახაზი:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "მოთხოვნა მიმოწერაზე",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "GIF",
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "წინა მიმოწერა",
+    "messageformat": "წინა ჩატი",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "მომდევნო მიმოწერა",
+    "messageformat": "შემდეგი ჩატი",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "წინა წაუკითხავი მიმოწერა",
+    "messageformat": "წინა წაუკითხავი ჩატი",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "მომდევნო წაუკითხავი მიმოწერა",
+    "messageformat": "შემდეგი წაუკითხავი ჩატი",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "მიმოწერის მენიუს გახსნა",
+    "messageformat": "ჩატის მენიუს გახსნა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "ახალი მიმოწერის დაწყება",
+    "messageformat": "ახალი ჩატის დაწყება",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "მიმოწერის დაარქივება",
+    "messageformat": "ჩატის დაარქივება",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "მიმოწერის არქივიდან ამოღება",
+    "messageformat": "ჩატის არქივიდან ამოღება",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "მიმოწერაში მოძებნა",
+    "messageformat": "ჩატში ძებნა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "არჩეული შეტყობინების გადაგზავნა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "მიმოწერაზე გადასვლა",
+    "messageformat": "ჩატზე გადასვლა",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "შეყვანის ველი",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "სიის დასაწყისში ასქროლვა",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "მიმდინარე მიმოწერის დახურვა",
+    "messageformat": "ამ ჩატის დახურვა",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "მიმოწერა დაარქივებულია",
+    "messageformat": "ჩატი დაარქივებულია",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "მიმოწერა დაბრუნებულია შემოსულ შეტყობინებებში",
+    "messageformat": "ჩატი შემომავალ შეტყობინებებში დაბრუნდა",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "მიმოწერა მონიშნულია წაუკითხავად",
+    "messageformat": "ჩატი წაუკითხავად მოინიშნა",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "გსურს, გახსნა Signal-ის Sticker Pack Creator?",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "მივცეთ უფლება {name}-ს მოგწეროს და შენი სახელი და ფოტო გავუზიაროთ? ეს ადამიანი ადრე წაშალე.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "წავშალოთ მიმოწერა?",
+    "messageformat": "წავშალოთ ჩატი?",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "ეს მიმოწერა შენი ყველა მოწყობილობიდან წაიშლება.",
+    "messageformat": "ეს ჩატი შენი ყველა მოწყობილობიდან წაიშლება.",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "გსურს განაგრძო მიმოწერა ამ ჯგუფში და გაუზიარო შენი სახელი და ფოტო მის წევრებს? {learnMore}",
+    "messageformat": "გსურს გააგრძელო მიმოწერა ამ ჯგუფთან და გაუზიარო შენი სახელი და ფოტო მის წევრებს? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "გსურს გააგრძელო მიმოწერა ამ ჯგუფთან და გაუზიარო შენი სახელი და ფოტო მის წევრებს? <learnMoreLink>გაიგე მეტი.</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "გსურს {firstName} -თან მიმოწერა განაგრძო და მას შენი სახელი და ფოტო გაუზიარო? {learnMore}",
+    "messageformat": "გსურს {firstName}-თან ეს ჩატი გააგრძელო და მას შენი სახელი და ფოტო გაუზიარო? {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "გსურს {firstName}-თან ეს ჩატი გააგრძელო და მას შენი სახელი და ფოტო გაუზიარო? <learnMoreLink>გაიგე მეტი</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "განაახლე ეს ჯგუფი ისეთი ახალი ფუნქციების გასააქტიურებლად, როგორიცაა @მონიშვნები და ადმინები. წევრები, რომლებსაც არ გაუზიარებიათ თავიანთი სახელი ან ფოტო ამ ჯგუფში, მოწვეულნი იქნებიან გასაწევრიანებლად.. <learnMoreLink>გაიგე მეტი.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "დადუმებული მიმოწერების ემბლემის რაოდენობაში შეტანა",
+    "messageformat": "შეიყვანე დადუმებული ჩატები ემბლემების რაოდენობაში",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, one {გავაუქმოთ \"{name}\"-ის გაგზავნილი {number,number} მოწვევა?} other {გავაუქმოთ \"{name}\"-ის გაგზავნილი {number,number} მოწვევა?}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, one {წავშალოთ {count,number} შეტყობინება?} other {წავშალოთ {count,number} შეტყობინება?}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, one {წავშალოთ შეტყობინება?} other {წავშალოთ {count,number} შეტყობინება?}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, one {ეს შეტყობინება ამ მოწყობილობიდან წაიშლება.} other {ეს შეტყობინებები ამ მოწყობილობიდან წაიშლება.}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, one {ვისთვის გსურს ამ შეტყობინების წაშლა?} other {ვისთვის გსურს ამ წერილების წაშლა?}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, one {რომელი მოწყობილობებიდან გსურს ამ წერილის წაშლა?} other {რომელი მოწყობილობებიდან გსურს ამ წერილების წაშლა?}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "ჩემთან წაშლა",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "ჩემთან წაშლა",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "ჩემთან წაშლა",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "წაშლა ამ მოწყობილობიდან",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "ყველასთან წაშლა",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "ყველა მოწყობილობიდან წაშლა",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "მხოლოდ 30-მდე შეტყობინების გადაგზავნა შეგიძლია",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "ყურადღებით გადახედე მოთხოვნებს. Signal-მა სხვა კონტაქტიც იპოვა იმავე სახელით. <reviewRequestLink>მოთხოვნის განხილვა</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, one {ჯგუფის {count,number} წევრს ერთი და იგივე სახელი აქვს. {link}} other {ჯგუფის {count,number} წევრს ერთი და იგივე სახელი აქვს. {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {ჯგუფის {count,number} წევრს აქვს იგივე სახელი. <reviewRequestLink>მოთხოვნის განხილვა</reviewRequestLink>} other {ჯგუფის {count,number} წევრს აქვს იგივე სახელი. <reviewRequestLink>მოთხოვნის განხილვა</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {ჯგუფის {count,number} წევრს მსგავსი სახელი აქვს. გადახედე ქვემოთ მოცემულ წევრებს ან აირჩიე მოქმედება.} other {ჯგუფის {count,number} წევრს მსგავსი სახელები აქვთ. გადახედე ქვემოთ მოცემულ წევრებს ან აირჩიე მოქმედება.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9509,11 +9585,11 @@
     "description": "Confirm title for deleting custom color"
   },
   "ChatColorPicker__delete--message": {
-    "message": "ეს არასტანდარტული ფერი $num$ ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?",
+    "message": "ეს პერსონიზირებული ფერი $num$ ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?",
     "description": "(deleted 03/29/2023) Confirm message for deleting custom color"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {ეს არასტანდარტული ფერი {num,number} ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?} other {ეს არასტანდარტული ფერი {num,number} ჩატებშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?}}",
+    "messageformat": "{num, plural, one {ეს პერსონიზირებული ფერი {num,number} ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?} other {ეს პერსონიზირებული ფერი {num,number} ჩატებშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?}}",
     "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
@@ -9773,11 +9849,11 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "settings__DisappearingMessages__footer": {
-    "message": "დააყენე გაქრობადი შეტყობინებების ნაგულისხმევი ტაიმერი შენ მიერ დაწყებული ყველა ახალი ჩატისთვის.",
+    "message": "დააყენე გაქრობადი შეტყობინებების ნაგულისხმევი ტაიმერი შენს მიერ დაწყებული ყველა ახალი ჩატისთვის.",
     "description": "(deleted 03/29/2023) Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "დააყენე გაქრობადი შეტყობინებების ნაგულისხმევი ტაიმერი შენ მიერ დაწყებული ყველა ახალი ჩატისთვის.",
+    "messageformat": "დააყენე გაქრობადი შეტყობინებების ნაგულისხმევი ტაიმერი შენს მიერ დაწყებული ყველა ახალი ჩატისთვის.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "settings__DisappearingMessages__timer__label": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "შენ წაშალე ეს ადამიანი, ხელახლა მიწერით მას ისევ დაამატებ შენს სიაში.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10145,7 +10221,7 @@
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "შენი პროფილი დაშიფრულია. შენი პროფილი და მისი ცვლილებები ხილული იქნება შენი კონტაქტებისთვის და მაშინ, როცა დაიწყებ ან დაეთანხმები ახალ ჩატებს. <learnMoreLink>გაიგე მეტი</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10249,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "სცალია მიმოწერისთვის",
+    "message": "მცალია მიმოწერისთვის",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "სცალია მიმოწერისთვის",
+    "messageformat": "მცალია მიმოწერისთვის",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10373,11 +10449,11 @@
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
-    "message": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და შედი პარამეტრებში, შემდეგ კი > ჩატები",
+    "message": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და მიყევი პარამეტრები > ჩატები",
     "description": "(deleted 03/29/2023) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და შედი პარამეტრებში, შემდეგ კი > ჩატები",
+    "messageformat": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და მიყევი პარამეტრები > ჩატები",
     "description": "Description for the generate link previews setting"
   },
   "Preferences--advanced": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, one {{num,number} კონტაქტი} other {{num,number} კონტაქტი}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "<strong>{viewCount,number}</strong> ნახვა",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "<strong>{viewCount,number}</strong> ნახვა",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11041,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, one {<strong>{views,number}</strong> ნახვა} other {<strong>{views,number}</strong> ნახვა}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11065,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, one {<strong>1</strong> პასუხი} other {<strong>{replyCount,number}</strong> პასუხი}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "მიმოწერის დაწყება",
+    "messageformat": "ჩატის დაწყება",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "აირჩიე, ვის შეუძლია შენი Story-ის ნახვა. ცვლილებებს არ ექნება გავლენა Stories-ებზე, რომლებიც უკვე გააგზავნე. <learnMoreLink>გაიგე მეტი.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "აირჩიე Signal-ის რომელი კონტაქტები შეძლებენ შენი Story-ის ნახვას. ამის შეცვლას კონფიდენციალურობის პარამეტრებიდან ყოველთვის შეძლებ. <learnMoreLink>გაიგე მეტი.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -12281,7 +12357,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "ისტორიის რედაქტირება",
+    "messageformat": "რედაქტირების ისტორია",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

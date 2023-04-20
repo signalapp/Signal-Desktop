@@ -513,11 +513,11 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuChatColors": {
-    "message": "စကားပြောဆိုမှု အရောင်",
+    "message": "ချက်(တ်)အရောင်",
     "description": "(deleted 03/29/2023) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuChatColors": {
-    "messageformat": "စကားပြောဆိုမှု အရောင်",
+    "messageformat": "ချက်(တ်)အရောင်",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "avatarMenuUpdateAvailable": {
@@ -557,7 +557,7 @@
     "description": "(deleted 03/29/2023) Shown in place of the search box when showing archived conversation list"
   },
   "icu:archivedConversations": {
-    "messageformat": "မှတ်တမ်းပြုပြီး စကားဝိုင်းများ",
+    "messageformat": "မှတ်တမ်းတင်ထားသော ချက်(တ်)များ",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "LeftPane--pinned": {
@@ -569,11 +569,11 @@
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "LeftPane--chats": {
-    "message": "စကားစမြည်များ",
+    "message": "ချက်(တ်)များ",
     "description": "(deleted 03/29/2023) Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
-    "messageformat": "စကားစမြည်များ",
+    "messageformat": "ချက်(တ်)များ",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "archiveHelperText": {
@@ -581,7 +581,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane"
   },
   "icu:archiveHelperText": {
-    "messageformat": "ဤစကားဝိုင်းများကို စုဆည်းပြီး မက်ဆေ့ချ်အသစ်များ လက်ခံရရှိသည့်အခါ ဝင်စာပုံးတွင်သာ ပေါ်ပါမည်။",
+    "messageformat": "ထိုချက်(တ်)များကို မှတ်တမ်းတင်ထားပြီး မက်ဆေ့ချ်အသစ်များ လက်ခံရရှိခဲ့လျှင်သာ ဝင်စာပုံးထဲတွင် ပေါ်နေပါလိမ့်မည်။",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
   "noArchivedConversations": {
@@ -589,7 +589,7 @@
     "description": "(deleted 03/29/2023) Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "icu:noArchivedConversations": {
-    "messageformat": "စုဆည်းထားသော စကားဝိုင်းများ မရှိပါ။",
+    "messageformat": "မှတ်တမ်းတင်ထားသော ချက်(တ်) မရှိပါ။",
     "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
   },
   "archiveConversation": {
@@ -613,47 +613,47 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Manage Contact",
+    "messageformat": "အဆက်အသွယ်များကို စီမံရန်",
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Message",
+    "messageformat": "မက်ဆေ့ချ်",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "အော်ဒီယိုကောလ်",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
-    "messageformat": "Video call",
+    "messageformat": "ဗီဒီယိုကောလ်",
     "description": "Shown in a context menu for a contact, allows the user to start the video call with the contact"
   },
   "icu:ContactListItem__menu__remove": {
-    "messageformat": "Remove",
+    "messageformat": "ဖယ်ရှားရန်",
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Block",
+    "messageformat": "ဘလော့ခ်ရန်",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "Remove {title}?",
+    "messageformat": "{title} ကို ဖယ်ရှားမည်လား။",
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "You won’t see this person when searching. You’ll get a message request if they message you in the future.",
+    "messageformat": "ရှာဖွေသည့်အခါ ဤပုဂ္ဂိုလ်ကို မြင်ရမည် မဟုတ်ပါ။ နောင်တွင် ထိုသူတို့က သင့်ထံ မက်ဆေ့ချ်များ ပို့ခဲ့ပါက သင်သည် မက်ဆေ့ချ် တောင်းဆိုချက်ကို ရရှိပါမည်။",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
-    "messageformat": "Remove",
+    "messageformat": "ဖယ်ရှားရန်",
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Unable to remove {title}",
+    "messageformat": "{title} ကို ဖယ်ရှား၍ မရနိုင်ပါ",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "This person is saved to your device’s Contacts. Delete them from your Contacts on your mobile device and try again.",
+    "messageformat": "ဤပုဂ္ဂိုလ်ကို သင့်စက်၏ အဆက်အသွယ်များတွင် သိမ်းထားပါသည်။ ထိုသူတို့ကို သင့်မိုဘိုင်းစက်ရှိ သင့်အဆက်အသွယ်များမှ ဖျက်ပစ်ပြီး ထပ်ကြိုးစားကြည့်ပါ။",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "moveConversationToInbox": {
@@ -669,7 +669,7 @@
     "description": "(deleted 03/29/2023) Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "စကားဝိုင်းကို ပင်တွဲရန်",
+    "messageformat": "ချက်(တ်)ကို ပင်တွဲရန်",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "unpinConversation": {
@@ -677,15 +677,15 @@
     "description": "(deleted 03/29/2023) Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "စကားဝိုင်းကို ပင်ဖြုတ်ရန်",
+    "messageformat": "ချက်(တ်)ကို ပင်ဖြုတ်ရန်",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": "ချက်(တ်) ၄ ခုအထိသာ ပင်တွဲနိုင်ပါသည်",
+    "message": "ချက်(တ်) 4 ခုအထိသာ ပင်တွဲနိုင်ပါသည်",
     "description": "(deleted 03/29/2023) Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "ချက်(တ်) ၄ ခုအထိသာ ပင်တွဲနိုင်ပါသည်",
+    "messageformat": "ချက်(တ်) 4 ခုအထိသာ ပင်တွဲနိုင်ပါသည်",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -853,7 +853,7 @@
     "description": "(deleted 03/29/2023) Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:scrollDown": {
-    "messageformat": "Scroll to bottom of conversation",
+    "messageformat": "ချက်(တ်)အောက်ခြေသို့ ဆွဲရန်",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
@@ -885,7 +885,7 @@
     "description": "(deleted 03/29/2023) Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "သင့်လုံခြုံရေးအတွက် စကားဝိုင်း မှတ်တမ်းကို အသစ်ချိတ်ထားသော စက်များသို့ မလွှဲပြောင်းပါ။",
+    "messageformat": "သင့်လုံခြုံရေးအတွက် ချက်(တ်)မှတ်တမ်းကို အသစ်ချိတ်ထားသည့် စက်များသို့ မလွှဲပြောင်းပါ။",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
@@ -1241,7 +1241,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "ဤစကားဝိုင်းတွင် မည်သည့်မီဒီယာမျှ မရှိပါ",
+    "messageformat": "ဤချက်(တ်)ထဲတွင် မည်သည့်မီဒီယာမျှ မရှိပါ",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
@@ -1265,7 +1265,7 @@
     "description": "(deleted 03/29/2023) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "ဤစကားဝိုင်းတွင် မည်သည့်စာရွက်စာတမ်းမျှ မရှိပါ",
+    "messageformat": "ဤချက်(တ်)ထဲတွင် မည်သည့်စာရွက်စာတမ်းမျှ မရှိပါ",
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
@@ -1668,7 +1668,7 @@
     "description": "(deleted 03/29/2023) Shown to separate the types of search results"
   },
   "icu:conversationsHeader": {
-    "messageformat": "စကားဝိုင်းများ",
+    "messageformat": "ချက်(တ်)များ",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -1743,7 +1743,7 @@
     "description": "(deleted 03/29/2023) Used as the 'title' attribute for the typing animation"
   },
   "icu:typingAlt": {
-    "messageformat": "ဤစကားဝိုင်းအတွက် အန်နီမေးရှင်း ရိုက်ထည့်ခြင်း",
+    "messageformat": "ဤချက်(တ်)အတွက် စာရိုက်ခြင်း အန်နီမေးရှင်း",
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
@@ -2216,7 +2216,7 @@
     "description": "(deleted 03/29/2023) Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "စကားဝိုင်းတွင် ရှိသူများသည် လတ်တလောထွက်ထားသော Signal ဗားရှင်းကို အသုံးပြုနေပါက ဤမက်ဆေ့ခ်ျကို လူတိုင်းအတွက် ဖျက်သွားပါမည်။ သင်က မက်ဆေ့ခ်ျတစ်ခုဖျက်လိုက်သည်ကို ၎င်းတို့ကမြင်နိုင်လိမ့်မည်။",
+    "messageformat": "ချက်(တ်)ထဲတွင် နောက်ဆုံး Signal ဗားရှင်းကို သုံးနေသည့်သူတိုင်းအတွက် ဤမက်ဆေ့ချ်ကို ဖျက်ပါမည်။ ၎င်းတို့သည် မက်ဆေ့ချ်ကို သင်ဖျက်ခဲ့ကြောင်း တွေ့ရပါမည်။",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -2350,6 +2350,10 @@
     "messageformat": "ရွေးမည်",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
   },
+  "icu:MessageTextRenderer--spoiler--label": {
+    "messageformat": "စာကို ဝါးထားရန်",
+    "description": "Used as a label for screenreaders on 'spoiler' text, which is hidden by default"
+  },
   "retrySend": {
     "message": "ပေးပို့မှု ပြန်ကြိုးစားရန်",
     "description": "(deleted 03/29/2023) Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
@@ -2380,7 +2384,7 @@
   },
   "icu:deleteMessage": {
     "messageformat": "ကျွန်ုပ်အတွက် မက်ဆေ့ချ်ကို ဖျက်ရန်",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
     "message": "လူတိုင်းအတွက် မက်ဆေ့ချ်ကို ဖျက်ရန်",
@@ -2388,7 +2392,11 @@
   },
   "icu:deleteMessageForEveryone": {
     "messageformat": "လူတိုင်းအတွက် မက်ဆေ့ချ်ကို ဖျက်ရန်",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
+    "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
+  },
+  "icu:MessageContextMenu__deleteMessage": {
+    "messageformat": "မက်ဆေ့ချ်ကို ဖျက်ရန်",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "deleteMessages": {
     "message": "ဖျက်ရန်",
@@ -2403,7 +2411,7 @@
     "description": "(deleted 03/29/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:deleteConversationConfirmation": {
-    "messageformat": "ဤစကားဝိုင်းကို အပြီး ဖျက်ပစ်မည်လား။",
+    "messageformat": "ဤချက်(တ်)ကို အပြီး ဖျက်ပစ်မည်လား။",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "sessionEnded": {
@@ -2415,11 +2423,11 @@
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "ChatRefresh--notification": {
-    "message": "chat session ကိုလန်းဆန်းစေ",
+    "message": "ချက်(တ်)ဆက်ရှင်ကို ပြန်လည်စတင်ပြီး",
     "description": "(deleted 03/29/2023) Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--notification": {
-    "messageformat": "chat session ကိုလန်းဆန်းစေ",
+    "messageformat": "ချက်(တ်)ဆက်ရှင်ကို ပြန်လည်စတင်ပြီး",
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "ChatRefresh--learnMore": {
@@ -2431,11 +2439,11 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "ChatRefresh--summary": {
-    "message": "Signal သည်အစမှအဆုံးထိ ကုဒ်ဖြင့် ပြောင်းလဲဝှက်ထား၍ သင်၏ စကားပြောဆိုမှု အချိန်ကာလကို တစ်ခါတစ်ရံ ပြန်တင်ဆက် ရပါလိမ့်မည်။ ၎င်းလုပ်ခြင်းသည် သင့်စကားပြောဆိုမှု၏ လုံခြုံရေးကို မထိခိုက်စေပါ၊ သို့သော် သင်သည် ဤအဆက်အသွယ်မှ မက်ဆေ့ခ်ျတစ်ခုကို လွဲချော်ပြီး ၎င်းတို့အား ပြန်လည်ပေးပို့ရန် တောင်းဆိုနိုင်သည်။",
+    "message": "Signal သည် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်မှုကို သုံး၍ သင့်ချက်(တ်)ဆက်ရှင်ကို တစ်ခါတစ်ရံ ပြန်လည်စတင်ပါလိမ့်မည်။ ၎င်းသည် သင့်ချက်(တ်)၏ လုံခြုံရေးကို မထိခိုက်စေသော်လည်း သင်သည် ဤအဆက်အသွယ်မှ မက်ဆေ့ခ်ျတစ်ခုကို လွဲသွားနိုင်ပြီး ၎င်းတို့အား ပြန်လည်ပေးပို့ရန် တောင်းဆိုနိုင်ပါသည်။",
     "description": "(deleted 03/29/2023) Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal သည်အစမှအဆုံးထိ ကုဒ်ဖြင့် ပြောင်းလဲဝှက်ထား၍ သင်၏ စကားပြောဆိုမှု အချိန်ကာလကို တစ်ခါတစ်ရံ ပြန်တင်ဆက် ရပါလိမ့်မည်။ ၎င်းလုပ်ခြင်းသည် သင့်စကားပြောဆိုမှု၏ လုံခြုံရေးကို မထိခိုက်စေပါ၊ သို့သော် သင်သည် ဤအဆက်အသွယ်မှ မက်ဆေ့ခ်ျတစ်ခုကို လွဲချော်ပြီး ၎င်းတို့အား ပြန်လည်ပေးပို့ရန် တောင်းဆိုနိုင်သည်။",
+    "messageformat": "Signal သည် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်မှုကို သုံး၍ သင့်ချက်(တ်)ဆက်ရှင်ကို တစ်ခါတစ်ရံ ပြန်လည်စတင်ပါလိမ့်မည်။ ၎င်းသည် သင့်ချက်(တ်)၏ လုံခြုံရေးကို မထိခိုက်စေသော်လည်း သင်သည် ဤအဆက်အသွယ်မှ မက်ဆေ့ခ်ျတစ်ခုကို လွဲသွားနိုင်ပြီး ၎င်းတို့အား ပြန်လည်ပေးပို့ရန် တောင်းဆိုနိုင်ပါသည်။",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "ChatRefresh--contactSupport": {
@@ -2503,7 +2511,7 @@
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} နှင့် {conversationTitle} သည် တူညီသော အကောင့်မှ ဖြစ်ပါသည်။ ချက်(တ်)နှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် တွေ့နိုင်ပါသည်။",
+    "messageformat": "{obsoleteConversationTitle} နှင့် {conversationTitle} သည် တူညီသော အကောင့် ဖြစ်ပါသည်။ ချက်(တ်)နှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် တွေ့နိုင်ပါသည်။",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
   },
   "icu:ConversationMerge--notification--with-e164": {
@@ -2511,7 +2519,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "{conversationTitle} နှင့် သင်၏ မက်ဆေ့ချ်မှတ်တမ်း၊ ၎င်းတို့ပိုင်ဆိုင်သည့် အခြားချက်(တ်)ကို ပေါင်းစည်းထားပါသည်။",
+    "messageformat": "{conversationTitle} နှင့် သင်၏ မက်ဆေ့ချ်မှတ်တမ်းနှင့် ၎င်းတို့ပိုင်ဆိုင်သည့် အခြားချက်(တ်)တို့ကို ပေါင်းစည်းထားပါသည်။",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2523,7 +2531,7 @@
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "စကားဝိုင်းနှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် ပေါင်းစည်းထားပါသည်။",
+    "messageformat": "ချက်(တ်)နှစ်ခုလုံးအတွက် သင့်မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် ပေါင်းစည်းထားပါသည်။",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "quoteThumbnailAlt": {
@@ -2555,7 +2563,7 @@
     "description": "(deleted 03/29/2023) Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "စကားဝိုင်းတွင် ပုံ ပို့ပြီး",
+    "messageformat": "ချက်(တ်)ထဲတွင် ပေးပို့ထားသော ပုံ",
     "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
@@ -2723,11 +2731,11 @@
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "initialSync__subtitle": {
-    "message": "မှတ်ချက်- သင့်ချက်(တ်) မှတ်တမ်းကို ဤစက်တွင် ချိန်ကိုက်မည် မဟုတ်ပါ။",
+    "message": "မှတ်ချက်- သင့်ချက်(တ်) မှတ်တမ်းကို ဤစက်တွင် ချိန်ကိုက်မည် မဟုတ်ပါ",
     "description": "(deleted 03/29/2023) Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "မှတ်ချက်- သင့်ချက်(တ်) မှတ်တမ်းကို ဤစက်တွင် ချိန်ကိုက်မည် မဟုတ်ပါ။",
+    "messageformat": "မှတ်ချက်- သင့်ချက်(တ်) မှတ်တမ်းကို ဤစက်တွင် ချိန်ကိုက်မည် မဟုတ်ပါ",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
@@ -3316,6 +3324,10 @@
   "icu:spellCheckDescription": {
     "messageformat": "မက်ဆေ့ချ် စာစီ အကွက်တွင် ရိုက်ထည့်ထားသော စာသားကို စာလုံးပေါင်းစစ်ရန်",
     "description": "Description of the spell check setting"
+  },
+  "icu:textFormattingDescripton": {
+    "messageformat": "Enable text formatting popover when text is selected",
+    "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
     "message": "နောက်တစ်ကြိမ် Signal စတင်သည့်အခါ စာလုံးပေါင်း စစ်ဆေးမှုကို ဖွင့်ပါမည်။",
@@ -3976,7 +3988,7 @@
     "description": "(deleted 03/29/2023) Description for the Note to Self conversation"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "ဤစကားဝိုင်းတွင် သင်ကိုယ်တိုင်အတွက် မှတ်စုများ ပေါင်းထည့်နိုင်သည်။ သင့်အကောင့်တွင် ချိတ်ထားသည့် စက်များရှိပါက မှတ်စုအသစ်များကို ချိန်ကိုက်ပါမည်။",
+    "messageformat": "ဤချက်(တ်)တွင် သင်ကိုယ်တိုင်အတွက် မှတ်စုများ ထည့်နိုင်ပါသည်။ သင့်အကောင့်နှင့် ချိတ်ထားသည့် စက်များရှိပါက မှတ်စုအသစ်များကို ချိန်ကိုက်ပါမည်။",
     "description": "Description for the Note to Self conversation"
   },
   "notificationDrawAttention": {
@@ -4000,7 +4012,7 @@
     "description": "(deleted 03/29/2023) Label underneath number a user enters that is not an existing contact"
   },
   "icu:startConversation": {
-    "messageformat": "စကားဝိုင်း အသစ် စတင်ရန်…",
+    "messageformat": "ချက်(တ်)အသစ် စတင်ရန်",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -4008,7 +4020,7 @@
     "description": "(deleted 03/29/2023) Label for header when starting a new conversation"
   },
   "icu:newConversation": {
-    "messageformat": "စကားဝိုင်းအသစ်",
+    "messageformat": "ချက်(တ်)အသစ်",
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
@@ -4048,11 +4060,11 @@
     "description": "(deleted 03/29/2023) Label shown when there are no conversations to compose to"
   },
   "icu:noConversationsFound": {
-    "messageformat": "စကားဝိုင်းများ ရှာမတွေ့ပါ",
+    "messageformat": "ချက်(တ်) ရှာမတွေ့ပါ",
     "description": "Label shown when there are no conversations to compose to"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} has been removed.",
+    "messageformat": "{title} ကို ဖယ်ရှားထားပါသည်။",
     "description": "Shown after the contact was removed from the contact list"
   },
   "Toast--error": {
@@ -4433,7 +4445,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item"
   },
   "icu:ConversationList__aria-label": {
-    "messageformat": "{unreadCount, plural, one {Conversation with {title}, {unreadCount,number} new message, last message: {lastMessage}.} other {Conversation with {title}, {unreadCount,number} new messages, last message: {lastMessage}.}}",
+    "messageformat": "{unreadCount, plural, other {{title} နှင့် ချက်(တ်)၊ မက်ဆေ့ချ်အသစ် {unreadCount,number} စောင်၊ နောက်ဆုံးမက်ဆေ့ချ်- {lastMessage}။}}",
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
@@ -4449,7 +4461,7 @@
     "description": "(deleted 03/29/2023) Aria label for the conversation list item button"
   },
   "icu:BaseConversationListItem__aria-label": {
-    "messageformat": "{title} နှင့် စကားဝိုင်းသို့ သွားရန်",
+    "messageformat": "{title} နှင့် ချက်(တ်)သို့ သွားရန်",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -4467,6 +4479,10 @@
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "မူကြမ်း",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
+  },
+  "icu:message--getNotificationText--messageRequest": {
+    "messageformat": "မက်ဆေ့ချ် တောင်းဆိုချက်",
+    "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "message--getNotificationText--gif": {
     "message": "လှုပ်ရှားနေသောရုပ်ပုံ",
@@ -5077,7 +5093,7 @@
     "description": "(deleted 03/29/2023) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "တစ်ကြိမ်ကြည့် မက်ဆေ့ချ်များကို သင့်စကားဝိုင်း မှတ်တမ်းတွင် မသိုလှောင်ပါ။",
+    "messageformat": "တစ်ကြိမ်ကြည့် မက်ဆေ့ချ်များကို သင့်ချက်(တ်)မှတ်တမ်းတွင် မသိမ်းဆည်းပါ။",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "Message--tap-to-view--incoming": {
@@ -5133,7 +5149,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-conversation": {
-    "messageformat": "ယခင် စကားဝိုင်း",
+    "messageformat": "ယခင်ချက်(တ်)",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-conversation": {
@@ -5141,7 +5157,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-conversation": {
-    "messageformat": "နောက် စကားဝိုင်း",
+    "messageformat": "နောက်ချက်(တ်)",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--previous-unread-conversation": {
@@ -5149,7 +5165,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "ယခင် မဖတ်ရသေးသော စကားဝိုင်း",
+    "messageformat": "မဖတ်ရသေးသော ယခင်ချက်(တ်)",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--next-unread-conversation": {
@@ -5157,7 +5173,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "နောက် မဖတ်ရသေးသော စကားဝိုင်း",
+    "messageformat": "မဖတ်ရသေးသော နောက်ချက်(တ်)",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--preferences": {
@@ -5173,7 +5189,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-conversation-menu": {
-    "messageformat": "စကားဝိုင်း မီနူးကို ဖွင့်ရန်",
+    "messageformat": "ချက်(တ်)မီနူးကို ဖွင့်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
@@ -5181,7 +5197,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--new-conversation": {
-    "messageformat": "စကားဝိုင်းအသစ် စတင်ရန်",
+    "messageformat": "ချက်(တ်)အသစ် စတင်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {
@@ -5189,7 +5205,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--archive-conversation": {
-    "messageformat": "စကားဝိုင်းကို စုဆည်းရန်",
+    "messageformat": "ချက်(တ်)ကို မှတ်တမ်းတင်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--unarchive-conversation": {
@@ -5197,7 +5213,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--unarchive-conversation": {
-    "messageformat": "စကားဝိုင်းကို ဖယ်ထုတ်ရန်",
+    "messageformat": "မှတ်တမ်းမှ ချက်(တ်)ကို ဖယ်ထုတ်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
@@ -5213,7 +5229,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
-    "messageformat": "စကားဝိုင်းတွင် ရှာရန်",
+    "messageformat": "ချက်(တ်)ထဲတွင် ရှာရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
@@ -5309,7 +5325,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--forward-messages": {
-    "messageformat": "Forward selected messages",
+    "messageformat": "ရွေးထားသော မက်ဆေ့ချ်များကို ထပ်ဆင့်ပို့ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--add-newline": {
@@ -5365,7 +5381,7 @@
     "description": "(deleted 03/29/2023) A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "စကားဝိုင်းတွင် ဝင်ပြောဆိုရန်",
+    "messageformat": "ချက်(တ်)သို့ တိုက်ရိုက်သွားရန်",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "Keyboard--Key--ctrl": {
@@ -5456,6 +5472,26 @@
     "messageformat": "ရေးသားမှု",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
+  "icu:Keyboard--composer--bold": {
+    "messageformat": "Mark selected text as bold",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--italic": {
+    "messageformat": "Mark selected text as italic",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--strikethrough": {
+    "messageformat": "Mark selected text as strikethrough",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--monospace": {
+    "messageformat": "Mark selected text as monospace",
+    "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--composer--spoiler": {
+    "messageformat": "Mark selected text as a spoiler",
+    "description": "Description of command to bold text in composer"
+  },
   "Keyboard--scroll-to-top": {
     "message": "စာရင်းထိပ်ဆုံးသို့ ဆွဲရန်",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
@@ -5477,7 +5513,7 @@
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"
   },
   "icu:Keyboard--close-curent-conversation": {
-    "messageformat": "လက်ရှိစကားဝိုင်းကို ပိတ်ရန်",
+    "messageformat": "လက်ရှိ ချက်(တ်)ကို ပိတ်ရန်",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
@@ -5581,7 +5617,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchived": {
-    "messageformat": "စကားဝိုင်းကို စုဆည်းပြီး",
+    "messageformat": "ချက်(တ်)ကို မှတ်တမ်းတင်ပြီး",
     "description": "A toast that shows up when user archives a conversation"
   },
   "conversationArchivedUndo": {
@@ -5597,7 +5633,7 @@
     "description": "(deleted 03/29/2023) A toast that shows up when the user unarchives a conversation"
   },
   "icu:conversationReturnedToInbox": {
-    "messageformat": "စကားဝိုင်းသည် ဝင်စာပုံးသို့ ပြန်ရောက်သွားပါသည်",
+    "messageformat": "ဝင်စာပုံးသို့ ချက်(တ်)ပြန်ရောက်ပြီး",
     "description": "A toast that shows up when the user unarchives a conversation"
   },
   "conversationMarkedUnread": {
@@ -5605,8 +5641,16 @@
     "description": "(deleted 03/29/2023) A toast that shows up when user marks a conversation as unread"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "စကားဝိုင်းကို မဖတ်ရသေးဟု မှတ်ထားသည်",
+    "messageformat": "ချက်(တ်)ကို မဖတ်ရသေးဟု မှတ်သားပြီး",
     "description": "A toast that shows up when user marks a conversation as unread"
+  },
+  "icu:SendFormatting--dialog--title": {
+    "messageformat": "Sending formatted text",
+    "description": "Title of the modal shown before sending your first formatting message"
+  },
+  "icu:SendFormatting--dialog--body": {
+    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Sticker Pack Creator ကို သင် ဖွင့်လိုပါသလား။",
@@ -5865,7 +5909,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Let {name} message you and share your name and photo with them? You have removed this person in the past.",
+    "messageformat": "{name} အား သင့်ထံ မက်ဆေ့ချ်ပို့ခွင့်ပြုပြီး သင့်အမည်နှင့် ဓာတ်ပုံကို ဝေမျှပေးမည်လား။ ဤလူကို ယခင်က ဖယ်ရှားထားပါသည်။",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "MessageRequests--message-direct-blocked": {
@@ -5993,7 +6037,7 @@
     "description": "(deleted 03/29/2023) Shown as the title in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-title": {
-    "messageformat": "စကားဝိုင်းကို ဖျက်မည်လား။",
+    "messageformat": "ချက်(တ်)ကို ဖျက်မည်လား။",
     "description": "Shown as the title in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-direct-confirm-body": {
@@ -6001,7 +6045,7 @@
     "description": "(deleted 03/29/2023) Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-direct-confirm-body": {
-    "messageformat": "ဤစကားဝိုင်းကို သင်၏စက်အားလုံးမှ ဖျက်သွားပါမည်။",
+    "messageformat": "ဤချက်(တ်)ကို သင်၏စက်များအားလုံးပေါ်မှ ဖျက်သွားပါမည်။",
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
@@ -6057,11 +6101,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group": {
-    "messageformat": "ဤအဖွဲ့နှင့် သင့်စကားဝိုင်းကို ဆက်လုပ်ပြီး သင့်အမည်နှင့် ဓာတ်ပုံကို ၎င်းမန်ဘာများနှင့် ဝေမျှပါမည်လား။ {learnMore}",
+    "messageformat": "ဤအဖွဲ့နှင့် ဆက်လက်၍ ချက်(တ်)ပြီး သင်၏ အမည်နှင့် ရုပ်ပုံကို အဖွဲ့ဝင်များနှင့် ဝေမျှမည်လား။ {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a group yet"
   },
   "icu:MessageRequests--profile-sharing--group--link": {
-    "messageformat": "Continue your conversation with this group and share your name and photo with its members? <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "ဤအဖွဲ့နှင့် ဆက်လက်၍ ချက်(တ်)ပြီး သင်၏ အမည်နှင့် ရုပ်ပုံကို အဖွဲ့ဝင်များနှင့် ဝေမျှမည်လား။ <learnMoreLink>ပိုမိုလေ့လာရန်။</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
@@ -6069,11 +6113,11 @@
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct": {
-    "messageformat": "{firstName} နှင့် ဤစကားဝိုင်းကို ဆက်လုပ်ပြီး သင့်အမည်နှင့် ဓာတ်ပုံကို ၎င်းတို့နှင့် ဝေမျှပါမည်လား။ {learnMore}",
+    "messageformat": "{firstName} နှင့် ဤချက်(တ်)ကို ဆက်ပြောပြီး သင်၏ အမည်နှင့် ရုပ်ပုံကို ၎င်းတို့နှင့် ဝေမျှမည်လား။ {learnMore}",
     "description": "(deleted 03/29/2023) Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Continue this conversation with {firstName} and share your name and photo with them? <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "{firstName} နှင့် ဤချက်(တ်)ကို ဆက်ပြောပြီး သင်၏ အမည်နှင့် ရုပ်ပုံကို ၎င်းတို့နှင့် ဝေမျှမည်လား။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
@@ -8033,7 +8077,7 @@
     "description": "(deleted 03/29/2023) Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "@mentions နှင့် အက်ဒ်မင်များကဲ့သို့ အင်္ဂါရပ်အသစ်များကို သက်ဝင်လုပ်ဆောင်ရန် ဤအဖွဲ့ကို အဆင့်မြှင့်တင်ပါ။ ဤအဖွဲ့တွင် အမည် သို့မဟုတ် ဓာတ်ပုံ မဝေမျှထားသည့် မန်ဘာများကို ပါဝင်ရန် ဖိတ်ခေါ်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -8313,7 +8357,7 @@
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော စကားဝိုင်းများ ထည့်ရန်",
+    "messageformat": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော ချက်(တ်)များ ထည့်ရန်",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -8365,11 +8409,11 @@
     "description": "Button text for remove from group button in Group Contact Details modal"
   },
   "showChatColorEditor": {
-    "message": "စကားပြောဆိုမှု၏ အရောင်",
+    "message": "ချက်(တ်)အရောင်",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "စကားပြောဆိုမှု၏ အရောင်",
+    "messageformat": "ချက်(တ်)အရောင်",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "showConversationDetails": {
@@ -8381,11 +8425,11 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "showConversationDetails--direct": {
-    "message": "စကားပြောအပြင်အဆင်",
+    "message": "ချက်(တ်)ဆက်တင်",
     "description": "(deleted 03/29/2023) This is a button in the conversation context menu to show chat settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "စကားပြောအပြင်အဆင်",
+    "messageformat": "ချက်(တ်)ဆက်တင်",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "ConversationDetails__unmute--title": {
@@ -8421,11 +8465,11 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "ConversationDetails--disappearing-messages-info--direct": {
-    "message": "ဖွင့်ထားချိန်တွင် ဤ ၁:၁ ချက်(တ်)၌ ပေးပို့၊ လက်ခံထားသော မက်ဆေ့ချ်များသည် ကြည့်ပြီးသည့်နောက် ပျောက်သွားပါမည်။",
+    "message": "ဖွင့်ထားချိန်တွင် ဤ 1:1 ချက်(တ်)၌ ပေးပို့၊ လက်ခံထားသော မက်ဆေ့ချ်များသည် ကြည့်ပြီးသည့်နောက် ပျောက်သွားပါမည်။",
     "description": "(deleted 03/29/2023) This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "ဖွင့်ထားချိန်တွင် ဤ ၁:၁ ချက်(တ်)၌ ပေးပို့၊ လက်ခံထားသော မက်ဆေ့ချ်များသည် ကြည့်ပြီးသည့်နောက် ပျောက်သွားပါမည်။",
+    "messageformat": "ဖွင့်ထားချိန်တွင် ဤ 1:1 ချက်(တ်)၌ ပေးပို့၊ လက်ခံထားသော မက်ဆေ့ချ်များသည် ကြည့်ပြီးသည့်နောက် ပျောက်သွားပါမည်။",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
@@ -8853,7 +8897,7 @@
     "description": "(deleted 03/29/2023) This is the modal content when confirming revoking multiple invites"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, one {Revoke {number,number} invite sent by \"{name}\"?} other {Revoke {number,number} invites sent by \"{name}\"?}}",
+    "messageformat": "{number, plural, other {\"{name}\" ပေးပို့ထားသည့် ဖိတ်ခေါ်မှု {number,number} ခုအား ပြန်ရုပ်သိမ်းမည်လား။}}",
     "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
@@ -8950,6 +8994,10 @@
   },
   "icu:ConfirmDeleteForMeModal--title": {
     "messageformat": "{count, plural, other {မက်ဆေ့ချ် {count,number} စောင်ကို ဖျက်မည်လား။}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--title": {
+    "messageformat": "{count, plural, other {မက်ဆေ့ချ် {count,number} စောင်ကို ဖျက်မည်လား။}}",
     "description": "delete selected messages > confirmation modal > title"
   },
   "icu:SelectModeActions__confirmDelete--description": {
@@ -8958,7 +9006,15 @@
   },
   "icu:ConfirmDeleteForMeModal--description": {
     "messageformat": "{count, plural, other {ဤမက်ဆေ့ချ်များကို ဤစက်မှ ဖျက်လိုက်ပါမည်။}}",
+    "description": "(deleted 04/06/2023) delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description": {
+    "messageformat": "{count, plural, other {ထိုမက်ဆေ့ချ်များကို မည်သူ့အတွက် ဖျက်ချင်သနည်း။}}",
     "description": "delete selected messages > confirmation modal > description"
+  },
+  "icu:DeleteMessagesModal--description--noteToSelf": {
+    "messageformat": "{count, plural, other {ထိုမက်ဆေ့ချ်များကို မည်သည့်စက်များမှ ဖျက်ချင်သနည်း။}}",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:SelectModeActions__confirmDelete--confirm": {
     "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မည်",
@@ -8966,7 +9022,27 @@
   },
   "icu:ConfirmDeleteForMeModal--confirm": {
     "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မည်",
-    "description": "delete selected messages > confirmation modal > button"
+    "description": "(deleted 03/24/2023) delete selected messages > confirmation modal > button"
+  },
+  "icu:DeleteMessagesModal--deleteForMe": {
+    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်ရန်",
+    "description": "delete selected messages > confirmation modal > delete for me"
+  },
+  "icu:DeleteMessagesModal--deleteFromThisDevice": {
+    "messageformat": "ဤစက်မှ ဖျက်ရန်",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+  },
+  "icu:DeleteMessagesModal--deleteForEveryone": {
+    "messageformat": "လူတိုင်းအတွက် ဖျက်ရန်",
+    "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--deleteFromAllDevices": {
+    "messageformat": "စက်အားလုံးမှ ဖျက်ရန်",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
+    "messageformat": "{count, plural, other {လူတိုင်းအတွက် ဖျက်ရန် မက်ဆေ့ချ် {count,number} စောင်အထိသာ ရွေးချယ်နိုင်သည်}}",
+    "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "မက်ဆေ့ချ်အစောင် 30 အထိသာ ထပ်ဆင့်ပို့နိုင်သည်",
@@ -9309,7 +9385,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ Signal သည် အမည်တူ အခြားအဆက်အသွယ်ကို ရှာဖွေတွေ့ရှိထားပါသည်။ <reviewRequestLink>တောင်းဆိုချက် ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9317,11 +9393,11 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. {link}} other {{count,number} group members have the same name. {link}}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် အမည်တူ ရှိနေပါသည်။ {link}}}",
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review request</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review request</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် အမည်တူ ရှိနေပါသည်။ <reviewRequestLink>တောင်းဆိုချက် ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -9385,7 +9461,7 @@
     "description": "(deleted 03/29/2023) Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have similar names. Review the members below or choose to take action.} other {{count,number} group members have similar names. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် ဆင်တူအမည်များ ရှိနေပါသည်။ အောက်ပါ မန်ဘာများကို ပြန်သုံးသပ်ပါ သို့မဟုတ် လုပ်ဆောင်ချက်တစ်ခု လုပ်ရန် ရွေးချယ်ပါ။}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9525,11 +9601,11 @@
     "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "ChatColorPicker__menu-title": {
-    "message": "စကားပြောဆိုမှု အရောင်",
+    "message": "ချက်(တ်)အရောင်",
     "description": "(deleted 03/29/2023) View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "စကားပြောဆိုမှု အရောင်",
+    "messageformat": "ချက်(တ်)အရောင်",
     "description": "View title for the chat color picker and editor"
   },
   "ChatColorPicker__reset": {
@@ -9573,11 +9649,11 @@
     "description": "Confirm button label for resetting chat colors"
   },
   "ChatColorPicker__confirm-reset-message": {
-    "message": "ချက်(တ်) အရောင်များအားလုံးကို ပယ်ဖျက်လိုပါသလား။",
+    "message": "ချက်(တ်)အရောင်များအားလုံးကို အစားထိုးလိုပါသလား။",
     "description": "(deleted 03/29/2023) Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "ချက်(တ်) အရောင်များအားလုံးကို ပယ်ဖျက်လိုပါသလား။",
+    "messageformat": "ချက်(တ်)အရောင်များအားလုံးကို အစားထိုးလိုပါသလား။",
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "ChatColorPicker__custom-color--label": {
@@ -9589,11 +9665,11 @@
     "description": "aria-label for custom color editor button"
   },
   "ChatColorPicker__sampleBubble1": {
-    "message": "ဤသည်မှာ သင်၏ ချက်(တ်) အရောင် အစမ်းပြသမှု ဖြစ်ပါသည်။",
+    "message": "ဤသည်မှာ သင်၏ ချက်(တ်)အရောင် အစမ်းပြသမှု ဖြစ်ပါသည်။",
     "description": "(deleted 03/29/2023) An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "ဤသည်မှာ သင်၏ ချက်(တ်) အရောင် အစမ်းပြသမှု ဖြစ်ပါသည်။",
+    "messageformat": "ဤသည်မှာ သင်၏ ချက်(တ်)အရောင် အစမ်းပြသမှု ဖြစ်ပါသည်။",
     "description": "An example message bubble for selecting the chat color"
   },
   "ChatColorPicker__sampleBubble2": {
@@ -9797,7 +9873,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "You have removed this person, messaging them again will add them back to your list.",
+    "messageformat": "ဤလူကို ဖယ်ရှားထားပါသည်၊ ထိုသူတို့ထံ မက်ဆေ့ချ်ပို့ခြင်းဖြင့် ထိုသူတို့ကို သင့်စာရင်းတွင် ပြန်လည်ပေါင်းထည့်ပေးသွားပါမည်။",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "ErrorBoundaryNotification__text": {
@@ -10141,11 +10217,11 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ {learnMore}",
+    "messageformat": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ ချက်(တ်)အသစ်များကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ {learnMore}",
     "description": "(deleted 03/29/2023) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
+    "messageformat": "သင့်ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင့်ပရိုဖိုင်နှင့် ယင်း၏ ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -10173,11 +10249,11 @@
     "description": "A default bio option"
   },
   "Bio--free-to-chat": {
-    "message": "အခမဲ့စကားပြောနိုင်သည်",
+    "message": "ချက်(တ်)ရန် အားလပ်နေသည်",
     "description": "(deleted 03/29/2023) A default bio option"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "အခမဲ့စကားပြောနိုင်သည်",
+    "messageformat": "ချက်(တ်)ရန် အားလပ်နေသည်",
     "description": "A default bio option"
   },
   "Bio--coffee-lover": {
@@ -10309,11 +10385,11 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--chats": {
-    "message": "စကားပြောဆိုမှုများ",
+    "message": "ချက်(တ်)များ",
     "description": "(deleted 03/29/2023) Button to switch the settings view (and a title of pane)"
   },
   "icu:Preferences__button--chats": {
-    "messageformat": "စကားစမြည်များ",
+    "messageformat": "ချက်(တ်)များ",
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
@@ -10421,7 +10497,7 @@
     "description": "(deleted 03/29/2023) Number of contacts blocked plural"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}",
+    "messageformat": "{num, plural, other {အဆက်အသွယ် {num,number} ခု}}",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__privacy--description": {
@@ -10949,7 +11025,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--singular": {
-    "messageformat": "<strong>{viewCount,number}</strong> view",
+    "messageformat": "ကြည့်ရှုမှု <strong>{viewCount,number}</strong> ကြိမ်",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -10957,7 +11033,7 @@
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views--plural": {
-    "messageformat": "<strong>{viewCount,number}</strong> views",
+    "messageformat": "ကြည့်ရှုမှု <strong>{viewCount,number}</strong> ကြိမ်",
     "description": "(deleted 03/29/2023) Number of views your story has"
   },
   "icu:MyStories__views": {
@@ -10965,7 +11041,7 @@
     "description": "Number of views your story has"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> view} other {<strong>{views,number}</strong> views}}",
+    "messageformat": "{views, plural, other {ကြည့်ရှုမှု <strong>{views,number}</strong> ကြိမ်}}",
     "description": "Number of views your story has"
   },
   "icu:MyStories__views-off": {
@@ -10989,7 +11065,7 @@
     "description": "(deleted 03/29/2023) Number of replies your story has"
   },
   "icu:MyStories__replies": {
-    "messageformat": "{replyCount, plural, one {<strong>1</strong> reply} other {<strong>{replyCount,number}</strong> replies}}",
+    "messageformat": "{replyCount, plural, other {ပြန်စာ <strong>{replyCount,number}</strong> ခု}}",
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
@@ -11061,7 +11137,7 @@
     "description": "(deleted 03/29/2023) A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "စကားဝိုင်း စတင်ခြင်း",
+    "messageformat": "ချက်(တ်)တစ်ခု စတင်ခြင်း",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
@@ -11445,7 +11521,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "သင့်စတိုရီကို ကြည့်နိုင်မည့်သူများကို ရွေးရန် ပြောင်းလဲမှုများသည် သင့်ပေးပို့ပြီးဖြစ်သည့် စတိုရီများအပေါ် သက်ရောက်မှု ရှိမည် မဟုတ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -11485,7 +11561,7 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "messageformat": "အဖွဲ့ချက်(တ်) “{groupTitle}” ၏ အဖွဲ့ဝင်များသည် ဤစတိုရီကို ကြည့်ရှုပြီး အကြောင်းပြန်နိုင်ပါသည်။ ဤချက်(တ်)အတွက် အဖွဲ့ဝင်မှုကို အဖွဲ့ထဲတွင် အပ်ဒိတ်လုပ်နိုင်ပါသည်။",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
@@ -11621,7 +11697,7 @@
     "description": "(deleted 03/29/2023) Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choose which Signal connections can view your story. You can always change this in privacy settings. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "သင့်စတိုရီကို ကြည့်နိုင်မည့် Signal အဆက်အသွယ်များကို ရွေးပါ။ ၎င်းကို ကိုယ်ပိုင်အချက်အလက် ဆက်တင်တွင် အမြဲတမ်း ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
