@@ -35,7 +35,8 @@
   }
 
   &__padding {
-    padding: 0 24px;
+    padding-block: 0;
+    padding-inline: 24px;
   }
 
   &__button {
@@ -45,7 +46,8 @@
     display: flex;
     height: 48px;
     width: 100%;
-    padding: 14px 0;
+    padding-block: 14px;
+    padding-inline: 0;
 
     &--selected {
       @include light-theme {
@@ -69,8 +71,7 @@
       content: '';
       display: block;
       height: 22px;
-      margin-left: 18px;
-      margin-right: 14px;
+      margin-inline: 18px 14px;
       width: 22px;
     }
 
@@ -180,7 +181,8 @@
 
   &__link {
     @include button-reset;
-    padding: 0px 0 28px 0;
+    padding-block: 0px 28px;
+    padding-inline: 0;
     width: 100%;
 
     h3 {
@@ -207,11 +209,12 @@
     display: flex;
     justify-content: space-between;
     min-height: 48px;
-    padding: 4px 24px;
+    padding-block: 4px;
+    padding-inline: 24px;
 
     &--key {
       flex-grow: 1;
-      padding-right: 20px;
+      padding-inline-end: 20px;
     }
 
     &--value {
@@ -220,7 +223,8 @@
 
     &--clickable {
       @include button-reset;
-      padding: 4px 24px;
+      padding-block: 4px;
+      padding-inline: 24px;
       width: 100%;
       &:hover {
         @include light-theme {
@@ -234,7 +238,8 @@
   }
 
   &__checkbox {
-    padding: 10px 24px;
+    padding-block: 10px;
+    padding-inline: 24px;
   }
 
   &__description {
@@ -271,7 +276,7 @@
 
     display: inline-block;
     height: 24px;
-    margin-left: 12px;
+    margin-inline-start: 12px;
     min-width: 24px;
     vertical-align: text-bottom;
     width: 24px;

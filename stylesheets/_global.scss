@@ -81,8 +81,7 @@ audio {
 .dark-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
 
   opacity: 0.25;
@@ -117,7 +116,8 @@ button.grey {
   border-radius: 5px;
   border: solid 1px $color-gray-25;
   cursor: pointer;
-  margin: 1em auto;
+  margin-block: 1em;
+  margin-inline: auto;
   padding: 1em;
   font-family: inherit;
 
@@ -174,7 +174,8 @@ $loading-height: 16px;
   position: relative;
   &::before {
     display: block;
-    margin: 0px auto;
+    margin-block: 0px;
+    margin-inline: auto;
     content: ' ';
     height: $loading-height;
     width: $loading-height;
@@ -189,7 +190,7 @@ $loading-height: 16px;
 
 .x {
   display: inline-block;
-  float: right;
+  float: inline-end;
   cursor: pointer;
   border-radius: 50%;
   width: 22px;
@@ -233,11 +234,11 @@ $loading-height: 16px;
 .app-loading-screen {
   z-index: $z-index-on-top-of-everything;
   position: absolute;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   top: 0;
   bottom: 0;
-  padding: 0 16px;
+  padding-block: 0;
+  padding-inline: 16px;
 
   &--without-titlebar {
     /* There is no titlebar during loading screen on Windows */
@@ -263,15 +264,17 @@ $loading-height: 16px;
   .container {
     display: flex;
     gap: 7px;
-    margin: 6px 0 22px 0;
+    margin-block: 6px 22px;
+    margin-inline: 0;
 
     .dot {
       width: 14px;
       height: 14px;
       border: 3px solid $color-white;
       border-radius: 50%;
-      float: left;
-      margin: 0 6px;
+      float: inline-start;
+      margin-block: 0;
+      margin-inline: 6px;
       transform: scale(0);
 
       animation: loading 1500ms ease infinite 0ms;
@@ -294,7 +297,8 @@ $loading-height: 16px;
       max-width: 400px;
       overflow: hidden;
       width: 100%;
-      margin: 12px 0 26px 0;
+      margin-block: 12px 26px;
+      margin-inline: 0;
     }
 
     &--bar {
@@ -303,7 +307,14 @@ $loading-height: 16px;
       display: block;
       height: 100%;
       width: 100%;
-      transform: translateX(-100%);
+      &:dir(ltr) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(-100%);
+      }
+      &:dir(rtl) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(100%);
+      }
       transition: transform 500ms linear;
     }
   }
@@ -318,8 +329,7 @@ $loading-height: 16px;
 
 .full-screen-flow {
   position: absolute;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   top: 0;
   bottom: 0;
 
@@ -376,15 +386,13 @@ $loading-height: 16px;
 
   .body-text {
     max-width: 22em;
-    text-align: left;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: start;
+    margin-inline: auto;
   }
   .body-text-wide {
     max-width: 30em;
-    text-align: left;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: start;
+    margin-inline: auto;
   }
 
   form {
@@ -394,11 +402,11 @@ $loading-height: 16px;
   .step {
     height: 100%;
     width: 100%;
-    padding: 70px 0 50px;
+    padding-block: 70px 50px;
+    padding-inline: 0;
   }
   .step-body {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     max-width: 35em;
   }
 
@@ -493,8 +501,7 @@ $loading-height: 16px;
     min-width: 300px;
     padding: 0.75em;
     margin-top: 1em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-inline: 0.5em;
     color: $color-white;
     background: $color-ultramarine;
     box-shadow: 2px 2px 4px $color-black-alpha-40;
@@ -523,7 +530,8 @@ $loading-height: 16px;
     @include button-reset;
 
     display: block;
-    margin: 0.5em auto;
+    margin-block: 0.5em;
+    margin-inline: auto;
     text-align: center;
     text-decoration: underline;
     color: $color-ultramarine;
@@ -567,13 +575,11 @@ $loading-height: 16px;
     bottom: 50px;
     margin-top: auto;
     padding-bottom: 2em;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-inline: 20px;
 
     .instructions {
-      text-align: left;
-      margin-left: auto;
-      margin-right: auto;
+      text-align: start;
+      margin-inline: auto;
       margin-bottom: 2em;
       margin-top: 2em;
       max-width: 30em;
@@ -582,16 +588,16 @@ $loading-height: 16px;
       clear: both;
     }
     .android {
-      float: left;
+      float: inline-start;
     }
     .apple {
-      float: right;
+      float: inline-end;
     }
     .label {
-      float: left;
+      float: inline-start;
     }
     .body {
-      float: left;
+      float: inline-start;
     }
   }
 }

@@ -27,7 +27,8 @@
     border-radius: 4px;
     display: flex;
     justify-content: center;
-    padding: 3px 0;
+    padding-block: 3px;
+    padding-inline: 0;
 
     &[disabled] {
       visibility: hidden;
@@ -93,7 +94,8 @@
   &__main {
     flex-grow: 1;
     text-align: center;
-    padding: 24px 10px;
+    padding-block: 24px;
+    padding-inline: 10px;
   }
 
   &__name {

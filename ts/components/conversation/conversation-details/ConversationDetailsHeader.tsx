@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { Emojify } from '../Emojify';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
@@ -15,6 +14,7 @@ import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { bemGenerator } from './util';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
+import { UserText } from '../../UserText';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -106,7 +106,7 @@ export function ConversationDetailsHeader({
   const contents = (
     <div>
       <div className={bem('title')}>
-        <Emojify text={isMe ? i18n('icu:noteToSelf') : conversation.title} />
+        {isMe ? i18n('icu:noteToSelf') : <UserText text={conversation.title} />}
         {isMe && <span className="ContactModal__official-badge__large" />}
       </div>
     </div>

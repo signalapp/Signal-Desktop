@@ -102,7 +102,8 @@
     color: $color-gray-60;
     font-variant: tabular-nums;
     line-height: 36px;
-    margin: 0 15px;
+    margin-block: 0;
+    margin-inline: 15px;
 
     @keyframes pulse {
       0% {
@@ -123,7 +124,7 @@
       width: 10px;
       height: 10px;
       background: $color-accent-red;
-      margin-right: 10px;
+      margin-inline-end: 10px;
       opacity: 0;
       animation: pulse 2s infinite;
     }

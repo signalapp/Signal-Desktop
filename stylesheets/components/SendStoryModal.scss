@@ -24,21 +24,22 @@
   }
 
   .module-SearchInput__container {
-    margin-left: 0;
-    margin-right: 0;
+    margin-inline: 0;
   }
 
   &__story-preview {
     height: 140px;
     width: 80px;
     border-radius: 12px;
-    margin: 0 auto 16px auto;
+    margin-block: 0 16px;
+    margin-inline: auto;
     background-size: cover;
   }
 
   &__item--contact-or-conversation {
     height: 52px;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
   }
 
   &__top-bar {
@@ -52,13 +53,14 @@
   &__new-story {
     &__button {
       font-weight: 500;
-      padding: 5px 10px;
+      padding-block: 5px;
+      padding-inline: 10px;
       &::before {
         @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
         content: '';
         height: 16px;
         width: 16px;
-        margin-right: 8px;
+        margin-inline-end: 8px;
         display: inline-block;
         vertical-align: text-bottom;
       }
@@ -68,7 +70,7 @@
       padding: 10px;
 
       &--icon {
-        margin-right: 15px;
+        margin-inline-end: 15px;
       }
 
       &--container {
@@ -139,12 +141,13 @@
     height: 52px;
     &__container {
       justify-content: space-between;
-      padding: 8px 0;
+      padding-block: 8px;
+      padding-inline: 0;
       user-select: none;
     }
 
     &__info {
-      margin-left: 8px;
+      margin-inline-start: 8px;
     }
 
     &__label {
@@ -166,7 +169,7 @@
     }
 
     &__checkbox {
-      margin-right: 0;
+      margin-inline-end: 0;
       position: relative;
     }
 
@@ -208,6 +211,7 @@
           content: '';
           display: block;
           height: 11px;
+          /* stylelint-disable-next-line liberty/use-logical-spec */
           left: 7px;
           position: absolute;
           top: 3px;
@@ -221,7 +225,7 @@
   &__selected-lists {
     @include font-body-2;
     color: $color-gray-15;
-    padding-right: 16px;
+    padding-inline-end: 16px;
     user-select: none;
     flex: 1;
     display: flex;

@@ -20,7 +20,7 @@
 
     .module-Button {
       &:not(:first-child) {
-        margin-left: 12px;
+        margin-inline-start: 12px;
       }
     }
   }

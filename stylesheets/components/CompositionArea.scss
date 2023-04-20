@@ -4,13 +4,12 @@
 .CompositionArea {
   position: relative;
   min-height: 42px;
-  padding: 10px 0 10px 0;
+  padding-block: 10px;
+  padding-inline: 0;
 
   &__placeholder {
     flex-grow: 1;
-    margin: {
-      bottom: 6px;
-    }
+    margin-bottom: 6px;
   }
 
   &__row {
@@ -22,7 +21,8 @@
       justify-content: center;
     }
     &--padded {
-      padding: 0 12px;
+      padding-block: 0;
+      padding-inline: 12px;
     }
     &--control-row {
       margin-top: 12px;
@@ -34,7 +34,8 @@
   }
 
   &__button-cell {
-    margin: 0 6px;
+    margin-block: 0;
+    margin-inline: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,11 +43,11 @@
     flex-shrink: 0;
 
     &:first-child {
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &:last-child {
-      margin-right: 12px;
+      margin-inline-end: 12px;
     }
   }
 
@@ -73,7 +74,7 @@
     }
     &--accept {
       background-color: $color-ultramarine;
-      margin-left: 16px;
+      margin-inline-start: 16px;
       &::before {
         @include color-svg('../images/icons/v3/check.svg', $color-white);
       }
@@ -99,8 +100,9 @@
   }
   &__input {
     flex-grow: 1;
-    margin: 0 6px;
     position: relative;
+    margin-block: 0;
+    margin-inline: 6px;
 
     &--large {
       margin: 0;
@@ -114,7 +116,7 @@
     width: $width;
     height: $height;
     position: absolute;
-    left: calc(50% - $width / 2);
+    inset-inline-start: calc(50% - $width / 2);
 
     // 6px coming from padding-top of .module-composition-input__input__scroller
     top: calc(0px - $height / 2 - 6px);
@@ -187,7 +189,8 @@
     align-items: center;
 
     // Note the margin in &__placeholder above
-    padding: 14px 16px 18px 16px;
+    padding-block: 14px 18px;
+    padding-inline: 16px;
 
     &:not(.module-composition-area--pending) {
       @include light-theme {
@@ -200,7 +203,8 @@
 
     &__title {
       @include font-body-2-bold;
-      margin: 0 0 2px 0;
+      margin-block: 0 2px;
+      margin-inline: 0;
 
       @include light-theme {
         color: $color-gray-60;

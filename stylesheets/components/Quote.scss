@@ -4,12 +4,9 @@
 .module-quote {
   &__container {
     .module-message & {
-      margin: {
-        left: -4px;
-        right: -4px;
-        top: 0px;
-        bottom: 8px;
-      }
+      margin-inline: -4px;
+      margin-top: 0px;
+      margin-bottom: 8px;
     }
   }
 
@@ -33,7 +30,7 @@
   &__reaction-emoji {
     bottom: 5px;
     position: absolute;
-    right: 25px;
+    inset-inline-end: 25px;
     z-index: $z-index-base;
 
     img.emoji {
@@ -44,7 +41,7 @@
     &--story-unavailable {
       align-items: flex-end;
       display: flex;
-      margin-left: 32px;
+      margin-inline-start: 32px;
       padding-bottom: 7px;
     }
   }
@@ -63,7 +60,7 @@
   background-color: $color-steel;
 
   .module-quote__primary {
-    border-left-color: $color-steel;
+    border-inline-start-color: $color-steel;
   }
 
   // To preserve contrast
@@ -79,7 +76,7 @@
     background-color: scale-color($value, $lightness: 60%);
 
     .module-quote__primary {
-      border-left-color: $value;
+      border-inline-start-color: $value;
     }
 
     @include dark-theme {
@@ -91,12 +88,12 @@
     background-color: scale-color($value, $lightness: 60%);
 
     .module-quote__primary {
-      border-left-color: $color-white;
+      border-inline-start-color: $color-white;
     }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
-      border-left-color: $color-white;
+      border-inline-start-color: $color-white;
     }
   }
 
@@ -104,13 +101,13 @@
     background-color: scale-color($value, $lightness: 60%);
 
     .module-quote__primary {
-      border-left-color: $value;
+      border-inline-start-color: $value;
     }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
       .module-quote__primary {
-        border-left-color: $color-white;
+        border-inline-start-color: $color-white;
       }
     }
   }
@@ -126,7 +123,7 @@
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
     .module-quote__primary {
-      border-left-color: map-get($value, 'start');
+      border-inline-start-color: map-get($value, 'start');
     }
   }
   .module-quote--compose-#{$color},
@@ -151,15 +148,14 @@
   }
   .module-quote--outgoing-#{$color} {
     .module-quote__primary {
-      border-left-color: $color-white;
+      border-inline-start-color: $color-white;
     }
   }
 }
 
 .module-quote__primary {
   flex-grow: 1;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline: 8px;
   padding-top: 7px;
   padding-bottom: 7px;
 
@@ -252,7 +248,7 @@
 .module-quote__close-container {
   position: absolute;
   top: 4px;
-  right: 4px;
+  inset-inline-end: 4px;
   height: 16px;
   width: 16px;
 
@@ -273,11 +269,7 @@
   width: 14px;
   height: 14px;
 
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
+  @include position-absolute-center;
 
   @include color-svg('../images/icons/v2/x-24.svg', $color-white);
 }
@@ -306,9 +298,8 @@
 .module-quote__icon-container__inner {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
-  left: 0;
 
   text-align: center;
   display: flex;
@@ -368,8 +359,7 @@
   background-repeat: no-repeat;
   height: 28px;
   width: 36px;
-  margin-left: -4px;
-  margin-right: -6px;
+  margin-inline: -4px -6px;
   margin-bottom: 5px;
 }
 .module-quote__generic-file__text {
@@ -403,10 +393,9 @@
 
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  border-left-style: solid;
+  border-inline-start-style: solid;
   border-left-width: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline: 8px;
 }
 
 .module-quote__reference-warning__icon {
@@ -433,7 +422,7 @@
 .module-quote__reference-warning__text {
   @include font-caption;
 
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   @include light-theme {
     color: $color-gray-90;

@@ -24,7 +24,8 @@
 
 .frame {
   width: 50%;
-  padding: 12px 12px 3px 12px;
+  padding-block: 12px 3px;
+  padding-inline: 12px;
 }
 
 .frame-light {
@@ -77,7 +78,7 @@
 .arrow-left {
   composes: arrow;
   border-width: 8px 8px 8px 0;
-  left: -8px;
+  inset-inline-start: -8px;
 
   @include light-theme() {
     border-color: transparent $color-white transparent transparent;
@@ -91,7 +92,7 @@
 .arrow-right {
   composes: arrow;
   border-width: 8px 0 8px 8px;
-  right: -8px;
+  inset-inline-end: -8px;
 
   @include light-theme() {
     border-color: transparent transparent transparent $color-white;

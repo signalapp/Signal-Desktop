@@ -45,6 +45,7 @@ import { Emojify } from './conversation/Emojify';
 import { AddNewLines } from './conversation/AddNewLines';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { Spinner } from './Spinner';
+import { arrow } from '../util/keyboard';
 
 export type MediaEditorResultType = Readonly<{
   data: Uint8Array;
@@ -276,7 +277,7 @@ export function MediaEditor({
         },
       ],
       [
-        ev => ev.key === 'ArrowLeft',
+        ev => ev.key === arrow('start'),
         (obj, ev) => {
           const px = ev.shiftKey ? 20 : 1;
           if (ev.altKey) {
@@ -312,7 +313,7 @@ export function MediaEditor({
         },
       ],
       [
-        ev => ev.key === 'ArrowRight',
+        ev => ev.key === arrow('end'),
         (obj, ev) => {
           const px = ev.shiftKey ? 20 : 1;
           if (ev.altKey) {

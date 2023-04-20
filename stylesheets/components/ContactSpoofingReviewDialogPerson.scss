@@ -9,7 +9,7 @@
   }
 
   &__info {
-    margin-left: 12px;
+    margin-inline-start: 12px;
 
     &__contact-name {
       @include font-body-1;
@@ -28,7 +28,8 @@
 
       &--callout {
         @include font-body-2-italic;
-        margin: 12px 0;
+        margin-block: 12px;
+        margin-inline: 0;
       }
     }
   }

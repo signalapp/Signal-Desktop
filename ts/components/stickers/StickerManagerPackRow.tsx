@@ -6,6 +6,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
 import type { StickerPackType } from '../../state/ducks/stickers';
 import { Button, ButtonVariant } from '../Button';
+import { UserText } from '../UserText';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -126,7 +127,7 @@ export const StickerManagerPackRow = React.memo(
           )}
           <div className="module-sticker-manager__pack-row__meta">
             <div className="module-sticker-manager__pack-row__meta__title">
-              {pack.title}
+              <UserText text={pack.title} />
               {pack.isBlessed ? (
                 <span className="module-sticker-manager__pack-row__meta__blessed-icon" />
               ) : null}

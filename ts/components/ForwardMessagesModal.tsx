@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  Fragment,
 } from 'react';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
@@ -33,7 +34,6 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
-import { Emojify } from './conversation/Emojify';
 import type { MessageForwardDraft } from '../util/maybeForwardMessages';
 import {
   isDraftEditable,
@@ -45,6 +45,7 @@ import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { HydratedBodyRangesType } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
+import { UserText } from './UserText';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -390,13 +391,14 @@ export function ForwardMessagesModal({
           )}
           <div className="module-ForwardMessageModal__footer">
             <div>
-              {Boolean(selectedContacts.length) && (
-                <Emojify
-                  text={selectedContacts
-                    .map(contact => contact.title)
-                    .join(', ')}
-                />
-              )}
+              {selectedContacts.map((contact, index) => {
+                return (
+                  <Fragment key={contact.id}>
+                    <UserText text={contact.title} />
+                    {index < selectedContacts.length - 1 ? ', ' : ''}
+                  </Fragment>
+                );
+              })}
             </div>
             <div>
               {isEditingMessage || !isLonelyDraftEditable ? (

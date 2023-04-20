@@ -18,7 +18,7 @@
     transition: height 250ms, background 250ms;
 
     &:not(:first-of-type) {
-      margin-left: 2px;
+      margin-inline-start: 2px;
     }
 
     @include light-theme {

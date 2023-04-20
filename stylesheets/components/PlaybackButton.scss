@@ -5,7 +5,7 @@
   @include button-reset;
 
   flex-shrink: 0;
-  margin-right: $audio-attachment-button-margin-big;
+  margin-inline-end: $audio-attachment-button-margin-big;
 
   outline: none;
   border-radius: 18px;

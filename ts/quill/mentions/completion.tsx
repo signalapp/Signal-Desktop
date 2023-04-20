@@ -18,6 +18,7 @@ import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { sameWidthModifier } from '../../util/popperUtil';
+import { UserText } from '../../components/UserText';
 
 export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -274,7 +275,7 @@ export class MentionCompletion {
                     unblurredAvatarPath={member.unblurredAvatarPath}
                   />
                   <div className="module-composition-input__suggestions__title">
-                    {member.title}
+                    <UserText text={member.title} />
                   </div>
                 </button>
               ))}

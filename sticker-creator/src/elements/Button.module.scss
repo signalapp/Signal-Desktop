@@ -9,7 +9,8 @@
   border: none;
   min-width: 80px;
   height: 36px;
-  padding: 0 25px;
+  padding-block: 0;
+  padding-inline: 25px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -89,7 +90,8 @@
   composes: base;
   height: 28px;
   border-radius: 15px;
-  padding: 0 17px;
+  padding-block: 0;
+  padding-inline: 17px;
 
   @include light-theme() {
     color: $color-gray-90;

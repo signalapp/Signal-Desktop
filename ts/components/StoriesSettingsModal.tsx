@@ -40,6 +40,7 @@ import {
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getGroupMemberships } from '../util/getGroupMemberships';
 import { strictAssert } from '../util/assert';
+import { UserText } from './UserText';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -223,7 +224,7 @@ function GroupStoryItem({
           title={groupStory.title}
         />
         <span className="StoriesSettingsModal__list__title">
-          {groupStory.title}
+          <UserText text={groupStory.title} />
           <span className="StoriesSettingsModal__list__viewers">
             {i18n('icu:StoriesSettings__group-story-subtitle')}
             &nbsp;&middot;&nbsp;
@@ -682,7 +683,7 @@ export function DistributionListSettingsModal({
                   title={member.title}
                 />
                 <span className="StoriesSettingsModal__list__title">
-                  {member.title}
+                  <UserText text={member.title} />
                 </span>
               </span>
 
@@ -1092,7 +1093,7 @@ export function EditDistributionListModal({
                 title={contact.title}
               />
               <span className="StoriesSettingsModal__list__title">
-                {contact.title}
+                <UserText text={contact.title} />
               </span>
             </span>
           </div>
@@ -1277,7 +1278,9 @@ export function GroupStorySettingsModal({
           size={AvatarSize.THIRTY_TWO}
           title={group.title}
         />
-        <span className="GroupStorySettingsModal__title">{group.title}</span>
+        <span className="GroupStorySettingsModal__title">
+          <UserText text={group.title} />
+        </span>
       </div>
 
       <hr className="StoriesSettingsModal__divider" />
@@ -1305,7 +1308,7 @@ export function GroupStorySettingsModal({
               title={member.title}
             />
             <p className="GroupStorySettingsModal__members_item__name">
-              {member.title}
+              <UserText text={member.title} />
             </p>
           </div>
         );

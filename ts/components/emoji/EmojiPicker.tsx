@@ -398,6 +398,7 @@ export const EmojiPicker = React.memo(
                     className="module-emoji-picker__header__search-field__input"
                     placeholder={i18n('icu:EmojiPicker--search-placeholder')}
                     onChange={handleSearchChange}
+                    dir="auto"
                   />
                 </div>
               ) : (
@@ -463,7 +464,7 @@ export const EmojiPicker = React.memo(
                 <Emoji
                   shortName="slightly_frowning_face"
                   size={16}
-                  style={{ marginLeft: '4px' }}
+                  style={{ marginInlineStart: '4px' }}
                 />
               </div>
             )}

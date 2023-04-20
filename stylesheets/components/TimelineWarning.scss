@@ -44,8 +44,7 @@
   &__text {
     @include font-body-2;
     flex-grow: 1;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-inline: 12px;
 
     &__link {
       @include button-reset;

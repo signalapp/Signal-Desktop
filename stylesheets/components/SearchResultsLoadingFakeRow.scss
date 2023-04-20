@@ -6,8 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 14px;
-  margin: 2px 0;
+  padding-block: 10px;
+  padding-inline: 14px;
+  margin-block: 2px;
+  margin-inline: 0;
 
   &__avatar {
     width: 48px;
@@ -21,7 +23,7 @@
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
-    margin-left: 12px;
+    margin-inline-start: 12px;
 
     &__line {
       &:nth-child(1) {

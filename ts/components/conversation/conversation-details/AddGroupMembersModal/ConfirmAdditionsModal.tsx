@@ -12,8 +12,8 @@ import { Spinner } from '../../../Spinner';
 import type { ConversationType } from '../../../../state/ducks/conversations';
 import { RequestState } from '../util';
 import { Intl } from '../../../Intl';
-import { Emojify } from '../../Emojify';
 import { ContactName } from '../../ContactName';
+import { UserText } from '../../../UserText';
 
 export type StatePropsType = {
   groupTitle: string;
@@ -40,7 +40,7 @@ export function ConfirmAdditionsModal({
     'Expected at least one conversation to be selected but none were picked'
   );
 
-  const groupTitleNode: JSX.Element = <Emojify text={groupTitle} />;
+  const groupTitleNode: JSX.Element = <UserText text={groupTitle} />;
 
   let headerText: ReactNode;
   if (selectedContacts.length === 1) {

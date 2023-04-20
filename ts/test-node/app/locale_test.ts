@@ -2,17 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { stub } from 'sinon';
 import { load } from '../../../app/locale';
-import type { LoggerType } from '../../types/Logging';
-
-const logger: Pick<LoggerType, 'info' | 'warn'> = {
-  info(..._args: Array<unknown>) {
-    // noop
-  },
-  warn(..._args: Array<unknown>) {
-    throw new Error(String(_args));
-  },
-};
 
 describe('locale', async () => {
   describe('load', () => {
@@ -21,7 +12,17 @@ describe('locale', async () => {
         preferredSystemLocales: Array<string>,
         expectedLocale: string
       ) {
-        const actualLocale = await load({ preferredSystemLocales, logger });
+        const actualLocale = await load({
+          preferredSystemLocales,
+          logger: {
+            fatal: stub().throwsArg(0),
+            error: stub().throwsArg(0),
+            warn: stub().throwsArg(0),
+            info: stub(),
+            debug: stub(),
+            trace: stub(),
+          },
+        });
         assert.strictEqual(actualLocale.name, expectedLocale);
       }
 

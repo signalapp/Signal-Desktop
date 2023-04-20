@@ -38,7 +38,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 8px 38px 8px 8px;
+    margin-block: 8px;
+    margin-inline: 8px 38px;
     min-height: $size;
     min-width: $size;
     width: $size;
@@ -72,7 +73,8 @@
         content: '';
         display: block;
         height: 22px;
-        margin: 8px auto 0 auto;
+        margin-block: 8px 0;
+        margin-inline: auto;
         width: 22px;
       }
 

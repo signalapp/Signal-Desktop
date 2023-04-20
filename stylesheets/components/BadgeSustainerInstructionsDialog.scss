@@ -29,7 +29,8 @@
       content: '';
       display: block;
       height: 160px;
-      margin: 24px auto;
+      margin-block: 24px;
+      margin-inline: auto;
       width: 146px;
 
       @include light-theme {

@@ -177,6 +177,7 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
   spellcheck: false,
+  enableBlinkFeatures: 'CSSPseudoDir,CSSLogical',
 };
 
 const DISABLE_GPU =
@@ -2259,6 +2260,7 @@ ipc.on('get-config', async event => {
   const parsed = rendererConfigSchema.safeParse({
     name: packageJson.productName,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
+    resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     preferredSystemLocales: getPreferredSystemLocales(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),

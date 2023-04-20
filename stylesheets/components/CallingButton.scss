@@ -17,8 +17,7 @@
     justify-content: center;
     outline: none;
     width: 52px;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-inline: 6px;
 
     @mixin calling-button-icon($icon, $background-color, $icon-color) {
       background-color: $background-color;
@@ -120,15 +119,16 @@
     &--shown {
       background-color: $color-gray-75;
       border-radius: 16px;
-      padding: 6px 8px;
+      padding-block: 6px;
+      padding-inline: 8px;
       padding-bottom: 2px;
       margin-top: -6px;
-      margin-right: -8px;
+      margin-inline-end: -8px;
     }
 
     &--count {
       @include font-body-2-bold;
-      margin-left: 5px;
+      margin-inline-start: 5px;
       vertical-align: top;
     }
   }
@@ -156,17 +156,16 @@
   &__container {
     display: inline-flex;
     flex-direction: column;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-inline: 6px;
     max-width: 64px;
 
-    transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    transition: margin-inline-start 0.3s ease-out, opacity 0.3s ease-out;
     @media (prefers-reduced-motion) {
       transition: none;
     }
 
     &--hidden {
-      margin-left: -100px;
+      margin-inline-start: -100px;
       opacity: 0;
       pointer-events: none;
 

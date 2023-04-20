@@ -23,6 +23,7 @@ import { Modal } from '../Modal';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { missingCaseError } from '../../util/missingCaseError';
+import { UserText } from '../UserText';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -206,7 +207,9 @@ export function ContactModal({
               title={contact.title}
               unblurredAvatarPath={contact.unblurredAvatarPath}
             />
-            <div className="ContactModal__name">{contact.title}</div>
+            <div className="ContactModal__name">
+              <UserText text={contact.title} />
+            </div>
             <div className="module-about__container">
               <About text={contact.about} />
             </div>

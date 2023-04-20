@@ -3,7 +3,7 @@
 
 .LeftPaneSearchInput {
   &__input--with-children.module-SearchInput__input--with-children {
-    padding-left: 50px;
+    padding-inline-start: 50px;
   }
 
   &__in-conversation-pill {
@@ -13,8 +13,9 @@
     bottom: 4px;
     display: flex;
     flex-direction: row;
-    left: 3px;
-    padding: 0 3px 0 0;
+    inset-inline-start: 3px;
+    padding-block: 0;
+    padding-inline: 0 3px;
     position: absolute;
     top: 4px;
 
@@ -27,7 +28,7 @@
 
     &__x-button {
       height: 16px;
-      margin-left: 2px;
+      margin-inline-start: 2px;
       width: 16px;
 
       @include light-theme {

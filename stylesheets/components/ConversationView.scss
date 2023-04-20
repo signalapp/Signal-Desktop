@@ -40,7 +40,8 @@
     //   height calculation.
     .quote-wrapper,
     .preview-wrapper {
-      margin: 0 16px 10px 16px;
+      margin-block: 0 10px;
+      margin-inline: 16px;
     }
   }
 }

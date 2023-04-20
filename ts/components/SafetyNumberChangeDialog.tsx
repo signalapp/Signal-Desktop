@@ -22,6 +22,7 @@ import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 import { MY_STORY_ID } from '../types/Stories';
 import type { UUIDStringType } from '../types/UUID';
+import { UserText } from './UserText';
 
 export enum SafetyNumberChangeSource {
   Calling = 'Calling',
@@ -463,7 +464,7 @@ function ContactRow({
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">
         <div className="module-SafetyNumberChangeDialog__row--name">
-          {contact.title}
+          <UserText text={contact.title} />
           {isInSystemContacts(contact) && (
             <span>
               {' '}

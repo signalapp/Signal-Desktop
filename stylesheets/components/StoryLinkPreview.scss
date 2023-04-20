@@ -14,9 +14,9 @@
   overflow: hidden;
 
   &__content {
-    margin-left: 24px;
-    margin-right: 24px;
-    padding: 16px 0;
+    margin-inline: 24px;
+    padding-block: 16px;
+    padding-inline: 0;
   }
 
   &__title {
@@ -54,8 +54,7 @@
     display: flex;
     height: 176px;
     justify-content: center;
-    margin-left: 52px;
-    margin-right: 52px;
+    margin-inline: 52px;
 
     &::before {
       @include color-svg('../images/icons/v2/link-24.svg', $color-gray-90);
@@ -79,8 +78,7 @@
 
     .StoryLinkPreview__no-image {
       height: 100px;
-      margin-left: 24px;
-      margin-right: 0;
+      margin-inline: 24px 0;
       width: auto;
     }
   }

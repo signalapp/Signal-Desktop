@@ -116,6 +116,7 @@ export function getEmptyState(): UserStateType {
       getLocale: intlNotSetup,
       getIntl: intlNotSetup,
       isLegacyFormat: intlNotSetup,
+      getLocaleDirection: intlNotSetup,
     }),
     interactionMode: 'mouse',
     isMainWindowMaximized: false,

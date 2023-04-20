@@ -23,7 +23,8 @@
 
   @include button-reset;
   border-radius: 4px;
-  padding: 8px 16px;
+  padding-block: 8px;
+  padding-inline: 16px;
   text-align: center;
   user-select: none;
 
@@ -51,7 +52,8 @@
   &--small {
     @include font-body-2;
     @include rounded-corners;
-    padding: 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px;
   }
 
   &--primary {
@@ -170,10 +172,8 @@
     @include rounded-corners;
 
     &.module-Button--small {
-      padding: {
-        top: 5px;
-        bottom: 5px;
-      }
+      padding-top: 5px;
+      padding-bottom: 5px;
       font-weight: 500;
     }
 

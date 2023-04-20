@@ -33,7 +33,8 @@
 
     display: flex;
     align-items: center;
-    padding: 7px 16px;
+    padding-block: 7px;
+    padding-inline: 16px;
     width: 100%;
 
     &:last-child {
@@ -63,7 +64,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-inline-end: 10px;
     width: 20px;
   }
 
@@ -148,7 +149,7 @@
     background: url('../images/icons/v2/official-20.svg') no-repeat center;
     display: inline-block;
     height: 18px;
-    margin-left: 4px;
+    margin-inline-start: 4px;
     margin-bottom: -3px;
     width: 18px;
   }
@@ -157,7 +158,7 @@
     background: url('../images/icons/v2/official-20.svg') no-repeat center;
     display: inline-block;
     height: 18px;
-    margin-left: 9px;
+    margin-inline-start: 9px;
     margin-bottom: -2px;
     width: 18px;
     scale: 1.3;

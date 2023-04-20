@@ -55,6 +55,7 @@ import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { strictAssert } from '../util/assert';
 import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
+import { arrow } from '../util/keyboard';
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -409,7 +410,7 @@ export function StoryViewer({
         return;
       }
 
-      if (canNavigateRight && ev.key === 'ArrowRight') {
+      if (canNavigateRight && ev.key === arrow('end')) {
         viewStory({
           storyId: story.messageId,
           storyViewMode,
@@ -417,7 +418,7 @@ export function StoryViewer({
         });
         ev.preventDefault();
         ev.stopPropagation();
-      } else if (canNavigateLeft && ev.key === 'ArrowLeft') {
+      } else if (canNavigateLeft && ev.key === arrow('start')) {
         viewStory({
           storyId: story.messageId,
           storyViewMode,

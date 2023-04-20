@@ -5,8 +5,8 @@ import type { Story } from '@storybook/react';
 import React from 'react';
 import { ListTile } from './ListTile';
 import type { Props } from './ListTile';
-import { Emojify } from './conversation/Emojify';
 import { CircleCheckbox } from './CircleCheckbox';
+import { UserText } from './UserText';
 
 export default {
   title: 'Components/ListTile',
@@ -45,15 +45,15 @@ function TemplateList(width: number): Story<Props> {
         <ListTile {...args} subtitle="Disabled" disabled />
         <ListTile
           {...args}
-          title={<Emojify text="Emoji in title 📞" />}
+          title={<UserText text="Emoji in title 📞" />}
           subtitle="Clickable"
           clickable
         />
         <ListTile
           {...args}
-          title={<Emojify text="With a LOT of emoji 🚗" />}
+          title={<UserText text="With a LOT of emoji 🚗" />}
           subtitle={
-            <Emojify text="😂, 😃, 🧘🏻‍♂️, 🌍, 🌦️, 🍞, 🚗, 📞, 🎉, ❤️, 🍆, 🍑 and 🏁" />
+            <UserText text="😂, 😃, 🧘🏻‍♂️, 🌍, 🌦️, 🍞, 🚗, 📞, 🎉, ❤️, 🍆, 🍑 and 🏁" />
           }
         />
         <ListTile
@@ -90,7 +90,7 @@ const circleAvatar = (
 export const Item = TemplateList(400).bind({});
 Item.args = {
   leading: circleAvatar,
-  title: <Emojify text="Some user" />,
+  title: <UserText text="Some user" />,
   subtitle: 'Hello my friend',
   clickable: true,
 };

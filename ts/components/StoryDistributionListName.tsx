@@ -5,6 +5,7 @@ import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
 import { getStoryDistributionListName } from '../types/Stories';
+import { UserText } from './UserText';
 
 type PropsType = {
   i18n: LocalizerType;
@@ -17,5 +18,5 @@ export function StoryDistributionListName({
   id,
   name,
 }: PropsType): JSX.Element {
-  return <>{getStoryDistributionListName(i18n, id, name)}</>;
+  return <UserText text={getStoryDistributionListName(i18n, id, name)} />;
 }

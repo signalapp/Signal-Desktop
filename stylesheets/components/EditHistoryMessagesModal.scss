@@ -3,8 +3,7 @@
 
 .EditHistoryMessagesModal {
   .module-message {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
 
     &__link-preview__content {
       @include dark-theme {

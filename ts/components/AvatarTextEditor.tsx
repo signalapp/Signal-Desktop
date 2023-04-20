@@ -170,6 +170,7 @@ export function AvatarTextEditor({
             ref={inputRef}
             style={{ fontSize }}
             type="text"
+            dir="auto"
             value={inputText}
           />
         </BetterAvatarBubble>

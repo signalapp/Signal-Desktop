@@ -19,7 +19,8 @@
 
   &__contact-name {
     @include font-body-2;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -34,7 +35,8 @@
     width: 28px;
     justify-content: center;
     align-items: center;
-    padding: 0 6px 0 4px;
+    padding-block: 0;
+    padding-inline: 4px 6px;
 
     &::before {
       content: '';

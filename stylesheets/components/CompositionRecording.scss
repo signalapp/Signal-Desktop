@@ -5,7 +5,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 18px;
+  padding-block: 10px;
+  padding-inline: 18px;
 
   &__wave {
     display: flex;
@@ -14,7 +15,8 @@
     flex: 1;
     border-radius: 16px;
     height: 32px;
-    padding: 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px;
 
     @include light-theme {
       background: $color-gray-05;
@@ -37,6 +39,6 @@
 
   &__timer {
     min-width: 40px;
-    text-align: right;
+    text-align: end;
   }
 }

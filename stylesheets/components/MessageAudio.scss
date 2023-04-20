@@ -12,7 +12,7 @@ $audio-attachment-button-margin-small: 4px;
 
   .PlaybackButton {
     @media (min-width: 0px) and (max-width: 799px) {
-      margin-right: $audio-attachment-button-margin-small;
+      margin-inline-end: $audio-attachment-button-margin-small;
     }
   }
 }
@@ -52,7 +52,7 @@ $audio-attachment-button-margin-small: 4px;
 .module-message__audio-attachment__controls {
   display: flex;
   flex: 1;
-  margin-right: 4px;
+  margin-inline-end: 4px;
 }
 
 .module-message__audio-attachment__dot {
@@ -122,7 +122,7 @@ $audio-attachment-button-margin-small: 4px;
   align-items: center;
 
   @media (min-width: 0px) and (max-width: 799px) {
-    margin-left: $audio-attachment-button-size +
+    margin-inline-start: $audio-attachment-button-size +
       $audio-attachment-button-margin-small;
   }
 }
@@ -133,7 +133,7 @@ $audio-attachment-button-margin-small: 4px;
   user-select: none;
   text-align: center;
   white-space: nowrap;
-  margin-right: 12px;
+  margin-inline-end: 12px;
 
   .module-message__audio-attachment--incoming & {
     @include light-theme {

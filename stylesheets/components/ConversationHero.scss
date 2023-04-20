@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-conversation-hero {
-  padding: 32px 0 28px 0;
+  padding-block: 32px 28px;
+  padding-inline: 0;
   text-align: center;
 
   &__avatar {
@@ -24,7 +25,8 @@
 
   &__with {
     @include font-body-2;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
     margin-bottom: 16px;
     max-width: 500px;
 
@@ -40,7 +42,9 @@
   &__membership {
     @include font-body-2;
 
-    padding: 0 16px;
+    padding-block: 0;
+
+    padding-inline: 16px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -76,7 +80,7 @@
         content: '';
         display: block;
         height: 14px;
-        margin-right: 8px;
+        margin-inline-end: 8px;
         width: 14px;
 
         @include light-theme {
@@ -106,7 +110,7 @@
       content: '';
       display: inline-block;
       height: 16px;
-      margin-right: 8px;
+      margin-inline-end: 8px;
       vertical-align: middle;
       width: 16px;
 

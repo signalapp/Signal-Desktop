@@ -2552,5 +2552,13 @@
     "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
     "updated": "2023-04-12T15:51:28.066Z",
     "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/default-browser-id/node_modules/pify/index.js",
+    "line": "\t\t\t\t} else if (opts.multiArgs) {",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-20T16:43:40.643Z",
+    "reasonDetail": "<optional>"
   }
 ]

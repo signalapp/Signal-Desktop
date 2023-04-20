@@ -25,8 +25,8 @@ const Trigger = (
       display: 'inline-block',
       marginTop: 200,
       marginBottom: 200,
-      marginLeft: 200,
-      marginRight: 200,
+      marginInlineStart: 200,
+      marginInlineEnd: 200,
     }}
   >
     Trigger

@@ -5,9 +5,9 @@ import React from 'react';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
-import { Emojify } from './conversation/Emojify';
 import { getParticipantName } from '../util/callingGetParticipantName';
 import { missingCaseError } from '../util/missingCaseError';
+import { UserText } from './UserText';
 
 export enum RingMode {
   WillNotRing,
@@ -190,7 +190,7 @@ export function CallingPreCallInfo({
         i18n={i18n}
       />
       <div className="module-CallingPreCallInfo__title">
-        <Emojify text={conversation.title} />
+        <UserText text={conversation.title} />
       </div>
       <div className="module-CallingPreCallInfo__subtitle">{subtitle}</div>
     </div>

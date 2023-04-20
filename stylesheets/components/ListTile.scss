@@ -8,7 +8,8 @@ button.ListTile {
 .ListTile {
   display: flex;
   align-items: center;
-  padding: 6px 14px;
+  padding-block: 6px;
+  padding-inline: 14px;
   user-select: none;
 
   // use a transparent border to inset the background
@@ -24,7 +25,8 @@ button.ListTile {
   text-align: inherit;
 
   &--variant-panelrow {
-    padding: 8px 16px;
+    padding-block: 8px;
+    padding-inline: 16px;
   }
 
   &__content {
@@ -78,10 +80,10 @@ button.ListTile {
   }
 
   &__leading {
-    margin-right: 12px;
+    margin-inline-end: 12px;
   }
   &__trailing {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 
   &--clickable {

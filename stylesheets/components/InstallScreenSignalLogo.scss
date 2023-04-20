@@ -8,14 +8,14 @@
   font-weight: bold;
   position: absolute;
   top: calc(35px + var(--title-bar-drag-area-height));
-  left: 32px;
+  inset-inline-start: 32px;
 
   &::before {
     @include color-svg('../images/signal-logo.svg', $color-ultramarine);
     content: '';
     display: block;
     height: 32px;
-    margin-right: 6px;
+    margin-inline-end: 6px;
     width: 32px;
   }
 }

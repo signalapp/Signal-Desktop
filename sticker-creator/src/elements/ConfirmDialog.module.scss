@@ -9,7 +9,8 @@
   max-width: 468px;
   width: 100%;
   height: 138px;
-  padding: 16px 16px 8px 16px;
+  padding-block: 16px 8px;
+  padding-inline: 16px;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
@@ -70,7 +71,8 @@
   composes: base;
   height: 28px;
   border-radius: 15px;
-  padding: 0 17px;
+  padding-block: 0;
+  padding-inline: 17px;
 
   @include light-theme() {
     color: $color-gray-90;

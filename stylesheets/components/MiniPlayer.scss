@@ -17,15 +17,15 @@
 .MiniPlayer {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   z-index: calc($z-index-above-above-base + 1);
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 8px 16px;
+  padding-block: 8px;
+  padding-inline: 16px;
   margin-top: calc(52px + var(--title-bar-drag-area-height));
-  text-align: left;
+  text-align: start;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -67,7 +67,8 @@
   }
 
   &__middot {
-    padding: 0 5px;
+    padding-block: 0;
+    padding-inline: 5px;
   }
 
   &__close-button {

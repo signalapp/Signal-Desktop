@@ -6,6 +6,7 @@ import { useRefMerger } from '../../hooks/useRefMerger';
 import type { LocalizerType } from '../../types/Util';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 import { Waveform } from './Waveform';
+import { arrow } from '../../util/keyboard';
 
 type Props = Readonly<{
   i18n: LocalizerType;
@@ -73,9 +74,10 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     }
 
     let increment: number;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+
+    if (event.key === 'ArrowUp' || event.key === arrow('end')) {
       increment = +SMALL_INCREMENT;
-    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+    } else if (event.key === 'ArrowDown' || event.key === arrow('start')) {
       increment = -SMALL_INCREMENT;
     } else if (event.key === 'PageUp') {
       increment = +BIG_INCREMENT;

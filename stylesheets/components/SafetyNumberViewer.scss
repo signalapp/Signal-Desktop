@@ -14,7 +14,7 @@
   &__icon--verified {
     display: inline-block;
     height: 1.25em;
-    margin-right: 4px;
+    margin-inline-end: 4px;
     vertical-align: text-bottom;
     width: 1.25em;
 
@@ -34,7 +34,7 @@
   &__icon--shield {
     display: inline-block;
     height: 1.25em;
-    margin-right: 4px;
+    margin-inline-end: 4px;
     vertical-align: text-bottom;
     width: 1.25em;
 
@@ -57,7 +57,8 @@
     border-radius: 8px;
     font-family: $monospace;
     height: 100px;
-    margin: 24px auto;
+    margin-block: 24px;
+    margin-inline: auto;
     padding: 24px;
     width: 240px;
 
@@ -70,12 +71,13 @@
   }
 
   &__verification-status {
-    margin: 30px 0 10px;
+    margin-block: 30px 10px;
+    margin-inline: 0;
     text-align: center;
   }
 
   &__buttons {
-    text-align: right;
+    text-align: end;
   }
 
   &__button {

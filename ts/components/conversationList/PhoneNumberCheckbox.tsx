@@ -12,9 +12,9 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 import { ListTile } from '../ListTile';
-import { Emojify } from '../conversation/Emojify';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Spinner } from '../Spinner';
+import { UserText } from '../UserText';
 
 export type PropsDataType = {
   phoneNumber: ParsedE164Type;
@@ -106,7 +106,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
       />
     );
 
-    const title = <Emojify text={phoneNumber.userInput} />;
+    const title = <UserText text={phoneNumber.userInput} />;
 
     return (
       <>
@@ -128,7 +128,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
             isChecked={isChecked}
             onClick={onClickItem}
             leading={avatar}
-            title={<Emojify text={phoneNumber.userInput} />}
+            title={<UserText text={phoneNumber.userInput} />}
           />
         )}
         {modal}

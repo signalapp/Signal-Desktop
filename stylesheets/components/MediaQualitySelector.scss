@@ -4,7 +4,8 @@
 .MediaQualitySelector {
   &__popper {
     @extend %module-composition-popper;
-    padding: 12px 16px;
+    padding-block: 12px;
+    padding-inline: 16px;
     width: auto;
   }
 
@@ -82,12 +83,14 @@
     border-radius: 6px;
     display: flex;
     height: 42px;
-    margin: 2px 0;
+    margin-block: 2px;
+    margin-inline: 0;
     min-width: 200px;
 
     &--checkmark {
       height: 12px;
-      margin: 0 6px;
+      margin-block: 0;
+      margin-inline: 6px;
       width: 16px;
     }
 

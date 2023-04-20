@@ -4,9 +4,9 @@
 import React from 'react';
 import { take } from 'lodash';
 
-import { Emojify } from './conversation/Emojify';
 import { Intl } from './Intl';
 import type { LocalizerType } from '../types/Util';
+import { UserText } from './UserText';
 
 type PropsType = {
   i18n: LocalizerType;
@@ -23,7 +23,7 @@ export function SharedGroupNames({
     // We cannot guarantee uniqueness of group names
     // eslint-disable-next-line react/no-array-index-key
     <strong key={i} className={nameClassName}>
-      <Emojify text={group} />
+      <UserText text={group} />
     </strong>
   ));
 

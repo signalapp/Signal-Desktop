@@ -42,6 +42,8 @@ window.RETRY_DELAY = false;
 window.platform = process.platform;
 window.getTitle = () => title;
 window.getResolvedMessagesLocale = () => config.resolvedTranslationsLocale;
+window.getResolvedMessagesLocaleDirection = () =>
+  config.resolvedTranslationsLocaleDirection;
 window.getPreferredSystemLocales = () => config.preferredSystemLocales;
 window.getEnvironment = getEnvironment;
 window.getAppInstance = () => config.appInstance;

@@ -19,10 +19,10 @@ import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirma
 import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';
 import { Button, ButtonVariant } from '../Button';
 import { Intl } from '../Intl';
-import { Emojify } from './Emojify';
 import { assertDev } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { UserText } from '../UserText';
 
 export type PropsType = {
   conversationId: string;
@@ -316,8 +316,8 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     i18n={i18n}
                     id="icu:ContactSpoofingReviewDialog__group__name-change-info"
                     components={{
-                      oldName: <Emojify text={oldName} />,
-                      newName: <Emojify text={newName} />,
+                      oldName: <UserText text={oldName} />,
+                      newName: <UserText text={newName} />,
                     }}
                   />
                 </div>

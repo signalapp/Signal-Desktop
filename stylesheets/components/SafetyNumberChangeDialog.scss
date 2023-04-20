@@ -16,8 +16,7 @@
   }
 
   &__shield-icon {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
 
     height: 24px;
     width: 24px;
@@ -55,8 +54,7 @@
     text-align: center;
     margin-top: 8px;
     margin-bottom: 24px;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-inline: 4px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -67,8 +65,7 @@
     }
 
     &--narrow {
-      padding-left: 38px;
-      padding-right: 38px;
+      padding-inline: 38px;
     }
   }
 
@@ -89,12 +86,12 @@
     &__story-name {
       @include font-body-1-bold;
       flex-grow: 1;
-      margin-right: auto;
+      margin-inline-end: auto;
     }
 
     &--wrapper {
       flex-grow: 1;
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &--name {
@@ -133,14 +130,17 @@
       }
 
       border-radius: 4px;
-      padding: 8px 14px;
+      padding-block: 8px;
+      padding-inline: 14px;
     }
 
     &__chevron__option {
-      padding: 10px 15px;
+      padding-block: 10px;
+      padding-inline: 15px;
 
       .ContextMenu__popper--single-item & {
-        padding: 10px 15px;
+        padding-block: 10px;
+        padding-inline: 15px;
       }
 
       &--container {

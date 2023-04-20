@@ -4,7 +4,7 @@
 .module-composition-input {
   &__quill {
     height: 100%;
-    padding-left: 12px;
+    padding-inline-start: 12px;
 
     .ql-editor {
       caret-color: transparent;
@@ -18,8 +18,7 @@
       }
 
       &.ql-blank::before {
-        left: 0;
-        right: 0;
+        inset-inline: 0;
         font-style: normal;
       }
 
@@ -35,8 +34,7 @@
     background-color: $color-gray-20;
     border-radius: 4px;
     display: inline;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-inline: 4px;
     height: 22px;
     line-height: 22px;
 
@@ -81,7 +79,8 @@
 
     &__scroller {
       $padding-top: 6px;
-      padding: $padding-top 0;
+      padding-block: $padding-top;
+      padding-inline: 0;
 
       min-height: calc(32px - 2 * $border-size);
       max-height: calc(72px - 2 * $border-size);
@@ -121,7 +120,8 @@
   }
 
   &__format-menu {
-    padding: 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px;
     border-radius: 8px;
     z-index: $z-index-above-popup;
 
@@ -145,9 +145,9 @@
       width: 24px;
       border-radius: 4px;
 
-      margin-right: 8px;
+      margin-inline-end: 8px;
       &:last-child {
-        margin-right: 0;
+        margin-inline-end: 0;
       }
 
       @include mouse-mode {
@@ -282,7 +282,8 @@
 
     &__row {
       height: 34px;
-      padding: 0 12px;
+      padding-block: 0;
+      padding-inline: 12px;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -310,7 +311,7 @@
       }
 
       &__short-name {
-        margin-left: 4px;
+        margin-inline-start: 4px;
       }
 
       &--selected,
@@ -328,7 +329,7 @@
     }
 
     &__title {
-      padding-left: 8px;
+      padding-inline-start: 8px;
     }
 
     stroke: $color-white;
@@ -343,7 +344,8 @@
       content: '';
       display: inline-block;
       height: 16px;
-      margin: 0 8px 0 10px;
+      margin-block: 0;
+      margin-inline: 10px 8px;
       width: 16px;
       vertical-align: middle;
 
@@ -357,7 +359,7 @@
     &__attachment img {
       height: 18px;
       position: absolute;
-      right: 8px;
+      inset-inline-end: 8px;
       top: 8px;
       width: 18px;
     }
@@ -380,19 +382,18 @@ div.CompositionInput__link-preview {
   &__icon-container {
     align-items: center;
     display: flex;
-    margin-left: 8px;
-    margin-right: 0;
+    margin-inline: 8px 0;
   }
 
   &__content {
-    margin-right: 0;
+    margin-inline-end: 0;
     padding-bottom: 8px;
-    padding-left: 12px;
+    padding-inline-start: 12px;
     padding-top: 8px;
   }
 
   &__no-image {
-    margin-right: 0;
+    margin-inline-end: 0;
     min-width: 74px;
   }
 }
@@ -406,7 +407,7 @@ button.CompositionInput__link-preview__close-button {
   display: flex;
   height: 20px;
   justify-content: center;
-  right: 6px;
+  inset-inline-end: 6px;
   top: 6px;
   width: 20px;
 

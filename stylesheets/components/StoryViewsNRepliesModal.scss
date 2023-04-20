@@ -35,7 +35,8 @@ $footer-height: 36px;
 
   &__replies {
     flex: 1;
-    margin: 0 -16px;
+    margin-block: 0;
+    margin-inline: -16px;
     max-height: 75vh;
     overflow-y: overlay;
 
@@ -45,7 +46,8 @@ $footer-height: 36px;
       display: flex;
       flex: 1;
       justify-content: center;
-      padding: 80px 0;
+      padding-block: 80px;
+      padding-inline: 0;
       user-select: none;
     }
   }
@@ -67,7 +69,7 @@ $footer-height: 36px;
 
   &__emoji-button {
     height: 24px;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     width: 24px;
 
     &::after {
@@ -81,7 +83,8 @@ $footer-height: 36px;
   }
 
   &__not-a-member {
-    margin: 24px 4px 8px 4px;
+    margin-block: 24px 8px;
+    margin-inline: 4px;
     font-size: 12px;
     text-align: center;
     color: $color-gray-25;
@@ -118,11 +121,12 @@ $footer-height: 36px;
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin: 8px 0;
+    margin-block: 8px;
+    margin-inline: 0;
 
     &--name {
       @include font-body-2;
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &--timestamp {
@@ -143,7 +147,7 @@ $footer-height: 36px;
     &--timestamp {
       @include font-subtitle;
       color: $color-gray-25;
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
   }
 
@@ -151,22 +155,24 @@ $footer-height: 36px;
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding-block: 12px;
+    padding-inline: 16px;
 
     &--container {
       display: flex;
     }
 
     &--body {
-      margin-left: 20px;
+      margin-inline-start: 20px;
     }
   }
 
   &__message-bubble {
     background: $color-gray-75;
     border-radius: 18px;
-    margin-left: 8px;
-    padding: 7px 12px;
+    margin-inline-start: 8px;
+    padding-block: 7px;
+    padding-inline: 12px;
 
     &--doe {
       background: none;
@@ -176,8 +182,9 @@ $footer-height: 36px;
 
   &__quote {
     &__container {
-      margin: 8px 0;
-      margin-right: 38px;
+      margin-block: 8px;
+      margin-inline: 0;
+      margin-inline-end: 38px;
     }
 
     &--outgoing-ultramarine {
@@ -234,7 +241,8 @@ $footer-height: 36px;
 
   &__read-receipts-off {
     color: $color-gray-25;
-    margin: 160px 16px;
+    margin-block: 160px;
+    margin-inline: 16px;
   }
 
   .module-ReactionPickerPicker {
@@ -259,8 +267,10 @@ $footer-height: 36px;
 
 .Tabs__tab.StoryViewsNRepliesModal__tabs__tab {
   @include font-body-1-bold;
-  padding: 4px 12px;
-  margin: 0 12px;
+  padding-block: 4px;
+  padding-inline: 12px;
+  margin-block: 0;
+  margin-inline: 12px;
 }
 
 .Tabs__tab--selected.StoryViewsNRepliesModal__tabs__tab--selected {

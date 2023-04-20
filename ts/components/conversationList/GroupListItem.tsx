@@ -6,8 +6,8 @@ import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import type { UUIDStringType } from '../../types/UUID';
 import { Avatar, AvatarSize } from '../Avatar';
-import { Emojify } from '../conversation/Emojify';
 import { ListTile } from '../ListTile';
+import { UserText } from '../UserText';
 
 export enum DisabledReason {
   AlreadyMember = 'already-member',
@@ -66,8 +66,8 @@ export function GroupListItem({
           badge={undefined}
         />
       }
-      title={<Emojify text={group.title} />}
-      subtitle={<Emojify text={messageText} />}
+      title={<UserText text={group.title} />}
+      subtitle={<UserText text={messageText} />}
       onClick={() => onSelectGroup(group.id)}
     />
   );

@@ -9,7 +9,8 @@
     display: flex;
     height: 96px;
     min-height: 96px;
-    padding: 0 10px;
+    padding-block: 0;
+    padding-inline: 10px;
     width: 100%;
 
     @include keyboard-mode {
@@ -55,8 +56,7 @@
     flex-direction: column;
     flex: 1;
     justify-content: center;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-inline: 12px;
 
     &--title {
       @include font-body-1-bold;
@@ -81,7 +81,7 @@
         flex-shrink: 0;
         height: 12px;
         width: 12px;
-        margin-right: 8px;
+        margin-inline-end: 8px;
         @include color-svg(
           '../images/icons/v2/error-outline-12.svg',
           $color-accent-red
@@ -125,7 +125,7 @@
       display: flex;
       height: 72px;
       justify-content: center;
-      left: 0;
+      inset-inline-start: 0;
       overflow: hidden;
       position: absolute;
       top: 0;
@@ -175,7 +175,7 @@
     content: '';
     display: inline-block;
     height: 20px;
-    margin-left: 6px;
+    margin-inline-start: 6px;
     vertical-align: middle;
     width: 12px;
     @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);

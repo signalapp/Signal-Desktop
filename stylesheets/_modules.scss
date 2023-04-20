@@ -9,7 +9,7 @@
 .module-title-bar-drag-area {
   -webkit-app-region: drag;
   height: var(--title-bar-drag-area-height);
-  left: 0;
+  inset-inline-start: 0;
   position: fixed;
   top: 0;
   width: 100%;
@@ -25,7 +25,8 @@
 
 .module-splash-screen__logo {
   @include color-svg('../images/signal-logo.svg', $color-white);
-  margin: 24px 0;
+  margin-block: 24px;
+  margin-inline: 0;
 
   &.module-img--256 {
     height: 256px;
@@ -60,8 +61,7 @@
   flex-direction: row;
   align-items: stretch;
   outline: none;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-inline: 16px;
   transition-property: background, translate;
   transition-duration: 0.1s;
   transition-timing-function: ease-out;
@@ -86,18 +86,23 @@
 
 @keyframes module-message__shake {
   0% {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(0px);
   }
   25% {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(-5px);
   }
   50% {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(0px);
   }
   75% {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(5px);
   }
   100% {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(0px);
   }
 }
@@ -148,24 +153,24 @@
 }
 
 .module-message__buttons--incoming {
-  padding-left: 8px;
+  padding-inline-start: 8px;
 
   & > * {
-    margin-left: 12px;
+    margin-inline-start: 12px;
     &:first-child {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 }
 
 .module-message__buttons--outgoing {
-  padding-right: 8px;
+  padding-inline-end: 8px;
   flex-direction: row-reverse;
 
   & > * {
-    margin-right: 12px;
+    margin-inline-end: 12px;
     &:first-child {
-      margin-right: 0;
+      margin-inline-end: 0;
     }
   }
 }
@@ -280,11 +285,11 @@
 }
 
 .module-message__error--outgoing {
-  left: 8px;
+  inset-inline-start: 8px;
 }
 
 .module-message__error--incoming {
-  right: 8px;
+  inset-inline-end: 8px;
 }
 
 .module-message__container-outer {
@@ -322,12 +327,9 @@ $message-padding-horizontal: 12px;
   min-width: 0px;
   overflow: hidden;
 
-  padding: {
-    left: $message-padding-horizontal;
-    right: $message-padding-horizontal;
-    top: $message-padding-vertical;
-    bottom: $message-padding-vertical;
-  }
+  padding-inline: $message-padding-horizontal;
+  padding-top: $message-padding-vertical;
+  padding-bottom: $message-padding-vertical;
 
   .module-message--collapsed-above & {
     margin-top: 1px;
@@ -337,16 +339,16 @@ $message-padding-horizontal: 12px;
   }
 
   .module-message--incoming.module-message--collapsed-above & {
-    border-top-left-radius: $collapsed-border-radius;
+    border-start-start-radius: $collapsed-border-radius;
   }
   .module-message--incoming.module-message--collapsed-below & {
-    border-bottom-left-radius: $collapsed-border-radius;
+    border-end-start-radius: $collapsed-border-radius;
   }
   .module-message--outgoing.module-message--collapsed-above & {
-    border-top-right-radius: $collapsed-border-radius;
+    border-start-end-radius: $collapsed-border-radius;
   }
   .module-message--outgoing.module-message--collapsed-below & {
-    border-bottom-right-radius: $collapsed-border-radius;
+    border-end-end-radius: $collapsed-border-radius;
   }
 }
 
@@ -369,7 +371,14 @@ $message-padding-horizontal: 12px;
 
 .module-message__wrapper--select-mode {
   .module-message--incoming {
-    translate: calc(16px + 22px) 0;
+    &:dir(ltr) {
+      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+      translate: calc(16px + 22px) 0;
+    }
+    &:dir(rtl) {
+      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+      translate: calc(-16px - 22px) 0;
+    }
   }
 }
 
@@ -384,8 +393,8 @@ $message-padding-horizontal: 12px;
 .module-message__select-checkbox {
   position: absolute;
   top: 50%;
-  left: 16px;
-  translate: 0 -50%;
+  inset-inline-start: 16px;
+  transform: translateY(-50%);
   width: 18px;
   height: 18px;
   border-radius: 9999px;
@@ -433,7 +442,7 @@ $message-padding-horizontal: 12px;
   padding-top: 4px;
 
   .module-message__text--outgoing {
-    text-align: right;
+    text-align: end;
   }
 }
 
@@ -553,7 +562,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__tap-to-view__spinner-container {
-  margin-right: 6px;
+  margin-inline-end: 6px;
 
   flex-grow: 0;
   flex-shrink: 0;
@@ -563,7 +572,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__tap-to-view__icon {
-  margin-right: 6px;
+  margin-inline-end: 6px;
 
   flex-grow: 0;
   flex-shrink: 0;
@@ -630,12 +639,9 @@ $message-padding-horizontal: 12px;
   text-align: center;
   position: relative;
 
-  margin: {
-    left: -$message-padding-horizontal;
-    right: -$message-padding-horizontal;
-    top: -$message-padding-vertical;
-    bottom: -$message-padding-vertical;
-  }
+  margin-inline: -$message-padding-horizontal;
+  margin-top: -$message-padding-vertical;
+  margin-bottom: -$message-padding-vertical;
 
   line-height: 0;
   overflow: hidden;
@@ -660,12 +666,9 @@ $message-padding-horizontal: 12px;
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
 
-  margin: {
-    left: -$message-padding-horizontal;
-    right: -$message-padding-horizontal;
-    top: -$message-padding-vertical - 1px;
-    bottom: -$message-padding-vertical + 3px;
-  }
+  margin-inline: -$message-padding-horizontal;
+  margin-top: -$message-padding-vertical - 1px;
+  margin-bottom: -$message-padding-vertical + 3px;
 
   &--with-content-below {
     margin-bottom: 5px;
@@ -717,16 +720,14 @@ $message-padding-horizontal: 12px;
   user-select: none;
 }
 .module-message__generic-attachment__spinner-container {
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-inline: 4px;
 }
 
 .module-message__generic-attachment__icon {
   background: url('../images/file-gradient.svg') no-repeat center;
   height: 44px;
   width: 56px;
-  margin-left: -13px;
-  margin-right: -14px;
+  margin-inline: -13px -14px;
   margin-bottom: -4px;
 
   // So we can center the extension text inside this icon
@@ -739,7 +740,7 @@ $message-padding-horizontal: 12px;
   position: absolute;
 
   top: -1px;
-  right: -4px;
+  inset-inline-end: -4px;
 
   height: 16px;
   width: 16px;
@@ -767,8 +768,7 @@ $message-padding-horizontal: 12px;
   // Along with flow layout in parent item, centers text
   text-align: center;
   width: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 
   // We don't have much room for text here, cut it off without ellipse
   overflow-x: hidden;
@@ -780,7 +780,7 @@ $message-padding-horizontal: 12px;
 
 .module-message__generic-attachment__text {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-inline-start: 8px;
   // The width of the icon plus our 8px margin plus 1px leeway
   max-width: calc(100% - 36px);
 }
@@ -853,8 +853,7 @@ $message-padding-horizontal: 12px;
 
   display: block;
 
-  margin-left: -$message-padding-horizontal;
-  margin-right: -$message-padding-horizontal;
+  margin-inline: -$message-padding-horizontal;
   width: calc(100% + 24px);
   outline: none;
 
@@ -874,7 +873,8 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__link-preview__content {
-  padding: $message-padding-vertical $message-padding-horizontal;
+  padding-block: $message-padding-vertical;
+  padding-inline: $message-padding-horizontal;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -889,7 +889,7 @@ $message-padding-horizontal: 12px;
 
 .module-message__link-preview__icon_container {
   margin: -2px;
-  margin-right: 8px;
+  margin-inline-end: 8px;
   display: inline-block;
 }
 
@@ -951,8 +951,7 @@ $message-padding-horizontal: 12px;
     &:before {
       content: '•';
       font-size: 50%;
-      margin-left: 0.2rem;
-      margin-right: 0.2rem;
+      margin-inline: 0.2rem;
     }
   }
 }
@@ -1107,7 +1106,7 @@ $message-padding-horizontal: 12px;
   font-style: normal;
 
   &--inline {
-    float: right;
+    float: inline-end;
     margin-top: -14px;
   }
 }
@@ -1117,7 +1116,7 @@ $message-padding-horizontal: 12px;
   @include font-caption;
   color: $color-gray-60;
   cursor: pointer;
-  margin-right: 6px;
+  margin-inline-end: 6px;
   z-index: $z-index-base;
 
   @include dark-theme {
@@ -1138,7 +1137,7 @@ $message-padding-horizontal: 12px;
   width: 100%;
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
   //   padding sizes.
-  padding-right: 24px;
+  padding-inline-end: 24px;
 
   // This is so all clicks go right through to the underlying image.
   pointer-events: none;
@@ -1215,9 +1214,8 @@ $message-padding-horizontal: 12px;
   width: 12px;
   height: 12px;
   display: inline-block;
-  margin-left: 6px;
+  margin-inline: 6px;
   // High margin to leave space for the increase when we go to two checks
-  margin-right: 6px;
   margin-bottom: 2px;
 }
 
@@ -1245,7 +1243,7 @@ $message-padding-horizontal: 12px;
 }
 .module-message__metadata__status-icon--delivered {
   // We reduce the margin size to keep the overall width the same
-  margin-right: 0px;
+  margin-inline-end: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1258,7 +1256,7 @@ $message-padding-horizontal: 12px;
 .module-message__metadata__status-icon--read,
 .module-message__metadata__status-icon--viewed {
   // We reduce the margin size to keep the overall width the same
-  margin-right: 0px;
+  margin-inline-end: 0px;
   width: 18px;
 
   @include light-theme {
@@ -1294,7 +1292,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__metadata__spinner-container {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }
 
 .module-message__send-message-button {
@@ -1306,8 +1304,7 @@ $message-padding-horizontal: 12px;
 
   margin-top: $message-padding-vertical;
   margin-bottom: -$message-padding-vertical;
-  margin-left: -$message-padding-horizontal;
-  margin-right: -$message-padding-horizontal;
+  margin-inline: -$message-padding-horizontal;
 
   text-align: center;
   padding: 10px;
@@ -1344,7 +1341,7 @@ $message-padding-horizontal: 12px;
   align-items: flex-end;
   display: flex;
   justify-content: center;
-  margin-right: 8px;
+  margin-inline-end: 8px;
   padding-bottom: 6px;
 
   &--with-reactions {
@@ -1358,12 +1355,9 @@ $message-padding-horizontal: 12px;
   background-color: $color-ultramarine;
   position: relative;
 
-  margin: {
-    left: -$message-padding-horizontal;
-    right: -$message-padding-horizontal;
-    top: -$message-padding-vertical;
-    bottom: $message-padding-vertical;
-  }
+  margin-inline: -$message-padding-horizontal;
+  margin-top: -$message-padding-vertical;
+  margin-bottom: $message-padding-vertical;
 
   &--outgoing {
     @include light-theme {
@@ -1381,8 +1375,7 @@ $message-padding-horizontal: 12px;
 
   &__ribbon-horizontal {
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     height: 16px;
     top: 50%;
     transform: translateY(-50%);
@@ -1390,22 +1383,16 @@ $message-padding-horizontal: 12px;
   }
 
   &__ribbon-vertical {
-    position: absolute;
+    @include position-absolute-center-x;
     top: 0;
     bottom: 0;
     width: 16px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: $color-white;
   }
 
   &__bow {
-    position: absolute;
-
     // Centered
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    @include position-absolute-center;
 
     // For proper alignment with the ribbons
     margin-top: 3px;
@@ -1461,9 +1448,8 @@ $message-padding-horizontal: 12px;
   &__badge {
     height: 64px;
     width: 64px;
-    margin-left: 4px;
+    margin-inline: 4px 12px;
     margin-top: 8px;
-    margin-right: 12px;
     margin-bottom: 16px;
     flex-grow: 0;
     flex-shrink: 0;
@@ -1522,8 +1508,7 @@ $message-padding-horizontal: 12px;
   &__button {
     @include button-reset;
     @include button-secondary;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     width: 216px;
     margin-bottom: 7px;
     text-align: center;
@@ -1614,7 +1599,7 @@ $message-padding-horizontal: 12px;
   &__icon-check {
     height: 19px;
     width: 19px;
-    margin-right: 5px;
+    margin-inline-end: 5px;
     display: inline-block;
 
     &--incoming {
@@ -1666,13 +1651,13 @@ $message-padding-horizontal: 12px;
 
   &--incoming {
     align-self: flex-end;
-    padding-right: 8px;
-    margin-left: 8px;
+    padding-inline-end: 8px;
+    margin-inline-start: 8px;
   }
   &--outgoing {
     align-self: flex-start;
-    padding-left: 8px;
-    margin-right: 8px;
+    padding-inline-start: 8px;
+    margin-inline-end: 8px;
   }
 }
 
@@ -1689,16 +1674,17 @@ $message-padding-horizontal: 12px;
 
   &--with-count {
     min-width: 40px;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
   }
 
   &__count {
     @include font-caption-bold;
 
-    margin-left: 4px;
+    margin-inline-start: 4px;
 
     &--no-emoji {
-      margin-left: 0px;
+      margin-inline-start: 0px;
     }
 
     @include light-theme {
@@ -1753,7 +1739,7 @@ $message-padding-horizontal: 12px;
   width: 12px;
   height: 12px;
   display: inline-block;
-  margin-left: 6px;
+  margin-inline-start: 6px;
   margin-bottom: 2px;
 
   @include dark-theme {
@@ -1837,8 +1823,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-about {
   &__container {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     max-width: 248px;
     text-align: center;
   }
@@ -1861,7 +1846,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
     img.emoji {
       height: 1em;
-      margin-right: 3px;
+      margin-inline-end: 3px;
       margin-bottom: 3px;
       vertical-align: middle;
       width: 1em;
@@ -1905,13 +1890,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-embedded-contact__spinner-container {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline: 5px;
 }
 
 .module-embedded-contact__text-container {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-inline-start: 8px;
 
   max-width: calc(100% - 58px);
 }
@@ -1975,8 +1959,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-contact-detail {
   text-align: center;
   max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 .module-contact-detail__avatar {
@@ -2011,7 +1994,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-contact-detail__send-message__inner {
   display: flex;
   align-items: center;
-  padding-right: 5px;
+  padding-inline-end: 5px;
 
   @include font-body-2-bold;
 }
@@ -2020,7 +2003,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   height: 17px;
   width: 18px;
   display: inline-block;
-  margin-right: 5px;
+  margin-inline-end: 5px;
   @include light-theme {
     @include color-svg(
       '../images/icons/v2/message-outline-24.svg',
@@ -2033,7 +2016,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-detail__additional-contact {
-  text-align: left;
+  text-align: start;
   margin-top: 15px;
   padding-top: 8px;
 
@@ -2108,8 +2091,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 
   &__icon-container {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -2144,8 +2126,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-notification__icon {
   height: 24px;
   width: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 // Module: Contact List Item
@@ -2196,7 +2177,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-list-item__text {
-  margin-left: 8px;
+  margin-inline-start: 8px;
 
   align-items: center;
   display: flex;
@@ -2244,7 +2225,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-list-item__admin {
-  text-align: right;
+  text-align: end;
   height: 100%;
 
   @include font-body-2;
@@ -2287,7 +2268,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .conversation-details-panel {
   max-width: 750px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
 
   @at-root .conversation #{&} {
     overflow-y: auto;
@@ -2296,7 +2278,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 // Brought this up here to add specificity
 button.ConversationDetails__action-button {
-  margin-left: 16px;
+  margin-inline-start: 16px;
 }
 
 // Module: Media Gallery
@@ -2387,8 +2369,7 @@ button.ConversationDetails__action-button {
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 0;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-inline: 8px;
 }
 
 .module-document-list-item__file-size {
@@ -2410,7 +2391,7 @@ button.ConversationDetails__action-button {
   height: 94px;
   width: 94px;
   background-color: $color-gray-05;
-  margin-right: 4px;
+  margin-inline-end: 4px;
   margin-bottom: 4px;
   position: relative;
 
@@ -2431,8 +2412,7 @@ button.ConversationDetails__action-button {
   position: absolute;
   top: 15px;
   bottom: 15px;
-  left: 15px;
-  right: 15px;
+  inset-inline: 15px;
 }
 
 .module-media-grid-item__icon-image {
@@ -2444,12 +2424,7 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-grid-item__circle-overlay {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
+  @include position-absolute-center;
   width: 42px;
   height: 42px;
   background-color: $color-white;
@@ -2457,11 +2432,7 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-grid-item__play-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  @include position-absolute-center;
   height: 24px;
   width: 24px;
   @include color-svg(
@@ -2494,7 +2465,8 @@ button.ConversationDetails__action-button {
 // Module: Message Request Actions
 
 .module-message-request-actions {
-  padding: 8px 16px 12px 16px;
+  padding-block: 8px 12px;
+  padding-inline: 16px;
 
   @include light-theme {
     background: $color-white;
@@ -2535,7 +2507,7 @@ button.ConversationDetails__action-button {
       min-width: 80px;
 
       &:not(:last-of-type) {
-        margin-right: 8px;
+        margin-inline-end: 8px;
       }
     }
   }
@@ -2549,8 +2521,7 @@ button.ConversationDetails__action-button {
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-inline: 16px;
   padding-top: var(--title-bar-drag-area-height);
 
   display: flex;
@@ -2565,10 +2536,10 @@ button.ConversationDetails__action-button {
   }
 
   & > * {
-    margin-right: 12px;
+    margin-inline-end: 12px;
 
     &:last-child {
-      margin-right: 0;
+      margin-inline-end: 0;
     }
   }
 
@@ -2580,7 +2551,7 @@ button.ConversationDetails__action-button {
 
       .module-left-pane--width-narrow & {
         margin-bottom: 28px;
-        margin-right: 0;
+        margin-inline-end: 0;
         margin-top: 16px;
       }
     }
@@ -2593,7 +2564,7 @@ button.ConversationDetails__action-button {
       width: 8px;
       position: absolute;
       top: 0;
-      right: 0;
+      inset-inline-end: 0;
     }
   }
 
@@ -2679,9 +2650,10 @@ button.ConversationDetails__action-button {
     justify-content: center;
     min-width: 16px;
     overflow: hidden;
-    padding: 0 2px;
+    padding-block: 0;
+    padding-inline: 2px;
     position: absolute;
-    right: -6px;
+    inset-inline-end: -6px;
     top: -4px;
     user-select: none;
     z-index: $z-index-base;
@@ -2696,13 +2668,13 @@ button.ConversationDetails__action-button {
     display: inline-flex;
     height: 32px;
     justify-content: center;
-    margin-right: 20px;
+    margin-inline-end: 20px;
     padding: 2px;
     position: relative;
     width: 32px;
 
     .module-left-pane--width-narrow & {
-      margin-right: 0;
+      margin-inline-end: 0;
       margin-top: 28px;
       margin-bottom: 28px;
     }
@@ -2834,7 +2806,7 @@ button.ConversationDetails__action-button {
     display: flex;
     height: 100%;
     justify-content: center;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -2848,7 +2820,8 @@ button.ConversationDetails__action-button {
 
     .module-image-spinner {
       &__container {
-        margin: 12px auto;
+        margin-block: 12px;
+        margin-inline: auto;
       }
 
       &__arc {
@@ -2880,7 +2853,7 @@ button.ConversationDetails__action-button {
 .module-image__caption-icon {
   position: absolute;
   top: 6px;
-  left: 6px;
+  inset-inline-start: 6px;
 }
 
 .module-image--cropped {
@@ -2896,8 +2869,7 @@ button.ConversationDetails__action-button {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   z-index: $z-index-above-base;
 }
 
@@ -2918,8 +2890,9 @@ button.ConversationDetails__action-button {
   &__filesize {
     position: absolute;
     top: 10px;
-    left: 10px;
-    padding: 2px 8px;
+    inset-inline-start: 10px;
+    padding-block: 2px;
+    padding-inline: 8px;
 
     color: $color-white;
     background: $color-black-alpha-70;
@@ -2989,16 +2962,11 @@ button.module-image__border-overlay:focus {
   position: absolute;
   bottom: 0;
   z-index: $z-index-base;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
 }
 
 .module-image__play-overlay__circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  @include position-absolute-center;
   width: 48px;
   height: 48px;
   background-color: $color-white;
@@ -3006,10 +2974,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-image__play-overlay__icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  @include position-absolute-center;
 
   height: 24px;
   width: 24px;
@@ -3022,8 +2987,7 @@ button.module-image__border-overlay:focus {
 .module-image__text-container {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
   z-index: $z-index-above-above-base;
 
@@ -3091,8 +3055,7 @@ button.module-image__border-overlay:focus {
 
   height: 8px;
   width: 38px;
-  padding-left: 1px;
-  padding-right: 1px;
+  padding-inline: 1px;
 }
 
 .module-typing-animation__dot {
@@ -3185,8 +3148,8 @@ button.module-image__border-overlay:focus {
   display: flex;
   height: 36px;
   justify-content: center;
-  left: 50%;
-  margin-left: -20px;
+  inset-inline-start: 50%;
+  margin-inline-start: -20px;
   margin-top: -18px;
   position: absolute;
   top: 50%;
@@ -3219,7 +3182,7 @@ button.module-image__border-overlay:focus {
 
   position: absolute;
   top: 8px;
-  right: 16px;
+  inset-inline-end: 16px;
 
   width: 20px;
   height: 20px;
@@ -3242,8 +3205,8 @@ button.module-image__border-overlay:focus {
 
 .module-attachments__rail {
   margin-top: 12px;
-  margin-left: 12px;
-  padding-right: 12px;
+  margin-inline-start: 12px;
+  padding-inline-end: 12px;
   overflow-x: scroll;
   max-height: 142px;
   white-space: nowrap;
@@ -3252,7 +3215,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-attachment {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 
   &.module-image::before {
     background: linear-gradient(
@@ -3313,8 +3276,7 @@ button.module-image__border-overlay:focus {
   background: url('../images/file-gradient.svg') no-repeat center;
   height: 44px;
   width: 56px;
-  margin-left: 32px;
-  margin-right: 32px;
+  margin-inline: 32px;
   margin-bottom: -4px;
 
   // So we can center the extension text inside this icon
@@ -3332,8 +3294,7 @@ button.module-image__border-overlay:focus {
   // Along with flow layout in parent item, centers text
   text-align: center;
   width: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 
   // We don't have much room for text here, cut it off without ellipse
   overflow-x: hidden;
@@ -3399,12 +3360,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-placeholder-attachment__plus-icon {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
+  @include position-absolute-center;
   height: 36px;
   width: 36px;
 
@@ -3422,7 +3378,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__label {
-    margin: 0 0 7px;
+    margin-block: 0 7px;
+    margin-inline: 0;
     @include font-subtitle;
 
     @include light-theme() {
@@ -3438,10 +3395,12 @@ button.module-image__border-overlay:focus {
     gap: 9px;
     align-items: center;
     @include font-body-2;
-    padding: 22px 7px;
-    padding-left: 12px;
+    padding-block: 22px;
+    padding-inline: 7px;
+    padding-inline-start: 12px;
     border-radius: 18px;
-    margin: 0 -4px;
+    margin-block: 0;
+    margin-inline: -4px;
 
     @include light-theme() {
       background: $color-white-alpha-60;
@@ -3463,7 +3422,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__note {
-    margin: 9px 0 0;
+    margin-block: 9px 0;
+    margin-inline: 0;
     @include font-body-1;
   }
 
@@ -3485,8 +3445,7 @@ button.module-image__border-overlay:focus {
 // Module: Spinner
 
 .module-spinner__container {
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   position: relative;
   height: 56px;
   width: 56px;
@@ -3495,7 +3454,7 @@ button.module-image__border-overlay:focus {
 .module-spinner__circle {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
 
   z-index: $z-index-above-base;
   height: 100%;
@@ -3506,7 +3465,7 @@ button.module-image__border-overlay:focus {
 .module-spinner__arc {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
 
   z-index: $z-index-above-above-base;
   height: 100%;
@@ -3644,7 +3603,8 @@ button.module-image__border-overlay:focus {
   &__header {
     width: 100%;
     min-height: 44px;
-    padding: 0px 8px;
+    padding-block: 0px;
+    padding-inline: 8px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -3655,7 +3615,8 @@ button.module-image__border-overlay:focus {
       min-height: 28px;
       border: none;
       border-radius: 18px;
-      padding: 0px 8px;
+      padding-block: 0px;
+      padding-inline: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -3663,7 +3624,7 @@ button.module-image__border-overlay:focus {
       flex-shrink: 0;
 
       &:not(:first-of-type) {
-        margin-left: 4px;
+        margin-inline-start: 4px;
       }
 
       &:focus {
@@ -3703,14 +3664,15 @@ button.module-image__border-overlay:focus {
       }
 
       &__count {
-        margin-left: 4px;
+        margin-inline-start: 4px;
       }
     }
   }
 
   &__body {
     flex-grow: 1;
-    padding: 0 16px;
+    padding-block: 0;
+    padding-inline: 16px;
     overflow: auto;
 
     &__row {
@@ -3733,7 +3695,7 @@ button.module-image__border-overlay:focus {
       &__name {
         @include font-body-1-bold();
         flex-grow: 1;
-        margin-left: 8px;
+        margin-inline-start: 8px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -3765,7 +3727,7 @@ button.module-image__border-overlay:focus {
   &__modal-container {
     position: fixed;
     top: var(--titlebar-height);
-    left: 0;
+    inset-inline-start: 0;
     z-index: $z-index-on-top-of-everything;
   }
 
@@ -3856,7 +3818,7 @@ button.module-image__border-overlay:focus {
         $color-white
       );
       height: 24px;
-      margin-right: 10px;
+      margin-inline-end: 10px;
       width: 24px;
     }
   }
@@ -3943,13 +3905,12 @@ button.module-image__border-overlay:focus {
     &__overflow {
       flex: 0 0 auto;
       position: relative;
-      margin-left: 16px;
-      margin-right: 16px;
+      margin-inline: 16px;
 
       &__inner {
         position: absolute;
         bottom: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         max-height: 100%;
         overflow-y: scroll;
@@ -3973,7 +3934,7 @@ button.module-image__border-overlay:focus {
 
         display: flex;
         justify-content: center;
-        left: 0;
+        inset-inline-start: 0;
         opacity: 1;
         position: absolute;
         transition: opacity 200ms ease-out;
@@ -4002,7 +3963,8 @@ button.module-image__border-overlay:focus {
           border: 0;
           box-shadow: 0 0 5px rgba($color-gray-95, 0.5);
           height: 28px;
-          margin: 12px 0;
+          margin-block: 12px;
+          margin-inline: 0;
           opacity: 0;
           outline: none;
           transition: opacity 200ms ease-out;
@@ -4047,6 +4009,7 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 5px;
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
     transform: translate(0, 0);
     transition: transform 200ms linear, width 200ms linear, height 200ms linear;
 
@@ -4089,7 +4052,8 @@ button.module-image__border-overlay:focus {
         border-radius: 16px;
         color: $color-white;
         line-height: 16px;
-        padding: 3px 10px;
+        padding-block: 3px;
+        padding-inline: 10px;
       }
 
       &--modal-title {
@@ -4117,7 +4081,7 @@ button.module-image__border-overlay:focus {
       &__contact-name {
         font-size: 12px;
         color: $color-white;
-        margin-right: 20px;
+        margin-inline-end: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         visibility: hidden;
@@ -4146,7 +4110,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     height: 100%;
     justify-content: center;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -4190,7 +4154,8 @@ button.module-image__border-overlay:focus {
       border-radius: 5px;
       display: flex;
       height: $local-preview-height;
-      margin: 2px 16px 16px 0;
+      margin-block: 2px 16px;
+      margin-inline: 0 16px;
       overflow: hidden;
       position: relative;
       width: $local-preview-width;
@@ -4210,7 +4175,7 @@ button.module-image__border-overlay:focus {
       .CallingAudioIndicator {
         bottom: 6px;
         position: absolute;
-        right: 6px;
+        inset-inline-end: 6px;
         z-index: $z-index-base;
       }
     }
@@ -4243,7 +4208,7 @@ button.module-image__border-overlay:focus {
   width: 100%;
 
   &__button {
-    margin-right: 25px;
+    margin-inline-end: 25px;
   }
 }
 
@@ -4285,7 +4250,7 @@ button.module-image__border-overlay:focus {
       bottom: 38px;
       height: 32px;
       position: absolute;
-      right: 4px;
+      inset-inline-end: 4px;
       transform: rotateY(180deg);
       width: 32px;
     }
@@ -4342,7 +4307,7 @@ button.module-image__border-overlay:focus {
   background-color: $color-gray-80;
   border-radius: 8px;
   color: $color-white;
-  margin-right: 12px;
+  margin-inline-end: 12px;
   margin-top: 54px;
   overflow: hidden;
   padding: 14px;
@@ -4354,7 +4319,7 @@ button.module-image__border-overlay:focus {
     width: var(--window-width);
     height: var(--window-height);
     justify-content: flex-end;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     z-index: $z-index-popup;
@@ -4371,13 +4336,11 @@ button.module-image__border-overlay:focus {
   &__list {
     height: 100%;
     margin-bottom: 0;
-    margin-left: -14px;
-    margin-right: -14px;
+    margin-inline: -14px;
     margin-top: 22px;
     overflow: scroll;
     padding-bottom: 24px;
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-inline: 14px;
     padding-top: 0;
 
     &::-webkit-scrollbar {
@@ -4406,7 +4369,7 @@ button.module-image__border-overlay:focus {
 
   &__name {
     display: inline-block;
-    margin-left: 8px;
+    margin-inline-start: 8px;
     max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -4442,7 +4405,7 @@ button.module-image__border-overlay:focus {
         $color-white
       );
       display: inline-block;
-      margin-left: 18px;
+      margin-inline-start: 18px;
       height: 16px;
       width: 16px;
     }
@@ -4453,7 +4416,7 @@ button.module-image__border-overlay:focus {
         $color-white
       );
       display: inline-block;
-      margin-left: 18px;
+      margin-inline-start: 18px;
       height: 16px;
       width: 16px;
     }
@@ -4462,7 +4425,7 @@ button.module-image__border-overlay:focus {
   &__presenting {
     @include color-svg('../images/icons/v2/share-screen-26.svg', $color-white);
     display: inline-block;
-    margin-left: 18px;
+    margin-inline-start: 18px;
     height: 16px;
     width: 16px;
   }
@@ -4480,14 +4443,16 @@ button.module-image__border-overlay:focus {
   width: 100%;
 
   &__text {
-    margin: 2em 1em;
+    margin-block: 2em;
+    margin-inline: 1em;
     max-width: 400px;
     @include font-body-1;
     text-align: center;
   }
 
   &__button {
-    padding: 0.5em 1em;
+    padding-block: 0.5em;
+    padding-inline: 1em;
     border: 0;
     border-radius: 4px;
     @include font-body-1-bold;
@@ -4502,19 +4467,16 @@ button.module-image__border-overlay:focus {
   $normal-row-height: 72px;
 
   @include scrollbar;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline: 10px;
 
   // list tiles in choose-group-members and compose extend to the edge
   .module-left-pane--mode-choose-group-members &,
   .module-left-pane--mode-compose & {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
   }
 
   &--width-narrow {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline: 10px;
   }
 
   &__item {
@@ -4529,8 +4491,7 @@ button.module-image__border-overlay:focus {
       line-height: $normal-row-height;
       text-align: center;
       width: 100%;
-      padding-left: 18px;
-      padding-right: 18px;
+      padding-inline: 18px;
       display: flex;
 
       @include light-theme {
@@ -4573,8 +4534,7 @@ button.module-image__border-overlay:focus {
 
       &__text {
         @include font-body-1-bold;
-        margin-left: 8px;
-        margin-right: 8px;
+        margin-inline: 8px;
       }
 
       &__archived-count {
@@ -4623,14 +4583,15 @@ button.module-image__border-overlay:focus {
       display: flex;
       flex-direction: row;
       height: $normal-row-height;
-      margin: 2px 0;
-      padding: 8px 14px;
+      margin-block: 2px;
+      margin-inline: 0;
+      padding-block: 8px;
+      padding-inline: 14px;
       user-select: none;
       width: 100%;
 
       .module-conversation-list--width-narrow & {
-        padding-left: 14px;
-        padding-right: 0;
+        padding-inline: 14px 0;
       }
 
       &--is-button {
@@ -4701,7 +4662,7 @@ button.module-image__border-overlay:focus {
           margin: 0;
           min-width: $size;
           position: absolute;
-          right: -(5px + $border-width);
+          inset-inline-end: -(5px + $border-width);
           top: -(1px + $border-width);
 
           .module-conversation-list--width-narrow & {
@@ -4728,11 +4689,10 @@ button.module-image__border-overlay:focus {
         font-weight: 500;
         height: $size;
         line-height: $size;
-        margin-left: 10px;
+        margin-inline-start: 10px;
         margin-top: 1px;
         min-width: $size;
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-inline: 4px;
         text-align: center;
         word-break: normal;
         display: flex;
@@ -4753,14 +4713,14 @@ button.module-image__border-overlay:focus {
 
       &__content {
         flex-grow: 1;
-        margin-left: 12px;
+        margin-inline-start: 12px;
         display: flex;
         flex-direction: column;
         align-items: stretch;
         overflow: hidden;
 
         .module-conversation-list--width-narrow & {
-          margin-left: 0;
+          margin-inline-start: 0;
         }
 
         &--disabled {
@@ -4828,7 +4788,7 @@ button.module-image__border-overlay:focus {
             @include font-caption;
             display: inline-block;
             flex-shrink: 0;
-            margin-left: 6px;
+            margin-inline-start: 6px;
 
             @include light-theme {
               color: $color-gray-60;
@@ -4868,7 +4828,7 @@ button.module-image__border-overlay:focus {
             display: -webkit-box;
             overflow: hidden;
             text-overflow: ellipsis;
-            text-align: left;
+            text-align: start;
 
             @include light-theme {
               color: $color-gray-60;
@@ -4899,7 +4859,7 @@ button.module-image__border-overlay:focus {
             &__draft-prefix,
             &__deleted-for-everyone {
               font-style: italic;
-              margin-right: 3px;
+              margin-inline-end: 3px;
             }
 
             &__status-icon {
@@ -4909,7 +4869,7 @@ button.module-image__border-overlay:focus {
               width: 12px;
               height: 12px;
               display: inline-block;
-              margin-left: 6px;
+              margin-inline-start: 6px;
 
               .module-conversation-list--width-narrow & {
                 display: none;
@@ -5004,8 +4964,7 @@ button.module-image__border-overlay:focus {
         background: $color-white;
         border-radius: 100%;
         height: 20px;
-        margin-left: 16px;
-        margin-right: 16px;
+        margin-inline: 16px;
         width: 20px;
         min-width: 20px;
         pointer-events: none;
@@ -5074,7 +5033,7 @@ button.module-image__border-overlay:focus {
         }
 
         &--container {
-          margin-left: 8px;
+          margin-inline-start: 8px;
           /* prevent sibling content from pushing this smaller (min-width: the "!important" of width) */
           min-width: 20px;
         }
@@ -5089,7 +5048,7 @@ button.module-image__border-overlay:focus {
       height: 100%;
       overflow-x: hidden;
       padding-bottom: 8px;
-      padding-left: 16px;
+      padding-inline-start: 16px;
       text-overflow: ellipsis;
       user-select: none;
       white-space: nowrap;
@@ -5102,7 +5061,8 @@ button.module-image__border-overlay:focus {
         @include rounded-corners;
         display: block;
         height: 2px;
-        margin: 19px 0 19px 14px;
+        margin-block: 19px;
+        margin-inline: 14px 0;
         padding-bottom: 0;
         width: 48px;
 
@@ -5133,8 +5093,8 @@ button.module-image__border-overlay:focus {
 // Module: Left Pane
 
 .module-left-pane {
-  border-right-style: solid;
-  border-right-width: 1px;
+  border-inline-end-style: solid;
+  border-inline-end-width: 1px;
   display: inline-flex;
   flex-direction: column;
   height: 100%;
@@ -5184,7 +5144,8 @@ button.module-image__border-overlay:focus {
   display: flex;
   height: 100%;
   justify-content: center;
-  padding: 0 32px;
+  padding-block: 0;
+  padding-inline: 32px;
   text-align: center;
 
   .module-left-pane--width-narrow & {
@@ -5199,7 +5160,7 @@ button.module-image__border-overlay:focus {
     height: 28px;
     justify-content: center;
     margin-bottom: -2px;
-    margin-left: 4px;
+    margin-inline-start: 4px;
     vertical-align: bottom;
     width: 28px;
 
@@ -5230,8 +5191,7 @@ button.module-image__border-overlay:focus {
     &__back-button {
       @include button-reset;
 
-      margin-left: 7px;
-      margin-right: 5px;
+      margin-inline: 7px 5px;
 
       width: 24px;
       height: 24px;
@@ -5241,32 +5201,68 @@ button.module-image__border-overlay:focus {
       }
 
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
-          $color-gray-60
-        );
-      }
-      @include keyboard-mode {
-        &:focus {
+        &:dir(ltr) {
           @include color-svg(
             '../images/icons/v2/chevron-left-24.svg',
-            $color-ultramarine
+            $color-gray-60
           );
+        }
+        &:dir(rtl) {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-24.svg',
+            $color-gray-60
+          );
+        }
+      }
+      @include keyboard-mode {
+        &:dir(ltr) {
+          &:focus {
+            @include color-svg(
+              '../images/icons/v2/chevron-left-24.svg',
+              $color-ultramarine
+            );
+          }
+        }
+        &:dir(rtl) {
+          &:focus {
+            @include color-svg(
+              '../images/icons/v2/chevron-right-24.svg',
+              $color-ultramarine
+            );
+          }
         }
       }
 
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
-          $color-gray-25
-        );
-      }
-      @include dark-keyboard-mode {
-        &:hover {
+        &:dir(ltr) {
           @include color-svg(
             '../images/icons/v2/chevron-left-24.svg',
-            $color-ultramarine-light
+            $color-gray-25
           );
+        }
+        &:dir(rtl) {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-24.svg',
+            $color-gray-25
+          );
+        }
+      }
+      @include dark-keyboard-mode {
+        &:dir(ltr) {
+          &:hover {
+            @include color-svg(
+              '../images/icons/v2/chevron-left-24.svg',
+              $color-ultramarine-light
+            );
+          }
+        }
+        &:dir(rtl) {
+          &:hover {
+            @include color-svg(
+              '../images/icons/v2/chevron-right-24.svg',
+              $color-ultramarine-light
+            );
+          }
         }
       }
     }
@@ -5274,7 +5270,7 @@ button.module-image__border-overlay:focus {
     &__text {
       @include font-body-1-bold;
       flex-grow: 1;
-      padding-right: 16px;
+      padding-inline-end: 16px;
 
       @include light-theme {
         color: $color-gray-90;
@@ -5294,10 +5290,12 @@ button.module-image__border-overlay:focus {
       flex-direction: row;
       align-items: center;
 
-      margin: 0 16px 16px 16px;
+      margin-block: 0 16px;
+
+      margin-inline: 16px;
 
       &__label {
-        margin-right: 12px;
+        margin-inline-end: 12px;
       }
 
       .module-disappearing-timer-select {
@@ -5330,8 +5328,7 @@ button.module-image__border-overlay:focus {
 .module-left-pane__compose-no-contacts {
   flex-grow: 1;
   margin-top: 27px;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-inline: 1em;
   width: 100%;
   text-align: center;
   outline: none;
@@ -5373,7 +5370,7 @@ button.module-image__border-overlay:focus {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  left: 0;
+  inset-inline-start: 0;
   padding: 12px;
   position: absolute;
   width: 100%;
@@ -5391,7 +5388,7 @@ button.module-image__border-overlay:focus {
   position: absolute;
   width: 8px;
   height: 100%;
-  right: -8px;
+  inset-inline-end: -8px;
   top: 0;
   z-index: $z-index-above-base;
   cursor: col-resize;
@@ -5495,7 +5492,8 @@ button.module-image__border-overlay:focus {
 .module-sticker-picker__header {
   display: flex;
   flex-direction: row;
-  padding: 0 8px;
+  padding-block: 0;
+  padding-inline: 8px;
   justify-content: flex-start;
   align-items: center;
 }
@@ -5508,6 +5506,7 @@ button.module-image__border-overlay:focus {
   &__slider {
     display: flex;
     flex-direction: row;
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translateX(0);
     transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
@@ -5526,7 +5525,7 @@ button.module-image__border-overlay:focus {
   justify-content: center;
   align-items: center;
   background: none;
-  margin-right: 4px;
+  margin-inline-end: 4px;
 
   outline: none;
 
@@ -5611,40 +5610,76 @@ button.module-image__border-overlay:focus {
 
   &--prev-page {
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
 
-    &::after {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-left-16.svg',
-          $color-gray-60
-        );
+    &:dir(ltr) {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-16.svg',
+            $color-gray-60
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-16.svg',
+            $color-gray-25
+          );
+        }
       }
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-left-16.svg',
-          $color-gray-25
-        );
+    }
+    &:dir(rtl) {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-16.svg',
+            $color-gray-60
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-16.svg',
+            $color-gray-25
+          );
+        }
       }
     }
   }
 
   &--next-page {
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
 
-    &::after {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-right-16.svg',
-          $color-gray-60
-        );
+    &:dir(ltr) {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-16.svg',
+            $color-gray-60
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-right-16.svg',
+            $color-gray-25
+          );
+        }
       }
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/chevron-right-16.svg',
-          $color-gray-25
-        );
+    }
+    &:dir(rtl) {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-16.svg',
+            $color-gray-60
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/chevron-left-16.svg',
+            $color-gray-25
+          );
+        }
       }
     }
   }
@@ -5658,7 +5693,7 @@ button.module-image__border-overlay:focus {
       width: 12px;
       height: 12px;
       position: absolute;
-      left: 14px;
+      inset-inline-start: 14px;
       top: 2px;
       @include color-svg(
         '../images/icons/v2/error-solid-24.svg',
@@ -5674,7 +5709,7 @@ button.module-image__border-overlay:focus {
       content: '';
       position: absolute;
       top: 0;
-      right: 0;
+      inset-inline-end: 0;
       width: 14px;
       height: 14px;
       border-radius: 7px;
@@ -5710,7 +5745,8 @@ button.module-image__border-overlay:focus {
   &__content {
     width: 332px;
     height: 356px;
-    padding: 8px 13px 16px 13px;
+    padding-block: 8px 16px;
+    padding-inline: 13px;
     overflow-y: auto;
 
     &--under-text {
@@ -5767,7 +5803,8 @@ button.module-image__border-overlay:focus {
     @include font-body-1-bold;
 
     text-align: center;
-    padding: 8px 16px 12px 0;
+    padding-block: 8px 12px;
+    padding-inline: 0 16px;
 
     @include light-theme() {
       color: $color-gray-60;
@@ -5778,7 +5815,8 @@ button.module-image__border-overlay:focus {
     }
 
     &:only-child {
-      padding: 0 0 28px 0; // header height to offset the text so it is centered in the whole picker
+      padding-block: 0 28px;
+      padding-inline: 0; // header height to offset the text so it is centered in the whole picker
     }
 
     &--error {
@@ -5801,7 +5839,8 @@ button.module-image__border-overlay:focus {
     }
 
     &--pin {
-      padding: 8px 16px 12px 0px;
+      padding-block: 8px 12px;
+      padding-inline: 0px 16px;
       position: absolute;
       top: 0;
     }
@@ -5826,8 +5865,8 @@ button.module-image__border-overlay:focus {
 .module-sticker-picker__time--analog__hour {
   background: url(../images/analog-time/Arabic-hour.svg) center no-repeat;
   height: 14px;
-  left: 50%;
-  margin-left: -1px;
+  inset-inline-start: 50%;
+  margin-inline-start: -1px;
   margin-top: -14px;
   position: absolute;
   top: 50%;
@@ -5838,8 +5877,8 @@ button.module-image__border-overlay:focus {
 .module-sticker-picker__time--analog__minute {
   background: url(../images/analog-time/Arabic-minute.svg) center no-repeat;
   height: 22px;
-  left: 50%;
-  margin-left: -1px;
+  inset-inline-start: 50%;
+  margin-inline-start: -1px;
   margin-top: -22px;
   position: absolute;
   top: 50%;
@@ -5854,7 +5893,7 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }
 
 .module-sticker-button__button {
@@ -5916,7 +5955,8 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 7px 12px;
+  padding-block: 7px;
+  padding-inline: 12px;
   border-radius: 8px;
   margin-bottom: 6px;
   z-index: $z-index-tooltip;
@@ -5967,7 +6007,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__text {
-    margin-left: 4px;
+    margin-inline-start: 4px;
     cursor: default;
 
     @include light-theme {
@@ -5996,7 +6036,8 @@ button.module-image__border-overlay:focus {
 
     &__meta {
       flex-grow: 1;
-      padding: 0 12px;
+      padding-block: 0;
+      padding-inline: 12px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -6061,11 +6102,12 @@ button.module-image__border-overlay:focus {
   &__header {
     @extend %module-emoji-picker--ribbon;
     justify-content: space-between;
-    margin: 0 12px;
+    margin-block: 0;
+    margin-inline: 12px;
 
     &__search-field {
       flex-grow: 1;
-      margin-left: 8px;
+      margin-inline-start: 8px;
       position: relative;
 
       @include font-body-2;
@@ -6076,7 +6118,7 @@ button.module-image__border-overlay:focus {
         width: 16px;
         height: 16px;
         position: absolute;
-        left: 8px;
+        inset-inline-start: 8px;
         top: 6px;
 
         @include light-theme {
@@ -6104,7 +6146,8 @@ button.module-image__border-overlay:focus {
         border-radius: 17px;
         border-width: 1px;
         border-style: solid;
-        padding: 0 8px 0 30px;
+        padding-block: 0;
+        padding-inline: 30px 8px;
 
         &:focus {
           outline: none;
@@ -6155,7 +6198,7 @@ button.module-image__border-overlay:focus {
 
     &__settings-spacer {
       width: 28px;
-      margin-right: 12px;
+      margin-inline-end: 12px;
     }
   }
 
@@ -6176,12 +6219,12 @@ button.module-image__border-overlay:focus {
 
     &--footer {
       &:not(:last-of-type) {
-        margin-right: 4px;
+        margin-inline-end: 4px;
       }
     }
 
     &--settings {
-      margin-left: 12px;
+      margin-inline-start: 12px;
       border-radius: 100%;
 
       @include light-theme {
@@ -6323,7 +6366,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__body {
-    padding: 8px 16px 0 12px;
+    padding-block: 8px 0;
+    padding-inline: 12px 16px;
     outline: none;
 
     &__emoji-cell {
@@ -6358,7 +6402,8 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 6px;
+  margin-block: 0;
+  margin-inline: 6px;
   padding-top: 4px;
 }
 
@@ -6451,6 +6496,7 @@ button.module-image__border-overlay:focus {
   &__image--#{$size} {
     width: $size;
     height: $size;
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translate3d(0, 0, 0);
     vertical-align: baseline;
   }
@@ -6572,7 +6618,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__profile__text {
-  margin-left: 10px;
+  margin-inline-start: 10px;
   overflow: hidden;
 }
 
@@ -6655,7 +6701,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-avatar-popup__item__icon {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   height: 16px;
   width: 16px;
@@ -6700,14 +6746,14 @@ button.module-image__border-overlay:focus {
 
 .module-avatar-popup__item__text {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-inline-start: 8px;
 }
 
 .module-avatar-popup__item--badge {
   background: $color-ultramarine;
   border-radius: 100%;
   height: 8px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   width: 8px;
 }
 
@@ -6716,8 +6762,7 @@ button.module-image__border-overlay:focus {
 .module-shortcut-guide-modal {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
 
   padding: 20px;
@@ -6743,8 +6788,7 @@ button.module-image__border-overlay:focus {
 
   max-height: calc(var(--window-height) - 40px);
   max-width: 1150px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 
   display: flex;
   flex-direction: column;
@@ -6836,7 +6880,7 @@ button.module-image__border-overlay:focus {
   align-items: center;
   break-inside: avoid;
 
-  padding-left: 4px;
+  padding-inline-start: 4px;
   min-height: 40px;
   outline: none;
 
@@ -6866,9 +6910,9 @@ button.module-image__border-overlay:focus {
   margin-bottom: 4px;
 }
 .module-shortcut-guide__shortcut__key-inner-container {
-  text-align: right;
+  text-align: end;
   margin-top: 4px;
-  margin-right: 4px;
+  margin-inline-end: 4px;
   white-space: nowrap;
 }
 
@@ -6877,9 +6921,8 @@ button.module-image__border-overlay:focus {
 
   border-radius: 2px;
   padding: 3px;
-  padding-left: 8px;
-  padding-right: 8px;
-  margin-left: 4px;
+  padding-inline: 8px;
+  margin-inline-start: 4px;
 
   height: 30px;
   text-align: center;
@@ -6894,8 +6937,7 @@ button.module-image__border-overlay:focus {
 
 .module-shortcut-guide__shortcut__key--square {
   width: 30px;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-inline: 0px;
 }
 
 /* Calling: Device Selection */
@@ -6911,7 +6953,7 @@ button.module-image__border-overlay:focus {
 
   height: 24px;
   position: absolute;
-  right: 5px;
+  inset-inline-end: 5px;
   top: 0;
   width: 24px;
   z-index: $z-index-above-base;
@@ -6950,7 +6992,7 @@ button.module-image__border-overlay:focus {
     height: 40px;
     outline: 0;
     padding: 10px;
-    padding-right: 32px;
+    padding-inline-end: 32px;
     text-overflow: ellipsis;
     width: 100%;
   }
@@ -6959,14 +7001,14 @@ button.module-image__border-overlay:focus {
     border: 2px solid $color-gray-75;
 
     border-radius: 2px;
-    border-right: 0;
+    border-inline-end: 0;
     border-top: 0;
     content: ' ';
     display: block;
     height: 10px;
     pointer-events: none;
     position: absolute;
-    right: 15px;
+    inset-inline-end: 15px;
     top: 16px;
     transform-origin: center;
     transform: rotate(-45deg);
@@ -6978,10 +7020,10 @@ button.module-image__border-overlay:focus {
 // Module: GroupV1 Disabled Actions
 
 .module-group-v1-disabled-actions {
-  padding: 8px 16px 12px 16px;
+  padding-block: 8px 12px;
+  padding-inline: 16px;
   max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 
   @include light-theme {
     background: $color-white;
@@ -7022,8 +7064,7 @@ button.module-image__border-overlay:focus {
   border-radius: 4px;
 
   padding: 8px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-inline: 30px;
 
   @include button-primary;
 }
@@ -7031,10 +7072,10 @@ button.module-image__border-overlay:focus {
 // Module: GroupV2 Pending Approval Actions
 
 .module-group-v2-pending-approval-actions {
-  padding: 8px 16px 12px 16px;
+  padding-block: 8px 12px;
+  padding-inline: 16px;
   max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 
   @include light-theme {
     background: $color-white;
@@ -7071,8 +7112,7 @@ button.module-image__border-overlay:focus {
   border-radius: 4px;
 
   padding: 8px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-inline: 30px;
 
   @include button-secondary;
 
@@ -7088,7 +7128,7 @@ button.module-image__border-overlay:focus {
   background: $color-black-alpha-40;
   width: var(--window-width);
   height: var(--window-height);
-  left: var(--window-border);
+  inset-inline-start: var(--window-border);
   top: var(--titlebar-height);
   position: fixed;
   z-index: $z-index-modal-host;
@@ -7099,7 +7139,7 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   width: var(--window-width);
   height: var(--window-height);
-  left: var(--window-border);
+  inset-inline-start: var(--window-border);
   top: var(--titlebar-height);
   justify-content: center;
   align-items: center;
@@ -7129,8 +7169,7 @@ button.module-image__border-overlay:focus {
   @include font-body-1;
   border-radius: 8px;
   width: 360px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   padding: 20px;
 
   position: relative;
@@ -7146,7 +7185,7 @@ button.module-image__border-overlay:focus {
   @include button-reset;
 
   position: absolute;
-  right: 12px;
+  inset-inline-end: 12px;
   top: 12px;
 
   height: 24px;
@@ -7204,7 +7243,7 @@ button.module-image__border-overlay:focus {
   flex: 1 1 0px;
 
   &:not(:first-of-type) {
-    margin-left: 16px;
+    margin-inline-start: 16px;
   }
 }
 .module-group-v2-join-dialog__description {
@@ -7247,7 +7286,7 @@ button.module-image__border-overlay:focus {
 .module-progress-dialog__overlay {
   background: $color-black-alpha-40;
   position: fixed;
-  left: var(--window-border);
+  inset-inline-start: var(--window-border);
   top: var(--titlebar-height);
   width: var(--window-width);
   height: var(--window-height);
@@ -7291,7 +7330,8 @@ button.module-image__border-overlay:focus {
     border-style: solid;
     border-width: 1px;
     outline: none;
-    padding: 7px 12px;
+    padding-block: 7px;
+    padding-inline: 12px;
   }
 }
 
@@ -7322,7 +7362,8 @@ button.module-image__border-overlay:focus {
   border-radius: 8px;
   color: var(--tooltip-text-color);
   display: inline-block;
-  padding: 8px 21px;
+  padding-block: 8px;
+  padding-inline: 21px;
   position: fixed;
   text-align: center;
   z-index: $z-index-tooltip;
@@ -7336,7 +7377,7 @@ button.module-image__border-overlay:focus {
     content: '';
     display: block;
     height: 0;
-    margin-left: -6px;
+    margin-inline-start: -6px;
     margin-top: -6px;
     position: absolute;
     width: 0;
@@ -7355,12 +7396,12 @@ button.module-image__border-overlay:focus {
 
   &[data-placement='right'] {
     .module-tooltip-arrow {
-      left: 0;
+      inset-inline-start: 0;
     }
 
     .module-tooltip-arrow::after {
-      left: -6px;
-      border-right-color: var(--tooltip-background-color);
+      inset-inline-start: -6px;
+      border-inline-end-color: var(--tooltip-background-color);
     }
   }
 
@@ -7377,12 +7418,12 @@ button.module-image__border-overlay:focus {
 
   &[data-placement='left'] {
     .module-tooltip-arrow {
-      right: 0;
+      inset-inline-end: 0;
     }
 
     .module-tooltip-arrow::after {
-      right: -12px;
-      border-left-color: var(--tooltip-background-color);
+      inset-inline-end: -12px;
+      border-inline-start-color: var(--tooltip-background-color);
     }
   }
 }
@@ -7406,7 +7447,7 @@ button.module-image__border-overlay:focus {
   margin-bottom: 3px;
 }
 .module-chat-session-refreshed-dialog__buttons {
-  text-align: right;
+  text-align: end;
   margin-top: 20px;
   padding: 3px;
 }
@@ -7416,8 +7457,9 @@ button.module-image__border-overlay:focus {
   @include button-primary;
 
   border-radius: 4px;
-  padding: 7px 14px;
-  margin-left: 12px;
+  padding-block: 7px;
+  padding-inline: 14px;
+  margin-inline-start: 12px;
 }
 .module-chat-session-refreshed-dialog__button--secondary {
   @include button-secondary;
@@ -7442,7 +7484,8 @@ button.module-image__border-overlay:focus {
   outline: none;
   border-radius: 4px;
   min-width: 220px;
-  padding: 6px 0;
+  padding-block: 6px;
+  padding-inline: 0;
   opacity: 0;
   user-select: none;
   visibility: hidden;
@@ -7468,7 +7511,9 @@ button.module-image__border-overlay:focus {
 
   @include font-body-2;
 
-  padding: 7px 12px;
+  padding-block: 7px;
+
+  padding-inline: 12px;
 
   @include light-theme {
     color: $color-gray-90;
@@ -7479,7 +7524,8 @@ button.module-image__border-overlay:focus {
 
   &--divider {
     height: 1px;
-    margin: 6px 0;
+    margin-block: 6px;
+    margin-inline: 0;
     padding: 0;
 
     @include light-theme {
@@ -7495,7 +7541,7 @@ button.module-image__border-overlay:focus {
   content: '✓';
   display: inline-block;
   position: absolute;
-  right: 7px;
+  inset-inline-end: 7px;
 
   @include light-theme {
     color: $color-gray-90;
@@ -7510,7 +7556,7 @@ button.module-image__border-overlay:focus {
 }
 
 .react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
-  padding-right: 36px;
+  padding-inline-end: 36px;
 }
 
 .react-contextmenu-item.react-contextmenu-submenu
@@ -7519,21 +7565,37 @@ button.module-image__border-overlay:focus {
   display: inline-block;
   height: 18px;
   position: absolute;
-  right: 7px;
+  inset-inline-end: 7px;
   width: 12px;
 
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-right-16.svg',
-      $color-gray-75
-    );
+    &:dir(ltr) {
+      @include color-svg(
+        '../images/icons/v2/chevron-right-16.svg',
+        $color-gray-75
+      );
+    }
+    &:dir(rtl) {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-16.svg',
+        $color-gray-75
+      );
+    }
     color: $color-gray-90;
   }
   @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-right-16.svg',
-      $color-gray-15
-    );
+    &:dir(ltr) {
+      @include color-svg(
+        '../images/icons/v2/chevron-right-16.svg',
+        $color-gray-15
+      );
+    }
+    &:dir(rtl) {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-16.svg',
+        $color-gray-15
+      );
+    }
     color: $color-gray-02;
   }
 }
@@ -7599,7 +7661,7 @@ button.module-image__border-overlay:focus {
     content: ' ';
     display: inline-block;
     height: 14px;
-    margin-right: 8px;
+    margin-inline-end: 8px;
     width: 14px;
     vertical-align: middle;
   }

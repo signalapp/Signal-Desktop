@@ -13,7 +13,7 @@
   flex-direction: column;
   width: var(--window-width);
   height: 100vh;
-  left: 0;
+  inset-inline-start: 0;
   position: absolute;
   top: 0;
   user-select: none;
@@ -25,7 +25,8 @@
     justify-content: center;
     overflow: hidden;
     padding-bottom: 0;
-    padding: 22px 60px;
+    padding-block: 22px;
+    padding-inline: 60px;
     position: relative;
   }
 
@@ -59,7 +60,8 @@
     display: inline-flex;
     height: 32px;
     justify-content: center;
-    margin: 0 15px;
+    margin-block: 0;
+    margin-inline: 15px;
     opacity: 1;
     width: 32px;
 
@@ -141,11 +143,12 @@
     height: $tools-height;
     justify-content: center;
     margin-bottom: 22px;
-    padding: 14px 12px;
+    padding-block: 14px;
+    padding-inline: 12px;
 
     &__tool,
     &__tool__button {
-      margin-right: 14px;
+      margin-inline-end: 14px;
     }
 
     &__button {
@@ -157,7 +160,8 @@
       }
 
       @include button-reset;
-      margin: 0 8px;
+      margin-block: 0;
+      margin-inline: 8px;
       padding: 8px;
 
       &--bg {
@@ -227,14 +231,12 @@
     width: 144px;
 
     &__arrow {
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
+      border-inline-start: 14px solid transparent;
+      border-inline-end: 14px solid transparent;
       border-top: 14px solid $color-gray-80;
+      @include position-absolute-center-x;
       bottom: -14px;
       height: 0;
-      left: 50%;
-      position: absolute;
-      transform: translateX(-50%);
       width: 0;
     }
   }
@@ -285,7 +287,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin-left: 14px;
+      margin-inline-start: 14px;
     }
 
     &__title {

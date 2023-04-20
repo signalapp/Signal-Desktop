@@ -23,7 +23,8 @@
   hr {
     border: 0;
     height: 1px;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     @include light-theme {
       background: $color-gray-05;
@@ -37,7 +38,7 @@
     margin-top: 8px;
 
     .module-Button:not(:last-child) {
-      margin-right: 12px;
+      margin-inline-end: 12px;
     }
   }
 }

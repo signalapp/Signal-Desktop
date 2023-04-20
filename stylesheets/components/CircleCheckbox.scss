@@ -89,7 +89,7 @@
           border: solid $color-white;
           border-width: 0 2px 2px 0;
           height: 11px;
-          left: 7px;
+          inset-inline-start: 7px;
           top: 3px;
           transform: rotate(45deg);
           width: 6px;
@@ -106,7 +106,7 @@
         &::after {
           background: $color-ultramarine;
           top: 4px;
-          left: 4px;
+          inset-inline-start: 4px;
           width: 12px;
           height: 12px;
           border-radius: 6px;
@@ -136,6 +136,7 @@
             border: solid $color-white;
             border-width: 0 2px 2px 0;
             height: 10px;
+            /* stylelint-disable-next-line liberty/use-logical-spec */
             left: 7px;
             top: 3px;
             transform: rotate(45deg);
@@ -153,6 +154,7 @@
           &::after {
             background: $color-ultramarine;
             top: 4px;
+            /* stylelint-disable-next-line liberty/use-logical-spec */
             left: 4px;
             width: 10px;
             height: 10px;

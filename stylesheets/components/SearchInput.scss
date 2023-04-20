@@ -3,17 +3,14 @@
 
 .module-SearchInput {
   &__container {
-    margin: {
-      left: 16px;
-      right: 16px;
-      bottom: 8px;
-    }
+    margin-inline: 16px;
+    margin-bottom: 8px;
     position: relative;
   }
 
   &__icon {
     height: 16px;
-    left: 8px;
+    inset-inline-start: 8px;
     pointer-events: none;
     position: absolute;
     top: 6px;
@@ -30,7 +27,7 @@
   &__input {
     background: transparent;
     border: none;
-    padding-left: 16px;
+    padding-inline-start: 16px;
     width: 100%;
 
     &:placeholder {
@@ -55,8 +52,7 @@
     border: solid 1px transparent;
     border-radius: 8px;
     height: 28px;
-    padding-left: 30px;
-    padding-right: 5px;
+    padding-inline: 30px 5px;
     width: 100%;
 
     @include light-theme {
@@ -84,14 +80,14 @@
     }
 
     &--with-text {
-      padding-right: 30px;
+      padding-inline-end: 30px;
     }
   }
 
   &__cancel {
     height: 18px;
     position: absolute;
-    right: 8px;
+    inset-inline-end: 8px;
     top: 5px;
     width: 18px;
 

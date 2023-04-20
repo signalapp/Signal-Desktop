@@ -11,14 +11,12 @@
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05), 0px 4px 12px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
-  position: absolute;
+  @include position-absolute-center-x;
   text-align: center;
   user-select: none;
   overflow: hidden;
   z-index: $z-index-toast;
   bottom: 62px;
-  left: 50%;
-  transform: translate(-50%, 0);
 
   @include light-theme {
     background-color: $color-gray-80;
@@ -29,32 +27,28 @@
     color: $color-gray-05;
   }
 
-  &--align-center {
-    bottom: 62px;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-
   &--align-left {
-    left: 20px;
+    inset-inline-start: 20px;
     bottom: 18px;
   }
 
   &__content {
-    padding: 8px 12px;
+    padding-block: 8px;
+    padding-inline: 12px;
   }
 
   &__button {
     @include font-body-2-bold;
     cursor: pointer;
-    padding: 8px 12px;
+    padding-block: 8px;
+    padding-inline: 12px;
     white-space: nowrap;
 
     @include light-theme {
-      border-left: 1px solid $color-gray-65;
+      border-inline-start: 1px solid $color-gray-65;
     }
     @include dark-theme {
-      border-left: 1px solid $color-gray-60;
+      border-inline-start: 1px solid $color-gray-60;
     }
 
     outline: none;

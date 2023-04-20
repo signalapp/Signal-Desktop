@@ -3,6 +3,7 @@
 
 import type { IntlShape } from 'react-intl';
 import type { UUIDStringType } from './UUID';
+import type { LocaleDirection } from '../../app/locale';
 
 export type StoryContextType = {
   authorUuid?: UUIDStringType;
@@ -23,6 +24,7 @@ export type LocalizerType = {
   getIntl(): IntlShape;
   isLegacyFormat(key: string): boolean;
   getLocale(): string;
+  getLocaleDirection(): LocaleDirection;
 };
 
 export enum SentMediaQualityType {

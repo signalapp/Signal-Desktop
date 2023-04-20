@@ -12,13 +12,12 @@
 
   &__conversation-list {
     .module-conversation-list {
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline: 0;
     }
 
     .module-conversation-list__item--contact-or-conversation__checkbox--container {
       height: 20px;
-      margin-right: 8px;
+      margin-inline-end: 8px;
       position: relative;
       width: 20px;
     }
@@ -67,6 +66,7 @@
           content: '';
           display: block;
           height: 11px;
+          /* stylelint-disable-next-line liberty/use-logical-spec */
           left: 7px;
           position: absolute;
           top: 3px;
@@ -84,7 +84,8 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 0;
+    padding-block: 8px;
+    padding-inline: 0;
 
     &--no-pointer {
       cursor: inherit;
@@ -134,7 +135,7 @@
     }
 
     &__title {
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &__delete {
@@ -190,7 +191,7 @@
   &__listHeader__title {
     flex: 1;
     @include font-body-1-bold;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   &__delete-list {
@@ -198,7 +199,8 @@
     align-items: center;
     color: $color-accent-red;
     display: flex;
-    padding: 8px 0;
+    padding-block: 8px;
+    padding-inline: 0;
     width: 100%;
 
     &::before {
@@ -208,13 +210,14 @@
       );
       content: '';
       height: 20px;
-      margin-right: 20px;
+      margin-inline-end: 20px;
       width: 20px;
     }
   }
 
   &__checkbox {
-    margin: 14px 0;
+    margin-block: 14px;
+    margin-inline: 0;
   }
 
   &__checkbox-container {
@@ -225,7 +228,7 @@
 
   &__checkbox-label {
     flex: 1;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   &__checkbox-description {
@@ -293,7 +296,8 @@
     align-items: center;
     color: $color-accent-red;
     display: flex;
-    padding: 8px 0;
+    padding-block: 8px;
+    padding-inline: 0;
     width: 100%;
     margin-top: 12px;
 
@@ -304,7 +308,7 @@
       );
       content: '';
       height: 20px;
-      margin-right: 20px;
+      margin-inline-end: 20px;
       width: 20px;
     }
   }

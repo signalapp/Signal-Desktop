@@ -24,7 +24,8 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: 16px 16px 1em 16px;
+    padding-block: 16px 1em;
+    padding-inline: 16px;
 
     &--with-back-button .module-Modal__title {
       text-align: center;
@@ -142,7 +143,8 @@
 
       // ProfileEditor nests footer within the Modal's body
       .module-Modal__button-footer {
-        padding: 1em 0 0 0;
+        padding-block: 1em 0;
+        padding-inline: 0;
       }
     }
   }
@@ -197,11 +199,12 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-    padding: 1em 16px 16px 16px;
+    padding-block: 1em 16px;
+    padding-inline: 16px;
     gap: 8px;
 
     .module-Button {
-      margin-left: 8px;
+      margin-inline-start: 8px;
     }
 
     &--one-button-per-line {
@@ -212,7 +215,8 @@
 
   // Overrides for a modal with important message
   &--important {
-    padding: 10px 12px 16px 12px;
+    padding-block: 10px 16px;
+    padding-inline: 12px;
 
     .module-Modal__header {
       // Necessary because of the larger top margins for the title
@@ -221,17 +225,20 @@
     }
 
     .module-Modal__body {
-      padding: 0 12px 4px 12px !important;
+      padding-block: 0 4px !important;
+      padding-inline: 12px !important;
     }
 
     .module-Modal__body p {
-      margin: 0 0 20px 0;
+      margin-block: 0 20px;
+      margin-inline: 0;
     }
 
     .module-Modal__title {
       @include font-title-2;
       text-align: center;
-      margin: 10px 0 22px 0;
+      margin-block: 10px 22px;
+      margin-inline: 0;
 
       flex-shrink: 0;
 
@@ -245,14 +252,15 @@
       margin-top: 27px;
       flex-grow: 0;
       flex-shrink: 0;
-      padding: 0 12px 4px 12px;
+      padding-block: 0 4px;
+      padding-inline: 12px;
 
       .module-Button {
         flex-grow: 1;
         max-width: 152px;
 
         &:not(:first-child) {
-          margin-left: 16px;
+          margin-inline-start: 16px;
         }
       }
     }

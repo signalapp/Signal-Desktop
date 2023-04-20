@@ -189,8 +189,68 @@
 
 // Icons
 
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return (
+      str-slice($string, 1, $index - 1) + $replace +
+        str-replace(
+          str-slice($string, $index + str-length($search)),
+          $search,
+          $replace
+        )
+    );
+  }
+
+  @return $string;
+}
+
+$rtl-icon-map: (
+  'chevron-left-16.svg': 'chevron-right-16.svg',
+  'chevron-right-16.svg': 'chevron-left-16.svg',
+
+  'chevron-left-20.svg': 'chevron-right-20.svg',
+  'chevron-right-20.svg': 'chevron-left-20.svg',
+
+  'chevron-left-24.svg': 'chevron-right-24.svg',
+  'chevron-right-24.svg': 'chevron-left-24.svg',
+
+  'arrow-left-32.svg': 'arrow-right-32.svg',
+  'arrow-right-32.svg': 'arrow-left-32.svg',
+
+  // Ignored cases:
+  'phone-right-outline-24.svg': '',
+  'phone-right-solid-24.svg': '',
+);
+
+@function get-rtl-svg($svg) {
+  @each $ltr, $rtl in $rtl-icon-map {
+    @if str-index($svg, $ltr) {
+      @if $rtl == '' {
+        @return $ltr;
+      }
+      @return str-replace($svg, $ltr, $rtl);
+    }
+  }
+  @if str-index($svg, 'left') or str-index($svg, 'right') {
+    @error "Missing RTL icon for #{$svg}";
+  }
+  @return false;
+}
+
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
-  -webkit-mask: url($svg) no-repeat center;
+  $rtl-svg: get-rtl-svg($svg);
+  @if $rtl-svg {
+    :dir(ltr) & {
+      -webkit-mask: url($svg) no-repeat center;
+    }
+    :dir(rtl) & {
+      -webkit-mask: url($rtl-svg) no-repeat center;
+    }
+  } @else {
+    -webkit-mask: url($svg) no-repeat center;
+  }
   @if $stretch {
     -webkit-mask-size: 100%;
   }
@@ -260,7 +320,7 @@
 
   position: absolute;
   top: 8px;
-  right: 8px;
+  inset-inline-end: 8px;
   width: 18px;
   height: 18px;
   z-index: $z-index-above-base;
@@ -514,7 +574,8 @@
 
 @mixin button-small {
   @include rounded-corners;
-  padding: 7px 14px;
+  padding-block: 7px;
+  padding-inline: 14px;
 }
 
 // Modals
@@ -522,7 +583,8 @@
 @mixin modal-reset {
   @include popper-shadow();
   border-radius: 8px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   max-height: 100%;
   max-width: 360px;
   padding: 16px;
@@ -546,7 +608,7 @@
   @include button-reset;
 
   position: absolute;
-  right: 12px;
+  inset-inline-end: 12px;
   top: 12px;
 
   height: 24px;
@@ -646,7 +708,8 @@
 
 @mixin normal-input {
   @include font-body-1;
-  padding: 8px 12px;
+  padding-block: 8px;
+  padding-inline: 12px;
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
@@ -751,4 +814,27 @@
   &:not(:disabled):not([aria-disabled='true']) {
     @content;
   }
+}
+
+@mixin position-absolute-center {
+  position: absolute;
+  top: 50%;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 50%;
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  transform: translate(-50%, -50%);
+}
+
+@mixin position-absolute-center-x {
+  position: absolute;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 50%;
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  transform: translateX(-50%);
+}
+
+@mixin position-absolute-center-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }

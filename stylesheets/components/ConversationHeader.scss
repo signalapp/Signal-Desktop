@@ -15,7 +15,7 @@
       width: 13px;
       height: 13px;
       display: block;
-      margin-right: $margin-right;
+      margin-inline-end: $margin-right;
 
       @include light-theme {
         @include color-svg($icon, $color-gray-60);
@@ -55,11 +55,11 @@
     width: 24px;
     height: 24px;
     min-width: 24px;
-    margin-left: -24px;
+    margin-inline-start: -24px;
     vertical-align: text-bottom;
     border: none;
     opacity: 0;
-    transition: margin-left $transition, opacity $transition;
+    transition: margin-inline-start $transition, opacity $transition;
 
     &:disabled {
       cursor: default;
@@ -67,8 +67,7 @@
 
     &--show {
       opacity: 1;
-      margin-right: 6px;
-      margin-left: 12px;
+      margin-inline: 12px 6px;
     }
 
     @include light-theme {
@@ -103,12 +102,11 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    margin-left: 4px;
-    margin-right: var(--button-spacing);
+    margin-inline: 4px var(--button-spacing);
     padding: $padding;
     overflow: hidden;
     min-width: 0;
-    transition: margin-right 200ms ease-out;
+    transition: margin-inline-end 200ms ease-out;
 
     &--clickable {
       @include button-reset;
@@ -117,10 +115,9 @@
       -webkit-app-region: no-drag;
 
       // These are clobbered by button-reset:
-      margin-left: 4px;
-      margin-right: var(--button-spacing);
+      margin-inline: 4px var(--button-spacing);
       padding: $padding;
-      padding-left: 0;
+      padding-inline-start: 0;
 
       @include keyboard-mode {
         &:focus {
@@ -136,7 +133,7 @@
 
     &__avatar {
       min-width: 32px;
-      margin-right: 12px;
+      margin-inline-end: 12px;
       padding-top: 4px;
       padding-bottom: 4px;
     }
@@ -155,7 +152,7 @@
         user-select: none;
 
         &__in-contacts-icon {
-          margin-left: 4px;
+          margin-inline-start: 4px;
         }
       }
 
@@ -172,7 +169,7 @@
 
         &__expiration {
           @include icon-element('../images/icons/v2/timer-outline-24.svg');
-          margin-right: 12px;
+          margin-inline-end: 12px;
         }
 
         &__verified {
@@ -193,11 +190,11 @@
     border: 2px solid transparent;
     display: flex;
     height: $icon-size;
-    margin-right: var(--button-spacing);
+    margin-inline-end: var(--button-spacing);
     min-width: $icon-size;
     opacity: 0;
     padding: 2px;
-    transition: margin-right 200ms ease-out, opacity 200ms ease-out,
+    transition: margin-inline-end 200ms ease-out, opacity 200ms ease-out,
       background 100ms ease-out;
     width: $icon-size;
 
@@ -296,7 +293,8 @@
       display: flex;
       outline: none;
       overflow: hidden;
-      padding: 5px 18px;
+      padding-block: 5px;
+      padding-inline: 18px;
       text-overflow: ellipsis;
       white-space: nowrap;
       user-select: none;
@@ -312,7 +310,7 @@
         content: '';
         display: block;
         height: $icon-size;
-        margin-right: 5px;
+        margin-inline-end: 5px;
         min-width: $icon-size;
         width: $icon-size;
       }
@@ -326,10 +324,10 @@
   }
 
   &__disappearing-timer__item {
-    padding-left: 25px;
+    padding-inline-start: 25px;
 
     &--active {
-      padding-left: 0px;
+      padding-inline-start: 0px;
       @include icon-element('../images/icons/v2/check-24.svg', 12px);
     }
   }

@@ -9,7 +9,7 @@
   flex-direction: column;
   width: var(--window-width);
   height: var(--window-height);
-  left: 0;
+  inset-inline-start: 0;
   top: var(--titlebar-height);
   position: absolute;
   user-select: none;
@@ -18,7 +18,8 @@
   &__container {
     display: flex;
     flex: 1;
-    padding: 22px 60px;
+    padding-block: 22px;
+    padding-inline: 60px;
     padding-bottom: 0;
     overflow: hidden;
   }
@@ -48,7 +49,8 @@
     display: inline-flex;
     height: 32px;
     justify-content: center;
-    margin: 0 15px;
+    margin-block: 0;
+    margin-inline: 15px;
     opacity: 1;
     width: 32px;
 
@@ -141,7 +143,8 @@
         border-radius: 9999px;
         background: $color-gray-90;
         color: $color-gray-15;
-        padding: 8px 15px;
+        padding-block: 8px;
+        padding-inline: 15px;
         border: none;
 
         & > span {
@@ -171,11 +174,12 @@
     height: $tools-height;
     justify-content: center;
     margin-bottom: 22px;
-    padding: 14px 12px;
+    padding-block: 14px;
+    padding-inline: 12px;
 
     &__tool,
     &__tool__button {
-      margin-right: 14px;
+      margin-inline-end: 14px;
     }
 
     &__button {
@@ -193,13 +197,15 @@
 
       @include button-reset;
       display: flex;
-      margin: 0 8px;
+      margin-block: 0;
+      margin-inline: 8px;
       padding: 8px;
 
       &--words {
         height: auto;
         width: auto;
-        padding: 0 6px;
+        padding-block: 0;
+        padding-inline: 6px;
       }
 
       &--draw-pen__button {

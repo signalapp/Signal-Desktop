@@ -50,8 +50,7 @@
   }
 
   &__row {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
   }
 
   &__divider {
@@ -69,7 +68,8 @@
 
   &__info {
     @include font-body-2;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     @include light-theme {
       color: $color-gray-60;

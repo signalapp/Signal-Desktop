@@ -4,10 +4,7 @@
 .GradientDial {
   &__container {
     height: 100%;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    @include position-absolute-center;
     width: 100%;
   }
 
@@ -24,7 +21,7 @@
       border: 1px solid $color-black-alpha-20;
       height: 100%;
       height: 1000px;
-      left: 50%;
+      inset-inline-start: 50%;
       position: absolute;
       top: 50%;
       transform-origin: center;
@@ -36,7 +33,7 @@
     @include color-bubble(30px);
     box-shadow: 0 0 4px $color-black-alpha-20;
     cursor: move;
-    margin-left: -20px;
+    margin-inline-start: -20px;
     margin-top: -20px;
     padding: 2px;
     position: absolute;

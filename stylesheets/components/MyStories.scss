@@ -6,7 +6,8 @@
     &__title {
       @include font-body-1-bold;
       color: $color-gray-05;
-      margin: 24px 10px 8px 10px;
+      margin-block: 24px 8px;
+      margin-inline: 10px;
     }
   }
 
@@ -19,7 +20,7 @@
     border-radius: 10px;
     display: flex;
     height: 96px;
-    padding-right: 10px;
+    padding-inline-end: 10px;
 
     &:hover {
       background: $color-gray-65;
@@ -36,7 +37,7 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-      margin-left: 12px;
+      margin-inline-start: 12px;
 
       &__failed {
         align-items: center;
@@ -46,7 +47,7 @@
           content: '';
           display: block;
           height: 12px;
-          margin-right: 12px;
+          margin-inline-end: 12px;
           width: 12px;
           @include color-svg(
             '../images/icons/v2/error-outline-24.svg',
@@ -99,7 +100,7 @@
       display: flex;
       height: 28px;
       justify-content: center;
-      margin-left: 16px;
+      margin-inline-start: 16px;
       width: 28px;
 
       &::after {
@@ -157,7 +158,7 @@
     height: 20px;
     justify-content: center;
     position: absolute;
-    right: -4px;
+    inset-inline-end: -4px;
     width: 20px;
     z-index: $z-index-base;
 

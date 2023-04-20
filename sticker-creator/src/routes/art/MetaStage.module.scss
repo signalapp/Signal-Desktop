@@ -90,7 +90,7 @@
 .edit-button {
   position: absolute;
   top: 6px;
-  right: 6px;
+  inset-inline-end: 6px;
   content: '';
   width: 32px;
   height: 32px;
@@ -111,7 +111,7 @@
     width: 24px;
     height: 24px;
     top: 5px;
-    left: 5px;
+    inset-inline-start: 5px;
     mask-image: url(/src/assets/icons/compose-outline-24.svg);
     mask-size: 22px;
     -webkit-mask-image: url(/src/assets/icons/compose-outline-24.svg);

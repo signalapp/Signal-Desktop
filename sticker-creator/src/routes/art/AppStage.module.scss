@@ -31,10 +31,12 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 64px;
+  padding-block: 0;
+  padding-inline: 64px;
 
   @include small-screen() {
-    padding: 0 32px;
+    padding-block: 0;
+    padding-inline: 32px;
   }
 }
 
@@ -47,13 +49,15 @@
 }
 
 .footer {
-  margin: 16px 64px;
+  margin-block: 16px;
+  margin-inline: 64px;
   display: flex;
   flex-direction: row;
   align-items: center;
 
   @include small-screen() {
-    margin: 16px 32px;
+    margin-block: 16px;
+    margin-inline: 32px;
   }
 }
 
@@ -64,12 +68,19 @@
 }
 
 .button {
-  margin-left: 12px;
+  margin-inline-start: 12px;
 }
 
 .toaster {
   position: fixed;
   bottom: 16px;
-  left: 50%;
-  transform: translate(-50%, 0px);
+  inset-inline-start: 50%;
+  &:dir(ltr) {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translate(-50%, 0px);
+  }
+  &:dir(rtl) {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translate(50%, 0px)
+  }
 }

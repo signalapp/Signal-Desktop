@@ -91,11 +91,11 @@ import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalP
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { PaymentEventKind } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
-import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 import { RenderLocation } from './MessageTextRenderer';
+import { UserText } from '../UserText';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -140,6 +140,13 @@ export enum TextDirection {
   Default = 'Default',
   None = 'None',
 }
+
+const TextDirectionToDirAttribute = {
+  [TextDirection.LeftToRight]: 'ltr',
+  [TextDirection.RightToLeft]: 'rtl',
+  [TextDirection.Default]: 'auto',
+  [TextDirection.None]: 'auto',
+};
 
 export const MessageStatuses = [
   'delivered',
@@ -565,11 +572,8 @@ export class Message extends React.PureComponent<Props, State> {
       shouldHideMetadata,
       status,
       text,
-      textDirection,
     }: Readonly<Props> = this.props
   ): MetadataPlacement {
-    const isRTL = textDirection === TextDirection.RightToLeft;
-
     if (
       !expirationLength &&
       !expirationTimestamp &&
@@ -600,10 +604,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (this.canRenderStickerLikeEmoji()) {
-      return MetadataPlacement.Bottom;
-    }
-
-    if (isRTL) {
       return MetadataPlacement.Bottom;
     }
 
@@ -1208,6 +1208,7 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           ) : null}
           <div
+            dir="auto"
             className={classNames(
               'module-message__link-preview__text',
               previewHasImage && !isFullSizeImage
@@ -1277,7 +1278,6 @@ export class Message extends React.PureComponent<Props, State> {
         direction === 'incoming'
           ? i18n('icu:message--donation--unopened--incoming')
           : i18n('icu:message--donation--unopened--outgoing');
-      const isRTL = getDirection(description) === 'rtl';
       const { metadataWidth } = this.state;
 
       return (
@@ -1317,7 +1317,6 @@ export class Message extends React.PureComponent<Props, State> {
                 'module-message__text',
                 `module-message__text--${direction}`
               )}
-              dir={isRTL ? 'rtl' : undefined}
             >
               {description}
               {this.getMetadataPlacement() ===
@@ -1487,7 +1486,7 @@ export class Message extends React.PureComponent<Props, State> {
         </p>
         {payment.note != null && (
           <p className="module-payment-notification__note">
-            <Emojify text={payment.note} />
+            <UserText text={payment.note} />
           </p>
         )}
       </div>
@@ -1765,10 +1764,8 @@ export class Message extends React.PureComponent<Props, State> {
       status,
       text,
       textAttachment,
-      textDirection,
     } = this.props;
     const { metadataWidth } = this.state;
-    const isRTL = textDirection === TextDirection.RightToLeft;
 
     // eslint-disable-next-line no-nested-ternary
     const contents = deletedForEveryone
@@ -1793,7 +1790,6 @@ export class Message extends React.PureComponent<Props, State> {
             ? 'module-message__text--delete-for-everyone'
             : null
         )}
-        dir={isRTL ? 'rtl' : undefined}
         onDoubleClick={(event: React.MouseEvent) => {
           // Prevent double-click interefering with interactions _inside_
           // the bubble.
@@ -1824,10 +1820,9 @@ export class Message extends React.PureComponent<Props, State> {
           text={contents || ''}
           textAttachment={textAttachment}
         />
-        {!isRTL &&
-          this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
-            <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
-          )}
+        {this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+          <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+        )}
       </div>
     );
   }
@@ -2500,6 +2495,7 @@ export class Message extends React.PureComponent<Props, State> {
       onContextMenu,
       onKeyDown,
       text,
+      textDirection,
     } = this.props;
     const { isTargeted } = this.state;
 
@@ -2569,7 +2565,9 @@ export class Message extends React.PureComponent<Props, State> {
           tabIndex={-1}
         >
           {this.renderAuthor()}
-          {this.renderContents()}
+          <div dir={TextDirectionToDirAttribute[textDirection]}>
+            {this.renderContents()}
+          </div>
         </div>
         {this.renderReactions(direction === 'outgoing')}
       </div>

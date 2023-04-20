@@ -20,17 +20,16 @@
   box-shadow: 0 1px 4px $color-black-alpha-05, 0 10px 16px $color-black-alpha-20;
   display: inline-flex;
   flex-direction: row;
-  padding: 3px 7px;
+  padding-block: 3px;
+  padding-inline: 7px;
   position: relative;
   user-select: none;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: {
-      name: module-ReactionPickerPicker__appear;
-      duration: 400ms;
-      timing-function: $ease-out-expo;
-      fill-mode: forwards;
-    }
+    animation-name: module-ReactionPickerPicker__appear;
+    animation-duration: 400ms;
+    animation-timing-function: $ease-out-expo;
+    animation-fill-mode: forwards;
   }
 
   @include light-theme {
@@ -109,11 +108,11 @@
       &__dot {
         border-radius: 50%;
         height: 3px;
-        margin-right: 4px;
+        margin-inline-end: 4px;
         width: 3px;
 
         &:last-child {
-          margin-right: 0;
+          margin-inline-end: 0;
         }
 
         @include light-theme {
@@ -142,15 +141,13 @@
         // Prevent animation jank
         opacity: 0;
 
-        animation: {
-          name: module-ReactionPickerPicker__button-appear;
-          duration: 400ms;
-          timing-function: $ease-out-expo;
-          fill-mode: forwards;
-          // This delay is a fallback in case there are more than the expected number of
-          //   buttons.
-          delay: #{$max-expected-buttons * 10ms};
-        }
+        animation-name: module-ReactionPickerPicker__button-appear;
+        animation-duration: 400ms;
+        animation-timing-function: $ease-out-expo;
+        animation-fill-mode: forwards;
+        // This delay is a fallback in case there are more than the expected number of
+        //   buttons.
+        animation-delay: #{$max-expected-buttons * 10ms};
       }
 
       @for $i from 0 through $max-expected-buttons {
@@ -242,11 +239,13 @@
 
 @keyframes module-ReactionPickerPicker__button-appear {
   from {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translate3d(0, 24px, 0);
     opacity: 0;
   }
 
   to {
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }

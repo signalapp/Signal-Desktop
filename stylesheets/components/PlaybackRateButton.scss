@@ -12,8 +12,10 @@
   font-weight: 700;
   border-radius: 4px;
   font-size: 11px;
-  padding: 1px 2px;
-  margin: -2px 0;
+  padding-block: 1px;
+  padding-inline: 2px;
+  margin-block: -2px;
+  margin-inline: 0;
   line-height: 16px;
   letter-spacing: 0.05px;
   user-select: none;
@@ -48,7 +50,7 @@
     display: inline-block;
     width: 8px;
     height: 8px;
-    margin-left: 2px;
+    margin-inline-start: 2px;
 
     @mixin x-icon($color) {
       @include color-svg('../images/icons/v2/x-8.svg', $color, false);

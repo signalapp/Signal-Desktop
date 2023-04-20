@@ -243,9 +243,9 @@ export const Input = forwardRef<
     >
       {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
       {expandable ? (
-        <textarea rows={1} {...inputProps} />
+        <textarea dir="auto" rows={1} {...inputProps} />
       ) : (
-        <input {...inputProps} />
+        <input dir="auto" {...inputProps} />
       )}
       {isLarge ? (
         <>

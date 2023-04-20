@@ -242,6 +242,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
                   >
                     {onChange ? (
                       <TextareaAutosize
+                        dir="auto"
                         className="TextAttachment__text__container TextAttachment__text__textarea"
                         disabled={!isEditingText}
                         onChange={ev => onChange(ev.currentTarget.value)}

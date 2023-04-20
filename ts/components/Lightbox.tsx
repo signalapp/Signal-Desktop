@@ -24,6 +24,7 @@ import { formatDuration } from '../util/formatDuration';
 import { isGIF } from '../types/Attachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { usePrevious } from '../hooks/usePrevious';
+import { arrow } from '../util/keyboard';
 
 export type PropsType = {
   children?: ReactNode;
@@ -201,11 +202,11 @@ export function Lightbox({
           break;
         }
 
-        case 'ArrowLeft':
+        case arrow('start'):
           onPrevious(event);
           break;
 
-        case 'ArrowRight':
+        case arrow('end'):
           onNext(event);
           break;
 
@@ -287,14 +288,14 @@ export function Lightbox({
     () => INITIAL_IMAGE_TRANSFORM
   );
 
-  const thumbnailsMarginLeft =
+  const thumbnailsMarginInlineStart =
     0 - (selectedIndex * THUMBNAIL_FULL_WIDTH + THUMBNAIL_WIDTH / 2);
 
   const [thumbnailsStyle, thumbnailsAnimation] = useSpring(
     {
       config: THUMBNAIL_SPRING_CONFIG,
       to: {
-        marginLeft: thumbnailsMarginLeft,
+        marginInlineStart: thumbnailsMarginInlineStart,
         opacity: hasThumbnails ? 1 : 0,
       },
     },
@@ -308,19 +309,19 @@ export function Lightbox({
 
     thumbnailsAnimation.stop();
     thumbnailsAnimation.set({
-      marginLeft:
-        thumbnailsMarginLeft +
+      marginInlineStart:
+        thumbnailsMarginInlineStart +
         (selectedIndex === 0 ? 1 : -1) * THUMBNAIL_FULL_WIDTH,
       opacity: 0,
     });
     thumbnailsAnimation.start({
-      marginLeft: thumbnailsMarginLeft,
+      marginInlineStart: thumbnailsMarginInlineStart,
       opacity: 1,
     });
   }, [
     needsAnimation,
     selectedIndex,
-    thumbnailsMarginLeft,
+    thumbnailsMarginInlineStart,
     thumbnailsAnimation,
   ]);
 

@@ -41,7 +41,7 @@ import {
 } from './conversation/conversation-details/ConversationDetailsIcon';
 import { isWhitespace, trim } from '../util/whitespaceStringUtil';
 import { generateUsernameLink } from '../util/sgnlHref';
-import { Emojify } from './conversation/Emojify';
+import { UserText } from './UserText';
 
 export enum EditState {
   None = 'None',
@@ -613,7 +613,7 @@ export function ProfileEditor({
           icon={
             <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--name" />
           }
-          label={<Emojify text={getFullNameText()} />}
+          label={<UserText text={getFullNameText()} />}
           onClick={() => {
             setEditState(EditState.ProfileName);
           }}
@@ -631,7 +631,7 @@ export function ProfileEditor({
             )
           }
           label={
-            <Emojify
+            <UserText
               text={fullBio.aboutText || i18n('icu:ProfileEditor--about')}
             />
           }

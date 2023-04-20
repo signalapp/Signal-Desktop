@@ -15,10 +15,12 @@
     font-size: 9px;
     justify-content: center;
     line-height: 14px;
-    margin: 0 8px;
+    margin-block: 0;
+    margin-inline: 8px;
     min-height: 44px;
     min-width: 60px;
-    padding: 0 8px;
+    padding-block: 0;
+    padding-inline: 8px;
 
     @include light-theme {
       background-color: $color-gray-05;

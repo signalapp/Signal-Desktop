@@ -5,7 +5,7 @@
   &__overlay {
     background-size: contain;
     height: 100%;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -20,7 +20,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -34,7 +34,7 @@
       @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
     }
     top: var(--title-bar-drag-area-height);
-    right: 28px;
+    inset-inline-end: 28px;
     z-index: $z-index-above-above-base;
   }
 
@@ -54,12 +54,11 @@
   }
 
   &__meta {
+    @include position-absolute-center-x;
     bottom: 0;
-    left: 50%;
     min-width: 284px;
-    padding: 0 16px;
-    position: absolute;
-    transform: translateX(-50%);
+    padding-block: 0;
+    padding-inline: 16px;
     width: clamp(0vh, 56.25vh, 100vw);
     z-index: $z-index-story-meta;
 
@@ -77,24 +76,24 @@
         content: '';
         display: block;
         height: 14px;
-        margin-right: 6px;
+        margin-inline-end: 6px;
         width: 14px;
       }
     }
 
     &--group-avatar {
-      margin-left: -8px;
+      margin-inline-start: -8px;
     }
 
     &--title-container {
-      padding-left: 8px;
+      padding-inline-start: 8px;
     }
 
     &--title {
       @include font-body-1-bold;
       color: $color-white;
       display: inline;
-      margin-right: 8px;
+      margin-inline-end: 8px;
     }
 
     &--timestamp {
@@ -122,14 +121,15 @@
   &__caption {
     @include font-body-1;
     color: $color-white;
-    padding: 4px 0;
+    padding-block: 4px;
+    padding-inline: 0;
     margin-bottom: 24px;
 
     &__overlay {
       @include button-reset;
       background: $color-black-alpha-60;
       height: 100%;
-      left: 0;
+      inset-inline-start: 0;
       position: absolute;
       top: 0;
       width: 100%;
@@ -153,7 +153,7 @@
         content: '';
         display: block;
         height: 18px;
-        margin-right: 12px;
+        margin-inline-end: 12px;
         width: 18px;
         @include color-svg(
           '../images/icons/v2/error-outline-24.svg',
@@ -179,7 +179,7 @@
       &::before {
         content: '';
         height: 20px;
-        margin-right: 12px;
+        margin-inline-end: 12px;
         width: 20px;
         @include color-svg(
           '../images/icons/v2/reply-outline-24.svg',
@@ -192,7 +192,7 @@
       content: '';
       display: inline-block;
       height: 20px;
-      margin-left: 6px;
+      margin-inline-start: 6px;
       vertical-align: middle;
       width: 12px;
       @include color-svg(
@@ -226,7 +226,8 @@
   &__mute {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
     @include color-svg('../images/icons/v2/sound-on.svg', $color-white);
     @include keyboard-mode {
@@ -263,7 +264,8 @@
   &__unmute {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
     @include color-svg('../images/icons/v2/sound-off.svg', $color-white);
     @include keyboard-mode {
@@ -276,7 +278,8 @@
   &__soundless {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
     @include color-svg('../images/icons/v2/sound-none.svg', $color-white);
     @include keyboard-mode {
@@ -293,7 +296,8 @@
       background: $color-white-alpha-40;
       border-radius: 2px;
       height: 2px;
-      margin: 12px 1px 0 1px;
+      margin-block: 12px 0;
+      margin-inline: 1px;
       overflow: hidden;
       width: 100%;
     }
@@ -302,7 +306,14 @@
       background: $color-white;
       border-radius: 2px;
       height: 100%;
-      transform: translateX(-100%);
+      &:dir(ltr) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(-100%);
+      }
+      &:dir(rtl) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(100%);
+      }
     }
   }
 
@@ -332,10 +343,10 @@
 
     &--left {
       justify-content: flex-start;
-      left: 0;
+      inset-inline-start: 0;
 
       &::before {
-        margin-left: 24px;
+        margin-inline-start: 24px;
         @include color-svg(
           '../images/icons/v2/arrow-left-32.svg',
           $color-white
@@ -345,10 +356,10 @@
 
     &--right {
       justify-content: flex-end;
-      right: 0;
+      inset-inline-end: 0;
 
       &::before {
-        margin-right: 24px;
+        margin-inline-end: 24px;
         @include color-svg(
           '../images/icons/v2/arrow-right-32.svg',
           $color-white
@@ -384,8 +395,7 @@
     display: flex;
 
     &__spinner__container {
-      margin-left: 0;
-      margin-right: 12px;
+      margin-inline: 0 12px;
     }
   }
 }

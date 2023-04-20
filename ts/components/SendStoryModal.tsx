@@ -40,6 +40,7 @@ import type { AttachmentType } from '../types/Attachment';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment';
+import { UserText } from './UserText';
 
 export type PropsType = {
   draftAttachment: AttachmentType;
@@ -568,7 +569,7 @@ export function SendStoryModal({
 
                     <div className="SendStoryModal__distribution-list__info">
                       <div className="SendStoryModal__distribution-list__name">
-                        {group.title}
+                        <UserText text={group.title} />
                       </div>
 
                       <div className="SendStoryModal__distribution-list__description">
@@ -834,7 +835,7 @@ export function SendStoryModal({
 
                 <div className="SendStoryModal__distribution-list__info">
                   <div className="SendStoryModal__distribution-list__name">
-                    {group.title}
+                    <UserText text={group.title} />
                   </div>
 
                   <div className="SendStoryModal__distribution-list__description">

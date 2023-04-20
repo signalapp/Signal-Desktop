@@ -4,6 +4,7 @@
 import type { CSSProperties, KeyboardEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { arrow } from '../util/keyboard';
 
 export enum KnobType {
   start = 'start',
@@ -245,11 +246,11 @@ export function GradientDial({
   const handleKeyDown = (ev: KeyboardEvent) => {
     let add = 1;
 
-    if (ev.key === 'ArrowDown' || ev.key === 'ArrowLeft') {
+    if (ev.key === 'ArrowDown' || ev.key === arrow('start')) {
       add = 1;
     }
 
-    if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') {
+    if (ev.key === 'ArrowUp' || ev.key === arrow('end')) {
       add = -1;
     }
 

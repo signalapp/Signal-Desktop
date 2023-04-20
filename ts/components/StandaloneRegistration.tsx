@@ -248,6 +248,7 @@ export function StandaloneRegistration({
             <input
               className={`form-control ${isValidCode ? 'valid' : 'invalid'}`}
               type="text"
+              dir="auto"
               pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
               title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one"
               placeholder="Verification Code"

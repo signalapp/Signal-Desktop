@@ -5,14 +5,14 @@
   &__messages {
     border-radius: 8px;
     border: 1px solid $color-gray-15;
-    padding: 27px 0;
+    padding-block: 27px;
+    padding-inline: 0;
     margin-top: 16px;
     position: relative;
   }
 
   &__tabs {
-    margin-left: -16px;
-    margin-right: -16px;
+    margin-inline: -16px;
   }
 
   &__gradient-knob {
@@ -61,7 +61,7 @@
     margin-top: 16px;
 
     .module-Button {
-      margin-left: 8px;
+      margin-inline-start: 8px;
     }
   }
 }

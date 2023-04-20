@@ -17,6 +17,7 @@ import { themeClassName } from '../../util/theme';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { useRefMerger } from '../../hooks/useRefMerger';
+import { UserText } from '../UserText';
 
 export type OwnProps = {
   readonly className?: string;
@@ -284,7 +285,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
                 )}
                 <span className="module-sticker-button__tooltip__text">
                   <span className="module-sticker-button__tooltip__text__title">
-                    {installedPack.title}
+                    <UserText text={installedPack.title} />
                   </span>{' '}
                   installed
                 </span>

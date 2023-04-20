@@ -27,12 +27,10 @@
   &__text {
     border-radius: 36px;
     padding: 28px;
-    margin-left: 56px;
-    margin-right: 56px;
+    margin-inline: 56px;
 
     &--with-bg {
-      margin-left: 36px;
-      margin-right: 36px;
+      margin-inline: 36px;
     }
 
     &__container {
@@ -61,8 +59,7 @@
   }
 
   &__preview-container {
-    margin-left: 56px;
-    margin-right: 56px;
+    margin-inline: 56px;
     margin-top: 36px;
     position: relative;
   }
@@ -78,7 +75,7 @@
     padding: 16px;
 
     &__no-image {
-      margin-right: 16px;
+      margin-inline-end: 16px;
     }
 
     &__location {
@@ -109,7 +106,7 @@
       height: 48px;
       justify-content: center;
       position: absolute;
-      right: -16px;
+      inset-inline-end: -16px;
       top: -16px;
       width: 48px;
       z-index: $z-index-base;
@@ -180,8 +177,8 @@
         border-style: solid;
         border-width: 14px;
         content: '';
-        left: 50%;
-        margin-left: -14px;
+        inset-inline-start: 50%;
+        margin-inline-start: -14px;
         position: absolute;
         top: 100%;
       }

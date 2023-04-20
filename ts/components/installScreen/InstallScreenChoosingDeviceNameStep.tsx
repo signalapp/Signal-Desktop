@@ -70,6 +70,7 @@ export function InstallScreenChoosingDeviceNameStep({
             ref={focusRef}
             spellCheck={false}
             value={deviceName}
+            dir="auto"
           />
           <Button
             disabled={!canSubmit}

@@ -11,6 +11,7 @@ import { Spinner } from '../Spinner';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import { Modal } from '../Modal';
 import { Button, ButtonVariant } from '../Button';
+import { UserText } from '../UserText';
 
 export type OwnProps = {
   readonly onClose?: () => unknown;
@@ -164,7 +165,7 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
       <div className="module-sticker-manager__preview-modal__footer">
         <div className="module-sticker-manager__preview-modal__footer--info">
           <h3 className="module-sticker-manager__preview-modal__footer--title">
-            {pack.title}
+            <UserText text={pack.title} />
             {pack.isBlessed ? (
               <span className="module-sticker-manager__preview-modal__footer--blessed-icon" />
             ) : null}

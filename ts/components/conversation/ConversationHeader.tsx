@@ -12,7 +12,6 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
-import { Emojify } from './Emojify';
 import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
@@ -39,6 +38,7 @@ import {
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
+import { UserText } from '../UserText';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -185,7 +185,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     return (
       <div className="module-ConversationHeader__header__info__title">
-        <Emojify text={title} />
+        <UserText text={title} />
         {isInSystemContacts({ name, type }) ? (
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
@@ -359,6 +359,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       setPinned,
       type,
     } = this.props;
+    const isRTL = i18n.getLocaleDirection() === 'rtl';
 
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);
 
@@ -368,8 +369,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       const isMuted = muteExpiresAt && isConversationMuted({ muteExpiresAt });
 
       return (
-        <ContextMenu id={triggerId}>
-          <SubMenu hoverDelay={1} title={muteTitle} rtl>
+        <ContextMenu id={triggerId} rtl={isRTL}>
+          <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
             {isMuted ? (
               <MenuItem
                 onClick={() => {
@@ -493,13 +494,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     });
 
     return (
-      <ContextMenu id={triggerId}>
+      <ContextMenu id={triggerId} rtl={isRTL}>
         {disableTimerChanges ? null : (
-          <SubMenu hoverDelay={1} title={disappearingTitle} rtl>
+          <SubMenu hoverDelay={1} title={disappearingTitle} rtl={!isRTL}>
             {expireDurations}
           </SubMenu>
         )}
-        <SubMenu hoverDelay={1} title={muteTitle} rtl>
+        <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
           {muteOptions.map(item => (
             <MenuItem
               key={item.name}

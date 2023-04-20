@@ -5,18 +5,16 @@
   &__container {
     background-color: $color-black;
     bottom: 0;
-    left: 0;
+    inset-inline: 0;
     position: absolute;
-    right: 0;
     top: var(--titlebar-height);
     z-index: $z-index-popup;
   }
 
   &__animated {
     bottom: 0;
-    left: 0;
+    inset-inline: 0;
     position: absolute;
-    right: 0;
     top: 0;
     display: flex;
     flex-direction: column;
@@ -43,7 +41,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    left: 50%;
+    inset-inline-start: 50%;
     position: absolute;
 
     &--container {
@@ -57,7 +55,7 @@
     position: relative;
     border-radius: 6px;
     height: 44px;
-    margin-right: 8px;
+    margin-inline-end: 8px;
     overflow: hidden;
     width: 44px;
 
@@ -71,7 +69,7 @@
     &--selected::after {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       content: '';
       width: 100%;
       height: 100%;
@@ -103,7 +101,7 @@
 
     &--video {
       height: 100%;
-      left: 0;
+      inset-inline-start: 0;
       position: absolute;
       top: 0;
       width: 100%;
@@ -149,7 +147,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 40px;
+    margin-block: 0;
+    margin-inline: 40px;
   }
 
   &__zoom-button {
@@ -169,7 +168,8 @@
   &__caption {
     @include font-body-2;
     color: $color-white;
-    margin: 12px 0;
+    margin-block: 12px;
+    margin-inline: 0;
     text-align: center;
   }
 
@@ -182,7 +182,8 @@
     background-color: $color-black;
     border-radius: 15px;
     color: #eeefef;
-    padding: 6px 18px;
+    padding-block: 6px;
+    padding-inline: 18px;
     text-align: center;
   }
 
@@ -201,12 +202,12 @@
   }
 
   &__nav-next {
-    right: 0;
+    inset-inline-end: 0;
     align-items: end;
   }
 
   &__nav-prev {
-    left: 0;
+    inset-inline-start: 0;
     align-items: start;
   }
 
@@ -219,7 +220,8 @@
     margin-bottom: 16px;
     min-height: 52px;
     opacity: 1;
-    padding: 0 16px;
+    padding-block: 0;
+    padding-inline: 16px;
     transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
 
     &--container {
@@ -227,7 +229,7 @@
     }
 
     &--avatar {
-      margin-right: 10px;
+      margin-inline-end: 10px;
     }
 
     &--name {
@@ -243,7 +245,8 @@
 
   &__footer {
     opacity: 1;
-    padding: 16px 16px 24px 16px;
+    padding-block: 16px 24px;
+    padding-inline: 16px;
     transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
   }
 
@@ -362,7 +365,7 @@
 
     &--previous {
       justify-content: start;
-      padding-left: 16px;
+      padding-inline-start: 16px;
 
       &::before {
         @include color-svg(
@@ -374,7 +377,7 @@
 
     &--next {
       justify-content: end;
-      padding-right: 16px;
+      padding-inline-end: 16px;
 
       &::before {
         @include color-svg(

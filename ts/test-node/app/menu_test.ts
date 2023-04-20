@@ -199,12 +199,12 @@ describe('createTemplate', () => {
   const { i18n } = loadLocale({
     preferredSystemLocales: ['en'],
     logger: {
-      info(_arg: unknown) {
-        // noop
-      },
-      warn(arg: unknown) {
-        throw new Error(String(arg));
-      },
+      fatal: stub().throwsArg(0),
+      error: stub().throwsArg(0),
+      warn: stub().throwsArg(0),
+      info: stub(),
+      debug: stub(),
+      trace: stub(),
     },
   });
 

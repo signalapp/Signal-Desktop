@@ -59,7 +59,7 @@
     height: 28px;
     justify-content: center;
     position: absolute;
-    right: -7px;
+    inset-inline-end: -7px;
     width: 28px;
 
     &::after {
@@ -84,7 +84,7 @@
     height: 24px;
     justify-content: center;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 0;
     width: 24px;
 

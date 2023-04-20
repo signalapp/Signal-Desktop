@@ -24,7 +24,8 @@
 }
 
 .text {
-  margin: 16px 0 0 0;
+  margin-block: 16px 0;
+  margin-inline: 0;
   font-family: $inter;
   font-size: 14px;
   font-weight: normal;

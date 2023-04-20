@@ -56,6 +56,7 @@ import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
 import type { RetryPlaceholders } from './util/retryPlaceholders';
+import type { LocaleDirection } from '../app/locale';
 
 export { Long } from 'long';
 
@@ -169,6 +170,7 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
+    getResolvedMessagesLocaleDirection: () => LocaleDirection;
     getResolvedMessagesLocale: () => string;
     getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;

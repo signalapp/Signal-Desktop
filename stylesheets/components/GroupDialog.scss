@@ -4,7 +4,8 @@
 .module-GroupDialog {
   @include popper-shadow();
   border-radius: 8px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   max-height: 100%;
   max-width: 360px;
   padding: 16px;
@@ -27,7 +28,7 @@
     @include button-reset;
 
     position: absolute;
-    right: 12px;
+    inset-inline-end: 12px;
     top: 12px;
 
     height: 24px;
@@ -68,15 +69,17 @@
 
   &__paragraph,
   &__contacts {
-    margin: 0 0 16px 0;
-    padding: 0 16px 0 28px;
+    margin-block: 0 16px;
+    margin-inline: 0;
+    padding-block: 0;
+    padding-inline: 28px 16px;
     position: relative;
 
     &::before {
       content: '';
       display: block;
       height: 11px;
-      left: 4px;
+      inset-inline-start: 4px;
       position: absolute;
       top: 4px;
       width: 4px;
@@ -98,7 +101,7 @@
     }
 
     &__contact__name {
-      margin-left: 8px;
+      margin-inline-start: 8px;
     }
   }
 
@@ -114,7 +117,7 @@
       max-width: 152px;
 
       &:not(:first-child) {
-        margin-left: 16px;
+        margin-inline-start: 16px;
       }
     }
   }

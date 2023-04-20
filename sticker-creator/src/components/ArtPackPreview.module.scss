@@ -30,7 +30,8 @@
 
 .title-bar {
   height: 36px;
-  padding: 9px 16px;
+  padding-block: 9px;
+  padding-inline: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -61,7 +62,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 0 16px 0 12px;
+  padding-block: 0;
+  padding-inline: 12px 16px;
   overflow: auto;
   justify-items: center;
 
@@ -76,7 +78,8 @@
 }
 
 .meta {
-  padding: 18px 16px;
+  padding-block: 18px;
+  padding-inline: 16px;
   display: flex;
 
   @include light-theme {

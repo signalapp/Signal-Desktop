@@ -5,9 +5,9 @@ import classnames from 'classnames';
 import React, { useCallback } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { durationToPlaybackText } from '../util/durationToPlaybackText';
-import { Emojify } from './conversation/Emojify';
 import { PlaybackButton } from './PlaybackButton';
 import { PlaybackRateButton } from './PlaybackRateButton';
+import { UserText } from './UserText';
 
 export enum PlayerState {
   loading = 'loading',
@@ -98,7 +98,7 @@ export function MiniPlayer({
       />
 
       <div className="MiniPlayer__state">
-        <Emojify text={title} />
+        <UserText text={title} />
         <span className="MiniPlayer__middot">&middot;</span>
         {duration !== undefined && (
           <span>

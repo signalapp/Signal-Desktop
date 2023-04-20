@@ -10,7 +10,8 @@
   max-height: 88px;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: 4px 24px;
+  padding-block: 4px;
+  padding-inline: 24px;
   gap: 8px 12px;
 
   .module-ContactPill {

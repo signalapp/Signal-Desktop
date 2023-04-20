@@ -18,8 +18,8 @@ import type {
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
 import { Intl } from '../Intl';
-import { Emojify } from '../conversation/Emojify';
 import { assertDev } from '../../util/assert';
+import { UserText } from '../UserText';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is
@@ -153,7 +153,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
           components={{
             searchTerm,
             conversationName: (
-              <Emojify key="item-1" text={searchConversationName} />
+              <UserText key="item-1" text={searchConversationName} />
             ),
           }}
         />

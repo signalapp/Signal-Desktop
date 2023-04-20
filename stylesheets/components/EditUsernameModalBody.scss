@@ -54,7 +54,8 @@
   &__divider {
     width: 2px;
     height: 20px;
-    margin: 0 12px;
+    margin-block: 0;
+    margin-inline: 12px;
 
     @include light-theme {
       background-color: $color-gray-20;
@@ -71,14 +72,16 @@
 
   &__error {
     @include font-body-2;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     color: $color-accent-red;
   }
 
   &__info {
     @include font-body-2;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     @include light-theme {
       color: $color-gray-60;
@@ -109,7 +112,7 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      margin-right: 12px;
+      margin-inline-end: 12px;
 
       -webkit-mask-size: 100%;
       content: '';

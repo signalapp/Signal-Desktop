@@ -9,7 +9,6 @@ import { Intl } from './Intl';
 import { Theme } from '../util/theme';
 import { getParticipantName } from '../util/callingGetParticipantName';
 import { ContactName } from './conversation/ContactName';
-import { Emojify } from './conversation/Emojify';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallMode } from '../types/Calling';
@@ -20,6 +19,7 @@ import {
   useIncomingCallShortcuts,
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
+import { UserText } from './UserText';
 
 export type PropsType = {
   acceptCall: (_: AcceptCallType) => void;
@@ -94,8 +94,8 @@ function GroupCallMessage({
   // As an optimization, we only process the first two names.
   const [first, second] = otherMembersRung
     .slice(0, 2)
-    .map(member => <Emojify text={getParticipantName(member)} />);
-  const ringerNode = <Emojify text={getParticipantName(ringer)} />;
+    .map(member => <UserText text={getParticipantName(member)} />);
+  const ringerNode = <UserText text={getParticipantName(ringer)} />;
 
   switch (otherMembersRung.length) {
     case 0:
@@ -195,7 +195,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
     case CallMode.Group: {
       const { otherMembersRung, ringer } = props;
       isVideoCall = true;
-      headerNode = <Emojify text={title} />;
+      headerNode = <UserText text={title} />;
       messageNode = (
         <GroupCallMessage
           i18n={i18n}

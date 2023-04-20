@@ -8,10 +8,7 @@
     top: 22px;
     width: 100%;
     z-index: $z-index-popup;
-    padding: {
-      left: 1rem;
-      right: 1rem;
-    }
+    padding-inline: 1rem;
   }
 
   &__bar {
@@ -21,7 +18,8 @@
     display: flex;
     height: 70px;
     justify-content: space-between;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
     max-width: 600px;
     width: 100%;
   }
@@ -33,7 +31,7 @@
 
     &--avatar {
       margin-bottom: 8px;
-      margin-left: 16px;
+      margin-inline-start: 16px;
       margin-top: 8px;
       position: relative;
     }
@@ -42,7 +40,7 @@
       align-items: stretch;
       display: flex;
       flex-direction: column;
-      margin-left: 12px;
+      margin-inline-start: 12px;
       min-width: 0;
     }
 
@@ -67,7 +65,7 @@
 
   &__actions {
     display: flex;
-    margin-right: 16px;
+    margin-inline-end: 16px;
   }
 
   &__button {
@@ -77,8 +75,7 @@
     display: flex;
     height: 40px;
     justify-content: center;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-inline: 12px;
     outline: none;
     width: 40px;
 

@@ -17,7 +17,7 @@
     flex-direction: row;
     height: 74px;
     justify-content: center;
-    margin-right: 32px;
+    margin-inline-end: 32px;
     width: 74px;
 
     &::after {
@@ -46,12 +46,12 @@
 }
 
 .module-staged-link-preview__icon-container {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 .module-staged-link-preview__content {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-inline-end: 20px;
 
   &--only-url {
     justify-content: center;
@@ -100,8 +100,7 @@
     &:before {
       content: '•';
       font-size: 50%;
-      margin-left: 0.2rem;
-      margin-right: 0.2rem;
+      margin-inline: 0.2rem;
     }
   }
 }
@@ -122,7 +121,7 @@
 
   position: absolute;
   top: 0px;
-  right: 0px;
+  inset-inline-end: 0px;
 
   height: 16px;
   width: 16px;

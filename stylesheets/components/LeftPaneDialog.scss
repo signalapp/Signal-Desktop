@@ -24,7 +24,8 @@
   cursor: inherit;
   display: flex;
   min-height: 64px;
-  padding: 12px 14px 12px 16px;
+  padding-block: 12px;
+  padding-inline: 16px 14px;
   user-select: none;
   width: 100%;
 
@@ -34,7 +35,7 @@
   font-weight: 400;
 
   .module-left-pane--width-narrow & {
-    padding-left: 36px;
+    padding-inline-start: 36px;
   }
 
   &__retry {
@@ -62,7 +63,7 @@
   }
 
   &__spinner-container {
-    margin-right: 18px;
+    margin-inline-end: 18px;
   }
 
   &__spinner {
@@ -83,7 +84,7 @@
   &__icon {
     width: 24px;
     height: 24px;
-    margin-right: 18px;
+    margin-inline-end: 18px;
     background-color: $color-white;
     -webkit-mask-size: contain;
 
@@ -120,7 +121,7 @@
     @include button-reset;
 
     border-radius: 4px;
-    float: right;
+    float: inline-end;
     height: 20px;
     width: 20px;
 
@@ -241,7 +242,8 @@
       max-width: 210px;
       overflow: hidden;
       width: 100%;
-      margin: 10px 0 6px 0;
+      margin-block: 10px 6px;
+      margin-inline: 0;
     }
 
     &--bar {
@@ -259,7 +261,14 @@
       display: block;
       height: 100%;
       width: 100%;
-      transform: translateX(-100%);
+      &:dir(ltr) {
+        /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+        transform: translateX(-100%);
+      }
+      &:dir(rtl) {
+        /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+        transform: translateX(100%);
+      }
       transition: transform 500ms ease-out;
     }
   }

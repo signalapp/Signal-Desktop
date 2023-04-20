@@ -163,6 +163,7 @@ export function DebugLogWindow({
               className="DebugLogWindow__link"
               readOnly
               type="text"
+              dir="auto"
               value={publicLogURL}
             />
           </div>

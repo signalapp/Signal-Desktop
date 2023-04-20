@@ -4,7 +4,7 @@
 .ScrollDownButton {
   z-index: $z-index-scroll-down-button;
   position: absolute;
-  right: 16px;
+  inset-inline-end: 16px;
   bottom: 12px;
 
   &__button {
@@ -55,7 +55,8 @@
       height: 16px;
       min-width: 16px;
       border-radius: 8px;
-      padding: 1px 4px;
+      padding-block: 1px;
+      padding-inline: 4px;
       background-color: $color-ultramarine;
       color: $color-white;
 

@@ -18,6 +18,7 @@
   &__item,
   &__item--contact-or-conversation {
     height: 52px;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
   }
 }

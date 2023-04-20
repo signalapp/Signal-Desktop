@@ -7,8 +7,10 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      margin: 0 0 20px 0;
-      padding: 0 24px;
+      margin-block: 0 20px;
+      margin-inline: 0;
+      padding-block: 0;
+      padding-inline: 24px;
       text-align: center;
       width: 100%;
     }
@@ -49,8 +51,8 @@
 
         content: '';
         height: $size;
-        left: $size + 13px;
-        margin-left: -$size;
+        inset-inline-start: $size + 13px;
+        margin-inline-start: -$size;
         opacity: 0;
         position: relative;
         transition: opacity 100ms ease-out;
@@ -159,7 +161,8 @@
     @include dark-theme {
       color: $color-gray-25;
     }
-    padding: 0 28px;
+    padding-block: 0;
+    padding-inline: 28px;
     padding-top: 16px;
   }
 
@@ -447,13 +450,15 @@
     &__root {
       display: flex;
       justify-content: center;
-      padding: 0 20px;
+      padding-block: 0;
+      padding-inline: 20px;
       padding-bottom: 24px;
 
       .module-media-grid-item {
         border-radius: 4px;
         height: auto;
-        margin: 0 4px;
+        margin-block: 0;
+        margin-inline: 4px;
         max-height: 94px;
         overflow: hidden;
         width: calc(100% / 6);
@@ -494,7 +499,8 @@
       border-radius: 5px;
       border: 2px solid transparent;
       display: flex;
-      padding: 8px 24px;
+      padding-block: 8px;
+      padding-inline: 24px;
       user-select: none;
       width: 100%;
 
@@ -536,14 +542,14 @@
     }
 
     &__icon {
-      margin-right: 12px;
+      margin-inline-end: 12px;
       flex-shrink: 0;
     }
 
     &__label {
       flex-grow: 1;
-      text-align: left;
-      margin-right: 12px;
+      text-align: start;
+      margin-inline-end: 12px;
     }
 
     &__info {
@@ -566,7 +572,7 @@
     }
 
     &__actions {
-      margin-left: 12px;
+      margin-inline-start: 12px;
       overflow: hidden;
       opacity: 0;
 
@@ -594,7 +600,8 @@
 
         content: '';
         display: block;
-        margin: 8px 0;
+        margin-block: 8px;
+        margin-inline: 0;
       }
 
       &--borderless {
@@ -607,7 +614,8 @@
     &__header {
       display: flex;
       justify-content: space-between;
-      padding: 18px 24px 12px;
+      padding-block: 18px 12px;
+      padding-inline: 24px;
 
       &--center {
         justify-content: center;
@@ -625,13 +633,15 @@
     margin-bottom: 24px;
 
     .module-Button {
-      margin: 0 8px;
+      margin-block: 0;
+      margin-inline: 8px;
     }
   }
 
   &__radio {
     &__container {
-      padding: 12px 0;
+      padding-block: 12px;
+      padding-inline: 0;
     }
   }
 }

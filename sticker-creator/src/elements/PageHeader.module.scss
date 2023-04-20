@@ -12,9 +12,11 @@
   margin-bottom: 30px;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  padding: 0 64px;
+  padding-block: 0;
+  padding-inline: 64px;
   @include small-screen() {
-    padding: 0 32px;
+    padding-block: 0;
+    padding-inline: 32px;
   }
   display: flex;
   flex-direction: row;
@@ -32,11 +34,12 @@
 
 .guidelines {
   text-decoration: none;
-  padding: 12px 16px;
+  padding-block: 12px;
+  padding-inline: 16px;
 }
 
 .icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .grow {

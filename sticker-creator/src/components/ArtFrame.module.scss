@@ -124,7 +124,7 @@ $emoji-height: 64px;
   width: $width - (2 * $guide-offset);
   height: $height - (2 * $guide-offset);
   position: absolute;
-  left: $guide-offset - $border-width;
+  inset-inline-start: $guide-offset - $border-width;
   top: $guide-offset - $border-width;
   pointer-events: none;
 
@@ -132,7 +132,7 @@ $emoji-height: 64px;
     width: $emoji-width;
     height: $emoji-height;
     position: absolute;
-    left: calc(($width - $emoji-width) / 2);
+    inset-inline-start: calc(($width - $emoji-width) / 2);
     top: calc(($height - $emoji-height) / 2);
   }
 }
@@ -140,7 +140,7 @@ $emoji-height: 64px;
 .close-button {
   position: absolute;
   top: 8px;
-  right: 8px;
+  inset-inline-end: 8px;
   width: 20px;
   height: 20px;
 
@@ -169,7 +169,7 @@ $emoji-height: 64px;
   height: 32px;
   position: absolute;
   top: 6px;
-  right: 6px;
+  inset-inline-end: 6px;
   border: none;
   border-radius: 16px;
   padding: 0;
@@ -202,7 +202,8 @@ $emoji-height: 64px;
 
 .emoji-name-input {
   width: 100%;
-  padding: 7px 8px;
+  padding-block: 7px;
+  padding-inline: 8px;
   border-radius: 4px;
   background-color: transparent;
   font-size: 14px;

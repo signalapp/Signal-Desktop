@@ -7,13 +7,13 @@ import React from 'react';
 import type { AttachmentType } from '../../types/Attachment';
 import { canBeDownloaded } from '../../types/Attachment';
 import { getSizeClass } from '../emoji/lib';
-import { Emojify } from './Emojify';
 
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import type { LocalizerType } from '../../types/Util';
 import { MessageTextRenderer } from './MessageTextRenderer';
 import type { RenderLocation } from './MessageTextRenderer';
+import { UserText } from '../UserText';
 
 export type Props = {
   author?: string;
@@ -103,7 +103,7 @@ export function MessageBody({
       {author && (
         <>
           <span className="MessageBody__author">
-            <Emojify text={author} />
+            <UserText text={author} />
           </span>
           :{' '}
         </>
@@ -111,7 +111,7 @@ export function MessageBody({
       {prefix && (
         <>
           <span className="MessageBody__prefix">
-            <Emojify text={prefix} />
+            <UserText text={prefix} />
           </span>{' '}
         </>
       )}

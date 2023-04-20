@@ -40,6 +40,7 @@ export const rendererConfigSchema = z.object({
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,
   resolvedTranslationsLocale: configRequiredStringSchema,
+  resolvedTranslationsLocaleDirection: z.enum(['ltr', 'rtl']),
   preferredSystemLocales: z.array(configRequiredStringSchema),
   name: configRequiredStringSchema,
   nodeVersion: configRequiredStringSchema,

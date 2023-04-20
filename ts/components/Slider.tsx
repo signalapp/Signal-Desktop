@@ -4,6 +4,7 @@
 import type { CSSProperties, KeyboardEvent } from 'react';
 import React, { useRef } from 'react';
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import { arrow } from '../util/keyboard';
 
 export type PropsType = {
   containerStyle?: CSSProperties;
@@ -71,14 +72,14 @@ export function Slider({
   const handleKeyDown = (ev: KeyboardEvent) => {
     let preventDefault = false;
 
-    if (ev.key === 'ArrowRight') {
+    if (ev.key === arrow('end')) {
       const nextValue = value + 1;
       onChange(Math.min(nextValue, 100));
 
       preventDefault = true;
     }
 
-    if (ev.key === 'ArrowLeft') {
+    if (ev.key === arrow('start')) {
       const nextValue = value - 1;
       onChange(Math.max(0, nextValue));
 

@@ -3,8 +3,7 @@
 
 .module-message-detail {
   max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   padding: 20px;
   outline: none;
 }
@@ -58,7 +57,8 @@
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
-  padding: 10px 0;
+  padding-block: 10px;
+  padding-inline: 0;
   user-select: none;
 
   &:first-child {
@@ -76,7 +76,7 @@
       display: block;
       flex-shrink: 0;
       height: 12px;
-      margin-left: 10px;
+      margin-inline-start: 10px;
     }
   }
 
@@ -131,7 +131,8 @@
 
 .module-message-detail__contact {
   margin-bottom: 8px;
-  padding: 8px 0;
+  padding-block: 8px;
+  padding-inline: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -144,7 +145,7 @@
 .module-message-detail__contact__text {
   @include font-body-1;
   flex-grow: 1;
-  margin-left: 10px;
+  margin-inline-start: 10px;
 }
 
 .module-message-detail__contact__error {
@@ -153,7 +154,7 @@
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   width: 18px;
   height: 18px;
@@ -174,7 +175,7 @@
 }
 
 .module-message-detail__contact__error-buttons {
-  text-align: right;
+  text-align: end;
 }
 
 .module-message-detail__contact__show-safety-number {
@@ -193,7 +194,7 @@
 }
 .module-message-detail__contact__send-anyway {
   @include button-reset;
-  margin-left: 5px;
+  margin-inline-start: 5px;
   margin-top: 5px;
   padding: 4px;
   border-radius: 4px;
@@ -203,5 +204,5 @@
 }
 
 .module-message-detail__status-timestamp {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }

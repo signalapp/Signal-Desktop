@@ -9,7 +9,8 @@
 
 .SelectModeActions__selectedMessages {
   flex: 1;
-  padding: 17px 10px;
+  padding-block: 17px;
+  padding-inline: 10px;
   @include font-body-1;
   @include light-theme() {
     color: $color-gray-60;

@@ -36,16 +36,10 @@
 
     p {
       display: block;
-      margin: {
-        block: {
-          start: 0;
-          end: 4px;
-        }
-        inline: {
-          start: 0;
-          end: 0;
-        }
-      }
+      margin-block-start: 0;
+      margin-block-end: 4px;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
 
       &:first-child {
         display: inline-block;
@@ -60,7 +54,7 @@
       content: '';
       display: inline-block;
       height: 16px;
-      margin-right: 8px;
+      margin-inline-end: 8px;
       width: 16px;
       vertical-align: middle;
 

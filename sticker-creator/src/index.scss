@@ -46,7 +46,8 @@ button.grey {
   border-radius: 5px;
   border: solid 1px $color-gray-25;
   cursor: pointer;
-  margin: 1em auto;
+  margin-block: 1em;
+  margin-inline: auto;
   padding: 1em;
   font-family: inherit;
 
