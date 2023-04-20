@@ -37,7 +37,7 @@ export function WhatsNewModal({
     features: [
       <Intl
         i18n={i18n}
-        id="icu:WhatsNew__bugfixes--3"
+        id="icu:WhatsNew__bugfixes--4"
         renderText={renderText}
       />,
     ],
