@@ -62,6 +62,7 @@ export async function handleEditMessage(
       body: mainMessage.body,
       bodyRanges: mainMessage.bodyRanges,
       preview: mainMessage.preview,
+      quote: mainMessage.quote,
       timestamp: mainMessage.timestamp,
     },
   ];
