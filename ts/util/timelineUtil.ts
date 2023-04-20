@@ -37,6 +37,7 @@ export enum UnreadIndicatorPlacement {
 export type MessageTimelineItemDataType = Readonly<{
   author: { id: string };
   deletedForEveryone?: boolean;
+  isEditedMessage?: boolean;
   reactions?: ReadonlyArray<unknown>;
   status?: LastMessageStatus;
   timestamp: number;
@@ -66,6 +67,10 @@ export function shouldCurrentMessageHideMetadata(
 
   const message = getMessageTimelineItemData(item);
   if (!message) {
+    return false;
+  }
+
+  if (message.isEditedMessage) {
     return false;
   }
 
