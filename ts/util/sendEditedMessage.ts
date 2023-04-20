@@ -192,7 +192,9 @@ export async function sendEditedMessage(
     conversationId,
     fromId,
     message: tmpMessage,
-    targetSentTimestamp: targetMessage.attributes.timestamp,
+    targetSentTimestamp:
+      targetMessage.attributes.editMessageTimestamp ??
+      targetMessage.attributes.timestamp,
   };
 
   // Takes care of putting the message in the edit history, replacing the
