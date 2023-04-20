@@ -7711,6 +7711,19 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__edit-message::before {
+    @include light-theme {
+      @include color-svg('../images/icons/v2/edit-16.svg', $color-black);
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/edit-solid-16.svg',
+        $color-gray-15
+      );
+    }
+  }
+
   &__delete-message::before {
     @include light-theme {
       @include color-svg(

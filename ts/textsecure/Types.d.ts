@@ -251,6 +251,7 @@ export type CallbackResultType = {
   errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<string>;
   dataMessage?: Uint8Array;
+  editMessage?: Uint8Array;
 
   // If this send is not the final step in a multi-step send, we shouldn't treat its
   //   results we would treat a one-step send.

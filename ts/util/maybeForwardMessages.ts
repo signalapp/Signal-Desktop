@@ -4,7 +4,10 @@
 import { orderBy } from 'lodash';
 import type { AttachmentType } from '../types/Attachment';
 import { isVoiceMessage } from '../types/Attachment';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from '../types/message/LinkPreviews';
 import type { MessageAttributesType, QuotedMessageType } from '../model-types';
 import * as log from '../logging/log';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
@@ -16,7 +19,7 @@ import {
 import { isNotNil } from './isNotNil';
 import { resetLinkPreview } from '../services/LinkPreview';
 import { getRecipientsByConversation } from './getRecipientsByConversation';
-import type { ContactWithHydratedAvatar } from '../textsecure/SendMessage';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -177,8 +180,8 @@ export async function maybeForwardMessages(
         attachments: Array<AttachmentType>;
         body: string | undefined;
         bodyRanges?: DraftBodyRanges;
-        contact?: Array<ContactWithHydratedAvatar>;
-        preview?: Array<LinkPreviewType>;
+        contact?: Array<EmbeddedContactWithHydratedAvatar>;
+        preview?: Array<LinkPreviewWithHydratedData>;
         quote?: QuotedMessageType;
         sticker?: StickerWithHydratedData;
       };

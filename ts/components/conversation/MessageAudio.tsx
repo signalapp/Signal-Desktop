@@ -22,6 +22,7 @@ import { PlaybackButton } from '../PlaybackButton';
 import { WaveformScrubber } from './WaveformScrubber';
 import { useComputePeaks } from '../../hooks/useComputePeaks';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 
 export type OwnProps = Readonly<{
   active:
@@ -360,6 +361,7 @@ export function MessageAudio(props: Props): JSX.Element {
           isSticker={false}
           isTapToViewExpired={false}
           pushPanelForConversation={pushPanelForConversation}
+          retryMessageSend={shouldNeverBeCalled}
           status={status}
           textPending={textPending}
           timestamp={timestamp}

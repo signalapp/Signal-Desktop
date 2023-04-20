@@ -948,7 +948,7 @@ export type WebAPIType = {
   postBatchIdentityCheck: (
     elements: VerifyAciRequestType
   ) => Promise<VerifyAciResponseType>;
-  putAttachment: (encryptedBin: Uint8Array) => Promise<string>;
+  putEncryptedAttachment: (encryptedBin: Uint8Array) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
   ) => Promise<UploadAvatarHeadersType | undefined>;
@@ -1280,7 +1280,7 @@ export function initialize({
       onOffline,
       onOnline,
       postBatchIdentityCheck,
-      putAttachment,
+      putEncryptedAttachment,
       putProfile,
       putStickers,
       reconnect,
@@ -2507,7 +2507,7 @@ export function initialize({
       attachmentIdString: string;
     };
 
-    async function putAttachment(encryptedBin: Uint8Array) {
+    async function putEncryptedAttachment(encryptedBin: Uint8Array) {
       const response = (await _ajax({
         call: 'attachmentId',
         httpType: 'GET',

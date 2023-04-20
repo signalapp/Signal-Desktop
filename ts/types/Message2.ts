@@ -20,13 +20,19 @@ import { initializeAttachmentMetadata } from './message/initializeAttachmentMeta
 
 import type * as MIME from './MIME';
 import type { LoggerType } from './Logging';
-import type { EmbeddedContactType } from './EmbeddedContact';
+import type {
+  EmbeddedContactType,
+  EmbeddedContactWithHydratedAvatar,
+} from './EmbeddedContact';
 
 import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { LinkPreviewType } from './message/LinkPreviews';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from './message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './Stickers';
 
 export { hasExpiration } from './Message';
@@ -714,28 +720,33 @@ export const loadContactData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
   contact: Array<EmbeddedContactType> | undefined
-) => Promise<Array<EmbeddedContactType> | undefined>) => {
+) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadContactData: loadAttachmentData is required');
   }
 
   return async (
     contact: Array<EmbeddedContactType> | undefined
-  ): Promise<Array<EmbeddedContactType> | undefined> => {
+  ): Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined> => {
     if (!contact) {
       return undefined;
     }
 
     return Promise.all(
       contact.map(
-        async (item: EmbeddedContactType): Promise<EmbeddedContactType> => {
+        async (
+          item: EmbeddedContactType
+        ): Promise<EmbeddedContactWithHydratedAvatar> => {
           if (
             !item ||
             !item.avatar ||
             !item.avatar.avatar ||
             !item.avatar.avatar.path
           ) {
-            return item;
+            return {
+              ...item,
+              avatar: undefined,
+            };
           }
 
           return {
@@ -758,7 +769,7 @@ export const loadPreviewData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
   preview: Array<LinkPreviewType> | undefined
-) => Promise<Array<LinkPreviewType>>) => {
+) => Promise<Array<LinkPreviewWithHydratedData>>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadPreviewData: loadAttachmentData is required');
   }
@@ -769,16 +780,22 @@ export const loadPreviewData = (
     }
 
     return Promise.all(
-      preview.map(async item => {
-        if (!item.image) {
-          return item;
-        }
+      preview.map(
+        async (item: LinkPreviewType): Promise<LinkPreviewWithHydratedData> => {
+          if (!item.image) {
+            return {
+              ...item,
+              // Pacify typescript
+              image: undefined,
+            };
+          }
 
-        return {
-          ...item,
-          image: await loadAttachmentData(item.image),
-        };
-      })
+          return {
+            ...item,
+            image: await loadAttachmentData(item.image),
+          };
+        }
+      )
     );
   };
 };

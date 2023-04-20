@@ -68,6 +68,14 @@ export function ToastManager({
     return <Toast onClose={hideToast}>{i18n('icu:unblockGroupToSend')}</Toast>;
   }
 
+  if (toastType === ToastType.CannotEditMessage) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ToastManager__CannotEditMessage')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotForwardEmptyMessage) {
     return (
       <Toast onClose={hideToast}>

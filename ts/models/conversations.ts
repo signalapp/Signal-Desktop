@@ -38,10 +38,8 @@ import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
 import { StorySendMode } from '../types/Stories';
-import type {
-  ContactWithHydratedAvatar,
-  GroupV2InfoType,
-} from '../textsecure/SendMessage';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
+import type { GroupV2InfoType } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import MessageSender from '../textsecure/SendMessage';
 import type {
@@ -106,7 +104,10 @@ import { getConversationMembers } from '../util/getConversationMembers';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from '../types/message/LinkPreviews';
 import { MINUTE, SECOND, DurationInSeconds } from '../util/durations';
 import { concat, filter, map, repeat, zipObject } from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
@@ -1916,6 +1917,7 @@ export class ConversationModel extends window.Backbone
     const draftTimestamp = this.get('draftTimestamp');
     const draftPreview = this.getDraftPreview();
     const draftText = dropNull(this.get('draft'));
+    const draftEditMessage = this.get('draftEditMessage');
     const shouldShowDraft = Boolean(
       this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp
     );
@@ -1993,6 +1995,7 @@ export class ConversationModel extends window.Backbone
       draftBodyRanges: this.getDraftBodyRanges(),
       draftPreview,
       draftText,
+      draftEditMessage,
       familyName: this.get('profileFamilyName'),
       firstName: this.get('profileName'),
       groupDescription: this.get('description'),
@@ -4008,8 +4011,8 @@ export class ConversationModel extends window.Backbone
   ): Promise<
     Array<{
       contentType: MIMEType;
-      fileName: string | null;
-      thumbnail: ThumbnailType | null;
+      fileName?: string | null;
+      thumbnail?: ThumbnailType | null;
     }>
   > {
     return getQuoteAttachment(attachments, preview, sticker);
@@ -4105,6 +4108,85 @@ export class ConversationModel extends window.Backbone
     }
   }
 
+  batchReduxChanges(callback: () => void): void {
+    strictAssert(!this.isInReduxBatch, 'Nested redux batching is not allowed');
+    this.isInReduxBatch = true;
+    batchDispatch(() => {
+      try {
+        callback();
+      } finally {
+        this.isInReduxBatch = false;
+      }
+    });
+  }
+
+  beforeMessageSend({
+    message,
+    dontAddMessage,
+    dontClearDraft,
+    now,
+    extraReduxActions,
+  }: {
+    message: MessageModel;
+    dontAddMessage: boolean;
+    dontClearDraft: boolean;
+    now: number;
+    extraReduxActions?: () => void;
+  }): void {
+    this.batchReduxChanges(() => {
+      const { clearUnreadMetrics } = window.reduxActions.conversations;
+      clearUnreadMetrics(this.id);
+
+      const mandatoryProfileSharingEnabled =
+        window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing');
+      const enabledProfileSharing = Boolean(
+        mandatoryProfileSharingEnabled && !this.get('profileSharing')
+      );
+      const unarchivedConversation = Boolean(this.get('isArchived'));
+
+      log.info(
+        `beforeMessageSend(${this.idForLogging()}): ` +
+          `clearDraft(${!dontClearDraft}) addMessage(${!dontAddMessage})`
+      );
+
+      if (!dontAddMessage) {
+        this.doAddSingleMessage(message, { isJustSent: true });
+      }
+      const draftProperties = dontClearDraft
+        ? {}
+        : {
+            draft: '',
+            draftEditMessage: undefined,
+            draftBodyRanges: [],
+            draftTimestamp: null,
+            quotedMessageId: undefined,
+            lastMessageAuthor: message.getAuthorText(),
+            lastMessage: message.getNotificationText(),
+            lastMessageStatus: 'sending' as const,
+          };
+
+      this.set({
+        ...draftProperties,
+        ...(enabledProfileSharing ? { profileSharing: true } : {}),
+        ...(dontAddMessage
+          ? {}
+          : this.incrementSentMessageCount({ dry: true })),
+        active_at: now,
+        timestamp: now,
+        ...(unarchivedConversation ? { isArchived: false } : {}),
+      });
+
+      if (enabledProfileSharing) {
+        this.captureChange('beforeMessageSend/mandatoryProfileSharing');
+      }
+      if (unarchivedConversation) {
+        this.captureChange('beforeMessageSend/unarchive');
+      }
+
+      extraReduxActions?.();
+    });
+  }
+
   async enqueueMessageForSend(
     {
       attachments,
@@ -4117,14 +4199,14 @@ export class ConversationModel extends window.Backbone
     }: {
       attachments: Array<AttachmentType>;
       body: string | undefined;
-      contact?: Array<ContactWithHydratedAvatar>;
+      contact?: Array<EmbeddedContactWithHydratedAvatar>;
       bodyRanges?: DraftBodyRanges;
-      preview?: Array<LinkPreviewType>;
+      preview?: Array<LinkPreviewWithHydratedData>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
     },
     {
-      dontClearDraft,
+      dontClearDraft = false,
       sendHQImages,
       storyId,
       timestamp,
@@ -4155,10 +4237,6 @@ export class ConversationModel extends window.Backbone
     );
 
     this.clearTypingTimers();
-
-    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.mandatoryProfileSharing'
-    );
 
     let expirationStartTimestamp: number | undefined;
     let expireTimer: DurationInSeconds | undefined;
@@ -4231,7 +4309,24 @@ export class ConversationModel extends window.Backbone
     const model = new window.Whisper.Message(attributes);
     const message = window.MessageController.register(model.id, model);
     message.cachedOutgoingContactData = contact;
-    message.cachedOutgoingPreviewData = preview;
+
+    // Attach path to preview images so that sendNormalMessage can use them to
+    // update digests on attachments.
+    if (preview) {
+      message.cachedOutgoingPreviewData = preview.map((item, index) => {
+        if (!item.image) {
+          return item;
+        }
+
+        return {
+          ...item,
+          image: {
+            ...item.image,
+            path: attributes.preview?.at(index)?.image?.path,
+          },
+        };
+      });
+    }
     message.cachedOutgoingQuoteData = quote;
     message.cachedOutgoingStickerData = sticker;
 
@@ -4278,53 +4373,12 @@ export class ConversationModel extends window.Backbone
       await addStickerPackReference(model.id, sticker.packId);
     }
 
-    this.isInReduxBatch = true;
-    batchDispatch(() => {
-      try {
-        const { clearUnreadMetrics } = window.reduxActions.conversations;
-        clearUnreadMetrics(this.id);
-
-        const enabledProfileSharing = Boolean(
-          mandatoryProfileSharingEnabled && !this.get('profileSharing')
-        );
-        const unarchivedConversation = Boolean(this.get('isArchived'));
-
-        this.doAddSingleMessage(model, { isJustSent: true });
-
-        log.info(
-          `enqueueMessageForSend(${this.idForLogging()}): clearDraft(${!dontClearDraft})`
-        );
-        const draftProperties = dontClearDraft
-          ? {}
-          : {
-              draft: '',
-              draftBodyRanges: [],
-              draftTimestamp: null,
-              lastMessageAuthor: model.getAuthorText(),
-              lastMessage: model.getNotificationText(),
-              lastMessageStatus: 'sending' as const,
-            };
-
-        this.set({
-          ...draftProperties,
-          ...(enabledProfileSharing ? { profileSharing: true } : {}),
-          ...this.incrementSentMessageCount({ dry: true }),
-          active_at: now,
-          timestamp: now,
-          ...(unarchivedConversation ? { isArchived: false } : {}),
-        });
-
-        if (enabledProfileSharing) {
-          this.captureChange('enqueueMessageForSend/mandatoryProfileSharing');
-        }
-        if (unarchivedConversation) {
-          this.captureChange('enqueueMessageForSend/unarchive');
-        }
-
-        extraReduxActions?.();
-      } finally {
-        this.isInReduxBatch = false;
-      }
+    this.beforeMessageSend({
+      message: model,
+      dontClearDraft,
+      dontAddMessage: false,
+      now,
+      extraReduxActions,
     });
 
     const renderDuration = Date.now() - renderStart;

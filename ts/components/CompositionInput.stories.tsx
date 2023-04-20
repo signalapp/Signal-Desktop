@@ -37,6 +37,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
       ? overrideProps.isFormattingEnabled
       : true,
   large: boolean('large', overrideProps.large || false),
+  onCloseLinkPreview: action('onCloseLinkPreview'),
   onEditorStateChange: action('onEditorStateChange'),
   onPickEmoji: action('onPickEmoji'),
   onSubmit: action('onSubmit'),

@@ -7,6 +7,7 @@ export enum ToastType {
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
+  CannotEditMessage = 'CannotEditMessage',
   CannotForwardEmptyMessage = 'CannotForwardEmptyMessage',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
   CannotOpenGiftBadgeIncoming = 'CannotOpenGiftBadgeIncoming',
@@ -54,6 +55,7 @@ export type AnyToast =
   | { toastType: ToastType.AlreadyRequestedToJoin }
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
+  | { toastType: ToastType.CannotEditMessage }
   | { toastType: ToastType.CannotForwardEmptyMessage }
   | { toastType: ToastType.CannotMixMultiAndNonMultiAttachments }
   | { toastType: ToastType.CannotOpenGiftBadgeIncoming }

@@ -8,11 +8,9 @@ import LinkifyIt from 'linkify-it';
 import { maybeParseUrl } from '../util/url';
 import { replaceEmojiWithSpaces } from '../util/emoji';
 
-import type { AttachmentType } from './Attachment';
+import type { AttachmentWithHydratedData } from './Attachment';
 
-export type LinkPreviewImage = AttachmentType & {
-  data: Uint8Array;
-};
+export type LinkPreviewImage = AttachmentWithHydratedData;
 
 export type LinkPreviewResult = {
   title: string | null;

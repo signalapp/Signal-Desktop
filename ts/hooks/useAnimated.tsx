@@ -8,6 +8,7 @@ import { useChain, useSpring, useSpringRef } from '@react-spring/web';
 export type ModalConfigType = {
   opacity: number;
   transform?: string;
+  marginTop?: string;
 };
 
 enum ModalState {

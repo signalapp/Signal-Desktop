@@ -123,6 +123,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
     saveAttachment,
     targetMessage,
     toggleSelectMessage,
+    setMessageToEdit,
     showConversation,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
@@ -190,6 +191,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       scrollToQuotedMessage={scrollToQuotedMessage}
       targetMessage={targetMessage}
       setQuoteByMessageId={setQuoteByMessageId}
+      setMessageToEdit={setMessageToEdit}
       showContactModal={showContactModal}
       showConversation={showConversation}
       showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}

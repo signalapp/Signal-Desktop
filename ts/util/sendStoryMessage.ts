@@ -142,8 +142,9 @@ export async function sendStoryMessage(
   const attachments: Array<AttachmentType> = [attachment];
 
   const linkPreview = attachment?.textAttachment?.preview;
+  const { loadPreviewData } = window.Signal.Migrations;
   const sanitizedLinkPreview = linkPreview
-    ? sanitizeLinkPreview(linkPreview)
+    ? sanitizeLinkPreview((await loadPreviewData([linkPreview]))[0])
     : undefined;
   // If a text attachment has a link preview we remove it from the
   // textAttachment data structure and instead process the preview and add

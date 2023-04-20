@@ -32,6 +32,7 @@ import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
 
 export type PropsData = {
   canDownload: boolean;
+  canEditMessage: boolean;
   canRetry: boolean;
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
@@ -50,6 +51,7 @@ export type PropsActions = {
   ) => void;
   retryMessageSend: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
+  setMessageToEdit: (conversationId: string, messageId: string) => unknown;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
   toggleSelectMessage: (
     conversationId: string,
@@ -80,6 +82,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     attachments,
     author,
     canDownload,
+    canEditMessage,
     canReact,
     canReply,
     canRetry,
@@ -107,6 +110,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     saveAttachment,
     selectedReaction,
     setQuoteByMessageId,
+    setMessageToEdit,
     text,
     timestamp,
     toggleDeleteMessagesModal,
@@ -350,6 +354,11 @@ export function TimelineMessage(props: Props): JSX.Element {
         triggerId={triggerId}
         shouldShowAdditional={shouldShowAdditional}
         onDownload={handleDownload}
+        onEdit={
+          canEditMessage
+            ? () => setMessageToEdit(conversationId, id)
+            : undefined
+        }
         onReplyToMessage={handleReplyToMessage}
         onReact={handleReact}
         onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
@@ -540,6 +549,7 @@ type MessageContextProps = {
   shouldShowAdditional: boolean;
 
   onDownload: (() => void) | undefined;
+  onEdit: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
   onReact: (() => void) | undefined;
   onRetryMessageSend: (() => void) | undefined;
@@ -555,6 +565,7 @@ const MessageContextMenu = ({
   triggerId,
   shouldShowAdditional,
   onDownload,
+  onEdit,
   onReplyToMessage,
   onReact,
   onMoreInfo,
@@ -684,6 +695,22 @@ const MessageContextMenu = ({
           }}
         >
           {i18n('icu:forwardMessage')}
+        </MenuItem>
+      )}
+      {onEdit && (
+        <MenuItem
+          attributes={{
+            className:
+              'module-message__context--icon module-message__context__edit-message',
+          }}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onEdit();
+          }}
+        >
+          {i18n('icu:edit')}
         </MenuItem>
       )}
       <MenuItem

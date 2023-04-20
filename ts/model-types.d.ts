@@ -76,7 +76,7 @@ export type QuotedAttachment = {
 export type QuotedMessageType = {
   // TODO DESKTOP-3826
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  attachments: Array<any>;
+  attachments: ReadonlyArray<any>;
   payment?: AnyPaymentEvent;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
@@ -125,6 +125,7 @@ export type EditHistoryType = {
   body?: string;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   preview?: Array<LinkPreviewType>;
+  quote?: QuotedMessageType;
   timestamp: number;
 };
 
@@ -278,6 +279,16 @@ export type ValidateConversationType = Pick<
   'e164' | 'uuid' | 'type' | 'groupId'
 >;
 
+export type DraftEditMessageType = {
+  editHistoryLength: number;
+  attachmentThumbnail?: string;
+  bodyRanges?: DraftBodyRanges;
+  body: string;
+  preview?: LinkPreviewType;
+  targetMessageId: string;
+  quote?: QuotedMessageType;
+};
+
 export type ConversationAttributesType = {
   accessKey?: string | null;
   addedBy?: string;
@@ -341,6 +352,7 @@ export type ConversationAttributesType = {
   // Shared fields
   active_at?: number | null;
   draft?: string | null;
+  draftEditMessage?: DraftEditMessageType;
   hasPostedStory?: boolean;
   isArchived?: boolean;
   name?: string;

@@ -59,6 +59,7 @@ const MESSAGE_DEFAULT_PROPS = {
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,
   previews: [],
+  retryMessageSend: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
   saveAttachment: shouldNeverBeCalled,
@@ -240,6 +241,7 @@ export function StoryViewsNRepliesModal({
               isFormattingEnabled={isFormattingEnabled}
               isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
+              onCloseLinkPreview={noop}
               onEditorStateChange={({ messageText }) => {
                 setMessageBodyText(messageText);
               }}

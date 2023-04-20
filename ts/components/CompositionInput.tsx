@@ -51,6 +51,7 @@ import * as log from '../logging/log';
 import { useRefMerger } from '../hooks/useRefMerger';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import type { DraftEditMessageType } from '../model-types.d';
 import { usePrevious } from '../hooks/usePrevious';
 
 Quill.register('formats/emoji', EmojiBlot);
@@ -85,6 +86,7 @@ export type Props = Readonly<{
   conversationId?: string;
   i18n: LocalizerType;
   disabled?: boolean;
+  draftEditMessage?: DraftEditMessageType;
   getPreferredBadge: PreferredBadgeSelectorType;
   large?: boolean;
   inputApi?: React.MutableRefObject<InputApi | undefined>;
@@ -132,6 +134,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     conversationId,
     disabled,
     draftBodyRanges,
+    draftEditMessage,
     draftText,
     getPreferredBadge,
     getQuotedMessage,
@@ -782,6 +785,21 @@ export function CompositionInput(props: Props): React.ReactElement {
             data-testid="CompositionInput"
             data-enabled={disabled ? 'false' : 'true'}
           >
+            {draftEditMessage && (
+              <div className={getClassName('__editing-message')}>
+                {i18n('icu:CompositionInput__editing-message')}
+              </div>
+            )}
+            {draftEditMessage?.attachmentThumbnail && (
+              <div className={getClassName('__editing-message__attachment')}>
+                <img
+                  alt={i18n('icu:stagedImageAttachment', {
+                    path: draftEditMessage.attachmentThumbnail,
+                  })}
+                  src={draftEditMessage.attachmentThumbnail}
+                />
+              </div>
+            )}
             {conversationId && linkPreviewLoading && linkPreviewResult && (
               <StagedLinkPreview
                 {...linkPreviewResult}

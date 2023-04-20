@@ -2,17 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ReactElement } from 'react';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
+import type { ContentRect } from 'react-measure';
 import Measure from 'react-measure';
 
 import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
+import { missingCaseError } from '../../util/missingCaseError';
 import { ExpireTimer } from './ExpireTimer';
 import { MessageTimestamp } from './MessageTimestamp';
 import { PanelType } from '../../types/Panels';
 import { Spinner } from '../Spinner';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 
 type PropsType = {
   deletedForEveryone?: boolean;
@@ -29,11 +32,16 @@ type PropsType = {
   isTapToViewExpired?: boolean;
   onWidthMeasured?: (width: number) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryMessageSend: (messageId: string) => unknown;
   showEditHistoryModal?: (id: string) => unknown;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
 };
+
+enum ConfirmationType {
+  EditError = 'EditError',
+}
 
 export function MessageMetadata({
   deletedForEveryone,
@@ -50,11 +58,15 @@ export function MessageMetadata({
   isTapToViewExpired,
   onWidthMeasured,
   pushPanelForConversation,
+  retryMessageSend,
   showEditHistoryModal,
   status,
   textPending,
   timestamp,
 }: Readonly<PropsType>): ReactElement {
+  const [confirmationType, setConfirmationType] = useState<
+    ConfirmationType | undefined
+  >();
   const withImageNoCaption = Boolean(!isSticker && !hasText && isShowingImage);
   const metadataDirection = isSticker ? undefined : direction;
 
@@ -68,9 +80,26 @@ export function MessageMetadata({
     if (isError || isPartiallySent || isPaused) {
       let statusInfo: React.ReactChild;
       if (isError) {
-        statusInfo = deletedForEveryone
-          ? i18n('icu:deleteFailed')
-          : i18n('icu:sendFailed');
+        if (deletedForEveryone) {
+          statusInfo = i18n('icu:deleteFailed');
+        } else if (isEditedMessage) {
+          statusInfo = (
+            <button
+              type="button"
+              className="module-message__metadata__tapable"
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                setConfirmationType(ConfirmationType.EditError);
+              }}
+            >
+              {i18n('icu:editFailed')}
+            </button>
+          );
+        } else {
+          statusInfo = i18n('icu:sendFailed');
+        }
       } else if (isPaused) {
         statusInfo = i18n('icu:sendPaused');
       } else {
@@ -124,6 +153,35 @@ export function MessageMetadata({
         />
       );
     }
+  }
+
+  let confirmation: JSX.Element | undefined;
+  if (confirmationType === undefined) {
+    // no-op
+  } else if (confirmationType === ConfirmationType.EditError) {
+    confirmation = (
+      <ConfirmationDialog
+        dialogName="MessageMetadata.confirmEditResend"
+        actions={[
+          {
+            action: () => {
+              retryMessageSend(id);
+              setConfirmationType(undefined);
+            },
+            style: 'negative',
+            text: i18n('icu:ResendMessageEdit__button'),
+          },
+        ]}
+        i18n={i18n}
+        onClose={() => {
+          setConfirmationType(undefined);
+        }}
+      >
+        {i18n('icu:ResendMessageEdit__body')}
+      </ConfirmationDialog>
+    );
+  } else {
+    throw missingCaseError(confirmationType);
   }
 
   const className = classNames(
@@ -184,17 +242,20 @@ export function MessageMetadata({
           )}
         />
       ) : null}
+      {confirmation}
     </>
+  );
+
+  const onResize = useCallback(
+    ({ bounds }: ContentRect) => {
+      onWidthMeasured?.(bounds?.width || 0);
+    },
+    [onWidthMeasured]
   );
 
   if (onWidthMeasured) {
     return (
-      <Measure
-        bounds
-        onResize={({ bounds }) => {
-          onWidthMeasured(bounds?.width || 0);
-        }}
-      >
+      <Measure bounds onResize={onResize}>
         {({ measureRef }) => (
           <div className={className} ref={measureRef}>
             {children}

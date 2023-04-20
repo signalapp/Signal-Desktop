@@ -718,6 +718,10 @@ function copyOverMessageAttributesIntoEditHistory(
 
   return messageAttributes.editHistory.map(editedMessageAttributes => ({
     ...messageAttributes,
+    // Always take attachments from the edited message (they might be absent)
+    attachments: undefined,
+    quote: undefined,
+    preview: [],
     ...editedMessageAttributes,
     // For timestamp uniqueness of messages
     sent_at: editedMessageAttributes.timestamp,

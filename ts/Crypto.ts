@@ -454,8 +454,8 @@ export function decryptAttachment(
 }
 
 export function encryptAttachment(
-  plaintext: Uint8Array,
-  keys: Uint8Array
+  plaintext: Readonly<Uint8Array>,
+  keys: Readonly<Uint8Array>
 ): EncryptedAttachment {
   if (!(plaintext instanceof Uint8Array)) {
     throw new TypeError(
@@ -483,6 +483,24 @@ export function encryptAttachment(
     ciphertext: encryptedBin,
     digest,
   };
+}
+
+export function getAttachmentSizeBucket(size: number): number {
+  return Math.max(
+    541,
+    Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
+  );
+}
+
+export function padAndEncryptAttachment(
+  data: Readonly<Uint8Array>,
+  keys: Readonly<Uint8Array>
+): EncryptedAttachment {
+  const size = data.byteLength;
+  const paddedSize = getAttachmentSizeBucket(size);
+  const padding = getZeroes(paddedSize - size);
+
+  return encryptAttachment(Bytes.concatenate([data, padding]), keys);
 }
 
 export function encryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {

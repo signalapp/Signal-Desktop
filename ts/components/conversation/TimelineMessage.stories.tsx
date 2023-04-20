@@ -245,6 +245,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || getDefaultConversation(),
   bodyRanges: overrideProps.bodyRanges,
+  canEditMessage: true,
   canReact: true,
   canReply: true,
   canDownload: true,
@@ -330,6 +331,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.toggleSelectMessage == null
       ? action('toggleSelectMessage')
       : overrideProps.toggleSelectMessage,
+  setMessageToEdit: action('setMessageToEdit'),
   shouldCollapseAbove: isBoolean(overrideProps.shouldCollapseAbove)
     ? overrideProps.shouldCollapseAbove
     : false,
@@ -875,6 +877,13 @@ export const Error = Template.bind({});
 Error.args = {
   status: 'error',
   // canRetry: true,
+  text: 'I hope you get this.',
+};
+
+export const EditError = Template.bind({});
+EditError.args = {
+  status: 'error',
+  isEditedMessage: true,
   text: 'I hope you get this.',
 };
 

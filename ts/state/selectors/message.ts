@@ -7,6 +7,8 @@ import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
+import type { ReadonlyDeep } from 'type-fest';
+
 import type { StateType } from '../reducer';
 import type {
   LastMessageStatus,
@@ -66,6 +68,7 @@ import { isNotNil } from '../../util/isNotNil';
 import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
+import { canEditMessages } from '../../util/canEditMessages';
 
 import { getAccountSelector } from './accounts';
 import {
@@ -127,6 +130,7 @@ import { getTitleNoDefault, getNumber } from '../../util/getTitle';
 
 export { isIncoming, isOutgoing, isStory };
 
+const MAX_EDIT_COUNT = 10;
 const THREE_HOURS = 3 * HOUR;
 const linkify = LinkifyIt();
 
@@ -502,9 +506,8 @@ const getPropsForStoryReplyContext = (
 };
 
 export const getPropsForQuote = (
-  message: Pick<
-    MessageWithUIFieldsType,
-    'conversationId' | 'quote' | 'payment'
+  message: ReadonlyDeep<
+    Pick<MessageWithUIFieldsType, 'conversationId' | 'quote'>
   >,
   {
     conversationSelector,
@@ -717,6 +720,7 @@ export const getPropsForMessage = (
     storyReplyContext,
     textAttachment,
     payment,
+    canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message),
     canDownload: canDownload(message, conversationSelector),
     canReact: canReact(message, ourConversationId, conversationSelector),
@@ -1808,6 +1812,18 @@ export function canRetryDeleteForEveryone(
       message.deletedForEveryoneFailed &&
       // Is it too old to delete?
       isMoreRecentThan(message.sent_at, DAY)
+  );
+}
+
+export function canEditMessage(message: MessageWithUIFieldsType): boolean {
+  return (
+    canEditMessages() &&
+    !message.deletedForEveryone &&
+    isOutgoing(message) &&
+    isMoreRecentThan(message.sent_at, THREE_HOURS) &&
+    (message.editHistory?.length ?? 0) <= MAX_EDIT_COUNT &&
+    someSendStatus(message.sendStateByConversationId, isSent) &&
+    Boolean(message.body)
   );
 }
 

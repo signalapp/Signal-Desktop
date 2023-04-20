@@ -27,7 +27,8 @@ import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
-import { softAssert } from '../util/assert';
+import { strictAssert } from '../util/assert';
+import type { SignalService as Proto } from '../protobuf';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -83,6 +84,16 @@ export type AttachmentType = {
   /** Removed once we download the attachment */
   key?: string;
 };
+
+export type UploadedAttachmentType = Proto.IAttachmentPointer &
+  Readonly<{
+    // Required fields
+    cdnId: Long;
+    key: Uint8Array;
+    size: number;
+    digest: Uint8Array;
+    contentType: string;
+  }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
   data: Uint8Array;
@@ -1006,6 +1017,6 @@ export const canBeDownloaded = (
 };
 
 export function getAttachmentSignature(attachment: AttachmentType): string {
-  softAssert(attachment.digest, 'attachment missing digest');
-  return attachment.digest || String(attachment.blurHash);
+  strictAssert(attachment.digest, 'attachment missing digest');
+  return attachment.digest;
 }

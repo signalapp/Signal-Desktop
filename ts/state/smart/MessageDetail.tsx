@@ -44,6 +44,7 @@ export function SmartMessageDetail(): JSX.Element | null {
     markAttachmentAsCorrupted,
     messageExpanded,
     openGiftBadge,
+    retryMessageSend,
     popPanelForConversation,
     pushPanelForConversation,
     saveAttachment,
@@ -91,6 +92,7 @@ export function SmartMessageDetail(): JSX.Element | null {
       message={message}
       messageExpanded={messageExpanded}
       openGiftBadge={openGiftBadge}
+      retryMessageSend={retryMessageSend}
       pushPanelForConversation={pushPanelForConversation}
       receivedAt={receivedAt}
       renderAudioAttachment={renderAudioAttachment}

@@ -59,8 +59,8 @@ export async function getQuoteAttachment(
 ): Promise<
   Array<{
     contentType: MIMEType;
-    fileName: string | null;
-    thumbnail: ThumbnailType | null;
+    fileName?: string | null;
+    thumbnail?: ThumbnailType | null;
   }>
 > {
   const { getAbsoluteAttachmentPath, loadAttachmentData } =

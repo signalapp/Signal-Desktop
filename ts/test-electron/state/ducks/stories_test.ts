@@ -918,6 +918,7 @@ describe('both/state/ducks/stories', () => {
         attachments: [
           {
             contentType: IMAGE_JPEG,
+            digest: 'digest',
             size: 0,
           },
         ],
@@ -961,6 +962,7 @@ describe('both/state/ducks/stories', () => {
         url: 'https://signal.org',
         image: {
           contentType: IMAGE_JPEG,
+          digest: 'digest-1',
           size: 0,
         },
       };
@@ -969,6 +971,7 @@ describe('both/state/ducks/stories', () => {
         attachments: [
           {
             contentType: TEXT_ATTACHMENT,
+            digest: 'digest-2',
             size: 0,
             textAttachment: {
               preview,

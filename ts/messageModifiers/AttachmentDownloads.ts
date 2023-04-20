@@ -78,6 +78,7 @@ export async function stop(): Promise<void> {
 
 export async function addJob(
   attachment: AttachmentType,
+  // TODO: DESKTOP-5279
   job: { messageId: string; type: AttachmentDownloadJobTypeType; index: number }
 ): Promise<AttachmentType> {
   if (!attachment) {
@@ -482,6 +483,18 @@ async function _addAttachmentToMessage(
     return;
   }
 
+  const maybeReplaceAttachment = (existing: AttachmentType): AttachmentType => {
+    if (isDownloaded(existing)) {
+      return existing;
+    }
+
+    if (attachmentSignature !== getAttachmentSignature(existing)) {
+      return existing;
+    }
+
+    return attachment;
+  };
+
   if (type === 'attachment') {
     const attachments = message.get('attachments');
 
@@ -498,50 +511,24 @@ async function _addAttachmentToMessage(
           ...edit,
           // Loop through all the attachments to find the attachment we intend
           // to replace.
-          attachments: edit.attachments.map(editAttachment => {
-            if (isDownloaded(editAttachment)) {
-              return editAttachment;
-            }
-
-            if (
-              attachmentSignature !== getAttachmentSignature(editAttachment)
-            ) {
-              return editAttachment;
-            }
-
-            handledInEditHistory = true;
-
-            return attachment;
+          attachments: edit.attachments.map(item => {
+            const newItem = maybeReplaceAttachment(item);
+            handledInEditHistory ||= item !== newItem;
+            return newItem;
           }),
         };
       });
 
-      if (newEditHistory !== editHistory) {
+      if (handledInEditHistory) {
         message.set({ editHistory: newEditHistory });
       }
     }
 
-    if (!attachments || attachments.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: attachments didn't exist or index(${index}) was too large`
-      );
+    if (attachments) {
+      message.set({
+        attachments: attachments.map(item => maybeReplaceAttachment(item)),
+      });
     }
-
-    // Verify attachment is still valid
-    const isSameAttachment =
-      attachments[index] &&
-      getAttachmentSignature(attachments[index]) === attachmentSignature;
-    if (handledInEditHistory && !isSameAttachment) {
-      return;
-    }
-    strictAssert(isSameAttachment, `${logPrefix} mismatched attachment`);
-    _checkOldAttachment(attachments, index.toString(), logPrefix);
-
-    // Replace attachment
-    const newAttachments = [...attachments];
-    newAttachments[index] = attachment;
-
-    message.set({ attachments: newAttachments });
 
     return;
   }
@@ -554,69 +541,42 @@ async function _addAttachmentToMessage(
     const editHistory = message.get('editHistory');
     if (preview && editHistory) {
       const newEditHistory = editHistory.map(edit => {
-        if (!edit.preview || edit.preview.length <= index) {
+        if (!edit.preview) {
           return edit;
         }
-
-        const item = edit.preview[index];
-        if (!item) {
-          return edit;
-        }
-
-        if (
-          item.image &&
-          (isDownloaded(item.image) ||
-            attachmentSignature !== getAttachmentSignature(item.image))
-        ) {
-          return edit;
-        }
-
-        const newPreview = [...edit.preview];
-        newPreview[index] = {
-          ...edit.preview[index],
-          image: attachment,
-        };
-
-        handledInEditHistory = true;
 
         return {
           ...edit,
-          preview: newPreview,
+          preview: edit.preview.map(item => {
+            if (!item.image) {
+              return item;
+            }
+
+            const newImage = maybeReplaceAttachment(item.image);
+            handledInEditHistory ||= item.image !== newImage;
+            return { ...item, image: newImage };
+          }),
         };
       });
 
-      if (newEditHistory !== editHistory) {
+      if (handledInEditHistory) {
         message.set({ editHistory: newEditHistory });
       }
     }
 
-    if (!preview || preview.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: preview didn't exist or ${index} was too large`
-      );
+    if (preview) {
+      message.set({
+        preview: preview.map(item => {
+          if (!item.image) {
+            return item;
+          }
+          return {
+            ...item,
+            image: maybeReplaceAttachment(item.image),
+          };
+        }),
+      });
     }
-    const item = preview[index];
-    if (!item) {
-      throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
-    }
-
-    // Verify attachment is still valid
-    const isSameAttachment =
-      item.image && getAttachmentSignature(item.image) === attachmentSignature;
-    if (handledInEditHistory && !isSameAttachment) {
-      return;
-    }
-    strictAssert(isSameAttachment, `${logPrefix} mismatched attachment`);
-    _checkOldAttachment(item, 'image', logPrefix);
-
-    // Replace attachment
-    const newPreview = [...preview];
-    newPreview[index] = {
-      ...preview[index],
-      image: attachment,
-    };
-
-    message.set({ preview: newPreview });
 
     return;
   }
@@ -628,6 +588,7 @@ async function _addAttachmentToMessage(
         `_addAttachmentToMessage: contact didn't exist or ${index} was too large`
       );
     }
+
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
       _checkOldAttachment(item.avatar, 'avatar', logPrefix);
@@ -653,37 +614,57 @@ async function _addAttachmentToMessage(
 
   if (type === 'quote') {
     const quote = message.get('quote');
-    if (!quote) {
-      throw new Error("_addAttachmentToMessage: quote didn't exist");
+    const editHistory = message.get('editHistory');
+    let handledInEditHistory = false;
+    if (editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.quote) {
+          return edit;
+        }
+
+        return {
+          ...edit,
+          quote: {
+            ...edit.quote,
+            attachments: edit.quote.attachments.map(item => {
+              const { thumbnail } = item;
+              if (!thumbnail) {
+                return;
+              }
+
+              const newThumbnail = maybeReplaceAttachment(thumbnail);
+              if (thumbnail !== newThumbnail) {
+                handledInEditHistory = true;
+              }
+              return { ...item, thumbnail: newThumbnail };
+            }),
+          },
+        };
+      });
+
+      if (handledInEditHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
     }
-    const { attachments } = quote;
-    if (!attachments || attachments.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: quote attachments didn't exist or ${index} was too large`
-      );
+
+    if (quote) {
+      const newQuote = {
+        ...quote,
+        attachments: quote.attachments.map(item => {
+          const { thumbnail } = item;
+          if (!thumbnail) {
+            return item;
+          }
+
+          return {
+            ...item,
+            thumbnail: maybeReplaceAttachment(thumbnail),
+          };
+        }),
+      };
+
+      message.set({ quote: newQuote });
     }
-
-    const item = attachments[index];
-    if (!item) {
-      throw new Error(
-        `_addAttachmentToMessage: quote attachment ${index} was falsey`
-      );
-    }
-
-    _checkOldAttachment(item, 'thumbnail', logPrefix);
-
-    const newAttachments = [...attachments];
-    newAttachments[index] = {
-      ...attachments[index],
-      thumbnail: attachment,
-    };
-
-    const newQuote = {
-      ...quote,
-      attachments: newAttachments,
-    };
-
-    message.set({ quote: newQuote });
 
     return;
   }

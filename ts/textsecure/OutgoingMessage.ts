@@ -204,15 +204,20 @@ export default class OutgoingMessage {
       const contentProto = this.getContentProtoBytes();
       const { timestamp, contentHint, recipients, urgent } = this;
       let dataMessage: Uint8Array | undefined;
+      let editMessage: Uint8Array | undefined;
       let hasPniSignatureMessage = false;
 
       if (proto instanceof Proto.Content) {
         if (proto.dataMessage) {
           dataMessage = Proto.DataMessage.encode(proto.dataMessage).finish();
+        } else if (proto.editMessage) {
+          editMessage = Proto.EditMessage.encode(proto.editMessage).finish();
         }
         hasPniSignatureMessage = Boolean(proto.pniSignatureMessage);
       } else if (proto instanceof Proto.DataMessage) {
         dataMessage = Proto.DataMessage.encode(proto).finish();
+      } else if (proto instanceof Proto.EditMessage) {
+        editMessage = Proto.EditMessage.encode(proto).finish();
       }
 
       this.callback({
@@ -223,6 +228,7 @@ export default class OutgoingMessage {
 
         contentHint,
         dataMessage,
+        editMessage,
         recipients,
         contentProto,
         timestamp,

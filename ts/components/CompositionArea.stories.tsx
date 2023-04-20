@@ -34,6 +34,7 @@ export default {
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
   conversationId: '123',
+  discardEditMessage: action('discardEditMessage'),
   focusCounter: 0,
   sendCounter: 0,
   i18n,
@@ -47,6 +48,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
       ? overrideProps.isFormattingEnabled
       : true,
   messageCompositionId: '456',
+  sendEditedMessage: action('sendEditedMessage'),
   sendMultiMediaMessage: action('sendMultiMediaMessage'),
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),

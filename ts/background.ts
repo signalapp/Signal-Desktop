@@ -176,6 +176,7 @@ import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
 import { sleeper } from './util/sleeper';
 import { MINUTE } from './util/durations';
+import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage';
 import {
   flushMessageCounter,
   incrementMessageCounter,
@@ -3123,9 +3124,9 @@ export async function startApp(): Promise<void> {
       });
 
       const editAttributes: EditAttributesType = {
-        dataMessage: data.message,
+        conversationId: message.attributes.conversationId,
         fromId: fromConversation.id,
-        message: message.attributes,
+        message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
       };
 
@@ -3446,9 +3447,9 @@ export async function startApp(): Promise<void> {
       });
 
       const editAttributes: EditAttributesType = {
-        dataMessage: data.message,
+        conversationId: message.attributes.conversationId,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
-        message: message.attributes,
+        message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
       };
 

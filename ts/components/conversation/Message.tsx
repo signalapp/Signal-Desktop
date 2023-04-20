@@ -99,6 +99,7 @@ import { RenderLocation } from './MessageTextRenderer';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
+const GUESS_METADATA_WIDTH_EDITED_SIZE = 40;
 const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
   delivered: 24,
   error: 24,
@@ -314,6 +315,7 @@ export type PropsActions = {
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryMessageSend: (messageId: string) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showSpoiler: (messageId: string) => void;
 
@@ -617,9 +619,13 @@ export class Message extends React.PureComponent<Props, State> {
    * because it can reduce layout jumpiness.
    */
   private guessMetadataWidth(): number {
-    const { direction, expirationLength, status } = this.props;
+    const { direction, expirationLength, status, isEditedMessage } = this.props;
 
     let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
+
+    if (isEditedMessage) {
+      result += GUESS_METADATA_WIDTH_EDITED_SIZE;
+    }
 
     const hasExpireTimer = Boolean(expirationLength);
     if (hasExpireTimer) {
@@ -790,6 +796,7 @@ export class Message extends React.PureComponent<Props, State> {
       isEditedMessage,
       isSticker,
       isTapToViewExpired,
+      retryMessageSend,
       pushPanelForConversation,
       showEditHistoryModal,
       status,
@@ -816,6 +823,7 @@ export class Message extends React.PureComponent<Props, State> {
         isTapToViewExpired={isTapToViewExpired}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
+        retryMessageSend={retryMessageSend}
         showEditHistoryModal={showEditHistoryModal}
         status={status}
         textPending={textAttachment?.pending}

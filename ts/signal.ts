@@ -42,9 +42,14 @@ import type {
 } from './types/Attachment';
 import type { MessageAttributesType, QuotedMessageType } from './model-types.d';
 import type { SignalCoreType } from './window.d';
-import type { EmbeddedContactType } from './types/EmbeddedContact';
-import type { ContactWithHydratedAvatar } from './textsecure/SendMessage';
-import type { LinkPreviewType } from './types/message/LinkPreviews';
+import type {
+  EmbeddedContactType,
+  EmbeddedContactWithHydratedAvatar,
+} from './types/EmbeddedContact';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from './types/message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers';
 
 type MigrationsModuleType = {
@@ -75,13 +80,13 @@ type MigrationsModuleType = {
   ) => Promise<AttachmentWithHydratedData>;
   loadContactData: (
     contact: Array<EmbeddedContactType> | undefined
-  ) => Promise<Array<ContactWithHydratedAvatar> | undefined>;
+  ) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>;
   loadMessage: (
     message: MessageAttributesType
   ) => Promise<MessageAttributesType>;
   loadPreviewData: (
     preview: Array<LinkPreviewType> | undefined
-  ) => Promise<Array<LinkPreviewType>>;
+  ) => Promise<Array<LinkPreviewWithHydratedData>>;
   loadQuoteData: (
     quote: QuotedMessageType | null | undefined
   ) => Promise<QuotedMessageType | null>;

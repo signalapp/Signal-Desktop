@@ -4,7 +4,7 @@
 .module-composition-input {
   &__quill {
     height: 100%;
-    padding-left: 6px;
+    padding-left: 12px;
 
     .ql-editor {
       caret-color: transparent;
@@ -81,7 +81,7 @@
 
     &__scroller {
       $padding-top: 6px;
-      padding: $padding-top;
+      padding: $padding-top 0;
 
       min-height: calc(32px - 2 * $border-size);
       max-height: calc(72px - 2 * $border-size);
@@ -332,6 +332,35 @@
     }
 
     stroke: $color-white;
+  }
+
+  &__editing-message {
+    @include font-body-2-bold;
+    margin-top: 10px;
+    user-select: none;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      height: 16px;
+      margin: 0 8px 0 10px;
+      width: 16px;
+      vertical-align: middle;
+
+      @include color-svg('../images/icons/v3/edit.svg', $color-black);
+
+      @include dark-theme {
+        @include color-svg('../images/icons/v3/edit.svg', $color-gray-15);
+      }
+    }
+
+    &__attachment img {
+      height: 18px;
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      width: 18px;
+    }
   }
 }
 

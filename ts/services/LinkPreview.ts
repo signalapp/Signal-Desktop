@@ -3,7 +3,7 @@
 
 import { debounce, omit } from 'lodash';
 
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type {
   LinkPreviewImage,
   LinkPreviewResult,
@@ -237,7 +237,9 @@ export async function addLinkPreview(
   }
 }
 
-export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
+export function getLinkPreviewForSend(
+  message: string
+): Array<LinkPreviewWithHydratedData> {
   // Don't generate link previews if user has turned them off
   if (!window.storage.get('linkPreviews', false)) {
     return [];
@@ -260,8 +262,8 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
 }
 
 export function sanitizeLinkPreview(
-  item: LinkPreviewResult | LinkPreviewType
-): LinkPreviewType {
+  item: LinkPreviewResult | LinkPreviewWithHydratedData
+): LinkPreviewWithHydratedData {
   if (item.image) {
     // We eliminate the ObjectURL here, unneeded for send or save
     return {

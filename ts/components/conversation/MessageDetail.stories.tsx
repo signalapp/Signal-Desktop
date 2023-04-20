@@ -87,6 +87,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   saveAttachment: action('saveAttachment'),
   showSpoiler: action('showSpoiler'),
+  retryMessageSend: action('retryMessageSend'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(

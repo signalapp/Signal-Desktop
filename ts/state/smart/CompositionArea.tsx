@@ -4,6 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+
 import { mapDispatchToProps } from '../actions';
 import type { Props as ComponentPropsType } from '../../components/CompositionArea';
 import { CompositionArea } from '../../components/CompositionArea';
@@ -58,8 +59,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     throw new Error(`Conversation id ${id} not found!`);
   }
 
-  const { announcementsOnly, areWeAdmin, draftText, draftBodyRanges } =
-    conversation;
+  const {
+    announcementsOnly,
+    areWeAdmin,
+    draftEditMessage,
+    draftText,
+    draftBodyRanges,
+  } = conversation;
 
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
@@ -82,6 +88,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const composerStateForConversationIdSelector =
     getComposerStateForConversationIdSelector(state);
 
+  const composerState = composerStateForConversationIdSelector(id);
   const {
     attachments: draftAttachments,
     focusCounter,
@@ -89,10 +96,17 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     linkPreviewLoading,
     linkPreviewResult,
     messageCompositionId,
-    quotedMessage,
     sendCounter,
     shouldSendHighQualityAttachments,
-  } = composerStateForConversationIdSelector(id);
+  } = composerState;
+
+  let { quotedMessage } = composerState;
+  if (!quotedMessage && draftEditMessage?.quote) {
+    quotedMessage = {
+      conversationId: id,
+      quote: draftEditMessage.quote,
+    };
+  }
 
   const recentEmojis = selectRecentEmojis(state);
 
@@ -107,6 +121,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   return {
     // Base
     conversationId: id,
+    draftEditMessage,
     focusCounter,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
@@ -141,6 +156,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
           ourConversationId: getUserConversationId(state),
         })
       : undefined,
+    quotedMessageAuthorUuid: quotedMessage?.quote?.authorUuid,
+    quotedMessageSentAt: quotedMessage?.quote?.id,
     // Emojis
     recentEmojis,
     skinTone: getEmojiSkinTone(state),

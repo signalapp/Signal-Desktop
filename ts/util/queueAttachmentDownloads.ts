@@ -28,6 +28,7 @@ import {
 } from '../types/Attachment';
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { isNotNil } from './isNotNil';
 
 type ReturnType = {
   bodyAttachment?: AttachmentType;
@@ -111,6 +112,18 @@ export async function queueAttachmentDownloads(
   );
   count += previewCount;
 
+  log.info(
+    `${idLog}: Queueing ${message.quote?.attachments?.length ?? 0} ` +
+      'quote attachment downloads'
+  );
+  const { quote, count: thumbnailCount } = await queueQuoteAttachments(
+    idLog,
+    messageId,
+    message.quote,
+    message.editHistory?.map(x => x.quote).filter(isNotNil) ?? []
+  );
+  count += thumbnailCount;
+
   const contactsToQueue = message.contact || [];
   log.info(
     `${idLog}: Queueing ${contactsToQueue.length} contact attachment downloads`
@@ -140,40 +153,6 @@ export async function queueAttachmentDownloads(
       };
     })
   );
-
-  let { quote } = message;
-  const quoteAttachmentsToQueue =
-    quote && quote.attachments ? quote.attachments : [];
-  log.info(
-    `${idLog}: Queueing ${quoteAttachmentsToQueue.length} quote attachment downloads`
-  );
-  if (quote && quoteAttachmentsToQueue.length > 0) {
-    quote = {
-      ...quote,
-      attachments: await Promise.all(
-        (quote?.attachments || []).map(async (item, index) => {
-          if (!item.thumbnail) {
-            return item;
-          }
-          // We've already downloaded this!
-          if (item.thumbnail.path) {
-            log.info(`${idLog}: Quote attachment already downloaded`);
-            return item;
-          }
-
-          count += 1;
-          return {
-            ...item,
-            thumbnail: await AttachmentDownloads.addJob(item.thumbnail, {
-              messageId,
-              type: 'quote',
-              index,
-            }),
-          };
-        })
-      ),
-    };
-  }
 
   let { sticker } = message;
   if (sticker && sticker.data && sticker.data.path) {
@@ -226,11 +205,6 @@ export async function queueAttachmentDownloads(
     log.info(`${idLog}: Looping through ${editHistory.length} edits`);
     editHistory = await Promise.all(
       editHistory.map(async edit => {
-        const editAttachmentsToQueue = edit.attachments || [];
-        log.info(
-          `${idLog}: Queueing ${editAttachmentsToQueue.length} normal attachment downloads (edited:${edit.timestamp})`
-        );
-
         const { attachments: editAttachments, count: editAttachmentsCount } =
           await queueNormalAttachments(
             idLog,
@@ -239,15 +213,22 @@ export async function queueAttachmentDownloads(
             attachments
           );
         count += editAttachmentsCount;
+        if (editAttachmentsCount !== 0) {
+          log.info(
+            `${idLog}: Queueing ${editAttachmentsCount} normal attachment ` +
+              `downloads (edited:${edit.timestamp})`
+          );
+        }
 
-        log.info(
-          `${idLog}: Queueing ${
-            (edit.preview || []).length
-          } preview attachment downloads (edited:${edit.timestamp})`
-        );
         const { preview: editPreview, count: editPreviewCount } =
           await queuePreviews(idLog, messageId, edit.preview, preview);
         count += editPreviewCount;
+        if (editPreviewCount !== 0) {
+          log.info(
+            `${idLog}: Queueing ${editPreviewCount} preview attachment ` +
+              `downloads (edited:${edit.timestamp})`
+          );
+        }
 
         return {
           ...edit,
@@ -293,7 +274,9 @@ async function queueNormalAttachments(
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   otherAttachments?.forEach(attachment => {
     const signature = getAttachmentSignature(attachment);
-    attachmentSignatures.set(signature, attachment);
+    if (signature) {
+      attachmentSignatures.set(signature, attachment);
+    }
   });
 
   let count = 0;
@@ -412,6 +395,101 @@ async function queuePreviews(
 
   return {
     preview,
+    count,
+  };
+}
+
+function getQuoteThumbnailSignature(
+  quote: QuotedMessageType,
+  thumbnail?: AttachmentType
+): string | undefined {
+  if (!thumbnail) {
+    return undefined;
+  }
+  return `<${quote.id}>${getAttachmentSignature(thumbnail)}`;
+}
+
+async function queueQuoteAttachments(
+  idLog: string,
+  messageId: string,
+  quote: QuotedMessageType | undefined,
+  otherQuotes: ReadonlyArray<QuotedMessageType>
+): Promise<{ quote?: QuotedMessageType; count: number }> {
+  let count = 0;
+  if (!quote) {
+    return { quote, count };
+  }
+
+  const quoteAttachmentsToQueue =
+    quote && quote.attachments ? quote.attachments : [];
+  if (quoteAttachmentsToQueue.length === 0) {
+    return { quote, count };
+  }
+
+  // Similar to queueNormalAttachments' logic for detecting same attachments
+  // except here we also pick by quote sent timestamp.
+  const thumbnailSignatures: Map<string, AttachmentType> = new Map();
+  otherQuotes.forEach(otherQuote => {
+    for (const attachment of otherQuote.attachments) {
+      const signature = getQuoteThumbnailSignature(
+        otherQuote,
+        attachment.thumbnail
+      );
+      if (!signature) {
+        continue;
+      }
+      thumbnailSignatures.set(signature, attachment);
+    }
+  });
+
+  return {
+    quote: {
+      ...quote,
+      attachments: await Promise.all(
+        quote.attachments.map(async (item, index) => {
+          if (!item.thumbnail) {
+            return item;
+          }
+          // We've already downloaded this!
+          if (isDownloaded(item.thumbnail)) {
+            log.info(`${idLog}: Quote attachment already downloaded`);
+            return item;
+          }
+
+          const signature = getQuoteThumbnailSignature(quote, item.thumbnail);
+          const existingThumbnail = signature
+            ? thumbnailSignatures.get(signature)
+            : undefined;
+
+          // We've already downloaded this elsewhere!
+          if (
+            existingThumbnail &&
+            (isDownloading(existingThumbnail) ||
+              isDownloaded(existingThumbnail))
+          ) {
+            log.info(
+              `${idLog}: Preview already downloaded elsewhere. Replacing`
+            );
+            // Incrementing count so that we update the message's fields downstream
+            count += 1;
+            return {
+              ...item,
+              thumbnail: existingThumbnail,
+            };
+          }
+
+          count += 1;
+          return {
+            ...item,
+            thumbnail: await AttachmentDownloads.addJob(item.thumbnail, {
+              messageId,
+              type: 'quote',
+              index,
+            }),
+          };
+        })
+      ),
+    },
     count,
   };
 }

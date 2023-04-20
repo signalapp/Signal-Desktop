@@ -36,6 +36,7 @@ type PropsType = {
 };
 
 export type ModalPropsType = PropsType & {
+  noTransform?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -57,15 +58,31 @@ export function Modal({
   useFocusTrap,
   hasHeaderDivider = false,
   hasFooterDivider = false,
+  noTransform = false,
   padded = true,
 }: Readonly<ModalPropsType>): JSX.Element | null {
-  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
-    getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
-    getTo: isOpen =>
-      isOpen
-        ? { opacity: 1, transform: 'translateY(0px)' }
-        : { opacity: 0, transform: 'translateY(48px)' },
-  });
+  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(
+    onClose,
+
+    // `background-position: fixed` cannot properly detect the viewport when
+    // the parent element has `transform: translate*`. Even though it requires
+    // layout recalculation - use `margin-top` if asked by the embedder.
+    noTransform
+      ? {
+          getFrom: () => ({ opacity: 0, marginTop: '48px' }),
+          getTo: isOpen =>
+            isOpen
+              ? { opacity: 1, marginTop: '0px' }
+              : { opacity: 0, marginTop: '48px' },
+        }
+      : {
+          getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
+          getTo: isOpen =>
+            isOpen
+              ? { opacity: 1, transform: 'translateY(0px)' }
+              : { opacity: 0, transform: 'translateY(48px)' },
+        }
+  );
 
   useEffect(() => {
     if (!isClosed) {

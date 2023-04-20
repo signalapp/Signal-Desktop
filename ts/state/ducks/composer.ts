@@ -4,7 +4,7 @@
 import path from 'path';
 
 import { debounce, isEqual } from 'lodash';
-import type { ThunkAction } from 'redux-thunk';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -87,6 +87,7 @@ import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { makeQuote } from '../../util/makeQuote';
+import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage';
 import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
 
 // State
@@ -138,7 +139,7 @@ const ADD_PENDING_ATTACHMENT = 'composer/ADD_PENDING_ATTACHMENT';
 const INCREMENT_SEND_COUNTER = 'composer/INCREMENT_SEND_COUNTER';
 const REPLACE_ATTACHMENTS = 'composer/REPLACE_ATTACHMENTS';
 const RESET_COMPOSER = 'composer/RESET_COMPOSER';
-const SET_FOCUS = 'composer/SET_FOCUS';
+export const SET_FOCUS = 'composer/SET_FOCUS';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
 const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
@@ -238,6 +239,7 @@ export const actions = {
   replaceAttachments,
   resetComposer,
   scrollToQuotedMessage,
+  sendEditedMessage,
   sendMultiMediaMessage,
   sendStickerMessage,
   setComposerDisabledState,
@@ -304,6 +306,7 @@ function onCloseLinkPreview(conversationId: string): NoopActionType {
     payload: null,
   };
 }
+
 function onTextTooLong(): ShowToastActionType {
   return {
     type: SHOW_TOAST,
@@ -377,14 +380,159 @@ export function handleLeaveConversation(
   };
 }
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+type WithPreSendChecksOptions = Readonly<{
+  bodyRanges?: DraftBodyRanges;
+  message?: string;
+  voiceNoteAttachment?: InMemoryAttachmentDraftType;
+}>;
+
+async function withPreSendChecks(
+  conversationId: string,
+  options: WithPreSendChecksOptions,
+  dispatch: ThunkDispatch<
+    RootStateType,
+    unknown,
+    SetComposerDisabledStateActionType | ShowToastActionType
+  >,
+  body: () => Promise<void>
+): Promise<void> {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('sendMultiMediaMessage: No conversation found');
+  }
+
+  const sendStart = Date.now();
+  const recipientsByConversation = getRecipientsByConversation([
+    conversation.attributes,
+  ]);
+
+  const { bodyRanges, message, voiceNoteAttachment } = options;
+
+  try {
+    dispatch(setComposerDisabledState(conversationId, true));
+
+    try {
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        recipientsByConversation,
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
+        dispatch(setComposerDisabledState(conversationId, false));
+        return;
+      }
+    } catch (error) {
+      log.error(
+        'withPreSendChecks block until verified error:',
+        Errors.toLogFormat(error)
+      );
+      return;
+    }
+
+    try {
+      if (bodyRanges?.length && !window.storage.get('formattingWarningShown')) {
+        const sendAnyway = await maybeBlockSendForFormattingModal(bodyRanges);
+        if (!sendAnyway) {
+          dispatch(setComposerDisabledState(conversationId, false));
+          return;
+        }
+        drop(window.storage.put('formattingWarningShown', true));
+      }
+    } catch (error) {
+      log.error(
+        'withPreSendChecks block for formatting modal:',
+        Errors.toLogFormat(error)
+      );
+      return;
+    }
+
+    const toast = shouldShowInvalidMessageToast(conversation.attributes);
+    if (toast != null) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: toast,
+      });
+      return;
+    }
+
+    if (
+      !message?.length &&
+      !hasDraftAttachments(conversation.attributes.draftAttachments, {
+        includePending: false,
+      }) &&
+      !voiceNoteAttachment
+    ) {
+      return;
+    }
+
+    const sendDelta = Date.now() - sendStart;
+    log.info(`withPreSendChecks: Send pre-checks took ${sendDelta}ms`);
+
+    await body();
+  } finally {
+    dispatch(setComposerDisabledState(conversationId, false));
+  }
+
+  conversation.clearTypingTimers();
+}
+
+function sendEditedMessage(
+  conversationId: string,
+  options: WithPreSendChecksOptions & {
+    targetMessageId: string;
+    quoteAuthorUuid?: string;
+    quoteSentAt?: number;
+  }
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetComposerDisabledStateActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('sendEditedMessage: No conversation found');
+    }
+
+    const {
+      message = '',
+      bodyRanges,
+      quoteSentAt,
+      quoteAuthorUuid,
+      targetMessageId,
+    } = options;
+
+    await withPreSendChecks(conversationId, options, dispatch, async () => {
+      try {
+        await doSendEditedMessage(conversationId, {
+          body: message,
+          bodyRanges,
+          preview: getLinkPreviewForSend(message),
+          quoteAuthorUuid,
+          quoteSentAt,
+          targetMessageId,
+        });
+      } catch (error) {
+        log.error('sendEditedMessage', Errors.toLogFormat(error));
+        if (error.toastType) {
+          dispatch({
+            type: SHOW_TOAST,
+            payload: {
+              toastType: error.toastType,
+            },
+          });
+        }
+      }
+    });
+  };
+}
+
 function sendMultiMediaMessage(
   conversationId: string,
-  options: {
+  options: WithPreSendChecksOptions & {
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-    bodyRanges?: DraftBodyRanges;
-    message?: string;
     timestamp?: number;
-    voiceNoteAttachment?: InMemoryAttachmentDraftType;
   }
 ): ThunkAction<
   void,
@@ -413,73 +561,7 @@ function sendMultiMediaMessage(
 
     const state = getState();
 
-    const sendStart = Date.now();
-    const recipientsByConversation = getRecipientsByConversation([
-      conversation.attributes,
-    ]);
-
-    try {
-      dispatch(setComposerDisabledState(conversationId, true));
-
-      const sendAnyway = await blockSendUntilConversationsAreVerified(
-        recipientsByConversation,
-        SafetyNumberChangeSource.MessageSend
-      );
-      if (!sendAnyway) {
-        dispatch(setComposerDisabledState(conversationId, false));
-        return;
-      }
-    } catch (error) {
-      dispatch(setComposerDisabledState(conversationId, false));
-      log.error(
-        'sendMessage block until verified error:',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    try {
-      if (bodyRanges?.length && !window.storage.get('formattingWarningShown')) {
-        const sendAnyway = await maybeBlockSendForFormattingModal(bodyRanges);
-        if (!sendAnyway) {
-          dispatch(setComposerDisabledState(conversationId, false));
-          return;
-        }
-        drop(window.storage.put('formattingWarningShown', true));
-      }
-    } catch (error) {
-      dispatch(setComposerDisabledState(conversationId, false));
-      log.error(
-        'sendMessage block for formatting modal:',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    conversation.clearTypingTimers();
-
-    const toast = shouldShowInvalidMessageToast(conversation.attributes);
-    if (toast != null) {
-      dispatch({
-        type: SHOW_TOAST,
-        payload: toast,
-      });
-      dispatch(setComposerDisabledState(conversationId, false));
-      return;
-    }
-
-    if (
-      !message.length &&
-      !hasDraftAttachments(conversation.attributes.draftAttachments, {
-        includePending: false,
-      }) &&
-      !voiceNoteAttachment
-    ) {
-      dispatch(setComposerDisabledState(conversationId, false));
-      return;
-    }
-
-    try {
+    await withPreSendChecks(conversationId, options, dispatch, async () => {
       let attachments: Array<AttachmentType> = [];
       if (voiceNoteAttachment) {
         attachments = [voiceNoteAttachment];
@@ -505,48 +587,45 @@ function sendMultiMediaMessage(
           ? shouldSendHighQualityAttachments
           : state.items['sent-media-quality'] === 'high';
 
-      const sendDelta = Date.now() - sendStart;
-
-      log.info('Send pre-checks took', sendDelta, 'milliseconds');
-
-      await conversation.enqueueMessageForSend(
-        {
-          body: message,
-          attachments,
-          quote,
-          preview: getLinkPreviewForSend(message),
-          bodyRanges,
-        },
-        {
-          sendHQImages,
-          timestamp,
-          // We rely on enqueueMessageForSend to call these within redux's batch
-          extraReduxActions: () => {
-            conversation.setMarkedUnread(false);
-            resetLinkPreview(conversationId);
-            drop(
-              clearConversationDraftAttachments(
-                conversationId,
-                draftAttachments
-              )
-            );
-            setQuoteByMessageId(conversationId, undefined)(
-              dispatch,
-              getState,
-              undefined
-            );
-            dispatch(incrementSendCounter(conversationId));
-            dispatch(setComposerDisabledState(conversationId, false));
+      try {
+        await conversation.enqueueMessageForSend(
+          {
+            body: message,
+            attachments,
+            quote,
+            preview: getLinkPreviewForSend(message),
+            bodyRanges,
           },
-        }
-      );
-    } catch (error) {
-      log.error(
-        'Error pulling attached files before send',
-        Errors.toLogFormat(error)
-      );
-      dispatch(setComposerDisabledState(conversationId, false));
-    }
+          {
+            sendHQImages,
+            timestamp,
+            // We rely on enqueueMessageForSend to call these within redux's batch
+            extraReduxActions: () => {
+              conversation.setMarkedUnread(false);
+              resetLinkPreview(conversationId);
+              drop(
+                clearConversationDraftAttachments(
+                  conversationId,
+                  draftAttachments
+                )
+              );
+              setQuoteByMessageId(conversationId, undefined)(
+                dispatch,
+                getState,
+                undefined
+              );
+              dispatch(incrementSendCounter(conversationId));
+              dispatch(setComposerDisabledState(conversationId, false));
+            },
+          }
+        );
+      } catch (error) {
+        log.error(
+          'Error pulling attached files before send',
+          Errors.toLogFormat(error)
+        );
+      }
+    });
   };
 }
 
@@ -668,6 +747,7 @@ export function setQuoteByMessageId(
       window.Signal.Data.updateConversation(conversation.attributes);
     }
 
+    const draftEditMessage = conversation.get('draftEditMessage');
     if (message) {
       const quote = await makeQuote(message.attributes);
 
@@ -676,15 +756,31 @@ export function setQuoteByMessageId(
         return;
       }
 
-      dispatch(
-        setQuotedMessage(conversationId, {
-          conversationId,
-          quote,
-        })
-      );
+      if (draftEditMessage) {
+        conversation.set({
+          draftEditMessage: {
+            ...draftEditMessage,
+            quote,
+          },
+        });
+      } else {
+        dispatch(
+          setQuotedMessage(conversationId, {
+            conversationId,
+            quote,
+          })
+        );
+      }
 
       dispatch(setComposerFocus(conversation.id));
       dispatch(setComposerDisabledState(conversationId, false));
+    } else if (draftEditMessage) {
+      conversation.set({
+        draftEditMessage: {
+          ...draftEditMessage,
+          quote: undefined,
+        },
+      });
     } else {
       dispatch(setQuotedMessage(conversationId, undefined));
     }

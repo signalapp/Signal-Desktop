@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
+import PQueue from 'p-queue';
 
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
@@ -13,20 +14,30 @@ import { getSendOptions } from '../../util/getSendOptions';
 import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
+import { uploadAttachment } from '../../util/uploadAttachment';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { isSent } from '../../messages/MessageSendState';
 import { isOutgoing, canReact } from '../../state/selectors/message';
 import type {
-  AttachmentType,
-  ContactWithHydratedAvatar,
   ReactionType,
+  OutgoingQuoteType,
+  OutgoingQuoteAttachmentType,
+  OutgoingLinkPreviewType,
+  OutgoingStickerType,
 } from '../../textsecure/SendMessage';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type {
+  AttachmentType,
+  UploadedAttachmentType,
+  AttachmentWithHydratedData,
+} from '../../types/Attachment';
+import { LONG_MESSAGE, MIMETypeToString } from '../../types/MIME';
 import type { RawBodyRange } from '../../types/BodyRange';
+import type {
+  EmbeddedContactWithHydratedAvatar,
+  EmbeddedContactWithUploadedAvatar,
+} from '../../types/EmbeddedContact';
 import type { StoryContextType } from '../../types/Util';
 import type { LoggerType } from '../../types/Logging';
-import type { StickerWithHydratedData } from '../../types/Stickers';
-import type { QuotedMessageType } from '../../model-types.d';
 import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
@@ -39,6 +50,10 @@ import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { sendToGroup } from '../../util/sendToGroup';
 import type { DurationInSeconds } from '../../util/durations';
 import type { UUIDStringType } from '../../types/UUID';
+import * as Bytes from '../../Bytes';
+
+const LONG_ATTACHMENT_LIMIT = 2048;
+const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 
 export async function sendNormalMessage(
   conversation: ConversationModel,
@@ -149,15 +164,16 @@ export async function sendNormalMessage(
       body,
       contact,
       deletedForEveryoneTimestamp,
+      editedMessageTimestamp,
       expireTimer,
       bodyRanges,
       messageTimestamp,
       preview,
       quote,
+      reaction,
       sticker,
       storyMessage,
       storyContext,
-      reaction,
     } = await getMessageSendData({ log, message });
 
     if (reaction) {
@@ -211,6 +227,7 @@ export async function sendNormalMessage(
         bodyRanges,
         contact,
         deletedForEveryoneTimestamp,
+        editedMessageTimestamp,
         expireTimer,
         groupV2: conversation.getGroupV2Info({
           members: recipientIdentifiersWithoutMe,
@@ -256,6 +273,7 @@ export async function sendNormalMessage(
                 bodyRanges,
                 contact,
                 deletedForEveryoneTimestamp,
+                editedMessageTimestamp,
                 expireTimer,
                 groupV2: groupV2Info,
                 messageText: body,
@@ -309,6 +327,7 @@ export async function sendNormalMessage(
           contact,
           contentHint: ContentHint.RESENDABLE,
           deletedForEveryoneTimestamp,
+          editedMessageTimestamp,
           expireTimer,
           groupId: undefined,
           identifier: recipientIdentifiersWithoutMe[0],
@@ -466,83 +485,115 @@ async function getMessageSendData({
   log: LoggerType;
   message: MessageModel;
 }>): Promise<{
-  attachments: Array<AttachmentType>;
+  attachments: Array<UploadedAttachmentType>;
   body: undefined | string;
-  contact?: Array<ContactWithHydratedAvatar>;
+  contact?: Array<EmbeddedContactWithUploadedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
+  editedMessageTimestamp: number | undefined;
   expireTimer: undefined | DurationInSeconds;
   bodyRanges: undefined | ReadonlyArray<RawBodyRange>;
   messageTimestamp: number;
-  preview: Array<LinkPreviewType>;
-  quote: QuotedMessageType | null;
-  sticker: StickerWithHydratedData | undefined;
+  preview: Array<OutgoingLinkPreviewType> | undefined;
+  quote: OutgoingQuoteType | undefined;
+  sticker: OutgoingStickerType | undefined;
   reaction: ReactionType | undefined;
   storyMessage?: MessageModel;
   storyContext?: StoryContextType;
 }> {
-  const {
-    loadAttachmentData,
-    loadContactData,
-    loadPreviewData,
-    loadQuoteData,
-    loadStickerData,
-  } = window.Signal.Migrations;
-
-  let messageTimestamp: number;
+  const editMessageTimestamp = message.get('editMessageTimestamp');
   const sentAt = message.get('sent_at');
   const timestamp = message.get('timestamp');
+
+  let mainMessageTimestamp: number;
   if (sentAt) {
-    messageTimestamp = sentAt;
+    mainMessageTimestamp = sentAt;
   } else if (timestamp) {
     log.error('message lacked sent_at. Falling back to timestamp');
-    messageTimestamp = timestamp;
+    mainMessageTimestamp = timestamp;
   } else {
     log.error(
       'message lacked sent_at and timestamp. Falling back to current time'
     );
-    messageTimestamp = Date.now();
+    mainMessageTimestamp = Date.now();
   }
+
+  const messageTimestamp = editMessageTimestamp || mainMessageTimestamp;
 
   const storyId = message.get('storyId');
 
-  const [attachmentsWithData, contact, preview, quote, sticker, storyMessage] =
-    await Promise.all([
-      // We don't update the caches here because (1) we expect the caches to be populated
-      //   on initial send, so they should be there in the 99% case (2) if you're retrying
-      //   a failed message across restarts, we don't touch the cache for simplicity. If
-      //   sends are failing, let's not add the complication of a cache.
-      Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
-      message.cachedOutgoingContactData ||
-        loadContactData(message.get('contact')),
-      message.cachedOutgoingPreviewData ||
-        loadPreviewData(message.get('preview')),
-      message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
-      message.cachedOutgoingStickerData ||
-        loadStickerData(message.get('sticker')),
-      storyId ? getMessageById(storyId) : undefined,
-    ]);
+  // Figure out if we need to upload message body as an attachment.
+  let body = message.get('body');
+  let maybeLongAttachment: AttachmentWithHydratedData | undefined;
+  if (body && body.length > LONG_ATTACHMENT_LIMIT) {
+    const data = Bytes.fromString(body);
 
-  const { body, attachments } = window.Whisper.Message.getLongMessageAttachment(
-    {
-      body: message.get('body'),
-      attachments: attachmentsWithData,
-      now: messageTimestamp,
-    }
-  );
+    maybeLongAttachment = {
+      contentType: LONG_MESSAGE,
+      fileName: `long-message-${messageTimestamp}.txt`,
+      data,
+      size: data.byteLength,
+    };
+    body = body.slice(0, LONG_ATTACHMENT_LIMIT);
+  }
+
+  const uploadQueue = new PQueue({
+    concurrency: MAX_CONCURRENT_ATTACHMENT_UPLOADS,
+  });
+
+  const [
+    uploadedAttachments,
+    maybeUploadedLongAttachment,
+    contact,
+    preview,
+    quote,
+    sticker,
+    storyMessage,
+  ] = await Promise.all([
+    uploadQueue.addAll(
+      (message.get('attachments') ?? []).map(
+        attachment => () => uploadSingleAttachment(message, attachment)
+      )
+    ),
+    uploadQueue.add(async () =>
+      maybeLongAttachment ? uploadAttachment(maybeLongAttachment) : undefined
+    ),
+    uploadMessageContacts(message, uploadQueue),
+    uploadMessagePreviews(message, uploadQueue),
+    uploadMessageQuote(message, uploadQueue),
+    uploadMessageSticker(message, uploadQueue),
+    storyId ? getMessageById(storyId) : undefined,
+  ]);
+
+  // Save message after uploading attachments
+  await window.Signal.Data.saveMessage(message.attributes, {
+    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+  });
 
   const storyReaction = message.get('storyReaction');
 
+  const isEditedMessage = Boolean(message.get('editHistory'));
+
   return {
-    attachments,
+    attachments: [
+      ...(maybeUploadedLongAttachment ? [maybeUploadedLongAttachment] : []),
+      ...uploadedAttachments,
+    ],
     body,
     contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
+    editedMessageTimestamp: isEditedMessage ? mainMessageTimestamp : undefined,
     expireTimer: message.get('expireTimer'),
     // TODO: we want filtration here if feature flag doesn't allow format/spoiler sends
     bodyRanges: message.get('bodyRanges'),
     messageTimestamp,
     preview,
     quote,
+    reaction: storyReaction
+      ? {
+          ...storyReaction,
+          remove: false,
+        }
+      : undefined,
     sticker,
     storyMessage,
     storyContext: storyMessage
@@ -551,13 +602,313 @@ async function getMessageSendData({
           timestamp: storyMessage.get('sent_at'),
         }
       : undefined,
-    reaction: storyReaction
-      ? {
-          ...storyReaction,
-          remove: false,
-        }
-      : undefined,
   };
+}
+
+async function uploadSingleAttachment(
+  message: MessageModel,
+  attachment: AttachmentType
+): Promise<UploadedAttachmentType> {
+  const { loadAttachmentData } = window.Signal.Migrations;
+
+  const withData = await loadAttachmentData(attachment);
+  const uploaded = await uploadAttachment(withData);
+
+  // Add digest to the attachment
+  const logId = `uploadSingleAttachment(${message.idForLogging()}`;
+  const oldAttachments = message.get('attachments');
+  strictAssert(
+    oldAttachments !== undefined,
+    `${logId}: Attachment was uploaded, but message doesn't ` +
+      'have attachments anymore'
+  );
+
+  const index = oldAttachments.indexOf(attachment);
+  strictAssert(
+    index !== -1,
+    `${logId}: Attachment was uploaded, but isn't in the message anymore`
+  );
+
+  const newAttachments = [...oldAttachments];
+  newAttachments[index].digest = Bytes.toBase64(uploaded.digest);
+
+  message.set('attachments', newAttachments);
+
+  return uploaded;
+}
+
+async function uploadMessageQuote(
+  message: MessageModel,
+  uploadQueue: PQueue
+): Promise<OutgoingQuoteType | undefined> {
+  const { loadQuoteData } = window.Signal.Migrations;
+
+  // We don't update the caches here because (1) we expect the caches to be populated
+  //   on initial send, so they should be there in the 99% case (2) if you're retrying
+  //   a failed message across restarts, we don't touch the cache for simplicity. If
+  //   sends are failing, let's not add the complication of a cache.
+  const loadedQuote =
+    message.cachedOutgoingQuoteData ||
+    (await loadQuoteData(message.get('quote')));
+
+  if (!loadedQuote) {
+    return undefined;
+  }
+
+  const uploadedAttachments = await uploadQueue.addAll(
+    loadedQuote.attachments.map(
+      attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
+        const { thumbnail } = attachment;
+        strictAssert(thumbnail, 'Quote attachment must have a thumbnail');
+
+        const uploaded = await uploadAttachment(thumbnail);
+
+        return {
+          contentType: MIMETypeToString(thumbnail.contentType),
+          fileName: attachment.fileName,
+          thumbnail: uploaded,
+        };
+      }
+    )
+  );
+
+  // Update message with attachment digests
+  const logId = `uploadMessageQuote(${message.idForLogging()}`;
+  const oldQuote = message.get('quote');
+  strictAssert(oldQuote, `${logId}: Quote is gone after upload`);
+
+  const newQuote = {
+    ...oldQuote,
+    attachments: oldQuote.attachments.map((attachment, index) => {
+      strictAssert(
+        attachment.path === loadedQuote.attachments.at(index)?.path,
+        `${logId}: Quote attachment ${index} was updated from under us`
+      );
+
+      strictAssert(
+        attachment.thumbnail,
+        `${logId}: Quote attachment ${index} no longer has a thumbnail`
+      );
+
+      return {
+        ...attachment,
+        thumbnail: {
+          ...attachment.thumbnail,
+          digest: Bytes.toBase64(uploadedAttachments[index].thumbnail.digest),
+        },
+      };
+    }),
+  };
+  message.set('quote', newQuote);
+
+  return {
+    isGiftBadge: loadedQuote.isGiftBadge,
+    id: loadedQuote.id,
+    authorUuid: loadedQuote.authorUuid,
+    text: loadedQuote.text,
+    bodyRanges: loadedQuote.bodyRanges,
+    attachments: uploadedAttachments,
+  };
+}
+
+async function uploadMessagePreviews(
+  message: MessageModel,
+  uploadQueue: PQueue
+): Promise<Array<OutgoingLinkPreviewType> | undefined> {
+  const { loadPreviewData } = window.Signal.Migrations;
+
+  // See uploadMessageQuote for comment on how we do caching for these
+  // attachments.
+  const loadedPreviews =
+    message.cachedOutgoingPreviewData ||
+    (await loadPreviewData(message.get('preview')));
+
+  if (!loadedPreviews) {
+    return undefined;
+  }
+  if (loadedPreviews.length === 0) {
+    return [];
+  }
+
+  const uploadedPreviews = await uploadQueue.addAll(
+    loadedPreviews.map(
+      preview => async (): Promise<OutgoingLinkPreviewType> => {
+        if (!preview.image) {
+          return {
+            ...preview,
+
+            // Pacify typescript
+            image: undefined,
+          };
+        }
+
+        return {
+          ...preview,
+          image: await uploadAttachment(preview.image),
+        };
+      }
+    )
+  );
+
+  // Update message with attachment digests
+  const logId = `uploadMessagePreviews(${message.idForLogging()}`;
+  const oldPreview = message.get('preview');
+  strictAssert(oldPreview, `${logId}: Link preview is gone after upload`);
+
+  const newPreview = oldPreview.map((preview, index) => {
+    strictAssert(
+      preview.image?.path === loadedPreviews.at(index)?.image?.path,
+      `${logId}: Preview attachment ${index} was updated from under us`
+    );
+
+    const uploaded = uploadedPreviews.at(index);
+    if (!preview.image || !uploaded?.image) {
+      return preview;
+    }
+
+    return {
+      ...preview,
+      image: {
+        ...preview.image,
+        digest: Bytes.toBase64(uploaded.image.digest),
+      },
+    };
+  });
+  message.set('preview', newPreview);
+
+  return uploadedPreviews;
+}
+
+async function uploadMessageSticker(
+  message: MessageModel,
+  uploadQueue: PQueue
+): Promise<OutgoingStickerType | undefined> {
+  const { loadStickerData } = window.Signal.Migrations;
+
+  // See uploadMessageQuote for comment on how we do caching for these
+  // attachments.
+  const sticker =
+    message.cachedOutgoingStickerData ||
+    (await loadStickerData(message.get('sticker')));
+
+  if (!sticker) {
+    return undefined;
+  }
+
+  const uploaded = await uploadQueue.add(() => uploadAttachment(sticker.data));
+
+  // Add digest to the attachment
+  const logId = `uploadMessageSticker(${message.idForLogging()}`;
+  const oldSticker = message.get('sticker');
+  strictAssert(
+    oldSticker?.data !== undefined,
+    `${logId}: Sticker was uploaded, but message doesn't ` +
+      'have a sticker anymore'
+  );
+  strictAssert(
+    oldSticker.data.path === sticker.data?.path,
+    `${logId}: Sticker was uploaded, but message has a different sticker`
+  );
+  message.set('sticker', {
+    ...oldSticker,
+    data: {
+      ...oldSticker.data,
+      digest: Bytes.toBase64(uploaded.digest),
+    },
+  });
+
+  return {
+    ...sticker,
+    data: uploaded,
+  };
+}
+
+async function uploadMessageContacts(
+  message: MessageModel,
+  uploadQueue: PQueue
+): Promise<Array<EmbeddedContactWithUploadedAvatar> | undefined> {
+  const { loadContactData } = window.Signal.Migrations;
+
+  // See uploadMessageQuote for comment on how we do caching for these
+  // attachments.
+  const contacts =
+    message.cachedOutgoingContactData ||
+    (await loadContactData(message.get('contact')));
+
+  if (!contacts) {
+    return undefined;
+  }
+  if (contacts.length === 0) {
+    return [];
+  }
+
+  const uploadedContacts = await uploadQueue.addAll(
+    contacts.map(
+      contact => async (): Promise<EmbeddedContactWithUploadedAvatar> => {
+        const avatar = contact.avatar?.avatar;
+        // Pacify typescript
+        if (contact.avatar === undefined || !avatar) {
+          return {
+            ...contact,
+            avatar: undefined,
+          };
+        }
+
+        const uploaded = await uploadAttachment(avatar);
+
+        return {
+          ...contact,
+          avatar: {
+            ...contact.avatar,
+            avatar: uploaded,
+          },
+        };
+      }
+    )
+  );
+
+  // Add digest to the attachment
+  const logId = `uploadMessageContacts(${message.idForLogging()}`;
+  const oldContact = message.get('contact');
+  strictAssert(oldContact, `${logId}: Contacts are gone after upload`);
+
+  const newContact = oldContact.map((contact, index) => {
+    const loaded: EmbeddedContactWithHydratedAvatar | undefined =
+      contacts.at(index);
+    if (!contact.avatar) {
+      strictAssert(
+        loaded?.avatar === undefined,
+        `${logId}: Avatar erased in the message`
+      );
+      return contact;
+    }
+
+    strictAssert(
+      loaded !== undefined &&
+        loaded.avatar !== undefined &&
+        loaded.avatar.avatar.path === contact.avatar.avatar.path,
+      `${logId}: Avatar has incorrect path`
+    );
+    const uploaded = uploadedContacts.at(index);
+    strictAssert(
+      uploaded !== undefined && uploaded.avatar !== undefined,
+      `${logId}: Avatar wasn't uploaded properly`
+    );
+
+    return {
+      ...contact,
+      avatar: {
+        ...contact.avatar,
+        avatar: {
+          ...contact.avatar.avatar,
+          digest: Bytes.toBase64(uploaded.avatar.avatar.digest),
+        },
+      },
+    };
+  });
+  message.set('contact', newContact);
+
+  return uploadedContacts;
 }
 
 async function markMessageFailed(

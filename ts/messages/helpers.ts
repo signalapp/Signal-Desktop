@@ -111,7 +111,7 @@ export function getPaymentEventDescription(
 export function isQuoteAMatch(
   message: MessageAttributesType | null | undefined,
   conversationId: string,
-  quote: QuotedMessageType
+  quote: Pick<QuotedMessageType, 'id' | 'authorUuid' | 'author'>
 ): message is MessageAttributesType {
   if (!message) {
     return false;
@@ -124,8 +124,13 @@ export function isQuoteAMatch(
     reason: 'helpers.isQuoteAMatch',
   });
 
+  const isSameTimestamp =
+    message.sent_at === id ||
+    message.editHistory?.some(({ timestamp }) => timestamp === id) ||
+    false;
+
   return (
-    message.sent_at === id &&
+    isSameTimestamp &&
     message.conversationId === conversationId &&
     getContactId(message) === authorConversation?.id
   );

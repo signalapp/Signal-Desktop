@@ -49,6 +49,37 @@
       margin-right: 12px;
     }
   }
+
+  &__edit-button {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    background-color: $color-gray-45;
+    display: flex;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+
+    &::before {
+      content: '';
+      height: 20px;
+      width: 20px;
+    }
+
+    &--discard {
+      &::before {
+        @include color-svg('../images/icons/v3/x.svg', $color-white);
+      }
+    }
+    &--accept {
+      background-color: $color-ultramarine;
+      margin-left: 16px;
+      &::before {
+        @include color-svg('../images/icons/v3/check.svg', $color-white);
+      }
+    }
+  }
+
   &__send-button {
     display: flex;
     justify-content: center;
@@ -69,6 +100,7 @@
   &__input {
     flex-grow: 1;
     margin: 0 6px;
+    position: relative;
 
     &--large {
       margin: 0;

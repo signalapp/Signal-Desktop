@@ -49,6 +49,7 @@ function mockMessageTimelineItem(
       author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
+      canEditMessage: true,
       canReact: true,
       canReply: true,
       canRetry: true,
@@ -279,6 +280,7 @@ const actions = () => ({
   updateSharedGroups: action('updateSharedGroups'),
 
   reactToMessage: action('reactToMessage'),
+  setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),

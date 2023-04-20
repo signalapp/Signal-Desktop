@@ -3,17 +3,17 @@
 
 import type { AttachmentType } from '../types/Attachment';
 import type { EditAttributesType } from '../messageModifiers/Edits';
-import type { EditHistoryType, MessageAttributesType } from '../model-types.d';
+import type {
+  EditHistoryType,
+  MessageAttributesType,
+  QuotedMessageType,
+} from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
 import { drop } from './drop';
-import {
-  getAttachmentSignature,
-  isDownloaded,
-  isVoiceMessage,
-} from '../types/Attachment';
+import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';
@@ -56,7 +56,7 @@ export async function handleEditMessage(
 
   // Pull out the edit history from the main message. If this is the first edit
   // then the original message becomes the first item in the edit history.
-  const editHistory: Array<EditHistoryType> = mainMessage.editHistory || [
+  let editHistory: Array<EditHistoryType> = mainMessage.editHistory || [
     {
       attachments: mainMessage.attachments,
       body: mainMessage.body,
@@ -76,46 +76,59 @@ export async function handleEditMessage(
     return;
   }
 
-  const messageAttributesForUpgrade: MessageAttributesType = {
-    ...editAttributes.message,
-    ...editAttributes.dataMessage,
-    // There are type conflicts between MessageAttributesType and protos passed in here
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as any as MessageAttributesType;
-
   const upgradedEditedMessageData =
-    await window.Signal.Migrations.upgradeMessageSchema(
-      messageAttributesForUpgrade
-    );
+    await window.Signal.Migrations.upgradeMessageSchema(editAttributes.message);
 
   // Copies over the attachments from the main message if they're the same
   // and they have already been downloaded.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   const previewSignatures: Map<string, LinkPreviewType> = new Map();
+  const quoteSignatures: Map<string, AttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
-    if (!isDownloaded(attachment)) {
-      return;
-    }
     const signature = getAttachmentSignature(attachment);
-    attachmentSignatures.set(signature, attachment);
+    if (signature) {
+      attachmentSignatures.set(signature, attachment);
+    }
   });
   mainMessage.preview?.forEach(preview => {
-    if (!preview.image || !isDownloaded(preview.image)) {
+    if (!preview.image) {
       return;
     }
     const signature = getAttachmentSignature(preview.image);
-    previewSignatures.set(signature, preview);
+    if (signature) {
+      previewSignatures.set(signature, preview);
+    }
   });
+  if (mainMessage.quote) {
+    for (const attachment of mainMessage.quote.attachments) {
+      if (!attachment.thumbnail) {
+        continue;
+      }
+      const signature = getAttachmentSignature(attachment.thumbnail);
+      if (signature) {
+        quoteSignatures.set(signature, attachment);
+      }
+    }
+  }
 
+  let newAttachments = 0;
   const nextEditedMessageAttachments =
     upgradedEditedMessageData.attachments?.map(attachment => {
       const signature = getAttachmentSignature(attachment);
-      const existingAttachment = attachmentSignatures.get(signature);
+      const existingAttachment = signature
+        ? attachmentSignatures.get(signature)
+        : undefined;
 
-      return existingAttachment || attachment;
+      if (existingAttachment) {
+        return existingAttachment;
+      }
+
+      newAttachments += 1;
+      return attachment;
     });
 
+  let newPreviews = 0;
   const nextEditedMessagePreview = upgradedEditedMessageData.preview?.map(
     preview => {
       if (!preview.image) {
@@ -123,9 +136,55 @@ export async function handleEditMessage(
       }
 
       const signature = getAttachmentSignature(preview.image);
-      const existingPreview = previewSignatures.get(signature);
-      return existingPreview || preview;
+      const existingPreview = signature
+        ? previewSignatures.get(signature)
+        : undefined;
+      if (existingPreview) {
+        return existingPreview;
+      }
+      newPreviews += 1;
+      return preview;
     }
+  );
+
+  let newQuoteThumbnails = 0;
+
+  const { quote: upgradedQuote } = upgradedEditedMessageData;
+  let nextEditedMessageQuote: QuotedMessageType | undefined;
+  if (!upgradedQuote) {
+    // Quote dropped
+    log.info(`${idLog}: dropping quote`);
+  } else if (!upgradedQuote.id || upgradedQuote.id === mainMessage.quote?.id) {
+    // Quote preserved
+    nextEditedMessageQuote = mainMessage.quote;
+  } else {
+    // Quote updated!
+    nextEditedMessageQuote = {
+      ...upgradedQuote,
+      attachments: upgradedQuote.attachments.map(attachment => {
+        if (!attachment.thumbnail) {
+          return attachment;
+        }
+        const signature = getAttachmentSignature(attachment.thumbnail);
+        const existingThumbnail = signature
+          ? quoteSignatures.get(signature)
+          : undefined;
+        if (existingThumbnail) {
+          return {
+            ...attachment,
+            thumbnail: existingThumbnail,
+          };
+        }
+
+        newQuoteThumbnails += 1;
+        return attachment;
+      }),
+    };
+  }
+
+  log.info(
+    `${idLog}: editing message, added ${newAttachments} attachments, ` +
+      `${newPreviews} previews, ${newQuoteThumbnails} quote thumbnails`
   );
 
   const editedMessage: EditHistoryType = {
@@ -134,11 +193,12 @@ export async function handleEditMessage(
     bodyRanges: upgradedEditedMessageData.bodyRanges,
     preview: nextEditedMessagePreview,
     timestamp: upgradedEditedMessageData.timestamp,
+    quote: nextEditedMessageQuote,
   };
 
   // The edit history works like a queue where the newest edits are at the top.
   // Here we unshift the latest edit onto the edit history.
-  editHistory.unshift(editedMessage);
+  editHistory = [editedMessage, ...editHistory];
 
   // Update all the editable attributes on the main message also updating the
   // edit history.
@@ -149,6 +209,7 @@ export async function handleEditMessage(
     editHistory,
     editMessageTimestamp: upgradedEditedMessageData.timestamp,
     preview: editedMessage.preview,
+    quote: editedMessage.quote,
   });
 
   // Queue up any downloads in case they're different, update the fields if so.

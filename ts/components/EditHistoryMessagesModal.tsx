@@ -47,6 +47,7 @@ const MESSAGE_DEFAULT_PROPS = {
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,
   previews: [],
+  retryMessageSend: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
   renderingContext: 'EditHistoryMessagesModal',
@@ -99,8 +100,10 @@ export function EditHistoryMessagesModal({
       hasXButton
       i18n={i18n}
       modalName="EditHistoryMessagesModal"
+      moduleClassName="EditHistoryMessagesModal"
       onClose={closeEditHistoryModal}
       title={i18n('icu:EditHistoryMessagesModal__title')}
+      noTransform
     >
       <div ref={containerElementRef}>
         {editHistoryMessages.map(messageAttributes => {

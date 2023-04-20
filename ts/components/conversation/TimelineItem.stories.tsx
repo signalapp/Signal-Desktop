@@ -67,6 +67,7 @@ const getDefaultProps = () => ({
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('clearTargetedMessage'),
+  setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),

@@ -51,8 +51,9 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import type {
-  LastMessageStatus,
   ConversationAttributesType,
+  DraftEditMessageType,
+  LastMessageStatus,
   MessageAttributesType,
 } from '../../model-types.d';
 import type {
@@ -76,6 +77,7 @@ import { writeProfile } from '../../services/writeProfile';
 import {
   getConversationUuidsStoppingSend,
   getConversationIdsStoppedForVerification,
+  getConversationSelector,
   getMe,
   getMessagesByConversation,
 } from '../selectors/conversations';
@@ -108,7 +110,11 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { isIncoming, isOutgoing } from '../selectors/message';
+import {
+  isIncoming,
+  isOutgoing,
+  processBodyRanges,
+} from '../selectors/message';
 import { getActiveCallState } from '../selectors/calling';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import type { ShowToastActionType } from './toast';
@@ -144,6 +150,7 @@ import type {
   SetQuotedMessageActionType,
 } from './composer';
 import {
+  SET_FOCUS,
   replaceAttachments,
   setComposerFocus,
   setQuoteByMessageId,
@@ -288,6 +295,7 @@ export type ConversationType = ReadonlyDeep<
     shouldShowDraft?: boolean;
     // Full information for re-hydrating composition area
     draftText?: string;
+    draftEditMessage?: DraftEditMessageType;
     draftBodyRanges?: DraftBodyRanges;
     // Summary for the left pane
     draftPreview?: DraftPreviewType;
@@ -1003,6 +1011,7 @@ export const actions = {
   deleteMessages,
   deleteMessagesForEveryone,
   destroyMessages,
+  discardEditMessage,
   discardMessages,
   doubleCheckMissingQuoteReference,
   generateNewGroupLink,
@@ -1063,6 +1072,7 @@ export const actions = {
   setIsFetchingUUID,
   setIsNearBottom,
   setMessageLoadingState,
+  setMessageToEdit,
   setMuteExpiration,
   setPinned,
   setPreJoinConversation,
@@ -1713,6 +1723,73 @@ function destroyMessages(
     dispatch({
       type: 'NOOP',
       payload: null,
+    });
+  };
+}
+
+function discardEditMessage(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
+  return () => {
+    window.ConversationController.get(conversationId)?.set(
+      {
+        draftEditMessage: undefined,
+        draftBodyRanges: undefined,
+        draft: undefined,
+        quotedMessageId: undefined,
+      },
+      { unset: true }
+    );
+  };
+}
+
+function setMessageToEdit(
+  conversationId: string,
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+
+    if (!conversation) {
+      return;
+    }
+
+    const message = (await getMessageById(messageId))?.attributes;
+    if (!message) {
+      return;
+    }
+
+    if (!message.body) {
+      return;
+    }
+
+    let attachmentThumbnail: string | undefined;
+    if (message.attachments) {
+      const thumbnailPath = message.attachments[0]?.thumbnail?.path;
+      attachmentThumbnail = thumbnailPath
+        ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnailPath)
+        : undefined;
+    }
+
+    conversation.set({
+      draftEditMessage: {
+        body: message.body,
+        editHistoryLength: message.editHistory?.length ?? 0,
+        attachmentThumbnail,
+        preview: message.preview ? message.preview[0] : undefined,
+        targetMessageId: messageId,
+        quote: message.quote,
+      },
+      draftBodyRanges: processBodyRanges(message, {
+        conversationSelector: getConversationSelector(getState()),
+      }),
+    });
+
+    dispatch({
+      type: SET_FOCUS,
+      payload: {
+        conversationId,
+      },
     });
   };
 }

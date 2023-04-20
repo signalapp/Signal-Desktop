@@ -197,6 +197,7 @@ export const TimelineItem = memo(function TimelineItem({
   renderUniversalTimerNotification,
   returnToActiveCall,
   targetMessage,
+  setMessageToEdit,
   shouldCollapseAbove,
   shouldCollapseBelow,
   shouldHideMetadata,
@@ -223,6 +224,7 @@ export const TimelineItem = memo(function TimelineItem({
         {...item.data}
         isTargeted={isTargeted}
         targetMessage={targetMessage}
+        setMessageToEdit={setMessageToEdit}
         shouldCollapseAbove={shouldCollapseAbove}
         shouldCollapseBelow={shouldCollapseBelow}
         shouldHideMetadata={shouldHideMetadata}

@@ -26,6 +26,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.Blocked };
     case ToastType.BlockedGroup:
       return { toastType: ToastType.BlockedGroup };
+    case ToastType.CannotEditMessage:
+      return { toastType: ToastType.CannotEditMessage };
     case ToastType.CannotForwardEmptyMessage:
       return { toastType: ToastType.CannotForwardEmptyMessage };
     case ToastType.CannotMixMultiAndNonMultiAttachments:

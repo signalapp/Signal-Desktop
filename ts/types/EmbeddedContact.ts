@@ -11,23 +11,34 @@ import {
   format as formatPhoneNumber,
   parse as parsePhoneNumber,
 } from './PhoneNumber';
-import type { AttachmentType, migrateDataToFileSystem } from './Attachment';
+import type {
+  AttachmentType,
+  AttachmentWithHydratedData,
+  UploadedAttachmentType,
+  migrateDataToFileSystem,
+} from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
 import type { UUIDStringType } from './UUID';
 
-export type EmbeddedContactType = {
+type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;
   number?: Array<Phone>;
   email?: Array<Email>;
   address?: Array<PostalAddress>;
-  avatar?: Avatar;
+  avatar?: AvatarType;
   organization?: string;
 
   // Populated by selector
   firstNumber?: string;
   uuid?: UUIDStringType;
 };
+
+export type EmbeddedContactType = GenericEmbeddedContactType<Avatar>;
+export type EmbeddedContactWithHydratedAvatar =
+  GenericEmbeddedContactType<AvatarWithHydratedData>;
+export type EmbeddedContactWithUploadedAvatar =
+  GenericEmbeddedContactType<UploadedAvatar>;
 
 type Name = {
   givenName?: string;
@@ -75,10 +86,14 @@ export type PostalAddress = {
   country?: string;
 };
 
-export type Avatar = {
-  avatar: AttachmentType;
+type GenericAvatar<Attachment> = {
+  avatar: Attachment;
   isProfile: boolean;
 };
+
+export type Avatar = GenericAvatar<AttachmentType>;
+export type AvatarWithHydratedData = GenericAvatar<AttachmentWithHydratedData>;
+export type UploadedAvatar = GenericAvatar<UploadedAttachmentType>;
 
 const DEFAULT_PHONE_TYPE = Proto.DataMessage.Contact.Phone.Type.HOME;
 const DEFAULT_EMAIL_TYPE = Proto.DataMessage.Contact.Email.Type.HOME;

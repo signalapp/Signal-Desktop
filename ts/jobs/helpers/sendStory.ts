@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
-import type {
-  AttachmentWithHydratedData,
-  TextAttachmentType,
-} from '../../types/Attachment';
+import type { UploadedAttachmentType } from '../../types/Attachment';
 import type { ConversationModel } from '../../models/conversations';
 import type {
   ConversationQueueJobBundle,
@@ -38,7 +35,9 @@ import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
 import { distributionListToSendTarget } from '../../util/distributionListToSendTarget';
+import { uploadAttachment } from '../../util/uploadAttachment';
 import { SendMessageChallengeError } from '../../textsecure/Errors';
+import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage';
 
 export async function sendStory(
   conversation: ConversationModel,
@@ -136,15 +135,40 @@ export async function sendStory(
       return;
     }
 
-    let textAttachment: TextAttachmentType | undefined;
-    let fileAttachment: AttachmentWithHydratedData | undefined;
+    let textAttachment: OutgoingTextAttachmentType | undefined;
+    let fileAttachment: UploadedAttachmentType | undefined;
 
     if (attachment.textAttachment) {
-      textAttachment = attachment.textAttachment;
+      const localAttachment = attachment.textAttachment;
+
+      // Pacify typescript
+      if (localAttachment.preview === undefined) {
+        textAttachment = {
+          ...localAttachment,
+          preview: undefined,
+        };
+      } else {
+        const hydratedPreview = (
+          await window.Signal.Migrations.loadPreviewData([
+            localAttachment.preview,
+          ])
+        )[0];
+
+        textAttachment = {
+          ...localAttachment,
+          preview: {
+            ...hydratedPreview,
+            image:
+              hydratedPreview.image &&
+              (await uploadAttachment(hydratedPreview.image)),
+          },
+        };
+      }
     } else {
-      fileAttachment = await window.Signal.Migrations.loadAttachmentData(
-        attachment
-      );
+      const hydratedAttachment =
+        await window.Signal.Migrations.loadAttachmentData(attachment);
+
+      fileAttachment = await uploadAttachment(hydratedAttachment);
     }
 
     const groupV2 = isGroupV2(conversation.attributes)
