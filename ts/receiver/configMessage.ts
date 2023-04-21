@@ -41,6 +41,7 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
+import { SettingsKey } from '../data/settings-key';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -873,6 +874,7 @@ async function handleConfigurationMessageLegacy(
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );
+    window.setSettingValue(SettingsKey.someDeviceOutdatedSyncing, true);
     await removeFromCache(envelope);
     return;
   }

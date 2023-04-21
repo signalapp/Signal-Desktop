@@ -489,6 +489,7 @@ export type LocalizerKeys =
   | 'noMessagesInNoteToSelf'
   | 'noMessagesInEverythingElse'
   | 'hideBanner'
+  | 'someOfYourDeviceUseOutdatedVersion'
   | 'openMessageRequestInboxDescription'
   | 'clearAllReactions'
   | 'expandedReactionsText'

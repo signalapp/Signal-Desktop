@@ -6,6 +6,7 @@
 
 .inbox.index {
   display: flex;
+  flex-direction: column;
   background-color: var(--background-primary-color);
 }
 
@@ -63,9 +64,6 @@
 .left-pane-placeholder {
   flex-grow: 1;
   display: flex;
-}
-.conversation.placeholder {
-  height: 100vh;
 }
 .left-pane-wrapper {
   flex: 1;

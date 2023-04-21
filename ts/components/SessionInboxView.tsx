@@ -32,6 +32,7 @@ import { SessionMainPanel } from './SessionMainPanel';
 import moment from 'moment';
 import styled from 'styled-components';
 import { initialSogsRoomInfoState } from '../state/ducks/sogsRoomInfo';
+import { Storage } from '../util/storage';
 
 // Default to the locale from env. It will be overridden if moment
 // does not recognize it with what moment knows which is the closest.
@@ -42,6 +43,10 @@ moment.locale((window.i18n as any).getLocale());
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 import useUpdate from 'react-use/lib/useUpdate';
+import useInterval from 'react-use/lib/useInterval';
+import { SettingsKey } from '../data/settings-key';
+import { NoticeBanner } from './NoticeBanner';
+import { Flex } from './basic/Flex';
 
 const StyledGutter = styled.div`
   width: 380px !important;
@@ -89,6 +94,36 @@ function setupLeftPane(forceUpdateInboxComponent: () => void) {
   forceUpdateInboxComponent();
 }
 
+const SomeDeviceOutdatedSyncingNotice = () => {
+  const forceUpdate = useUpdate();
+  const isShown = Boolean(window.getSettingValue(SettingsKey.someDeviceOutdatedSyncing));
+
+  // it would be nice to get the settings into a redux slice in addition to their Storage location and keep them in sync.
+  // So we could just use a selector here.
+  useInterval(() => {
+    const shouldBeShown = Storage.get(SettingsKey.someDeviceOutdatedSyncing);
+
+    if (!isShown && shouldBeShown) {
+      forceUpdate();
+    }
+  }, 1000);
+
+  const dismiss = async () => {
+    await window.setSettingValue(SettingsKey.someDeviceOutdatedSyncing, false);
+    forceUpdate();
+  };
+
+  if (!isShown) {
+    return null;
+  }
+  return (
+    <NoticeBanner
+      text={window.i18n('someOfYourDeviceUseOutdatedVersion')}
+      dismissCallback={dismiss}
+    />
+  );
+};
+
 export const SessionInboxView = () => {
   const update = useUpdate();
   // run only on mount
@@ -105,10 +140,13 @@ export const SessionInboxView = () => {
     <div className="inbox index">
       <Provider store={window.inboxStore}>
         <PersistGate loading={null} persistor={persistor}>
-          <StyledGutter>
-            <LeftPane />
-          </StyledGutter>
-          <SessionMainPanel />
+          <SomeDeviceOutdatedSyncingNotice />
+          <Flex container={true} height="0" flexShrink={100} flexGrow={1}>
+            <StyledGutter>
+              <LeftPane />
+            </StyledGutter>
+            <SessionMainPanel />
+          </Flex>
         </PersistGate>
       </Provider>
     </div>

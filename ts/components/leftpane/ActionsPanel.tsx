@@ -16,8 +16,8 @@ import useTimeoutFn from 'react-use/lib/useTimeoutFn';
 import { clearSearch } from '../../state/ducks/search';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import {
-  getOurPrimaryConversation,
   getGlobalUnreadMessageCount,
+  getOurPrimaryConversation,
 } from '../../state/selectors/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getOurNumber } from '../../state/selectors/user';

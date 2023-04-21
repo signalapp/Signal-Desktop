@@ -9,6 +9,7 @@ const settingsStartInTray = 'start-in-tray-setting';
 const settingsOpengroupPruning = 'prune-setting';
 const settingsNotification = 'notification-setting';
 const settingsAudioNotification = 'audio-notification-setting';
+const someDeviceOutdatedSyncing = 'some-device-outdated-syncing';
 
 export const SettingsKey = {
   settingsReadReceipt,
@@ -21,6 +22,7 @@ export const SettingsKey = {
   settingsOpengroupPruning,
   settingsNotification,
   settingsAudioNotification,
+  someDeviceOutdatedSyncing,
 };
 
 export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';
