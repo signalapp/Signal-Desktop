@@ -13,3 +13,5 @@ export const i18n = setupI18n(
   window.SignalContext.getI18nLocale(),
   window.SignalContext.getI18nLocaleMessages()
 );
+
+window.i18n = i18n;

@@ -15,7 +15,7 @@ strictAssert(AboutWindowProps, 'window values not provided');
 let platform = '';
 if (AboutWindowProps.platform === 'darwin') {
   if (AboutWindowProps.arch === 'arm64') {
-    platform = ` (${window.i18n('icu:appleSilicon')})`;
+    platform = ` (${i18n('icu:appleSilicon')})`;
   } else {
     platform = ' (Intel)';
   }
