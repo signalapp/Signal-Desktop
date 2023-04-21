@@ -791,38 +791,41 @@ async function uploadMessageSticker(
 
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
-  const sticker =
+  const startingSticker = message.get('sticker');
+  const stickerWithData =
     message.cachedOutgoingStickerData ||
-    (await loadStickerData(message.get('sticker')));
+    (await loadStickerData(startingSticker));
 
-  if (!sticker) {
+  if (!stickerWithData) {
     return undefined;
   }
 
-  const uploaded = await uploadQueue.add(() => uploadAttachment(sticker.data));
+  const uploaded = await uploadQueue.add(() =>
+    uploadAttachment(stickerWithData.data)
+  );
 
   // Add digest to the attachment
   const logId = `uploadMessageSticker(${message.idForLogging()}`;
-  const oldSticker = message.get('sticker');
+  const existingSticker = message.get('sticker');
   strictAssert(
-    oldSticker?.data !== undefined,
+    existingSticker?.data !== undefined,
     `${logId}: Sticker was uploaded, but message doesn't ` +
       'have a sticker anymore'
   );
   strictAssert(
-    oldSticker.data.path === sticker.data?.path,
+    existingSticker.data.path === startingSticker?.data?.path,
     `${logId}: Sticker was uploaded, but message has a different sticker`
   );
   message.set('sticker', {
-    ...oldSticker,
+    ...existingSticker,
     data: {
-      ...oldSticker.data,
+      ...existingSticker.data,
       digest: Bytes.toBase64(uploaded.digest),
     },
   });
 
   return {
-    ...sticker,
+    ...stickerWithData,
     data: uploaded,
   };
 }
