@@ -656,8 +656,9 @@ async function uploadMessageQuote(
   }
 
   const uploadedAttachments = await uploadQueue.addAll(
-    loadedQuote.attachments.map(
-      attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
+    loadedQuote.attachments
+      .filter(attachment => attachment.thumbnail)
+      .map(attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
         const { thumbnail } = attachment;
         strictAssert(thumbnail, 'Quote attachment must have a thumbnail');
 
@@ -668,8 +669,7 @@ async function uploadMessageQuote(
           fileName: attachment.fileName,
           thumbnail: uploaded,
         };
-      }
-    )
+      })
   );
 
   // Update message with attachment digests
@@ -680,6 +680,10 @@ async function uploadMessageQuote(
   const newQuote = {
     ...oldQuote,
     attachments: oldQuote.attachments.map((attachment, index) => {
+      if (!attachment.thumbnail) {
+        return attachment;
+      }
+
       strictAssert(
         attachment.path === loadedQuote.attachments.at(index)?.path,
         `${logId}: Quote attachment ${index} was updated from under us`
