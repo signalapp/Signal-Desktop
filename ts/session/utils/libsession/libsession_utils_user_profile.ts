@@ -3,6 +3,7 @@ import { UserUtils } from '..';
 import { UserConfigWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../../conversations';
 import { fromHexToArray } from '../String';
+import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
 
 async function insertUserProfileIntoWrapper(convoId: string) {
   if (!isUserProfileToStoreInWrapper(convoId)) {
@@ -18,12 +19,21 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   const dbName = ourConvo.get('displayNameInProfile') || '';
   const dbProfileUrl = ourConvo.get('avatarPointer') || '';
   const dbProfileKey = fromHexToArray(ourConvo.get('profileKey') || '');
-  await UserConfigWrapperActions.setName(dbName);
 
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
-    await UserConfigWrapperActions.setProfilePicture(dbProfileUrl, dbProfileKey);
+    await UserConfigWrapperActions.setUserInfo(
+      dbName,
+      ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
+      dbProfileUrl,
+      dbProfileKey
+    );
   } else {
-    await UserConfigWrapperActions.setProfilePicture('', new Uint8Array());
+    await UserConfigWrapperActions.setUserInfo(
+      dbName,
+      ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
+      '',
+      new Uint8Array()
+    );
   }
 }
 

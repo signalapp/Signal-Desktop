@@ -41,12 +41,10 @@ import {
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
 import { getIsMessageSection } from '../../state/selectors/section';
-import {
-  useSelectedConversationKey,
-  useSelectedIsPrivateFriend,
-} from '../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
+import { PubKey } from '../../session/types';
 
 function showDeleteContact(
   isGroup: boolean,
@@ -339,7 +337,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const convoId = useConvoIdFromContext();
   const isIncomingRequest = useIsIncomingRequest(convoId);
-  if (!isIncomingRequest) {
+  if (!isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
     return (
       <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
     );
@@ -361,7 +359,7 @@ export const BlockMenuItem = (): JSX.Element | null => {
   const isPrivate = useIsPrivate(convoId);
   const isIncomingRequest = useIsIncomingRequest(convoId);
 
-  if (!isMe && isPrivate && !isIncomingRequest) {
+  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
     const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
       ? () => unblockConvoById(convoId)
@@ -391,7 +389,7 @@ export const ChangeNicknameMenuItem = () => {
   const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const isPrivate = useIsPrivate(convoId);
-  const isPrivateAndFriend = useSelectedIsPrivateFriend();
+  const isPrivateAndFriend = useIsPrivateAndFriend(convoId);
   const dispatch = useDispatch();
 
   if (isMe || !isPrivate || !isPrivateAndFriend) {

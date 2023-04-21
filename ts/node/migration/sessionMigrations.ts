@@ -1,11 +1,11 @@
 import * as BetterSqlite3 from 'better-sqlite3';
-import { compact, isArray, isEmpty, isNumber, isString, map, pick } from 'lodash';
 import {
   ContactsConfigWrapperInsideWorker,
   ConvoInfoVolatileWrapperInsideWorker,
   UserConfigWrapperInsideWorker,
   UserGroupsWrapperInsideWorker,
 } from 'libsession_util_nodejs';
+import { compact, isArray, isEmpty, isNumber, isString, map, pick } from 'lodash';
 import {
   CONVERSATION_PRIORITIES,
   ConversationAttributes,
@@ -21,13 +21,13 @@ import {
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
-  dropFtsAndTriggers,
   GUARD_NODE_TABLE,
   LAST_HASHES_TABLE,
   MESSAGES_TABLE,
   NODES_FOR_PUBKEY_TABLE,
-  objectToJSON,
   OPEN_GROUP_ROOMS_V2_TABLE,
+  dropFtsAndTriggers,
+  objectToJSON,
   rebuildFtsTable,
   toSqliteBoolean,
 } from '../database_utility';
@@ -1572,13 +1572,23 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       const ourDbName = ourConversation.displayNameInProfile || '';
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
-      userProfileWrapper.setName(ourDbName);
-
+      const ourConvoPriority = ourConversation.priority;
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
-        userProfileWrapper.setProfilePicture(ourDbProfileUrl, ourDbProfileKey);
+        userProfileWrapper.setUserInfo(
+          ourDbName,
+          ourConvoPriority,
+          ourDbProfileUrl || '',
+          ourDbProfileKey
+        );
       } else {
-        userProfileWrapper.setProfilePicture('', new Uint8Array());
+        userProfileWrapper.setUserInfo(
+          ourDbName,
+          ourConvoPriority, // consider that the Note to self is hidden on a fresh account (without avatar set)
+          '',
+          new Uint8Array()
+        );
       }
+
       insertContactIntoContactWrapper(
         ourConversation,
         blockedNumbers,

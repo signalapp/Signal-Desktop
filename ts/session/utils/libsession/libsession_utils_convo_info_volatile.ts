@@ -242,9 +242,9 @@ function getVolatileInfoCached(convoId: string): BaseConvoInfoVolatile | undefin
 /**
  * Removes the matching community from the wrapper and from the cached list of communities
  */
-async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutPubkey: string) {
+async function removeCommunityFromWrapper(convoId: string, fullUrlWithPubkey: string) {
   try {
-    await ConvoInfoVolatileWrapperActions.eraseCommunityByFullUrl(fullUrlWithOrWithoutPubkey);
+    await ConvoInfoVolatileWrapperActions.eraseCommunityByFullUrl(fullUrlWithPubkey);
   } catch (e) {
     window.log.warn('removeCommunityFromWrapper failed with ', e.message);
   }

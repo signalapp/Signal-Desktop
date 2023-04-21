@@ -10,7 +10,8 @@ import { toHex } from '../utils/String';
 async function updateOurProfileSync(
   displayName: string | undefined,
   profileUrl: string | null,
-  profileKey: Uint8Array | null
+  profileKey: Uint8Array | null,
+  priority: number | null
 ) {
   const us = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = getConversationController().get(us);
@@ -19,7 +20,11 @@ async function updateOurProfileSync(
     return;
   }
 
-  return updateProfileOfContact(us, displayName, profileUrl, profileKey);
+  await updateProfileOfContact(us, displayName, profileUrl, profileKey);
+  if (priority !== null && ourConvo.get('priority') !== priority) {
+    ourConvo.set('priority', priority);
+    await ourConvo.commit();
+  }
 }
 
 /**

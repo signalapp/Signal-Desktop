@@ -982,11 +982,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    // TODOLATER we should maybe mark things here as read, but we need a readAt timestamp, and I am not too sure what we should use (considering that disappearing messages needs a real readAt)
-    // const sentAt = messageAttributes.sent_at || messageAttributes.serverTimestamp;
-    // if (sentAt) {
-    //   await this.markConversationRead(sentAt);
-    // }
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,

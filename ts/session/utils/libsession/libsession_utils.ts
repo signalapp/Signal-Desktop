@@ -98,17 +98,18 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
   }
 
   const results: Array<OutgoingConfResult> = [];
+  const variantsNeedingPush = new Set<ConfigWrapperObjectTypes>();
 
   for (let index = 0; index < dumps.length; index++) {
     const dump = dumps[index];
     const variant = dump.variant;
     const needsPush = await GenericWrapperActions.needsPush(variant);
-    window.log.debug(`needsPush ${needsPush} for variant: ${variant}`);
 
     if (!needsPush) {
       continue;
     }
 
+    variantsNeedingPush.add(variant);
     const { data, seqno, hashes } = await GenericWrapperActions.push(variant);
 
     const kind = variantToKind(variant);
@@ -124,6 +125,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
       namespace,
     });
   }
+  window.log.debug(`those variants needs push: "${[...variantsNeedingPush]}"`);
 
   return results;
 }

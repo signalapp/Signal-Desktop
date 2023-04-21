@@ -6,10 +6,10 @@ import {
 import { SignalService } from '../protobuf';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV4 } from '../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../session/conversations';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromBase64ToArray } from '../session/utils/String';
 import { cleanIncomingDataMessage, messageHasVisibleContent } from './dataMessage';
@@ -85,7 +85,7 @@ const handleOpenGroupMessage = async (
   }
 
   void groupConvo.queueJob(async () => {
-    const isMe = UserUtils.isUsFromCache(sender);
+    const isMe = isUsAnySogsFromCache(sender);
 
     // this timestamp has already been forced to ms by the handleMessagesResponseV4() function
     const commonAttributes = { serverTimestamp: sentTimestamp, serverId, conversationId };

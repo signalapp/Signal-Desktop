@@ -27,8 +27,6 @@ export interface Props {
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
-
-  messageRequestsEnabled?: boolean;
   overlayMode: OverlayMode | undefined;
 }
 
@@ -70,7 +68,6 @@ const ClosableOverlay = () => {
 export class LeftPaneMessageSection extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
-
     autoBind(this);
   }
 

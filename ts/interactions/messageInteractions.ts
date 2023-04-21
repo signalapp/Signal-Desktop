@@ -19,7 +19,7 @@ export function banUser(userToBan: string, conversationId: string) {
   try {
     pubKeyToBan = PubKey.cast(userToBan);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
     ToastUtils.pushUserBanFailure();
     return;
   }
@@ -44,7 +44,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
   try {
     pubKeyToUnban = PubKey.cast(userToUnBan);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
     ToastUtils.pushUserBanFailure();
     return;
   }

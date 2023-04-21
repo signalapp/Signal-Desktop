@@ -7,17 +7,18 @@ import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGrou
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
 
+import { ConvoVolatileType } from 'libsession_util_nodejs';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
+import { UserGroupsWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
 import { leaveClosedGroup } from '../group/closed-group';
+import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
+import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
-import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
-import { LibSessionUtil } from '../utils/libsession/libsession_utils';
-import { assertUnreachable } from '../../types/sqlSharedTypes';
-import { ConvoVolatileType } from 'libsession_util_nodejs';
 
 let instance: ConversationController | null;
 
@@ -235,20 +236,23 @@ export class ConversationController {
         break;
       case 'Community':
         window?.log?.info('leaving open group v2', conversation.id);
+
+        try {
+          const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(conversation.id);
+
+          await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
+            conversation.id,
+            fromWrapper?.fullUrl || ''
+          );
+        } catch (e) {
+          window?.log?.info('SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:', e);
+        }
+
         // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
         try {
           await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
         } catch (e) {
           window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
-        }
-
-        try {
-          await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
-            conversation.id,
-            conversation.id
-          );
-        } catch (e) {
-          window?.log?.info('SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:', e);
         }
 
         const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
@@ -264,7 +268,7 @@ export class ConversationController {
         }
         break;
       case 'LegacyGroup':
-        window.log.info(`deleteContact ClosedGroup case: ${id}`);
+        window.log.info(`deleteContact ClosedGroup case: ${conversation.id}`);
         await leaveClosedGroup(conversation.id);
         await SessionUtilUserGroups.removeLegacyGroupFromWrapper(conversation.id);
         await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);

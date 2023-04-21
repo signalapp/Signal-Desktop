@@ -1,4 +1,4 @@
-import _, { compact, isEmpty, toNumber } from 'lodash';
+import { compact, isEmpty, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationInteraction } from '../interactions';
@@ -12,15 +12,17 @@ import {
 import { getOpenGroupManager } from '../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
+import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
+import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
-import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
@@ -37,6 +39,7 @@ import {
 import { removeFromCache } from './cache';
 import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGroups';
 import { HexKeyPair } from './keypairs';
+import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 
 function groupByVariant(
@@ -89,7 +92,7 @@ async function mergeConfigsWithIncomingUpdates(
       const needsDump = await GenericWrapperActions.needsDump(variant);
       const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
 
-      window.log.info(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
+      window.log.debug(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
 
       const incomingConfResult: IncomingConfResult = {
         needsDump,
@@ -109,20 +112,23 @@ async function mergeConfigsWithIncomingUpdates(
 }
 
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
-  const updatedUserName = await UserConfigWrapperActions.getName();
   if (!result.needsDump) {
     return result;
   }
-
-  const updatedProfilePicture = await UserConfigWrapperActions.getProfilePicture();
-  const picUpdate = !isEmpty(updatedProfilePicture.key) && !isEmpty(updatedProfilePicture.url);
+  const updateUserInfo = await UserConfigWrapperActions.getUserInfo();
+  if (!updateUserInfo) {
+    return result;
+  }
+  const picUpdate = !isEmpty(updateUserInfo.key) && !isEmpty(updateUserInfo.url);
 
   await updateOurProfileLegacyOrViaLibSession(
     result.latestEnvelopeTimestamp,
-    updatedUserName,
-    picUpdate ? updatedProfilePicture.url : null,
-    picUpdate ? updatedProfilePicture.key : null
+    updateUserInfo.name,
+    picUpdate ? updateUserInfo.url : null,
+    picUpdate ? updateUserInfo.key : null,
+    updateUserInfo.priority
   );
+
   return result;
 }
 
@@ -205,11 +211,16 @@ async function handleCommunitiesUpdate() {
   // first let's check which communities needs to be joined or left by doing a diff of what is in the wrapper and what is in the DB
 
   const allCommunitiesInWrapper = await UserGroupsWrapperActions.getAllCommunities();
+  window.log.debug(
+    'allCommunitiesInWrapper',
+    allCommunitiesInWrapper.map(m => m.fullUrl)
+  );
   const allCommunitiesConversation = getConversationController()
     .getConversations()
     .filter(SessionUtilUserGroups.isCommunityToStoreInWrapper);
 
   const allCommunitiesIdsInDB = allCommunitiesConversation.map(m => m.id as string);
+  window.log.debug('allCommunitiesIdsInDB', allCommunitiesIdsInDB);
 
   const communitiesIdsInWrapper = compact(
     allCommunitiesInWrapper.map(m => {
@@ -291,7 +302,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   const allLegacyGroupsInWrapper = await UserGroupsWrapperActions.getAllLegacyGroups();
   const allLegacyGroupsInDb = getConversationController()
     .getConversations()
-    .filter(SessionUtilUserGroups.isLegacyGroupToStoreInWrapper);
+    .filter(SessionUtilUserGroups.isLegacyGroupToRemoveFromDBIfNotInWrapper);
 
   const allLegacyGroupsIdsInDB = allLegacyGroupsInDb.map(m => m.id as string);
   const allLegacyGroupsIdsInWrapper = allLegacyGroupsInWrapper.map(m => m.pubkeyHex);
@@ -299,6 +310,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   const legacyGroupsToJoinInDB = allLegacyGroupsInWrapper.filter(m => {
     return !allLegacyGroupsIdsInDB.includes(m.pubkeyHex);
   });
+
+  window.log.debug(`allLegacyGroupsInWrapper: ${allLegacyGroupsInWrapper.map(m => m.pubkeyHex)} `);
+  window.log.debug(`allLegacyGroupsIdsInDB: ${allLegacyGroupsIdsInDB} `);
 
   const legacyGroupsToLeaveInDB = allLegacyGroupsInDb.filter(m => {
     return !allLegacyGroupsIdsInWrapper.includes(m.id);
@@ -385,6 +399,11 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       );
       changes = true;
     }
+    // start polling for this new group
+    getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));
+
+    // trigger decrypting of all this group messages we did not decrypt successfully yet.
+    await queueAllCachedFromSource(fromWrapper.pubkeyHex);
 
     if (changes) {
       await legacyGroupConvo.commit();
@@ -578,6 +597,7 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
           break;
         default:
           try {
+            // we catch errors here because an old client knowing about a new type of config coming from the network should not just crash
             assertUnreachable(kind, `processMergingResults unsupported kind: "${kind}"`);
           } catch (e) {
             window.log.warn('assertUnreachable failed', e.message);
@@ -623,7 +643,7 @@ async function handleConfigMessagesViaLibSession(
   }
 
   window?.log?.info(
-    `Handling our sharedConfig message via libsession_util: ${configMessages.length}`
+    `Handling our sharedConfig message via libsession_util; count: ${configMessages.length}`
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
@@ -635,9 +655,10 @@ async function updateOurProfileLegacyOrViaLibSession(
   sentAt: number,
   displayName: string,
   profileUrl: string | null,
-  profileKey: Uint8Array | null
+  profileKey: Uint8Array | null,
+  priority: number | null // passing null means to not update the priority at all (used for legacy config message for now)
 ) {
-  await ProfileManager.updateOurProfileSync(displayName, profileUrl, profileKey);
+  await ProfileManager.updateOurProfileSync(displayName, profileUrl, profileKey, priority);
 
   await setLastProfileUpdateTimestamp(toNumber(sentAt));
   // do not trigger a signin by linking if the display name is empty
@@ -667,7 +688,8 @@ async function handleOurProfileUpdateLegacy(
       toNumber(sentAt),
       displayName,
       profilePicture,
-      profileKey
+      profileKey,
+      null // passing null to say do not the prioroti, as we do not get one from the legacy config message
     );
   }
 }

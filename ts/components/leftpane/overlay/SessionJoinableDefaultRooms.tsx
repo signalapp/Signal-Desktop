@@ -61,7 +61,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
           });
       }
     } catch (e) {
-      window?.log?.warn(e);
+      window?.log?.warn(e.message);
     }
     return () => {
       isCancelled = true;

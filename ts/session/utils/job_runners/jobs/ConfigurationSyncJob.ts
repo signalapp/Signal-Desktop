@@ -168,6 +168,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         window.log.warn('did not find our own conversation');
         return RunJobResult.PermanentFailure;
       }
+
       for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
         const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
@@ -292,9 +293,9 @@ async function queueNewJobIfNeeded() {
   ) {
     // this call will make sure that there is only one configuration sync job at all times
     await runners.configurationSyncRunner.addJob(
-      new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() })
+      new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() + 1000 })
     );
-    window.log.debug('Scheduling ConfSyncJob: ASAP');
+    window.log.debug('Scheduling ConfSyncJob: ASAP'); // we postpone by 1000ms to make sure whoever is adding this job is done with what is needs to do first
   } else {
     // if we did run at t=100, and it is currently t=110, the difference is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);

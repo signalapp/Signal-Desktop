@@ -44,7 +44,7 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
     // the sogs messages do not come as milliseconds but just seconds, so we override it
     await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
   }
 }
 
@@ -466,7 +466,7 @@ export async function innerHandleSwarmContentMessage(
       );
     }
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
   }
 }
 

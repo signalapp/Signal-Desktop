@@ -3,16 +3,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
 import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
-import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
+import { SessionTheme } from '../../themes/SessionTheme';
+import { SessionToastContainer } from '../SessionToastContainer';
 import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
 import { DraggableCallContainer } from '../calling/DraggableCallContainer';
 import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { ModalContainer } from '../dialog/ModalContainer';
-import { SessionToastContainer } from '../SessionToastContainer';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
@@ -28,7 +27,6 @@ const InnerLeftPaneMessageSection = () => {
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
-  const messageRequestsEnabled = useSelector(getHideMessageRequestBanner);
   const overlayMode = useSelector(getOverlayMode);
 
   return (
@@ -37,7 +35,6 @@ const InnerLeftPaneMessageSection = () => {
       conversations={lists?.conversations || []}
       contacts={lists?.contacts || []}
       searchResults={searchResults}
-      messageRequestsEnabled={messageRequestsEnabled}
       overlayMode={overlayMode}
     />
   );

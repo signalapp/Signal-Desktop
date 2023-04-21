@@ -288,6 +288,11 @@ const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
+    // a private conversation not approved is a message request. Exclude them from the left pane lists
+    if (conversation.isPrivate && !conversation.isApproved) {
+      continue;
+    }
+
     const isPrivateButHidden =
       conversation.isPrivate &&
       conversation.priority &&

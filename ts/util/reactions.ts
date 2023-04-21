@@ -58,7 +58,7 @@ const getMessageByReaction = async (
   }
 
   if (!originalMessage) {
-    window?.log?.warn(`Cannot find the original reacted message ${originalMessageId}.`);
+    window?.log?.debug(`Cannot find the original reacted message ${originalMessageId}.`);
     return null;
   }
 
@@ -236,7 +236,7 @@ const handleMessageReaction = async ({
 const handleClearReaction = async (conversationId: string, serverId: number, emoji: string) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
     return;
@@ -269,7 +269,7 @@ const handleOpenGroupMessageReactions = async (
 ) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
     return;

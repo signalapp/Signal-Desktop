@@ -99,7 +99,7 @@ class ConfigurationSyncDumpJob extends PersistedJob<ConfigurationSyncDumpPersist
       // so when we call needsDump(), we know for sure that we are up to date
 
       // TODOLATER we need to add  the dump of the wrappers of other destination than ourself once we had the closed group handling of config sync job
-
+      // I think dumping should not fetch data from the DB again, but instead just use the data already in the wrapper.
       for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
         const variant = LibSessionUtil.requiredUserVariants[index];
         switch (variant) {
@@ -174,7 +174,7 @@ async function queueNewJobIfNeeded() {
 
     // this call will make sure that there is only one configuration sync job at all times
     await runners.configurationSyncDumpRunner.addJob(
-      new ConfigurationSyncDumpJob({ nextAttemptTimestamp: Date.now() })
+      new ConfigurationSyncDumpJob({ nextAttemptTimestamp: Date.now() + 1000 }) // we postpone by 1000ms to make sure whoever is adding this job is done with what is needs to do first
     );
   } else {
     // if we did run at 100, and it is currently 110, diff is 10

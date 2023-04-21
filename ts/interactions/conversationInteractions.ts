@@ -105,7 +105,7 @@ export const approveConvoAndSendResponse = async (
 ) => {
   const convoToApprove = getConversationController().get(conversationId);
 
-  if (!convoToApprove || convoToApprove.isApproved()) {
+  if (!convoToApprove) {
     window?.log?.info('Conversation is already approved.');
     return;
   }
@@ -134,8 +134,8 @@ export async function declineConversationWithoutConfirm({
 }) {
   const conversationToDecline = getConversationController().get(conversationId);
 
-  if (!conversationToDecline || !conversationToDecline.isApproved()) {
-    window?.log?.info('Conversation is already declined.');
+  if (!conversationToDecline || !conversationToDecline.isPrivate()) {
+    window?.log?.info('No conversation to decline.');
     return;
   }
 

@@ -7,6 +7,7 @@ import { getUnreadConversationRequests } from '../../state/selectors/conversatio
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { MessageRequestBannerContextMenu } from '../menu/MessageRequestBannerContextMenu';
+import { isSearching } from '../../state/selectors/search';
 
 const StyledMessageRequestBanner = styled.div`
   height: 64px;
@@ -87,7 +88,10 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const conversationRequestsUnread = useSelector(getUnreadConversationRequests).length;
   const hideRequestBanner = useSelector(getHideMessageRequestBanner);
 
-  if (!conversationRequestsUnread || hideRequestBanner) {
+  // when searching hide the message request banner
+  const isCurrentlySearching = useSelector(isSearching);
+
+  if (!conversationRequestsUnread || hideRequestBanner || isCurrentlySearching) {
     return null;
   }
 

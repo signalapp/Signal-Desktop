@@ -67,6 +67,27 @@ function isLegacyGroupToStoreInWrapper(convo: ConversationModel): boolean {
 }
 
 /**
+ * We do not want to include groups left in the wrapper, but when receiving a list of wrappers from the network we need to check against the one present locally but already left, to know we need to remove them.
+ *
+ * This is to take care of this case:
+ * - deviceA creates group
+ * - deviceB joins group
+ * - deviceA leaves the group
+ * - deviceB leaves the group
+ * - deviceA removes the group entirely from the wrapper
+ * - deviceB receives the wrapper update and needs to remove the group from the DB
+ *
+ * But, as the group was already left, it would not be accounted for by `isLegacyGroupToStoreInWrapper`
+ *
+ */
+function isLegacyGroupToRemoveFromDBIfNotInWrapper(convo: ConversationModel): boolean {
+  // this filter is based on `isLegacyGroupToStoreInWrapper`
+  return (
+    convo.isGroup() && !convo.isPublic() && convo.id.startsWith('05') // new closed groups won't start with 05
+  );
+}
+
+/**
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that community does not exist in the wrapper, it is created before being updated.
  * Same applies for a legacy group.
@@ -221,10 +242,13 @@ function getAllLegacyGroups(): Array<LegacyGroupInfo> {
  * Remove the matching legacy group from the wrapper and from the cached list of legacy groups
  */
 async function removeLegacyGroupFromWrapper(groupPk: string) {
-  const fromWrapper = await UserGroupsWrapperActions.getLegacyGroup(groupPk);
-
-  if (fromWrapper) {
+  try {
     await UserGroupsWrapperActions.eraseLegacyGroup(groupPk);
+  } catch (e) {
+    window.log.warn(
+      `UserGroupsWrapperActions.eraseLegacyGroup with = ${groupPk} failed with`,
+      e.message
+    );
   }
 
   mappedLegacyGroupWrapperValues.delete(groupPk);
@@ -257,6 +281,7 @@ export const SessionUtilUserGroups = {
 
   // legacy group
   isLegacyGroupToStoreInWrapper,
+  isLegacyGroupToRemoveFromDBIfNotInWrapper,
   getLegacyGroupCached,
   getAllLegacyGroups,
   removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODOLATER

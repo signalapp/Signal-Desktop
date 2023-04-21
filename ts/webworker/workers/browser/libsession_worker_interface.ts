@@ -92,21 +92,13 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
   storageNamespace: async () => GenericWrapperActions.storageNamespace('UserConfig'),
 
   /** UserConfig wrapper specific actions */
-  getName: async () =>
-    callLibSessionWorker(['UserConfig', 'getName']) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['getName']>
+  getUserInfo: async () =>
+    callLibSessionWorker(['UserConfig', 'getUserInfo']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getUserInfo']>
     >,
-  getProfilePicture: async () =>
-    callLibSessionWorker(['UserConfig', 'getProfilePicture']) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['getProfilePicture']>
-    >,
-  setName: async (name: string) =>
-    callLibSessionWorker(['UserConfig', 'setName', name]) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['setName']>
-    >,
-  setProfilePicture: async (url: string, key: Uint8Array) =>
-    callLibSessionWorker(['UserConfig', 'setProfilePicture', url, key]) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['setProfilePicture']>
+  setUserInfo: async (name: string, priority: number, url: string, key: Uint8Array) =>
+    callLibSessionWorker(['UserConfig', 'setUserInfo', name, priority, url, key]) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>
     >,
 };
 
