@@ -68,6 +68,7 @@ export type PropsData = Pick<
 };
 
 type PropsHousekeeping = {
+  buttonAriaLabel?: string;
   i18n: LocalizerType;
   onClick: (id: string) => void;
   theme: ThemeType;
@@ -80,6 +81,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     acceptedMessageRequest,
     avatarPath,
     badge,
+    buttonAriaLabel,
     color,
     draftPreview,
     groupId,
@@ -193,6 +195,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         badge={badge}
+        buttonAriaLabel={buttonAriaLabel}
         color={color}
         conversationType={type}
         groupId={groupId}

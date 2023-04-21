@@ -373,24 +373,21 @@ export function ConversationList({
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
           result = (
-            <div
-              aria-label={i18n('icu:ConversationList__aria-label', {
+            <ConversationListItem
+              {...itemProps}
+              buttonAriaLabel={i18n('icu:ConversationList__aria-label', {
                 lastMessage:
                   get(lastMessage, 'text') ||
                   i18n('icu:ConversationList__last-message-undefined'),
                 title,
                 unreadCount,
               })}
-            >
-              <ConversationListItem
-                {...itemProps}
-                key={key}
-                badge={getPreferredBadge(badges)}
-                onClick={onSelectConversation}
-                i18n={i18n}
-                theme={theme}
-              />
-            </div>
+              key={key}
+              badge={getPreferredBadge(badges)}
+              onClick={onSelectConversation}
+              i18n={i18n}
+              theme={theme}
+            />
           );
           break;
         }
