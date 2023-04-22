@@ -12,7 +12,9 @@ import {
   without,
 } from 'lodash';
 
+import { clipboard, nativeImage } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
+import { isImageAttachment } from '../../types/Attachment';
 import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
@@ -1039,6 +1041,7 @@ export const actions = {
   repairOldestMessage,
   replaceAvatar,
   resetAllChatColors,
+  copy,
   retryDeleteForEveryone,
   retryMessageSend,
   reviewGroupMemberNameCollision,
@@ -2085,6 +2088,40 @@ function retryMessageSend(
       throw new Error(`retryMessageSend: Message ${messageId} missing!`);
     }
     await message.retrySend();
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+export function copy(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`copy: Message ${messageId} missing!`);
+    }
+
+    const body = (message.get('body') || '').trim();
+    if (body) {
+      clipboard.writeText(body);
+    } else {
+      const attachments = message.get('attachments') || [];
+      if (!attachments || attachments.length !== 1) {
+        throw new Error(`copy: Message ${messageId} had no single attachment!`);
+      }
+
+      const firstAttachment = attachments[0];
+      if (firstAttachment.path && isImageAttachment(firstAttachment)) {
+        const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
+        const image = nativeImage.createFromPath(absolutePath);
+        clipboard.writeImage(image);
+      }
+    }
 
     dispatch({
       type: 'NOOP',

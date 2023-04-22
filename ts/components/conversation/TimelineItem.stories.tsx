@@ -68,6 +68,7 @@ const getDefaultProps = () => ({
   checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('clearTargetedMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
+  copy: action('copy'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),

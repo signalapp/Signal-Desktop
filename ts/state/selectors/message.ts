@@ -55,7 +55,11 @@ import { getMentionsRegex } from '../../types/Message';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
-import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
+import {
+  isVoiceMessage,
+  canBeDownloaded,
+  isImageAttachment,
+} from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
@@ -717,6 +721,7 @@ export const getPropsForMessage = (
     storyReplyContext,
     textAttachment,
     payment,
+    canCopy: canCopy(message, conversationSelector),
     canDeleteForEveryone: canDeleteForEveryone(message),
     canDownload: canDownload(message, conversationSelector),
     canReact: canReact(message, ourConversationId, conversationSelector),
@@ -1767,6 +1772,31 @@ export function canReact(
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
   return canReplyOrReact(message, ourConversationId, conversation);
+}
+
+export function canCopy(
+  message: Pick<
+    MessageWithUIFieldsType,
+    'body' | 'attachments' | 'conversationId' | 'deletedForEveryone'
+  >,
+  conversationSelector: GetConversationByIdType
+): boolean {
+  const conversation = getConversation(message, conversationSelector);
+  if (!conversation || message.deletedForEveryone) {
+    return false;
+  }
+
+  const { attachments } = message;
+  if (
+    message.body ||
+    (attachments &&
+      attachments.length === 1 &&
+      isImageAttachment(attachments[0]))
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 export function canDeleteForEveryone(

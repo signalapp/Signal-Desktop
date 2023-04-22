@@ -32,6 +32,7 @@ import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
 
 export type PropsData = {
   canDownload: boolean;
+  canCopy: boolean;
   canRetry: boolean;
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
@@ -49,6 +50,7 @@ export type PropsActions = {
     { emoji, remove }: { emoji: string; remove: boolean }
   ) => void;
   retryMessageSend: (id: string) => void;
+  copy: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
   toggleSelectMessage: (
@@ -80,6 +82,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     attachments,
     author,
     canDownload,
+    canCopy,
     canReact,
     canReply,
     canRetry,
@@ -98,6 +101,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     isTapToView,
     kickOffAttachmentDownload,
     payment,
+    copy,
     pushPanelForConversation,
     reactToMessage,
     renderEmojiPicker,
@@ -358,6 +362,7 @@ export function TimelineMessage(props: Props): JSX.Element {
             ? () => retryDeleteForEveryone(id)
             : undefined
         }
+        onCopy={canCopy ? () => copy(id) : undefined}
         onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
         onForward={
           canForward ? () => toggleForwardMessagesModal([id]) : undefined
@@ -544,6 +549,7 @@ type MessageContextProps = {
   onReact: (() => void) | undefined;
   onRetryMessageSend: (() => void) | undefined;
   onRetryDeleteForEveryone: (() => void) | undefined;
+  onCopy: (() => void) | undefined;
   onForward: (() => void) | undefined;
   onDeleteMessage: () => void;
   onMoreInfo: () => void;
@@ -558,6 +564,7 @@ const MessageContextMenu = ({
   onReplyToMessage,
   onReact,
   onMoreInfo,
+  onCopy,
   onSelect,
   onRetryMessageSend,
   onRetryDeleteForEveryone,
@@ -627,6 +634,19 @@ const MessageContextMenu = ({
       >
         {i18n('icu:moreInfo')}
       </MenuItem>
+      {onCopy && (
+        <MenuItem
+          attributes={{
+            className:
+              'module-message__context--icon module-message__context__copy-timestamp',
+          }}
+          onClick={() => {
+            onCopy();
+          }}
+        >
+          {i18n('icu:copy')}
+        </MenuItem>
+      )}
       <MenuItem
         attributes={{
           className:

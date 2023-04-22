@@ -47,6 +47,7 @@ function mockMessageTimelineItem(
     data: {
       id,
       author: getDefaultConversation({}),
+      canCopy: true,
       canDeleteForEveryone: false,
       canDownload: true,
       canReact: true,
@@ -280,6 +281,7 @@ const actions = () => ({
 
   reactToMessage: action('reactToMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
+  copy: action('copy'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   saveAttachment: action('saveAttachment'),
