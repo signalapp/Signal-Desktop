@@ -2352,6 +2352,10 @@
     "messageformat": "More Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:copy": {
+    "messageformat": "Copy text",
+    "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
+  },
   "icu:MessageContextMenu__select": {
     "messageformat": "Select",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"

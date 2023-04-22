@@ -720,6 +720,7 @@ export const getPropsForMessage = (
     storyReplyContext,
     textAttachment,
     payment,
+    canCopy: canCopy(message),
     canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message),
     canDownload: canDownload(message, conversationSelector),
@@ -1771,6 +1772,12 @@ export function canReact(
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
   return canReplyOrReact(message, ourConversationId, conversation);
+}
+
+export function canCopy(
+  message: Pick<MessageWithUIFieldsType, 'body' | 'deletedForEveryone'>
+): boolean {
+  return !message.deletedForEveryone && Boolean(message.body);
 }
 
 export function canDeleteForEveryone(

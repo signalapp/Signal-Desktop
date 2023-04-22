@@ -12,6 +12,7 @@ import {
   without,
 } from 'lodash';
 
+import { clipboard } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
 import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
@@ -1048,6 +1049,7 @@ export const actions = {
   repairOldestMessage,
   replaceAvatar,
   resetAllChatColors,
+  copyMessageText,
   retryDeleteForEveryone,
   retryMessageSend,
   reviewGroupMemberNameCollision,
@@ -2162,6 +2164,25 @@ function retryMessageSend(
       throw new Error(`retryMessageSend: Message ${messageId} missing!`);
     }
     await message.retrySend();
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+export function copyMessageText(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`copy: Message ${messageId} missing!`);
+    }
+
+    const body = message.getNotificationText();
+    clipboard.writeText(body);
 
     dispatch({
       type: 'NOOP',

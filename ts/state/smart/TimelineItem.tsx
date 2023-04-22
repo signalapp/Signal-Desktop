@@ -118,6 +118,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
     messageExpanded,
     openGiftBadge,
     pushPanelForConversation,
+    copyMessageText,
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
@@ -184,6 +185,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       openGiftBadge={openGiftBadge}
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
+      copyMessageText={copyMessageText}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
       returnToActiveCall={returnToActiveCall}
