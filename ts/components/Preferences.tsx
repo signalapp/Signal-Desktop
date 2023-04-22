@@ -58,6 +58,7 @@ import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
 import { useTheme } from '../hooks/useTheme';
+import { SignalContext } from '../windows/context';
 import { focusableSelectors } from '../util/focusableSelectors';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
@@ -198,6 +199,7 @@ enum Page {
   Calls = 'Calls',
   Notifications = 'Notifications',
   Privacy = 'Privacy',
+  Help = 'Help',
 
   // Sub pages
   ChatColor = 'ChatColor',
@@ -1125,6 +1127,46 @@ export function Preferences({
         ) : null}
       </>
     );
+  } else if (page === Page.Help) {
+    const version = SignalContext.getVersion();
+
+    settings = (
+      <>
+        <div className="Preferences__title">
+          <div className="Preferences__title--header">
+            {i18n('icu:Preferences__button--help')}
+          </div>
+        </div>
+        <SettingsRow>
+          <Control
+            left={
+              <div>
+                <a href="https://support.signal.org/hc/en-us">
+                  {i18n('icu:Preferences_help--supportCenter')}
+                </a>
+              </div>
+            }
+            right={<div />}
+          />
+        </SettingsRow>
+        <SettingsRow title={i18n('icu:Preferences_help--aboutSignal')}>
+          <Control
+            left={i18n('icu:Preferences_help--version')}
+            right={version}
+          />
+          <Control
+            left={
+              <div>
+                <a className="privacy" href="https://signal.org/legal">
+                  {i18n('icu:privacyPolicy')}
+                </a>
+              </div>
+            }
+            right={<div />}
+          />
+        </SettingsRow>
+      </>
+    );
   } else if (page === Page.ChatColor) {
     settings = (
       <>
@@ -1318,6 +1360,17 @@ export function Preferences({
             onClick={() => setPage(Page.Privacy)}
           >
             {i18n('icu:Preferences__button--privacy')}
+          </button>
+          <button
+            type="button"
+            className={classNames({
+              Preferences__button: true,
+              'Preferences__button--help': true,
+              'Preferences__button--selected': page === Page.Help,
+            })}
+            onClick={() => setPage(Page.Help)}
+          >
+            {i18n('icu:Preferences__button--help')}
           </button>
         </div>
         <div className="Preferences__settings-pane" ref={settingsPaneRef}>

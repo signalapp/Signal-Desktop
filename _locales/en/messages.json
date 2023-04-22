@@ -5507,6 +5507,22 @@
     "messageformat": "Privacy",
     "description": "Button to switch the settings view"
   },
+  "icu:Preferences__button--help": {
+    "messageformat": "Help",
+    "description": "Button to switch the settings view"
+  },
+  "icu:Preferences_help--supportCenter": {
+    "messageformat": "Support Center",
+    "description": "Shown in the Help tab in the Preferences"
+  },
+  "icu:Preferences_help--aboutSignal": {
+    "messageformat": "About Signal",
+    "description": "Title for the about section in help tab"
+  },
+  "icu:Preferences_help--version": {
+    "messageformat": "Version",
+    "description": "Label for the version in About Signal section"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Last import at {date} {time}",
     "description": "Label for date and time of last sync operation"

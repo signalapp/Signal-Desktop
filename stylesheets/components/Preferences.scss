@@ -98,6 +98,13 @@
     &--privacy {
       @include preferences-icon('../images/icons/v3/lock/lock.svg');
     }
+
+    &--help {
+      @include preferences-icon(
+        '../images/icons/v2/help-outline-24.svg',
+        '../images/icons/v2/help-solid-24.svg'
+      );
+    }
   }
 
   &__settings-pane {
