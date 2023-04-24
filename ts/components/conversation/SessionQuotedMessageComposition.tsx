@@ -16,8 +16,8 @@ const QuotedMessageComposition = styled(Flex)`
   border-top: 1px solid var(--border-color);
 `;
 
-const QuotedMessageCompositionReply = styled(Flex)`
-  border-left: 3px solid var(--primary-color);
+const QuotedMessageCompositionReply = styled(Flex)<{ hasAttachments: boolean }>`
+  ${props => !props.hasAttachments && 'border-left: 3px solid var(--primary-color);'}
 `;
 
 const Subtle = styled.div`
@@ -59,6 +59,14 @@ export const SessionQuotedMessageComposition = () => {
       : undefined;
   const hasAudio = hasAttachments && isAudio(attachments);
   const hasAudioAttachment = hasAudio !== false && hasAudio !== undefined && hasAudio !== '';
+  const subtitleText =
+    hasAttachments && firstImageAttachment
+      ? window.i18n('image')
+      : hasAudioAttachment
+      ? window.i18n('audio')
+      : quoteText !== ''
+      ? quoteText
+      : null;
 
   const removeQuotedMessage = () => {
     dispatch(quoteMessage(undefined));
@@ -83,6 +91,7 @@ export const SessionQuotedMessageComposition = () => {
         container={true}
         justifyContent="flex-start"
         alignItems={'center'}
+        hasAttachments={hasAttachments}
       >
         {firstImageAttachment && (
           <StyledImage>
@@ -103,15 +112,18 @@ export const SessionQuotedMessageComposition = () => {
           alignItems={'flex-start'}
         >
           <p>{author}</p>
-          <Subtle>
-            {(firstImageAttachment && window.i18n('mediaMessage')) ||
-              (quoteText !== '' && quoteText)}
-          </Subtle>
+          {subtitleText && <Subtle>{subtitleText}</Subtle>}
         </StyledText>
 
         {hasAudioAttachment && <SessionIcon iconType="microphone" iconSize="huge" />}
       </QuotedMessageCompositionReply>
-      <SessionIconButton iconType="exit" iconSize="small" onClick={removeQuotedMessage} />
+      <SessionIconButton
+        iconType="exit"
+        iconColor="var(--chat-buttons-icon-color)"
+        iconSize="small"
+        onClick={removeQuotedMessage}
+        margin={'0 var(--margins-sm) 0 0'}
+      />
     </QuotedMessageComposition>
   );
 };
