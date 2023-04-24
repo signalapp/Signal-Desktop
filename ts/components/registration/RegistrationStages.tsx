@@ -16,6 +16,7 @@ import {
 } from '../../util/accountManager';
 import { fromHex } from '../../session/utils/String';
 import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
+import { SettingsKey } from '../../data/settings-key';
 
 // tslint:disable: use-simple-attributes
 
@@ -59,11 +60,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    await Data.createOrUpdateItem({
-      id: 'hasSyncedInitialConfigurationItem',
-      value: true,
-      timestamp: Date.now(),
-    });
+    await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
     await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {

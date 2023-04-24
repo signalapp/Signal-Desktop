@@ -36,7 +36,7 @@ export const LightboxGallery = (props: Props) => {
   const selectedConversation = useSelectedConversationKey();
 
   if (!selectedConversation) {
-    throw new Error('LightboxGallery: selectedConversation is undefined');
+    return null;
   }
 
   const dispatch = useDispatch();

@@ -80,10 +80,10 @@ export function getSelectedCanWrite(state: StateType) {
   if (!selectedConvo) {
     return false;
   }
-  const canWrite = getCanWrite(state, selectedConvoPubkey);
+  const canWriteSogs = getCanWrite(state, selectedConvoPubkey);
   const { isBlocked, isKickedFromGroup, left, isPublic } = selectedConvo;
 
-  return !(isBlocked || isKickedFromGroup || left || (isPublic && !canWrite));
+  return !(isBlocked || isKickedFromGroup || left || (isPublic && !canWriteSogs));
 }
 
 /**

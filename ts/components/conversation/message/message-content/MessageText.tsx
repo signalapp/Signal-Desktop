@@ -9,6 +9,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { SessionIcon } from '../../../icon';
 import { MessageBody } from './MessageBody';
+import { StateType } from '../../../../state/reducer';
 
 type Props = {
   messageId: string;
@@ -20,7 +21,7 @@ export type MessageTextSelectorProps = Pick<
 >;
 
 export const MessageText = (props: Props) => {
-  const selected = useSelector(state => getMessageTextProps(state as any, props.messageId));
+  const selected = useSelector((state: StateType) => getMessageTextProps(state, props.messageId));
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
   if (!selected) {

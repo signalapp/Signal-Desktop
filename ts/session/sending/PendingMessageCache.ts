@@ -5,6 +5,7 @@ import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import { MessageUtils } from '../utils';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { Storage } from '../../util/storage';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
@@ -140,9 +141,6 @@ export class PendingMessageCache {
     });
 
     const encodedPendingMessages = JSON.stringify(encodedCache) || '[]';
-    await Data.createOrUpdateItem({
-      id: 'pendingMessages',
-      value: encodedPendingMessages,
-    });
+    await Storage.put('pendingMessages', encodedPendingMessages);
   }
 }

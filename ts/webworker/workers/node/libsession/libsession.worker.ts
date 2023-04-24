@@ -90,7 +90,6 @@ function initUserWrapper(
   const userType = assertUserWrapperType(wrapperType);
 
   const wrapper = getUserWrapper(wrapperType);
-  console.warn('initUserWrapper: ', wrapperType, options);
   if (wrapper) {
     throw new Error(`${wrapperType} already init`);
   }

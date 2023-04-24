@@ -43,10 +43,11 @@ moment.locale((window.i18n as any).getLocale());
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 import useUpdate from 'react-use/lib/useUpdate';
-import useInterval from 'react-use/lib/useInterval';
 import { SettingsKey } from '../data/settings-key';
 import { NoticeBanner } from './NoticeBanner';
 import { Flex } from './basic/Flex';
+import { useHasDeviceOutdatedSyncing } from '../state/selectors/settings';
+import { getSettingsInitialState, updateAllOnStorageReady } from '../state/ducks/settings';
 
 const StyledGutter = styled.div`
   width: 380px !important;
@@ -60,7 +61,6 @@ function createSessionInboxStore() {
     .map(conversation => conversation.getConversationModelProps());
 
   const timerOptions: TimerOptionsArray = ExpirationTimerOptions.getTimerSecondsWithName();
-
   const initialState: StateType = {
     conversations: {
       ...getEmptyConversationState(),
@@ -83,6 +83,7 @@ function createSessionInboxStore() {
     stagedAttachments: getEmptyStagedAttachmentsState(),
     call: initialCallState,
     sogsRoomInfo: initialSogsRoomInfoState,
+    settings: getSettingsInitialState(),
   };
 
   return createStore(initialState);
@@ -91,29 +92,18 @@ function createSessionInboxStore() {
 function setupLeftPane(forceUpdateInboxComponent: () => void) {
   window.openConversationWithMessages = openConversationWithMessages;
   window.inboxStore = createSessionInboxStore();
+  window.inboxStore.dispatch(updateAllOnStorageReady());
   forceUpdateInboxComponent();
 }
 
 const SomeDeviceOutdatedSyncingNotice = () => {
-  const forceUpdate = useUpdate();
-  const isShown = Boolean(window.getSettingValue(SettingsKey.someDeviceOutdatedSyncing));
-
-  // it would be nice to get the settings into a redux slice in addition to their Storage location and keep them in sync.
-  // So we could just use a selector here.
-  useInterval(() => {
-    const shouldBeShown = Storage.get(SettingsKey.someDeviceOutdatedSyncing);
-
-    if (!isShown && shouldBeShown) {
-      forceUpdate();
-    }
-  }, 1000);
+  const outdatedBannerShouldBeShown = useHasDeviceOutdatedSyncing();
 
   const dismiss = async () => {
-    await window.setSettingValue(SettingsKey.someDeviceOutdatedSyncing, false);
-    forceUpdate();
+    await Storage.put(SettingsKey.someDeviceOutdatedSyncing, false);
   };
 
-  if (!isShown) {
+  if (!outdatedBannerShouldBeShown) {
     return null;
   }
   return (

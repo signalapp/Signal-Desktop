@@ -6,7 +6,7 @@ import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils'
 
 import { SessionButtonColor } from '../components/basic/SessionButton';
 import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
-import { Data, hasLinkPreviewPopupBeenDisplayed, lastAvatarUploadTimestamp } from '../data/data';
+import { Data } from '../data/data';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
@@ -37,11 +37,13 @@ import { processNewAttachment } from '../types/MessageAttachment';
 import { IMAGE_JPEG } from '../types/MIME';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
-import { setLastProfileUpdateTimestamp } from '../util/storage';
+import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
+import { SettingsKey } from '../data/settings-key';
+import { ConfigurationDumpSync } from '../session/utils/job_runners/jobs/ConfigurationSyncDumpJob';
 
 export function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -457,12 +459,13 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     avatarImageId: fileId,
   });
   const newTimestampReupload = Date.now();
-  await Data.createOrUpdateItem({ id: lastAvatarUploadTimestamp, value: newTimestampReupload });
+  await Storage.put(SettingsKey.lastAvatarUploadTimestamp, newTimestampReupload);
 
   if (newAvatarDecrypted) {
     await setLastProfileUpdateTimestamp(Date.now());
     if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
       await ConfigurationSync.queueNewJobIfNeeded();
+      await ConfigurationDumpSync.queueNewJobIfNeeded();
     } else {
       await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
     }
@@ -502,22 +505,22 @@ export async function replyToMessage(messageId: string) {
  */
 export async function showLinkSharingConfirmationModalDialog(e: any) {
   const pastedText = e.clipboardData.getData('text');
-  if (isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
+  if (isURL(pastedText) && !window.getSettingValue(SettingsKey.settingsLinkPreview, false)) {
     const alreadyDisplayedPopup =
-      (await Data.getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
+      (await Data.getItemById(SettingsKey.hasLinkPreviewPopupBeenDisplayed))?.value || false;
     if (!alreadyDisplayedPopup) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
           shouldShowConfirm:
-            !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
+            !window.getSettingValue(SettingsKey.settingsLinkPreview) && !alreadyDisplayedPopup,
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await window.setSettingValue('link-preview-setting', true);
+            await window.setSettingValue(SettingsKey.settingsLinkPreview, true);
           },
           onClickClose: async () => {
-            await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
+            await Storage.put(SettingsKey.hasLinkPreviewPopupBeenDisplayed, true);
           },
         })
       );

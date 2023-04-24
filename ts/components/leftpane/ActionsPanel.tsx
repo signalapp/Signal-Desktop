@@ -3,11 +3,7 @@ import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Data,
-  hasSyncedInitialConfigurationItem,
-  lastAvatarUploadTimestamp,
-} from '../../data/data';
+import { Data } from '../../data/data';
 import { getMessageQueue } from '../../session/sending';
 // tslint:disable: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
@@ -47,6 +43,7 @@ import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodeP
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
+import { SettingsKey } from '../../data/settings-key';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -172,14 +169,15 @@ const triggerSyncIfNeeded = async () => {
     .get(us)
     .setIsApproved(true, true);
   const didWeHandleAConfigurationMessageAlready =
-    (await Data.getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+    (await Data.getItemById(SettingsKey.hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     await syncConfigurationIfNeeded();
   }
 };
 
 const triggerAvatarReUploadIfNeeded = async () => {
-  const lastTimeStampAvatarUpload = (await Data.getItemById(lastAvatarUploadTimestamp))?.value || 0;
+  const lastTimeStampAvatarUpload =
+    (await Data.getItemById(SettingsKey.lastAvatarUploadTimestamp))?.value || 0;
 
   if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');

@@ -53,10 +53,6 @@ export type SwarmNode = Snode & {
   address: string;
 };
 
-export const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
-export const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
-export const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
-
 // Basic
 async function shutdown(): Promise<void> {
   // Stop accepting new SQL jobs, flush outstanding queue
@@ -654,7 +650,7 @@ async function getSnodePoolFromDb(): Promise<Array<Snode> | null> {
 }
 
 async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
-  await Data.createOrUpdateItem({ id: SNODE_POOL_ITEM_ID, value: snodesAsJsonString });
+  await Storage.put(SNODE_POOL_ITEM_ID, snodesAsJsonString);
 }
 
 function keysToArrayBuffer(keys: any, data: any) {
@@ -692,8 +688,8 @@ const ITEM_KEYS: Object = {
 };
 
 /**
- * Note: In the app, you should always call createOrUpdateItem through Data.createOrUpdateItem (from the data.ts file).
- * This is to ensure testing and stubbbing works as expected
+ * For anything related to the UI and redux, do not use `createOrUpdateItem` directly. Instead use Storage.put (from the utils folder).
+ * `Storage.put` will update the settings redux slice if needed but createOrUpdateItem will not.
  */
 export async function createOrUpdateItem(data: StorageItem): Promise<void> {
   const { id } = data;

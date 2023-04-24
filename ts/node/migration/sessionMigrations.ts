@@ -1219,7 +1219,7 @@ function insertContactIntoContactWrapper(
     const dbApproved = !!contact.isApproved || false;
     const dbApprovedMe = !!contact.didApproveMe || false;
     const dbBlocked = blockedNumbers.includes(contact.id);
-    const priority = contact.priority || 0;
+    const priority = contact.priority || CONVERSATION_PRIORITIES.default;
     const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
@@ -1581,12 +1581,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
           ourDbProfileKey
         );
       } else {
-        userProfileWrapper.setUserInfo(
-          ourDbName,
-          ourConvoPriority, // consider that the Note to self is hidden on a fresh account (without avatar set)
-          '',
-          new Uint8Array()
-        );
+        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, '', new Uint8Array());
       }
 
       insertContactIntoContactWrapper(

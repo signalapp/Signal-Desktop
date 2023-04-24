@@ -9,7 +9,10 @@ const settingsStartInTray = 'start-in-tray-setting';
 const settingsOpengroupPruning = 'prune-setting';
 const settingsNotification = 'notification-setting';
 const settingsAudioNotification = 'audio-notification-setting';
-const someDeviceOutdatedSyncing = 'some-device-outdated-syncing';
+const someDeviceOutdatedSyncing = 'someDeviceOutdatedSyncing';
+const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
+const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
+const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
 
 export const SettingsKey = {
   settingsReadReceipt,
@@ -23,7 +26,10 @@ export const SettingsKey = {
   settingsNotification,
   settingsAudioNotification,
   someDeviceOutdatedSyncing,
-};
+  hasSyncedInitialConfigurationItem,
+  lastAvatarUploadTimestamp,
+  hasLinkPreviewPopupBeenDisplayed,
+} as const;
 
 export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';
 export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';

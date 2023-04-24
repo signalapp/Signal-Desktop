@@ -1,6 +1,7 @@
 import { Data } from '../data/data';
 import { commitConversationAndRefreshWrapper } from '../models/conversation';
 import { PubKey } from '../session/types';
+import { Storage } from './storage';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 
@@ -112,9 +113,6 @@ export class BlockedNumberController {
   }
 
   private static async saveToDB(id: string, numbers: Set<string>): Promise<void> {
-    await Data.createOrUpdateItem({
-      id,
-      value: [...numbers],
-    });
+    await Storage.put(id, [...numbers]);
   }
 }

@@ -8,9 +8,9 @@ import styled, { css } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
-  getMessageTextProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
+  useMessageIsDeleted,
 } from '../../../../state/selectors/conversations';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
@@ -96,6 +96,7 @@ export const MessageContent = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
+  const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
@@ -148,13 +149,6 @@ export const MessageContent = (props: Props) => {
   }
 
   const { direction, text, timestamp, serverTimestamp, previews } = contentProps;
-
-  const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
-
-  let isDeleted = false;
-  if (selectedMsg && selectedMsg.isDeleted !== undefined) {
-    isDeleted = selectedMsg.isDeleted;
-  }
 
   const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
 

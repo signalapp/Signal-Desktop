@@ -1,6 +1,6 @@
-import { compact, isEmpty, toNumber } from 'lodash';
+import { compact, isEmpty, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
-import { Data, hasSyncedInitialConfigurationItem } from '../data/data';
+import { Data } from '../data/data';
 import { ConversationInteraction } from '../interactions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
@@ -27,7 +27,11 @@ import { configurationMessageReceived, trigger } from '../shims/events';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { Registration } from '../util/registration';
-import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '../util/storage';
+import {
+  Storage,
+  getLastProfileUpdateTimestamp,
+  setLastProfileUpdateTimestamp,
+} from '../util/storage';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
@@ -703,8 +707,19 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
     return;
   }
   const envelopeTimestamp = toNumber(envelope.timestamp);
-  const lastConfigUpdate = await Data.getItemById(hasSyncedInitialConfigurationItem);
-  const lastConfigTimestamp = lastConfigUpdate?.timestamp;
+
+  // at some point, we made the hasSyncedInitialConfigurationItem item to have a value=true and a timestamp set.
+  // we can actually just use the timestamp as a boolean, as if it is set, we know we have synced the initial config
+  // but we still need to handle the case where the timestamp was set when the value is true (for backwards compatiblity, until we get rid of the config message legacy)
+  const lastConfigUpdate = await Data.getItemById(SettingsKey.hasSyncedInitialConfigurationItem);
+
+  let lastConfigTimestamp: number | undefined;
+  if (isNumber(lastConfigUpdate?.value)) {
+    lastConfigTimestamp = lastConfigUpdate?.value;
+  } else if (isNumber((lastConfigUpdate as any)?.timestamp)) {
+    lastConfigTimestamp = (lastConfigUpdate as any)?.timestamp; // ugly, but we can remove it once we dropped support for legacy config message, see comment above
+  }
+
   const isNewerConfig =
     !lastConfigTimestamp || (lastConfigTimestamp && lastConfigTimestamp < envelopeTimestamp);
 
@@ -713,11 +728,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
     return;
   }
 
-  await Data.createOrUpdateItem({
-    id: 'hasSyncedInitialConfigurationItem',
-    value: true,
-    timestamp: envelopeTimestamp,
-  });
+  await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, envelopeTimestamp);
 
   // we only want to apply changes to closed groups if we never got them
   // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group

@@ -24,6 +24,7 @@ import { initialiseEmojiData } from '../util/emoji';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { runners } from '../session/utils/job_runners/JobRunner';
+import { SettingsKey } from '../data/settings-key';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -163,7 +164,7 @@ Storage.onready(async () => {
       // Stop background processing
       AttachmentDownloads.stop();
       // Stop processing incoming messages
-      // FIXME audric stop polling opengroupv2 and swarm nodes
+      // TODO stop polling opengroupv2 and swarm nodes
 
       // Shut down the data interface cleanly
       await Data.shutdown();
@@ -262,11 +263,6 @@ async function start() {
   WhisperEvents.on('registration_done', async () => {
     window.log.info('handling registration event');
 
-    // Disable link previews as default per Kee
-    Storage.onready(async () => {
-      await Storage.put('link-preview-setting', false);
-    });
-
     await connect();
   });
 
@@ -287,7 +283,7 @@ async function start() {
       });
   }
 
-  function openStandAlone() {
+  function showRegistrationView() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
   }
   ExpirationTimerOptions.initExpiringMessageListener();
@@ -298,7 +294,7 @@ async function start() {
   } else {
     const primaryColor = window.Events.getPrimaryColorSetting();
     await switchPrimaryColorTo(primaryColor);
-    openStandAlone();
+    showRegistrationView();
   }
 
   window.addEventListener('focus', () => {
@@ -386,7 +382,7 @@ async function start() {
   if (launchCount === 1) {
     // Initialise default settings
     await window.setSettingValue('hide-menu-bar', true);
-    await window.setSettingValue('link-preview-setting', false);
+    await window.setSettingValue(SettingsKey.settingsLinkPreview, false);
   }
 
   WhisperEvents.on('openInbox', () => {

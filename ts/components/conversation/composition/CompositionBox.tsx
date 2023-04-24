@@ -56,6 +56,7 @@ import {
   getSelectedConversation,
   getSelectedConversationKey,
 } from '../../../state/selectors/selectedConversation';
+import { SettingsKey } from '../../../data/settings-key';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -601,7 +602,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   private renderStagedLinkPreview(): JSX.Element | null {
     // Don't generate link previews if user has turned them off
-    if (!(window.getSettingValue('link-preview-setting') || false)) {
+    if (!(window.getSettingValue(SettingsKey.settingsLinkPreview) || false)) {
       return null;
     }
 

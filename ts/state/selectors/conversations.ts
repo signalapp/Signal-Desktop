@@ -42,6 +42,7 @@ import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
+import { useSelector } from 'react-redux';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -881,6 +882,11 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
 
   return msgProps;
 });
+
+export const useMessageIsDeleted = (messageId: string): boolean => {
+  const props = useSelector((state: StateType) => getMessagePropsByMessageId(state, messageId));
+  return props?.propsForMessage.isDeleted || false;
+};
 
 export const getMessageContextMenuProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageContextMenuSelectorProps

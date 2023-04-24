@@ -2,7 +2,8 @@ import React from 'react';
 
 import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
-import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { useSelectedIsGroup } from '../../state/selectors/selectedConversation';
 
 interface TypingBubbleProps {
   conversationType: ConversationTypeEnum;
@@ -22,11 +23,8 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  if (isOpenOrClosedGroup(props.conversationType)) {
-    return null;
-  }
-
-  if (!props.isTyping) {
+  const isOpenOrClosedGroup = useSelectedIsGroup();
+  if (!isOpenOrClosedGroup || !props.isTyping) {
     return null;
   }
 

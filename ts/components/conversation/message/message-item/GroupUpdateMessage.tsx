@@ -52,7 +52,7 @@ const ChangeItemLeft = (left: Array<string>): string => {
 
 // tslint:disable-next-line: cyclomatic-complexity
 const ChangeItem = (change: PropsForGroupUpdateType): string => {
-  const type = change.type;
+  const { type } = change;
   switch (type) {
     case 'name':
       return window.i18n('titleIsNow', [change.newName || '']);

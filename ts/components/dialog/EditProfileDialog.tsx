@@ -24,6 +24,7 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
+import { ConfigurationDumpSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncDumpJob';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -360,6 +361,7 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
 
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     await ConfigurationSync.queueNewJobIfNeeded();
+    await ConfigurationDumpSync.queueNewJobIfNeeded();
     await setLastProfileUpdateTimestamp(Date.now());
   } else {
     await setLastProfileUpdateTimestamp(Date.now());

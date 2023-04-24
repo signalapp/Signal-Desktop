@@ -11,6 +11,7 @@ import {
   RunJobResult,
   TypeOfPersistedData,
 } from './PersistedJob';
+import { Storage } from '../../../util/storage';
 
 /**
  * 'job_in_progress' if there is already a job in progress
@@ -177,10 +178,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
   private async writeJobsToDB() {
     const serialized = this.getSerializedJobs();
     window.log.debug(`writing to db for "${this.jobRunnerType}": `, serialized);
-    await Data.createOrUpdateItem({
-      id: this.getJobRunnerItemId(),
-      value: JSON.stringify(serialized),
-    });
+    await Storage.put(this.getJobRunnerItemId(), JSON.stringify(serialized));
   }
 
   private async addJobUnchecked(job: PersistedJob<T>) {

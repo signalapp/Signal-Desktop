@@ -197,8 +197,10 @@ async function registrationDone(ourPubkey: string, displayName: string) {
 
   await conversation.setIsApproved(true, false);
   await conversation.setDidApproveMe(true, false);
-
+  // when onboarding, hide the note to self by default.
+  await conversation.setHidden(true);
   await conversation.commit();
+
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: ourPubkey,

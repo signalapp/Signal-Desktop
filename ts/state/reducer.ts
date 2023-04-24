@@ -19,6 +19,7 @@ import {
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
 import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
+import { settingsReducer, SettingsState } from './ducks/settings';
 
 export type StateType = {
   search: SearchStateType;
@@ -35,6 +36,7 @@ export type StateType = {
   stagedAttachments: StagedAttachmentsStateType;
   call: CallStateType;
   sogsRoomInfo: SogsRoomInfoState;
+  settings: SettingsState;
 };
 
 export const reducers = {
@@ -52,6 +54,7 @@ export const reducers = {
   stagedAttachments,
   call,
   sogsRoomInfo: ReduxSogsRoomInfos.sogsRoomInfoReducer,
+  settings: settingsReducer,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not
