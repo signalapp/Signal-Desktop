@@ -6959,8 +6959,10 @@ button.module-image__border-overlay:focus {
   z-index: $z-index-above-base;
 
   @include keyboard-mode {
-    &:focus {
-      outline: 2px solid $color-ultramarine;
+    &:focus,
+    &:active,
+    &:hover {
+      background-color: $color-ultramarine;
     }
   }
 }
@@ -6980,41 +6982,6 @@ button.module-image__border-overlay:focus {
 .module-calling-device-selection__select {
   margin-bottom: 20px;
   position: relative;
-
-  select {
-    @include font-body-1;
-    background: $color-gray-75;
-    color: $color-gray-02;
-    -webkit-appearance: none;
-    border-radius: 4px;
-    border: 1px solid $color-gray-45;
-    cursor: pointer;
-    height: 40px;
-    outline: 0;
-    padding: 10px;
-    padding-inline-end: 32px;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  &::after {
-    border: 2px solid $color-gray-75;
-
-    border-radius: 2px;
-    border-inline-end: 0;
-    border-top: 0;
-    content: ' ';
-    display: block;
-    height: 10px;
-    pointer-events: none;
-    position: absolute;
-    inset-inline-end: 15px;
-    top: 16px;
-    transform-origin: center;
-    transform: rotate(-45deg);
-    width: 10px;
-    z-index: $z-index-above-base;
-  }
 }
 
 // Module: GroupV1 Disabled Actions
