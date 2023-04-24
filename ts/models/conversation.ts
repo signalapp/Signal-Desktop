@@ -517,6 +517,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
       }
     }
+
+    const { title, isMe } = quotedMessage.findAndFormatContact(msgSource);
+    msgSource = isMe ? window.i18n('you') : title ? title : msgSource;
+
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',

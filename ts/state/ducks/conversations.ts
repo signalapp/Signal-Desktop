@@ -287,6 +287,7 @@ export type ConversationLookupType = {
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
+  // NOTE the messages that are in view
   messages: Array<MessageModelPropsWithoutConvoProps>;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
