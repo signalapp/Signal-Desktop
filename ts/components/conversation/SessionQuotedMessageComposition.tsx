@@ -93,16 +93,22 @@ export const SessionQuotedMessageComposition = () => {
         alignItems={'center'}
         hasAttachments={hasAttachments}
       >
-        {firstImageAttachment && (
+        {hasAttachments && (
           <StyledImage>
-            <Image
-              alt={getAlt(firstImageAttachment)}
-              attachment={firstImageAttachment}
-              height={100}
-              width={100}
-              url={getAbsoluteAttachmentPath((firstImageAttachment as any).thumbnail.path)}
-              softCorners={false}
-            />
+            {firstImageAttachment ? (
+              <Image
+                alt={getAlt(firstImageAttachment)}
+                attachment={firstImageAttachment}
+                height={100}
+                width={100}
+                url={getAbsoluteAttachmentPath((firstImageAttachment as any).thumbnail.path)}
+                softCorners={false}
+              />
+            ) : hasAudioAttachment ? (
+              <div style={{ margin: '0 var(--margins-xs) 0 0' }}>
+                <SessionIcon iconType="microphone" iconSize="huge" />
+              </div>
+            ) : null}
           </StyledImage>
         )}
         <StyledText
@@ -114,8 +120,6 @@ export const SessionQuotedMessageComposition = () => {
           <p>{author}</p>
           {subtitleText && <Subtle>{subtitleText}</Subtle>}
         </StyledText>
-
-        {hasAudioAttachment && <SessionIcon iconType="microphone" iconSize="huge" />}
       </QuotedMessageCompositionReply>
       <SessionIconButton
         iconType="exit"
