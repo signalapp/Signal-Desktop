@@ -102,7 +102,7 @@ export const SessionQuotedMessageComposition = () => {
                 height={100}
                 width={100}
                 url={getAbsoluteAttachmentPath((firstImageAttachment as any).thumbnail.path)}
-                softCorners={false}
+                softCorners={true}
               />
             ) : hasAudioAttachment ? (
               <div style={{ margin: '0 var(--margins-xs) 0 0' }}>
@@ -127,6 +127,7 @@ export const SessionQuotedMessageComposition = () => {
         iconSize="small"
         onClick={removeQuotedMessage}
         margin={'0 var(--margins-sm) 0 0'}
+        aria-label={window.i18n('close')}
       />
     </QuotedMessageComposition>
   );
