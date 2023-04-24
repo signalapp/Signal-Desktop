@@ -844,8 +844,8 @@
 .module-image__close-button {
   cursor: pointer;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
   width: 20px;
   height: 20px;
   z-index: 2;
@@ -874,17 +874,6 @@
 
   z-index: 2;
   @include color-svg('../images/x-16.svg', var(--button-icon-stroke-color));
-}
-
-.module-attachments__rail {
-  margin-top: 12px;
-  margin-inline-start: 16px;
-  padding-inline-end: 16px;
-  overflow-x: scroll;
-  max-height: 142px;
-  white-space: nowrap;
-  overflow-y: hidden;
-  margin-bottom: 6px;
 }
 
 // Module: Staged Generic Attachment
@@ -1032,22 +1021,6 @@
 
 // Module: Staged Placeholder Attachment
 
-.module-staged-placeholder-attachment {
-  margin: 1px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  height: 120px;
-  width: 120px;
-  display: inline-block;
-  vertical-align: middle;
-  cursor: pointer;
-  position: relative;
-
-  &:hover {
-    background-color: var(--background-secondary-color);
-  }
-}
-
 .module-staged-placeholder-attachment__plus-icon {
   position: absolute;
   left: 50%;
@@ -1058,7 +1031,7 @@
   height: 36px;
   width: 36px;
 
-  @include color-svg('../images/plus-36.svg', var(--button-icon-stroke-color));
+  @include color-svg('../images/plus-36.svg', var(--chat-buttons-icon-color));
 }
 
 // Module: Left Pane
