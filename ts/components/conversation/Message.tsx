@@ -2488,6 +2488,7 @@ export class Message extends React.PureComponent<Props, State> {
       deletedForEveryone,
       direction,
       giftBadge,
+      id,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -2553,6 +2554,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className="module-message__container-outer">
         <div
           className={containerClassnames}
+          id={`message-accessibility-contents:${id}`}
           style={containerStyles}
           onContextMenu={onContextMenu}
           role="row"
@@ -2598,6 +2600,7 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       attachments,
       direction,
+      i18n,
       isSticker,
       isSelected,
       isSelectMode,
@@ -2681,11 +2684,14 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div
+        aria-labelledby={`message-accessibility-contents:${id}`}
+        aria-roledescription={i18n('icu:Message__role-description')}
         className={classNames(
           'module-message__wrapper',
           isSelectMode && 'module-message__wrapper--select-mode',
           isSelected && 'module-message__wrapper--selected'
         )}
+        role="article"
         {...wrapperProps}
       >
         {isSelectMode && (

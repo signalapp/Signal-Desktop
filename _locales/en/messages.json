@@ -5034,6 +5034,10 @@
     "messageformat": "Cancel",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__role-description": {
+    "messageformat": "Message",
+    "description": "aria-roledescription of a message"
+  },
   "MessageBody--read-more": {
     "message": "Read more",
     "description": "(deleted 03/29/2023) When a message is too long this is the affordance to expand the message"
