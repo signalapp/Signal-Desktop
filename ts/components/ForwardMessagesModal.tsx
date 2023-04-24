@@ -277,6 +277,7 @@ export function ForwardMessagesModal({
       )}
       <ModalHost
         modalName="ForwardMessageModal"
+        noMouseClose
         onEscape={handleBackOrClose}
         onClose={close}
         overlayStyles={overlayStyles}
