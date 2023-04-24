@@ -54,6 +54,7 @@ export function ConversationDetailsHeader({
 
   let preferredBadge: undefined | BadgeType;
   let subtitle: ReactNode;
+  let hasNestedButton = false;
   if (isGroup) {
     if (conversation.groupDescription) {
       subtitle = (
@@ -63,6 +64,7 @@ export function ConversationDetailsHeader({
           title={conversation.title}
         />
       );
+      hasNestedButton = true;
     } else if (canEdit) {
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
@@ -163,21 +165,25 @@ export function ConversationDetailsHeader({
         >
           {contents}
         </button>
-        <button
-          type="button"
-          onClick={ev => {
-            if (ev.target instanceof HTMLAnchorElement) {
-              return;
-            }
-
-            ev.preventDefault();
-            ev.stopPropagation();
-            startEditing(false);
-          }}
-          className={bem('root', 'editable')}
-        >
+        {hasNestedButton ? (
           <div className={bem('subtitle')}>{subtitle}</div>
-        </button>
+        ) : (
+          <button
+            type="button"
+            onClick={ev => {
+              if (ev.target instanceof HTMLAnchorElement) {
+                return;
+              }
+
+              ev.preventDefault();
+              ev.stopPropagation();
+              startEditing(false);
+            }}
+            className={bem('root', 'editable')}
+          >
+            <div className={bem('subtitle')}>{subtitle}</div>
+          </button>
+        )}
       </div>
     );
   }
