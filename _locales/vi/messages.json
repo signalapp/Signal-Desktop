@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "Kích hoạt tiện ích định dạng văn bản hiển thị khi văn bản được chọn",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "Định dạng in đậm cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "Định dạng in nghiêng cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "Định dạng gạch ngang cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "Định dạng khoảng cách ký tự bằng nhau cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "Định dạng nội dung spoiler cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "Đang gửi văn bản đã được định dạng",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "Một số người có thể đang sử dụng phiên bản Signal không hỗ trợ văn bản đã được định dạng. Họ sẽ không thể thấy các thay đổi về định dạng bạn đã thực hiện trong tin nhắn.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {

@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "Активиране на изскачащ прозорец за форматиране на текста, когато текстът е избран",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "Маркиране на избрания текст като получер",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "Маркиране на избрания текст като курсив",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "Маркиране на избрания текст като зачеркнат",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "Маркиране на избрания текст като шрифт с фиксирана ширина",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "Маркиране на избрания текст като спойлър",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "Изпращане на форматиран текст",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "Възможно е някои хора да използват версия на Signal, която не поддържа форматиран текст. Те няма да виждат промените във форматирането на вашето съобщение.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {

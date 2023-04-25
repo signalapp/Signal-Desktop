@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "ಪಠ್ಯವನ್ನು ಆಯ್ಕೆ ಮಾಡಿದಾಗ ಟೆಕ್ಸ್ಟ್ ಫಾರ್ಮ್ಯಾಟಿಂಗ್ ಪಾಪ್‌ಓವರ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ದಪ್ಪಕ್ಷರವಾಗಿ ಗುರುತಿಸಿ",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಓರೆಅಕ್ಷರವಾಗಿ ಗುರುತಿಸಿ",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಸ್ಟ್ರೈಕ್‌ಥ್ರೂ ಆಗಿ ಗುರುತಿಸಿ",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಮೊನೋಸ್ಪೇಸ್ ಆಗಿ ಗುರುತಿಸಿ",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "ಆಯ್ಕೆ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಸ್ಪಾಯ್ಲರ್ ಆಗಿ ಗುರುತಿಸಿ",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "ಫಾರ್ಮ್ಯಾಟ್ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "ಕೆಲವು ಮಂದಿ ಫಾರ್ಮ್ಯಾಟ್ ಮಾಡಿದ ಪಠ್ಯವನ್ನು ಬೆಂಬಲಿಸದ Signal ಆವೃತ್ತಿಯನ್ನು ಬಳಸುತ್ತಿರಬಹುದು. ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ ನೀವು ಮಾಡಿದ ಫಾರ್ಮ್ಯಾಟಿಂಗ್ ಬದಲಾವಣೆಗಳನ್ನು ಅವರಿಗೆ ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {

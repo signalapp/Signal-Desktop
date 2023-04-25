@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "Wezesha dirisha ibukizi la uumbizaji maandishi pale maandishi yanapochaguliwa",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "Weka alama maandishi yaliyochaguliwa kama kooza",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "Weka alama maandishi yaliyochaguliwa kama mlalo",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "Weka alama maandishi yaliyochaguliwa kama mkatoulalo",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "Weka alama maandishi yaliyochaguliwa kama nafasi moja",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "Weka alama maandishi yaliyochaguliwa kama kidokezo cha yatakayojiri",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "Inatuma maandishi yaliyoumbizwa",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "Huenda baadhi ya watu wanatumia toleo la Signal ambalo halitumii maandishi yaliyoumbizwa. Hawataweza kuona mabadiliko ya umbizo ambalo umefanya kwenye ujumbe wako.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {

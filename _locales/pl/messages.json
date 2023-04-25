@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "Pokaż okienko formatowania po zaznaczeniu tekstu",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "Dodaj pogrubienie do zaznaczonego tekstu",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "Dodaj kursywę do zaznaczonego tekstu",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "Dodaj przekreślenie do zaznaczonego tekstu",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "Użyj czcionki o stałej szerokości w zaznaczonym tekście",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "Zasłoń zaznaczony tekst",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "Wysyłanie sformatowanego tekstu",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "Część użytkowników może używać wersji Signal nieobsługującej sformatowanego tekstu. Nie będą oni mogli zobaczyć zmian w formatowaniu, które zostały przez Ciebie wprowadzone do wiadomości.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -12357,7 +12357,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Edytuj historię",
+    "messageformat": "Historia edycji",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {
