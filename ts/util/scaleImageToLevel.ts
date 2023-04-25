@@ -140,14 +140,8 @@ export async function scaleImageToLevel(
     MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
 
   if (fileOrBlobOrURL.size <= thresholdSize) {
-    let blob: Blob;
-    if (data.exif != null) {
-      blob = await canvasToBlob(data.image, contentType);
-    } else {
-      // If we don't have EXIF data, we can just return the original blob
-      // to avoid occasionally making the image larger.
-      blob = fileOrBlobOrURL;
-    }
+    // Always encode through canvas as a temporary fix for a library bug
+    const blob: Blob = await canvasToBlob(data.image, contentType);
     return {
       blob,
       contentType,
