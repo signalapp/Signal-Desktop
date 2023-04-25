@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { getClassNamesFor } from '../util/getClassNamesFor';
@@ -24,18 +24,21 @@ export type PropsType = {
   onClick?: () => unknown;
 };
 
-export function Checkbox({
-  checked,
-  children,
-  description,
-  disabled,
-  isRadio,
-  label,
-  moduleClassName,
-  name,
-  onChange,
-  onClick,
-}: PropsType): JSX.Element {
+export const Checkbox = forwardRef(function CheckboxInner(
+  {
+    checked,
+    children,
+    description,
+    disabled,
+    isRadio,
+    label,
+    moduleClassName,
+    name,
+    onChange,
+    onClick,
+  }: PropsType,
+  ref: React.Ref<HTMLInputElement>
+): JSX.Element {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
   const id = useMemo(() => `${name}::${uuid()}`, [name]);
 
@@ -48,6 +51,7 @@ export function Checkbox({
         name={name}
         onChange={ev => onChange(ev.target.checked)}
         onClick={onClick}
+        ref={ref}
         type={isRadio ? 'radio' : 'checkbox'}
       />
     </div>
@@ -76,4 +80,4 @@ export function Checkbox({
       </div>
     </div>
   );
-}
+});

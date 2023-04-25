@@ -690,6 +690,14 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/default-browser-id/node_modules/pify/index.js",
+    "line": "\t\t\t\t} else if (opts.multiArgs) {",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-20T16:43:40.643Z",
+    "reasonDetail": "<optional>"
+  },
+  {
     "rule": "DOM-outerHTML",
     "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
@@ -2186,6 +2194,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/Preferences.tsx",
+    "line": "  const settingsPaneRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-21T02:12:22.352Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2352,6 +2367,14 @@
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "    React.createRef();",
@@ -2374,6 +2397,22 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageDetail.tsx",
+    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageDetail.tsx",
+    "line": "  const messageContainerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-useRef",
@@ -2528,37 +2567,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
-    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/MessageDetail.tsx",
-    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/MessageDetail.tsx",
-    "line": "  const messageContainerRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/default-browser-id/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-20T16:43:40.643Z",
-    "reasonDetail": "<optional>"
   }
 ]

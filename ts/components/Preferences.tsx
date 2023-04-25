@@ -3,7 +3,14 @@
 
 import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ReactNode } from 'react';
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import focusableSelectors from 'focusable-selectors';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import uuid from 'uuid';
@@ -353,6 +360,27 @@ export function Preferences({
     },
     [onSelectedMicrophoneChange, availableMicrophones]
   );
+
+  const selectors = useMemo(() => focusableSelectors.join(','), []);
+  const settingsPaneRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const settingsPane = settingsPaneRef.current;
+    if (!settingsPane) {
+      return;
+    }
+
+    const elements = settingsPane.querySelectorAll<
+      | HTMLAnchorElement
+      | HTMLButtonElement
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement
+    >(selectors);
+    if (!elements.length) {
+      return;
+    }
+    elements[0]?.focus();
+  }, [page, selectors]);
 
   const onAudioOutputSelectChange = useCallback(
     (value: string) => {
@@ -1278,7 +1306,9 @@ export function Preferences({
             {i18n('icu:Preferences__button--privacy')}
           </button>
         </div>
-        <div className="Preferences__settings-pane">{settings}</div>
+        <div className="Preferences__settings-pane" ref={settingsPaneRef}>
+          {settings}
+        </div>
       </div>
     </TitleBarContainer>
   );
