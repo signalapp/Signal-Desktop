@@ -4942,6 +4942,10 @@
     "message": "Search Emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Close emoji search",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Search Emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."

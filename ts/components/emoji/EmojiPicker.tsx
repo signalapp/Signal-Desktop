@@ -381,7 +381,11 @@ export const EmojiPicker = React.memo(
                     handleToggleSearch(event);
                   }
                 }}
-                title={i18n('icu:EmojiPicker--search-placeholder')}
+                title={
+                  searchMode
+                    ? i18n('icu:EmojiPicker--search-close')
+                    : i18n('icu:EmojiPicker--search-placeholder')
+                }
                 className={classNames(
                   'module-emoji-picker__button',
                   'module-emoji-picker__button--icon',
