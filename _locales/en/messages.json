@@ -12485,5 +12485,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Theme preferences now also apply to the checkboxes in Signal Settings. Thanks to {rakleed} on GitHub for helping us check \"More fully embrace darkness in the dark theme\" off of our TODO list.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Improved support for right-to-left (RTL) languages.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Locales are now matched based on your system preferences. This should result in better default behavior when multiple languages are configured.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "This release additionally (a10y) introduces several accessibility (a11y) enhancements and bug fixes, and we affectionately (a12y) would like to thank the community for their feedback and suggestions.",
+    "description": "Release notes for v6.17"
   }
 }
