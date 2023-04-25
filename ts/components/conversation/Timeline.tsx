@@ -678,7 +678,11 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (targetedMessageId && !commandOrCtrl && event.key === 'ArrowUp') {
+    if (
+      targetedMessageId &&
+      !commandOrCtrl &&
+      (event.key === 'ArrowUp' || event.key === 'PageUp')
+    ) {
       const targetedMessageIndex = items.findIndex(
         item => item === targetedMessageId
       );
@@ -686,7 +690,8 @@ export class Timeline extends React.Component<
         return;
       }
 
-      const targetIndex = targetedMessageIndex - 1;
+      const indexIncrement = event.key === 'PageUp' ? 10 : 1;
+      const targetIndex = targetedMessageIndex - indexIncrement;
       if (targetIndex < 0) {
         return;
       }
@@ -700,7 +705,11 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (targetedMessageId && !commandOrCtrl && event.key === 'ArrowDown') {
+    if (
+      targetedMessageId &&
+      !commandOrCtrl &&
+      (event.key === 'ArrowDown' || event.key === 'PageDown')
+    ) {
       const targetedMessageIndex = items.findIndex(
         item => item === targetedMessageId
       );
@@ -708,7 +717,8 @@ export class Timeline extends React.Component<
         return;
       }
 
-      const targetIndex = targetedMessageIndex + 1;
+      const indexIncrement = event.key === 'PageDown' ? 10 : 1;
+      const targetIndex = targetedMessageIndex + indexIncrement;
       if (targetIndex >= items.length) {
         return;
       }
@@ -722,7 +732,7 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (commandOrCtrl && event.key === 'ArrowUp') {
+    if (event.key === 'Home' || (commandOrCtrl && event.key === 'ArrowUp')) {
       const firstMessageId = first(items);
       if (firstMessageId) {
         targetMessage(firstMessageId, id);
@@ -732,7 +742,7 @@ export class Timeline extends React.Component<
       return;
     }
 
-    if (commandOrCtrl && event.key === 'ArrowDown') {
+    if (event.key === 'End' || (commandOrCtrl && event.key === 'ArrowDown')) {
       this.scrollDown(true);
       event.preventDefault();
       event.stopPropagation();
