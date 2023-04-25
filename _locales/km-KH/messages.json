@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "បើកផ្ទាំងលោតសម្រាប់រើសទម្រង់អត្ថបទ នៅពេលអត្ថបទត្រូវបានជ្រើសរើស",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសជាអក្សរដិត",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសជាអក្សរទ្រេត",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសថាមានបន្ទាត់កាត់",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសជាអក្សរម៉ូណូស្ប៉េស",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសជាអក្សរព្រាល/ច្បាស់",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "កំពុងផ្ញើអត្ថបទដែលមានទម្រង់ជាក់លាក់",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "មនុស្សមួយចំនួនប្រហែលជាកំពុងប្រើកំណែ Signal ដែលមិនស្គាល់អត្ថបទដែលមានទម្រង់ជាក់លាក់ទេ។ ពួកគេនឹងមិនអាចមើលឃើញការផ្លាស់ប្តូរទម្រង់ដែលអ្នកបានធ្វើឡើងចំពោះសាររបស់អ្នកទេ។",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {

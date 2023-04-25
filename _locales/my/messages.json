@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "စာသားကို ရွေးချယ်လိုက်သောအခါ စာသားဖောမတ်လုပ်သည့် မီနူး ပေါ်လာစေရန် ဖွင့်ထားမည်",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "ရွေးချယ်ထားသောစာသားကို စာလုံးအထူဖြင့် အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "ရွေးချယ်ထားသောစာသားကို စာလုံးစောင်းဖြင့် အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "ရွေးချယ်ထားသောစာသားကို အလယ်မှမျဉ်းဖြတ်လျက် အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "ရွေးချယ်ထားသောစာသားကို Monospace စာလုံးပုံစံဖြင့် အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "ရွေးချယ်ထားသောစာသားကို ဝါးထားပြီး အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "ဖောမတ်လုပ်ထားသည့် စာသားကို ပေးပို့ခြင်း",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "အချို့သောသူများသည် ဖောမတ်လုပ်ထားသည့်စာသားကို မပံ့ပိုးပေးသော Signal ဗားရှင်းကို အသုံးပြုနေနိုင်ပါသည်။ သင့်မက်ဆေ့ချ်တွင် ပြုလုပ်ထားသော ဖောမတ်ပုံစံပြောင်းလဲမှုများကို ၎င်းတို့ တွေ့မြင်နိုင်မည် မဟုတ်ပါ။",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
@@ -12357,7 +12357,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "မှတ်တမ်း တည်းဖြတ်ရန်",
+    "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း",
     "description": "Modal title for the edit history messages modal"
   },
   "WhatsNew__modal-title": {

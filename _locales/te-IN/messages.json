@@ -3326,7 +3326,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescripton": {
-    "messageformat": "Enable text formatting popover when text is selected",
+    "messageformat": "టెక్స్ట్ ఎంపిక చేయబడినప్పుడు టెక్స్ట్ ఫార్మాటింగ్ పాప్‌ఓవర్‌ను ప్రారంభించండి",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5473,23 +5473,23 @@
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Mark selected text as bold",
+    "messageformat": "ఎంపిక చేసిన టెక్స్ట్‌ను బోల్డ్ లాగా గుర్తు పెట్టండి",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Mark selected text as italic",
+    "messageformat": "ఎంపిక చేసిన టెక్స్ట్‌ను ఇటాలిక్ లాగా గుర్తు పెట్టండి",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Mark selected text as strikethrough",
+    "messageformat": "ఎంపిక చేసిన టెక్స్ట్‌ను స్ట్రైక్‌త్రూ లాగా గుర్తు పెట్టండి",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Mark selected text as monospace",
+    "messageformat": "ఎంపిక చేసిన టెక్స్ట్‌ను మోనోస్పేస్ లాగా గుర్తు పెట్టండి",
     "description": "Description of command to bold text in composer"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Mark selected text as a spoiler",
+    "messageformat": "ఎంపిక చేసిన టెక్స్ట్‌ను స్పాయిలర్ లాగా గుర్తు పెట్టండి",
     "description": "Description of command to bold text in composer"
   },
   "Keyboard--scroll-to-top": {
@@ -5645,11 +5645,11 @@
     "description": "A toast that shows up when user marks a conversation as unread"
   },
   "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
+    "messageformat": "ఫార్మాట్ చేయబడిన టెక్స్ట్ పంపిస్తున్నాము",
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
+    "messageformat": "కొంతమంది ఫార్మాట్ చేయబడిన టెక్స్ట్‌కు మద్దతు ఇవ్వని Signal వెర్షన్ ఉపయోగిస్తూ ఉండవచ్చు. మీ సందేశానికి మీరు చేసిన ఫార్మాటింగ్ మార్పులను వారు చూడలేరు.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
