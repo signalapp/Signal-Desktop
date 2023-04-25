@@ -316,6 +316,9 @@ export function ForwardMessagesModal({
               onChange={(messageBody, bodyRanges) => {
                 onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
               }}
+              onChangeAttachments={attachments => {
+                onChange([{ ...lonelyDraft, attachments }]);
+              }}
               removeLinkPreview={removeLinkPreview}
               theme={theme}
               i18n={i18n}
@@ -434,6 +437,7 @@ type ForwardMessageEditorProps = Readonly<{
     bodyRanges: HydratedBodyRangesType,
     caretLocation?: number
   ) => unknown;
+  onChangeAttachments: (attachments: ReadonlyArray<AttachmentType>) => unknown;
   onSubmit: () => unknown;
   theme: ThemeType;
   i18n: LocalizerType;
@@ -446,13 +450,11 @@ function ForwardMessageEditor({
   RenderCompositionTextArea,
   removeLinkPreview,
   onChange,
+  onChangeAttachments,
   onSubmit,
   theme,
 }: ForwardMessageEditorProps): JSX.Element {
-  const [attachmentsToForward, setAttachmentsToForward] = useState<
-    ReadonlyArray<AttachmentType>
-  >(draft.attachments ?? []);
-
+  const { attachments } = draft;
   return (
     <div className="module-ForwardMessageModal__main-body">
       {linkPreview ? (
@@ -469,15 +471,15 @@ function ForwardMessageEditor({
           />
         </div>
       ) : null}
-      {attachmentsToForward && attachmentsToForward.length ? (
+      {attachments != null && attachments.length > 0 ? (
         <AttachmentList
-          attachments={attachmentsToForward}
+          attachments={attachments}
           i18n={i18n}
           onCloseAttachment={(attachment: AttachmentType) => {
-            const newAttachments = attachmentsToForward.filter(
+            const newAttachments = attachments.filter(
               currentAttachment => currentAttachment !== attachment
             );
-            setAttachmentsToForward(newAttachments);
+            onChangeAttachments(newAttachments);
           }}
         />
       ) : null}
