@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .SignalConnectionsModal {
-  color: $color-gray-05;
-
   &__icon {
     @include color-svg(
       '../images/icons/v2/signal-connections.svg',

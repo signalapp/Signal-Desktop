@@ -56,6 +56,8 @@ export type PropsType = {
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
+export const STORIES_COLOR_THEME = Theme.Dark;
+
 export function Stories({
   addStoryData,
   deleteStoryForEveryone,
@@ -102,7 +104,7 @@ export function Stories({
   );
 
   return (
-    <div className={classNames('Stories', themeClassName(Theme.Dark))}>
+    <div className={classNames('Stories', themeClassName(STORIES_COLOR_THEME))}>
       {addStoryData && renderStoryCreator()}
       <div className="Stories__pane" style={{ width }}>
         {isMyStories && myStories.length ? (
